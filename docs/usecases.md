@@ -385,7 +385,7 @@ select * from today_revenue
 
 Currently after proton restarts, the content of the materialized views will be cleared. https://github.com/timeplus-io/proton/issues/325 is filed to track/di
 
-:
+:::
 
 ### S-DROP-LATE: Dropping late events to get real-time aggregation insights {#s-drop-late}
 
@@ -564,7 +564,7 @@ select * from trips_vancouver
 union
 select * from trips_victoria
 ```
-
+<!-- 
 ### :no_entry_sign:S-JOIN-STREAMS: Querying multiple data streams in the same time {#s-join-streams}
 
 **Use Case:** Data keeps changing, and each type of changing data is a stream. It's a common requirement to query multiple kinds of data in the same time to enrich the data, get more context and understand their correlation.
@@ -587,7 +587,7 @@ streaming join WIP
 
 :::
 
-
+-->
 
 ## Other streaming queries we can run for this demo set {#other-queries}
 
