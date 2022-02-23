@@ -6,7 +6,7 @@ This document demonstrates how to run streaming queries in Timeplus to solve var
 
 ## Customer Scenario and Data Model {#model}
 
-You are the lead business analyst in a carsharing company (this is inspired by [Evo](https://www.evo.ca/how-it-works), a service in Vancouver) Sensors are equipped in each car to report car locations. The customers use the mobile app to find available cars nearby, book it, unlock and hit the road. At the end of the trip, the customer parks the car, locks it, ends the trip. The payment will be done automatically with the registered credit card.
+You are the lead business analyst in a carsharing company. Sensors are equipped in each car to report car locations. The customers use the mobile app to find available cars nearby, book it, unlock and hit the road. At the end of the trip, the customer parks the car, locks it, ends the trip. The payment will be done automatically with the registered credit card.
 
 There are multiple data streams in the systems:
 
@@ -147,7 +147,7 @@ The following sections show how to query Timeplus to understand the business.
 
 ### T-MASK: Scrubbing sensitive fields {#t-mask}
 
-**Use Case:** Scrubbing sensitive fields of data(such as PII or payment information) to hide from downstream consumers
+**Use Case:** Scrub sensitive fields of data(such as PII or payment information) to hide from downstream consumers
 
 In this example, only the first and last 4 digits of the credit card numbers are shown during user activity analysis.
 
@@ -162,34 +162,20 @@ Result:
 | ------ | ----------- |
 | u00001 | 3717***8910 |
 
-### :rotating_light: T-DERIVE: Computing derived columns from raw data {#t-derive}
+:::info
 
-**Use Case:** the analysts may want to create new columns to combine informations from multiple columns in the raw data, or turn data in certain columns in other format to make them ready to be displayed.
+You may wonder what is `table(..)` function. Timeplus is a streaming analytics platform and data lives in streams. Timeplus stream is an append-only, unbounded, constantly changing event group, such as iot data, online orders. For relatively static information, you can wrap the stream in the `table(..)` function to turn it to a bounded search.
 
-<Tabs>
-  <TabItem value="ideal case">
+:::
+
+### T-DERIVE: Computing derived columns from raw data {#t-derive}
+
+**Use Case:** Create new columns to combine informations from multiple columns in the raw data, or turn data in certain columns in other format to make them ready to be displayed.
 
 ```sql
 select uid, concat(first_name,' ',last_name) as full_name,
 year(today())-year(to_date(birthday)) as age from table(dim_user_info)
 ```
-
-:::caution
-
-`birthday` is a string, not a datetime. We need to rename `to_date32` to `to_date` to improve usability (CK's `toDate` performs differently)
-
-:::
-
-  </TabItem>
-  <TabItem value="Working SQL">
-
-```sql
-select uid, concat(first_name,' ',last_name) as full_name,
-year(today())-year(to_date32(birthday)) as age from table(dim_user_info);
-```
-
-  </TabItem>
-</Tabs>
 
 
 Result:
@@ -298,6 +284,7 @@ There are other ways to get similar results, with more verbose queries
 2. The other solution is to use hop window aggregation. Similar to the `tumble` window in [S-DOWNSAMPLING](#s-downsampling) ,the data are grouped per a fixed size time window, such a hour. Tumble windows are not overlapped to each other, so it's ideal for downsampling without data duplication (for example, for `count` aggregation, no data will be counted twice) For hop window, it will be shifted to the left or right(past or future in the timeline) with a sliding step. For example, the following query will use the hop window to get total revenue for the past 1 hour, the result will be sent out every second. `select window_start,window_end, sum(amount) from hop(trips,end_time,1s,1h) 
    group by window_start,window_end`
 
+<!-- 
 ###  :no_entry_sign: S-SESSION: analyzing activities with active sessions {#s-session}
 
 **Use Case:** the analyst wants to track the daily movement of the car. The sensors on the cars report data every half second while the engine is started, and  report data every half an hour when the engine is off. So the session idle time can be set as 20minutes.
@@ -342,6 +329,8 @@ This query is a continuously streaming query. Every day (or every hour, dependin
 Session window won't be not supported before March 202
 
 :::
+
+-->
 
 ### S-TIME-TRAVEL: Going back to a past time and run analysis since then {#s-time-travel}
 
