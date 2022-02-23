@@ -14,7 +14,7 @@ const config = {
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'timeplus-io', // Usually your GitHub org/user name.
-  projectName: 'superpartner', // Usually your repo name.
+  projectName: 'docs', // Usually your repo name.
 
   presets: [
     [
@@ -25,13 +25,13 @@ const config = {
           remarkPlugins: [require('mdx-mermaid')],
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/timeplus-io/superpartner/blob/main/docs',
+          editUrl: 'https://github.com/timeplus-io/docs/blob/main/docs',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/timeplus-io/superpartner/blob/main/docs',
+            'https://github.com/timeplus-io/docs/blob/main/blog',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
