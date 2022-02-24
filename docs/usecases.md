@@ -369,7 +369,7 @@ Result:
 
 Not only the past data will be analyzed, but also the latest incoming data will be processed continuously. 
 
-### :rotating_light: S-MVIEW: Creating materialized view to keep latest analysis result and cache for other systems to query {#s-mview}
+### S-MVIEW: Creating materialized view to keep latest analysis result and cache for other systems to query {#s-mview}
 
 **Use Case:** unlike the traditional SQL queries, streaming queries never end until the user cancels it. The analysis results are kept pushing to the web UI or slack/kafka destinations. The analysts want to run advanced streaming query in Timeplus and cache the results as a materialized view. So that they can use regular SQL tools/systems to get the table of the streaming insights. Materialized views are also useful to downsample the data to reduce the data volume for future analysis and storage
 
@@ -380,12 +380,6 @@ select sum(amount) from trips where end_time > today();
 -- in Timeplus or other connected SQL clients
 select * from today_revenue
 ```
-
-:::danger
-
-Currently after proton restarts, the content of the materialized views will be cleared. https://github.com/timeplus-io/proton/issues/325 is filed to track/di
-
-:::
 
 ### S-DROP-LATE: Dropping late events to get real-time aggregation insights {#s-drop-late}
 
@@ -428,12 +422,12 @@ from tumble(trips,end_time,1m) group by window_start,window_end
 emit after watermark and delay 30s
 ```
 
-### :rotating_light: S-TOP-K: Getting the most common value for each streaming window {#s-top-k}
+### S-TOP-K: Getting the most common value for each streaming window {#s-top-k}
 
-**Use Case:** the analysts want to understand which cars are booked most often every day
+**Use Case:** the analysts want to understand which cars are booked most often every day or every hour
 
 ```sql
-select window_start,topK(3)(cid) as popular_cars from tumble(bookings,1d) group by window_start
+select window_start,top_k(cid,3) as popular_cars from tumble(bookings,1h) group by window_start
 ```
 
 This will generate a daily report like this
@@ -443,53 +437,37 @@ This will generate a daily report like this
 | 2022-01-12 00:00:00.000 | ['car1','car2','car3'] |
 | 2022-01-13 00:00:00.000 | ['car2','car3','car4'] |
 
-:::info
-
-topK(N)(column) is the current function syntax. We may change it to topK(column,N)
-
-:::
-
-### :rotating_light: S-MAX-K: Getting the maximum value for each streaming window {#s-max-k}
+### S-MAX-K: Getting the maximum value for each streaming window {#s-max-k}
 
 **Use Case:** the analysts want to understand which trips are longest every day
 
 ```sql
-select window_start,maxK(3)(amount,[bid,distance]) as longest_trips from tumble(trips,1d) group by window_start
+select window_start,max_k(amount,3,bid,distance) as longest_trips from tumble(trips,1d) group by window_start
 ```
 
 This will generate a daily report like this
 
-| window_start            | longest_trips                                                |
-| ----------------------- | ------------------------------------------------------------ |
-| 2022-01-12 00:00:00.000 | [30,28,25],[{bid:'b1',km:30},{bid:'b2',km:28},{bid:'b3',km:25}] |
+| window_start            | longest_trips                                            |
+| ----------------------- | -------------------------------------------------------- |
+| 2022-01-12 00:00:00.000 | [(7.62,'b01',13.8),(2.45,'b02',2.37),(12.66,'b03',22.6)] |
 
-:::danger
+To get the booking id for the 2nd longest tirp, you can `select ..,longest_trips[2].2 as bookingId `
 
-maxK function is being revised to provide context columns. Currenlty only `maxK(3)(amount)` can run, you cannot specify other columns to show.
-
-:::
-
-### :rotating_light: S-MIN-K: Getting the minimal value for each streaming window {#s-min-k}
+### S-MIN-K: Getting the minimal value for each streaming window {#s-min-k}
 
 **Use Case:** the analysts want to understand which trips are shortest every day
 
 ```sql
-select window_start,minK(3)(amount,[bid,distance]) as shortest_trips from tumble(trips,1d) group by window_start
+select window_start,min_k(amount,3,bid,distance) as shortest_trips from tumble(trips,1d) group by window_start
 ```
 
 This will generate a daily report like this
 
-| window_start            | shortest_trips                                               |
-| ----------------------- | ------------------------------------------------------------ |
-| 2022-01-12 00:00:00.000 | [3,2.8,2.5],[{bid:'b1',km:3},{bid:'b2',km:2.8},{bid:'b3',km:1}] |
+| window_start            | shortest_trips                                            |
+| ----------------------- | --------------------------------------------------------- |
+| 2022-01-12 00:00:00.000 | [(2.56,'b06',3.10),(7.68,'b07',10.8),(10.24,'b08',15.36)] |
 
-:::danger
-
-minK function is being revised to provide context columns.  Similar issue as `m`
-
-:::
-
-### :rotating_light: S-OVER-TIME: Getting the difference/gaps for results in each time window {#s-over-time}
+### S-OVER-TIME: Getting the difference/gaps for results in each time window {#s-over-time}
 
 **Use Case:** with Timeplus, the analysts can easily compare the current minute data with last minute data.
 
@@ -497,7 +475,7 @@ For example, the user wants to understand how many cars are being used in each m
 
 ```sql
 select window_start,count(*) as num_of_trips,
-neighbor(num_of_trips,-1) as last_min_trips,num_of_trips-last_min_trips as gap
+lag(num_of_trips) as last_min_trips,num_of_trips-last_min_trips as gap
 from tumble(trips,1m) group by window_start
 ```
 
@@ -505,7 +483,7 @@ Result
 
 | window_start            | num_of_trips | last_min_trips | gap  |
 | ----------------------- | ------------ | -------------- | ---- |
-| 2022-01-12 10:00:00.000 | 88           |                |      |
+| 2022-01-12 10:00:00.000 | 88           | 0              | 88   |
 | 2022-01-12 10:01:00.000 | 80           | 88             | -8   |
 | 2022-01-12 10:02:00.000 | 90           | 80             | 10   |
 
@@ -515,28 +493,14 @@ The following query comparing the number of car sensor data by each second, comp
 
 ```sql
 select window_start,count(*) as num_of_events,
-neighbor(window_start,-60) as last_min,
-neighbor(num_of_events,-60) as last_min_events,
+lag(window_start,60) as last_min,
+lag(num_of_events,60) as last_min_events,
 num_of_events-last_min_events as gap,
-concat(to_string(to_decimal32(gap*100/num_of_events,2)),'%') as change
+concat(to_string(to_decimal(gap*100/num_of_events,2)),'%') as change
 from tumble(car_live_data,1s) group by window_start
 ```
 
 Once the query starts running, for the first 1 minute, only the newer result is available. Then we can get the result from 60 windows back, so that we can compare the difference.
-
-If you don't want to wait for the first minute to compare data, you can add seek_to to ask Timeplus to time-travel to 1 minute ago and issue the query
-
-```sql
-select window_start,count(*) as num_of_events,
-neighbor(window_start,-60) as last_min,
-neighbor(num_of_events,-60) as last_min_events,
-num_of_events-last_min_events as gap,
-concat(to_string(to_decimal32(gap*100/num_of_events,2)),'%') as change
-from tumble(car_live_data,1s) group by window_start
-settings seek_to='-1m'
-```
-
-(Note: the first few events remain 0 or 1970. Need to be fixed)
 
 Result
 
@@ -544,12 +508,6 @@ Result
 | ----------------------- | ------------- | ----------------------- | --------------- | ---- | ------ |
 | 2022-01-12 10:01:00.000 | 88            | 2022-01-12 10:00:00.000 | 83              | 5    | 5      |
 | 2022-01-12 10:01:01.000 | 80            | 2022-01-12 10:00:01.000 | 87              | -7   | -8.75% |
-
-:::info
-
-we need to add even simpler function to get such change percentage, `concat(toString(toDecimal32(gap*100/num_of_events,2)),'%')` is just too verbose. The expanded syntax is actually `concat(toString(toDecimal32((num_of_events-neighbor(num_of_events,-60))*100/num_of_events,2)),'%')`
-
-:::
 
 
 
@@ -655,9 +613,3 @@ The result is
 | c21898 | 479.64  | 1KTBIJ           |
 | c20995 | 477.38  | 6GN7SP           |
 | c96280 | 476.62  | YSK84J           |
-
-:::info
-
-Please note streaming query doesn't support ORDER BY. Because the new result will be kept generated. That's why we need to turn the query to be a bounded query via the `query_mode='table'`
-
-:::
