@@ -25,13 +25,13 @@ const config = {
           remarkPlugins: [require('mdx-mermaid')],
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/timeplus-io/docs/blob/main/docs',
+          editUrl: 'https://github.com/timeplus-io/docs/blob/main',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/timeplus-io/docs/blob/main/blog',
+            'https://github.com/timeplus-io/docs/blob/main',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
