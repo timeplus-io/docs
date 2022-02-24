@@ -12,10 +12,10 @@ During our beta, we're supporting a limited number of field types. If there's a 
 
 | Category            | Type       | Note                            | Related functions                                            |
 | ------------------- | ---------- | ------------------------------- | ------------------------------------------------------------ |
-| Numeric Types       | Integar    | default with 4 bytes            | [to_int](functions#to_int)                                   |
+| Numeric Types       | Integer    | default with 4 bytes            | [to_int](functions#to_int)                                   |
 |                     | Decimal    | default with 4 bytes            | [to_decimal](functions#to_decimal)                           |
 |                     | Float      | default with 4 bytes            | [to_float](functions#to_float)                               |
-| String Type         | String     | Strings of an arbitrary length  | [to_string](functions#to_string), [etc.](functions#process-text) |
+| String Type         | String     | strings of an arbitrary length  | [to_string](functions#to_string), [etc.](functions#process-text) |
 | Date and Time Types | Date       | without time                    | [to_date](functions#to_date), [today](functions#today)       |
 |                     | DateTime   | with second                     | [to_time](functions#to_time), [now](functions#now)           |
 |                     | DateTime64 | with millisecond                | [to_time](functions#to_time), [now64](functions#now64)       |
