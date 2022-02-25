@@ -27,20 +27,20 @@ const sidebars = {
   ],
    */
   docSidebar:[
-    {'Internal Docs':['usecases','internal-tptime']},
+    /*{'Internal Docs':['usecases','internal-tptime']},
     {type:'category',
      label:'Beta User Guide',
      link: {
       type: 'doc',
       id:'index'
-     },
-     collapsed: false,
-     items:[
+     },collapsed: false,items:[
+       */
+       'usecases',
        'getting-started',
        {
         type:'category',
         label:'Concepts',
-        collapsed: false,
+        //collapsed: false,
         link: {
           type: 'generated-index',
         },
@@ -52,7 +52,7 @@ const sidebars = {
        {
         type:'category',
         label:'SQL Guide',
-        collapsed: false,
+        //collapsed: false,
         link: {
           type: 'doc',
           id:'sql-guide'
@@ -63,8 +63,9 @@ const sidebars = {
        'issues',
        'changelog',
        'getting-help',
+       /*
       ],
-    }
+    }*/
   ]
 };
 

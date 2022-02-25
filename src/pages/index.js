@@ -20,13 +20,14 @@ function HomepageHeader() {
             to="/docs/usecases">
             Streaming Use Cases
           </Link>
+          {/*
           <span style={{padding:5}}></span>
           <Link
             className="button button--secondary button--lg"
             to="/docs">
             User Guide(Beta)
           </Link>
-          
+          */}
         </div>
       </div>
     </header>

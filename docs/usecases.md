@@ -155,6 +155,7 @@ In this example, only the first and last 4 digits of the credit card numbers are
 select uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') as card 
 from table(dim_user_info)
 ```
+<button onClick={() => alert('button clicked!')}>Try in playground</button>
 
 Result:
 

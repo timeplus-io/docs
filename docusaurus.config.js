@@ -49,9 +49,11 @@ const config = {
       },
       navbar: {
         title: 'Docs',
+        hideOnScroll: true,
         logo: {
-          alt: 'Timeplus Logo',
-          src: 'img/timeplus.png',
+          alt: 'Timeplus',
+          src: 'img/1_W.png',
+          srcDark: 'img/1_B.png',
         },
         items: [
           {
@@ -67,12 +69,12 @@ const config = {
             position: 'left',
             label: 'Tutorial',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},*/
+          {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/timeplus-io/',
             label: 'GitHub',
             position: 'right',
-          },
+          },*/
         ],
       },
       footer: {
@@ -96,6 +98,7 @@ const config = {
               },
             ],
           },
+          /*
           {
             title: 'More',
             items: [
@@ -108,7 +111,7 @@ const config = {
                 href: 'https://github.com/timeplus-io',
               },
             ],
-          },
+          },*/
         ],
         copyright: `Copyright © 2022 Timeplus, Inc. Built with Docusaurus.`,
       },
@@ -118,6 +121,7 @@ const config = {
       },
       colorMode:{
         defaultMode:'dark',
+        disableSwitch: false,
       },
     }),
 };
