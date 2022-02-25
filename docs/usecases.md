@@ -238,7 +238,7 @@ Result:
 | ----------------------- | ------ | --------------- | --------- |
 | 2022-01-12 23:01:00.000 | c00001 | 34              | 35        |
 
-More practically, the user can create a [materialized view](view#materialized-view) to automatically put downsampled data into a new table/view.
+More practically, the user can create a [materialized view](view#materialized-view) to automatically put downsampled data into a new stream/view.
 
 ```sql
 create materialized view car_live_data_1min as
@@ -372,7 +372,7 @@ Not only the past data will be analyzed, but also the latest incoming data will 
 
 ### S-MVIEW: Creating materialized view to keep latest analysis result and cache for other systems to query {#s-mview}
 
-**Use Case:** unlike the traditional SQL queries, streaming queries never end until the user cancels it. The analysis results are kept pushing to the web UI or slack/kafka destinations. The analysts want to run advanced streaming query in Timeplus and cache the results as a materialized view. So that they can use regular SQL tools/systems to get the table of the streaming insights. Materialized views are also useful to downsample the data to reduce the data volume for future analysis and storage
+**Use Case:** unlike the traditional SQL queries, streaming queries never end until the user cancels it. The analysis results are kept pushing to the web UI or slack/kafka destinations. The analysts want to run advanced streaming query in Timeplus and cache the results as a materialized view. So that they can use regular SQL tools/systems to get the streaming insights as regular tables. Materialized views are also useful to downsample the data to reduce the data volume for future analysis and storage
 
 ```sql
 create materialized view today_revenue as
@@ -514,7 +514,7 @@ Result
 
 ### S-UNION-STREAMS: Merging multiple streams in same schema to a single stream {#s-union-streams}
 
-**Use Case:** there can be some data streams in the same data schema but intentionally put into different tables/streams, such as one table for one city, or a country (for performance or regulation considerations, for example). We would like to merge the data to understand the big picture.
+**Use Case:** there can be some data streams in the same data schema but intentionally put into different streams, such as one stream for one city, or a country (for performance or regulation considerations, for example). We would like to merge the data to understand the big picture.
 
 For example, the car sharing company starts their business in Vancouver BC first. Then expand it to Victoria, BC. Per local city government's regulation requirements, two systems are setup. The head quarter wants to show streaming analysis for both cities.
 
@@ -528,7 +528,7 @@ select * from trips_victoria
 
 **Use Case:** Data keeps changing, and each type of changing data is a stream. It's a common requirement to query multiple kinds of data in the same time to enrich the data, get more context and understand their correlation.
 
-For example, we want to understand how many minutes by average between the user books the car and start the trip. The booking information in [bookings](#bookings) table and [trips](#trips) table contains the trip start time and end time
+For example, we want to understand how many minutes by average between the user books the car and start the trip. The booking information in [bookings](#bookings) stream and [trips](#trips) stream contains the trip start time and end time
 
 ```sql
 select avg(dateDiff('second',bookings.time,trips.end_time))
@@ -552,7 +552,7 @@ streaming join WIP
 
 ### Get number of in-use cars
 
-Each car will report their status to the car_live_data table, including the `in_use` bool flag. For the same car id, it may report `in_use=false` 2 minutes ago, then report `in_use=true` 1 minute ago. Then this car should be considered as in-use. We should not run global aggregation since we only care about the current status, not the accumulated data (each running car should report data twice a second). `tumble` window should be okay with 1 second as window size.
+Each car will report their status to the car_live_data stream, including the `in_use` bool flag. For the same car id, it may report `in_use=false` 2 minutes ago, then report `in_use=true` 1 minute ago. Then this car should be considered as in-use. We should not run global aggregation since we only care about the current status, not the accumulated data (each running car should report data twice a second). `tumble` window should be okay with 1 second as window size.
 
 ```sql
 select window_start, count(distinct cid) from tumble(car_live_data,1s) 
