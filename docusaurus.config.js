@@ -15,6 +15,7 @@ const config = {
   favicon: 'img/favicon.ico',
   organizationName: 'timeplus-io', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
+  scripts:['/heap.js'],
 
   presets: [
     [
