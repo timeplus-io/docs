@@ -25,13 +25,12 @@ const config = {
           remarkPlugins: [require('mdx-mermaid')],
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/timeplus-io/docs/blob/main',
+          //editUrl: 'https://github.com/timeplus-io/docs/blob/main',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/timeplus-io/docs/blob/main',
+          //editUrl:'https://github.com/timeplus-io/docs/blob/main',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -43,6 +42,8 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      hideableSidebar: true,
+      autoCollapseSidebarCategories: true,
       tableOfContents: {
         minHeadingLevel: 2,
         maxHeadingLevel: 6,
@@ -52,24 +53,23 @@ const config = {
         hideOnScroll: true,
         logo: {
           alt: 'Timeplus',
-          src: 'img/1_W.png',
-          srcDark: 'img/1_B.png',
+          src: 'img/Option1_B.png',
+          srcDark: 'img/Option1_W.png',
         },
         items: [
           {
             type: 'doc',
             docId: 'usecases',
             position: 'left',
-            label: 'Use Cases',
+            label: 'Demo Scenario',
           },
-          /*
           {
             type: 'doc',
-            docId: 'intro',
+            docId: 'query-guide',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Query Guide',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          /*
           {
             href: 'https://github.com/timeplus-io/',
             label: 'GitHub',
@@ -113,7 +113,7 @@ const config = {
             ],
           },*/
         ],
-        copyright: `Copyright © 2022 Timeplus, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © 2022 Timeplus, Inc.`,
       },
       prism: {
         theme: lightCodeTheme,

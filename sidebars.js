@@ -51,13 +51,13 @@ const sidebars = {
        'viz',
        {
         type:'category',
-        label:'SQL Guide',
+        label:'Query Guide',
         //collapsed: false,
         link: {
           type: 'doc',
-          id:'sql-guide'
+          id:'query-guide'
         },
-        items:['datatypes','functions','query-syntax',]
+        items:['datatypes','query-syntax','functions',]
        },
        'faq',
        'issues',

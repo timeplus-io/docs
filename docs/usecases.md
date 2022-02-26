@@ -1,4 +1,4 @@
-# Use Cases and Sample Queries
+# Demo Scenario
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -6,7 +6,7 @@ This document demonstrates how to run streaming queries in Timeplus to solve var
 
 ## Customer Scenario and Data Model {#model}
 
-You are the lead business analyst in a carsharing company. Sensors are equipped in each car to report car locations. The customers use the mobile app to find available cars nearby, book it, unlock and hit the road. At the end of the trip, the customer parks the car, locks it, ends the trip. The payment will be done automatically with the registered credit card.
+You are the lead business analyst in a carsharing company. Sensors are equipped in each car to report car locations. The customers use the mobile app to find available cars nearby, book them, unlock them and hit the road. At the end of the trip, the customer parks the car, locks it, ends the trip. The payment will be proceeded automatically with the registered credit card.
 
 There are multiple data streams in the systems:
 

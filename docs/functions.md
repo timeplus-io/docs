@@ -28,6 +28,7 @@ For example `to_decimal('3.1415926',2)` to get 3.14
 
 Convert any data type to a string, so that you can do other string operations, such as [concat](#concat)
 
+<!-- 
 ### cast (tbd)
 
 Convert an input value to the specified data type. Three syntax variants are supported:
@@ -50,7 +51,7 @@ select
     cast('1' as Int32),
     cast(3.1415, 'Decimal(3, 2)')
 ```
-
+-->
 
 
 ## Access Compound Type
