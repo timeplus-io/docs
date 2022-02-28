@@ -305,7 +305,7 @@ Result:
 | c00001 | 2022-01-12 13:00:00.000 | 2022-01-12 13:43:00.000 | 12      |
 | c00002 | 2022-01-12 10:00:00.000 | 2022-01-12 10:15:00.000 | 4.1     |
 
-Then create amore complex query to aggregate the data by car id and trip ending time.
+Then create a more complex query to aggregate the data by car id and trip ending time.
 
 ```sql
 with query_1 as (
