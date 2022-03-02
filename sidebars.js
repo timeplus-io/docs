@@ -35,6 +35,7 @@ const sidebars = {
       id:'index'
      },collapsed: false,items:[
        */
+       'index',
        'usecases',
        'getting-started',
        {
