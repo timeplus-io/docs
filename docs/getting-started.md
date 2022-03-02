@@ -4,7 +4,7 @@ This tutorial teaches you how to load data into Timeplus and run analytics queri
 
 ## Add Data
 
-To help you quicky get started, we setup each tenant with the demo dataset. Please check the schema and common queries on [Demo Scenario](usecase) page. You can explore and query the streams right away.
+To help you quicky get started, we setup each tenant with the demo dataset. Please check the schema and common queries on [Demo Scenario](usecases) page. You can explore and query the streams right away.
 
 Of course, you can load your own data, such as
 
