@@ -153,9 +153,9 @@ In this example, only the first and last 4 digits of the credit card numbers are
 
 ```sql
 select uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') as card 
-from table(dim_user_info)
+from user_info
 ```
-<button onClick={() => alert('button clicked!')}>Try in playground</button>
+[Try in playground](https://play.timeplus.com/playground?query=t-mask)
 
 Result:
 
@@ -163,21 +163,16 @@ Result:
 | ------ | ----------- |
 | u00001 | 3717***8910 |
 
-:::info
-
-You may wonder what is `table(..)` function. Timeplus is a streaming analytics platform and data lives in streams. Timeplus stream is an append-only, unbounded, constantly changing event group, such as iot data, online orders. For relatively static information, you can wrap the stream in the `table(..)` function to turn it to a bounded search.
-
-:::
-
 ### T-DERIVE: Computing derived columns from raw data {#t-derive}
 
 **Use Case:** Create new columns to combine informations from multiple columns in the raw data, or turn data in certain columns in other format to make them ready to be displayed.
 
 ```sql
 select uid, concat(first_name,' ',last_name) as full_name,
-year(today())-year(to_date(birthday)) as age from table(dim_user_info)
+year(today())-year(to_date(birthday)) as age from user_info
 ```
 
+[Try in playground](https://play.timeplus.com/playground?query=t-derive)
 
 Result:
 
@@ -191,9 +186,11 @@ Result:
 
 ```sql
 select time, cid, c.license_plate_no as license,gas_percent,speed_kmh from car_live_data 
-inner join table(dim_car_info) as c 
+inner join car_info as c 
 on car_live_data.cid=c.cid 
 ```
+
+[Try in playground](https://play.timeplus.com/playground?query=t-lookup)
 
 Result:
 
@@ -217,6 +214,8 @@ or focusing on which cars are almost running out of gas (so that they can send s
 select time,cid,gas_percent,in_use from car_live_data where gas_percent < 25 
 ```
 
+[Try in playground](https://play.timeplus.com/playground?query=s-tail)
+
 Result:
 
 | time                    | cid    | gas_percent | in_use |
@@ -231,6 +230,8 @@ Result:
 select window_start,cid, avg(gas_percent) as avg_gas_percent,avg(speed_kmh) as avg_speed from
 tumble(car_live_data,1m) group by window_start, cid
 ```
+
+[Try in playground](https://play.timeplus.com/playground?query=s-downsampling)
 
 Result:
 
@@ -270,6 +271,8 @@ Timeplus provides a special syntax to get such result easily
 select sum(amount) from trips emit last 1h
 ```
 
+[Try in playground](https://play.timeplus.com/playground?query=s-agg-recent)
+
 Once the query is sumitted, it will show quite a few rows based on the past day, then show new results in a streaming fashion.
 
 Result:
@@ -296,6 +299,8 @@ First, they can run the following query to get the trip distance for each car:
 select cid,window_start,window_end,max(total_km)-min(total_km) as trip_km 
 from session(car_live_data,20m) group by cid, window_start, window_end
 ```
+
+[Try in playground](https://play.timeplus.com/playground?query=s-session)
 
 Result:
 
@@ -337,28 +342,22 @@ Session window won't be not supported before March 202
 
 **Use Case:** the analysts don't need to keep watching the streaming charts or dashboards. They can rewind to a past time to run the streaming analysis since that moment. This could help them to better understand what happened a few hours ago (such as midnight).
 
-For example, the analyst wants to understand how the users book the car since 6am today
+For example, the analyst wants to understand how the users book the car 2 hours ago
+
+```sql
+select window_start,count(*) from tumble(bookings,15m) 
+where action='add' group by window_start 
+emit last 2h
+```
+
+[Try in playground](https://play.timeplus.com/playground?query=s-time-travel)
+
+Or they can specify an exactly timestamp, e.g.
 
 ```sql
 select window_start,count(*) from tumble(bookings,15m) 
 where action='add' group by window_start 
 settings seek_to='2022-01-12 06:00:00.000'
-```
-
-or use a relative time interval like 4 hours ago:
-
-```sql
-select window_start,count(*) from tumble(bookings,15m) 
-where action='add' group by window_start 
-settings seek_to='-4h'
-```
-
-Another way is 
-
-```sql
-select window_start,count(*) from tumble(bookings,15m) 
-where action='add' group by window_start 
-emit last 4h
 ```
 
 Result:
@@ -382,6 +381,8 @@ select sum(amount) from trips where end_time > today();
 select * from today_revenue
 ```
 
+[Try in playground](https://play.timeplus.com/playground?query=s-mview)
+
 ### S-DROP-LATE: Dropping late events to get real-time aggregation insights {#s-drop-late}
 
 **Use Case:** the streaming data may arrive late for many reasons, such as network latency, iot sensor malfunction, etc. When we run streaming analysis (such as payment per minute), we aggregate the data based on their event time (when the payment actually happened, instead of when Timeplus receives the data), and we don't want to wait for events which are significantly too late.
@@ -394,6 +395,8 @@ For a query like this
 select window_start,window_end,sum(amount),count(*)
 from tumble(trips,end_time,1m) group by window_start,window_end
 ```
+
+[Try in playground](https://play.timeplus.com/playground?query=s-drop-late)
 
 It will show the total payment every minute, for example
 
@@ -423,6 +426,8 @@ from tumble(trips,end_time,1m) group by window_start,window_end
 emit after watermark and delay 30s
 ```
 
+[Try in playground](https://play.timeplus.com/playground?query=s-wait-late)
+
 ### S-TOP-K: Getting the most common value for each streaming window {#s-top-k}
 
 **Use Case:** the analysts want to understand which cars are booked most often every day or every hour
@@ -430,6 +435,8 @@ emit after watermark and delay 30s
 ```sql
 select window_start,top_k(cid,3) as popular_cars from tumble(bookings,1h) group by window_start
 ```
+
+[Try in playground](https://play.timeplus.com/playground?query=s-top-k)
 
 This will generate a daily report like this
 
@@ -446,6 +453,8 @@ This will generate a daily report like this
 select window_start,max_k(amount,3,bid,distance) as longest_trips from tumble(trips,1d) group by window_start
 ```
 
+[Try in playground](https://play.timeplus.com/playground?query=s-max-k)
+
 This will generate a daily report like this
 
 | window_start            | longest_trips                                            |
@@ -461,6 +470,8 @@ To get the booking id for the 2nd longest tirp, you can `select ..,longest_trips
 ```sql
 select window_start,min_k(amount,3,bid,distance) as shortest_trips from tumble(trips,1d) group by window_start
 ```
+
+[Try in playground](https://play.timeplus.com/playground?query=s-min-k)
 
 This will generate a daily report like this
 
@@ -479,6 +490,8 @@ select window_start,count(*) as num_of_trips,
 lag(num_of_trips) as last_min_trips,num_of_trips-last_min_trips as gap
 from tumble(trips,1m) group by window_start
 ```
+
+[Try in playground](https://play.timeplus.com/playground?query=s-over-time)
 
 Result
 
@@ -524,6 +537,7 @@ union
 select * from trips_victoria
 ```
 <!-- 
+
 ### :no_entry_sign:S-JOIN-STREAMS: Querying multiple data streams in the same time {#s-join-streams}
 
 **Use Case:** Data keeps changing, and each type of changing data is a stream. It's a common requirement to query multiple kinds of data in the same time to enrich the data, get more context and understand their correlation.
@@ -535,6 +549,8 @@ select avg(dateDiff('second',bookings.time,trips.end_time))
 from bookings join trips on bookings.bid = trips.bid
 emit periodic 1h
 ```
+
+[Try in playground](https://play.timeplus.com/playground?query=s-join-streams)
 
 Every hour, this query will show the average time for users to book and unlock the car. We set it as 1 hour, since normally the user need 10-20 minutes to walk to the car and unlock it. If we switch to other data sources, such as login activities and mobile app activities, we certainly can run streaming analysis in much smaller time window, say joining those 2 streams for each minute.
 
@@ -550,7 +566,7 @@ streaming join WIP
 
 ## Other streaming queries we can run for this demo set {#other-queries}
 
-### Get number of in-use cars
+### Get number of in-use cars{#num-cars}
 
 Each car will report their status to the car_live_data stream, including the `in_use` bool flag. For the same car id, it may report `in_use=false` 2 minutes ago, then report `in_use=true` 1 minute ago. Then this car should be considered as in-use. We should not run global aggregation since we only care about the current status, not the accumulated data (each running car should report data twice a second). `tumble` window should be okay with 1 second as window size.
 
@@ -559,7 +575,9 @@ select window_start, count(distinct cid) from tumble(car_live_data,1s)
 where in_use group by window_start
 ```
 
-### Get the top 10 cars order by reveneue
+[Try in playground](https://play.timeplus.com/playground?query=num-cars)
+
+### Get the top 10 cars order by reveneue {#top10cars}
 
 We probably want to understand which cars help the company earn most revenue  or which cars are not gaining enough revenue. This can be done with the following query
 
@@ -570,6 +588,8 @@ where end_time > today() group by cid
 order by revenue desc limit 10
 settings query_mode='table'
 ```
+
+[Try in playground](https://play.timeplus.com/playground?query=top10cars)
 
 The result is like this
 
