@@ -17,7 +17,7 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/docs/usecases">
-            Streaming Use Cases
+            Demo Scenario
           </Link>
           {/*
           <span style={{padding:5}}></span>
