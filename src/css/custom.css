@@ -4,7 +4,7 @@
  * work well for content-centric websites.
  */
 
-/* You can override the default Infima variables here. */
+/* You can override the default Infima variables here. 
 html[data-theme='dark'] {
   --ifm-color-primary: #FF3B65;
   --ifm-color-primary-dark: #d12d50;
@@ -13,6 +13,19 @@ html[data-theme='dark'] {
   --ifm-color-primary-light: #ff6780;
   --ifm-color-primary-lighter: #ff90a2;
   --ifm-color-primary-lightest: #ffb0bf;
+  --ifm-code-font-size: 95%;
+  --ifm-background-color: #2c2c2c;
+  --ifm-font-family-base: 'Poppins';
+}
+*/
+html[data-theme='dark'] {
+  --ifm-color-primary: #D53C97;
+  --ifm-color-primary-dark: #B52D7F;
+  --ifm-color-primary-darker: #961F68;
+  --ifm-color-primary-darkest: #761050;
+  --ifm-color-primary-light: #D967A4;
+  --ifm-color-primary-lighter: #E590BD;
+  --ifm-color-primary-lightest: #EDB0CF;
   --ifm-code-font-size: 95%;
   --ifm-background-color: #2c2c2c;
   --ifm-font-family-base: 'Poppins';
