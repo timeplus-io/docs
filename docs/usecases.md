@@ -211,7 +211,7 @@ select * from car_live_data
 or focusing on which cars are almost running out of gas (so that they can send service team to fill gas or suspend the car)
 
 ```sql
-select time,cid,gas_percent,in_use from car_live_data where gas_percent < 25 
+select time,cid,gas_percent from car_live_data where gas_percent < 25 
 ```
 
 [Try in playground](https://play.timeplus.com/playground?query=s-tail)
