@@ -155,7 +155,7 @@ In this example, only the first and last 4 digits of the credit card numbers are
 select uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') as card 
 from user_info
 ```
-[Try in playground](https://play.timeplus.com/playground?query=t-mask)
+[Try in playground](https://play.timeplus.com/playground?case=t-mask)
 
 Result:
 
@@ -172,7 +172,7 @@ select uid, concat(first_name,' ',last_name) as full_name,
 year(today())-year(to_date(birthday)) as age from user_info
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=t-derive)
+[Try in playground](https://play.timeplus.com/playground?case=t-derive)
 
 Result:
 
@@ -190,7 +190,7 @@ inner join car_info as c
 on car_live_data.cid=c.cid 
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=t-lookup)
+[Try in playground](https://play.timeplus.com/playground?case=t-lookup)
 
 Result:
 
@@ -214,7 +214,7 @@ or focusing on which cars are almost running out of gas (so that they can send s
 select time,cid,gas_percent from car_live_data where gas_percent < 25 
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-tail)
+[Try in playground](https://play.timeplus.com/playground?case=s-tail)
 
 Result:
 
@@ -231,7 +231,7 @@ select window_start,cid, avg(gas_percent) as avg_gas_percent,avg(speed_kmh) as a
 tumble(car_live_data,1m) group by window_start, cid
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-downsampling)
+[Try in playground](https://play.timeplus.com/playground?case=s-downsampling)
 
 Result:
 
@@ -271,7 +271,7 @@ Timeplus provides a special syntax to get such result easily
 select sum(amount) from trips emit last 1h
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-agg-recent)
+[Try in playground](https://play.timeplus.com/playground?case=s-agg-recent)
 
 Once the query is sumitted, it will show quite a few rows based on the past day, then show new results in a streaming fashion.
 
@@ -300,7 +300,7 @@ select cid,window_start,window_end,max(total_km)-min(total_km) as trip_km
 from session(car_live_data,20m) group by cid, window_start, window_end
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-session)
+[Try in playground](https://play.timeplus.com/playground?case=s-session)
 
 Result:
 
@@ -350,7 +350,7 @@ where action='add' group by window_start
 emit last 2h
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-time-travel)
+[Try in playground](https://play.timeplus.com/playground?case=s-time-travel)
 
 Or they can specify an exactly timestamp, e.g.
 
@@ -381,7 +381,7 @@ select sum(amount) from trips where end_time > today();
 select * from today_revenue
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-mview)
+[Try in playground](https://play.timeplus.com/playground?case=s-mview)
 
 ### S-DROP-LATE: Dropping late events to get real-time aggregation insights {#s-drop-late}
 
@@ -396,7 +396,7 @@ select window_start,window_end,sum(amount),count(*)
 from tumble(trips,end_time,1m) group by window_start,window_end
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-drop-late)
+[Try in playground](https://play.timeplus.com/playground?case=s-drop-late)
 
 It will show the total payment every minute, for example
 
@@ -426,7 +426,7 @@ from tumble(trips,end_time,1m) group by window_start,window_end
 emit after watermark and delay 30s
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-wait-late)
+[Try in playground](https://play.timeplus.com/playground?case=s-wait-late)
 
 ### S-TOP-K: Getting the most common value for each streaming window {#s-top-k}
 
@@ -436,7 +436,7 @@ emit after watermark and delay 30s
 select window_start,top_k(cid,3) as popular_cars from tumble(bookings,1h) group by window_start
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-top-k)
+[Try in playground](https://play.timeplus.com/playground?case=s-top-k)
 
 This will generate a daily report like this
 
@@ -453,7 +453,7 @@ This will generate a daily report like this
 select window_start,max_k(amount,3,bid,distance) as longest_trips from tumble(trips,1d) group by window_start
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-max-k)
+[Try in playground](https://play.timeplus.com/playground?case=s-max-k)
 
 This will generate a daily report like this
 
@@ -471,7 +471,7 @@ To get the booking id for the 2nd longest tirp, you can `select ..,longest_trips
 select window_start,min_k(amount,3,bid,distance) as shortest_trips from tumble(trips,1d) group by window_start
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-min-k)
+[Try in playground](https://play.timeplus.com/playground?case=s-min-k)
 
 This will generate a daily report like this
 
@@ -491,7 +491,7 @@ lag(num_of_trips) as last_min_trips,num_of_trips-last_min_trips as gap
 from tumble(trips,1m) group by window_start
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-over-time)
+[Try in playground](https://play.timeplus.com/playground?case=s-over-time)
 
 Result
 
@@ -550,7 +550,7 @@ from bookings join trips on bookings.bid = trips.bid
 emit periodic 1h
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=s-join-streams)
+[Try in playground](https://play.timeplus.com/playground?case=s-join-streams)
 
 Every hour, this query will show the average time for users to book and unlock the car. We set it as 1 hour, since normally the user need 10-20 minutes to walk to the car and unlock it. If we switch to other data sources, such as login activities and mobile app activities, we certainly can run streaming analysis in much smaller time window, say joining those 2 streams for each minute.
 
@@ -575,7 +575,7 @@ select window_start, count(distinct cid) from tumble(car_live_data,1s)
 where in_use group by window_start
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=num-cars)
+[Try in playground](https://play.timeplus.com/playground?case=num-cars)
 
 ### Get the top 10 cars order by reveneue {#top10cars}
 
@@ -589,7 +589,7 @@ order by revenue desc limit 10
 settings query_mode='table'
 ```
 
-[Try in playground](https://play.timeplus.com/playground?query=top10cars)
+[Try in playground](https://play.timeplus.com/playground?case=top10cars)
 
 The result is like this
 
