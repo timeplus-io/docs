@@ -16,10 +16,4 @@ SELECT * FROM device_utils SETTINGS query_mode='table';
 SELECT * FROM table(device_utils);
 ```
 
-Timeplus also supports  PostgresSQL protocols. If users access via these protocols, `table` mode is the default mode. For Clickhouse protocol, one port for streaming query, one port for non-streaming query.
 
-:::danger
-
-Whether to expose PostgresSQL / Clickhouse protocols to the beta users and how to protect it via api-key/password is TBD
-
-:::
