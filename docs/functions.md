@@ -1,6 +1,6 @@
 # Functions
 
-The following `77` functions are supported in the SQL-like Timeplus query language. Please contact us if you need more functions.
+The following functions are supported in the SQL-like Timeplus query language. Please contact us if you need more functions.
 
 ## Type Conversion
 
