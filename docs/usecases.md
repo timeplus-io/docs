@@ -143,61 +143,6 @@ A data stream with trip details and payment info. Each row is generated at the e
 
 The following sections show how to query Timeplus to understand the business.
 
-## Data Transformation/filter/cleaning {#data}
-
-### T-MASK: Scrubbing sensitive fields {#t-mask}
-
-**Use Case:** Scrub sensitive fields of data(such as PII or payment information) to hide from downstream consumers
-
-In this example, only the first and last 4 digits of the credit card numbers are shown during user activity analysis.
-
-```sql
-select uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') as card 
-from user_info
-```
-[Try in playground](https://play.timeplus.com/playground?case=t-mask)
-
-Result:
-
-| uid    | card        |
-| ------ | ----------- |
-| u00001 | 3717***8910 |
-
-### T-DERIVE: Computing derived columns from raw data {#t-derive}
-
-**Use Case:** Create new columns to combine informations from multiple columns in the raw data, or turn data in certain columns in other format to make them ready to be displayed.
-
-```sql
-select uid, concat(first_name,' ',last_name) as full_name,
-year(today())-year(to_date(birthday)) as age from user_info
-```
-
-[Try in playground](https://play.timeplus.com/playground?case=t-derive)
-
-Result:
-
-| uid    | full_name | age  |
-| ------ | --------- | ---- |
-| u00001 | Foo Bar   | 32   |
-
-### T-LOOKUP: Converting identifiers to more readable information {#t-lookup}
-
-**Use Case:** While checking the car IoT data, we want to convert the car ID to its license plate number.
-
-```sql
-select time, cid, c.license_plate_no as license,gas_percent,speed_kmh from car_live_data 
-inner join car_info as c 
-on car_live_data.cid=c.cid 
-```
-
-[Try in playground](https://play.timeplus.com/playground?case=t-lookup)
-
-Result:
-
-| time                    | cid    | license | gas_percent | speed_kmh |
-| ----------------------- | ------ | ------- | ----------- | --------- |
-| 2022-01-12 23:00:58.476 | c00001 | KM235L  | 55          | 50        |
-
 ## Streaming Analysis {#streaming}
 
 ### S-TAIL: Showing raw data with or without filter conditions {#s-tail}
@@ -523,8 +468,6 @@ Result
 | 2022-01-12 10:01:00.000 | 88            | 2022-01-12 10:00:00.000 | 83              | 5    | 5      |
 | 2022-01-12 10:01:01.000 | 80            | 2022-01-12 10:00:01.000 | 87              | -7   | -8.75% |
 
-
-
 ### S-UNION-STREAMS: Merging multiple streams in same schema to a single stream {#s-union-streams}
 
 **Use Case:** there can be some data streams in the same data schema but intentionally put into different streams, such as one stream for one city, or a country (for performance or regulation considerations, for example). We would like to merge the data to understand the big picture.
@@ -634,3 +577,61 @@ The result is
 | c21898 | 479.64  | 1KTBIJ           |
 | c20995 | 477.38  | 6GN7SP           |
 | c96280 | 476.62  | YSK84J           |
+
+
+
+## Data Transformation/filter/cleaning {#data}
+
+### T-MASK: Scrubbing sensitive fields {#t-mask}
+
+**Use Case:** Scrub sensitive fields of data(such as PII or payment information) to hide from downstream consumers
+
+In this example, only the first and last 4 digits of the credit card numbers are shown during user activity analysis.
+
+```sql
+select uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') as card 
+from user_info
+```
+
+[Try in playground](https://play.timeplus.com/playground?case=t-mask)
+
+Result:
+
+| uid    | card        |
+| ------ | ----------- |
+| u00001 | 3717***8910 |
+
+### T-DERIVE: Computing derived columns from raw data {#t-derive}
+
+**Use Case:** Create new columns to combine informations from multiple columns in the raw data, or turn data in certain columns in other format to make them ready to be displayed.
+
+```sql
+select uid, concat(first_name,' ',last_name) as full_name,
+year(today())-year(to_date(birthday)) as age from user_info
+```
+
+[Try in playground](https://play.timeplus.com/playground?case=t-derive)
+
+Result:
+
+| uid    | full_name | age  |
+| ------ | --------- | ---- |
+| u00001 | Foo Bar   | 32   |
+
+### T-LOOKUP: Converting identifiers to more readable information {#t-lookup}
+
+**Use Case:** While checking the car IoT data, we want to convert the car ID to its license plate number.
+
+```sql
+select time, cid, c.license_plate_no as license,gas_percent,speed_kmh from car_live_data 
+inner join car_info as c 
+on car_live_data.cid=c.cid 
+```
+
+[Try in playground](https://play.timeplus.com/playground?case=t-lookup)
+
+Result:
+
+| time                    | cid    | license | gas_percent | speed_kmh |
+| ----------------------- | ------ | ------- | ----------- | --------- |
+| 2022-01-12 23:00:58.476 | c00001 | KM235L  | 55          | 50        |
