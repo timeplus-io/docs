@@ -4,12 +4,12 @@ There are two types of views in Timeplus: logical view (or just view ) and mater
 
 ## View
 
-You may have some common queries to run multiple times a week or month. You can save them in the web UI as "Saved Query". Just like how you add bookmarks for your favorate web sites. You can load the saved query in the query editor without typing it again. However you cannot refer to saved queries in a query. That's when you need to use views.
+You may have some common queries to run multiple times a week or month. You can save them in the web UI as "Saved Query". Just like how you add bookmarks for your favorite web sites. You can load the saved query in the query editor without typing it again. However you cannot refer to saved queries in a query. That's when you need to use views.
 
 You can create views for all kinds of queries, and refer to the views in other queries.
 
-* If the view is created based on a streaming query, then you can consider the view as a virtual stream. For example, `create view view1 as select * from my_stream where c1='a'` will create a virtual stream to filter all events with c1='a'. You can use this view as if it's another stream, e.g. `select count(*) from tumble(view1,1m) group by window_start` Creating a view won't trigger any query execution. Views are evalugated only when other queries refer to it.
-* a view could be a bounded stream if the view is created with a bouned query using [table()](functions#table) function, e.g. `create view view2 as select * from table(my_stream)` then each time you run `select count(*) from view2` will return the current  row number of the my_stream immediately without waiting for the future events.
+* If the view is created based on a streaming query, then you can consider the view as a virtual stream. For example, `create view view1 as select * from my_stream where c1='a'` will create a virtual stream to filter all events with c1='a'. You can use this view as if it's another stream, e.g. `select count(*) from tumble(view1,1m) group by window_start` Creating a view won't trigger any query execution. Views are evaluated only when other queries refer to it.
+* a view could be a bounded stream if the view is created with a bounded query using [table()](functions#table) function, e.g. `create view view2 as select * from table(my_stream)` then each time you run `select count(*) from view2` will return the current  row number of the my_stream immediately without waiting for the future events.
 
 Please note, once the view is created based on a streaming query, you cannot turn it to a bounded stream via `table(streaming_view)`
 
@@ -65,7 +65,7 @@ The materialized data gets stored in in-memory table and internal physical depen
 There are 2 modes to query streaming view
 
 1. Streaming mode: like `SELECT * FROM streaming_view`. In this mode, the query is against the underlying inner physical table.
-2. Historical mode: like `SELECT * FROM table(streaming_view)`. In this mode, the query is aginst the in-memory table and it always returns the latest table of data. 
+2. Historical mode: like `SELECT * FROM table(streaming_view)`. In this mode, the query is against the in-memory table and it always returns the latest table of data. 
 
 **Note** Users have a chance to tune the in-memory table size by setting up the following 2 settings
 

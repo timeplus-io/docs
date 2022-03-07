@@ -17,7 +17,7 @@ As of today, Kafka is the primary data source (and sink) for Timeplus. By the st
 5. By default, the source can create a new stream in Timeplus. Please specify the new stream name. Alternatively, you can disable the stream creation and choose an existing stream from the list.
 6. Make sure you turn on the Advanced Configuration and choose **SASL Plain** in the Authentication Method. Type in the API Key and Secret Key for your cluster
 7. Click **Next** to preview the streaming data from the specified Kafka source and choose a column as the event time. 
-8. Finish the rest of the wizard and your streaming data will be avilable in the new stream immedidatley. 
+8. Finish the rest of the wizard and your streaming data will be available in the new stream immediately. 
 
 #### Custom Kafka Deployment
 
@@ -43,7 +43,7 @@ If your streaming data reside in [Amazon Kinesis Data Stream](https://aws.amazon
 1.  First load the Kinesis data into Kafka topics via [Amazon Kinesis Source Connector for Confluent Cloud](https://docs.confluent.io/cloud/current/connectors/cc-kinesis-source.html) or [Amazon Kinesis Source Connector for Confluent Platform](https://docs.confluent.io/kafka-connect-kinesis/current/overview.html)
 2. Use the above Kafka source in Timeplus to load data into streams.
 
-The data flow can be illustratated as the following:
+The data flow can be illustrated as the following:
 
 ```mermaid
 flowchart LR
@@ -61,15 +61,15 @@ If you have some static dataset or lookup tables in the CSV format, you can uplo
 1. Click the **Add Data** from the navigation menu. Then click **Files** and click the **Start** button
 2. Drag and drop a CSV file from your local file system to upload the file. Or you can specify a URL for Timeplus to download the file. Currently we only support CSV format. Other formats will be supported shortly.
 3. Specify a name for this data source, and optionally provide a readable description.
-4. Similar to the Kafka source, you can choose to create a new stream or select an existing stream. Usually the CSV file contains the column heaer in the first row. Deselect that option if no header is available, then Timeplus will create column names.
+4. Similar to the Kafka source, you can choose to create a new stream or select an existing stream. Usually the CSV file contains the column header in the first row. Deselect that option if no header is available, then Timeplus will create column names.
 5. Click **Next** to preview the streaming data and choose a column as the event time. 
-6. Finish the rest of the wizard and your streaming data will be avilable in the new stream immedidatley. 
+6. Finish the rest of the wizard and your streaming data will be available in the new stream immediately. 
 
 
 
 ### Load sample streaming data
 
-If you are not ready to load your real data into Timeplus, or just want to play with the system, you can use this feature to load some sampling streaming data. We provide 3 typcial steaming data
+If you are not ready to load your real data into Timeplus, or just want to play with the system, you can use this feature to load some sampling streaming data. We provide 3 typical steaming data
 
 1. `iot_data` will generate data for 3 devices(device_0, device_1 and device_2). The `number` value can be anything between 0 to 100. The `time` column is the when the event is generated.
 2. `user_logins` will generate data for 2 users(user1 and user2), from 2 possible `city` value: Shanghai or Beijing. The `time` column is the when the event is generated.
@@ -81,7 +81,7 @@ You can load such sample datas via the **Add Data** menu and the **Sample Data**
 
 ## Load other data into Timeplus via 3rd party tools
 
-Timeplus well works with the data ecosystems and can leverage various tools to load data or even do data transformation at ingestion time.
+Timeplus works with the data ecosystems and can leverage various tools to load data or even do data transformation at ingestion time.
 
 
 
@@ -154,7 +154,7 @@ There are a few examples of data sources that can be ingested into Timeplus via 
 
 ### Insert data directly via SQL
 
-Timeplus also provices databaes drivers, so that you can also connect to Timeplus via your favorate SQL clients and run SQL to insert data.
+Timeplus also provides database drivers, so that you can also connect to Timeplus via your favorite SQL clients and run SQL to insert data.
 
 :::info
 

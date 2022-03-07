@@ -1,14 +1,14 @@
 #  Destination
 
-With Timeplus Console, you can easily explore and analyze streaming data, with initutive UI, standard SQL and streaming charts. But you won't stop here. Timeplus enables you to send real-time insights to other systems, either to notify individuals or power up downstream applications.
+With Timeplus Console, you can easily explore and analyze streaming data, with intuitive UI, standard SQL and streaming charts. But you won't stop here. Timeplus enables you to send real-time insights to other systems, either to notify individuals or power up downstream applications.
 
 ## Notify others via Email or Slack
 
-After you start running a streaming query, you can click the icon to send real-time results to other sytems.
+After you start running a streaming query, you can click the icon to send real-time results to other systems.
 
 ### Slack
 
-You need to create a Slack incoming webhook so that Timeplus can send a slack message in the specific channel for each result. Please follow the [Slack documentation](https://api.slack.com/messaging/webhooks) for the instructutions.
+You need to create a Slack incoming webhook so that Timeplus can send a slack message in the specific channel for each result. Please follow the [Slack documentation](https://api.slack.com/messaging/webhooks) for the instructions.
 
 Once you've got the Slack webhook URL, you can specify it in the dialog and set a message body. You can refer to column name via the `{{.column}}` expression. For instance, assume the output of the query is
 
@@ -39,7 +39,7 @@ To send data to Kafka, submit a streaming query, then click the icon to send str
 * Topic name: either an existing topic or specify the new topic name for Timeplus to create.
 * Authentication
 
-Please refer to the [Kafka source](ingestion#kafka) for explaination of the parameters. You can send data to Confluent Cloud, Confluent Platform, or custom managed Apache Kafka. The events will be encoded as JSON documents.
+Please refer to the [Kafka source](ingestion#kafka) for details of the parameters. You can send data to Confluent Cloud, Confluent Platform, or custom managed Apache Kafka. The events will be encoded as JSON documents.
 
 ## Send Data to Snowflake{#snowflake}
 
@@ -64,7 +64,7 @@ from tumble(car_live_data,2s) group by cid, window_end
 
 Then create a Kafka sink to send such data to the topic: snowflake.
 
-After setting up the sink connector in Confluent Cloud, a `snowflake` table will be created the specified database and schema in your snowflake envirement.  Then you can create a view to flatten the JSON document, such as
+After setting up the sink connector in Confluent Cloud, a `snowflake` table will be created the specified database and schema in your snowflake environment.  Then you can create a view to flatten the JSON document, such as
 
 ```sql
 create view downsampled as select RECORD_CONTENT:time::timestamp_tz as time,
@@ -75,7 +75,7 @@ RECORD_CONTENT:speed_kmh as speed_kmh,RECORD_CONTENT:total_km as total_km from s
 
 
 
-2. You can also use other data integation tools to move data. For example, using AirByte to load latest data from Timeplus table, then move them to Snowflake or other destinations. 
+2. You can also use other data integration tools to move data. For example, using AirByte to load latest data from Timeplus table, then move them to Snowflake or other destinations. 
 
 ```mermaid
 flowchart LR
@@ -91,4 +91,4 @@ The Timeplus source plugin for Airbyte is in the early stage. Please contact us 
 
 ## Trigger Actions via webhook{#webhook}
 
-You can also add automations to trigger other systems to take actions when Timeplus finds any real-time insights. Simply choose the **Webhook** as the action type and optionally set a message body. You can use this approach to perform rule-based automation without human interaction, such as swapping a overheated equipment, scaling up to scaling down the server farm, ertc.
+You can also add automations to trigger other systems to take actions when Timeplus finds any real-time insights. Simply choose the **Webhook** as the action type and optionally set a message body. You can use this approach to perform rule-based automation without human interaction, such as swapping a overheated equipment, scaling up to scaling down the server farm, etc.

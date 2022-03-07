@@ -4,7 +4,7 @@
 
 Streams are where data live and each data contains an event time. Timeplus takes this attribute as one important identity of event.
 
-Event time is used to identify when the event is generated, like a birthday to a human being.  It can be the exact timestamp when the order is placed, when the user logins a system, when an error occurss, or when a IoT device reports its status. If no suitable timestamp attribute in the event, Timeplus will generate the event time based on the data ingestion time.
+Event time is used to identify when the event is generated, like a birthday to a human being.  It can be the exact timestamp when the order is placed, when the user logins a system, when an error occurs, or when a IoT device reports its status. If no suitable timestamp attribute in the event, Timeplus will generate the event time based on the data ingestion time.
 
 Usually the event time is in `DateTime` type with second precision or in `DateTime64` type with millisecond precision. 
 
@@ -23,7 +23,7 @@ Event time is used almost everywhere in Timeplus data processing and analysis wo
 
 When you [ingest data](ingestion) into Timeplus, you can specify an attribute in the data which best represents the event time. Even the attribute is in `String` type, Timeplus will automatically convert it to a timestamp for further processing.
 
-If you don't choose an attribute in the wizard, then Timeplus will use the ingestion time to present the event time, i.e. when Timeplus receives the data. This may work well for most static or dimentional data, such as city names with zip codes.
+If you don't choose an attribute in the wizard, then Timeplus will use the ingestion time to present the event time, i.e. when Timeplus receives the data. This may work well for most static or dimensional data, such as city names with zip codes.
 
 ### Specify during query
 
@@ -43,7 +43,7 @@ select count(*) from tumble(taxi_data,1h) group by window_end
 
 This query uses `trip_start` , the default event time, to run the aggregation. If the passenger ends the trip on 00:01 at midnight, it will be included in the 00:00-00:59 time window.
 
-In some cases, you as the analyst, may want to focus on how many passengeres get in the taxi, instead of leaving the taxi, in each hour, then you can set `trip_end` as the event time for the query via `tumble(taxi_data,trip_end,1h)` 
+In some cases, you as the analyst, may want to focus on how many passengers get in the taxi, instead of leaving the taxi, in each hour, then you can set `trip_end` as the event time for the query via `tumble(taxi_data,trip_end,1h)` 
 
 Full query:
 

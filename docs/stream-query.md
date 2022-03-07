@@ -23,7 +23,7 @@ There are three categories of Timeplus streaming queries, based on how the data 
 
 | Category           | Description                                                  | Trigger By                               |
 | ------------------ | ------------------------------------------------------------ | ---------------------------------------- |
-| Non-aggregation    | per event processing, e.g. tail, filter, transformation/normalization | When events arrrive                      |
+| Non-aggregation    | per event processing, e.g. tail, filter, transformation/normalization | When events arrive                       |
 | Window aggregation | group events in the same window                              | Window end and watermark                 |
 | Global aggregation | from now on till forever                                     | A fixed interval, default every 2 second |
 

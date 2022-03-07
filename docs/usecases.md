@@ -218,7 +218,7 @@ select sum(amount) from trips emit last 1h
 
 [Try in playground](https://play.timeplus.com/playground?case=s-agg-recent)
 
-Once the query is sumitted, it will show quite a few rows based on the past day, then show new results in a streaming fashion.
+Once the query is submitted, it will show quite a few rows based on the past day, then show new results in a streaming fashion.
 
 Result:
 
@@ -406,7 +406,7 @@ This will generate a daily report like this
 | ----------------------- | -------------------------------------------------------- |
 | 2022-01-12 00:00:00.000 | [(7.62,'b01',13.8),(2.45,'b02',2.37),(12.66,'b03',22.6)] |
 
-To get the booking id for the 2nd longest tirp, you can `select ..,longest_trips[2].2 as bookingId `
+To get the booking id for the 2nd longest trip, you can `select ..,longest_trips[2].2 as bookingId `
 
 ### S-MIN-K: Getting the minimal value for each streaming window {#s-min-k}
 
@@ -446,7 +446,7 @@ Result
 | 2022-01-12 10:01:00.000 | 80           | 88             | -8   |
 | 2022-01-12 10:02:00.000 | 90           | 80             | 10   |
 
-This is a very powerful and userful capabilty. Besides comparing the last aggregation result, the analysts can also compare the data for the past. For example this second with the same second in last minute or last hour.
+This is a very powerful and useful capability. Besides comparing the last aggregation result, the analysts can also compare the data for the past. For example this second with the same second in last minute or last hour.
 
 The following query comparing the number of car sensor data by each second, comparing the number of events in last m
 
@@ -520,7 +520,7 @@ where in_use group by window_start
 
 [Try in playground](https://play.timeplus.com/playground?case=num-cars)
 
-### Get the top 10 cars order by reveneue {#top10cars}
+### Get the top 10 cars order by revenue {#top10cars}
 
 We probably want to understand which cars help the company earn most revenue  or which cars are not gaining enough revenue. This can be done with the following query
 

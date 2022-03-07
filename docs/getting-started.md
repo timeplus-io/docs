@@ -1,15 +1,15 @@
 # Getting started
 
-This tutorial teaches you how to load data into Timeplus and run analytics queries over the data. To perform this tutorial, you need an active Timeplus account. If you dont have a Timeplus account, send email to `eng@timeplus.io` and request an account.
+This tutorial teaches you how to load data into Timeplus and run analytics queries over the data. To perform this tutorial, you need an active Timeplus account. If you don't have a Timeplus account, send email to `eng@timeplus.io` and request an account.
 
 ## Add Data
 
-To help you quicky get started, we setup each tenant with the demo dataset. Please check the schema and common queries on [Demo Scenario](usecases) page. You can explore and query the streams right away.
+To help you quickly get started, we setup each tenant with the demo dataset. Please check the schema and common queries on [Demo Scenario](usecases) page. You can explore and query the streams right away.
 
 Of course, you can load your own data, such as
 
 * [Upload a CSV file](ingestion#load-sample-streaming-data)
-* [Create a Kafka source](ingestion#kafka) to load JSON documents from Confluent Cloud or Apache Kafka culster.
+* [Create a Kafka source](ingestion#kafka) to load JSON documents from Confluent Cloud or Apache Kafka cluster.
 
 ## Explore Data
 
@@ -19,7 +19,7 @@ To add some filter conditions or change other part of the query, you can either 
 
 ## Query Data
 
-SQL is the most common tool for data analyts. Timeplus supports powerful yet easy-to-use [query syntax](query-syntax) and [functions](functions). You can also follow the samples in [Demo Scenario](usecases) to query data. 
+SQL is the most common tool for data analysts. Timeplus supports powerful yet easy-to-use [query syntax](query-syntax) and [functions](functions). You can also follow the samples in [Demo Scenario](usecases) to query data. 
 
 ## Visualize Data
 

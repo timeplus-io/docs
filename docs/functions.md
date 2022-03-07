@@ -168,7 +168,7 @@ Get a number.
 
 `format_datetime(time,format,timezone)`
 
-Format the datatime as a string. The 3rd argument is optional. The following placeholders are supported
+Format the datetime as a string. The 3rd argument is optional. The following placeholders are supported
 
 | Placeholder | Description                                        | Output String |
 | ----------- | -------------------------------------------------- | ------------- |
@@ -189,7 +189,7 @@ Format the datatime as a string. The 3rd argument is optional. The following pla
 
 `date_diff(unit,begin,end)`
 
-Calculate the difference betweeen `begin` and `end` and produce a number in `unit`. For example `date_diff('second',window_start,window_end)`
+Calculate the difference between `begin` and `end` and produce a number in `unit`. For example `date_diff('second',window_start,window_end)`
 
 
 
@@ -334,7 +334,7 @@ For example `if(1=2,'a','b')` will get `b`
 
 ### count_distinct
 
-`count_distinct(col)` to get the number of unqiue value for the `col` column. Same as `count(distinct col)`
+`count_distinct(col)` to get the number of unique value for the `col` column. Same as `count(distinct col)`
 
 ### distinct
 
@@ -408,7 +408,7 @@ Create a hopping window view for the table, for example `hop(iot,1s,5s)` will cr
 
 ### lag
 
-`lag(<column_name> [, <offset=1>[, <default_value>])`: Work for both streaming query and histroical query. If you omit the `offset` the last row will be compared.
+`lag(<column_name> [, <offset=1>[, <default_value>])`: Work for both streaming query and historical query. If you omit the `offset` the last row will be compared.
 
 ### now
 
