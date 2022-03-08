@@ -8,6 +8,12 @@ This document demonstrates how to run streaming queries in Timeplus to solve var
 
 You are the lead business analyst in a carsharing company. Sensors are equipped in each car to report car locations. The customers use the mobile app to find available cars nearby, book them, unlock them and hit the road. At the end of the trip, the customer parks the car, locks it, ends the trip. The payment will be proceeded automatically with the registered credit card.
 
+Some of the typical use cases for time-sensitive insights are:
+
+* how many cars are being driven by users in certain location? do we need to move some cars from less busy locations to those hot zones?
+* which cars are being driven too fast or running low fuel? The service team may need to take actions.
+* which users keep booking cars then cancelling them? Shall we send real-time notification to those users to avoid abuse.
+
 There are multiple data streams in the systems:
 
 
