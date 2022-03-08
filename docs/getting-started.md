@@ -1,6 +1,6 @@
 # Getting started
 
-This tutorial teaches you how to load data into Timeplus and run analytics queries over the data. To perform this tutorial, you need an active Timeplus account. If you don't have a Timeplus account, send email to `eng@timeplus.io` and request an account.
+This tutorial teaches you how to load data into Timeplus and run analytics queries over the data. To perform this tutorial, you need an active Timeplus account. If you don't have a Timeplus account, go https://timeplus.com and request an account.
 
 ## Add Data
 
@@ -23,7 +23,7 @@ SQL is the most common tool for data analysts. Timeplus supports powerful yet ea
 
 ## Visualize Data
 
-You can click the **VIZ** tab to turn a streaming query to a streaming chart with high FPS (frame-per-second). Choose the time column as X-axis and choose the numeric column with an aggregation method. You can add the chart the your home page. Out of box streaming dashboards will be added to Timeplus soon.
+You can click the **VISUALIZATION** tab to turn a streaming query to a streaming chart with high FPS (frame-per-second). Choose the time column as X-axis and choose the numeric column with an aggregation method. You can add the chart the your home page. Out of box streaming dashboards will be added to Timeplus soon.
 
 In the meanwhile, it's possible to leverage other tools to visualize insights from Timeplus. Please contact us if you want to learn the details.
 
