@@ -150,13 +150,13 @@ The following sections show how to query Timeplus to understand the business.
 **Use Case:** to start the data exploration, the analyst wants to show all recently reported car iot data
 
 ```sql
-select * from car_live_data
+SELECT * FROM car_live_data
 ```
 
 or focusing on which cars are almost running out of gas (so that they can send service team to fill gas or suspend the car)
 
 ```sql
-select time,cid,gas_percent from car_live_data where gas_percent < 25 
+SELECT time,cid,gas_percent FROM car_live_data WHERE gas_percent < 25 
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-tail)
@@ -172,8 +172,8 @@ Result:
 **Use Case:** the sensors on each car may report data from half second to every 10 seconds. The analyst may reduce the granularity and only need to save per-mintute data to downstream
 
 ```sql
-select window_start,cid, avg(gas_percent) as avg_gas_percent,avg(speed_kmh) as avg_speed from
-tumble(car_live_data,1m) group by window_start, cid
+SELECT window_start,cid, avg(gas_percent) as avg_gas_percent,avg(speed_kmh) as avg_speed FROM
+tumble(car_live_data,1m) GROUP BY window_start, cid
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-downsampling)
@@ -187,15 +187,15 @@ Result:
 More practically, the user can create a [materialized view](view#materialized-view) to automatically put downsampled data into a new stream/view.
 
 ```sql
-create materialized view car_live_data_1min as
-select window_start as time,cid, avg(gas_percent) as avg_gas,avg(speed_kmh) as avg_speed 
-from tumble(car_live_data,1m) group by window_start, cid
+CREATE MATERIALIZED VIEW car_live_data_1min as
+SELECT window_start as time,cid, avg(gas_percent) as avg_gas,avg(speed_kmh) as avg_speed 
+FROM tumble(car_live_data,1m) GROUP BY window_start, cid
 ```
 
 Then the user can search the data via
 
 ```sql
-select * from car_live_data_1min
+SELECT * FROM car_live_data_1min
 ```
 
 Result:
@@ -213,7 +213,7 @@ Result:
 Timeplus provides a special syntax to get such result easily
 
 ```sql
-select sum(amount) from trips emit last 1h
+SELECT sum(amount) FROM trips EMIT LAST 1h
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-agg-recent)
@@ -290,9 +290,9 @@ Session window won't be not supported before March 202
 For example, the analyst wants to understand how the users book the car 2 hours ago
 
 ```sql
-select window_start,count(*) from tumble(bookings,15m) 
-where action='add' group by window_start 
-emit last 2h
+SELECT window_start,count(*) FROM tumble(bookings,15m) 
+WHERE action='add' GROUP BY window_start 
+EMIT LAST 2h
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-time-travel)
@@ -300,8 +300,8 @@ emit last 2h
 Or they can specify an exactly timestamp, e.g.
 
 ```sql
-select window_start,count(*) from tumble(bookings,15m) 
-where action='add' group by window_start 
+SELECT window_start,count(*) FROM tumble(bookings,15m) 
+WHERE action='add' GROUP BY window_start 
 settings seek_to='2022-01-12 06:00:00.000'
 ```
 
@@ -319,11 +319,11 @@ Not only the past data will be analyzed, but also the latest incoming data will 
 **Use Case:** unlike the traditional SQL queries, streaming queries never end until the user cancels it. The analysis results are kept pushing to the web UI or slack/kafka destinations. The analysts want to run advanced streaming query in Timeplus and cache the results as a materialized view. So that they can use regular SQL tools/systems to get the streaming insights as regular tables. Materialized views are also useful to downsample the data to reduce the data volume for future analysis and storage
 
 ```sql
-create materialized view today_revenue as
-select sum(amount) from trips where end_time > today();
+CREATE MATERIALIZED VIEW today_revenue as
+SELECT sum(amount) FROM trips WHERE end_time > today();
 
 -- in Timeplus or other connected SQL clients
-select * from today_revenue
+SELECT * FROM today_revenue
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-mview)
@@ -337,8 +337,8 @@ Watermark is a common mechanism in the streaming processing world to set the bar
 For a query like this 
 
 ```sql
-select window_start,window_end,sum(amount),count(*)
-from tumble(trips,end_time,1m) group by window_start,window_end
+SELECT window_start,window_end,sum(amount),count(*)
+FROM tumble(trips,end_time,1m) GROUP BY window_start,window_end
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-drop-late)
@@ -366,9 +366,9 @@ Considering two cars are returned in the same time at 10:00:10. For tripA and tr
 Given the similar scenario, the query with the advanced setting is 
 
 ```sql
-select window_start,window_end,sum(amount),count(*)
-from tumble(trips,end_time,1m) group by window_start,window_end
-emit after watermark and delay 30s
+SELECT window_start,window_end,sum(amount),count(*)
+FROM tumble(trips,end_time,1m) GROUP BY window_start,window_end
+EMIT AFTER WATERMARK AND DELAY 30s
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-wait-late)
@@ -378,7 +378,7 @@ emit after watermark and delay 30s
 **Use Case:** the analysts want to understand which cars are booked most often every day or every hour
 
 ```sql
-select window_start,top_k(cid,3) as popular_cars from tumble(bookings,1h) group by window_start
+SELECT window_start,top_k(cid,3) as popular_cars FROM tumble(bookings,1h) GROUP BY window_start
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-top-k)
@@ -395,7 +395,7 @@ This will generate a daily report like this
 **Use Case:** the analysts want to understand which trips are longest every day
 
 ```sql
-select window_start,max_k(amount,3,bid,distance) as longest_trips from tumble(trips,1d) group by window_start
+SELECT window_start,max_k(amount,3,bid,distance) as longest_trips FROM tumble(trips,1d) GROUP BY window_start
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-max-k)
@@ -413,7 +413,7 @@ To get the booking id for the 2nd longest trip, you can `select ..,longest_trips
 **Use Case:** the analysts want to understand which trips are shortest every day
 
 ```sql
-select window_start,min_k(amount,3,bid,distance) as shortest_trips from tumble(trips,1d) group by window_start
+SELECT window_start,min_k(amount,3,bid,distance) as shortest_trips FROM tumble(trips,1d) GROUP BY window_start
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-min-k)
@@ -431,9 +431,9 @@ This will generate a daily report like this
 For example, the user wants to understand how many cars are being used in each minute and how it is different than the last minute
 
 ```sql
-select window_start,count(*) as num_of_trips,
+SELECT window_start,count(*) as num_of_trips,
 lag(num_of_trips) as last_min_trips,num_of_trips-last_min_trips as gap
-from tumble(trips,1m) group by window_start
+FROM tumble(trips,1m) GROUP BY window_start
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-over-time)
@@ -451,12 +451,12 @@ This is a very powerful and useful capability. Besides comparing the last aggreg
 The following query comparing the number of car sensor data by each second, comparing the number of events in last m
 
 ```sql
-select window_start,count(*) as num_of_events,
+SELECT window_start,count(*) as num_of_events,
 lag(window_start,60) as last_min,
 lag(num_of_events,60) as last_min_events,
 num_of_events-last_min_events as gap,
 concat(to_string(to_decimal(gap*100/num_of_events,2)),'%') as change
-from tumble(car_live_data,1s) group by window_start
+FROM tumble(car_live_data,1s) GROUP BY window_start
 ```
 
 Once the query starts running, for the first 1 minute, only the newer result is available. Then we can get the result from 60 windows back, so that we can compare the difference.
@@ -475,9 +475,9 @@ Result
 For example, the car sharing company starts their business in Vancouver BC first. Then expand it to Victoria, BC. Per local city government's regulation requirements, two systems are setup. The head quarter wants to show streaming analysis for both cities.
 
 ```sql
-select * from trips_vancouver
-union
-select * from trips_victoria
+SELECT * FROM trips_vancouver
+UNION
+SELECT * FROM trips_victoria
 ```
 <!-- 
 
@@ -514,8 +514,8 @@ streaming join WIP
 Each car will report their status to the car_live_data stream, including the `in_use` bool flag. For the same car id, it may report `in_use=false` 2 minutes ago, then report `in_use=true` 1 minute ago. Then this car should be considered as in-use. We should not run global aggregation since we only care about the current status, not the accumulated data (each running car should report data twice a second). `tumble` window should be okay with 1 second as window size.
 
 ```sql
-select window_start, count(distinct cid) from tumble(car_live_data,1s) 
-where in_use group by window_start
+SELECT window_start, count(distinct cid) FROM tumble(car_live_data,1s) 
+WHERE in_use GROUP BY window_start
 ```
 
 [Try in playground](https://play.timeplus.com/playground/num-cars)
@@ -525,10 +525,10 @@ where in_use group by window_start
 We probably want to understand which cars help the company earn most revenue  or which cars are not gaining enough revenue. This can be done with the following query
 
 ```sql
-select cid,sum(amount) as revenue from trips 
-inner join bookings on trips.bid=bookings.bid 
-where end_time > today() group by cid 
-order by revenue desc limit 10
+SELECT cid,sum(amount) as revenue from trips 
+INNER JOIN bookings on trips.bid=bookings.bid 
+WHERE end_time > today() GROUP BY cid 
+ORDER BY revenue DESC LIMIT 10
 settings query_mode='table'
 ```
 
@@ -552,14 +552,14 @@ The result is like this
 You can further enrich the data by looking up the car license plate from `dim_car_info`
 
 ```sql
-with top10cars as (
-  select cid,sum(amount) as revenue from trips 
-inner join bookings on trips.bid=bookings.bid 
-where end_time > today() group by cid 
-order by revenue desc limit 10
+WITH top10cars as (
+  SELECT cid,sum(amount) as revenue FROM trips 
+INNER JOIN bookings on trips.bid=bookings.bid 
+WHERE end_time > today() GROUP BY cid 
+ORDER BY revenue DESC LIMIT 10
 )
-select cid,revenue,license_plate_no from top10cars 
-inner join dim_car_info on top10cars.cid=dim_car_info.cid
+SELECT cid,revenue,license_plate_no FROM top10cars 
+INNER JOIN dim_car_info on top10cars.cid=dim_car_info.cid
 settings query_mode='table'
 ```
 
@@ -589,8 +589,8 @@ The result is
 In this example, only the first and last 4 digits of the credit card numbers are shown during user activity analysis.
 
 ```sql
-select uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') as card 
-from user_info
+SELECT uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') as card 
+FROM user_info
 ```
 
 [Try in playground](https://play.timeplus.com/playground/t-mask)
@@ -606,8 +606,8 @@ Result:
 **Use Case:** Create new columns to combine informations from multiple columns in the raw data, or turn data in certain columns in other format to make them ready to be displayed.
 
 ```sql
-select uid, concat(first_name,' ',last_name) as full_name,
-year(today())-year(to_date(birthday)) as age from user_info
+SELECT uid, concat(first_name,' ',last_name) as full_name,
+year(today())-year(to_date(birthday)) as age FROM user_info
 ```
 
 [Try in playground](https://play.timeplus.com/playground/t-derive)
@@ -623,9 +623,9 @@ Result:
 **Use Case:** While checking the car IoT data, we want to convert the car ID to its license plate number.
 
 ```sql
-select time, cid, c.license_plate_no as license,gas_percent,speed_kmh from car_live_data 
-inner join car_info as c 
-on car_live_data.cid=c.cid 
+SELECT time, cid, c.license_plate_no as license,gas_percent,speed_kmh FROM car_live_data 
+INNER JOIN car_info as c 
+ON car_live_data.cid=c.cid 
 ```
 
 [Try in playground](https://play.timeplus.com/playground/t-lookup)
