@@ -172,7 +172,7 @@ Result:
 **Use Case:** the sensors on each car may report data from half second to every 10 seconds. The analyst may reduce the granularity and only need to save per-mintute data to downstream
 
 ```sql
-SELECT window_start,cid, avg(gas_percent) as avg_gas_percent,avg(speed_kmh) as avg_speed FROM
+SELECT window_start,cid, avg(gas_percent) AS avg_gas_percent,avg(speed_kmh) AS avg_speed FROM
 tumble(car_live_data,1m) GROUP BY window_start, cid
 ```
 
@@ -188,7 +188,7 @@ More practically, the user can create a [materialized view](view#materialized-vi
 
 ```sql
 CREATE MATERIALIZED VIEW car_live_data_1min as
-SELECT window_start as time,cid, avg(gas_percent) as avg_gas,avg(speed_kmh) as avg_speed 
+SELECT window_start AS time,cid, avg(gas_percent) AS avg_gas,avg(speed_kmh) AS avg_speed 
 FROM tumble(car_live_data,1m) GROUP BY window_start, cid
 ```
 
@@ -241,7 +241,7 @@ There are other ways to get similar results, with more verbose queries
 First, they can run the following query to get the trip distance for each car:
 
 ```sql
-select cid,window_start,window_end,max(total_km)-min(total_km) as trip_km 
+select cid,window_start,window_end,max(total_km)-min(total_km) AS trip_km 
 from session(car_live_data,20m) group by cid, window_start, window_end
 ```
 
@@ -258,8 +258,8 @@ Result:
 Then create a more complex query to aggregate the data by car id and trip ending time.
 
 ```sql
-with query_1 as (
-select cid,window_start as w_start,window_end as w_end,max(total_km)-min(total_km) as trip_km 
+with query_1 AS (
+select cid,window_start AS w_start,window_end AS w_end,max(total_km)-min(total_km) AS trip_km 
 from session(car_live_data,20m) group by cid, window_start, window_end
 )
 select cid,window_start,window_end,sum(trip_km) 
@@ -378,7 +378,7 @@ EMIT AFTER WATERMARK AND DELAY 30s
 **Use Case:** the analysts want to understand which cars are booked most often every day or every hour
 
 ```sql
-SELECT window_start,top_k(cid,3) as popular_cars FROM tumble(bookings,1h) GROUP BY window_start
+SELECT window_start,top_k(cid,3) AS popular_cars FROM tumble(bookings,1h) GROUP BY window_start
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-top-k)
@@ -395,7 +395,7 @@ This will generate a daily report like this
 **Use Case:** the analysts want to understand which trips are longest every day
 
 ```sql
-SELECT window_start,max_k(amount,3,bid,distance) as longest_trips FROM tumble(trips,1d) GROUP BY window_start
+SELECT window_start,max_k(amount,3,bid,distance) AS longest_trips FROM tumble(trips,1d) GROUP BY window_start
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-max-k)
@@ -406,14 +406,14 @@ This will generate a daily report like this
 | ----------------------- | -------------------------------------------------------- |
 | 2022-01-12 00:00:00.000 | [(7.62,'b01',13.8),(2.45,'b02',2.37),(12.66,'b03',22.6)] |
 
-To get the booking id for the 2nd longest trip, you can `select ..,longest_trips[2].2 as bookingId `
+To get the booking id for the 2nd longest trip, you can `select ..,longest_trips[2].2 AS bookingId `
 
 ### S-MIN-K: Getting the minimal value for each streaming window {#s-min-k}
 
 **Use Case:** the analysts want to understand which trips are shortest every day
 
 ```sql
-SELECT window_start,min_k(amount,3,bid,distance) as shortest_trips FROM tumble(trips,1d) GROUP BY window_start
+SELECT window_start,min_k(amount,3,bid,distance) AS shortest_trips FROM tumble(trips,1d) GROUP BY window_start
 ```
 
 [Try in playground](https://play.timeplus.com/playground/s-min-k)
@@ -431,8 +431,8 @@ This will generate a daily report like this
 For example, the user wants to understand how many cars are being used in each minute and how it is different than the last minute
 
 ```sql
-SELECT window_start,count(*) as num_of_trips,
-lag(num_of_trips) as last_min_trips,num_of_trips-last_min_trips as gap
+SELECT window_start,count(*) AS num_of_trips,
+lag(num_of_trips) AS last_min_trips,num_of_trips-last_min_trips AS gap
 FROM tumble(trips,1m) GROUP BY window_start
 ```
 
@@ -451,11 +451,11 @@ This is a very powerful and useful capability. Besides comparing the last aggreg
 The following query comparing the number of car sensor data by each second, comparing the number of events in last m
 
 ```sql
-SELECT window_start,count(*) as num_of_events,
-lag(window_start,60) as last_min,
-lag(num_of_events,60) as last_min_events,
-num_of_events-last_min_events as gap,
-concat(to_string(to_decimal(gap*100/num_of_events,2)),'%') as change
+SELECT window_start,count(*) AS num_of_events,
+lag(window_start,60) AS last_min,
+lag(num_of_events,60) AS last_min_events,
+num_of_events-last_min_events AS gap,
+concat(to_string(to_decimal(gap*100/num_of_events,2)),'%') AS change
 FROM tumble(car_live_data,1s) GROUP BY window_start
 ```
 
@@ -525,7 +525,7 @@ WHERE in_use GROUP BY window_start
 We probably want to understand which cars help the company earn most revenue  or which cars are not gaining enough revenue. This can be done with the following query
 
 ```sql
-SELECT cid,sum(amount) as revenue from trips 
+SELECT cid,sum(amount) AS revenue from trips 
 INNER JOIN bookings on trips.bid=bookings.bid 
 WHERE end_time > today() GROUP BY cid 
 ORDER BY revenue DESC LIMIT 10
@@ -552,8 +552,8 @@ The result is like this
 You can further enrich the data by looking up the car license plate from `dim_car_info`
 
 ```sql
-WITH top10cars as (
-  SELECT cid,sum(amount) as revenue FROM trips 
+WITH top10cars AS (
+  SELECT cid,sum(amount) AS revenue FROM trips 
 INNER JOIN bookings on trips.bid=bookings.bid 
 WHERE end_time > today() GROUP BY cid 
 ORDER BY revenue DESC LIMIT 10
@@ -584,12 +584,12 @@ The result is
 
 ### T-MASK: Scrubbing sensitive fields {#t-mask}
 
-**Use Case:** Scrub sensitive fields of data(such as PII or payment information) to hide from downstream consumers
+**Use Case:** Scrub sensitive fields of data(such AS PII or payment information) to hide from downstream consumers
 
 In this example, only the first and last 4 digits of the credit card numbers are shown during user activity analysis.
 
 ```sql
-SELECT uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') as card 
+SELECT uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') AS card 
 FROM user_info
 ```
 
@@ -606,8 +606,8 @@ Result:
 **Use Case:** Create new columns to combine informations from multiple columns in the raw data, or turn data in certain columns in other format to make them ready to be displayed.
 
 ```sql
-SELECT uid, concat(first_name,' ',last_name) as full_name,
-year(today())-year(to_date(birthday)) as age FROM user_info
+SELECT uid, concat(first_name,' ',last_name) AS full_name,
+year(today())-year(to_date(birthday)) AS age FROM user_info
 ```
 
 [Try in playground](https://play.timeplus.com/playground/t-derive)
@@ -623,8 +623,8 @@ Result:
 **Use Case:** While checking the car IoT data, we want to convert the car ID to its license plate number.
 
 ```sql
-SELECT time, cid, c.license_plate_no as license,gas_percent,speed_kmh FROM car_live_data 
-INNER JOIN car_info as c 
+SELECT time, cid, c.license_plate_no AS license,gas_percent,speed_kmh FROM car_live_data 
+INNER JOIN car_info AS c 
 ON car_live_data.cid=c.cid 
 ```
 
