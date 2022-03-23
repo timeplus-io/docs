@@ -49,7 +49,8 @@ For example
 select
     cast('1', 'integer'),
     cast('1' as integer),
-    cast(3.1415, 'decimal(3, 2)')
+    cast(3.1415, 'decimal(3, 2)'),
+    json_extract_string('{"a":"001"}','a')::integer
 ```
 
 
