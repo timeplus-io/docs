@@ -15,6 +15,7 @@ During our beta, we're supporting a limited number of field types. If there's a 
 | Numeric Types       | integer    | default with 4 bytes. You can also use smallint, bigint, or event uint16 etc. | [to_int](functions#to_int)                                   |
 |                     | decimal    | decimal(precision, scale). Valid range for precision is [1: 76], valid range for scale is [0: precision] | [to_decimal](functions#to_decimal)                           |
 |                     | float      | default with 4 bytes. You can also use float64 or double for 8 bytes | [to_float](functions#to_float)                               |
+| Boolean Type        | bool       | true or false                                                |                                                              |
 | String Type         | string     | strings of an arbitrary length. Also support `fixed_string(positiveInt)` to set size in bytes | [to_string](functions#to_string), [etc.](functions#process-text) |
 | Date and Time Types | date       | without time                                                 | [to_date](functions#to_date), [today](functions#today)       |
 |                     | datetime   | with second                                                  | [to_time](functions#to_time), [now](functions#now)           |
