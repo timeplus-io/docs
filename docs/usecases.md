@@ -1,4 +1,5 @@
 # Demo Scenario
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -239,37 +240,33 @@ There are other ways to get similar results, with more verbose queries
 2. The other solution is to use hop window aggregation. Similar to the `tumble` window in [S-DOWNSAMPLING](#s-downsampling) ,the data are grouped per a fixed size time window, such a hour. Tumble windows are not overlapped to each other, so it's ideal for downsampling without data duplication (for example, for `count` aggregation, no data will be counted twice) For hop window, it will be shifted to the left or right(past or future in the timeline) with a sliding step. For example, the following query will use the hop window to get total revenue for the past 1 hour, the result will be sent out every second. `select window_start,window_end, sum(amount) from hop(trips,end_time,1s,1h) 
    group by window_start,window_end`
 
-<!-- 
-###  :no_entry_sign: S-SESSION: analyzing activities with active sessions {#s-session}
+###  S-SESSION: analyzing activities with active sessions {#s-session}
 
-**Use Case:** the analyst wants to track the daily movement of the car. The sensors on the cars report data every half second while the engine is started, and  report data every half an hour when the engine is off. So the session idle time can be set as 20minutes.
-
-First, they can run the following query to get the trip distance for each car:
+**Use Case:** the analyst wants to track the daily movement of the cars. The sensors on the cars report data every second while the engine is started, and report data every half an hour when the engine is off. If the server doesn't receive the data for a running car for 5 seconds, the car is considered as disconnected.  We can run the following query to show the  trip distances for each running cars
 
 ```sql
-select cid,window_start,window_end,max(total_km)-min(total_km) AS trip_km 
-from session(car_live_data,20m) group by cid, window_start, window_end
+SELECT cid,window_start,window_end,max(total_km)-min(total_km) AS trip_km 
+FROM session(car_live_data, time, 5s, cid)
+GROUP BY __tp_session_id, cid, window_start, window_end
+HAVING trip_km > 0
 ```
-
-[Try in playground](https://play.timeplus.com/playground/s-session)
 
 Result:
 
-| cid    | window_start            | window_end              | trip_km |
-| ------ | ----------------------- | ----------------------- | ------- |
-| c00001 | 2022-01-12 10:00:00.000 | 2022-01-12 10:23:00.000 | 5.2     |
-| c00001 | 2022-01-12 13:00:00.000 | 2022-01-12 13:43:00.000 | 12      |
-| c00002 | 2022-01-12 10:00:00.000 | 2022-01-12 10:15:00.000 | 4.1     |
+| cid    | window_start            | window_end              | trip_km             |
+| ------ | ----------------------- | ----------------------- | ------------------- |
+| c00040 | 2022-03-23 21:42:08.000 | 2022-03-23 21:42:12.000 | 0.05395412226778262 |
+| c00078 | 2022-03-23 21:42:08.000 | 2022-03-23 21:42:33.000 | 0.4258001818272703  |
 
-Then create a more complex query to aggregate the data by car id and trip ending time.
+More complex query can be created to aggregate the data by car id and trip ending time.
 
 ```sql
 with query_1 AS (
 select cid,window_start AS w_start,window_end AS w_end,max(total_km)-min(total_km) AS trip_km 
-from session(car_live_data,20m) group by cid, window_start, window_end
+from session(car_live_data,time,20m, cid) group by __tp_session_id, cid, window_start, window_end
 )
 select cid,window_start,window_end,sum(trip_km) 
-from tumble(query_1,w_end,1d) group by cid,window_start,window_end
+from tumble(query_1,w_end,1h) group by cid,window_start,window_end
 ```
 
 Result:
@@ -279,15 +276,7 @@ Result:
 | c00001 | 2022-01-12 00:00:00.000 | 2022-01-12 23:59:59.999 | 17.2    |
 | c00002 | 2022-01-12 00:00:00.000 | 2022-01-12 23:59:59.999 | 4.1     |
 
-This query is a continuously streaming query. Every day (or every hour, depending on tumble window size), the analysis results can be sent to email/slack or a Kafka topic for further processing.
-
-:::danger
-
-Session window won't be not supported before March 202
-
-:::
-
--->
+This query is a continuously streaming query. Every hour (or every day, depending on tumble window size), the analysis results can be sent to email/slack or a Kafka topic for further processing.
 
 ### S-TIME-TRAVEL: Going back to a past time and run analysis since then {#s-time-travel}
 

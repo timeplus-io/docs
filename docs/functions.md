@@ -398,14 +398,22 @@ Learn more about [Non-streaming queries](history).
 
 ### tumble
 
-`tumble(table [,timeCol], windowSize)`
+`tumble(stream [,timeCol], windowSize)`
 
-Create a tumble window view for the table, for example `tumble(iot,5s)` will create windows for every 5 seconds for the streaming table `iot` . The SQL must end with `group by ` with either `window_start` or `window_end` or both.
+Create a tumble window view for the data stream, for example `tumble(iot,5s)` will create windows for every 5 seconds for the data stream `iot` . The SQL must end with `group by ` with either `window_start` or `window_end` or both.
 
 ### hop
 
-`hop(table [,timeCol], step, windowSize)`
-Create a hopping window view for the table, for example `hop(iot,1s,5s)` will create windows for every 5 seconds for the streaming table `iot` and moving the window forwards every second. The SQL must end with `group by ` with either `window_start` or `window_end` or both.
+`hop(stream [,timeCol], step, windowSize)`
+Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` will create windows for every 5 seconds for the data stream `iot` and moving the window forwards every second. The SQL must end with `group by ` with either `window_start` or `window_end` or both.
+
+### session
+
+`session(stream, timeCol, idle, keyByCol [,otherKeyByCol])`
+
+Create dynamic windows based on the activities in the data stream. You need specify at least one `keyByColumn`. For the same column (such as carId), if we keep getting new events for the specific id within the `idle` time, it will be included in the same session window. By default, the max length of the session window is 5 times of the idle time. For example, if the car keeps sending data when it's moving and stops sending data when it's parked or waiting for the traffic light, `session(car_live_data, time, 1m, cid)` will create session windows for each car with 1 minute idle time. Meaing if the car is not moved within one minute, the window will be closed and a new session window will be created for future events. If the car keeps moving for more than 5 minutes, different windows will be created (every 5 minutes), so that as analyts, you can get near real-time results, without waiting too long for the car to be stopped.
+
+The SQL must end with `group by ` with `__tp_session_id`, then with optionally  either `window_start` or `window_end` or both.
 
 ### lag
 
