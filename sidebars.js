@@ -47,7 +47,16 @@ const sidebars = {
         },
         items:['working-with-streams','eventtime','stream-query','history','view','source','destination']
        },
-       'ingestion',
+       {
+        type:'category',
+        label:'Data Ingestion',
+        //collapsed: false,
+        link: {
+          type: 'doc',
+          id:'ingestion'
+        },
+        items:['stream-generator',]
+       },
        'transformation',
        'viz',
        {
