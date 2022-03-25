@@ -6,6 +6,11 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
 
 ### Week of 3/21
 
-* Refined the [data type](datatypes) to consistently use lower case type names. `bool` is offically supported.
+* Refined the [data type](datatypes) to consistently use lower case type names. `bool` is officially supported.
 * Added new UI for Redpanda data source and sink.
 * Added new single-sign-on provider: Microsoft.
+
+### Week of 3/28
+
+* Enhanced the file source to improve stability while processing large static files.
+
