@@ -13,4 +13,8 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
 ### Week of 3/28
 
 * Enhanced the file source to improve stability while processing large static files.
+* Enhanced the Kafka source to support AVRO format (with schema registry). You can also load the entire JSON document as a single string column to support dynamic JSON schema. Plain text is also supported for the Kafka source.
+* Added two new chart types: Area and Single Value. You can try them in the Visualization tab of the query page.
+* UI improvement to expand/collapose navigation menu.
+* Expermential Python SDK for push and query data.
 
