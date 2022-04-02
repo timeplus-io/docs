@@ -45,8 +45,8 @@ erDiagram
     trips {
       string tid
       string bid
-      DateTime start_time
-      DateTime end_time
+      datetime start_time
+      datetime end_time
       float stat_lon
       float start_lat
       float end_lon
@@ -64,13 +64,13 @@ A relative static stream with all registered user informations.
 
 | Column      | Type   | Sample Value    |
 | ----------- | ------ | --------------- |
-| uid         | String | u00001          |
-| first_name  | String | Foo             |
-| last_name   | String | Bar             |
-| email       | String | a@timeplus.io   |
-| credit_card | String | 371712345678910 |
-| gender      | String | F               |
-| birthday    | String | 1990-01-15      |
+| uid         | string | u00001          |
+| first_name  | string | Foo             |
+| last_name   | string | Bar             |
+| email       | string | a@timeplus.io   |
+| credit_card | string | 371712345678910 |
+| gender      | string | F               |
+| birthday    | string | 1990-01-15      |
 
 ### dim_car_info
 
@@ -78,9 +78,9 @@ A relative static stream with all registered cars
 
 | Column           | Comment                                                   | Type   | Sample Value |
 | ---------------- | --------------------------------------------------------- | ------ | ------------ |
-| cid              | car ID                                                    | String | c00001       |
-| license_plate_no |                                                           | String | KM235L       |
-| in_service       | False if the car is suspended (retried or in maintenance) | Bool   | True         |
+| cid              | car ID                                                    | string | c00001       |
+| license_plate_no |                                                           | string | KM235L       |
+| in_service       | False if the car is suspended (retried or in maintenance) | bool   | True         |
 
 ### car_live_data
 
@@ -88,15 +88,15 @@ A data stream with latest data from car sensors. When the car engine is started,
 
 | Column      | Comment                                                      | Type     | Sample Value            |
 | ----------- | ------------------------------------------------------------ | -------- | ----------------------- |
-| time        | datetime of the sensor data                                  | DateTime | 2022-01-12 23:00:58.476 |
-| cid         | Car ID                                                       | String   | c00001                  |
-| longitude   | current position                                             | Float    | 40.75896                |
-| latitude    | current position                                             | Float    | -73.985195              |
-| gas_percent | percentage of gas level, 100 means full tank                 | Decimal  | 86.12                   |
-| speed_kmh   | current driving speed in KM/hour                             | Int      | 56                      |
-| total_km    | this car's total distance in km. Keep increasing after trips | Float    | 3536                    |
-| locked      | whether the car is locked                                    | Bool     | True                    |
-| in_use      | whether someone is using the car                             | Bool     | True                    |
+| time        | datetime of the sensor data                                  | datetime | 2022-01-12 23:00:58.476 |
+| cid         | Car ID                                                       | string   | c00001                  |
+| longitude   | current position                                             | float    | 40.75896                |
+| latitude    | current position                                             | float    | -73.985195              |
+| gas_percent | percentage of gas level, 100 means full tank                 | decimal  | 86.12                   |
+| speed_kmh   | current driving speed in KM/hour                             | int      | 56                      |
+| total_km    | this car's total distance in km. Keep increasing after trips | float    | 3536                    |
+| locked      | whether the car is locked                                    | bool     | True                    |
+| in_use      | whether someone is using the car                             | bool     | True                    |
 
 ### bookings
 
@@ -123,13 +123,13 @@ stateDiagram
 
 | Column       | Comment                                                     | Type     | Sample Value            |
 | ------------ | ----------------------------------------------------------- | -------- | ----------------------- |
-| time         | When the event happens                                      | DateTime | 2022-01-12 13:00:58.476 |
-| bid          | booking ID                                                  | String   | b00001                  |
-| booking_time | When the user books the car. Expire in 30min                | DateTime | 2022-01-12 13:30:58.476 |
-| uid          | User ID                                                     | String   | u00001                  |
-| cid          | Car ID                                                      | String   | c00001                  |
-| action       | One of the values: add, cancel, extend, service, expire,end | String   | add                     |
-| expire       | When the booking will be expired                            | DateTime | 2022-01-12 13:30:58.476 |
+| time         | When the event happens                                      | datetime | 2022-01-12 13:00:58.476 |
+| bid          | booking ID                                                  | string   | b00001                  |
+| booking_time | When the user books the car. Expire in 30min                | datetime | 2022-01-12 13:30:58.476 |
+| uid          | User ID                                                     | string   | u00001                  |
+| cid          | Car ID                                                      | string   | c00001                  |
+| action       | One of the values: add, cancel, extend, service, expire,end | string   | add                     |
+| expire       | When the booking will be expired                            | datetime | 2022-01-12 13:30:58.476 |
 
 ### trips
 
@@ -137,16 +137,16 @@ A data stream with trip details and payment info. Each row is generated at the e
 
 | Column     | Comment                                   | Type     | Sample Value            |
 | ---------- | ----------------------------------------- | -------- | ----------------------- |
-| tid        | Trip ID                                   | String   | t00001                  |
-| start_time | When the trip starts                      | DateTime | 2022-01-12 13:00:58.476 |
-| end_time   | When the trip ends                        | DateTime | 2022-01-12 24:00:58.476 |
-| bid        | booking ID                                | String   | b00001                  |
-| start_lon  | Start location                            | Float    | 40.75896                |
-| start_lat  | Start location                            | Float    | -73.985195              |
-| end_lon    | End location                              | Float    | 42.75896                |
-| end_lat    | End location                              | Float    | -71.985195              |
-| distance   | distance drove in km                      | Float    | 23.2                    |
-| amount     | how much the user should pay for the trip | Decimal  | 40.75                   |
+| tid        | Trip ID                                   | string   | t00001                  |
+| start_time | When the trip starts                      | datetime | 2022-01-12 13:00:58.476 |
+| end_time   | When the trip ends                        | datetime | 2022-01-12 24:00:58.476 |
+| bid        | booking ID                                | string   | b00001                  |
+| start_lon  | Start location                            | float    | 40.75896                |
+| start_lat  | Start location                            | float    | -73.985195              |
+| end_lon    | End location                              | float    | 42.75896                |
+| end_lat    | End location                              | float    | -71.985195              |
+| distance   | distance drove in km                      | float    | 23.2                    |
+| amount     | how much the user should pay for the trip | decimal  | 40.75                   |
 
 The following sections show how to query Timeplus to understand the business.
 
