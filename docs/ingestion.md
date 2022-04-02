@@ -11,11 +11,14 @@ As of today, Kafka is the primary data source (and sink) for Timeplus. By the st
 #### Confluent Cloud
 
 1. Click the **Add Data** from the navigation menu. Then click **Kafka** and click the **Start** button
-2. Specify the name of the Kafka topic. Currently we only support JSON format for the messages. AVRO/Protobuf will be supported shortly.
-3. Specify the broker(s) URL, such as `pkc-abc12.us-west-2.aws.confluent.cloud:9092`
-4. Specify a name for this data source, and optionally provide a readable description.
+2. Specify a name for this data source, and optionally provide a readable description.
+2. Choose Confluent Cloud for the deployment type of the Kafka.
+2. Specify the broker(s) URL, such as `pkc-abc12.us-west-2.aws.confluent.cloud:9092`
+4. Specify the name of the Kafka topic. 
+4. When you select Confluent Cloud, the **SASL Plain** is automatically selected. Type in the API Key and Secret Key for your cluster.
+4. For Data Format, we currently support JSON, AVRO and Text format. If the data in the Kafka topic is in JSON format, but the schema may change over time, we recommend you to choose the Text format, so that the entire JSON document will be saved as a string, and you can apply JSON related functions to extract value, even the schema is changed. 
+4. If you choose AVRO, there is an option for 'Auto Extraction'. By default it's turned off, meaning the entire message will be saved as a string. If you turn it on, then the top level attribute in the AVRO message will be put into different columns. This would be more convenient for you to query, but won't support schema evolution.  When AVRO is selected, you also need to specify the address, API key, and secret key for the schema registry. 
 5. By default, the source can create a new stream in Timeplus. Please specify the new stream name. Alternatively, you can disable the stream creation and choose an existing stream from the list.
-6. Make sure you turn on the Advanced Configuration and choose **SASL Plain** in the Authentication Method. Type in the API Key and Secret Key for your cluster
 7. Click **Next** to preview the streaming data from the specified Kafka source and choose a column as the event time. 
 8. Finish the rest of the wizard and your streaming data will be available in the new stream immediately. 
 
