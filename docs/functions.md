@@ -89,6 +89,10 @@ You can easily access any element in the map, just using mapName[keyName], such 
 
 Create a map with a series of key and value. For example `select map('key1','a','key2','b') as m, m['key1']`
 
+### map_cast
+
+`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` For example `map_cast(['k1','k2'],[91,95])` will get `{'k1':91,'k2':95} `
+
 ## Process Date and Time
 
 ### year
@@ -284,6 +288,14 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 `split_by_string(sep,string)`  For example `split_by_string('b','abcbxby')`will get an array with string `['a','c','x','y']`
 
+### match
+
+`match(string,pattern)` determine whether the string matches the given regular expression. For example, to check whether the text contains a sensitive AWS ARN, you can run `match(text,'arn:aws:kms:us-east-1:\d{12}:key/.{36}')`
+
+### multi_search_any
+
+`multi_search_any(text, array)` determine whether the text contains any of string from the given array. For example, to check whether the text contains any sensitive keywords, you can run `multi_search_any(text,['password','token','secret'])`
+
 ### replace_one
 
 `replace_one(string,pattern,replacement)`
@@ -326,6 +338,10 @@ select extract(value, 'key1=(\\w+)') as key1,
 `if(condition,yesValue,noValue)`
 
 For example `if(1=2,'a','b')` will get `b`
+
+### multi_if
+
+`multi_if(condition1, then1, condition2, then2.. ,else)` An easier way to write if/self or case/when
 
 ## Aggregation
 
@@ -371,15 +387,23 @@ Calculate median of a numeric data sample.
 
 ### top_k
 
-`top_k(<column_name>,N)`: Top frequent N items in column_name. Return an array
+`top_k(<column_name>,K [true/false])`: Top frequent K items in column_name. Return an array.
+
+e.g. `top_k(cid, 3)` may get `['c01','c02','c03']` if these 3 ids appear most frequently in the aggregation window.
+
+If you want to get the event count, you can add the 3rd parameter, e.g. `top_k(cid, 3, true)` may get `[('c01',10),('c02',7),('c03',5)]` 
 
 ### min_k
 
-`min_k(<column_name>,N)`: The least N items in column_name. Return an array. You can also add a list of columns to get more context of the values in same row, such as `min_k(price,3,product_id,last_updated)`  This will return an array with each element as a tuple, such as `[(5.12,'c42664'),(5.12,'c42664'),(15.36,'c84068')]`
+`min_k(<column_name>,K)`: The least K items in column_name. Return an array. You can also add a list of columns to get more context of the values in same row, such as `min_k(price,3,product_id,last_updated)`  This will return an array with each element as a tuple, such as `[(5.12,'c42664'),(5.12,'c42664'),(15.36,'c84068')]`
 
 ### max_k
 
-`max_k(<column_name>,N)`: The greatest N items in column_name. You can also add a list of columns to get more context of the values in same row, such as `max_k(price,3,product_id,last_updated)` 
+`max_k(<column_name>,K)`: The greatest K items in column_name. You can also add a list of columns to get more context of the values in same row, such as `max_k(price,3,product_id,last_updated)` 
+
+### group_array
+
+`group_array(<column_name>)` to combine the values of the specific column as an array. For example, if there are 3 rows and the values for this columns are "a","b","c". This function will generate a single row and single column with value `['a','b','c']`
 
 
 
@@ -416,6 +440,10 @@ Create dynamic windows based on the activities in the data stream. You need spec
 ### lag
 
 `lag(<column_name> [, <offset=1>[, <default_value>])`: Work for both streaming query and historical query. If you omit the `offset` the last row will be compared.
+
+### latest
+
+`latest(<column_name>)` get the latest value for specific column, working with streaming aggregation with group by.
 
 ### now
 
