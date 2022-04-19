@@ -91,7 +91,9 @@ Create a map with a series of key and value. For example `select map('key1','a',
 
 ### map_cast
 
-`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` For example `map_cast(['k1','k2'],[91,95])` will get `{'k1':91,'k2':95} `
+`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` (these 2 arraies should be with same size). For example `map_cast(['k1','k2'],[91,95])` will get `{'k1':91,'k2':95} ` 
+
+Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
 ## Process Date and Time
 
@@ -387,19 +389,19 @@ Calculate median of a numeric data sample.
 
 ### top_k
 
-`top_k(<column_name>,K [true/false])`: Top frequent K items in column_name. Return an array.
+`top_k(<column_name>,K [,true/false])`: Top frequent K items in column_name. Return an array.
 
-e.g. `top_k(cid, 3)` may get `['c01','c02','c03']` if these 3 ids appear most frequently in the aggregation window.
+e.g. `top_k(cid, 3)` may get `[('c01',1200),('c02,800)',('c03',700)]` if these 3 ids appear most frequently in the aggregation window.
 
-If you want to get the event count, you can add the 3rd parameter, e.g. `top_k(cid, 3, true)` may get `[('c01',10),('c02',7),('c03',5)]` 
+If you don't need the event count, you can set false for the 3rd parameter, e.g. `top_k(cid, 3, false)` may get `['c01','c02','c03']` 
 
 ### min_k
 
-`min_k(<column_name>,K)`: The least K items in column_name. Return an array. You can also add a list of columns to get more context of the values in same row, such as `min_k(price,3,product_id,last_updated)`  This will return an array with each element as a tuple, such as `[(5.12,'c42664'),(5.12,'c42664'),(15.36,'c84068')]`
+`min_k(<column_name>,K [,context_column])`: The least K items in column_name. Return an array. You can also add a list of columns to get more context of the values in same row, such as `min_k(price,3,product_id,last_updated)`  This will return an array with each element as a tuple, such as `[(5.12,'c42664'),(5.12,'c42664'),(15.36,'c84068')]`
 
 ### max_k
 
-`max_k(<column_name>,K)`: The greatest K items in column_name. You can also add a list of columns to get more context of the values in same row, such as `max_k(price,3,product_id,last_updated)` 
+`max_k(<column_name>,K[,context_column])`: The greatest K items in column_name. You can also add a list of columns to get more context of the values in same row, such as `max_k(price,3,product_id,last_updated)` 
 
 ### group_array
 
@@ -444,6 +446,10 @@ Create dynamic windows based on the activities in the data stream. You need spec
 ### latest
 
 `latest(<column_name>)` get the latest value for specific column, working with streaming aggregation with group by.
+
+### earliest
+
+`earliest(<column_name>)` get the earliest value for specific column, working with streaming aggregation with group by.
 
 ### now
 
