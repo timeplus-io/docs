@@ -36,5 +36,7 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
 
 * Improved the API token UI
 * Experimental [session](functions#session) window for streaming processing. Many new use cases will be unlocked.
-* Enhanced the [top_k](functions#top_k) function to add an optional parameter to show event counts.
+* Enhanced the [top_k](functions#top_k) function to show event counts by default
+* Added new functions for array and map: [map_cast](functions#map_cast) , [group_array](functions#group_array)
+* Added new streaming functions [earliest](functions#earliest) and [latest](functions#latest) and to show the first or last event in the streaming window.
 
