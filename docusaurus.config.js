@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Timeplus',
   tagline: 'Fast + Powerful Real-time Analytics Made Intuitive',
-  url: 'https://docs.timeplus.io/',
+  url: 'https://docs.timeplus.com/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
