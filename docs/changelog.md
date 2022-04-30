@@ -40,3 +40,22 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
 * Added new functions for array and map: [map_cast](functions#map_cast) , [group_array](functions#group_array)
 * Added new streaming functions [earliest](functions#earliest) and [latest](functions#latest) and to show the first or last event in the streaming window.
 
+### Week of 4/25
+
+* Published the Python SDK to https://pypi.org/project/timeplus/
+* Streaming engine
+  * Able to rename streams
+  * (Experimental) Added `ORDER BY` support for streaming queries with aggregations
+  * (Experimental) Added `EMIT TIMEOUT 5s` for streaming queries so that the window will be closed even there is no more event to progress the watermark
+  * (Experimental) Added `emit_verison()` to show an unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
+* Source and sink
+  * 10x throughput enhancement for the Kafka source
+  * (Experimental) a [datapm](https://datapm.io/) sink to ingest batch/streaming data to Timeplus
+* UI improvements
+  * Add a way to pause the live table and show the long text or JSON document as a popover
+  * Able to resize the query editor
+  * Show the event time in the local timezone
+  * The Format SQL in web UI now calls the backend API, instead of pure frontend SQL format
+  * (Experimental) Refined the streaming dashboard layout and editing
+  * (Experimental) Better show late events in the streaming charts
+

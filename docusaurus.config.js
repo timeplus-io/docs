@@ -60,22 +60,33 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'usecases',
+            docId: 'index',
             position: 'left',
-            label: 'Demo Scenario',
+            label: 'Home',
           },
           {
             type: 'doc',
-            docId: 'query-guide',
+            docId: 'getting-started',
             position: 'left',
-            label: 'Query Guide',
+            label: 'Get Started',
           },
-          /*
+          {
+            type: 'doc',
+            docId: 'functions',
+            position: 'left',
+            label: 'Functions',
+          },
+          {
+            type: 'doc',
+            docId: 'changelog',
+            position: 'left',
+            label: "What's New",
+          },
           {
             href: 'https://github.com/timeplus-io/',
             label: 'GitHub',
             position: 'right',
-          },*/
+          },
         ],
       },
       footer: {
