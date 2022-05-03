@@ -10,7 +10,8 @@ const config = {
   tagline: 'Fast + Powerful Real-time Analytics Made Intuitive',
   url: 'https://docs.timeplus.com/',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 
+  'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'timeplus-io', // Usually your GitHub org/user name.
@@ -41,7 +42,8 @@ const config = {
   ],
 
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    /** @type 
+     * {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       hideableSidebar: true,
       autoCollapseSidebarCategories: true,
@@ -81,6 +83,11 @@ const config = {
             docId: 'changelog',
             position: 'left',
             label: "What's New",
+          },
+          {
+            href: 'https://docs.timeplus.com/rest.html',
+            position: 'left',
+            label: 'REST API',
           },
           {
             href: 'https://github.com/timeplus-io/',
