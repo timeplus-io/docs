@@ -390,10 +390,10 @@ Streaming to dimension table join has some limitations
    1. `stream` INNER JOIN `single or multiple dimension tables`
    2. `stream` LEFT [OUTER] JOIN `single or multiple dimension tables`
 
-### Streaming and Streaming Table Join
+### Stream to Stream  Join
 
-:::danger
+:::info
 
-Under construction
+We are still testing this feature and will make it available in the beta shortly.
 
 :::
