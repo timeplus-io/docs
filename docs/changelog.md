@@ -47,7 +47,7 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
   * Able to rename streams
   * (Experimental) Added `ORDER BY` support for streaming queries with aggregations
   * (Experimental) Added `EMIT TIMEOUT 5s` for streaming queries so that the window will be closed even there is no more event to progress the watermark
-  * (Experimental) Added `emit_verison()` to show an unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
+  * (Experimental) Added  [emit_verison()](functions#emit_version) to show an unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
 * Source and sink
   * 10x throughput enhancement for the Kafka source
   * (Experimental) a [datapm](https://datapm.io/) sink to ingest batch/streaming data to Timeplus
@@ -58,4 +58,17 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
   * The Format SQL in web UI now calls the backend API, instead of pure frontend SQL format
   * (Experimental) Refined the streaming dashboard layout and editing
   * (Experimental) Better show late events in the streaming charts
+
+### Week of 5/2
+
+* Published Python SDK 0.1.1 with token auto-refresh
+* Published the REST API Doc at https://docs.timeplus.com/rest 
+* Streaming engine
+  * (Experimental) added a new [xirr](functions#xirr) function to calculate the internal rate of return of an investment based on a specified series of potentially irregularly spaced cash flows.
+* UI improvements
+  * Resume the queries on dashboards after server restart
+  * Better SQL auto-complete, with function description, usage and examples
+  * Show the SQL with syntax highlighting in the views and sinks pages
+  * Persist the state for each query tab
+  * (Experimental) make sinks editable
 

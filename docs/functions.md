@@ -409,6 +409,14 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 
 
+## Financial
+
+### xirr
+
+Calculates the internal rate of return of an investment based on a specified series of potentially irregularly spaced cash flows.
+
+`xirr(cashflow_column,date_column [, rate_guess])`
+
 ## Streaming processing
 
 ### table
@@ -464,4 +472,10 @@ If the now() is used in a streaming query, no matter `SELECT` or `WHERE` or `tum
 Similar to `now()` but with extra millisecond information, such as 2022-01-28 05:08:22.680
 
 It can be also used in streaming query to show latest datetime with millisecond.
+
+### emit_version
+
+`emit_version()` to show an auto-increasing number for each emit of streaming query result. It only works with streaming aggregation, not tail or filter. 
+
+For example, if you run `select emit_version(),count(*) from car_live_data` the query will emit results every 2 seconds and the first result will be with emit_version=0, the second result with emit_version=1. This function is particularly helpful when there are multiple rows in each emit result. For example, you can run a tumble window aggregation with a group by. All results from the same aggregation window will be in the same emit_version. You can then show a chart with all rows in the same aggregation window.
 
