@@ -447,6 +447,14 @@ Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` w
 
 Create dynamic windows based on the activities in the data stream. You need specify at least one `keyByCol`. If Timeplus keeps getting new events for the specific id within the `idle` time, those events will be included in the same session window. By default, the max length of the session window is 5 times of the idle time. For example, if the car keeps sending data when it's moving and stops sending data when it's parked or waiting for the traffic light, `session(car_live_data, 1m, cid)` will create session windows for each car with 1 minute idle time. Meaning if the car is not moved within one minute, the window will be closed and a new session window will be created for future events. If the car keeps moving for more than 5 minutes, different windows will be created (every 5 minutes), so that as analysts, you can get near real-time results, without waiting too long for the car to be stopped.
 
+### dedup
+
+`dedup(stream, column1 [,otherColumns..] [,limit])`
+
+Apply the deduplication at the given data stream with the specified column(s). The last parameter `limit` is optional which is `100000` by default. It limits the max unique keys maintained in the query engine. If the limit reaches, the system will recycle the earliest keys to maintain this limit.
+
+You can cascade this table function like `tumble(dedup(table(....` and so far the wrapping order must in this sequence : tumble/hop/session -> dedup -> table.
+
 ### lag
 
 `lag(<column_name> [, <offset=1>[, <default_value>])`: Work for both streaming query and historical query. If you omit the `offset` the last row will be compared.

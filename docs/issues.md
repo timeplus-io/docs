@@ -10,3 +10,4 @@ We are currently in early beta. Please be aware of the following known issues an
 ## Backend
 
 * By default data are only kept for 1 week, or up to 10 million events.
+* `create view` doesn't support `json` type columns. When creating views from tables with `json` type columns, the `json` column cannot be selected as an entire column. Need to select the leaf node of the JSON document in the view definition.
