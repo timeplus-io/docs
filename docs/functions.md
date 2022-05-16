@@ -10,6 +10,8 @@ The following functions are supported in the SQL-like Timeplus query language. P
 
 For example `to_time('1/2/22')` or `to_time('1/2/22','America/New_York')`
 
+For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+
 ### to_int
 
 `to_int(string)` Convert it to an integer. 
@@ -181,6 +183,27 @@ Get a number.
 `to_YYYYMMDDhhmmss(date)`
 
 Get a number.
+
+### to_timezone
+
+`to_timezone(datetime_in_a_timezone,target_timezone)` Convert the datetime from one timezone to the other.
+
+For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+
+For example, 
+
+```sql
+SELECT
+  to_time('2022-05-16', 'America/New_York') AS t1, to_timezone(t1, 'UTC') AS t2
+```
+
+Output: 
+
+| t1                      | t2                      |
+| ----------------------- | ----------------------- |
+| 2022-05-16 00:00:00.000 | 2022-05-16 04:00:00.000 |
+
+
 
 ### format_datetime
 
