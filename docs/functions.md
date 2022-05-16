@@ -98,10 +98,6 @@ For example `select array_join([10,20]) as v, 'text' as t` will get 2 rows
 
 You can easily access any element in the map, just using mapName[keyName], such as `kv['key1']` 
 
-### map
-
-Create a map with a series of key and value. For example `select map('key1','a','key2','b') as m, m['key1']`
-
 ### map_cast
 
 `map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` (these 2 arrays should be with same size). For example `map_cast(['k1','k2'],[91,95])` will get `{'k1':91,'k2':95} ` 

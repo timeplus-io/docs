@@ -21,6 +21,6 @@ During our beta, we're supporting a limited number of field types. If there's a 
 |                     | datetime   | '2022-05-16 11:01:02'         | with second                                                  | [to_time](functions#to_time), [now](functions#now)           |
 |                     | datetime64 | '2022-05-16 11:01:02.345'     | with millisecond, same as datetime64(3)                      | [to_time](functions#to_time), [now64](functions#now64)       |
 | Compound Types      | array      | [1,2]                         | access 1st element via array[1]                              | [length](functions#length), [array_concat](functions#array_concat) |
-|                     | map        | map_cast('k1','v1','k2','v2') | access key1 via map['key1']                                  |                                                              |
+|                     | map        | map_cast('k1','v1','k2','v2') | access key1 via map['key1']                                  | [map_cast](functions#map_cast)                               |
 |                     | tuple      | (1,2)                         | access 1st element via tuple.1                               |                                                              |
 
