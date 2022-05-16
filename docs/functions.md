@@ -81,6 +81,17 @@ The first element's index is 1, instead of 0.
 
 For example `array_string_concat([1,2,3],'-')` to get a string `1-2-3`
 
+### array_join
+
+`array_join(an_array)` This is a special function. `group_array(col)` to group the column value from multiple rows to a single value in a row. `array_join` does the opposite: it can convert one row with an array value to multiple rows.
+
+For example `select array_join([10,20]) as v, 'text' as t` will get 2 rows
+
+| v    | t    |
+| ---- | ---- |
+| 10   | text |
+| 20   | text |
+
 ### map\[key\] {#map-key}
 
 You can easily access any element in the map, just using mapName[keyName], such as `kv['key1']` 
@@ -457,7 +468,9 @@ You can cascade this table function like `tumble(dedup(table(....` and so far th
 
 ### lag
 
-`lag(<column_name> [, <offset=1>[, <default_value>])`: Work for both streaming query and historical query. If you omit the `offset` the last row will be compared.
+`lag(<column_name> [, <offset=1>][, <default_value>])`: Work for both streaming query and historical query. If you omit the `offset` the last row will be compared. E.g.
+
+`lag(total)` to get the value of `total` from the last row. `lag(total, 12)` to get the value from 12 rows ago. `lag(total, 12, 0)` to use 0 as the default value if the specified row is not available.
 
 ### latest
 

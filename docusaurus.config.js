@@ -45,8 +45,12 @@ const config = {
     /** @type 
      * {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      hideableSidebar: true,
-      autoCollapseSidebarCategories: true,
+      docs:{
+        sidebar:{
+          hideable: true,
+          autoCollapseCategories: true,
+        }
+      },
       tableOfContents: {
         minHeadingLevel: 2,
         maxHeadingLevel: 6,
