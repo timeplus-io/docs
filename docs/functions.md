@@ -6,7 +6,7 @@ The following functions are supported in the SQL-like Timeplus query language. P
 
 ### to_time
 
-`to_time(time_string [, default_time_zone] [,defaultValue])` to convert the string to a DateTime64 value
+`to_time(time_string [, default_time_zone] [,defaultValue])` to convert the string to a datetime64 value
 
 For example `to_time('1/2/22')` or `to_time('1/2/22','America/New_York')`
 
@@ -104,7 +104,7 @@ Create a map with a series of key and value. For example `select map('key1','a',
 
 ### map_cast
 
-`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` (these 2 arraies should be with same size). For example `map_cast(['k1','k2'],[91,95])` will get `{'k1':91,'k2':95} ` 
+`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` (these 2 arrays should be with same size). For example `map_cast(['k1','k2'],[91,95])` will get `{'k1':91,'k2':95} ` 
 
 Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
@@ -250,14 +250,14 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 It supports both `date_add(unit, value, date)` and a shortcut solution `data_add(date,timeExpression)`
 
-*  `date_add(HOUR, 2, now())` will get a new DateTime in 2 hours, while `date_add(HOUR, -2, now())` will get a new DateTime 2 hours back.
+*  `date_add(HOUR, 2, now())` will get a new datetime in 2 hours, while `date_add(HOUR, -2, now())` will get a new datetime 2 hours back.
 * `date_add(now(),2h)` and `date_add(now(),-2h)` also work
 
 ### date_sub
 
 It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub(date,timeExpression)`
 
-*  `date_sub(HOUR, 2, now())` will get a new DateTime 2 hours back
+*  `date_sub(HOUR, 2, now())` will get a new datetime 2 hours back
 * `date_sub(now(),2h)`  also work
 
 ## Process JSON
