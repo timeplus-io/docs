@@ -4,6 +4,19 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 5/16
+
+* Streaming engine
+  * (Experimental) greatly simplified how to query JSON documents. Now you can use `json_doc:json_path` as a shortcut to extract value in the JSON document. For example `select '{"c":"hello"}' as j, j:c`, you will get "hello" as the value. In the past, you have to call `json_extract_string(j,'c')` Nested structures are support too, such as `select '{"a":{"b":1}}' as j, j:a.b` will get `1` as a string value. To convert to int, you can use `::` as the shortcut, e.g. `select '{"a":{"b":1}}' as j, j:a.b::int`
+  * Added a function [is_valid_json](functions#is_valid_json) to check whether the specific string is a valid JSON document, e.g. `select j:a where is_valid_json(j)`
+  * Added `varchar` as an alias for `string` data type. This could improve the compatibility with other SQL tools.
+* Source and sink
+  * Enhanced the authentication for Kafka/Redpanda source: added new SASL mechanisms: scram-sha-256 and scram-sha-512, added config to disable TLS, added config to skip verifying server when TLS is enabled, fixed a bug that the source will hang if authentication fails.
+  * Enhanced the [REST API](https://docs.timeplus.com/rest.html) to specify the timezone for event timestamps in the raw event.
+* UI improvements
+  * Refresh stream list after creating streams or views.
+  * Show the source configuration JSON in a better tree view.
+
 ### Week of 5/9
 
 * Streaming engine

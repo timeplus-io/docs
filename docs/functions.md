@@ -278,6 +278,10 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 `json_extract_array(json, key)`to get the array value from the specified JSON document and key. For example ` json_extract_array('{"a": "hello", "b": [-100, 200.0, "hello"]}', 'b')` will get the array value `['-100','200','"hello"'] `
 
+### is_valid_json
+
+`is_valid_json(str)` to check whether the given string is a valid JSON or not. Return true(1) or false(0)
+
 ### json_has
 
 `json_has(json, key)` to check whether specified key exists in the JSON document. For example `json_has('{"a":10,"b":20}','c')`returns 0(false).

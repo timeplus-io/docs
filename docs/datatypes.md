@@ -12,11 +12,11 @@ During our beta, we're supporting a limited number of field types. If there's a 
 
 | Category            | Type       | Example                       | Note                                                         | Related functions                                            |
 | ------------------- | ---------- | ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Numeric Types       | integer    | -100                          | default with 4 bytes. You can also use int, smallint, bigint, or event uint16 etc. | [to_int](functions#to_int)                                   |
+| Numeric Types       | integer    | -100                          | default with 4 bytes. You can also use `int`, `smallint`, `bigint`, or event `uint16` etc. | [to_int](functions#to_int)                                   |
 |                     | decimal    | 3.14                          | decimal(precision, scale). Valid range for precision is [1: 76], valid range for scale is [0: precision] | [to_decimal](functions#to_decimal)                           |
-|                     | float      | -3.1415                       | default with 4 bytes. You can also use float64 or double for 8 bytes | [to_float](functions#to_float)                               |
+|                     | float      | -3.1415                       | default with 4 bytes. You can also use `float64` or `double` for 8 bytes | [to_float](functions#to_float)                               |
 | Boolean Type        | bool       | true                          | true or false                                                |                                                              |
-| String Type         | string     | "Hello"                       | strings of an arbitrary length. Also support `fixed_string(positiveInt)` to set size in bytes | [to_string](functions#to_string), [etc.](functions#process-text) |
+| String Type         | string     | "Hello"                       | strings of an arbitrary length. You can also use `varchar` To create string columns with fixed size in bytes, use `fixed_string(positiveInt)` | [to_string](functions#to_string), [etc.](functions#process-text) |
 | Date and Time Types | date       | '2022-05-16'                  | without time                                                 | [to_date](functions#to_date), [today](functions#today)       |
 |                     | datetime   | '2022-05-16 11:01:02'         | with second                                                  | [to_time](functions#to_time), [now](functions#now)           |
 |                     | datetime64 | '2022-05-16 11:01:02.345'     | with millisecond, same as datetime64(3)                      | [to_time](functions#to_time), [now64](functions#now64)       |
