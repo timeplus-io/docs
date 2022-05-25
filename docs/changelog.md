@@ -4,6 +4,14 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 5/23
+
+* Streaming engine
+  * (Experimental) new UI and API to create and query [external streams](working-with-streams#external_stream). You can query real-time data in Confluent Cloud, Apache Kafaka or Redpanda immediately, without loading the data into Timeplus.
+* Source and sink
+  * Enhanced the [datapm](https://datapm.io/docs/quick-start/) Timeplus sink to support loading JSON data from PostgreSQL.
+* UI improvements
+
 ### Week of 5/16
 
 * Streaming engine

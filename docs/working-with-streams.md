@@ -23,3 +23,39 @@ If you only want to analyze the existing data and need an immediate response, yo
 ## Delete a stream
 
 From the web console, you can delete the stream. This will permanently delete all data in the stream and delete the stream itself. Data cannot be recovered after deletion.
+
+
+
+## External Streams (New) {#external_stream}
+
+You can also create **external streams** in Timeplus to query data in the external systems without loading the data into Timeplus. The main benefit for doing so is to keep a single source of truth in the external systems (e.g. Kafka), without duplicating them. You can run streaming analytics with the external streams in the similar way as other streams, with some limitations. 
+
+### supported external systems
+
+The supported external systems are:
+
+* Open source Apache Kafka or Redpanda, without authentication. 
+* Confluent Cloud with SASL Plain authentication.
+
+The topics should contain messages in plain-text or JSON format.
+
+### create an external stream
+
+To create an external stream, go to the **STREAMS** page, then click the button on the right side and change it to **Create an external stream**. Set the stream name, Kafka broker(s) and topic name. Choose the right authentication method and click **Create**.
+
+### query external streams
+
+To query the data in the external systems, run the streaming SQL in the similar way for normal streams, e.g. `SELECT count(*) FROM my_external_stream` You can also create [views](view) or [materialized views](view#materialized-view) based on external streams.
+
+### limitations
+
+Limitations for the Kafka-based external streams:
+
+1. Authentication is either None or SASL Plain. SASL Scram 256 or 512 is not supported yet.
+2. Data format in JSON or TEXT format. AVRO or schema registry service is not supported yet. The entire message will be put in a `raw` string column.
+3. Unlike Kafka source, you cannot preview the data and choose an attribute as the event time column. Instead, the index time will be created as the event time by default. You can overwrite this in the query, such as `tumble(ext_stream,to_time(raw:order_time),1m)`
+4. Unlike normal streams, there is no historical store for the external streams. Hence you cannot run `table(my_ext_stream)`or `settings query_mode='table'` To access data even before you create the external stream, you can use `settings seek_to='earliest'` or `seek_to` a specific timestamp in the past.
+5. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Kafka/Confluent/Redpanda. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
+
+
+
