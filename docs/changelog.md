@@ -7,10 +7,15 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
 ### Week of 5/23
 
 * Streaming engine
-  * (Experimental) new UI and API to create and query [external streams](working-with-streams#external_stream). You can query real-time data in Confluent Cloud, Apache Kafaka or Redpanda immediately, without loading the data into Timeplus.
+  * (Experimental) new UI and API to create and query [external streams](working-with-streams#external_stream). You can query real-time data in Confluent Cloud, Apache Kafka or Redpanda immediately, without loading the data into Timeplus.
+  * (Experimental) [stream-to-stream join](query-syntax#stream_stream_join) is ready to test for beta customers, e.g. `SELECT .. FROM stream1 INNER JOIN stream2 ON stream1.id=stream2.id AND date_diff_within(10s)`
+  * New function [date_diff_within](functions#date_diff_within) to determine whether 2 datetime are within the specified range. This is necessary for stream to stream join. You can also use more flexible expressions like `date_diff('second',left.time,right.time) between -3 and 5`
 * Source and sink
   * Enhanced the [datapm](https://datapm.io/docs/quick-start/) Timeplus sink to support loading JSON data from PostgreSQL.
+  * When you are previewing data from Kafka, you can choose the timezone if the timezone is not included in the raw data.
 * UI improvements
+  * Able to edit the panel titles on dashboards.
+  * Improve UI consistency.
 
 ### Week of 5/16
 

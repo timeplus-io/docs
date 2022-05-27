@@ -365,7 +365,7 @@ FROM
 ) AS avg_5_second;
 ```
 
-### Streaming and Dimension Table Join
+### Streaming and Dimension Table Join{#stream_table_join}
 
 In Timeplus, all data live in streams and the default query mode is streaming. Streaming mode focus on latest real-time tail data which is suitable for streaming processing. On the other hand, historical focuses old indexed data in the past and optimized for big batch processing like terabytes large scan. Streaming is the by default mode when a query is running against it. To query the historical data of a stream, `table()` function can be used.
 
@@ -390,10 +390,29 @@ Streaming to dimension table join has some limitations
    1. `stream` INNER JOIN `single or multiple dimension tables`
    2. `stream` LEFT [OUTER] JOIN `single or multiple dimension tables`
 
-### Stream to Stream  Join
+### Stream to Stream  Join {#stream_stream_join}
 
 :::info
 
-We are still testing this feature and will make it available in the beta shortly.
+This experimental feature is recently introduced in the beta program. Please share your feedbacks in the community slack.
 
 :::
+
+In some cases, the real-time data flow to multiple data streams. For example, when the ads are presented to the end users, and when the users click the ads. Timeplus allows you to do correlated searches for multiple data streams, for example, you can check the average time when the user clicks the ad after it is presented.
+
+```sql
+SELECT .. FROM stream1
+INNER JOIN stream2
+ON stream1.id=stream2.id AND data_diff_with(1m)
+WHERE ..
+```
+
+You can also join a stream to itself. A typical use case is to check whether there is a certain pattern for the data in the same stream, for example, whether for the same credit card, within 2 minutes, there is a big purchase after a small purchase. This could be a pattern for fraud.
+
+```sql
+SELECT .. FROM stream1
+INNER JOIN stream1 AS stream2
+ON stream1.id=stream2.id AND data_diff_with(1m)
+WHERE ..
+```
+

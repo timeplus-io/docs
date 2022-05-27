@@ -228,7 +228,11 @@ Format the datetime as a string. The 3rd argument is optional. The following pla
 
 Calculate the difference between `begin` and `end` and produce a number in `unit`. For example `date_diff('second',window_start,window_end)`
 
+### date_diff_within
 
+`date_diff_within(timegap,time1, time2)`
+
+Return true or false. Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
 
 ### date_trunc
 
