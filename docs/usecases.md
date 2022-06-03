@@ -474,33 +474,25 @@ SELECT * FROM trips_vancouver
 UNION
 SELECT * FROM trips_victoria
 ```
-<!-- 
 
-### :no_entry_sign:S-JOIN-STREAMS: Querying multiple data streams in the same time {#s-join-streams}
+
+### S-JOIN-STREAMS: Querying multiple data streams in the same time {#s-join-streams}
 
 **Use Case:** Data keeps changing, and each type of changing data is a stream. It's a common requirement to query multiple kinds of data in the same time to enrich the data, get more context and understand their correlation.
 
 For example, we want to understand how many minutes by average between the user books the car and start the trip. The booking information in [bookings](#bookings) stream and [trips](#trips) stream contains the trip start time and end time
 
 ```sql
-select avg(dateDiff('second',bookings.time,trips.end_time))
-from bookings join trips on bookings.bid = trips.bid
-emit periodic 1h
+SELECT avg(gap) FROM
+( SELECT
+    date_diff('second', bookings.booking_time, trips.start_time) AS gap
+  FROM bookings
+  INNER JOIN trips ON (bookings.bid = trips.bid) 
+     AND date_diff_within(2m, bookings.booking_time, trips.start_time)
+) SETTINGS seek_to='-1d'
 ```
 
-[Try in playground](https://play.timeplus.com/playground/s-join-streams)
 
-Every hour, this query will show the average time for users to book and unlock the car. We set it as 1 hour, since normally the user need 10-20 minutes to walk to the car and unlock it. If we switch to other data sources, such as login activities and mobile app activities, we certainly can run streaming analysis in much smaller time window, say joining those 2 streams for each minute.
-
-
-
-:::danger
-
-streaming join WIP
-
-:::
-
--->
 
 ## Other streaming queries we can run for this demo set {#other-queries}
 

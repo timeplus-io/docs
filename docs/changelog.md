@@ -4,6 +4,17 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 5/30
+
+* Streaming engine
+  * (Experimental) able to use the external Kakfa/Confluent/Redpanda as Timeplus stream storage.
+  * (Experimental) the [table](functions#table) function now works with [seek_to](query-syntax) You can query historical data by combining `table(streamName)` and `settings seek_to='..'`
+* Source and sink
+  * Worked with [datapm](https://datapm.io/docs/quick-start/) to send live Twitter data to https://demo.timeplus.com 
+  * Updated the [REST API doc](https://docs.timeplus.com/rest.html), the `/exec` endpoint has been removed. Send `POST` requests to `/queries` instead.
+* UI improvements
+  * Able to drag-n-drop to change the order of query tabs
+
 ### Week of 5/23
 
 * Streaming engine
