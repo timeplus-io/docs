@@ -232,7 +232,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `date_diff_within(timegap,time1, time2)`
 
-Return true or false. Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
+Return true or false.  This function only works in [stream-to-stream join](query-syntax#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
 
 ### date_trunc
 
@@ -505,6 +505,8 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 `cbrt(x)` returns a `float` number that is close to the cubic root of the argument `x`
 
+<!--
+
 ### lgamma
 
 `lgamma(x)` the logarithm of the gamma function
@@ -515,7 +517,7 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 `tgamma(x)`the gamma function
 
-
+-->
 
 ### sin
 

@@ -4,6 +4,18 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 6/6
+
+* Streaming engine
+  * More [math functions](functions#math) are exposed. This can help you to run SQL-based simple ML/prediction models.
+  * (Experimental) [stream-to-stream join](query-syntax#stream_stream_join) no longer requires a ` date_diff_within(..)`, although it's still recommended to add timestamp constrains to improve performance. 
+  * (Experimental) able to set a retention policy for each stream, either time-based (say only keep recent 7 days' data), or size based(say only keep recent 1GB data)
+* Source and sink
+  * (Experimental) support Personal Access Token (PAT) in the REST API, which is long-living (or set an expiration date) and per-user. Tenant-level access token will be deprecated. 
+* UI improvements
+  * After the sources or sinks are created, now you can edit them without having to delete and recreate them.
+  * Great performance improvement for live tables/charts.
+
 ### Week of 5/30
 
 * Streaming engine
