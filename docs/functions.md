@@ -565,6 +565,24 @@ For example `if(1=2,'a','b')` will get `b`
 
 Calculate median of a numeric data sample.
 
+
+
+### quantile
+
+`quantile(column,level)`Calculate an approximate quantile of a numeric data sequence. e.g. `quantile(a,0.9)`to get the P90 for the column and `quantile(a,0.5)` to get the [median](functions#median) number
+
+### p90
+
+short for `quantile(a,0.9)`
+
+### p95
+
+short for `quantile(a,0.95)`
+
+### p99
+
+short for `quantile(a,0.99)`
+
 ### top_k
 
 `top_k(<column_name>,K [,true/false])`: Top frequent K items in column_name. Return an array.
@@ -592,6 +610,10 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 
 ## Math
+
+### abs
+
+`abs(value)` returns the absolute value of the number. If the a<0, then return -a.
 
 ### e
 
