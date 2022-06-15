@@ -296,7 +296,11 @@ Unlike other `to_start_of_` functions, this function expects a datetime with mil
 
 ### to_date
 
-`to_date(string)` convert a date string to a datetime type, e.g. `to_date('1953-11-02')`
+`to_date(string)` convert a date string to a date type, e.g. `to_date('1953-11-02')`
+
+### to_datetime
+
+`to_datetime(value)` convert the value to a datetime type, e.g. `to_datetime(1655265661)` or `to_datetime(today())`
 
 ### today
 
