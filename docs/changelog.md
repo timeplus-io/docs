@@ -4,6 +4,17 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 6/13
+
+* Streaming engine
+  * Added new function [moving_sum](functions#moving_sum) to calculate the moving sum for a column. This unlocks more use cases stateful streaming processing, such as [streaming over](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py).
+  * Added other functions for [array processing](functions#arrays), such as [array_sum](functions#array_sum), [array_avg](functions#array_avg)
+* Source and sink
+  * Kafka source supports local schema registry without authentication 
+* UI improvements
+  * Added validation while creating streams. The stream name should start with a letter and the rest of the name only include number, letter or _
+  * Disable the Next button in the source wizard if the data is not previewed
+
 ### Week of 6/6
 
 * Streaming engine
