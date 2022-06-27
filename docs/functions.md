@@ -424,7 +424,7 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 ### json_extract_array
 
-`json_extract_array(json, key)`to get the array value from the specified JSON document and key. For example ` json_extract_array('{"a": "hello", "b": [-100, 200.0, "hello"]}', 'b')` will get the array value `['-100','200','"hello"'] `
+`json_extract_array(json, key)`to get the array value from the specified JSON document and key. For example ` json_extract_array('{"a": "hello", "b": [-100, 200.0, "hello"]}', 'b')` will get the array value `['-100','200','"hello"'] ` If the entire JSON document is an array, the 2nd parameter `key` can be omitted to turn the json string as an array, e.g. `json_extract_array(arrayString)`
 
 ### is_valid_json
 
@@ -514,6 +514,12 @@ select extract(value, 'key1=(\\w+)') as key1,
 ```
 
 
+
+### grok
+
+Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years ago.','My name is %{DATA:name}. I am %{INT:age} ago.') as m` will get `["name":"Jack","age":"23"]` as the `m`. 
+
+Please note all keys and values in the returned map is in string type. You can convert them to other type, e.g. `m['age']::int`
 
 ## Logic
 
@@ -802,6 +808,12 @@ You can cascade this table function like `tumble(dedup(table(....` and so far th
 `lag(<column_name> [, <offset=1>][, <default_value>])`: Work for both streaming query and historical query. If you omit the `offset` the last row will be compared. E.g.
 
 `lag(total)` to get the value of `total` from the last row. `lag(total, 12)` to get the value from 12 rows ago. `lag(total, 12, 0)` to use 0 as the default value if the specified row is not available.
+
+
+
+### lags
+
+`lags(<column_name>, begin_offset, end_offset [, <default_value>])` simliar to `lag` function but can get a list of value. e.g. `lags(total,1,3)` will return an array for the last 1, last 2 and last 3 values.
 
 ### latest
 

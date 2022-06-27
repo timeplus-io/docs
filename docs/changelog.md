@@ -4,6 +4,29 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 6/20
+
+* Streaming engine
+
+  * [Session window](functions#session) now supports millisecond for window_start/window_end.
+  * Added a new [lags](functions#lags) function to get a range of past results. This could help the pure-SQL based ML/predition.
+  * Added a new [grok](functions#grok) function to parse a line of text into key/value pairs, without having to write regular expression. 
+
+* Source and sink
+
+  * Updated [datapm](https://datapm.io/docs/quick-start/) to use personal API key instead of API token
+
+* UI improvements
+
+  * Refined the 'Create New Stream' dialog. Now you can specify the max age or size for the stream.
+  * You can click the user icon on the bottom-left corner and open the 'Personal Settings'. We will add more settings. You can create and manager personal API keys in this setting page. Tenant level access token UI will be removed soon.
+
+* API
+
+  * Updated the [REST API doc](https://docs.timeplus.com/rest.html), adding the experimental stream-level rentetion policies.
+
+  
+
 ### Week of 6/13
 
 * Streaming engine
