@@ -4,6 +4,26 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 6/27
+
+* Streaming engine
+
+  * At this point, [session window](functions#session) aggregation only supports streaming queries. Properly reject the query if the `session(..)` is used together with `table(..)` function.
+
+* Source, sink and API
+
+  * The tenant/workspace level access token has been removed in REST API and UI. Please create API keys per user.
+  * Greatly improved the type inference when you create a stream with the Kafka source. More accruate data type for primitive types. Added array/map support.
+
+* UI improvements
+
+  * Now you can register UDF(User-Defined-Function) in the Workspace menu (only available for workspace admin)
+  * Greatly improved the data type selector in the stream creation page
+  * Improved the display for columns in boolean and date types, and better display for null value
+  * Refined the look&feel for the navigation menu
+  * Improved the display of error messages
+
+
 ### Week of 6/20
 
 * Streaming engine
@@ -19,7 +39,7 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
 * UI improvements
 
   * Refined the 'Create New Stream' dialog. Now you can specify the max age or size for the stream.
-  * You can click the user icon on the bottom-left corner and open the 'Personal Settings'. We will add more settings. You can create and manager personal API keys in this setting page. Tenant level access token UI will be removed soon.
+  * You can click the user icon on the bottom-left corner and open the 'Personal Settings'. We will add more settings. You can create and manage personal API keys in this setting page. Tenant level access token UI will be removed soon.
 
 * API
 
