@@ -517,9 +517,9 @@ select extract(value, 'key1=(\\w+)') as key1,
 
 ### grok
 
-Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years ago.','My name is %{DATA:name}. I am %{INT:age} ago.') as m` will get `["name":"Jack","age":"23"]` as the `m`. 
+Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years ago.','My name is %{DATA:name}. I am %{INT:age} years ago.') as m` will get `{"name":"Jack","age":"23"}` as the `m`. 
 
-Please note all keys and values in the returned map is in string type. You can convert them to other type, e.g. `m['age']::int`
+Please note all keys and values in the returned map is in string type. You can convert them to other type, e.g. `(m['age'])::int`
 
 ## Logic
 
