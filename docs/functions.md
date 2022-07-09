@@ -12,6 +12,12 @@ For example `to_time('1/2/22')` or `to_time('1/2/22','America/New_York')`
 
 For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
+:::warning
+
+Due to a limitation of backend&frontend integration, only timestamp in `UTC` timezone could be properly displayed in the web UI. You will get "unknown time zone" error if you run queries like `to_time('1/2/22','America/New_York')` The workaround is to convert the timestamp to UTC timezone before displaying in the web UI, e.g. `to_timezone(to_time('1/2/22','America/New_York'),'UTC')` We are working on the fix.
+
+:::
+
 ### to_int
 
 `to_int(string)` Convert it to an integer. 

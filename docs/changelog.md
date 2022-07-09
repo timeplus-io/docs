@@ -4,6 +4,23 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 7/4
+
+* Streaming engine
+
+  * Enhanced the UDF(User-Defined-Function) to allow empty authentication headers
+
+* Source, sink, API and SDK
+
+  * Updated the [Python SDK](https://pypi.org/project/timeplus/) to enable the stream retention settings and to create/manage the views
+
+* UI improvements
+
+  * For streaming query results, we now show the percentages for categorical fields 
+  * A new visual editor for complex data type is available for new stream/source/function wizards
+  * We improved the UI for event time selector while previewing messages in Kafka source
+  * When you create a stream while defining a Kafka source, now you can define the retention policy (how the old data will be purged automatically)
+
 ### Week of 6/27
 
 * Streaming engine
