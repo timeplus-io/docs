@@ -10,13 +10,20 @@ The following functions are supported in the SQL-like Timeplus query language. P
 
 For example `to_time('1/2/22')` or `to_time('1/2/22','America/New_York')`
 
+Some of the common timezones are:
+
+* `UTC`: same as `GMT`(Greenwich Mean Time)
+* `EST`: US Eastern Time
+* `MST`: US Mountain Time
+* `PST8PDT`: US Pacific Time
+* `America/New_York`: same as `EST`
+* `America/Los_Angeles`: same as `PST8PDT`
+* `America/Vancouver`: same as `PST8PDT`
+* `Asia/Shanghai`: same as `PRC`
+
 For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
-:::warning
-
-Due to a limitation of backend&frontend integration, only timestamp in `UTC` timezone could be properly displayed in the web UI. You will get "unknown time zone" error if you run queries like `to_time('1/2/22','America/New_York')` The workaround is to convert the timestamp to UTC timezone before displaying in the web UI, e.g. `to_timezone(to_time('1/2/22','America/New_York'),'UTC')` We are working on the fix.
-
-:::
+You can also convert the time between timezones via [to_timezone](#to_timezone)
 
 ### to_int
 
@@ -334,7 +341,7 @@ Get a number.
 
 `to_timezone(datetime_in_a_timezone,target_timezone)` Convert the datetime from one timezone to the other.
 
-For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For the common timezones, pls check [to_time](#to_time)
 
 For example, 
 
@@ -526,6 +533,10 @@ select extract(value, 'key1=(\\w+)') as key1,
 Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years ago.','My name is %{DATA:name}. I am %{INT:age} years ago.') as m` will get `{"name":"Jack","age":"23"}` as the `m`. 
 
 Please note all keys and values in the returned map is in string type. You can convert them to other type, e.g. `(m['age'])::int`
+
+### coalesce
+
+`coalesce(value1, value2,..)` Checks from left to right whether `NULL` arguments were passed and return the first non-`NULL` argument. If you get error messages related to Nullable type, e.g. "Nested type array(string) cannot be inside Nullable type", you can use this function to turn the data into non-`NULL` For example `json_extract_array(coalesce(raw:payload, ''))`
 
 ## Logic
 
