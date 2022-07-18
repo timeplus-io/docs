@@ -4,6 +4,21 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 7/11
+
+* Streaming engine
+  * Fixed an issue of [lags](functions#lags) function to get a range of past results for the specific column
+  * Exposed the [coalesce](functions#coalesce) function to skip null value and return the first non-`NULL` value. Many functions expect the arguments cannot be `NULL`
+
+* Source, sink, API and SDK
+  * Updated the [Python SDK](https://pypi.org/project/timeplus/0.1.10/) to support the new source API and add authentication to websockets
+  * Added the optional description field for sinks
+* UI improvements
+  * Show the newly-opened query tab such as 'Tab 1', or 'Tab 2', instead of 'Untitled'
+  * Able to delete the first query tab
+  * Consolidated variuos streamlit demos to [a single URL](https://timeplus-io-streamlit-apps-demo-wjt6x1.streamlitapp.com/) 
+  * Replaced alert API with sink API. ACTION-REQUIRED: please recreate the alert/sink after the upgrade 
+
 ### Week of 7/4
 
 * Streaming engine
