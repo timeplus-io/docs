@@ -16,7 +16,7 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
 * UI improvements
   * Show the newly-opened query tab such as 'Tab 1', or 'Tab 2', instead of 'Untitled'
   * Able to delete the first query tab
-  * Consolidated variuos streamlit demos to [a single URL](https://timeplus-io-streamlit-apps-demo-wjt6x1.streamlitapp.com/) 
+  * Consolidated various streamlit demos to [a single URL](https://timeplus-io-streamlit-apps-demo-wjt6x1.streamlitapp.com/) 
   * Replaced alert API with sink API. ACTION-REQUIRED: please recreate the alert/sink after the upgrade 
 
 ### Week of 7/4

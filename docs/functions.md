@@ -560,17 +560,25 @@ For example `if(1=2,'a','b')` will get `b`
 
 `count_distinct(col)` to get the number of unique value for the `col` column. Same as `count(distinct col)`
 
+### count_if
+
+`count_if(condition)` to apply a filter with `condition` and get the number of records. e.g. `count_if(speed_kmh>80)`
+
 ### distinct
 
 `distinct(col)`to get the distinct value for the `col` column.
+
+### unique
+
+`unique(<column_name1>[, <column_name2>, ...])`: Calculates the approximate number of different values of the columns.
 
 ### unique_exact
 
 `unique_exact(<column_name1>[, <column_name2>, ...])`Calculates the exact number of different values of the columns.
 
-### unique
+### unique_exact_if
 
-`unique(<column_name1>[, <column_name2>, ...])`: Calculates the approximate number of different values of the columns.
+`unique_exact_if(col,condition)` to apply a filter with `condition` and get the distincat count of `col`, e.g. to get the cars with high speed `unique_exact_if(cid,speed_kmh>80)`
 
 ### min
 
