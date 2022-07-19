@@ -92,7 +92,11 @@ The first element's index is 1, instead of 0.
 
 
 
-### array_compact
+### index_of
+
+`index_of(arr,x)` returns the index of `x` in the array `arr`. The first element's index is 1. Return 0 if `x` is not in the array.
+
+###  array_compact
 
 `array_compact(arr)` Removes consecutive duplicate elements from an array, e.g. `array_compact([1,1,2,2,2,3,4,4,5])`returns [1,2,3,4,5]
 
@@ -438,6 +442,10 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 ### json_extract_array
 
 `json_extract_array(json, key)`to get the array value from the specified JSON document and key. For example ` json_extract_array('{"a": "hello", "b": [-100, 200.0, "hello"]}', 'b')` will get the array value `['-100','200','"hello"'] ` If the entire JSON document is an array, the 2nd parameter `key` can be omitted to turn the json string as an array, e.g. `json_extract_array(arrayString)`
+
+### json_extract_keys
+
+`json_extract_keys(jsonStr)` to parse the JSON string and extracts the keys. e.g. `select '{"system_diskio_name":"nvme0n1"}' as tags,json_extract_keys(tags)` will get an array: ` [ "system_diskio_name" ]`
 
 ### is_valid_json
 
