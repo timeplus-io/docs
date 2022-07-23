@@ -43,6 +43,10 @@ For example `to_decimal('3.1415926',2)` to get 3.14
 
 Convert any data type to a string, so that you can do other string operations, such as [concat](#concat)
 
+### to_bool
+
+Convert the value to a `bool` type. e.g. `select to_bool(1), to_bool(true),to_bool(True),to_bool('true')` all return `true`. Please note you cannot run `to_bool('True')`
+
 
 ### cast
 
@@ -68,7 +72,9 @@ select
     json_extract_string('{"a":"001"}','a')::integer
 ```
 
+### to_type_name
 
+`to_type_name(x)` to show the type name of the argument `x`. This is mainly for troubleshooting purpose to understand the date type for a  function call.
 
 ## Access Compound Type {#arrays}
 
@@ -789,6 +795,18 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 ### radians
 
 `radians(x)` converts the input value in degrees to radians . E.g. `radians(180)` returns 3.14.
+
+### is_finite
+
+`is_finite(x)` return 1 when the value `x` is not infinite and not a NaN, othewise return 0.
+
+### is_infinite
+
+`is_infinite(x)` to return 1 when the value `x` is infinite, otherwise return 0.
+
+### is_nan
+
+`is_nan(x)` to return 1 if the `x` is Not-a-Number(NaN), otherwise return 0.
 
 ## Financial
 

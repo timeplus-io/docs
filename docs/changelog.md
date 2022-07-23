@@ -4,6 +4,22 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 7/18
+
+* Streaming engine
+  * Added the [count_if](functions#count_if) function and [unique_exact_if](functions#unique_exact_if) function to count the number of rows or unique value matching certain conditions.
+  * Added [json_extract_keys](functions#json_extract_keys) function to get the keys for the JSON map object.
+  * Added the [to_bool](functions#to_bool) function to convert other types to `bool`
+  * Added [is_nan](functions#is_nan), [is_infinite](functions#is_infinite), [is_finite](functions#is_finite) functions to detect the edge cases when a number column contains infinite number etc.
+  * Added [to_type_name](functions#to_type_name) function to show the data type name, mainly for troubleshooting purpose.
+  
+* Source, sink, API and SDK
+  * Updated the [Python SDK](https://pypi.org/project/timeplus/0.1.10/) to show the metrics
+* UI improvements
+  * Added new visualization types: bar chart and streaming table
+  * Enhanced the management page of sinks, to show the sink status, number of message sent, failure count, etc.
+  * Enhanced the SQL editor to highlight the beginning/ending (),{},[]. This could be very helpful for complex SQLs with nested function calls.
+
 ### Week of 7/11
 
 * Streaming engine
