@@ -485,7 +485,7 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 ### concat
 
-`concat(str1,str2 [,str3])` Combine 2 or more strings as a single string. For example, `concat('95','%')` to get 95%. Each parameter in this function need to be a string. You can use [to_string](#to_string) function to convert them, for example `concat(to_string(95),'%')`
+`concat(str1,str2 [,str3])` Combine 2 or more strings as a single string. For example, `concat('95','%')` to get 95%. You can also use `||` as the shortcut syntax, e.g. `'95' || '%' ` Each parameter in this function need to be a string. You can use [to_string](#to_string) function to convert them, for example `to_string(95) || '%'`
 
 ### substr
 
