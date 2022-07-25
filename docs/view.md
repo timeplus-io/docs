@@ -27,78 +27,17 @@ DROP VIEW [IF EXISTS] <view_name>
 
 
 
-## Materialized view
+## Materialized view {#m_view}
 
 A materialized view is a view. The only difference is that the materialized view is running in background after creation and the result stream is physically written to internal storage , which is why it is called materialized.
 
-To create a materialized streaming view, user can use this SQL spec
+To create a materialized view, click the 'Create View' button in the VIEWS page, and turn on the 'Materialized view?' toggle button, and specify the view name and SQL.
 
-```sql
-CREATE MATERIALIZED VIEW [IF NOT EIXSTS] <streaming_view_name> AS 
-<select .. >
-SETTINGS key1=value1, key2=value2, ...
-```
+Once the materialized view is created, internally Timeplus runs the query in background continuously and incrementally and emit the calculated results according to the semantics of its underlying streaming select.  There is a timestamp version `__tp_version` to every row. 
 
-Once the streaming view is created, internally Timeplus run the query in background continuously and incrementally and emit the calculated results according to the semantics of its underlying streaming select. The results will be materialized into 2 places
+Different ways to use the materialized views:
 
-1. An in-memory table
-2. An internal physical table
-
-```
-                                 ------>  In-memory table 
-                                /
-Underlying streaming SELECT -> |
-                                \
-                                 ------> Internal physical table
-```
-
-The materialized data gets stored in in-memory table and internal physical depends on the underlying streaming select query:
-
-1. If the underlying streaming SELECT is a global aggregation, Timeplus does
-   1. Only store the latest results of the underlying query to the in-memory table and there is a timestamp version `__tp_version` to every row. 
-   2. Always appends the results of the underlying query to the internal physical table and there is a `__tp_version` is attached to every row.
-
-2. If the underlying streaming SELECT is a windowed aggregation or a flat transformation like tail, Timeplus does
-   1. Append the latest results of the underlying query to the in-memory table until a configured memory limit (by default 100 MB) or block count limit (100 blocks) has reached. If a limit has reached, Timeplus will roll out old results.
-   2. Always appends the results of the underlying query to the internal physical table
-
-There are 2 modes to query streaming view
-
-1. Streaming mode: like `SELECT * FROM streaming_view`. In this mode, the query is against the underlying inner physical table.
-2. Historical mode: like `SELECT * FROM table(streaming_view)`. In this mode, the query is against the in-memory table and it always returns the latest table of data. 
-
-**Note** Users have a chance to tune the in-memory table size by setting up the following 2 settings
-
-1. `max_streaming_view_cached_block_count`: By default it is 100 blocks
-2. `max_streaming_view_cached_block_bytes`: By default it is 100 MB
-
-**Note** For now, Timeplus doesn't implement checkpoint yet, so materialized streaming view may miss new updates / data across system reboot or process crashes etc.
-The in-memory data will be discarded as well and will not be replayed across system reboot or process crashes.
-
-Examples
-
-```sql
-CREATE MATERIALIZED VIEW count_sv AS 
-SELECT device, count(*) FROM device_utils GROUP BY device 
-SETTINGS max_streaming_view_cached_block_count=1000,  max_streaming_view_cached_block_bytes=10000000;
-```
-
-And query the latest results
-
-```sql
-SELECT * FROM table(count_cv);
-```
-
-User can do further streaming processing or create streaming views on top of existing streaming query (Streaming processing cascading / fanout) by querying
-the existing streaming view in the streaming mode.
-
-```sql
-SELECT count(*) FROM count_cv;
-```
-
-To delete a streaming view, users can run the following SQL. Dropping the streaming view drops everything including the inner physical table.
-
-```sql
-DROP VIEW [IF EXISTS] <streaming_view_name>;
-```
-
+1. Streaming mode:  `SELECT * FROM materialized_view` Get the result for future data. This works in the same way as views.
+2. Historical mode:  `SELECT * FROM table(materialized_view)` Get all past results for the materialized view.
+3. Historical + streaming mode: `SELECT * FROM materialized_view SETTINGS seek_to='earliest'` Get all past results and as well as the future data.
+4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where __tp_version in (SELECT max(__tp_version) as m from table(materialized_view))` This immediately returns the most recent query result. We will provide new syntax to simplify this.

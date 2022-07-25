@@ -26,7 +26,7 @@ From the web console, you can delete the stream. This will permanently delete al
 
 
 
-## External Streams (New) {#external_stream}
+## External Streams {#external_stream}
 
 You can also create **external streams** in Timeplus to query data in the external systems without loading the data into Timeplus. The main benefit for doing so is to keep a single source of truth in the external systems (e.g. Kafka), without duplicating them. You can run streaming analytics with the external streams in the similar way as other streams, with some limitations. 
 
