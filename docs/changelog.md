@@ -7,8 +7,8 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
 ### Week of 7/25
 
 * Streaming engine
-  * Enhanced [json_extract_array](funtions#json_extract_array) function to return clean string values. `select '{"a":1,"tags":["x","y"]}' as raw, json_extract_array(raw:tags)`now returns ` [ "x", "y" ]` , instead of ` [ "\"x\"", "\"y\"" ]` in the previous releases.
-  * Added a new shortcut to access json arrays without having to use the [json_extract_array](funtions#json_extract_array) function. The above query can be simplified as `select '{"a":1,"tags":["x","y"]}' as raw, raw:tags[*]`
+  * Enhanced [json_extract_array](functions#json_extract_array) function to return clean string values. `select '{"a":1,"tags":["x","y"]}' as raw, json_extract_array(raw:tags)`now returns ` [ "x", "y" ]` , instead of ` [ "\"x\"", "\"y\"" ]` in the previous releases.
+  * Added a new shortcut to access json arrays without having to use the [json_extract_array](functions#json_extract_array) function. The above query can be simplified as `select '{"a":1,"tags":["x","y"]}' as raw, raw:tags[*]`
   * Refined typing system and logical comparisons return `bool` instead of `uint8`
 
 * Source, sink, API and SDK
