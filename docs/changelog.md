@@ -4,6 +4,24 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+### Week of 7/25
+
+* Streaming engine
+  * Enhanced [json_extract_array](funtions#json_extract_array) function to return clean string values. `select '{"a":1,"tags":["x","y"]}' as raw, json_extract_array(raw:tags)`now returns ` [ "x", "y" ]` , instead of ` [ "\"x\"", "\"y\"" ]` in the previous releases.
+  * Added a new shortcut to access json arrays without having to use the [json_extract_array](funtions#json_extract_array) function. The above query can be simplified as `select '{"a":1,"tags":["x","y"]}' as raw, raw:tags[*]`
+  * Refined typing system and logical comparisons return `bool` instead of `uint8`
+
+* Source, sink, API and SDK
+  * All Timeplus sinks now use the `{{.columnName}}` syntax to access the column value in the sink title or body. Numbers and other primitive types are supported (previously only string columns are supported).
+  * Fixed an issue that cancelled queries could be marked as finished.
+  * Fixed an issue that EPS(event per second) won't be shown if the query finishes too fast.
+* UI improvements
+  * Added a new option in the 'Send data to..' dialog to send the results to a stream in the Timeplus tenant.
+  * Show the number of running queries when you create a new query tab.
+  * Added an icon on the query tab if the query is running.
+  * Enhanced the font colors.
+  * Enhanced the chart colors.
+
 ### Week of 7/18
 
 * Streaming engine
