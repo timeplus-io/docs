@@ -67,7 +67,7 @@ const sidebars = {
           type: 'doc',
           id:'query-guide'
         },
-        items:['datatypes','query-syntax','functions',]
+        items:['datatypes','query-syntax','functions','udf']
        },
        'faq',
        'issues',
