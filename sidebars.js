@@ -71,7 +71,16 @@ const sidebars = {
        },
        'faq',
        'issues',
-       'changelog',
+       {
+        type:'category',
+        label:'Release Notes',
+        //collapsed: false,
+        link: {
+          type: 'doc',
+          id:'changelog'
+        },
+        items:['private-beta-1']
+       },
        'getting-help',
        /*
       ],
