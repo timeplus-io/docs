@@ -542,6 +542,20 @@ select extract(value, 'key1=(\\w+)') as key1,
 
 
 
+### extract_all_groups_horizontal
+
+`extract_all_groups_horizontal(haystack, pattern)`
+
+Matches all groups of the `haystack` string using the `pattern` regular expression. Returns an array of arrays, where the first array includes all fragments matching the first group, the second array matching the second group, etc.
+
+```sql
+SELECT 
+ extract_all_groups_horizontal('v1=111, v2=222, v3=333', '("[^"]+"|\\w+)=("[^"]+"|\\w+)') as groups,
+ groups[2][2] -- returns "222"
+```
+
+
+
 ### grok
 
 Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years ago.','My name is %{DATA:name}. I am %{INT:age} years ago.') as m` will get `{"name":"Jack","age":"23"}` as the `m`. 
@@ -551,6 +565,14 @@ Please note all keys and values in the returned map is in string type. You can c
 ### coalesce
 
 `coalesce(value1, value2,..)` Checks from left to right whether `NULL` arguments were passed and return the first non-`NULL` argument. If you get error messages related to Nullable type, e.g. "Nested type array(string) cannot be inside Nullable type", you can use this function to turn the data into non-`NULL` For example `json_extract_array(coalesce(raw:payload, ''))`
+
+
+
+## Unique identifier
+
+### uuid
+
+`uuid()` or `uuid(x)` Generate a universally unique identifier (UUID) which is a 16-byte number used to identify records. In order to generate multiple UUID in one row, pass a parameter in each function call, such as `SELECT uuid(1) as a, uuid(2) as b` Otherwise if there is no parameter while calling multiple `uuid` functions in one SQL statement, the same UUID value will be returned.
 
 ## Logic
 
