@@ -8,8 +8,6 @@ We will update the beta version from time to time and list key enhancements in t
 
 ###  Week of 8/15
 
-First product update in the Private Beta 2.
-
 * Streaming engine
   * (Experimental) enhanced the [session window](functions#session) aggregation to create substreams based on customized logic for window start and window end
   * Added a new function [extract_all_groups](functions#extract_all_groups) to process text with regular expressions.
