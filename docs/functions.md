@@ -542,6 +542,20 @@ select extract(value, 'key1=(\\w+)') as key1,
 
 
 
+### extract_all_groups
+
+`extract_all_groups(haystack, pattern)`
+
+Matches all groups of the `haystack` string using the `pattern` regular expression. Returns an array of arrays, where the first array includes keys and the second array includes all values.
+
+```sql
+SELECT 
+ extract_all_groups('v1=111, v2=222, v3=333', '("[^"]+"|\\w+)=("[^"]+"|\\w+)') as groups
+ -- return [ [ "v1", "v2", "v3" ], [ "111", "222", "333" ] ]
+```
+
+
+
 ### extract_all_groups_horizontal
 
 `extract_all_groups_horizontal(haystack, pattern)`
@@ -550,8 +564,8 @@ Matches all groups of the `haystack` string using the `pattern` regular expressi
 
 ```sql
 SELECT 
- extract_all_groups_horizontal('v1=111, v2=222, v3=333', '("[^"]+"|\\w+)=("[^"]+"|\\w+)') as groups,
- groups[2][2] -- returns "222"
+ extract_all_groups('v1=111, v2=222, v3=333', '("[^"]+"|\\w+)=("[^"]+"|\\w+)') as groups
+ -- [ [ "v1", "111" ], [ "v2", "222" ], [ "v3", "333" ] ]
 ```
 
 
@@ -878,7 +892,7 @@ Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` w
 
 ### session
 
-`session(stream [,timeCol], idle, keyByCol [,otherKeyByCol])`
+`session(stream [,timeCol], idle, [startCondition,endCondition,] keyByCol [,otherKeyByCol])`
 
 Create dynamic windows based on the activities in the data stream. You need specify at least one `keyByCol`. If Timeplus keeps getting new events for the specific id within the `idle` time, those events will be included in the same session window. By default, the max length of the session window is 5 times of the idle time. For example, if the car keeps sending data when it's moving and stops sending data when it's parked or waiting for the traffic light, `session(car_live_data, 1m, cid)` will create session windows for each car with 1 minute idle time. Meaning if the car is not moved within one minute, the window will be closed and a new session window will be created for future events. If the car keeps moving for more than 5 minutes, different windows will be created (every 5 minutes), so that as analysts, you can get near real-time results, without waiting too long for the car to be stopped.
 

@@ -6,6 +6,20 @@ We are thrilled to launch the second private beta of Timeplus cloud release. Com
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+###  Week of 8/15
+
+First product update in the Private Beta 2.
+
+* Streaming engine
+  * (Experimental) enhanced the [session window](functions#session) aggregation to create substreams based on customized logic for window start and window end
+  * Added a new function [extract_all_groups](functions#extract_all_groups) to process text with regular expressions.
+* Source, sink, API and SDK
+  * Webhook sink is enhanced to support customized HTTP method, content type and headers.
+* UI improvements
+  * New UI for Apache Pulsar as a source or a sink.
+  * The columns in the query results are now resizable with drag-and-drop.
+  * Unattended streaming SQL will be cancelled automatically.
+
 ###  Week of 8/8
 
 First product update in the Private Beta 2.
