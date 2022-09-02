@@ -6,6 +6,25 @@ We are thrilled to launch the second private beta of Timeplus cloud release. Com
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+###  Biweekly Update 8/22-9/2
+
+We have migrated beta1 customers to the beta2. https://demo.timeplus.com is no longer accessible. Please visit https://beta.timeplus.cloud/demo if you have an account for the beta testing.
+
+* Streaming engine
+  * Revised logical functions to return `bool` instead of `uint8`
+  * Added experimental support for ARM chips
+* Source, sink, API and SDK
+  * Updated [datapm](https://datapm.io/docs/quick-start/) Timeplus sink to support beta2 multi-tenant API
+  * Enhanced the snowflake sink to specify the dataware
+  * Published the sample Java code as [a public Github repo](https://github.com/timeplus-io/java-demo). You can easily get Timeplus query results and do other operations without directly handling the low level REST API 
+* UI improvements
+  * Separated the home page and dashboard page. In the future, you can create more than one dashboard
+  * Charting enhancements: show data value as tooltips for bar charts on hover, view the chart with in full page mode 
+  * Enhanced the SQL editor to support common query snippets, e.g. `group by window_start, window_end`
+  * Enhanced the SQL editor to show auto-complete for User-Defined Function
+  * Show the data size for the streams
+  * Updated the navigation bar to show the user profile, workspace settings and help on the top-right corner
+
 ###  Week of 8/15
 
 * Streaming engine
