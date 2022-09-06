@@ -66,4 +66,4 @@ In case the field type is set as `regex`, the generated data will be based on th
 
 ## Generator Rule
 
-In case the field type is set as `generator`, the generated data will be based on the generation rule of [gofakeit](https://github.com/brianvoe/gofakeit), refer to [rule](https://pkg.go.dev/github.com/brianvoe/gofakeit/v6#example-Faker.Generate)
+In case the field type is set as `generator`, the generated data will be based on the generation rule of [gofakeit](https://github.com/brianvoe/gofakeit), refer to [the rule](https://pkg.go.dev/github.com/brianvoe/gofakeit/v6#example-Faker.Generate)

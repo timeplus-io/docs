@@ -15,9 +15,9 @@ In this initial phase of the private beta, we only provide AWS-based fully-manag
 
 ## How much data I can load into Timeplus?
 
-During the private beta, the recent 7 days' data will be kept in each tenant by default, or up to 10 million events. Please contact us if you need to load or keep more data during the beta test.
+During the beta, the total storage for each workspace is 50GB by default. Please contact us if you need to load or keep more data during the beta test.
 
 ## What's the SLA and can I run production load?
 
-We don't recommend the beta users to load production work load during the private beta. Stay tuned for our official product releases.
+We don't recommend the beta users to run production work load during the beta. Stay tuned for our official product releases.
 
