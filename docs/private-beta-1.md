@@ -60,7 +60,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 * UI improvements
   * Show the newly-opened query tab such as 'Tab 1', or 'Tab 2', instead of 'Untitled'
   * Able to delete the first query tab
-  * Consolidated various streamlit demos to [a single URL](https://timeplus-io-streamlit-apps-demo-wjt6x1.streamlitapp.com/) 
+  * Consolidated various streamlit demos to [a single URL](https://timeplus.streamlitapp.com/) 
   * Replaced alert API with sink API. ACTION-REQUIRED: please recreate the alert/sink after the upgrade 
 
 ### Week of 7/4

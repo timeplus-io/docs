@@ -700,6 +700,16 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 `abs(value)` returns the absolute value of the number. If the a<0, then return -a.
 
+
+
+### round
+
+`round(x [,N])` Rounds a value to a specified number of decimal places.
+
+* If `N` is omitted, we consider N as 0 and the function rounds the value to the near integer, e.g. `round(3.14)`as 3
+* If `N`>0, the function rounds the value to the right of the decimal point, e.g. `round(3.14,1)` as 3.1
+* If `N` <0, the function rounds the value to the left of the decimal point. e.g. `round(314.15,-2)` as 300 
+
 ### e
 
 `e()` returns a `float` number that is close to the number `e`

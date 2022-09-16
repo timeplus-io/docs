@@ -6,6 +6,25 @@ We are thrilled to launch the second private beta of Timeplus cloud release. Com
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+### Biweekly Update 9/5-9/16
+
+* Streaming engine
+  * Added a [round](functions#round) function to round a value to a specified number of decimal places.
+  * Improved cluser support.
+* Source, sink, API and SDK
+  * Added new CRUD API for dashboards. The previous charts on home page will be removed automatically during upgrade.
+  * Simplifid the hostname for the streamlit demo to https://timeplus.streamlitapp.com
+  
+* UI improvements
+  * Introduced full dashboard management. You can create multiple dashboards with name/description/charts.
+  * Redesigned home page to show high level information for the workspace.
+  * Introduced a new 'Data Lineage' page to visualize the relationship between sources/streams/views/sinks.
+  * Enhanced the workflow for visualizing the query result. You need to choose whether to view latest data, or check data trend, or view detailed data.
+  * Now you can visualize the query results from a historical query, e.g. `select .. from table(..)..`, and add the charts to dashboards.
+  * Removed the browser side data aggregation to improve performance. If the rate of the data is greater than the render interval (200ms), only the last data point within the interval will be rendered.  If you run a streaming tail or filter, you no longer can visulize the data with bar chart. Please use `GROUP BY` in the SQL for such analysis.
+  * Enhanced the SQL editor to show column names without using stream name.
+  * Mobile friendly login/signup page.
+
 ###  Biweekly Update 8/22-9/2
 
 We have migrated beta1 customers to the beta2. https://demo.timeplus.com is no longer accessible. Please visit https://beta.timeplus.cloud/demo if you have an account for the beta testing.
