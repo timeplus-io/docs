@@ -1,8 +1,6 @@
 # Quickstart
 
-Timeplus is a fast and powerful real-time analytics platform.
-
-Users get access to free public beta or can choose a subscription plan for more storage and computing resources.
+Timeplus is a high-performance converged platform that unifies streaming and historical data processing, to empower developers to build the most powerful and reliable streaming analytics applications, at speed and scale, anywhere. 
 
 Timeplus Cloud provides the following major features:
 
@@ -15,7 +13,7 @@ The following section contains step-by-step instructions on how to easily get st
 
 ## Step 1: Sign up for a Timeplus account {#step1}
 
-Let's start by creating an account for [Timeplus Cloud](https://beta.timeplus.cloud). Currently Google or Microsoft Single Sign-On (SSO) are supported. Please choose a work email or Google/Microsoft work subscription to apply the beta access.
+Let's start by creating an account for [Timeplus Cloud](https://beta.timeplus.cloud). Currently Google or Microsoft Single Sign-On (SSO) are supported. Please choose a work email or Google/Microsoft work subscription to apply the beta access. It usually takes less than 2 minutes to get the account setup and have the first [workspace](glossary#workspace) created.
 
 ## Step 2: Create your first workspace {#step2}
 
@@ -33,15 +31,15 @@ To create a workspace:
 
 ## Step 3: Try the sample streaming dataset {#step3}
 
-Login the Timeplus Cloud. Choose the workspace if you have access to more than 1 workspace. Go to the **SOURCES** page and click the **Try our sample dataset** button on the top-right corner.
+Login the Timeplus Cloud. Choose the workspace if you have access to more than 1 workspace. Go to the **SOURCES** page and click the **Try our sample dataset** button on the top-right corner. You will create the first [source](glossary#source).
 
 ![Try the sample dataset](/img/sampledata.png)
 
-By default, the **iot_data** template will be used. You can choose a Source Name, e.g. `iot`. The **Source Description** is optional. Scroll down. Leave the **Create a stream with the name** enabled as default, and specify a stream name, e.g. `iot`
+By default, the **iot_data** template will be used. You can choose a Source Name, e.g. `iot`. The **Source Description** is optional. Scroll down. Leave the **Create a stream with the name** enabled as default, and specify a [stream](glossary#stream) name, e.g. `iot`
 
 ![IOT sample dataset config](/img/sampledata_cfg.png)
 
-Click **Next**. You will preview the sample data. Feel free to click **Next** button again. Optionally, you can click the image button near the TIME column and enable the **SET AS TIMESTAMP COLUMN**
+Click **Next**. You will preview the sample data. Feel free to click **Next** button again. Optionally, you can click the image button near the TIME column and enable the **SET AS TIMESTAMP COLUMN** option. ([Why you need to set a timestamp column?](glossary#timestamp-column))
 
 ![IOT sample dataset config](/img/sampledata_ts.png)
 
@@ -76,4 +74,5 @@ You can switch to the VISUALIZATION tab to view the streaming chart of the data.
 * Try more streaming SQL capabilities, such as `tumble` window and `seek_to`
 * Create a dashboard
 * Send the results to Kafka/Pulsar, or email/slack
+* Check the [Glossary](glossary)
 

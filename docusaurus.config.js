@@ -77,12 +77,6 @@ const config = {
           },
           {
             type: 'doc',
-            docId: 'getting-started',
-            position: 'left',
-            label: 'Get Started',
-          },
-          {
-            type: 'doc',
             docId: 'functions',
             position: 'left',
             label: 'Functions',

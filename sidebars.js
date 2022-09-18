@@ -36,8 +36,7 @@ const sidebars = {
      },collapsed: false,items:[
        */
        'index',
-       'usecases',
-       'getting-started',
+       'quickstart',
        {
         type:'category',
         label:'Concepts',
@@ -57,8 +56,6 @@ const sidebars = {
         },
         items:['stream-generator',]
        },
-       'transformation',
-       'viz',
        {
         type:'category',
         label:'Query Guide',
@@ -67,8 +64,10 @@ const sidebars = {
           type: 'doc',
           id:'query-guide'
         },
-        items:['datatypes','query-syntax','functions','udf']
+        items:['datatypes','query-syntax','functions','udf','usecases']
        },
+       'transformation',
+       'viz',
        'faq',
        'issues',
        {
@@ -82,6 +81,7 @@ const sidebars = {
         items:['private-beta-1']
        },
        'getting-help',
+       'glossary',
        /*
       ],
     }*/

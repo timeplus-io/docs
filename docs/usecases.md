@@ -1,4 +1,4 @@
-# Demo Scenario
+# Sample Queries
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
