@@ -904,13 +904,15 @@ Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` w
 
 `session(stream [,timeCol], idle, [maxLength,] [startCondition,endCondition,] keyByCol [,otherKeyByCol])`
 
-Create dynamic windows based on the activities in the data stream. You need specify at least one `keyByCol`. If Timeplus keeps getting new events for the specific id within the `idle` time, those events will be included in the same session window. By default, the max length of the session window is 5 times of the idle time. For example, if the car keeps sending data when it's moving and stops sending data when it's parked or waiting for the traffic light, `session(car_live_data, 1m, cid)` will create session windows for each car with 1 minute idle time. Meaning if the car is not moved within one minute, the window will be closed and a new session window will be created for future events. If the car keeps moving for more than 5 minutes, different windows will be created (every 5 minutes), so that as analysts, you can get near real-time results, without waiting too long for the car to be stopped.
+Create dynamic windows based on the activities in the data stream. You need to specify at least one `keyByCol`. If Timeplus keeps getting new events for the specific id within the `idle` time, those events will be included in the same session window. By default, the max length of the session window is 5 times of the idle time. For example, if the car keeps sending data when it's moving and stops sending data when it's parked or waiting for the traffic light, `session(car_live_data, 1m, cid)` will create session windows for each car with 1 minute idle time. Meaning if the car is not moved within one minute, the window will be closed and a new session window will be created for future events. If the car keeps moving for more than 5 minutes, different windows will be created (every 5 minutes), so that as analysts, you can get near real-time results, without waiting too long for the car to be stopped.
 
 ### dedup
 
-`dedup(stream, column1 [,otherColumns..] [,limit])`
+`dedup(stream, column1 [,otherColumns..] [liveInSecond,limit])`
 
-Apply the deduplication at the given data stream with the specified column(s). The last parameter `limit` is optional which is `100000` by default. It limits the max unique keys maintained in the query engine. If the limit reaches, the system will recycle the earliest keys to maintain this limit.
+Apply the deduplication at the given data stream with the specified column(s). `liveInSecond` is specify how long the keys will be kept in the memory/state. By default forever. But if you only want to avoid duplicating within a certain time peroid, say 2 minutes, you can set `120s`, e.g. `dedup(subquery,myId,120s)`
+
+The last parameter `limit` is optional which is `100000` by default. It limits the max unique keys maintained in the query engine. If the limit reaches, the system will recycle the earliest keys to maintain this limit.
 
 You can cascade this table function like `tumble(dedup(table(....` and so far the wrapping order must in this sequence : tumble/hop/session -> dedup -> table.
 
