@@ -6,6 +6,24 @@ We are thrilled to launch the second private beta of Timeplus cloud release. Com
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+### Biweekly Update 9/19-9/30
+
+* Streaming engine
+  * Enhanced [dedup](functions#dedup) function to only cache the unique keys for a given time period. This is useful to suppress the same alerts in the short time period. 
+  * Support sub-stream, e.g. `select cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) as last_spd from car_live_data` 
+* Source, sink, API and SDK
+  * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](glossary#workspace) 
+  * Updated the [REST API](/rest) to show the optinal description for source/sink, and replace "tenant" with "workspace-id" in the documentation.
+  * The Kafka source no longer auto-create the topics
+  
+* UI improvements
+  * Show the total data size on the home page, as well as the averge data in and data out throughput.
+  * Added a new 'SQL Templates' button in the query page to help you quickly add common snippets, such as `settings seek_to='-1h'`
+  * Added a closable page description, as well as context aware help sidepanel.
+  * Refined "Data Lineage" page to show stream schema, view SQL, and sink types.
+  * Able to set units when you choose to view latest data.
+  * Mobile friendly login/signup page.
+
 ### Biweekly Update 9/5-9/16
 
 * Streaming engine
