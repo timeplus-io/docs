@@ -1,21 +1,20 @@
 # Frequently Asked Questions
 
-## How to join the private beta?
+## How to join the public beta?
 
-We appreciate your interest in our private beta program. The process is
-
-1. Visit our [website](https://timeplus.com) and fill in the form in the bottom of the home page. Please use a work email address.
-2. We will review your request and contact you when there are seats available.
-3. A meeting will be scheduled for us to better understand your use cases/goals, and share you more details about the beta program.
-4. After you or your company sign the Beta Test Agreement, we will provision a tenant for you. You and your teammates can use if free of charge.
+We appreciate your interest in our beta program. Everyone is invited to sign up the free beta via https://beta.timeplus.cloud 
 
 ## Can I run Timeplus in our own cloud VPC or on-prem?
 
-In this initial phase of the private beta, we only provide AWS-based fully-managed testing environment for you. Please contact us with your requirements.
+In this initial phase of the public beta, we only provide AWS-based fully-managed testing environment for you. Please contact us with your requirements.
 
 ## How much data I can load into Timeplus?
 
 During the beta, the total storage for each workspace is 50GB by default. Please contact us if you need to load or keep more data during the beta test.
+
+## Can I invite other members to my workspace?
+
+We are actively working on the team collaboration features and fine-grained access control. Please contact us via support@timeplus.com to try this experimental feature.
 
 ## What's the SLA and can I run production load?
 
