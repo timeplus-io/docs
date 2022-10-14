@@ -17,6 +17,7 @@ const config = {
   organizationName: 'timeplus-io', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
   scripts:['/heap.js'],
+  plugins: ['docusaurus-plugin-hubspot'],
 
   presets: [
     [
@@ -45,6 +46,9 @@ const config = {
     /** @type 
      * {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      hubspot: {
+        accountId: 23123537,
+      },
       docs:{
         sidebar:{
           hideable: true,
