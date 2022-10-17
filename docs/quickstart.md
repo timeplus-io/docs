@@ -25,7 +25,7 @@ To create a workspace:
 2. Click **Create a Workspace** on the landing page
 3. The workspace ID is automatically created. Create a readable name, such as the legal name for the organization or team name.
 
-(Screenshot)
+![Signup](/img/signup_screen.png)
 
 
 
