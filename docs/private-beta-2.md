@@ -14,7 +14,7 @@ We will update the beta version from time to time and list key enhancements in t
 * Source, sink, API and SDK
   * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](glossary#workspace) 
   * Updated the [REST API](/rest) to show the optinal description for source/sink, and replace "tenant" with "workspace-id" in the documentation.
-  * The Kafka source no longer auto-create the topics
+  * The Kafka sink no longer auto-create the topics
 
 * UI improvements
   * Show the total data size on the home page, as well as the averge data in and data out throughput.
