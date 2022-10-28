@@ -36,7 +36,24 @@ const sidebars = {
      },collapsed: false,items:[
        */
        'index',
-       'quickstart',
+       {
+        type:'category',
+        label:'Quickstart',
+        //collapsed: false,
+        link: {
+          type: 'doc',
+          id:'quickstart'
+        },
+        items:[{
+          type: 'doc',
+          id:'quickstart-confluent',
+          label:'with Confluent Cloud'
+        },{
+          type: 'doc',
+          id:'quickstart-sample',
+          label:'with stream generator'
+        }]
+       },
        {
         type:'category',
         label:'Concepts',

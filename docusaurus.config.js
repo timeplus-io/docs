@@ -81,6 +81,12 @@ const config = {
           },
           {
             type: 'doc',
+            docId: 'quickstart',
+            position: 'left',
+            label: 'Quickstart',
+          },
+          {
+            type: 'doc',
             docId: 'functions',
             position: 'left',
             label: 'Functions',
