@@ -22,7 +22,7 @@
     "clsx": "^1.1.1",
     "docusaurus-plugin-hubspot": "^1.0.1",
     "mdx-mermaid": "^1.2.1",
-    "mermaid": "^9.0.0",
+    "mermaid": "^8.11.5",
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
