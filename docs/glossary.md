@@ -8,6 +8,14 @@ Query bookmark. You can save the common SQL statements as bookmarks. They can be
 
 Both bookmarks and [views](#view) can help you easiliy re-run a query. However views are defined in the streaming database and you can query the view directly via `select .. from ..` But bookmarks are just UI shortcuts. When you click the bookmark, the original SQL statement will be pre-filled in the query console. You cannot run `select .. from my_bookmark`
 
+
+
+## CTE
+
+A common table expression, or CTE, (in [SQL](https://en.wikipedia.org/wiki/SQL)) is a temporary named result set, derived from a simple query and defined within the execution scope of a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.
+
+CTEs can be thought of as alternatives to derived tables ([subquery](https://en.wikipedia.org/wiki/Subquery)), [views](https://en.wikipedia.org/wiki/View_(database)), and inline user-defined functions.
+
 ## dashboard
 
 You can add one or more panels in a dashboard. You can also create one or more dashboards in a workspace.

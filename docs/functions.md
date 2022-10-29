@@ -902,9 +902,23 @@ Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` w
 
 ### session
 
-`session(stream [,timeCol], idle, [maxLength,] [startCondition,endCondition,] keyByCol [,otherKeyByCol])`
+`session(stream [,timeCol], idle, [maxLength,] [startCondition,endCondition] )`
 
-Create dynamic windows based on the activities in the data stream. You need to specify at least one `keyByCol`. If Timeplus keeps getting new events for the specific id within the `idle` time, those events will be included in the same session window. By default, the max length of the session window is 5 times of the idle time. For example, if the car keeps sending data when it's moving and stops sending data when it's parked or waiting for the traffic light, `session(car_live_data, 1m, cid)` will create session windows for each car with 1 minute idle time. Meaning if the car is not moved within one minute, the window will be closed and a new session window will be created for future events. If the car keeps moving for more than 5 minutes, different windows will be created (every 5 minutes), so that as analysts, you can get near real-time results, without waiting too long for the car to be stopped.
+Create dynamic windows based on the activities in the data stream. 
+
+Parameters:
+
+* `stream` a data stream, a view, or a [CTE](glossary#cte)/subquery
+* `timeCol` optional, by default it will be `__tp_time` (the event time for the record)
+* `idle` how long the events will be automatically splitted to 2 session windows
+* `maxLength` the max length of the session window. Optional. Default value is the 5 times of `idle`
+* `[startCondition, endCondition]`Optional. If specified, the session window will start when the `startCondition`is met and will close when `endCondition` is met. You can use `[expression1, expression2]`to indicate start and end events will be included in the session, or `(expression1, expression2]` to indicate the ending events will be included but not the starting events.
+
+For example, if the car keeps sending data when it's moving and stops sending data when it's parked or waiting for the traffic light
+
+* `session(car_live_data, 1m) partition by cid` will create session windows for each car with 1 minute idle time. Meaning if the car is not moved within one minute, the window will be closed and a new session window will be created for future events. If the car keeps moving for more than 5 minutes, different windows will be created (every 5 minutes), so that as analysts, you can get near real-time results, without waiting too long for the car to be stopped.
+* `session(car_live_data, 1m, [speed>50,speed<50)) partition by cid` create session windows to detect when the car is speeding. The first event with speed over 50 will be included, and the last event with speed lower than 50 will not be included in the session window.
+* `session(access_log, 5m, [action='login',action='logout']) partition by uid` create session windows when the user logins the system and logout. If there is no activity within 5 minutes, the window will be closed automatically.
 
 ### dedup
 
