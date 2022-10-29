@@ -18,7 +18,7 @@
     "@docusaurus/core": "^2.1.0",
     "@docusaurus/preset-classic": "^2.1.0",
     "@fontsource/poppins": "^4.5.1",
-    "@mdx-js/react": "^2.0.0",
+    "@mdx-js/react": "^1.6.21",
     "clsx": "^1.1.1",
     "docusaurus-plugin-hubspot": "^1.0.1",
     "mdx-mermaid": "^1.2.1",
