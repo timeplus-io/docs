@@ -17,6 +17,7 @@
   "dependencies": {
     "@docusaurus/core": "^2.1.0",
     "@docusaurus/preset-classic": "^2.1.0",
+    "@fontsource/inter": "^4.5.14",
     "@fontsource/poppins": "^4.5.1",
     "@mdx-js/react": "^1.6.21",
     "clsx": "^1.1.1",

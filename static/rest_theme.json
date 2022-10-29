@@ -8,7 +8,7 @@
       }
     },
     "typography": {
-      "fontFamily": "Poppins, Fira Sans, Roboto, sans-serif",
+      "fontFamily": "Inter, Fira Sans, Roboto, sans-serif",
       "links": {
         "color": "#D53C97",
         "visited": "#D53C97",

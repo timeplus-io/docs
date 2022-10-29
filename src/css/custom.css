@@ -15,7 +15,7 @@ html[data-theme='dark'] {
   --ifm-color-primary-lightest: #ffb0bf;
   --ifm-code-font-size: 95%;
   --ifm-background-color: #2c2c2c;
-  --ifm-font-family-base: 'Poppins';
+  --ifm-font-family-base: 'Inter';
 }
 */
 html[data-theme='dark'] {
@@ -28,7 +28,7 @@ html[data-theme='dark'] {
   --ifm-color-primary-lightest: #EDB0CF;
   --ifm-code-font-size: 95%;
   --ifm-background-color: #2c2c2c;
-  --ifm-font-family-base: 'Poppins';
+  --ifm-font-family-base: 'Inter';
 }
 
 .docusaurus-highlight-code-line {
