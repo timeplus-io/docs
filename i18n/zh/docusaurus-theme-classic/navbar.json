@@ -1,0 +1,26 @@
+{
+  "title": {
+    "message": "文档",
+    "description": "The title in the navbar"
+  },
+  "item.label.Overview": {
+    "message": "概览",
+    "description": "Navbar item with label Overview"
+  },
+  "item.label.Quickstart": {
+    "message": "快速入门",
+    "description": "Navbar item with label Quickstart"
+  },
+  "item.label.Functions": {
+    "message": "函数",
+    "description": "Navbar item with label Functions"
+  },
+  "item.label.What's New": {
+    "message": "产品更新",
+    "description": "Navbar item with label What's New"
+  },
+  "item.label.REST API": {
+    "message": "REST API",
+    "description": "Navbar item with label REST API"
+  }
+}

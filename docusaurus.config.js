@@ -102,11 +102,19 @@ const config = {
             position: 'left',
             label: 'REST API',
           },
+          /*
           {
             href: 'https://github.com/timeplus-io/',
             label: 'GitHub',
             position: 'right',
           },
+          */
+         /* don't show this until the translation is done
+          {
+            type: 'localeDropdown',
+            position: 'right',
+          },
+          */
         ],
       },
       footer: {
@@ -164,6 +172,16 @@ const config = {
         disableSwitch: false,
       },
     }),
+  i18n: {
+      defaultLocale: 'en',
+      locales: ['en', 'zh'],
+      localeConfigs: {
+        zh: {
+          label: '中文',
+          htmlLang: 'zh-CN',
+        }
+      },
+    },  
 };
 
 module.exports = config;

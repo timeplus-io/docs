@@ -1,0 +1,34 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.docSidebar.category.Quickstart": {
+    "message": "Quickstart",
+    "description": "The label for category Quickstart in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Concepts": {
+    "message": "Concepts",
+    "description": "The label for category Concepts in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Data Ingestion": {
+    "message": "Data Ingestion",
+    "description": "The label for category Data Ingestion in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Query Guide": {
+    "message": "Query Guide",
+    "description": "The label for category Query Guide in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Release Notes": {
+    "message": "Release Notes",
+    "description": "The label for category Release Notes in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.doc.with Confluent Cloud": {
+    "message": "with Confluent Cloud",
+    "description": "The label for the doc item with Confluent Cloud in sidebar docSidebar, linking to the doc quickstart-confluent"
+  },
+  "sidebar.docSidebar.doc.with stream generator": {
+    "message": "with stream generator",
+    "description": "The label for the doc item with stream generator in sidebar docSidebar, linking to the doc quickstart-sample"
+  }
+}

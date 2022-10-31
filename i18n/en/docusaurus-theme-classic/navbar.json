@@ -1,0 +1,26 @@
+{
+  "title": {
+    "message": "Docs",
+    "description": "The title in the navbar"
+  },
+  "item.label.Overview": {
+    "message": "Overview",
+    "description": "Navbar item with label Overview"
+  },
+  "item.label.Quickstart": {
+    "message": "Quickstart",
+    "description": "Navbar item with label Quickstart"
+  },
+  "item.label.Functions": {
+    "message": "Functions",
+    "description": "Navbar item with label Functions"
+  },
+  "item.label.What's New": {
+    "message": "What's New",
+    "description": "Navbar item with label What's New"
+  },
+  "item.label.REST API": {
+    "message": "REST API",
+    "description": "Navbar item with label REST API"
+  }
+}

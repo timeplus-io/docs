@@ -1,0 +1,30 @@
+{
+  "link.title.Company": {
+    "message": "Company",
+    "description": "The title of the footer links column with title=Company in the footer"
+  },
+  "link.title.Community": {
+    "message": "Community",
+    "description": "The title of the footer links column with title=Community in the footer"
+  },
+  "link.item.label.Join the Beta": {
+    "message": "Join the Beta",
+    "description": "The label of footer link with label=Join the Beta linking to https://timeplus.com"
+  },
+  "link.item.label.Playground": {
+    "message": "Playground",
+    "description": "The label of footer link with label=Playground linking to https://play.timeplus.com"
+  },
+  "link.item.label.Blog": {
+    "message": "Blog",
+    "description": "The label of footer link with label=Blog linking to https://timeplus.com/blog"
+  },
+  "link.item.label.Join our Slack": {
+    "message": "Join our Slack",
+    "description": "The label of footer link with label=Join our Slack linking to https://join.slack.com/t/timepluscommunity/shared_invite/zt-14nymxet0-9_Hxszyi5fXUL0Ra_lI~lw"
+  },
+  "copyright": {
+    "message": "Copyright © 2022 Timeplus, Inc.",
+    "description": "The footer copyright"
+  }
+}
