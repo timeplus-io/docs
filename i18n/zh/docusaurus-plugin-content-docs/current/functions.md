@@ -269,75 +269,75 @@ select
 
 ## 处理日期和时间
 
-### 年
+### year
 
 获取当前年份，例如 `year(today)())` 将是 `2022`。
 
-### 季度
+### quarter
 
 获取当前季度，例如 `季度(今日))` 将是 `1` 如果是Q1。
 
-### 月
+### month
 
 获取当前月份，例如 `个月(今日))` 将是 `2` 如果是2月。
 
-### 天
+### day
 
 获取月份中的当前日子。
 
-### 周日
+### weekday
 
 获得本周中的当前日子。 星期一是 1。 星期日为7天。
 
-### 小时
+### hour
 
-### 分钟
+### minute
 
-### 秒
+### second
 
 ### to_unix_timestamp
 
 例如， `to_unix_timestamp(now())` get `1644272032`
 
-### 年份开始__
+### to_start_of_year
 
-### 到 start_of_季度
+### to_start_of_quarter
 
 
 
-### 到月份开始__
+### to_start_of_month
 
-### 到开始日期_日
+### to_start_of_day
 
-### 开始时间
+### to_start_of_hour
 
-### 到_start_of_分钟
+### to_start_of_minute
 
-### 到第二个start_of_秒
+### to_start_of_second
 
 不同于其他 `to_start_of_` 函数，这个函数需要一个有毫秒的日期时间，例如 `to_start_of_second(now64())`
 
-### 到日期
+### to_date
 
 `to_date(字符串)` 将日期字符串转换为日期类型，例如 `to_date('1953-11-02')`
 
-### 到日期时间
+### to_datetime
 
 `to_datetime(值)` 将值转换为日期时间类型，例如 `to_datetime(1655265661)` 或 `to_datetime(todayy(today))`
 
-### 今日：
+### today
 
 `today()`
 
-### 到 YYYYMM
+### to_YYYYMM
 
-`to_YYYYMM(日期)`
+`to_YYYYMM(date)`
 
 获取一个数字。 例如， `to_YYYYMM(today))` 将获得数字 `20202`
 
-### 到 YYYYMMDD
+### to_YYYYMMDD
 
-`to_YYYMMDDD(日期)`
+`to_YYYYMMDD(date)`
 
 获取一个数字。
 
@@ -347,7 +347,7 @@ select
 
 获取一个数字。
 
-### 到时区
+### to_timezone
 
 `to_timezone(datectime_in_a_timezone,target_timezone)` 将日期时间从一个时区转换到另一个时区。
 
@@ -368,7 +368,7 @@ SELECT
 
 
 
-### 格式_日期时间
+### format_datetime
 
 `格式_datetime(时间,格式,时区)`
 
@@ -389,13 +389,13 @@ SELECT
 
 
 
-### 日期差异
+### date_diff
 
 `date_diff(unit,begin,end)`
 
 Calculate the difference between `begin` and `end` and produce a number in `unit`. 例如： `date_diff('second',window_start,window_end)`
 
-### 日期 diff_within
+### date_diff_within
 
 `date_diff_within(timegap,time1,time2)`
 
@@ -413,14 +413,14 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 * 分钟
 * 秒
 
-### 添加日期
+### date_add
 
 它支持 `date_add(单位, 值, 日期)` 和快捷解决 `data_add(date,timeExpression)`
 
 *  `date_add(HOUR, 2, now())` 将在 2 小时内获得一个新的日期时间。 `date_add(HOUR, -2, now())` 将得到一个新的日期时间2 小时后退。
 * `date_add(now)、2h)` 和 `date_add(now)、2h)` 也工作
 
-### 日期子项
+### date_sub
 
 它支持 `date_sub(单位, 值, 日期)` 和快捷解决 `data_sub(date,timeExpression)`
 
@@ -437,15 +437,15 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `json_extract _float(json, key)` 获取指定的 JSON 文档和密钥的浮点值。 例如， `json_extract_int('{"a":10,"b":3.13}','b')` 将获得浮点数 `3.13`
 
-### json_extract bool
+### json_extract_bool
 
 `json_extract_bool(json, key)` 从指定的 JSON 文档和密钥中获取布尔值。 例如， `json_extract_bool('{"a":true}','a')` 将获得布尔值 `true` 或 `1`
 
-### json_extract 字符串
+### json_extract_string
 
 `json_extract_string(json, key)`获取指定的 JSON 文档和密钥的字符串值。 例如， `json_extract_string('{"a":true,"b":{"c":1}}','b')` 将获得字符串值 `{"c":1}` 并且您可以继续使用 JSON 函数来提取值。
 
-### json_extract 数组
+### json_extract_array
 
 `json_extract_array(json, key)`获取指定的 JSON 文档和密钥的数组值。 例如 `json_extract_array('{"a": "hello", "b": [-100, 200). , "hello"]}', 'b''` 将获得数组值 `['-100','200','hello"]` 如果整个JSON文档是一个数组, 第二个参数 `键` 可以省略json 字符串作为数组，e。 。 `json_extract_array(arrayString)`
 
@@ -465,21 +465,21 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `json_value(json, path)` 允许您访问嵌套的 JSON 对象。 For example, `json_value('{"a":true,"b":{"c":1}}','$.b.c')` will return the number `1`
 
-### json_查询
+### json_query
 
 `json_query(json, path)` 允许您访问 JSON 嵌套的 JSON 对象作为JSON 数组或 JSON 对象。 如果值不存在，则返回空字符串。 例如， `json_query('{"a":true,"b":{"c":1}}','$.b.) ')` 将返回一个 1 元素  `[1]` 的数组更复杂的例子。 `json_query('{"records":[{"b":{"c":1}}},{"b":{"c":2}}},{"b":{"c":3}}},','$. ecords[*].b.c')` 将获得 `[1,2,3]`
 
 ## 流程文本
 
-### 较低
+### lower
 
 `小(字符串)`
 
-### 上方
+### upper
 
 `上级(字符串)`
 
-### 格式
+### format
 
 `格式 (template,args)` 例如： `格式 ('{} {}', 'Hello', 'Worldd')`得到 `Hello World`
 
@@ -491,15 +491,15 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `substr(str,idx1,idx2)`
 
-### 修饰
+### trim
 
 `修剪(字符串)`
 
-### 分割-by_string
+### split_by_string
 
 `split_by_string(sep,string)`  例如： `split_by_string('b','abcbxby')`将获得一个包含字符串的数组 `['a','c','x','y']`
 
-### 匹配
+### match
 
 `匹配(string,pattern)` 决定字符串是否匹配给定的正则表达式。 例如，要检查文本是否包含一个敏感的 AWS ARN，您可以运行 `匹配(text,'arn:aws:kms:us-east-1:\d{12}:key/.{36}')`
 
@@ -507,7 +507,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `multi_search_any(文本数组)` 决定文本是否包含给定数组中的字符串。 例如，要检查文本是否包含任何敏感关键词，您可以运行 `multi_search_any(text,['password','token','secret'])`
 
-### 替换一个
+### replace_one
 
 `替换 (string,pattern,replacement)`
 
@@ -515,7 +515,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 例如， `replace_one('abca','a','z')` 将得到 `zbca`
 
-### 替换
+### replace
 
 `替换 (string,pattern,replacement)`
 
@@ -523,13 +523,13 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 例如 `替换 ('aabc','a','z')` 将得到 `zzbc`
 
-### 替换正则表达式
+### replace_regex
 
 `replace_regex(string,pattern,replacement)`
 
 这可以用来掩盖数据，例如： 要隐藏完整的电话号码，您可以运行 `replace_regex('604-123-4567' (\\d{3})-(\\d{3})-(\\d{4})','\\1-***-******')` 获得 `604-***-****`
 
-### 提款
+### extract
 
 用正则表达式处理纯文本并提取内容。 例如， `extract('key1=value1, key2=value2','key1=(\\w+)')`, 这将得到“value1”。  如果日志行放入一个单一的文本列，您可以用提取的字段创建一个视图，例如：
 
@@ -542,7 +542,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 
 
-### 提取所有群组
+### extract_all_groups
 
 `extract_all_groups(haystack, pattern)`
 
@@ -556,7 +556,7 @@ SELECT
 
 
 
-### 提取全部组别横线
+### extract_all_groups_horizontal
 
 `extract_all_groups_水平(haystack, pattern)`
 
@@ -570,7 +570,7 @@ SELECT
 
 
 
-### 格罗克
+### grok
 
 在不使用正则表达式的情况下从计划文本中提取值。 例如： `SELECT grok('我的名字是杰克) 我在23年前。',我的名字是 %{DATA:name}。 我是 %{INT:age} 年前。') 因为m` 将得到 `{"name":"Jack","age":"23"}` 作为 `m`
 
@@ -590,7 +590,7 @@ SELECT
 
 ## 逻辑值
 
-### 如果：
+### if
 
 `if(condition,yesValue,noValue)`
 
@@ -602,39 +602,39 @@ SELECT
 
 ## 聚合
 
-### 计数
+### count
 
 `计数(*)` 获取行数 或 `计数(col)` 当 `col` 不是 `NULL` 时获得行数
 
-### 倒计时
+### count_distinct
 
 `count_distant(col)` 获取 `列的唯一值` 列。 与 `个计数(独选一列)` 相同
 
-### 倒计时
+### count_if
 
 `count_if(condition)` 来应用带有 `条件的筛选器` 并获取记录数量。 例如： `count_if(speed_kmh>80)`
 
-### 不同的
+### distinct
 
 `diffent(col)`获取 `列` 列的不同值。
 
-### 唯一的
+### unique
 
 `唯一(<column_name1>[, <column_name2>, ...])`: 计算列中不同值的大致数。
 
-### 唯一精确的
+### unique_exact
 
 `unique_exact(<column_name1>[, <column_name2>, ...])`计算列中不同值的确切数量。
 
-### 唯一精确if
+### unique_exact_if
 
 `唯一精确if(col, 请使用` 应用带有 `条件的过滤器` 并获取 `coll`, e. 。获取高速的汽车 `unie_extract_if(cid,speed_kmh>80)`
 
-### 分钟
+### min
 
 `min(<column_name>)`: 列的最小值。 对于字符串列，比较是词汇排序。
 
-### 最大值
+### max
 
 `max(<column_name>)`: 列的最大值。 对于字符串列，比较是词汇排序。
 
@@ -642,17 +642,17 @@ SELECT
 
 `sum(<column_name>)`: 列之和。 仅适用于数字。
 
-### 八克
+### avg
 
 `avg(<column_name>)`: 一列的平均值 (sum(column) / count(column)). 仅适用于数字列。
 
-### 中值
+### median
 
 计算数值数据样本的中间值。
 
 
 
-### 数量
+### quantile
 
 `定量(列，级别)`计算一个大致的数值数据序列。 例如： `数量 (a,0.9)`获取列的 P90 和 `数量 (a,0.5)` 获取 [中位](functions#median) 数字
 
@@ -668,7 +668,7 @@ SELECT
 
 短于 `个数量 (a,0.99)`
 
-### 顶部_k
+### top_k
 
 `top_k(<column_name>,K [,true/false])`: 列名中最频繁的 K 项。 返回一个数组。
 
@@ -676,33 +676,33 @@ SELECT
 
 如果您不需要事件计数，您可以设置第三个参数的 false，例如： `top_k(cid, 3, false)` 可能得到 `['c01','c02','c03']`
 
-### 最小k
+### min_k
 
 `min_k(<column_name>,K [,context_column])`: 列名中最小的 K 项。 返回一个数组。 您还可以添加列表，获取同行中值的更多上下文，例如 `min_k(价格，3，)。 roduct_id,last _updated)`  这将返回一个数组，每个元素作为管，比如 `[(5)。 2,'c42664',(5.12,'c42664'),(15.36,'c84068')`
 
-### 最大_k
+### max_k
 
 `max_k(<column_name>,K[,context_column])`: 列名中最大的 K 项。 您还可以添加列表，获取同一行中更多值的上下文，例如 `max_k(价格，3，product_id，last_updated)`
 
-### 组数组
+### group_array
 
 `group_array(<column_name>)` 来合并特定列作为数组的值。 例如，如果有三行，此列的值是“a","b","c"。 此函数将生成单行和单列，值 `['a','b','c']`
 
-### 移动总和
+### moving_sum
 
 `moving_sum(column)` 返回一个数组与指定列的移动和和。 例如， `从下面选择移动_sum(a) (选择1为工会选择2为工会选择3为a)` 将返回[1,3,6]
 
 
 
-## 数学数
+## 数学
 
-### 位数
+### abs
 
 `abs(值)` 返回数字的绝对值。 如果一个<，则返回 -a。
 
 
 
-### 圆形
+### round
 
 `圆形(x [,N])` 向一定数量的小数位点投射一个值。
 
@@ -728,7 +728,7 @@ SELECT
 
 
 
-### 日志
+### log
 
 `log(x)`  返回 `浮点` 数字接近参数的自然对数 `x`
 
@@ -740,7 +740,7 @@ SELECT
 
 
 
-### 日志2
+### log2
 
 `log2(x)` 返回 `浮点` 数字接近参数的二进制对数 `x`
 
@@ -771,7 +771,7 @@ SELECT
 
 <!--
 
-### 伽马
+### lgamma
 
 `lgamma(x)` 伽马函数的对数
 
@@ -789,7 +789,7 @@ SELECT
 
 
 
-### 牛座
+### cos
 
 `cos(x)` 余osine
 
@@ -811,7 +811,7 @@ SELECT
 
 `acos(x)` arc cosine
 
-### 阿坦文
+### atan
 
 `atan(x)` 弧切点
 
@@ -823,31 +823,31 @@ SELECT
 
 
 
-### 功率
+### power
 
 `功率 (x,y)`  返回 `浮点` 靠近  `x` 靠近 `y`
 
 
 
-### 签名
+### sign
 
 `sign(x)` 返回数字 `x` 的签名。 如果x<0, 返回 -1。如果x>0, 返回 1。 否则，返回0。
 
 
 
-### 度
+### degrees
 
 `度 (x)` 将以弧度为单位的输入值转换为度。 例如： `递减(3.14)` 返回 180。
 
-### 弧度
+### radians
 
 `弧度(x)` 将输入值转换为弧度。 例如： `弧度(180)` 返回 3.14。
 
-### 是有限的
+### is_finite
 
 `is_finite(x)` 返回值 `x` 不是无限的而不是NAN, 顺便返回0。
 
-### 是无限的
+### is_infinite
 
 `is _infinite(x)` to return 1 while the value `x` is 无限，否则返回 0。
 
@@ -855,7 +855,7 @@ SELECT
 
 `is_nan(x)` 返回如果 `x` 为 not-a-Number(NAN)，否则返回 0。
 
-## 财务情况
+## 财务
 
 ### x
 
@@ -867,106 +867,106 @@ SELECT
 
 ## 地理位置
 
-### 点数输入多边形
+### point_in_polygon
 
 检查点是否属于多边形。 `point_in_polygon((x,y),[(a,b),(c,d)...)` 例如： `SELECT point_in_polygon(3,3)。 , [(6, 0), (0), (8, 4), (5, 8), (0, 2)]) AS` 返回 `` 自点起(3, )是在定义的多边形中。
 
 
 
-### 大地距离
+### geo_distance
 
 计算 WGS-84 椭圆上的距离。 `geo_distance(lon1,lat1,lon2,lat2)`
 
-## 流媒体处理
+## 流处理
 
-### 表
+### table
 
-`table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka 主题的点击流数据加载到 `单击` 流。 默认情况下，如果您运行 `选择... 从 ROM 点击...` 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 `表格` 函数中。 使用 `计数` 作为示例：
+`table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT... FROM clicks ..` 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 `table` 函数中。 使用 `count` 作为示例：
 
-* running `select count(*) from clicks` will show latest count every 2 seconds and never ends, until the query is cancelled by the user
-* 运行 `从表格 (点击)` 中选择计数(*)，将立即返回此数据流的历史数据行数。
+* 运行 `select count(*) from clicks` 将每2秒显示最新计数，直到你取消这个查询
+* 运行 `select count(*) from table(clicks)` 将立即返回此数据流的历史数据行数。
 
-您可以创建视图，如 `创建直方形视图作为从表中选择 * (stream_name)`, 如果您想要多次查询表模式中的数据。 对于静态数据，例如查找信息(城市名称及其邮政编码)，这种方法可能很有效。
+您可以创建视图，如 `create view histrical_view as select * from table(stream_name)`, 如果您想要多次查询表模式中的数据。 对于静态数据，例如查找信息(城市名称及其邮政编码)，这种方法可能很有效。
 
 了解更多关于 [非流媒体查询](history) 的信息。
 
-### 肿瘤的
+### tumble
 
-`肿瘤(流 [,timeCol], 窗口大小)`
+`tumble(stream [,timeCol], windowSize)`
 
-为数据流创建一个肿瘤窗口视图，例如 `肿瘤， s)` 将创建每5秒数据流 `iot` 的窗口。 SQL 必须以 `组以` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
+为数据流创建一个tumble窗口视图，例如 `tumble(iot,5s)` 将创建每5秒数据流 `iot` 的窗口。 SQL 必须以 `group by` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
 
 ### hop
 
-`cho(流 [,timeCol], 步骤, 窗口大小)` 为数据流创建一个跳跃窗口视图, 例如 `hopolot, s5s)` 将创建每5秒数据流的窗口 `iot` 并每秒移动窗口转发一次。 SQL 必须以 `组以` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
+`hop(stream [,timeCol], step, windowSize)` 为数据流创建一个跳跃窗口视图, 例如 `hop(iot,1s,5s)` 将创建每5秒数据流的窗口 `iot` 并每秒移动窗口转发一次。 SQL 必须以 `group by` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
 
-### 目 录
+### session
 
-`session(流 [,timeCol], 空闲, [maxLength, ] [startCondition,endcondition] )`
+`session(stream [,timeCol], idle, [maxLength,] [startCondition,endCondition] )`
 
 基于数据流中的活动创建动态窗口。
 
 参数：
 
-* `流` 数据流、视图或 [CTE](glossary#cte)/sub查询
-* `时间列` 可选，默认情况下是 `__tp_time` (记录的事件时间)
-* `空闲` 事件将被自动分割为2个会话窗口
-* `最大长度` 会话窗口最大长度。 可选的。 默认值是 `空闲的 5 次`
-* `[启动条件, 结束条件]`可选. 如果指定的话，会话窗口将在满足 `startCondition`时开始，并将在 `endCondition` 得到满足时关闭。 您可以使用 `[expression1, expression2]`表示开始和结束事件将包含在会话中。 或 `(expression1，expression2]` 表示结束事件将包括但不包括起始事件。
+* `stream` 数据流、视图或 [CTE](glossary#cte)/子查询
+* `timeCol` 可选，默认情况下是 `__tp_time` (记录的事件时间)
+* `idle` 事件将被自动分割为2个会话窗口
+* `maxLength` 会话窗口最大长度。 可选的。 默认值是 `idle`的 5 倍
+* `[startCondition, endCondition]`可选. 开始和结束条件 如果指定的话，会话窗口将在满足 `startCondition`时开始，并将在 `endCondition` 得到满足时关闭。 您可以使用 `[expression1, expression2]`表示开始和结束事件将包含在会话中。 或 `(expression1，expression2]` 表示结束事件将包括但不包括起始事件。
 
 例如，如果车辆在移动时一直在发送数据，停靠时停止发送数据或等待交通灯
 
-* `session(car_live_data, 1m) 分隔符` 将为每辆车创建会话窗口，空闲时间为1分钟。 表示汽车未在一分钟内移动， 窗口将被关闭，并将为未来事件创建一个新的会话窗口。 如果车辆移动时间超过5分钟，将创建不同的窗户(每5分钟)， 这样作为分析员，你就可以获得接近实时的结果，而不必等待太长时间才能停车。
-* `session(car_live_data, 1m, [速度>50,速度<50)) 分区由 cid` 创建会话窗口以检测汽车正在加速的情况。 将包括速度超过50的第一次活动。 和速度小于50的最后一个事件将不会被包含在会话窗口中。
-* `session(access_log, 5m, [action='login',action='logout']) 通过 uid` 创建会话窗口时用户登录系统并退出登录。 如果在5分钟内没有活动，窗口将自动关闭。
+* `session(car_live_data, 1m) partition by cid ` 将为每辆车创建会话窗口，空闲时间为1分钟。 表示汽车未在一分钟内移动， 窗口将被关闭，并将为未来事件创建一个新的会话窗口。 如果车辆移动时间超过5分钟，将创建不同的窗户(每5分钟)， 这样作为分析员，你就可以获得接近实时的结果，而不必等待太长时间才能停车。
+* `session(car_live_data, 1m, [speed>50,speed<50)) partition by cid` 创建会话窗口以检测汽车正在加速的情况。 将包括速度超过50的第一次活动。 和速度小于50的最后一个事件将不会被包含在会话窗口中。
+* `session(access_log, 5m, [action='login',action='logout']) partition by uid` 创建会话窗口时用户登录系统并退出登录。 如果在5分钟内没有活动，窗口将自动关闭。
 
-### 去除值
+### dedup
 
-`上传(stream, column1 [,otherColums...] [liveInSecond,limit])`
+`dedup(stream, column1 [,otherColumns..] [liveInSecond,limit])`
 
-在给定的数据流中使用指定的列 (s) 应用反复性。 `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但如果你只想在一定时间内避免重复，请说2分钟，你可以设置 `120s`。 。 `edup(子查询,myId,120s)`
+在给定的数据流中使用指定的列 (s) 应用反复性。 `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但如果你只想在一定时间内避免重复，请说2分钟，你可以设置 `120s`例如 `dedup(子查询,myId,120s)`
 
 最后一个参数 `限制` 是可选的，默认是 `100 000`。 它限制在查询引擎中最大唯一密钥。 如果达到限制，系统将回收最早的密钥以保持这一限制。
 
-您可以将此表函数级，例如 `肿瘤(table...)` 并且到目前为止，包装顺序必须在这个序列中：tumble/hop/session -> dep-> 表。
+您可以将此表函数级，例如 `tumble(table...)` 并且到目前为止，包装顺序必须在这个序列中：tumble/hop/session -> dep-> 表。
 
 ### lag
 
-`滞后(<column_name> [, <offset=1>] [, <default_value>])`: 同时用于流媒体查询和历史查询。 如果您省略了 `偏移量` ，最后一行将被比较。 例如：
+`lag(<column_name> [, <offset=1>] [, <default_value>])`: 同时用于流媒体查询和历史查询。 如果您省略了 `offset` ，最后一行将被比较。 例如：
 
-`滞后(总计)` 以获得最后一行的 `总计` 的值。 `滞后(总计, 12)` 以获得12行前的值。 `滞后(总计12, 0)` 如果指定行不可用则使用0作为默认值。
+`lag(总计)` 以获得最后一行的 `总计` 的值。 `lag(总计, 12)` 以获得12行前的值。 `lag(total, 0)` 如果指定行不可用则使用0作为默认值。
 
 
 
-### 滞后
+### lags
 
-`lags(<column_name>, begin_offset, end_offset [, <default_value>])` simliar to `lags` 函数，但可以获得一个数值列表。 例如: `lags(总计,1,3)` 将返回一个数组, 最后1, 最后2和最后3个值。
+`lags(<column_name>, begin_offset, end_offset [, <default_value>])` simliar to `lags` 函数，但可以获得一个数值列表。 例如: `lags(total,1,3)` 将返回一个数组, 最后1, 最后2和最后3个值。
 
-### 最新的
+### latest
 
-`最新(<column_name>)` 获取特定列的最新值，用于与群组的串流聚合。
+`latest(<column_name>)` 获取特定列的最新值，用于与群组的串流聚合。
 
-### 最早的
+### earliest
 
-`最早(<column_name>)` 获得特定列的最早值，与分组的串流聚合一起工作。
+`earliest(<column_name>)` 获得特定列的最早值，与分组的串流聚合一起工作。
 
-### 现在：
+### now
 
 `now()`
 
 显示当前日期时间，例如2022-01-28 05:08:16
 
-如果在串流查询中使用了现在() 不论 `选择` 或 `WHERE` 或 `肿瘤/节点` 窗口， 它将反映当前预测行的时间。
+当now()用在流式SQL,无论是 `SELECT` 或 `WHERE` 或 `tumble/hop` 窗口, 他想反应运行时的时间。
 
-### 现在64
+### now64
 
 类似于 `now ()` 但有额外毫秒信息，例如2022-01-28 05:08:22.680
 
-它也可以用于流媒体查询以显示最新的日期时间和毫秒。
+它也可以用于流查询以显示最新的日期时间和毫秒。
 
 ### emit_version
 
-`emit_version()` 以显示流媒体查询结果的每个发射的自动增加数字。 它只适用于流媒体聚合，而不是尾部或过滤器。
+`emit_version()` 以显示流查询结果的每个发射的自动增加数字。 它只适用于流聚合，而不是尾部或过滤器。
 
-例如，如果运行 `，请选择emit_version(), ount(*) 从 car_live_data` 查询将每2秒发布结果，而第一个结果将是emit_version=0。 emit_version=1的第二个结果。 当每个发射结果中有多行时，此函数特别有用。 例如，您可以与一个群组一起运行一个肿瘤性窗口合集。 相同聚合窗口的所有结果将在相同的 emit_version。 然后您可以在同一聚合窗口中显示所有行的图表。
+例如，如果运行 `select emit_version(),count(*) from car_live_data` 查询将每2秒发布结果，而第一个结果将是emit_version=0。 emit_version=1的第二个结果。 当每个发射结果中有多行时，此函数特别有用。 例如，您可以运行一个tumble窗口聚集时加group by。 相同聚合窗口的所有结果将在相同的 emit_version。 然后您可以在同一聚合窗口中显示所有行的图表。
 
