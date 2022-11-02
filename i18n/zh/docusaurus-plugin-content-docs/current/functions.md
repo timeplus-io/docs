@@ -1,62 +1,62 @@
 # 函数
 
-以下函数在 SQL 类的时间plus 查询语言中得到支持。 如果您需要更多功能，请联系我们。
+以下是Timeplus支持的SQL函数。 如果您需要更多功能，请联系我们。
 
-## 输入转换
+## 类型转换
 
-### 到时间
+### to_time
 
-`to_time(time_string [, default_time_zone] [,defaultValue])` 来将字符串转换为日期时间64 值
+`to_time(time_string [, default_time_zone] [,defaultValue])` 来将字符串转换为datetime64 值
 
 例如： `to_time('1/22')` or `to_time('1/2/22','America/New_York')`
 
-一些共同的时区是：
+一些常见的时区是：
 
-* `UTC`: 等于 `GMT`(格林威治平均时间)
+* `UTC`: 等效于 `GMT`(格林威治平均时间)
 * `EST`: 美国东部时间
 * `MST`: 美国山区时间
 * `PST8PDT`: 美国太平洋时间
-* `America/New_York`: 相同 `EST`
-* `America/Los_Angeles`: 等于 `PST8PDT`
-* `America/Vancouver`: 等于 `PST8PDT`
-* `Asia/Shanghi`: 等于 `PRC`
+* `America/New_York`: 等同于 `EST`
+* `America/Los_Angeles`: 等同于 `PST8PDT`
+* `America/Vancouver`: 等同于 `PST8PDT`
+* `Asia/Shanghi`: 等同于 `PRC`
 
 对于可能的时区的完整列表，请检查 [维基百科页面](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) 中的“TZ 数据库名称”栏。
 
-您也可以通过 [将时区之间的时间转换为 _时区](#to_timezone)
+您也可以通过 [to_timezone](#to_timezone)将转换时区
 
-### 整数
+### to_int
 
 `to_int(字符串)` 将其转换为整数。
 
-### 浮点数
+### to_float
 
 `to_float(字符串)` 将其转换为一个浮点数，例如 `to_float('3.1415926')`
 
-### 到小数
+### to_decimal
 
-`to_十进制(数值_or_string，缩放)`
+`to_decimal(number_or_string, scale)`
 
-例如， `to_十进制('3.1415926',2)` 以获得3.14
+例如， `to_decimal('3.1415926',2)` 以获得3.14
 
-### 到字符串
+### to_string
 
-将任何数据类型转换为字符串，以便您可以执行其他字符串操作，如 [简洁](#concat)
+将任何数据类型转换为字符串，以便您可以执行其他字符串操作，如 [concat](#concat)
 
-### 布尔值
+### to_bool
 
-将值转换为 `bool` 类型。 例如： `选择 to_bool(1), to_bool(true),to_bool(True),to_bool('true')` 所有返回 `true` 请注意，您不能运行 `to_bool('True')`
+将值转换为 `bool` 类型。 例如：`select to_bool(1), to_bool(true),to_bool(True),to_bool('true')` all return `true`. 请注意，您不能运行 `to_bool('True')`
 
 
-### 投影
+### cast
 
 将输入值转换为指定的数据类型。 支持三个语法变体：
 
-* `城堡(fx, T)`
-* `城堡(x as t)`
+* `cast(x, T)`
+* `cast(x as t)`
 * `x:t`
 
-时间：
+说明：
 
 - x - 一个要转换的值。 也许是任何类型。
 - T——目标数据类型的名称。 字符串。
@@ -65,28 +65,28 @@
 例如：
 
 ```sql
-选择
-    种子('1', 'integer'),
-    种子('1' 作为整数),
-    种子(3.1415, '十进制(3, 2)),
-    json_extract_string('{"a":"001"}','a'):整数
+select
+    cast('1', 'integer'),
+    cast('1' as integer),
+    cast(3.1415, 'decimal(3, 2)'),
+    json_extract_string('{"a":"001"}','a')::integer
 ```
 
-### 到类型名称
+### to_type_name
 
 `to_type_name(x)` 来显示参数的类型名称 `x` 这主要是为了排除故障以了解函数调用的日期类型。
 
 ## 访问复合类型 {#arrays}
 
-### 数组_cast
+### array_cast
 
 `array_cast(元素1,元素2,...)` 创建一个新的数组给定元素，例如 `array_cast(1,2)` 将得到 `[1,2]` 请注意，元素应该是同一类型。 例如 `array_cast('a','n')`, not `array_cast('a',0')`
 
-### 长度
+### length
 
-`长度(数组)`
+`length(array)`
 
-### 数组\[索引\] {#array_element}
+### array\[index\] {#array_element}
 
 您可以轻松访问数组中的任何元素，只需使用数组名[index]，比如 `顶部值[2]`
 
@@ -102,82 +102,82 @@
 
 `index_of(arr,x)` 返回数组中 `x` 的索引 `arr` 第一个元素的索引是 1。 如果 `x` 不在数组中，返回 0。
 
-### 数组紧凑的
+### array_compact
 
 `array_compact(arr)` 从数组中删除连续重复元素，例如 `array_compact([1,1,1,2,2,2,2,3,4,4,5])`返回 [1,2,3,4,5]
 
-### 阵列简体
+### array_concat
 
-`array_concatar(数组1,数组2)` 将两个数组合并成一个。
+`array_concat(数组1,数组2)` 将两个数组合并成一个。
 
-### 数组差数
+### array_difference
 
-`array_diffce(arr)` 计算相邻数组元素之间的差异。 返回第一个元素将为0的数组 第二个是 `a[1] - a[0]`之间的差异。 例如： `array_diffce([1,2,3,5])`返回 [0,1,2]
+` array_difference(arr)` 计算相邻数组元素之间的差异。 返回第一个元素将为0的数组 第二个是 `a[1] - a[0]`之间的差异。 例如： `array_diffce([1,2,3,5])`返回 [0,1,2]
 
-### 数组差异
+### array_distinct
 
-`array_distincent(arr)` 返回一个仅包含不同元素的数组。 例如： `array_distant([1,1,1,2,3,3,1,1)]`return [1,2,3], 而 `array_compact([1,1,2,3,1,1)`return [1,2,3,1]
+` array_distinct(arr)` 返回一个仅包含不同元素的数组。 例如： ` array_distinct([1,1,1,2,3,3,1,1)]`return [1,2,3], 而 `array_compact([1,1,2,3,1,1)`return [1,2,3,1]
 
 
 
-### 数组_平移
+### array_flatten
 
-`数组_flatten(数组1, 数组2,...)`将数组转换为平坦数组。 例如： `array_flatten([[[1]], [[2], [3]])` 返回 [1,2,3]
+`数组array_flatten(数组1, 数组2,...)`将数组转换为平坦数组。 例如： `array_flatten([[[1]], [[2], [3]])` 返回 [1,2,3]
 
-### array_string_concentat
+### array_string_concat
 
 `array_string_concat([，分隔符])` 与分隔符连接数组中列出的值的字符串表示. `分隔符` 是一个可选的参数：一个常量字符串，默认设置为空字符串。
 
 例如， `array_string_concat([1,2,3],'-')` 获取一个字符串 `1-2-3`
 
-### 数组加入
+### array_join
 
-`array_join(an_array)` 这是一个特殊的函数。 `group_array(col)` 来将列值从多行分组到一行中的单个值。 `数组_join` 相反：它可以将一个数组值的行转换为多行。
+`array_join(an_array)` 这是一个特殊的函数。 `group_array(col)` 来将列值从多行分组到一行中的单个值。 `array_join` 正好相反：它可以将一个数组值的行转换为多行。
 
-例如， `选择 array_join([10,20]) 为 v, “text” as t` 将获得2 行
+例如， `select array_join([10,20]) as v, 'text' as t` 将获得2 行
 
-| v  | t  |
-| -- | -- |
-| 10 | 文本 |
-| 20 | 文本 |
+| v  | t    |
+| -- | ---- |
+| 10 | text |
+| 20 | text |
 
-### 数组弹出
+### array_pop_back
 
-`数组_pop_back(数组)` 从数组中移除最后一个项目。 例如： `array_pop_back([1,2,3])` 返回 [1,2]
+`array_pop_back(数组)` 从数组中移除最后一个项目。 例如： `array_pop_back([1,2,3])` 返回 [1,2]
 
-### 数组弹出前
+### array_pop_front
 
-`数组_pop_front(数组)` 从数组中移除第一个项目。 例如： `array_pop_front([1,2,3])` 返回 [2,3]
+` array_pop_front(数组)` 从数组中移除第一个项目。 例如： `array_pop_front([1,2,3])` 返回 [2,3]
 
-### 数组_推送
+### array_push_back
 
-`数组_push_back(数组，值)` 将数组作为最后一个项目添加到数组。 例如： `array_pup_back([1,2,3],4)` 返回 [1,2,3,4]
+`array_push_back(数组，值)` 将数组作为最后一个项目添加到数组。 例如： `array_pup_back([1,2,3],4)` 返回 [1,2,3,4]
 
-### 数组推送前
+### array_push_front
 
-`数组_pub_front(数组，值)` 将数组作为第一个项添加值。 例如： `array_pus_front([1,2,3],4)` 返回 [4,1,2,3]
-
-
-
-### 数组产品
-
-`数组产品(数组)` 乘数组中的元素。 例如： `array_product([2,3,4])` 返回 24 (2x 3 x 4)
+`array_push_front(数组，值)` 将数组作为第一个项添加值。 例如： `array_push_front([1,2,3],4)` 返回 [4,1,2,3]
 
 
 
-### 数组调整大小
+### array_product
 
-`数组调整大小(数组，大小 [,extender])` 更改数组的长度。 如果 `大小`小于当前数组的长度，则数组将被截断. 否则，将创建一个具有指定大小的新数组，用指定的 `扩展器` 填充值。 e.g. `array_resize([3,4],1)` returns [3]. `数组调整大小([3,4],4,5)`返回 [3,4,5,5]
+`array_product(数组)` 乘数组中的元素。 例如： `array_product([2,3,4])` 返回 24 (2x 3 x 4)
 
 
 
-### 反向数组
+### array_resize
+
+`array_resize(数组，大小 [,extender])` 更改数组的长度。 如果 `大小`小于当前数组的长度，则数组将被截断. 否则，将创建一个具有指定大小的新数组，用指定的 `extender` 填充值。 e.g. `array_resize([3,4],1)` returns [3]. ` array_resize([3,4],4,5)`返回 [3,4,5,5]
+
+
+
+### array_reverse
 
 `array_reverse(arr)` 返回一个数组与原数组的反向顺序，例如 `array_reverse([1,2,3])` 返回 [3,2,1]
 
 
 
-### 数组_切片
+### array_slice
 
 `array_slice(arr, 偏移 [,长度])` 返回数组的分割。 如果没有指定 `长度` ，则分割到数组的末尾，例如 `array_slice([1,2,3,4,5,],2)` 返回 [2,3,4,5]。 如果 `偏移` 大于数组长度，则返回一个空数组 []。 如果 `长度` 被视为新数组的长度，例如： `array_slice([1,2,3,4,4,5],2,3)` 返回 [2,3,4]
 
@@ -189,81 +189,81 @@
 
 
 
-### 数组zip
+### array_zip
 
-`array_zip(arr1,arr2,... arrNs` 从不同的欠款组到一个新的数组到管子。 例如： `array_zip[1,2,3],['a','b','c']]` 返回 [(1,'a'),(2,'b'),(3,'c')]
+`array_zip(arr1,arr2,... arrNs` 从不同的数组合并到一个新的数组，每个元素是一个tuple。 例如： `array_zip[1,2,3],['a','b','c']]` 返回 [(1,'a'),(2,'b'),(3,'c')]
 
-### 数组_所有
+### array_all
 
-`数组_all([function, ]数组)` 返回 1(true) 或 0(Alse) 如果数组中的所有元素都符合条件。 例如， `array_all([1,2])` return 1, and `array_all([0,0])`return 0. 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_all(x->x%2==0,[2,4,6])` 以检查数组中的每个元素是否为偶。 它返回 1。
+`array_all([function, ]数组)` 返回 1(true) 或 0(Alse) 如果数组中的所有元素都符合条件。 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_all(x->x%2==0,[2,4,6])` 以检查数组中的每个元素是否为偶。 它返回 1。
 
-### 数组_avg
+### array_avg
 
-`数组_avg([func, ]数组)` 返回数组中的平均值。 例如， `array_avg([2,6])` return 4。 您可以在 lambda 函数中作为第一个参数，在计算平均数之前应用于每个元素。 例如 `array_avg(x->x*x,[2,6])` 获得2*2 和 6\*6的平均值，这是20。
+`array_avg([func, ]数组)` 返回数组中的平均值。 例如， `array_avg([2,6])` return 4。 您可以在 lambda 函数中作为第一个参数，在计算平均数之前应用于每个元素。 例如 `array_avg(x->x*x,[2,6])` 获得2*2 和 6\*6的平均值，这是20。
 
-### 数组计数
+### array_count
 
 `array_count([func, ]数组)` 返回符合条件数组中的元素数量。 默认情况下，检查值是否为 0。 例如： `array_count([0,0,1,2])` 返回 2。 您可以在 lambda 函数中传递一个 lambda 函数作为计算计数前应用于每个元素的第一个参数， 例如 `array_count(x->x>1,[1,2])` 获取大于1的数字，它返回 1。
 
-### 数组累积和
+### array_cum_sum
 
 `array_cum_sum([func, ]array)` 返回源数组中部分元素的数组(运行总和)。 例如： `array_cum_sum([1,1,1,1])` 返回 [1,2,3]。 您可以在 lambda 函数中作为第一个参数，在计算移动总和之前应用于每个元素， 例如 `array_cum_sum(x->x*x,[1,2])` 获得[1,5]
 
-### 数组存在
+### array_exists
 
-`array_exists([func, ]数组)` 返回 1(true) 或 0(Alse) 如果数组中的任何元素符合条件。 例如， `array_exists([0,1,2])` return 1, and `array_exists([0,0])`return 0。 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_exists(x->x%2==0,[2,3,4])` 检查数组中是否有任何元素。 它返回 1。 要检查所有元素是否符合条件，请使用 `数组_all`
+`array_exists([func, ]数组)` 返回 1(true) 或 0(Alse) 如果数组中的任何元素符合条件。 例如， `array_exists([0,1,2])` return 1, and `array_exists([0,0])`return 0。 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_exists(x->x%2==0,[2,3,4])` 检查数组中是否有任何元素。 它返回 1。 要检查所有元素是否符合条件，请使用 `array_all`
 
-### 数组筛选器
+### array_filter
 
 `array_filter(func, 数组)` 返回一个仅包含符合指定函数条件的元素的数组。 例如： `array_filter(x->x%2==0, [1,2,3,4])`返回 [2,4]
 
-### 数组_前
+### array_first
 
-`数组_firay_first(函数, 数组)` 返回符合指定函数条件的第一个元素。 例如： `array_first(x->x%2==0, [1,2,3,4])`返回 2。
+` array_first(函数, 数组)` 返回符合指定函数条件的第一个元素。 例如： `array_first(x->x%2==0, [1,2,3,4])`返回 2。
 
-### 数组_first_索引
+### array_first_index
 
-`数组_first_index(ffunc, 数组)` 返回与指定函数条件匹配的第一个元素的索引。 例如： `array_first_index(x->x%2==0, [1,2,3,4])`返回 2。
+`array_first_index(func, 数组)` 返回与指定函数条件匹配的第一个元素的索引。 例如： `array_first_index(x->x%2==0, [1,2,3,4])`返回 2。
 
-### 数组最后一个
+### array_last
 
 `array_last(func, 数组)` 返回符合指定函数条件的最后一个元素。 例如： `array_last(x->x%2==0, [1,2,3,4])`返回 4。  如果没有找到, 返回 0。
 
-### 数组最后一个索引
+### array_last_index
 
 `array_last_index(ffunc, 数组)` 返回匹配指定函数条件的最后一个元素的索引。 例如： `array_last_index(x->x%2==0, [1,2,3,4])`返回 4。 如果没有找到, 返回 0。
 
-### 数组地图
+### array_map
 
 `array_map(函数, 数组)` 将函数应用于数组中的每个元素，并返回一个新数组。 例如： `array_map(x->x*x,[1,2])`返回 [1,4]
 
-### 数组最大值
+### array_max
 
 `array_max(func, 数组)` 将函数应用于数组中的每个元素，然后返回最大值。 。 `array_max(x->x*x,[1,2])`返回 4
 
-### 数组_分钟
+### array_min
 
-`数组_min(函数, 数组)` 将函数应用于数组中的每个元素，然后返回最小值 e。 。 `array_min(x->x*x,[1,2])`返回 1
+`array_min(函数, 数组)` 将函数应用于数组中的每个元素，然后返回最小值 e。 。 `array_min(x->x*x,[1,2])`返回 1
 
-### 数组排序
+### array_sort
 
-`数组_sort(func, array)` 排序中的数组元素。 例如： `array_sort([3,2,5,4])` 返回 [2,3,4,5]。 你可以将 lambda 函数传递给它作为第一个参数在排序前应用函数。 。 `array_sort(x->-x,[3,2,5,4])`返回 [5,4,3,2]
-
-
-
-### 数组总和
-
-`数组_sum([func, ]数组)` 返回数组中的总值。 例如， `array_sum([2,6])` return 8。 您可以在 lambda 函数中传递一个 lambda 函数作为计算总和之前应用于每个元素的第一个参数。 例如 `array_sum(x->x*x,[2,6])` 获得2*2 和 6\*6的总和，这是40。
+`array_sort(func, array)` 排序中的数组元素。 例如： `array_sort([3,2,5,4])` 返回 [2,3,4,5]。 你可以将 lambda 函数传递给它作为第一个参数在排序前应用函数。 。 `array_sort(x->-x,[3,2,5,4])`返回 [5,4,3,2]
 
 
 
-### 映射\[key\] {#map-key}
+### array_sum
 
-您可以轻松访问地图中的任何元素，只需使用地图名称[keyName], 例如 `kv['key1']`
+`array_sum([func, ]数组)` 返回数组中的总值。 例如， `array_sum([2,6])` return 8。 您可以在 lambda 函数中传递一个 lambda 函数作为计算总和之前应用于每个元素的第一个参数。 例如 `array_sum(x->x*x,[2,6])` 获得2*2 和 6\*6的总和，这是40。
+
+
+
+### map\[key\] {#map-key}
+
+您可以轻松访问map中的任何元素，只需使用map[keyName], 例如 `kv['key1']`
 
 ### map_cast
 
-`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` (these 2 arrays should be with same size). 例如， `map_cast(['k1','k2'],[91,95])` 将得到 `{'k1':91,'k2':95}`
+`map_cast(array1, array2)` 用 `array1`作为map的key，用 `array2` 作为value来组成一个新的map(这2个数组应该长度相同). 例如， `map_cast(['k1','k2'],[91,95])` 将得到 `{'k1':91,'k2':95}`
 
 或者，您可以使用 `map_cast(key1,value1,key2,value2...)`
 
