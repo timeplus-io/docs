@@ -1,10 +1,10 @@
 # View{#views}
 
-There are two types of views in Timeplus: logical view (or just view ) and materialized view
+There are two types of views in Timeplus: logical view (or just view ) and materialized view.
 
 ## View
 
-You may have some common queries to run multiple times a week or month. You can save them in the web UI as "Saved Query". Just like how you add bookmarks for your favorite web sites. You can load the saved query in the query editor without typing it again. However you cannot refer to saved queries in a query. That's when you need to use views.
+If you have a common query you'll run multiple times a week or month, you can save them as a "Bookmark". While you can load the bookmarked query in the query editor without typing it again, you can't refer to bookmarked queries in a query. This is where views come in.
 
 You can create views for all kinds of queries, and refer to the views in other queries.
 
@@ -29,11 +29,11 @@ DROP VIEW [IF EXISTS] <view_name>
 
 ## Materialized view {#m_view}
 
-A materialized view is a view. The only difference is that the materialized view is running in background after creation and the result stream is physically written to internal storage , which is why it is called materialized.
+The difference between a materialized view and a regular view is that the materialized view is running in background after creation and the resulting stream is physically written to internal storage (hence it's called materialized).
 
 To create a materialized view, click the 'Create View' button in the VIEWS page, and turn on the 'Materialized view?' toggle button, and specify the view name and SQL.
 
-Once the materialized view is created, internally Timeplus runs the query in background continuously and incrementally and emit the calculated results according to the semantics of its underlying streaming select.  There is a timestamp version `__tp_version` to every row. 
+Once the materialized view is created, Timeplus will run the query in the background continuously and incrementally emit the calculated results according to the semantics of its underlying streaming select.  There is a timestamp version `__tp_version` to every row. 
 
 Different ways to use the materialized views:
 
