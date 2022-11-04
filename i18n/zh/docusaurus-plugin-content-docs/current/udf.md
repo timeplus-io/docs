@@ -1,6 +1,6 @@
 # 用户定义的函数
 
-在 Timeplus 中，我们通过 SQL 让广大用户更容易访问强大的流媒体分析。 没有 SQL ，您必须学习并调用低级别的编程API，然后编程/包/部署它们以获得分析结果。 这是一个重复性和棘手的过程，甚至对小的变化来说也是如此。
+在 Timeplus 中，我们通过 SQL 让广大用户更容易获取强大的流式分析功能。 如果不用 SQL ，您必须学习并调用比较底层的编程API，然后编译/打包/部署它们以获得分析结果。 这是一个重复性和棘手的过程，即使对小的变化来说也是如此。
 
 但一些开发者担心复杂的逻辑或系统集成很难使用 SQL 表达。
 
@@ -12,10 +12,10 @@
 
 这可以用纯的 SQL 大致可行，带有大量正则表达式或案例/分支。 即使如此，城市/国家也不会十分准确，因为在这种静态分析中可能会有一些边缘情况没有得到很好的考虑。
 
-幸运的是，有许多在线服务(如 [ipinfo)。 o](https://ipinfo.io)将IP地址变成城市/国家，即使有丰富的详细信息，例如地址或互联网提供者。 下面是时间plus中UDF(ip_lookup)的示例：
+幸运的是，有许多在线服务(如 [ipinfo)。 o](https://ipinfo.io)将IP地址变成城市/国家，即使有丰富的详细信息，例如地址或互联网提供者。 下面是Timeplus中UDF(ip_lookup)的示例：
 
 ```sql
-选择 ip_lookup(ip) 作为数据，data:country, data:timezone from test_udf
+select ip_lookup(ip) as data, data:country, data:timezone from test_udf
 ```
 
 ## 使用 AWS Lambda 构建UDF
@@ -56,37 +56,37 @@ exports.handler = async (event) => {
 };
 ```
 
-代码是直截了当的。 有几个注释：
+代码是直截了当的。 以下几个说明：
 
 1. 输入数据被包装在 JSON 文档中，关键参数 `ip` 在数组中可用
-2. We simply call the REST API of [ipinfo.io](https://ipinfo.io) with the API token from the Lambda environment variable
-3. 来自 ipinfo.io REST API 的响应将会放入一个 JSON 文档 {“结果”：[..]} 作为Lambda输出发送
-4. 由于Lambda函数在Timeplus服务器之外运行，对第三方图书馆没有任何限制。 在此示例中，我们正在使用内置的 node.js “https” 库。 为了更加复杂的数据处理，人们可以自由地包括更复杂的图书馆，如机器学习。
+2. 我们直接调用了 [ipinfo.io](https://ipinfo.io) 的REST API，用的是在Lambda环境变量里定义的API token
+3. 来自 ipinfo.io REST API 的响应将会放入一个 JSON 文档 {“result”：[..]} 作为Lambda输出发送
+4. 由于Lambda函数在Timeplus服务器之外运行，对第三方函数库没有任何限制。 在此示例中，我们正在使用内置的 node.js “https” 库。 为了更加复杂的数据处理，人们可以自由地包括更复杂的图书馆，如机器学习。
 
 一旦你部署了 Lambda 函数，你可以生成一个可公开访问的 URL，然后在 Timeplus Web 控制台注册该函数。
 
 ## 注册UDF
 
-只有时间加工作区管理才能注册新的UDF。 打开左边的工作区菜单，然后选择"用户定义函数"选项卡，然后点击"注册新函数"按钮。
+只有Timeplus工作区管理员才能注册新的UDF。 打开左边的工作区菜单，然后选择"用户定义函数"选项卡，然后点击"注册新函数"按钮。
 
 只需为函数选择一个名称并指定输入/输出数据类型。 在表单中设置Lambda URL。 您可以选择在 HTTP 头中启用额外的验证密钥/值，保护端点以避免未经授权的访问。
 
 
 
-## 构建乌国防军的其他方式
+## 构建UDF的其他方式
 
-您还可以使用您自己的微型服务或长期运行的应用程序服务来构建远程UD，以便更好地控制硬件资源。 或获得更好的性能或低延迟。 “远程UDF”是我们的Timeplus客户扩展内置功能能力的推荐解决方案。 不给我们的云服务带来潜在的安全风险。 对于在部署前有很强需要的大型客户。 我们还建立了一个“本地UDF”模式，它允许TimePlus呼叫本地程序来处理数据。
+您还可以使用您自己的微服务或长期运行的应用程序服务来构建远程UDF，以便更好地控制硬件资源。 或获得更好的性能或低延迟 “远程UDF”是我们的Timeplus客户扩展内置功能能力的推荐解决方案。 不给我们的云服务带来潜在的安全风险。 对于在部署前有很强需要的大型客户。 我们还建立了一个“本地UDF”模式，它允许TimePlus调用本地程序来处理数据。
 
 
 
-## UDF 的最佳做法
+## UDF 的最佳实践
 
 用户定义的函数打开了在Timeplus内用完整的编程能力处理和分析数据的新可能性。 在构建和使用用户定义函数时还有一些其他因素需要考虑：
 
-1. 对于时间加云客户，它强烈建议为UDF启用身份验证。 例如，当您注册函数时，您可以将密钥设置为“密码”，并将其设置为随机字值。 在向远程的 UDF 端点提出请求时，时间plus将在HTTP 头中设置它。 在您的端点代码中，请务必检查HTTP头中的键值对是否匹配Timeplus中的设置。 如果没有，返回错误代码以拒绝UDF 请求。
-2. 但是，呼叫单个乌干达人民国防军可能只需要100毫秒或更少。 如果你调用一个百万行的 UDF ，这可能会减慢整个查询速度。 它建议先汇总数据，然后用较少的请求来调用 UDF 。 例如： `选择 ip_lookup(ip):城市作为城市, sum(cnt) 来自ROM (SELECT ip, 计数(*) 为 cnt FROM access_log GROUP BY ip) GROUP` 而不是 `设置 iLECT ip_lookup(ip):city, 计数(*) 为 cnt FROM access_log GROUP by city`
+1. 对于Timeplus Cloud客户，它强烈建议为UDF启用身份验证。 例如，当您注册函数时，您可以将密钥设置为“密码”，并将其设置为随机字值。 在向远程的 UDF 端点提出请求时，Timplus将在HTTP 头中设置它。 在您的端点代码中，请务必检查HTTP头中的键值对是否匹配Timeplus中的设置。 如果没有，返回错误代码以拒绝UDF 请求。
+2. 但是，呼叫单个UDF可能只需要100毫秒或更少。 如果你调用一个百万行的 UDF ，这可能会减慢整个查询速度。 它建议先汇总数据，然后用较少的请求来调用 UDF 。 例如： `SELECT ip_lookup(ip):city as city, sum(cnt) FROM (SELECT ip, count(*) as cnt FROM access_log GROUP BY ip) GROUP BY city` 而不是 `SELECT ip_lookup(ip):city, count(*) as cnt FROM access_log GROUP BY city`
 3. 目前UDF Timeplus系统不是为了汇总而设计的。 在某些系统中，这被称为用户定义的 Scalar-Value 函数。 用户定义的聚合函数 (UDAF) 将很快引入，为您定制总函数或状态处理提供更好的基础。 随时关注更多信息。
 4. 为了提高性能，Timeplus自动向UDF 端点发送批量请求。 例如，如果在一次SQL执行中有1000个请求给UDF 框架可发送10项请求，每项100项请求供投入。 这就是为什么在示例代码中，我会将 `ip` 作为一个数组处理，并且返回另一个数组的值。 请确保返回的值匹配输入。
 5. 正确添加日志到您的 UDF 代码会极大地帮助疑难解答/调整函数代码。
-6. 只有时间加工作区管理员可以注册新的用户定义功能，而工作区的所有成员都可以使用UDF。
+6. 只有Timeplus工作区管理员可以注册新的用户定义功能，而工作区的所有成员都可以使用UDF。
 7. 请确保UDF 名称与同一工作区的 [内置函数](functions) 或其他UDF 不冲突。

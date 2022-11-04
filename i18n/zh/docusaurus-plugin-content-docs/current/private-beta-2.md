@@ -53,7 +53,7 @@
 * 源、 汇、 API 和 SDK
   * 更新 [datapm](https://datapm.io/docs/quick-start/) Timeplus sink 以支持测试2 多租户API
   * 增强雪花吸收汇以指定数据
-  * 将示例Java 代码发布为 [是一个公开的 Github Repo](https://github.com/timeplus-io/java-demo)。 您可以轻松地获得时间加载查询结果和执行其他操作，而不直接处理低级REST API
+  * 将示例Java 代码发布为 [是一个公开的 Github Repo](https://github.com/timeplus-io/java-demo)。 您可以轻松地获得Timeplus查询结果和执行其他操作，而不直接处理低级REST API
 * 界面改进
   * 分离主页和仪表板页面。 今后，您可以创建多个仪表板
   * 绘制增强功能: 显示数据值作为悬停时条形图的工具提示, 在全页模式下查看图表
@@ -85,7 +85,7 @@
 * 源、 汇、 API 和 SDK
   * 已发布的 https://pypi.org/project/timeplus/0.2.0/ 可选的租户ID支持。
   * 支持 Apache Pulsar 和 StreamNative Cloud 作为数据源或数据汇。 您可以通过 REST API 从 Pulsar 加载实时数据到 Timeplus (web UI 即将准备就绪)。 [了解更多](ingestion#pulsar)
-  * 为雪花添加实验吸收汇。 您可以向 Snowflake 发送时间加实时查询结果。
+  * 为雪花添加实验吸收汇。 您可以向 Snowflake 发送Timeplus实时查询结果。
 * 界面改进
   * 新的登录屏幕。
   * 雪花实验吸收汇界面。

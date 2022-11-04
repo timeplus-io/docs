@@ -26,7 +26,7 @@
   * 修复一个取消查询的问题可以标记为已完成。
   * 修复了一个问题，如果查询完成得太快，则EPS(每秒事件)不会显示。
 * 界面改进
-  * 在“发送数据到...”对话框中添加了一个新选项，以便将结果发送到时间加租户中的一个流中。
+  * 在“发送数据到...”对话框中添加了一个新选项，以便将结果发送到Timeplus租户中的一个流中。
   * 当您创建一个新的查询选项卡时显示运行中查询的数量。
   * 增强字体颜色。
   * 增强图表颜色。
@@ -34,7 +34,7 @@
 ### 周为7/18
 
 * 流引擎
-  * 精炼 [实际化视图](view#m_view)的行为，使其与其他时间加查询保持一致。 `SELECT * FROM table(a_possiblealized_view)` 将获得所有过去的结果，而不是最近的结果。
+  * 精炼 [实际化视图](view#m_view)的行为，使其与其他Timeplus查询保持一致。 `SELECT * FROM table(a_possiblealized_view)` 将获得所有过去的结果，而不是最近的结果。
   * 添加 [count_if](functions#count_if) 函数和 [唯一的](functions#unique_exact_if) 函数来计数匹配某些条件的行数或唯一值。
   * 添加 [json_extract_key_](functions#json_extract_keys) 函数来获取JSON 映射对象的键值。
   * 添加 [to_bool](functions#to_bool) 函数来将其他类型转换为 `bool`
@@ -126,7 +126,7 @@
 ### 6/13周
 
 * 流引擎
-  * 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流媒体处理程序，例如 [流媒体通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
+  * 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
   * 添加 [数组处理](functions#arrays)的其他函数，例如 [array_sum](functions#array_sum), [array_avg](functions#array_avg)
 * 源和汇：
   * Kafka 源支持无需认证的本地schema 注册表
@@ -149,7 +149,7 @@
 ### 5/30周
 
 * 流引擎
-  * (实验性) 能够使用外部的 Kakfa/Confluent/Redpanda 作为时间加流存储。
+  * (实验性) 能够使用外部的 Kakfa/Confluent/Redpanda 作为Timeplus流存储。
   * (实验性) [表格](functions#table) 函数现在可以与 [search_to](query-syntax) 一起。您可以通过合并 `表格(流名)` 和 `设置来查询历史数据。 '`
 * 源和汇：
   * 使用 [datapm](https://datapm.io/docs/quick-start/) 发送实时Twitter 数据到 https://demo.timeplus.com
@@ -192,7 +192,7 @@
   * 升级 [datapm](https://datapm.io/docs/quick-start/) Timeplus sink 来支持从 PostgreSQL 加载数据
   * (实验性) 一个能够从 [加载数据的新源](https://ably.com/hub)
 * 界面改进
-  * 您可以暂停流媒体查询，然后按列排序或使用分页按钮。 这可以帮助您查看流媒体查询结果。 点击恢复按钮继续获取最新流媒体结果。
+  * 您可以暂停流式查询，然后按列排序或使用分页按钮。 这可以帮助您查看流式查询结果。 点击恢复按钮继续获取最新流式结果。
   * (实验性) 更新了查询标签样式，并在标签上添加按钮以保存查询。
 
 ### 5/2 周
@@ -213,9 +213,9 @@
 * 将Python SDK发布到 https://pypi.org/project/timeplus/
 * 流引擎
   * 能够重命名流
-  * (实验性) 添加 `ORDER BY` 支持流媒体查询与聚合
+  * (实验性) 添加 `ORDER BY` 支持流式查询与聚合
   * (实验性) 添加 `EMIT TIMEOUT 5s` 用于串流查询，这样窗口将被关闭，即使没有更多的事件来推进水印。
-  * (实验性) 添加  [emit_verison()](functions#emit_version) 以显示每个发射窗口的唯一数字(这样您可以从流媒体结果中告诉哪些行来自同一个窗口)
+  * (实验性) 添加  [emit_verison()](functions#emit_version) 以显示每个发射窗口的唯一数字(这样您可以从流式结果中告诉哪些行来自同一个窗口)
 * 源和汇：
   * Kafka源的10倍通量提高
   * (实验性) a [datapm](https://datapm.io/) sink to ingest 批处理/流流数据到 Timeplus
@@ -225,7 +225,7 @@
   * 在本地时区显示事件时间
   * Web 界面中的 SQL 格式现在调用后端API，而不是纯前端SQL 格式
   * (实验性) 精炼流的仪表板布局和编辑
-  * (实验性) 更好地在流媒体图表中显示延迟事件
+  * (实验性) 更好地在流式图表中显示延迟事件
 
 ### 每周4/18
 
@@ -233,7 +233,7 @@
 * 用于串流处理的测试 [会话](functions#session) 窗口。 许多新的使用案例将解锁。
 * 增强 [top_k](functions#top_k) 函数默认显示事件计数
 * 为数组和地图添加了新功能： [map_cast](functions#map_cast) , [group_array](functions#group_array)
-* 添加了新的流媒体功能 [最早的](functions#earliest) 和 [最新的](functions#latest) 并在流媒体窗口中显示第一个或最后一个事件。
+* 添加了新的流式功能 [最早的](functions#earliest) 和 [最新的](functions#latest) 并在流式窗口中显示第一个或最后一个事件。
 
 ### 4/11周
 

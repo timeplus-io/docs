@@ -33,7 +33,7 @@ Timeplus Cloud提供以下主要功能：
 
 ## 第 3 步：加载示例数据
 
-如果您的流媒体数据位于Confluent Cloud或可公开访问 Kafka 或 Pulsar，您可以在 Timeplus 中创建源以便现在加载它们。 否则，您可以按照下面的指南之一使用样本数据。
+如果您的流式数据位于Confluent Cloud或可公开访问 Kafka 或 Pulsar，您可以在 Timeplus 中创建源以便现在加载它们。 否则，您可以按照下面的指南之一使用样本数据。
 
 * [从 Confluent 云中加载示例流数据](quickstart-confluent)
 * [加载示例流数据时不使用 Confluent Cloud](quickstart-sample)

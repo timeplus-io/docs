@@ -1,12 +1,12 @@
 # 流传数据
 
-时间plus支持广泛的数据来源。
+Timeplus支持广泛的数据来源。
 
 ## 通过 web 控制台添加新源
 
 ### 从Apache Kafka加载流数据 {#kafka}
 
-截至今天，Kafka是Timeplus的原始数据来源(和汇)。 通过与Confluent的强大伙伴关系，我们可以将来自Confluent Cloud、Confluent Platform或Apache Kafka的实时数据加载到TimePlus流媒体引擎。 (最近引入了一个新功能来创建 [个外部流](working-with-streams#external_stream) 来分析Confluent/Kafka/Redpanda 中的数据而不移动数据)
+截至今天，Kafka是Timeplus的原始数据来源(和汇)。 通过与Confluent的强大伙伴关系，我们可以将来自Confluent Cloud、Confluent Platform或Apache Kafka的实时数据加载到TimePlus流式引擎。 (最近引入了一个新功能来创建 [个外部流](working-with-streams#external_stream) 来分析Confluent/Kafka/Redpanda 中的数据而不移动数据)
 
 #### 汇合式云
 
@@ -41,7 +41,7 @@
 
 ### 从 Apache Pulsar 加载流数据 {#pulsar}
 
-Apache® PulsarTM 是一个云端、分发、开源消息和流媒体平台，用于实时工作量。 最近，Timeplus为Apache Pulsar添加了一流集成，既作为数据源又作为数据汇。
+Apache® PulsarTM 是一个云端、分发、开源消息和流式平台，用于实时工作量。 最近，Timeplus为Apache Pulsar添加了一流集成，既作为数据源又作为数据汇。
 
 #### 支持的 Pulsar 版本、部署和身份验证
 
@@ -84,9 +84,9 @@ Apache® PulsarTM 是一个云端、分发、开源消息和流媒体平台，�
 | 消息解码器                          | 字符串  | N    | `"文本"`  | 配置如何解码消息，要么 `"text"` 或 `"json"`。                                                             |
 | 接收队列大小                         | 整数   | N    | `1000`  | 设置消费者接收队列的大小。 使用更高的价值就有可能增加消费量，而牺牲对内存的更大利用。                                                  |
 
-### 从 Kinesis 加载流媒体数据 {#kinesis}
+### 从 Kinesis 加载流式数据 {#kinesis}
 
-如果您的流媒体数据流在 [Amazon Kinesis 数据流](https://aws.amazon.com/kinesis/data-streams/)中，您可以分两步加载它们到 Timeplus。
+如果您的流式数据流在 [Amazon Kinesis 数据流](https://aws.amazon.com/kinesis/data-streams/)中，您可以分两步加载它们到 Timeplus。
 
 1.  首先通过 [将Kinesis 源连接器为 Confluent Cloud](https://docs.confluent.io/cloud/current/connectors/cc-kinesis-source.html) 或 [Amazon Kinesis 源连接器将Kinesis 数据加载到 Kafka 主题](https://docs.confluent.io/kafka-connect-kinesis/current/overview.html)
 2. 使用 Timeplus 上面的Kafka 源将数据加载到流中。
@@ -94,10 +94,10 @@ Apache® PulsarTM 是一个云端、分发、开源消息和流媒体平台，�
 数据流可以用以下方式说明：
 
 ```mermaid
-流程图 LR
-  KC[Kafka Connect] --Kinesis 源连接器--> K[Kinesis Stream]
+flowchart LR
+  KC[Kafka Connect] --Kinesis Source Connector--> K[Kinesis Stream]
   KC --> KafkaTopic
-  Timerplus -->KafkaTopic
+  Timeplus -->KafkaTopic
 ```
 
 
@@ -110,7 +110,7 @@ Apache® PulsarTM 是一个云端、分发、开源消息和流媒体平台，�
 2. 从您的本地文件系统拖放一个 CSV 文件来上传文件。 或者您可以指定一个用于下载文件的 Timeplus 的 URL。 目前我们只支持 CSV 格式。 其他格式不久将得到支持。
 3. 指定此数据源的名称并提供可读的描述。
 4. 与 Kafka 源相似，您可以选择创建一个新流或选择一个现有流。 通常，在第一行中，CSV文件包含列头部。 取消选中此选项，如果没有标题，则TimePlus将创建列名称。
-5. 点击 **下一个** 预览流媒体数据并选择列作为事件时间。
+5. 点击 **下一个** 预览流式数据并选择列作为事件时间。
 6. 完成向导的其余部分和您的流数据将立即在新流中提供。
 
 
@@ -129,7 +129,7 @@ Apache® PulsarTM 是一个云端、分发、开源消息和流媒体平台，�
 
 ## 通过第三方工具加载其他数据到 Timeplus
 
-时间加载可与数据生态系统合作，并可利用各种工具加载数据，甚至在摄取时进行数据转换。
+Timeplus可与数据生态系统合作，并可利用各种工具加载数据，甚至在摄取时进行数据转换。
 
 
 
@@ -170,34 +170,34 @@ Airbyte的 Timeplus 目标插件正处于早期阶段。 请联系我们来安�
 有几个可以通过Kafka Connects进入Timeplus的数据源例子。 详情请查看 https://www.confluent.io/product/confluent-connectors/。
 
 * Apache ActiveMQ
-* Amazon CloudWatch 日志
+* Amazon CloudWatch Logs
 * [Amazon Kinesis](#kinesis)
 * Amazon S3
 * Amazon SQS
-* Azure Blob 存储
-* Azure 事件Hub
+* Azure Blob Storage
+* Azure Event Hubs
 * CockroachDB CDC
-* 数据砖块
+* Databricks
 * Github
-* 谷歌云端口/冲锋枪
+* Google Cloud Pub/Sub
 * IBM MQ
 * InfluxDB
 * JDBC
-* Microsoft SQL 服务器
+* Microsoft SQL Server
 * MongoDB
 * MQTT
 * MySQL CDC
 * Neo4j
-* Oracle 数据库
+* Oracle Database
 * PostgreSQL CDC
 * RabbitMQ
 * Salesforce
-* 新服务
+* ServiceNow
 * SFTP
 * SNMP
-* 斯普克
+* Splunk
 * TiDB CDC
-* 虎图
+* Tigergraph
 * Zendesk
 
 ### 直接通过 SQL 插入数据
@@ -212,7 +212,7 @@ Timeplus数据库驱动程序处于早期阶段。 请联系我们来安排整�
 
 ```sql
 INSERT INTO <stream_name> (<col_name_1>, <col_name_2>, ...)
-验证
+VALUES
 (<col_value_1>, <col_value_2>, ...), (<col_value_11>, <col_value_22, ...), ...
 ```
 
@@ -221,6 +221,6 @@ INSERT INTO <stream_name> (<col_name_1>, <col_name_2>, ...)
 示例：
 
 ```sql
-插入测试(一, s) VALUES(1, 'hello'), (2, 'world'), (3, 'more ');
+INSERT INTO test(i, s) VALUES (1, 'hello'), (2, 'world'), (3, 'more');
 ```
 

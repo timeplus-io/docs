@@ -888,7 +888,7 @@ SELECT
 
 您可以创建视图，如 `create view histrical_view as select * from table(stream_name)`, 如果您想要多次查询表模式中的数据。 对于静态数据，例如查找信息(城市名称及其邮政编码)，这种方法可能很有效。
 
-了解更多关于 [非流媒体查询](history) 的信息。
+了解更多关于 [非流式查询](history) 的信息。
 
 ### tumble
 
@@ -932,7 +932,7 @@ SELECT
 
 ### lag
 
-`lag(<column_name> [, <offset=1>] [, <default_value>])`: 同时用于流媒体查询和历史查询。 如果您省略了 `offset` ，最后一行将被比较。 例如：
+`lag(<column_name> [, <offset=1>] [, <default_value>])`: 同时用于流式查询和历史查询。 如果您省略了 `offset` ，最后一行将被比较。 例如：
 
 `lag(总计)` 以获得最后一行的 `总计` 的值。 `lag(总计, 12)` 以获得12行前的值。 `lag(total, 0)` 如果指定行不可用则使用0作为默认值。
 

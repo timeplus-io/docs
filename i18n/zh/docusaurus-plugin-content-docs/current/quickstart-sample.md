@@ -1,6 +1,6 @@
 # 内置示例数据快速开始
 
-时间plus提供了一个内置的数据源，用于为一些典型的使用情况生成流量数据。
+Timeplus提供了一个内置的数据源，用于为一些典型的使用情况生成流量数据。
 
 ## 创建数据源
 
@@ -38,6 +38,6 @@ The query will be generated automatically: `SELECT * FROM iot` Click the RUN QUE
 
 ![运行查询](/img/sampledata_click_query_live.png)
 
-您可以切换到VISUALIZATION 选项卡来查看数据的流媒体图。
+您可以切换到VISUALIZATION 选项卡来查看数据的流式图。
 
 ![运行查询](/img/sampledata_click_viz.png)

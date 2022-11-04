@@ -2,7 +2,7 @@
 
 ## 如何加入公共测试版？
 
-我们感谢你对我们的Beta测试计划的兴趣。 欢迎通过 https://beta.timeplus.cloud 免费注册测试版
+我们感谢你对我们的Beta测试计划的兴趣。 欢迎通过 https://beta.timeplus.com.cn 免费注册测试版
 
 ## 我可以在我们自己的cloud VPC中运行Timeplus吗？
 

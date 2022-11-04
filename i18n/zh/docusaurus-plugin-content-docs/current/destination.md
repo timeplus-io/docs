@@ -21,11 +21,11 @@
 
 ### 电子邮件地址
 
-您可以通过指定电子邮件服务器、用户名、密码等配置时间加载每个结果的电子邮件。 与Slack 操作相似，您可以使用 `{{.column}}` 表达式来参考每个列的值。
+您可以通过指定电子邮件服务器、用户名、密码等配置Timeplus每个结果的电子邮件。 与Slack 操作相似，您可以使用 `{{.column}}` 表达式来参考每个列的值。
 
 ## 发送数据到 Kafka{#kafka}
 
-您可以利用时间加载进行各种流分析，如：
+您可以利用Timeplus进行各种流分析，如：
 
 * 从 iot 设备下载数据并每5秒获得最小/最大/平均值
 * 根据以往的模式识别任何外值
@@ -33,19 +33,19 @@
 
 转换后的数据或异常事件可以发送给Kafka专题，供其他系统进一步处理。
 
-要将数据发送到 Kafka，提交流媒体查询，然后点击图标将流媒体结果发送到 Kafka。 需要以下参数：
+要将数据发送到 Kafka，提交流式查询，然后点击图标将流式结果发送到 Kafka。 需要以下参数：
 
 * Kafka broker(s) URL
-* 主题名称：已存在的主题或指定要创建的时间plus的新主题名称。
+* 主题名称：已存在的主题或指定要创建的Timeplus的新主题名称。
 * 认证
 
 参数详情请参考 [Kafka 源](ingestion#kafka)。 您可以向Confluent Cloud、Confluent Platform或自定义的 Apache Kafka发送数据。 事件将被编码为JSON文档。
 
 ## 发送数据到 Snowflake{#snowflake}
 
-您可以在 Timeplus 中应用流媒体分析，然后将结果发送到 Snowflake 。 有几种不同的方式来实现这一目标：
+您可以在 Timeplus 中应用流式分析，然后将结果发送到 Snowflake 。 有几种不同的方式来实现这一目标：
 
-1. 您可以将流媒体结果发送到Confluent Cloud或 Kafka。 然后通过 [Cloud 中的雪花吸收器](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html) 移动数据到雪花。 这种做法的延迟率将较低。 请注意Confluent Cloud Kafka群集必须居住在同一个云供应商和地区，例如，它们都位于AWS的西端。 默认， Snowflake中的表格将以 Kafka 主题相同的名称创建，JSON 文档保存在一个 TEXT 列 `RECORD_CONT` 中。
+1. 您可以将流式结果发送到Confluent Cloud或 Kafka。 然后通过 [Cloud 中的雪花吸收器](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html) 移动数据到雪花。 这种做法的延迟率将较低。 请注意Confluent Cloud Kafka群集必须居住在同一个云供应商和地区，例如，它们都位于AWS的西端。 默认， Snowflake中的表格将以 Kafka 主题相同的名称创建，JSON 文档保存在一个 TEXT 列 `RECORD_CONT` 中。
 
 ```mermaid
 flowchart LR
