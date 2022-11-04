@@ -109,12 +109,10 @@ const config = {
             position: 'right',
           },
           */
-         /* don't show this until the translation is done
           {
             type: 'localeDropdown',
             position: 'right',
           },
-          */
         ],
       },
       footer: {
