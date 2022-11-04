@@ -6,7 +6,7 @@ Timeplus supports a wide range of data sources.
 
 ### Load streaming data from Apache Kafka {#kafka}
 
-As of today, Kafka is the primary data source (and sink) for Timeplus. By the strong partnership with Confluent, we can load real-time data from Confluent Cloud, Confluent Platform, or Apache Kafka into Timeplus streaming engine. (A new feature is recently introduced to create [external streams](working-with-streams#external_stream) to analyze data in Confluent/Kafka/Redpanda without moving data)
+As of today, Kafka is the primary data source (and sink) for Timeplus. With our strong partnership with Confluent, you can load your real-time data from Confluent Cloud, Confluent Platform, or Apache Kafka into the Timeplus streaming engine. You can also create [external streams](working-with-streams#external_stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
 
 #### Confluent Cloud
 
