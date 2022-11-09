@@ -175,7 +175,7 @@ SELECT * FROM car_live_data
 
 ### S-DOWNSAMPING：将详细数据点转换为高级数据 {#s-downsampling}
 
-**Use Case:** the sensors on each car may report data from half second to every 10 seconds. 分析员可能会降低颗粒度，仅需要将每分钟的数据保存到下行
+**用例：** 每辆车上的传感器可能会报告半秒到每 10 秒钟的数据。 分析员可能会降低颗粒度，仅需要将每分钟的数据保存到下行
 
 ```sql
 SELECT window start,cid,avgggggas_percent,avg(speed_kmh) AS avg_spep FROM

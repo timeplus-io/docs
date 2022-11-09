@@ -2,7 +2,7 @@
 
 ## 所有数据都在流中
 
-Timeplus是一个流式分析平台和数据流中的生命值。 Timeplus `streams` are similar to `tables` in the traditional SQL databases. 两者基本上都是数据集。 关键的区别是，Timeplus流是一个只附加的、未受欢迎的、不断变化的事件组。
+Timeplus是一个流式分析平台和数据流中的生命值。 Timeplus中的`stream`类似传统数据库中的`table` 两者基本上都是数据集。 关键的区别是，Timeplus流是一个只附加的、未受欢迎的、不断变化的事件组。
 
 
 

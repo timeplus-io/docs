@@ -71,7 +71,7 @@ const sidebars = {
           type: 'doc',
           id:'ingestion'
         },
-        items:['stream-generator',]
+        items:['kafka-source','pulsar-source','stream-generator','ingest-api','datapm']
        },
        {
         type:'category',

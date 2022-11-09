@@ -191,7 +191,7 @@ select
 
 ### array_zip
 
-`array_zip(arr1,arr2,... arrNs` 从不同的数组合并到一个新的数组，每个元素是一个tuple。 例如： `array_zip[1,2,3],['a','b','c']]` 返回 [(1,'a'),(2,'b'),(3,'c')]
+`array_zip(arr1,arr2,... arrN)` group elements from different arrays to a new array of tuples. 例如： `array_zip[1,2,3],['a','b','c']]` 返回 [(1,'a'),(2,'b'),(3,'c')]
 
 ### array_all
 
