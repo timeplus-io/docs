@@ -6,6 +6,32 @@
 
 我们将不时更新测试版，并在此页面列出关键的新功能或增强。
 
+
+
+### 每两周更新 10/31-11/11
+
+* 流引擎
+  * 引入了一种新的 `LIMIT <n> BY <column>` 语法。 与 [emit_version()](functions#emit_version) 函数组合，您可以每次控制每次流式输出的行数。 例如
+    ```sql
+    SELECT cid,avg(speed_kmh) AS avgspeed, emit_version() 
+    FROM tumble(car_live_data,5s) GROUP BY window_start,cid 
+    LIMIT 3 BY emit_version()
+    ```
+  * （实验性）能够为物化视图设置保留策略，以限制每个物化视图的行数或总存储空间。 用户界面即将上线。
+
+* 数据源、数据下游、API 和 SDK
+  * 增强的 Ingest REST API 以支持 “换行符分隔的 JSON” (ndjson)。
+  * 完善了 [REST API 文档](https://docs.timeplus.com/rest)，以显示不同版本的 API。
+  * 新版本的 datapm CLI 带有更简单易用的Timeplus sink 只需要设置Timeplus工作空间 baseUr就可以将数据推送到 Timeplus，同时支持云端和本地 Timeplus。
+
+* 界面改进
+  * 我们添加了一个指导系统，让新用户可以快速开始使用 Timeplus。
+  * 数据血缘页面做了美化。
+  * (实验性) 当流的 SQL 正在运行时，列头显示最近的 10 行的值。 当SQL被暂停或取消时，列头显示所有缓存结果的信息图，并以显示一条横线作为平均值。
+  * （实验性）中国市场的本地化用户界面。
+
+
+
 ### 每两周更新10/17-10/28
 
 * 流引擎
@@ -22,7 +48,7 @@
 
   * 大大降低内存消耗。
 
-* Source, sink, API and SDK
+* 数据源、数据下游、API 和 SDK
   * 对于Kafka源，如果验证方法设置为“无”，将自动打开“禁用TLS”。
   * 优化 [go-client](https://github.com/timeplus-io/go-client) 开源项目以支持更底层的摄取API。
   * 实验性的 [JDBC 驱动程序](https://github.com/timeplus-io/java-demo/tree/main/src/main/java/com/timeplus/jdbc) 以开源。 您可以在某些客户端(如DataGrip)中使用此驱动程序来运行只读查询(支持流式和历史查询)

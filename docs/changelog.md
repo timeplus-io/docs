@@ -6,6 +6,32 @@ We are thrilled to launch the public beta of Timeplus cloud release.
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+
+
+### Biweekly Update 10/31-11/11
+
+* Streaming engine
+  * A new `LIMIT <n> BY <column>` syntax is introduced. Combining with [emit_version()](functions#emit_version) function, you can show a limited number of results per emit. e.g.
+    ```sql
+    SELECT cid,avg(speed_kmh) AS avgspeed, emit_version() 
+    FROM tumble(car_live_data,5s) GROUP BY window_start,cid 
+    LIMIT 3 BY emit_version()
+    ```
+  * (Experimental) able to set retention policy for materialized views, to limit the number of rows or total storage for each materialized view. UI will be available soon.
+  
+* Source, sink, API and SDK
+  * Enhanced Ingest REST API to support "Newline Delimited JSON" (ndjson).
+  * Refined the [REST API doc](https://docs.timeplus.com/rest), to show APIs in the different versions.
+  * New version of datapm CLI with the enhanced Timeplus sink. Set the workspace baseURL to push data to Timeplus, supporting both cloud and on-prem Timeplus.
+  
+* UI improvements
+  * We added a guiding system for new users to quickly get started with Timeplus.
+  * Data lineage page is enhanced with visual refresh.
+  * (Experimental) when a Streaming SQL is running, the column headers show the value for the recent 10 rows. When the SQL is paused or cancelled, the column headers show the infograph for all cached results, with a line for the average value.
+  * (Experimental) localizied user interface for China market.
+
+
+
 ### Biweekly Update 10/17-10/28
 
 * Streaming engine

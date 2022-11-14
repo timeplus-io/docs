@@ -14,25 +14,26 @@ You need to send `POST` request to this endpoint, e.g. ``https://beta.timeplus.c
 
 ### Push JSON objects directly
 
-You can push Newline Delimited JSON (http://ndjson.org/) to the endpoint. Make sure you set the HTTP Header as one of the following:
-* application/x-ndjson
-* application/vnd.timeplus+json;format=streaming
+You can push Newline Delimited JSON (http://ndjson.org/) to the endpoint. Make sure you set the HTTP Header as one of these:
+* `application/x-ndjson`
+* `application/vnd.timeplus+json;format=streaming`
 
 The request body is just a stream of JSON objects. e.g.
+
 ```json
-{"key": "value11", "key2": "value12", ...}
-{"key": "value21", "key2": "value22", ...}
+{"key1": "value11", "key2": "value12", ...}
+{"key1": "value21", "key2": "value22", ...}
 ...
 ```
 
 Each object does not have to be in a single line. For example:
 ```json
 {
-  "key": "value11", 
+  "key1": "value11", 
   "key2": "value12", ...
 }
 {
-  "key": "value21", 
+  "key1": "value21", 
   "key2": "value22", ...
 }
 ...
@@ -40,7 +41,7 @@ Each object does not have to be in a single line. For example:
 
 They don’t have to be separated by newline either:
 ```json
-{"key": "value", ...}{"key": "value", ...}{"key": "value", ...,
+{"key1": "valueA", ...}{"key1": "valueB", ...}{"key1": "valueC", ...,
 }...
 ```
 
@@ -54,7 +55,11 @@ We also provide a more performant solution to only list the column names once.
 
 Same endpoint URL: `https://beta.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
-But you need to set the HTTP Header to `application/json`.
+But you need to set the HTTP Header to one of these:
+
+* `application/json`
+* `application/vnd.timeplus+json`
+* `application/vnd.timeplus+json;format=compact`
 
 The request body is this format:
 ```json

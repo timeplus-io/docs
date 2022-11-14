@@ -15,24 +15,25 @@
 ### 直接推送 JSON 对象
 
 你可以将换行符分隔的 JSON (http://ndjson.org/) 推送到终端节点。 确保将 HTTP 标头设置为以下选项之一：
-* application/x-ndjson
-* application/vnd.timeplus+json;format=streaming
+* `application/x-ndjson`
+* `application/vnd.timeplus+json;format=streaming`
 
 请求正文只是一组 JSON 对象。 例如
+
 ```json
-{"key": "value11", "key2": "value12", ...}
-{"key": "value21", "key2": "value22", ...}
+{"key1": "value11", "key2": "value12", ...}
+{"key1": "value21", "key2": "value22", ...}
 ...
 ```
 
 每个对象不必在一行中。 例如：
 ```json
 {
-  "key": "value11", 
+  "key1": "value11", 
   "key2": "value12", ...
 }
 {
-  "key": "value21", 
+  "key1": "value21", 
   "key2": "value22", ...
 }
 ...
@@ -40,7 +41,7 @@
 
 它们也不必用换行符分隔：
 ```json
-{"key": "value", ...}{"key": "value", ...}{"key": "value", ...,
+{"key1": "valueA", ...}{"key1": "valueB", ...}{"key1": "valueC", ...,
 }...
 ```
 
@@ -54,7 +55,11 @@
 
 实时数据摄取的API endpoint是 `https://beta.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
-但您需要将 HTTP 头设置为 `application/json`。
+但您需要将 HTTP 头设置为 application/json。
+
+* `application/json`
+* `application/vnd.timeplus+json`
+* `application/vnd.timeplus+json;format=compact`
 
 请求正文是这样格式的：
 ```json
