@@ -27,8 +27,8 @@ We will update the beta version from time to time and list key enhancements in t
 * UI improvements
   * We added a guiding system for new users to quickly get started with Timeplus.
   * Data lineage page is enhanced with visual refresh.
-  * (Experimental) when a Streaming SQL is running, the column headers show the value for the recent 10 rows. When the SQL is paused or cancelled, the column headers show the infograph for all cached results, with a line for the average value.
-  * (Experimental) localizied user interface for China market.
+  * (Experimental) when a Streaming SQL is running, the column headers show the value for the recent 10 rows. When the SQL is paused or canceled, the column headers show the infograph for all cached results, with a line for the average value.
+  * (Experimental) localized user interface for China market.
 
 
 
