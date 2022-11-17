@@ -1,6 +1,7 @@
 # 示例查询
 
-从 '@theme/Tabs'导入标签页; 从'@theme/TabItem'导入标签页;
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 本文档演示如何在 Timeplus 中运行串流查询以解决各种使用案例。
 

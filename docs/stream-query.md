@@ -71,7 +71,7 @@ When using the window function for aggregation, the event time is used to decide
 
 Two typical window functions are [tumble](functions#tumble) and [hop](functions#hop).
 
-Fox example:
+For example:
 
 ```sql
 select window_start, window_end, count(*) as count, max(c1) as max_c1
