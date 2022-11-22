@@ -12,7 +12,7 @@
     "description": "The label of footer link with label=Join the Beta linking to https://timeplus.com"
   },
   "link.item.label.Playground": {
-    "message": "Playground",
+    "message": "游乐场",
     "description": "The label of footer link with label=Playground linking to https://play.timeplus.com"
   },
   "link.item.label.Blog": {
