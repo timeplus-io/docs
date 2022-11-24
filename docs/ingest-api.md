@@ -6,6 +6,16 @@ As a generic solution, you can call the ingestion REST API to push data to Timep
 
 First you need to create a stream in Timeplus, either using the web UI or via REST API. Columns with proper names and types should be set. In the following section, we assume the stream name is `foo`.
 
+## Set API Key in HTTP Header
+
+Please generate an API Key for a workspace and set the API Key in the HTTP Header, with the name: `X-Api-Key`
+
+:::info
+
+If you would like to leverage a 3rd party system/tool to push data to Timeplus but it doesn't allow custom HTTP Header, then you can use the standard `Authorization` Header, with value `ApiKey $KEY`
+
+:::
+
 ## Push data to Timeplus
 
 The endpoint for real-time data ingestion is `https://beta.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
@@ -17,6 +27,12 @@ You need to send `POST` request to this endpoint, e.g. ``https://beta.timeplus.c
 You can push Newline Delimited JSON (http://ndjson.org/) to the endpoint. Make sure you set the HTTP Header as one of these:
 * `application/x-ndjson`
 * `application/vnd.timeplus+json;format=streaming`
+
+:::info
+
+If you would like to leverage a 3rd party system/tool to push data to Timeplus but it doesn't allow custom content type, then you can use the standard `application/json`, and send POST request to `/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`. This will ensure the Timeplus API server to treat the POST data as NDJSON.
+
+:::
 
 The request body is just a stream of JSON objects. e.g.
 
