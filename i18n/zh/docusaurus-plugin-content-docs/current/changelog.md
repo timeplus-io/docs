@@ -6,7 +6,17 @@
 
 我们将不时更新测试版，并在此页面列出关键的新功能或增强。
 
+### 每两周更新 11/14-11/25
 
+* 数据源、数据下游、API 和 SDK
+  * 我们开发并开源了 [Pulsar Sink Connector for Timeplus](https://github.com/timeplus-io/pulsar-io-sink)。 你可以将这个连接器安装在你的 Pulsar 集群中，然后将实时数据推送到 Timeplus。
+  * 我们发布了 Python SDK 的重大升级 https://pypi.org/project/timeplus/1.0.0/ 代码和文档由 [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) 自动生成，因此它将始终与我们最新的 REST API 保持一致。 请注意，这与之前的 0.2.x 或 0.3.x SDK 不兼容。 如果您正在使用这些 SDK，请计划迁移。 新 API 仅在 1.x SDK 中可用。
+  * 我们进一步增强了采集 REST API，以支持更多系统，例如 vector 和 auth0。 如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义内容类型， 然后您可以使用标准 `application/json` 内容类型，并将 POST 请求发送到 `/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`. 这将确保 Timeplus API 服务器将 POST 数据视为 NDJSON。 对于 API 身份验证，除了自定义 HTTP 标头 `X-api-key: the_key`之外，我们现在还支持 ` Authorization：apiKey THE_KEY` 了解更多 [Ingest API](ingest-api)
+* 界面改进
+  * 在注册/登录页面中，我们添加了微信集成。 您可以用手机扫描二维码并注册或登录。
+  * 当查询完成、取消或暂停时，您可以将当前结果下载为 CSV。 当结果超过 1 页时，这很有用。
+  * 当您单击数据血缘页面上的实体（例如流或视图）时，摘要现在显示在侧面板中，而不是弹出窗口。 我们将在侧面板中添加更多详细信息。
+  * 实验性的警报管理器界面。 如果您想试用此功能，请联系我们。
 
 ### 每两周更新 10/31-11/11
 
