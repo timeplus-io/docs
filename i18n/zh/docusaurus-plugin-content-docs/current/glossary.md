@@ -76,4 +76,4 @@ Timeplus是一个流式分析平台和数据流中的生命值。 Timeplus中的
 
 工作区是您运行流数据收集和分析的独立存储和计算单位。 在测试阶段，每个用户都可以创建一个免费的工作空间并加入许多工作空间。 通常，一个组织中的用户组加入了相同的工作区，以建立一个或多个流式分析解决方案。
 
-默认情况下，每个工作区最多可以保存50GB 数据，并且限制并行查询。 If you need more resource, please contact support@timeplus.com to increaes the limit
+默认情况下，每个工作区最多可以保存20GB 数据，并且限制并行查询。 If you need more resource, please contact support@timeplus.com to increaes the limit

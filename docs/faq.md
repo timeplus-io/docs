@@ -10,7 +10,7 @@ In this initial phase of the public beta, we only provide AWS-based fully-manage
 
 ## How much data I can load into Timeplus?
 
-During the beta, the total storage for each workspace is 50GB by default. Please contact us if you need to load or keep more data during the beta test.
+During the beta, the total storage for each workspace is 20GB by default. Please contact us if you need to load or keep more data during the beta test.
 
 ## Can I invite other members to my workspace?
 
