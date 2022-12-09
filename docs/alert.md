@@ -17,7 +17,7 @@ Access the `/console/alerts` page to open the new Alert Manager.
 You can check the button to create a new alert. Parameters:
 
 * Name: required, a unique name to identify the alert among other alerts in your workspace.
-* Severity: Critical, High, low
+* Severity: Critical, High, Low
 * Description: optional text to describe the purpose or logic of the alert
 * Trigger SQL: required. A streaming SQL. Once there is any new result from the query, Timeplus will fire the alert.
 * Clear SQL: optional. Another streaming SQL. Once there is any new result from the query, Timeplus will set this alert as resolved.
