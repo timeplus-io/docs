@@ -61,7 +61,7 @@ const sidebars = {
         link: {
           type: 'generated-index',
         },
-        items:['working-with-streams','eventtime','stream-query','history','view','source','destination']
+        items:['working-with-streams','eventtime','stream-query','history','view','source','destination','alert']
        },
        {
         type:'category',

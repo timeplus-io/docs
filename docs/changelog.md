@@ -6,6 +6,20 @@ We are thrilled to launch the public beta of Timeplus cloud release.
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+### Biweekly Update 11/28-12/9
+
+* We added an experimental feature to create User-Defined-Aggregation-Function (UDAF) via JavaScript. You can create highly customized logic with JavaScript, even for Complex Event Processing (CEP) scenarios. Contact us if you want to try this feature.
+* Refined the documentation for the Python SDK https://pypi.org/project/timeplus/
+* Source
+  * In the source management page, we added a sparkline to show the throughput for the sources. Refresh every 15 seconds.
+  * When you create a new source and choose to send data to an existing stream, only the streams with the matching schema will be shown. If there is no such stream, you have to create a new stream.
+  * In the preview stage, the first 3 rows will be fetched from the source. If Timeplus cannot detect the column data type automatically, the column type will be set as `unknown`. This could happen if the value in those 3 events contain `null`. Please check with your data source provider. If you are sure the future events will be in a certain data type, such as `string`, you can change the column type and choose to create a new stream to receive data from the source.
+* When you create a new [materialized view](view#m_view), you can set the retention policy, specifying the max size or max age for the data in the materialized view.
+* Click on a recent query on the home page will open the query page, instead of showing the query history.
+* Removed the page description banners. If there is no object defined in a certain page, a customized help page is shown.
+* You can drag-n-drop to resize the column size in the streaming result page.
+* An experimental alert manager UI is added. Please check the [user guide](alert).
+
 ### Biweekly Update 11/14-11/25
 
 * Source, sink, API and SDK
@@ -15,9 +29,9 @@ We will update the beta version from time to time and list key enhancements in t
     If you would like to leverage such a 3rd party system/tool to push data to Timeplus but it doesn't allow custom content type, then you can use the standard `application/json` content type, and send POST request to `/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`. This will ensure the Timeplus API server to treat the POST data as NDJSON. For the API authentication, besides the custom HTTP Header `X-Api-Key:THE_KEY`, we now also support `Authorization: ApiKey THE_KEY` Learn more [Ingest API](ingest-api)
 * UI improvements
   * In the signup/login page, we added the WeChat integration. You can scan the QR code with your phone and sign up or log in.
-  * When a query is finished or cancelled or paused, you can download the current results as a CSV. This is helpful when there are more than 1 page of results.
-  * When you click an entity on Data Lineages page, such as a stream or a view, the summary is now shown in the side panel, instead of a popover. We will add more detailed information in the side panel.
-  * We added an experimental UI for the alert manager. Contact us if you want to try this feature.
+  * When a query is finished, cancelled, or paused, you can download the current results as a CSV. This is helpful when there are multiple pages of results.
+  * When you click an entity on Data Lineages page, such as a stream or a view, the summary is now shown in the side panel, instead of a pop-up, allowing you to see more detailed information.
+  * We added an experimental UI for the alert manager. Want to be the first to try this feature? Get in touch with us!
 
 ### Biweekly Update 10/31-11/11
 
