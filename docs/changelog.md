@@ -15,9 +15,9 @@ We will update the beta version from time to time and list key enhancements in t
     If you would like to leverage such a 3rd party system/tool to push data to Timeplus but it doesn't allow custom content type, then you can use the standard `application/json` content type, and send POST request to `/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`. This will ensure the Timeplus API server to treat the POST data as NDJSON. For the API authentication, besides the custom HTTP Header `X-Api-Key:THE_KEY`, we now also support `Authorization: ApiKey THE_KEY` Learn more [Ingest API](ingest-api)
 * UI improvements
   * In the signup/login page, we added the WeChat integration. You can scan the QR code with your phone and sign up or log in.
-  * When a query is finished or cancelled or paused, you can download the current results as a CSV. This is helpful when there are more than 1 page of results.
-  * When you click an entity on Data Lineages page, such as a stream or a view, the summary is now shown in the side panel, instead of a popover. We will add more detailed information in the side panel.
-  * We added an experimental UI for the alert manager. Contact us if you want to try this feature.
+  * When a query is finished, cancelled, or paused, you can download the current results as a CSV. This is helpful when there are multiple pages of results.
+  * When you click an entity on Data Lineages page, such as a stream or a view, a summary is now shown in the side panel, instead of a pop-up, allowing you to see more detailed information.
+  * We added an experimental UI for the alert manager. Want to be the first to try this feature? Get in touch with us! 
 
 ### Biweekly Update 10/31-11/11
 
