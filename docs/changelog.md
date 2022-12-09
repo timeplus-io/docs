@@ -30,8 +30,8 @@ We will update the beta version from time to time and list key enhancements in t
 * UI improvements
   * In the signup/login page, we added the WeChat integration. You can scan the QR code with your phone and sign up or log in.
   * When a query is finished, cancelled, or paused, you can download the current results as a CSV. This is helpful when there are multiple pages of results.
-  * When you click an entity on Data Lineages page, such as a stream or a view, the summary is now shown in the side panel, instead of a pop-up, allowing you to see more detailed information.
-  * We added an experimental UI for the alert manager. Want to be the first to try this feature? Get in touch with us!
+  * When you click an entity on Data Lineages page, such as a stream or a view, a summary is now shown in the side panel, instead of a pop-up, allowing you to see more detailed information.
+  * We added an experimental UI for the alert manager. Want to be the first to try this feature? Get in touch with us! 
 
 ### Biweekly Update 10/31-11/11
 
