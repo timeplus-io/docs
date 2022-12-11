@@ -11,14 +11,14 @@ We will update the beta version from time to time and list key enhancements in t
 * We added an experimental feature to create User-Defined-Aggregation-Function (UDAF) via JavaScript. You can create highly customized logic with JavaScript, even for Complex Event Processing (CEP) scenarios. Contact us if you want to try this feature.
 * Refined the documentation for the Python SDK https://pypi.org/project/timeplus/
 * Source
-  * In the source management page, we added a sparkline to show the throughput for the sources. Refresh every 15 seconds.
-  * When you create a new source and choose to send data to an existing stream, only the streams with the matching schema will be shown. If there is no such stream, you have to create a new stream.
-  * In the preview stage, the first 3 rows will be fetched from the source. If Timeplus cannot detect the column data type automatically, the column type will be set as `unknown`. This could happen if the value in those 3 events contain `null`. Please check with your data source provider. If you are sure the future events will be in a certain data type, such as `string`, you can change the column type and choose to create a new stream to receive data from the source.
-* When you create a new [materialized view](view#m_view), you can set the retention policy, specifying the max size or max age for the data in the materialized view.
-* Click on a recent query on the home page will open the query page, instead of showing the query history.
-* Removed the page description banners. If there is no object defined in a certain page, a customized help page is shown.
-* You can drag-n-drop to resize the column size in the streaming result page.
-* An experimental alert manager UI is added. Please check the [user guide](alert).
+  * In the source management page, we added a sparkline to show the throughput for each source. This sparkline auto-refreshes every 15 seconds.
+  * When you create a new source and choose to send data to an existing stream, only the streams with matching schema will be shown. If no existing streams match, you have to create a new stream.
+  * In the preview step, the first 3 rows will be fetched from the source. If Timeplus cannot detect the column data type automatically, the column type will be set as `unknown`. This could happen if the value in those 3 events contain `null`. Please check with your data source provider. If you are sure the future events will be in a certain data type, such as `string`, you can change the column type and choose to create a new stream to receive data from the source.
+* When you create a new [materialized view](view#m_view), you can set a retention policy, specifying the max size or max age for the data in the materialized view.
+* Clicking on a recent query on the home page will now open the query page, instead of showing the query history.
+* We removed the purple page description banners formerly at the top of each page. If there is no object defined in a certain page, a customized help message is shown.
+* You can click-and-drag to resize column width in the streaming table (query page).
+* An experimental alert manager UI is added. Please check our [user guide](alert).
 
 ### Biweekly Update 11/14-11/25
 
