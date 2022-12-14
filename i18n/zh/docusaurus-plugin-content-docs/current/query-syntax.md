@@ -11,12 +11,16 @@ FROM <streaming_window_function>(<table_name>, [<time_column>], [<window_size>],
 [GROUP BY clause]
 EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
+[WHERE clause]
+[GROUP BY clause]
+EMIT <window_emit_policy>
+SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
 总体来说，Timeplus中的流式查询建立了一个与客户端的长长HTTP/TCP连接，并且根据 `EMIT` 策略持续评估查询和流返回结果，直到结束客户端 中止查询或出现一些异常。 时间插件支持一些内部 `设置` 来微调流式查询处理行为。 以下是一份详尽无遗的清单。 我们将在下面的章节中再谈这些问题。
 
 1. `query_mode=<table|streaming>` 总体查询是否为历史数据处理或流数据处理的常规设置。 默认情况下，是 `串流`。
-3. `search_to=<timestamp|eariest|latest>` 一个设置，告诉TimePlus通过时间戳在流式存储中寻找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如：`search _to='2022-01-12 06:00:00:00'`, `search_to='-2h'`, 或 `search_to='eariest'`
+3. `search_to=<timestamp|eariest|latest>` `search_to=<timestamp|eariest|latest>` 一个设置，告诉TimePlus通过时间戳在流式存储中寻找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如：`search _to='2022-01-12 06:00:00:00'`, `search_to='-2h'`, 或 `search_to='eariest'`
 
 ### 流式扫描
 
@@ -58,7 +62,7 @@ WHERE cpu_usage > 99
 EMIT PERIODIC 5s
 ```
 
-正如 [流式扫描](#streaming-tailing), Timeplus持续监控数据流`device_utils`, 不断过滤和 **增量**计数 每当指定的延迟间隔为上，项目当前的聚合结果 到客户端。
+正如 [流式扫描](#streaming-tailing), Timeplus持续监控数据流`device_utils`, 不断过滤和 **增量**计数 每当指定的延迟间隔为上，项目当前的聚合结果 到客户端。 每当指定的延迟间隔为上，项目当前的聚合结果 到客户端。
 
 ### 简易流窗口聚合 {#tumble}
 
@@ -69,6 +73,8 @@ SELECT <column_name1>, <column_name2>, <aggr_function>
 FROM tumble(<table_name>, [<timestamp_column>], <tumble_window_size>, [<time_zone>])
 [WHERE clause]
 GROUP BY [window_start | window_end], ...
+EMIT <window_emit_policy>
+设置 <key1>=<value1>, <key2>=<value2>, ...
 EMIT <window_emit_policy>
 设置 <key1>=<value1>, <key2>=<value2>, ...
 ```
@@ -92,7 +98,7 @@ Timeplus中的`tumble` 窗口左闭右开 `[)` meaning it includes all events wh
 
 当 `<time_zone>` 参数被省略时，系统的默认时区将被使用。 `<time_zone>` 是一个字符串类型的参数，例如 `UTC`。
 
-`<tumble_window_size>` 是一个间隔参数： `<n><UNIT>` `<UNIT>` 支持 `s`, `m`, `h`, `d`, `w`. 它还不支持 `M`, `q`, `y`。 例如： `tumble(my_table, 5s)`。
+`<tumble_window_size>` 是一个间隔参数： `<n><UNIT>` `<UNIT>` 支持 `s`, `m`, `h`, `d`, `w`. 它还不支持 `M`, `q`, `y`。 它还不支持 `M`, `q`, `y`。 例如： `tumble(my_table, 5s)`。
 
 Timeplus支持tumble窗口的2个发射策略，所以 `<window_emit_policy>` 可以是：
 
@@ -149,12 +155,14 @@ FROM hop(<table_name>, [<timestamp_column>], <hop_slide_size>, [hop_windows_size
 GROUP BY [<window_start | window_end>], ...
 EMIT <window_emit_policy>
 设置 <key1>=<value1>, <key2>=<value2>, ...
+EMIT <window_emit_policy>
+设置 <key1>=<value1>, <key2>=<value2>, ...
 ```
 
 Hop窗口与tumble窗口相比是一个更加普遍化的窗口。 Hop窗口有一个额外的 参数，名为 `<hop_slide_size>` ，这意味着每次都要进这个幻灯片尺寸。 共有3起案件：
 
-1. `<hop_slide_size>` 小于 `<hop_window_size>`. Hop窗口有重叠，意味着事件可能会进入几个节点窗口。
-2. `<hop_slide_size>` 等于 `<hop_window_size>`。 衰落到tumble窗口。
+1. `<hop_slide_size>` 等于 `<hop_window_size>`。 衰落到tumble窗口。
+2. `<hop_slide_size>` 小于 `<hop_window_size>`. Hop窗口有重叠，意味着事件可能会进入几个节点窗口。 衰落到tumble窗口。
 3. `<hop_slide_size>` 大于 `<hop_window_size>`。 Windows之间有差距。 通常没有用处，因此迄今不予支持。
 
 请注意此点。 您需要在 `<hop_slide_size>` 和 `<hop_window_size>`中使用相同的时间单位 例如 `hop(device_utils, 1s, 60s)` 代替 `hop(device_utils, 1s, 1m)`
@@ -182,7 +190,7 @@ EMIT AFTER WATERMARK;
 
 ### 最后X流处理
 
-在串流处理中，有一个典型的查询正在处理过去 X 秒/分钟/小时的数据。 例如，在过去 1 小时内显示每台设备的 cpu 使用量。 我们称这种类型的处理 `最后X 流处理` Timeplus和Timeplus提供专门的 SQL 扩展以便于使用： `EMIT LAST <n><UNIT>` 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。
+在串流处理中，有一个典型的查询正在处理过去 X 秒/分钟/小时的数据。 例如，在过去 1 小时内显示每台设备的 cpu 使用量。 我们称这种类型的处理 `最后X 流处理` Timeplus和Timeplus提供专门的 SQL 扩展以便于使用： `EMIT LAST <n><UNIT>` 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。
 
 **现在请注意** 最后的 X 串流处理是默认的处理时间处理，Timeplus 将寻找流式存储器以在最后的 X 时间范围内回填数据，它正在使用墙时钟时间进行寻找。 基于事件时间的最后X处理仍在开发中。 当基于事件的最后X处理准备就绪时，默认的最后X处理将被更改为事件时间。
 
@@ -192,6 +200,9 @@ EMIT AFTER WATERMARK;
 
 ```sql
 SELECT <column_name1>, <column_name2>, ...
+FROM <table_name>
+WHERE <clause>
+EMIT LAST INTERVAL <n> <UNIT>;
 FROM <table_name>
 WHERE <clause>
 EMIT LAST INTERVAL <n> <UNIT>;
@@ -217,6 +228,8 @@ FROM <table_name>
 GROUP BY ...
 EMIT LAST INTERVAL <n> <UNIT>
 SETTINGS max_keep_windows=<window_count>
+EMIT LAST INTERVAL <n> <UNIT>
+SETTINGS max_keep_windows=<window_count>
 ```
 
 **注意** 内部Timeplus片段数据流到小窗口，并在每个小窗口和时间结束时进行聚合， 它滑出旧的小窗口，以保持整个时间窗口的固定并保持递增聚合的效率。 默认情况下，最大保留窗口是 100。 如果最后的 X 间隔非常大且周期性的发射间隔较小。 然后用户将需要明确设置一个较大的最大窗口： `last_x_interval / period_emit_interval`。
@@ -237,6 +250,10 @@ SETTINGS max_keep_windows=720;
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
 FROM <streaming_window_function>(<table_name>, [<time_column>], [<window_size>], ...)
+
+群组由...
+EMIT LAST INTERVAL <n> <UNIT>
+SETTINGS max_keep_windows=<window_count>
 
 群组由...
 EMIT LAST INTERVAL <n> <UNIT>
@@ -287,6 +304,7 @@ SELECT device, max(cpu_usage) FROM filteed GROUP BY device;
 ```sql
 WITH cte1 AS (SELECT ..),
      cte2 AS (SELECT ..)
+选择... FROM cte1 UNION SELECT .. 从 Cte2
 选择... FROM cte1 UNION SELECT .. 从 Cte2    
 ```
 
@@ -384,16 +402,16 @@ WHERE device_products_info._tp_time > '2020-01-01T01:01';
 在某些情况下，实时数据流向多个数据流。 例如，当广告展示给最终用户时，当用户点击广告时。 Timeplus允许您对多个数据流进行关联搜索。 当用户点击广告后，您可以检查平均时间。
 
 ```sql
-SELECT .. FROM stream1
+选择... SELECT .. FROM stream1
 INNER JOIN stream2
 ON stream1.id=stream2.id AND data_diff_with(1m)
 WHERE ..
 ```
 
-您也可以加入一个流到自己。 一个典型的使用情况是检查同一流中数据是否有某种模式，例如： 是否在两分钟内购买相同的信用卡。小规模购买后有大宗购买。 这可能是一种欺诈模式。
+您也可以加入一个流到自己。 一个典型的使用情况是检查同一流中数据是否有某种模式，例如： 是否在两分钟内购买相同的信用卡。 小规模购买后有大宗购买。 这可能是一种欺诈模式。
 
 ```sql
-SELECT .. FROM stream1
+选择... SELECT .. FROM stream1
 INNER JOIN stream1 AS stream2
 ON stream1.id=stream2.id AND data_diff_with(1m)
 WHERE ..
