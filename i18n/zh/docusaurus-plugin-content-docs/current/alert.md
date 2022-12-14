@@ -1,48 +1,48 @@
-# Alert
+# 告警
 
 :::info
 
-The alert system and UI are experimental. Please share your feedback to help us to improve it.
+目前这个告警系统和用户界面是还在早期实验性阶段。 请分享您的反馈以帮助我们进行改进。
 
 :::
 
-Timeplus provides out-of-box charts and dashboards. You can also create [sinks](destination) to send downsampled data to Kafka or other message buses, or notify others via email/slack. You can even send new message to Kafka, then consume such message timely in the downstream system. This could be a solution for alerting and automation.
+Timeplus 提供开箱即用的图表和仪表板。 你也可以创建 [数据下游](destination) 将降采样的数据发送到 Kafka 或其他消息总线，或者通过电子邮件/slack 通知其他人。 你甚至可以向 Kafka 发送新消息，然后在下游系统中及时消费这样的消息。 这可以是一个实现告警和自动化的解决办法。
 
-Since it's a common use case to define and manage alerts, Timeplus started supporting alerts out-of-box.
+由于定义和管理警报是一个常见需求，Timeplus 开始支持开箱即用的告警。
 
-## Create New Alert Rule
+## 创建新的告警规则
 
-Access the `/console/alerts` page to open the new Alert Manager.
+访问 `/console/alerts` 页面打开新的告警管理器。
 
-You can check the button to create a new alert. 参数：
+您可以选中该按钮来创建新告警。 参数：
 
-* Name: required, a unique name to identify the alert among other alerts in your workspace.
-* Severity: Critical, High, Low
-* Description: optional text to describe the purpose or logic of the alert
-* Trigger SQL: required. A streaming SQL. Once there is any new result from the query, Timeplus will fire the alert.
-* Clear SQL: optional. Another streaming SQL. Once there is any new result from the query, Timeplus will set this alert as resolved.
-* Output: currently we support Slack and PagerDuty to notify the users.
-  * Slack:
-    * Webhook URL: required. Please follow the [guide](destination#slack) to create one from slack.com.
-    * (Trigger) message body: optional. The message title is `New Alert alert on ALERT_NAME is triggered!` By default the message is `Event: JSON` You can customize the default template. Refer to the value for each column using the `{{.column}}` expression.
-    * (Clear) message body: optional. The message title is `Alert alert on ALERT_NAME is resolved!` By default the message is `Event: JSON` You can customize the default template. Refer to the value for each column using the `{{.column}}` expression.
-  * PagerDuty:
-    * Routing Key: required. 32 character Integration Key for an integration on a PagerDuty service or rule set.  Please check the PagerDuty documentations for details.
-    * Component: optional, the additional context about what component goes wrong.
+* 名称：必填项，用于在工作区中的其他警报中识别告警的唯一名称。
+* 严重性：严重、高、低
+* 描述：描述告警目的或逻辑的可选文本
+* 触发器 SQL：必需。 一个流式SQL。 一旦查询得出任何新结果，Timeplus 就会触发警报。
+* 清除 SQL：可选。 一个流式SQL。 一旦查询得出任何新结果，Timeplus 会将此警报设置为已解决。
+* 输出：目前我们支持 Slack 和 PagerDuty 来通知用户。
+  * Slack：
+    * Webhook URL：必填。 请按照 [指南](destination#slack) 从 slack.com 创建一个。
+    * （触发器）消息正文：可选。 消息标题为 `ALERT_NAME 上的新警报警报已触发！` 默认情况下，消息为 `事件：JSON` 您可以自定义默认模板。 使用 `{{.column}}` 表达式引用每列的值。
+    * （清除）消息正文：可选。 消息标题为 `ALERT_NAME 上的警报警报已解决！` 默认情况下，消息为 `事件：JSON` 您可以自定义默认模板。 使用 `{{.column}}` 表达式引用每列的值。
+  * PagerDuty：
+    * 路由密钥：必需。 32 个字符的集成密钥，用于在 PagerDuty 服务或规则集上集成。  有关详细信息，请查看 PagerDuty 文档。
+    * 组件：可选，关于哪个组件出错的额外上下文。
 
-Example:
+示例:
 
-* You can set the Trigger SQL as `select avg(speed_kmh) as avg from tumble(car_live_data,5s) group by window_start having avg>51`
-* Clear SQL as `select avg(speed_kmh) as avg from tumble(car_live_data,5s) group by window_start having avg<=51`
-* The message body for trigger message is `Avg car speed is {{.avg}}`
+* 你可以设置触发SQL为 `select avg(speed_kmh) as avg from tumble(car_live_data,5s) group by window_start having avg>51`
+* 清除 SQL为 `select avg(speed_kmh) as avg from tumble(car_live_data,5s) group by window_start having avg<=51`
+* 触发消息的消息正文为 `平均车速为 {{.avg}}`
 
-## List Alerts
+## 列出警报
 
-The **Alerts** tab shows the alert history. The alert status is either ALERT or OK. You can manually resolve an alert in ALERT status.
+**警报** 选项卡显示警报历史记录。 警报状态为 “警报” 或 “正常”。 您可以手动解决处于 ALERT 状态的警报。
 
 
 
-## List Alerts Rules
+## 列出警报规则
 
-The **Alert Rules** tab lists all defined alert rules. You can edit  or delete the rule or resolve one alert no matter what status it is.
+**警报规则** 选项卡列出了所有已定义的警报规则。 无论警报状态如何，您都可以编辑或删除规则或解决一个警报。
 
