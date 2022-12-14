@@ -12,7 +12,7 @@
   * 强化 [除掉](functions#dedup) 函数以便只缓存给定时间内唯一的密钥。 这有助于在短时间内消除同样的警报。
   * 支持子串流，例如 `选择 cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) 作为从car_live_data 的 last_spd`
 * 源、 汇、 API 和 SDK
-  * 更新 Python SDK https://pypi.org/project/timeplus/以自动删除查询历史，改进错误处理。请注意出现了一个突破性的更改， `Env()。 enant(id)` 更改为 `Env().workspace(id)` 更符合我们的 [术语](glossary#workspace)
+  * 更新 Python SDK https://pypi.org/project/timeplus/以自动删除查询历史，改进错误处理。 请注意出现了一个突破性的更改， `Env()。 enant(id)` 更改为 `Env().workspace(id)` 更符合我们的 [术语](glossary#workspace)
   * 更新了 [REST API](/rest) 来显示源/汇的optinal 描述，并在文档中将“租户”改为“workspaceid”。
   * Kafka sink 不再自动创建主题
 
@@ -38,7 +38,7 @@
   * 重新设计主页以显示工作区的高层信息。
   * 开启了一个新的“数据行”页面以直观化源/流/视图/汇之间的关系。
   * 增强可视化查询结果的工作流。 您需要选择是查看最新数据，还是检查数据趋势，还是查看详细数据。
-  * 现在您可以可视化历史查询的查询结果，例如 `选择 .. 从表 (...)...`, 并将图表添加到仪表板。
+  * 现在您可以可视化历史查询的查询结果，例如 `选择 .. 从表 (...)...`, 并将图表添加到仪表板。 从表 (...)...</code>, 并将图表添加到仪表板。
   * 删除浏览器侧边数据集合以提高性能。 如果数据速度大于渲染时间间隔（2000年），则只会在间隔内提供最后一个数据点。  如果您运行串流尾或过滤器，您不再能够用条形图对数据进行视觉。 请使用 `GROUP BY` 来进行这种分析。
   * 增强SQL编辑器以显示列名而不使用流名。
   * 移动友好登录/注册页面。
