@@ -8,17 +8,17 @@
 
 ### 每两周更新 11/14-11/25
 
-* We added an experimental feature to create User-Defined-Aggregation-Function (UDAF) via JavaScript. You can create highly customized logic with JavaScript, even for Complex Event Processing (CEP) scenarios. 如果您想试用此功能，请联系我们。
-* Refined the documentation for the Python SDK https://pypi.org/project/timeplus/
+* 我们添加了一项实验功能，用于通过 JavaScript 创建用户定义的聚合函数 (UDAF)。 您可以使用 JavaScript 创建高度自定义的逻辑，即使对于复杂事件处理 (CEP) 场景也是如此。 如果您想试用此功能，请联系我们。
+* 完善了 Python SDK 的文档 https://pypi.org/project/timeplus/
 * 数据源
-  * In the source management page, we added a sparkline to show the throughput for each source. This sparkline auto-refreshes every 15 seconds.
-  * When you create a new source and choose to send data to an existing stream, only the streams with matching schema will be shown. If no existing streams match, you have to create a new stream.
-  * In the preview step, the first 3 rows will be fetched from the source. If Timeplus cannot detect the column data type automatically, the column type will be set as `unknown`. This could happen if the value in those 3 events contain `null`. Please check with your data source provider. If you are sure the future events will be in a certain data type, such as `string`, you can change the column type and choose to create a new stream to receive data from the source.
-* When you create a new [materialized view](view#m_view), you can set a retention policy, specifying the max size or max age for the data in the materialized view.
-* Clicking on a recent query on the home page will now open the query page, instead of showing the query history.
-* We removed the purple page description banners formerly at the top of each page. If there is no object defined in a certain page, a customized help message is shown.
-* You can click-and-drag to resize column width in the streaming table (query page).
-* 实验性的警报管理器界面。 Please check our [user guide](alert).
+  * 在数据源管理页面中，我们添加了一条迷你图来显示数据源的吞吐量。 每15秒自动刷新改吞吐图。
+  * 当您创建新数据源并选择向现有流发送数据时，将仅显示数据结构匹配的流。 如果没有现有的流匹配，您必须创建一个新流。
+  * 在预览阶段，将从数据源提取前 3 行。 如果 Timeplus 无法自动检测列数据类型，则列类型将设置为 `unknown`。 如果这 3 个事件中的值包含 `null`，则可能会发生这种情况。 请检查您的数据源。 如果您确定未来的事件将采用特定的数据类型，例如 `string`，则可以更改列类型并选择创建新流以接收来自数据源的数据。
+* 创建新的物化视图时，可以设置保留策略，为物化视图中的数据指定最大大小或最大期限。
+* 在主页上单击最近的查询将打开查询页面，而不是显示查询历史记录。
+* 我们删除了以前位于每个页面顶部的紫色页面描述横幅。 如果在某个页面中未定义任何对象，则会显示自定义的帮助页面。
+* 您可以单击并拖动以调整流式表（查询页面）中的列宽。
+* 实验性的警报管理器界面。 请查看我们的 [用户指南](alert).
 
 ### 每两周更新 10/31-11/11
 
@@ -30,7 +30,7 @@
   * 在注册/登录页面中，我们添加了微信集成。 您可以用手机扫描二维码并注册或登录。
   * 当查询完成、取消或暂停时，您可以将当前结果下载为 CSV。 当结果超过 1 页时，这很有用。
   * 当您单击数据血缘页面上的实体（例如流或视图）时，摘要现在显示在侧面板中，而不是弹出窗口。 我们将在侧面板中添加更多详细信息。
-  * 实验性的警报管理器界面。 Want to be the first to try this feature? Get in touch with us!
+  * 实验性的警报管理器界面。 想成为第一个尝试此功能的人吗？ 请与我们联系！
 
 ### 每两周更新10/17-10/28
 
