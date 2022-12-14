@@ -44,7 +44,7 @@ Data Package Manager (datapm) 是一个[开源](https://github.com/big-armor/dat
 ### 运行 datapm
 打开终端窗口并运行 `datapm`
 ```
-? What action would you like to take? ›
+? What action would you like to take? ? What action would you like to take? ›
 ❯   Fetch data
     Search for data
     Create new package and publish
@@ -62,6 +62,9 @@ Data Package Manager (datapm) 是一个[开源](https://github.com/big-armor/dat
 #### 获取数据
 ```
 ✔ What action would you like to take? › Fetch data
+
+Source Selection
+? Source package or connector name? ✔ What action would you like to take? › Fetch data
 
 Source Selection
 ? Source package or connector name? ›
@@ -85,7 +88,7 @@ Source Selection
 例如，如果您选择 `本地文件`
 ```
 Finding Stream Sets
-? File path? ›
+? File path? › File path? ›
 ```
 
 输入本地文件的文件路径(例如CSV或zip)。 您也可以将文件拖动到终端窗口。
@@ -96,6 +99,7 @@ Datapm 将从本地文件系统或远程系统加载内容，并询问您是更�
 配置数据源后，选择数据下游：
 ```
 Sink Connector
+? Sink Connector? Sink Connector
 ? Sink Connector? ›
 ❯   Big Query
     Console (Standard Out)
@@ -126,12 +130,15 @@ Timeplus Connection
 按回车键
 ```
 Timeplus Connection
+? Repository? ›
+❯   New Repository ✔ Repository? › New Repository
+? Base URL? › https://beta.timeplus.cloud/workspace-id Timeplus Connection
 ✔ Repository? › New Repository
 ✔ Base URL? … https://beta.timeplus.cloud/d335214
 ✔ Connection successful
 
 Timeplus Credentials
-? API Key? › 
+? API Key? › API Key? › 
 ```
 
 你需要设置 API 密钥。 您可以从 Web 控制台获取一个。 （访问 {baseURL}/console/settings/apiKey，或者选择左上角的 “个人设置”，然后切换到 “API 密钥管理” 并单击 “创建 API 密钥” 按钮）。
@@ -141,15 +148,16 @@ datapm 将保存配置，包括 Timeplus baseUrl 和 API 密钥。 下次，你�
 :::
 
 ```
-✔ API Key? … ************************************************************
+✔ API Key? … ✔ API Key? … ************************************************************
 ✔ Authentication succeeded
 
 Timeplus Configuration
-? Stream for ... records? › 
+? Stream for ... records? › Stream for ... records? › 
 ```
 下一步，在 Timeplus 中选择一个数据流名称，然后按 Enter。
 ```
 Timeplus Configuration
+✔ Stream for appsumo records? Timeplus Configuration
 ✔ Stream for appsumo records? … local_tmp-package_0_1
 ✔ Created Timeplus Stream local_tmp-package_0_1
 
