@@ -597,13 +597,13 @@ SELECT
 
 ### multi_if
 
-`multi_if(condition1, then1, condition2, then2.). ，其他)` 更容易写入如果/自我或个案/时间 ，其他)</code> 更容易写入如果/自我或个案/时间
+`multi_if(condition1, then1, condition2, then2.. ,else)` 一种比 if/self 或 case/when更简单的写法
 
 ## 聚合
 
 ### count
 
-`计数(*)` 获取行数 或 `计数(col)` 当 `col` 不是 `NULL` 时获得行数
+`count (*)` 获取行号，或者 `count (col)` 获取行数 `coutn` 不是 `NULL`
 
 ### count_distinct
 
