@@ -463,7 +463,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### json_value
 
-`json_value(json, path)` 允许您访问嵌套的 JSON 对象。 For example, `json_value('{"a":true,"b":{"c":1}}','$.b.c')` will return the number `1`
+`json_value(json, path)` 允许您访问嵌套的 JSON 对象。 例如， `json_extract_int('{"a":,"b":1}','a')` 将获得数字 `1`
 
 ### json_query
 
@@ -840,7 +840,7 @@ SELECT
 
 ### radians
 
-`弧度(x)` 将输入值转换为弧度。 例如： 例如： `递减(3.14)` 返回 180。
+`弧度(x)` 将输入值转换为弧度。 例如：  ` radians(180)` 返回3.14。
 
 ### is_finite
 

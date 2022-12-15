@@ -84,7 +84,7 @@ exports.handler = async (event) => {
 用户定义的函数打开了在Timeplus内用完整的编程能力处理和分析数据的新可能性。 在构建和使用用户定义函数时还有一些其他因素需要考虑：
 
 1. 对于Timeplus Cloud客户，它强烈建议为UDF启用身份验证。 例如，当您注册函数时，您可以将密钥设置为“密码”，并将其设置为随机字值。 在向远程的 UDF 端点提出请求时，Timplus将在HTTP 头中设置它。 在您的端点代码中，请务必检查HTTP头中的键值对是否匹配Timeplus中的设置。 如果没有，返回错误代码以拒绝UDF 请求。
-2. 但是，呼叫单个UDF可能只需要100毫秒或更少。 如果你调用一个百万行的 UDF ，这可能会减慢整个查询速度。 它建议先汇总数据，然后用较少的请求来调用 UDF 。 例如： 例如： `SELECT ip_lookup(ip):city as city, sum(cnt) FROM (SELECT ip, count(*) as cnt FROM access_log GROUP BY ip) GROUP BY city` 而不是 `SELECT ip_lookup(ip):city, count(*) as cnt FROM access_log GROUP BY city`
+2. 但是，呼叫单个UDF可能只需要100毫秒或更少。 如果你调用一个百万行的 UDF ，这可能会减慢整个查询速度。 它建议先汇总数据，然后用较少的请求来调用 UDF 。 例如： `SELECT ip_lookup(ip):city as city, sum(cnt) FROM (SELECT ip, count(*) as cnt FROM access_log GROUP BY ip) GROUP BY city` 而不是 `SELECT ip_lookup(ip):city, count(*) as cnt FROM access_log GROUP BY city`
 3. 目前UDF Timeplus系统不是为了汇总而设计的。 在某些系统中，这被称为用户定义的 Scalar-Value 函数。 用户定义的聚合函数 (UDAF) 将很快引入，为您定制总函数或状态处理提供更好的基础。 随时关注更多信息。
 4. 为了提高性能，Timeplus自动向UDF 端点发送批量请求。 例如，如果在一次SQL执行中有1000个请求给UDF 框架可发送10项请求，每项100项请求供投入。 这就是为什么在示例代码中，我会将 `ip` 作为一个数组处理，并且返回另一个数组的值。 请确保返回的值匹配输入。
 5. 正确添加日志到您的 UDF 代码会极大地帮助疑难解答/调整函数代码。
