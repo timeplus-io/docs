@@ -12,7 +12,7 @@ Timeplus提供了一个内置的数据源，用于为一些典型的使用情况
 
 ![IOT 示例数据集配置](/img/sampledata_cfg.png)
 
-点击 **下一个**。 您将预览样本数据。 请随时点击 **下一个** 按钮。 可选，您可以点击TIME列附近的图像按钮并启用 **设置为 TIMESTAMP COLUMN** 选项。 ([为什么你需要设置一个时间戳列？](glossary#timestamp-column))
+点击 **下一个**。 您将预览样本数据。 请随时点击 **下一个** 按钮。 可选，您可以点击TIME列附近的图像按钮并启用 **设置为 TIMESTAMP COLUMN** 选项。 ([为什么你需要设置一个时间戳列？ ](glossary#timestamp-column))
 
 ![IOT 示例数据集配置](/img/sampledata_ts.png)
 

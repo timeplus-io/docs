@@ -22,11 +22,11 @@ Apache® PulsarTM 是一个云端、分发、开源消息和流式平台，用�
 有三种支持的身份验证：
 
 * 无。 调用 REST API 时将 `auth_type`设置为空字符串。 这通常只适用于本地Pulsar测试目的。
-* OAuth2.  调用 REST API 以创建 Pulsar 源时，将 `auth_type`设置为 `oauth2`。 它得到StreamNative Cloud的支持。 在 `auth_params` payload中需要以下参数：
-  * `必需的 issuer_url`
+* OAuth2.  OAuth2.  调用 REST API 以创建 Pulsar 源时，将 `auth_type`设置为 `oauth2`。 它得到StreamNative Cloud的支持。 在 `auth_params` payload中需要以下参数：
+  * 必需的 issuer_url
   * `必须有` 个对象
-  * `需要私人密钥`
-  * `需要 client_id`
+  * 需要私人密钥
+  * 需要 client_id
   * `范围` 是可选的
 * 令牌。  调用 REST API 以创建 Pulsar 源时，将 `auth_type`设置为 `token`。  也需要在  `auth_params` payload中设置 `token` key/value。 StreamNative Cloud也支持它。
 

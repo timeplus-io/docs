@@ -6,6 +6,16 @@
 
 首先，您需要在 Timeplus 中创建一个流，要么使用 web UI ，要么通过 REST API。 应每一列设置适当的名称和类型。 在下一节中，我们假设流名称为 `foo`。
 
+## 在HTTP头发送身份验证令牌
+
+请为工作区生成 API 密钥，并在 HTTP 头中设置 API 密钥，名称为： `X-Api-Key`
+
+:::info
+
+如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义内容类型， 然后您可以使用标准 `application/json` 内容类型，并将 POST 请求发送到 `/api/v1beta1/streams/$KEY/ingest?format=streaming`
+
+:::
+
 ## 向 Timeplus 发送数据
 
 实时数据摄取的API endpoint是 `https://beta.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
@@ -18,6 +28,12 @@
 * `application/x-ndjson`
 * `application/vnd.timeplus+json;format=streaming`
 
+:::info
+
+如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义内容类型， 然后您可以使用标准 `application/json` 内容类型，并将 POST 请求发送到 `/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`. 这将确保 Timeplus API 服务器将 POST 数据视为 NDJSON。 这将确保 Timeplus API 服务器将 POST 数据视为 NDJSON。
+
+:::
+
 请求正文只是一组 JSON 对象。 例如
 
 ```json
@@ -28,9 +44,9 @@
 
 每个对象不必在一行中。 例如：
 ```json
-{
-  "key1": "value11", 
-  "key2": "value12", ...
+{"key1": "value11", "key2": "value12", ...}
+{"key1": "value21", "key2": "value22", ...}
+...
 }
 {
   "key1": "value21", 

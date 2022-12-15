@@ -45,7 +45,7 @@
 
 ### to_bool
 
-将值转换为 `bool` 类型。 例如：`select to_bool(1), to_bool(true),to_bool(True),to_bool('true')` all return `true`. 请注意，您不能运行 `to_bool('True')`
+将值转换为 `bool` 类型。 例如：`select to_bool(1), to_bool(true),to_bool(True),to_bool('true')` all return `true`. 请注意，您不能运行 `to_bool('True')` 请注意，您不能运行 `to_bool('True')`
 
 
 ### cast
@@ -74,13 +74,13 @@ select
 
 ### to_type_name
 
-`to_type_name(x)` 来显示参数的类型名称 `x` 这主要是为了排除故障以了解函数调用的日期类型。
+`to_type_name(x)` 来显示参数的类型名称 `x` 这主要是为了排除故障以了解函数调用的日期类型。 这主要是为了排除故障以了解函数调用的日期类型。
 
 ## 访问复合类型 {#arrays}
 
 ### array_cast
 
-`array_cast(元素1,元素2,...)` 创建一个新的数组给定元素，例如 `array_cast(1,2)` 将得到 `[1,2]` 请注意，元素应该是同一类型。 例如 `array_cast('a','n')`, not `array_cast('a',0')`
+`map_cast(array1, array2)` 用 `array1`作为map的key，用 `array2` 作为value来组成一个新的map(这2个数组应该长度相同). 例如， `map_cast(['k1','k2'],[91,95])` 将得到 `{'k1':91,'k2':95}`
 
 ### length
 
@@ -100,7 +100,7 @@ select
 
 ### index_of
 
-`index_of(arr,x)` 返回数组中 `x` 的索引 `arr` 第一个元素的索引是 1。 如果 `x` 不在数组中，返回 0。
+`array_difference(arr)` 计算相邻数组元素之间的差异。 返回第一个元素将为0的数组 第二个是 `a[1] - a[0]`之间的差异。 例如： `array_diffce([1,2,3,5])`返回 [0,1,2]
 
 ### array_compact
 
@@ -112,11 +112,11 @@ select
 
 ### array_difference
 
-` array_difference(arr)` 计算相邻数组元素之间的差异。 返回第一个元素将为0的数组 第二个是 `a[1] - a[0]`之间的差异。 例如： `array_diffce([1,2,3,5])`返回 [0,1,2]
+`array_distinct(arr)` 返回一个仅包含不同元素的数组。 例如： `array_distinct([1,1,1,2,3,3,1,1)]`return [1,2,3], 而 `array_compact([1,1,2,3,1,1)`return [1,2,3,1]
 
 ### array_distinct
 
-` array_distinct(arr)` 返回一个仅包含不同元素的数组。 例如： ` array_distinct([1,1,1,2,3,3,1,1)]`return [1,2,3], 而 `array_compact([1,1,2,3,1,1)`return [1,2,3,1]
+`array_filter(func, 数组)` 返回一个仅包含符合指定函数条件的元素的数组。 例如： `array_filter(x->x%2==0, [1,2,3,4])`返回 [2,4]
 
 
 
@@ -126,7 +126,7 @@ select
 
 ### array_string_concat
 
-`array_string_concat([，分隔符])` 与分隔符连接数组中列出的值的字符串表示. `分隔符` 是一个可选的参数：一个常量字符串，默认设置为空字符串。
+`array_string_concat([，分隔符])` 与分隔符连接数组中列出的值的字符串表示. `分隔符` 是一个可选的参数：一个常量字符串，默认设置为空字符串。 `分隔符` 是一个可选的参数：一个常量字符串，默认设置为空字符串。
 
 例如， `array_string_concat([1,2,3],'-')` 获取一个字符串 `1-2-3`
 
@@ -147,7 +147,7 @@ select
 
 ### array_pop_front
 
-` array_pop_front(数组)` 从数组中移除第一个项目。 例如： `array_pop_front([1,2,3])` 返回 [2,3]
+`array_pop_front(数组)` 从数组中移除第一个项目。 例如： `array_pop_front([1,2,3])` 返回 [2,3]
 
 ### array_push_back
 
@@ -167,7 +167,7 @@ select
 
 ### array_resize
 
-`array_resize(数组，大小 [,extender])` 更改数组的长度。 如果 `大小`小于当前数组的长度，则数组将被截断. 否则，将创建一个具有指定大小的新数组，用指定的 `extender` 填充值。 e.g. `array_resize([3,4],1)` returns [3]. ` array_resize([3,4],4,5)`返回 [3,4,5,5]
+`array_resize(数组，大小 [,extender])` 更改数组的长度。 如果 `大小`小于当前数组的长度，则数组将被截断. 否则，将创建一个具有指定大小的新数组，用指定的 `extender` 填充值。 例如： `array_sort([3,2,5,4])` 返回 [2,3,4,5]。 ` array_resize([3,4],4,5)`返回 [3,4,5,5]
 
 
 
@@ -191,15 +191,15 @@ select
 
 ### array_zip
 
-`array_zip(arr1,arr2,... arrN)` group elements from different arrays to a new array of tuples. 例如： `array_zip[1,2,3],['a','b','c']]` 返回 [(1,'a'),(2,'b'),(3,'c')]
+`array_resize(数组，大小 [,extender])` 更改数组的长度。 如果 `大小`小于当前数组的长度，则数组将被截断. 否则，将创建一个具有指定大小的新数组，用指定的 `extender` 填充值。 e.g. `array_resize([3,4],1)` returns [3]. `array_resize([3,4],4,5)`返回 [3,4,5,5]
 
 ### array_all
 
-`array_all([function, ]数组)` 返回 1(true) 或 0(Alse) 如果数组中的所有元素都符合条件。 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_all(x->x%2==0,[2,4,6])` 以检查数组中的每个元素是否为偶。 它返回 1。
+`array_all([function, ]数组)` 返回 1(true) 或 0(Alse) 如果数组中的所有元素都符合条件。 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_all(x->x%2==0,[2,4,6])` 以检查数组中的每个元素是否为偶。 它返回 1。
 
 ### array_avg
 
-`array_avg([func, ]数组)` 返回数组中的平均值。 例如， `array_avg([2,6])` return 4。 您可以在 lambda 函数中作为第一个参数，在计算平均数之前应用于每个元素。 例如 `array_avg(x->x*x,[2,6])` 获得2*2 和 6\*6的平均值，这是20。
+`array_cum_sum([func, ]array)` 返回源数组中部分元素的数组(运行总和)。 例如： `array_cum_sum([1,1,1,1])` 返回 [1,2,3]。 您可以在 lambda 函数中作为第一个参数，在计算移动总和之前应用于每个元素， 例如 `array_cum_sum(x->x*x,[1,2])` 获得[1,5]
 
 ### array_count
 
@@ -215,15 +215,15 @@ select
 
 ### array_filter
 
-`array_filter(func, 数组)` 返回一个仅包含符合指定函数条件的元素的数组。 例如： `array_filter(x->x%2==0, [1,2,3,4])`返回 [2,4]
+`array_first_index(func, 数组)` 返回与指定函数条件匹配的第一个元素的索引。 例如： `array_first_index(x->x%2==0, [1,2,3,4])`返回 2。
 
 ### array_first
 
-` array_first(函数, 数组)` 返回符合指定函数条件的第一个元素。 例如： `array_first(x->x%2==0, [1,2,3,4])`返回 2。
+`array_first(函数, 数组)` 返回符合指定函数条件的第一个元素。 例如： `array_first(x->x%2==0, [1,2,3,4])`返回 2。
 
 ### array_first_index
 
-`array_first_index(func, 数组)` 返回与指定函数条件匹配的第一个元素的索引。 例如： `array_first_index(x->x%2==0, [1,2,3,4])`返回 2。
+`array_map(函数, 数组)` 将函数应用于数组中的每个元素，并返回一个新数组。 例如： `array_map(x->x*x,[1,2])`返回 [1,4]
 
 ### array_last
 
@@ -235,7 +235,7 @@ select
 
 ### array_map
 
-`array_map(函数, 数组)` 将函数应用于数组中的每个元素，并返回一个新数组。 例如： `array_map(x->x*x,[1,2])`返回 [1,4]
+`index_of(arr,x)` 返回数组中 `x` 的索引 `arr` 第一个元素的索引是 1。 如果 `x` 不在数组中，返回 0。
 
 ### array_max
 
@@ -263,7 +263,7 @@ select
 
 ### map_cast
 
-`map_cast(array1, array2)` 用 `array1`作为map的key，用 `array2` 作为value来组成一个新的map(这2个数组应该长度相同). 例如， `map_cast(['k1','k2'],[91,95])` 将得到 `{'k1':91,'k2':95}`
+`array_cast(元素1,元素2,...)` 创建一个新的数组给定元素，例如 `array_cast(1,2)` 将得到 `[1,2]` 请注意，元素应该是同一类型。 例如 `array_cast('a','n')`, not `array_cast('a',0')`
 
 或者，您可以使用 `map_cast(key1,value1,key2,value2...)`
 
@@ -393,7 +393,7 @@ SELECT
 
 `date_diff(unit,begin,end)`
 
-Calculate the difference between `begin` and `end` and produce a number in `unit`. 例如： `date_diff('second',window_start,window_end)`
+Calculate the difference between `begin` and `end` and produce a number in `unit`. 例如： `date_diff('second',window_start,window_end)` 例如： `date_diff('second',window_start,window_end)`
 
 ### date_diff_within
 
@@ -405,13 +405,13 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `date_trunc(funit), value[, timezone])`将日期和时间数据截断到日期的指定部分。 例如， `date_trunc('month',now())` 获取当前月初的日期时间。 可能的单位值为：
 
-* 年
-* 季度
-* 月
-* 天
-* 小时
-* 分钟
-* 秒
+* year
+* quarter
+* month
+* day
+* hour
+* minute
+* second
 
 ### date_add
 
@@ -447,7 +447,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### json_extract_array
 
-`json_extract_array(json, key)`获取指定的 JSON 文档和密钥的数组值。 例如 `json_extract_array('{"a": "hello", "b": [-100, 200). , "hello"]}', 'b''` 将获得数组值 `['-100','200','hello"]` 如果整个JSON文档是一个数组, 第二个参数 `键` 可以省略json 字符串作为数组，e。 。 `json_extract_array(arrayString)`
+`json_has(json, key)` 来检查是否在 JSON 文档中存在指定的密钥。 例如 `json_has('{"a":10,"b":20}','c')`返回 0(false)。
 
 ### json_extract_keys
 
@@ -455,11 +455,11 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### is_valid_json
 
-`is_valid_json(str)` 来检查给定的字符串是否是有效的 JSON 返回 true(1) 或 false(0)
+`is_valid_json(str)` 来检查给定的字符串是否是有效的 JSON 返回 true(1) 或 false(0) 返回 true(1) 或 false(0)
 
 ### json_has
 
-`json_has(json, key)` 来检查是否在 JSON 文档中存在指定的密钥。 例如 `json_has('{"a":10,"b":20}','c')`返回 0(false)。
+`json_value(json, path)` 允许您访问嵌套的 JSON 对象。 For example, `json_value('{"a":true,"b":{"c":1}}','$.b.c')` will return the number `1`
 
 ### json_value
 
@@ -536,8 +536,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 ```sql
 将视图日志创建为 
 从log_stream中选择 'key1=(\\w+)' 作为key1,
-       extract(value, 'key2=(\\w+)' 作为key2 
-
+       extract(value, 'key2=(\\w+)' 作为key2
 ```
 
 
@@ -572,7 +571,7 @@ SELECT
 
 ### grok
 
-在不使用正则表达式的情况下从计划文本中提取值。 例如： `SELECT grok('我的名字是杰克) 我在23年前。',我的名字是 %{DATA:name}。 我是 %{INT:age} 年前。') 因为m` 将得到 `{"name":"Jack","age":"23"}` 作为 `m`
+在不使用正则表达式的情况下从计划文本中提取值。 例如： `SELECT grok('我的名字是杰克) 我在23年前。 ',我的名字是 %{DATA:name}。 我是 %{INT:age} 年前。 ') 因为m` 将得到 `{"name":"Jack","age":"23"}` 作为 `m`
 
 请注意返回地图中的所有密钥和值都是字符串类型。 您可以将它们转换为其他类型，例如 `(m['age'])：int`
 
@@ -598,7 +597,7 @@ SELECT
 
 ### multi_if
 
-`multi_if(condition1, then1, condition2, then2.). ，其他)` 更容易写入如果/自我或个案/时间
+`multi_if(condition1, then1, condition2, then2.). ，其他)` 更容易写入如果/自我或个案/时间 ，其他)</code> 更容易写入如果/自我或个案/时间
 
 ## 聚合
 
@@ -628,7 +627,7 @@ SELECT
 
 ### unique_exact_if
 
-`唯一精确if(col, 请使用` 应用带有 `条件的过滤器` 并获取 `coll`, e. 。获取高速的汽车 `unie_extract_if(cid,speed_kmh>80)`
+`唯一精确if(col, 请使用` 应用带有 `条件的过滤器` 并获取 `coll`, e. 。 获取高速的汽车 `unie_extract_if(cid,speed_kmh>80)`
 
 ### min
 
@@ -644,7 +643,7 @@ SELECT
 
 ### avg
 
-`avg(<column_name>)`: 一列的平均值 (sum(column) / count(column)). 仅适用于数字列。
+`avg(<column_name>)`: 一列的平均值 (sum(column) / count(column)). 仅适用于数字列。 仅适用于数字列。
 
 ### median
 
@@ -831,17 +830,17 @@ SELECT
 
 ### sign
 
-`sign(x)` 返回数字 `x` 的签名。 如果x<0, 返回 -1。如果x>0, 返回 1。 否则，返回0。
+`sign(x)` 返回数字 `x` 的签名。 如果x<0, 返回 -1。 如果x>0, 返回 1。 否则，返回0。
 
 
 
 ### degrees
 
-`度 (x)` 将以弧度为单位的输入值转换为度。 例如： `递减(3.14)` 返回 180。
+如果遗漏了 `N` ，我们认为N 为 0，函数将值轮到附近的整数，e。 。 `圆形(3.14)`作为 3
 
 ### radians
 
-`弧度(x)` 将输入值转换为弧度。 例如： `弧度(180)` 返回 3.14。
+`弧度(x)` 将输入值转换为弧度。 例如： 例如： `递减(3.14)` 返回 180。
 
 ### is_finite
 
@@ -881,7 +880,7 @@ SELECT
 
 ### table
 
-`table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT... FROM clicks ..` 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 `table` 函数中。 使用 `count` 作为示例：
+`table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT... 默认情况下，如果您运行 <code>SELECT... FROM clicks ..` 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 `table` 函数中。 使用 `count` 作为示例：
 
 * 运行 `select count(*) from clicks` 将每2秒显示最新计数，直到你取消这个查询
 * 运行 `select count(*) from table(clicks)` 将立即返回此数据流的历史数据行数。
@@ -916,13 +915,13 @@ SELECT
 
 例如，如果车辆在移动时一直在发送数据，停靠时停止发送数据或等待交通灯
 
-* `session(car_live_data, 1m) partition by cid ` 将为每辆车创建会话窗口，空闲时间为1分钟。 表示汽车未在一分钟内移动， 窗口将被关闭，并将为未来事件创建一个新的会话窗口。 如果车辆移动时间超过5分钟，将创建不同的窗户(每5分钟)， 这样作为分析员，你就可以获得接近实时的结果，而不必等待太长时间才能停车。
+* `session(car_live_data, 1m) partition by cid` 将为每辆车创建会话窗口，空闲时间为1分钟。 表示汽车未在一分钟内移动， 窗口将被关闭，并将为未来事件创建一个新的会话窗口。 如果车辆移动时间超过5分钟，将创建不同的窗户(每5分钟)， 这样作为分析员，你就可以获得接近实时的结果，而不必等待太长时间才能停车。
 * `session(car_live_data, 1m, [speed>50,speed<50)) partition by cid` 创建会话窗口以检测汽车正在加速的情况。 将包括速度超过50的第一次活动。 和速度小于50的最后一个事件将不会被包含在会话窗口中。
 * `session(access_log, 5m, [action='login',action='logout']) partition by uid` 创建会话窗口时用户登录系统并退出登录。 如果在5分钟内没有活动，窗口将自动关闭。
 
 ### dedup
 
-`dedup(stream, column1 [,otherColumns..] [liveInSecond,limit])`
+`dedup(stream, column1 [,otherColumns..] [liveInSecond,limit]) [liveInSecond,limit])`
 
 在给定的数据流中使用指定的列 (s) 应用反复性。 `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但如果你只想在一定时间内避免重复，请说2分钟，你可以设置 `120s`例如 `dedup(子查询,myId,120s)`
 

@@ -126,7 +126,7 @@
 ### 6/13周
 
 * 流引擎
-  * 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
+  * 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
   * 添加 [数组处理](functions#arrays)的其他函数，例如 [array_sum](functions#array_sum), [array_avg](functions#array_avg)
 * 源和汇：
   * Kafka 源支持无需认证的本地schema 注册表
@@ -150,7 +150,7 @@
 
 * 流引擎
   * (实验性) 能够使用外部的 Kakfa/Confluent/Redpanda 作为Timeplus流存储。
-  * (实验性) [表格](functions#table) 函数现在可以与 [search_to](query-syntax) 一起。您可以通过合并 `表格(流名)` 和 `设置来查询历史数据。 '`
+  * (实验性) [表格](functions#table) 函数现在可以与 [search_to](query-syntax) 一起。 您可以通过合并 `表格(流名)` 和 `设置来查询历史数据。 '`
 * 源和汇：
   * 使用 [datapm](https://datapm.io/docs/quick-start/) 发送实时Twitter 数据到 https://demo.timeplus.com
   * 更新 [REST API doc](https://docs.timeplus.com/rest.html), `/exec` 端点已被删除。 发送 `POST` 请求给 `/查询` 替代。
@@ -161,7 +161,7 @@
 
 * 流引擎
   * (实验性) 新的 UI 和 API 以创建和查询 [外部流](working-with-streams#external_stream)。 您可以立即在 Confluent Cloud, Apache Kafka 或 Redpanda 查询实时数据，而不需要将数据加载到 Timeplus 中。
-  * (实验性) [流到流加入](query-syntax#stream_stream_join) 准备测试测试对象，例如 `SELECT ... 从流 1 INNER JOIN 串流到串流。id=stream2.id 和 date_diff_within(10s)`
+  * (实验性) [流到流加入](query-syntax#stream_stream_join) 准备测试测试对象，例如 `SELECT ... 从流 1 INNER JOIN 串流到串流。 id=stream2.id 和 date_diff_within(10s)`
   * 新函数 [date_diff_witter 在](functions#date_diff_within) 范围内确定是否有 2 个日期时间。 这是串流加入所必需的。 您也可以使用更灵活的表达式，如 `date_diff('second',left.time,right.time) 介于 -3 和 5` 之间。
 * 源和汇：
   * 升级 [datapm](https://datapm.io/docs/quick-start/) Timeplus sink 以支持从 PostgreSQL 加载 JSON 数据。
@@ -173,7 +173,7 @@
 ### 5/16周
 
 * 流引擎
-  * (实验性)大大简化了如何查询JSON文件的程序。 现在你可以使用 `json_doc:json_path` 作为在JSON 文档中提取值的快捷键。 例如， `选择 '{"c":"hello"}" 为 j, j:c`, 你会得到"hello" 作为值。 在过去，您必须调用 `json_extract_string(j, c')` 嵌套结构也是支持的，例如 `选择 '{"a":{"b":1}} 为 j, j:a。` 将获得 `1` 字符串值。 若要转换为 int，您可以使用 `:` 作为快捷方式，例如： `选择 '{"a":{"b":1}} 为 j, j:a.b:int`
+  * (实验性)大大简化了如何查询JSON文件的程序。 现在你可以使用 `json_doc:json_path` 作为在JSON 文档中提取值的快捷键。 例如， `选择 '{"c":"hello"}" 为 j, j:c`, 你会得到"hello" 作为值。 在过去，您必须调用 `json_extract_string(j, c')` 嵌套结构也是支持的，例如 `选择 '{"a":{"b":1}} 为 j, j:a。 ` 将获得 `1` 字符串值。 若要转换为 int，您可以使用 `:` 作为快捷方式，例如： `选择 '{"a":{"b":1}} 为 j, j:a.b:int`
   * 添加函数 [is_valid_json](functions#is_valid_json) 来检查特定字符串是否是一个有效的 JSON 文档，例如 `选择 j:a 哪里是有效的 json(j)`
   * 添加 `varchar` 作为 `字符串` 数据类型的别名。 这可以提高与其他SQL工具的兼容性。
 * 源和汇：
