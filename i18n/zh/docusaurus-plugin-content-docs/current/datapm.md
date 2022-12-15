@@ -44,7 +44,7 @@ Data Package Manager (datapm) 是一个[开源](https://github.com/big-armor/dat
 ### 运行 datapm
 打开终端窗口并运行 `datapm`
 ```
-? What action would you like to take? ? What action would you like to take? ›
+? What action would you like to take? ›
 ❯   Fetch data
     Search for data
     Create new package and publish
@@ -88,7 +88,7 @@ Source Selection
 例如，如果您选择 `本地文件`
 ```
 Finding Stream Sets
-? File path? › File path? ›
+? File path? ›
 ```
 
 输入本地文件的文件路径(例如CSV或zip)。 您也可以将文件拖动到终端窗口。
