@@ -6,6 +6,19 @@
 
 我们将不时更新测试版，并在此页面列出关键的新功能或增强。
 
+
+
+### Biweekly Update 12/12-12/23
+
+* With the recent enhancements of the [Ingest API](ingest-api), in many cases, you can configure other systems to push data directly to Timeplus via webhook, without writing code.
+* Now you can set descriptions while creating/updating streams or views.
+* You can edit a view to change its SQL query, without having to delete then recreate it.
+* For materialized views, you can see their row count and disk size. The retention policy can be updated too.
+* In the query page, you can filter results with keyword, without changing the SQL.
+
+* In the query page, we removed the pagination. The latest results are shown in the bottom.
+* For columns with long text or JSON value, in previous version, the content can be trimmed in query result. Now you can click on the row to show them in a side panel.
+
 ### 每两周更新 11/14-11/25
 
 * 我们添加了一项实验功能，用于通过 JavaScript 创建用户定义的聚合函数 (UDAF)。 您可以使用 JavaScript 创建高度自定义的逻辑，即使对于复杂事件处理 (CEP) 场景也是如此。 如果您想试用此功能，请联系我们。
