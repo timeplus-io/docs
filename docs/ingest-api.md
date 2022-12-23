@@ -1,6 +1,8 @@
 # Push data to Timeplus via ingest REST API
 
-As a generic solution, you can call the ingestion REST API to push data to Timeplus, with any preferred languages. Please check https://docs.timeplus.com/rest for the detailed API documentations.
+As a generic solution, you can call the ingestion REST API to push data to Timeplus, with any preferred languages. With the recent enhancements of the ingest API, in many cases, you can configure other systems to push data directly to Timeplus via webhook, without writing code.
+
+Please check https://docs.timeplus.com/rest for the detailed API documentations.
 
 ## Create a stream in Timeplus
 
@@ -21,6 +23,19 @@ If you would like to leverage a 3rd party system/tool to push data to Timeplus b
 The endpoint for real-time data ingestion is `https://beta.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
 You need to send `POST` request to this endpoint, e.g. ``https://beta.timeplus.cloud/ws123/api/v1beta1/streams/foo/ingest``
+
+### Options
+
+Depending on your use cases, there are many options to push data to Timeplus via REST API:
+
+| Use Cases                                                    | Sample POST body                                             | Content-Type                                                 | URL                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------ |
+| Push JSON objects. Each JSON is an event.                    | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...} | `application/x-ndjson`  or`application/vnd.timeplus+json;format=streaming` | ingest?format=streaming              |
+| Push a single JSON or a long text. Single event.             | {"key1": "value11", "key2": "value12", ...}                  | `text/plain`                                                 | ingest?format=raw                    |
+| Push a set of events in a batch. Each line is an event.      | event1<br/>event2                                            | `text/plain`                                                 | ingest?format=lines                  |
+| Push a special JSON with mutiple events, without repeating the column name | { <br/>  "columns": ["key1","key2"],<br/>  "data": [ <br/>    ["value11","value12"],<br/>    ["value21","value22"],<br/>  ]<br/>} | `application/json`                                           | ingest?format=compact or just ingest |
+
+
 
 ### Push JSON objects directly
 
@@ -62,6 +77,15 @@ They don’t have to be separated by newline either:
 ```
 
 Just make sure all columns in the target stream are specified with proper value in the request body.
+
+### Push data to a single column stream
+
+It's a common pratice to create a stream in Timeplus with a single `string` column, called `raw` You can put JSON objects in this column then extract value, or put the raw log message in this column.
+
+If you set Content-Type header to `text/plain`, then depending on the URL, Timeplus can treat the entire POST message as a single event or each line as an event. In either case, the data will be put in the `raw` column. If you have to create column name differently, please contact us for support.
+
+* If the URL ends with `ingest?format=raw`, then the entire body in the POST request will be put in the `raw` column.
+* If the URL ends with `ingest?format=lines`, then each line in the POST body will be put in the `raw` column.
 
 ### Push  data  without repeating the columns
 

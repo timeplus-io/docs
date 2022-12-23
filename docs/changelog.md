@@ -6,6 +6,19 @@ We are thrilled to launch the public beta of Timeplus cloud release.
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+
+
+### Biweekly Update 12/12-12/23
+
+* With the recent enhancements of the [Ingest API](ingest-api), in many cases, you can configure other systems to push data directly to Timeplus via webhook, without writing code.
+* Now you can set descriptions while creating/updating streams or views.
+* You can edit a view to change its SQL query, without having to delete then recreate it.
+* For materialized views, you can see their row count and disk size. The retention policy can be updated too.
+* In the query page, you can filter results with keyword, without changing the SQL.
+
+* In the query page, we removed the pagination. The latest results are shown in the bottom.
+* For columns with long text or JSON value, in previous version, the content can be trimmed in query result. Now you can click on the row to show them in a side panel.
+
 ### Biweekly Update 11/28-12/9
 
 * We added an experimental feature to create User-Defined-Aggregation-Function (UDAF) via JavaScript. You can create highly customized logic with JavaScript, even for Complex Event Processing (CEP) scenarios. Contact us if you want to try this feature.
