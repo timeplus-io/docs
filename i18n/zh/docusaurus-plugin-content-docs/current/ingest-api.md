@@ -1,6 +1,8 @@
 # 通过REST API 将数据推送到 Timeplus
 
-作为通用解决方案，您可以使用任何首选语言调用 ingestion REST API 将数据推送到 Timeplus。 请查看 https://docs.timeplus.com/rest 了解详细的 API 文档。
+作为通用解决方案，您可以使用任何首选语言调用 ingestion REST API 将数据推送到 Timeplus。 With the recent enhancements of the ingest API, in many cases, you can configure other systems to push data directly to Timeplus via webhook, without writing code.
+
+请查看 https://docs.timeplus.com/rest 了解详细的 API 文档。
 
 ## 在 Timeplus 中创建一个流
 
@@ -21,6 +23,19 @@
 实时数据摄取的API endpoint是 `https://beta.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
 你需要向这个端点发送 `个 POST` 请求，例如 `https://beta.timeplus.cloud/ws123/api/v1beta1/streams/foo/ingest`
+
+### Options
+
+Depending on your use cases, there are many options to push data to Timeplus via REST API:
+
+| Use Cases                                                                  | Sample POST body                                                                                                                                                      | Content-Type                                                               | URL                                  |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------ |
+| Push JSON objects. Each JSON is an event.                                  | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                                     | `application/x-ndjson`  or`application/vnd.timeplus+json;format=streaming` | ingest?format=streaming              |
+| Push a single JSON or a long text. Single event.                           | {"key1": "value11", "key2": "value12", ...}                                                                                                                           | `text/plain`                                                               | ingest?format=raw                    |
+| Push a set of events in a batch. Each line is an event.                    | event1<br/>event2                                                                                                                                               | `text/plain`                                                               | ingest?format=lines                  |
+| Push a special JSON with mutiple events, without repeating the column name | { <br/>  "columns": ["key1","key2"],<br/>  "data": [ <br/>    ["value11","value12"],<br/>    ["value21","value22"],<br/>  ]<br/>} | `application/json`                                                         | ingest?format=compact or just ingest |
+
+
 
 ### 直接推送 JSON 对象
 
@@ -62,6 +77,15 @@
 ```
 
 只要确保在请求正文中使用正确的值指定目标流中的所有列即可。
+
+### Push data to a single column stream
+
+It's a common pratice to create a stream in Timeplus with a single `string` column, called `raw` You can put JSON objects in this column then extract value, or put the raw log message in this column.
+
+If you set Content-Type header to `text/plain`, then depending on the URL, Timeplus can treat the entire POST message as a single event or each line as an event. In either case, the data will be put in the `raw` column. If you have to create column name differently, please contact us for support.
+
+* If the URL ends with `ingest?format=raw`, then the entire body in the POST request will be put in the `raw` column.
+* If the URL ends with `ingest?format=lines`, then each line in the POST body will be put in the `raw` column.
 
 ### 在不重复列的情况下推送数据
 
