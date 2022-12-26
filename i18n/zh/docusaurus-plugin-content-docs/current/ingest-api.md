@@ -1,6 +1,8 @@
 # 通过REST API 将数据推送到 Timeplus
 
-作为通用解决方案，您可以使用任何首选语言调用 ingestion REST API 将数据推送到 Timeplus。 请查看 https://docs.timeplus.com/rest 了解详细的 API 文档。
+作为通用解决方案，您可以使用任何首选语言调用 ingestion REST API 将数据推送到 Timeplus。 借助Ingest API的最新增强，在许多情况下，您可以将其他系统配置为通过 webhook 将数据直接推送到 Timeplus，而无需编写代码。
+
+请查看 https://docs.timeplus.com/rest 了解详细的 API 文档。
 
 ## 在 Timeplus 中创建一个流
 
@@ -21,6 +23,19 @@
 实时数据摄取的API endpoint是 `https://beta.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
 你需要向这个端点发送 `个 POST` 请求，例如 `https://beta.timeplus.cloud/ws123/api/v1beta1/streams/foo/ingest`
+
+### 选项
+
+根据您的用例，有很多方法可以通过 REST API 将数据推送到 Timeplus：
+
+| 应用场景                            | 样本POST请求内容                                                                                                                                                            | Content-Type                                                             | URL                                    |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------- |
+| 一次推送多个 JSON 对象。 每个 JSON 都是一个事件。 | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                                     | `application/x-ndjson` 或`application/vnd.timeplus+json;format=streaming` | ingest?format=streaming                |
+| 推送单个 JSON 或长文本。 单个事件            | {"key1": "value11", "key2": "value12", ...}                                                                                                                           | `text/plain`                                                             | ingest?format=raw                      |
+| 一次推送多个事件。 每行都是一个事件。             | event1<br/>event2                                                                                                                                               | `text/plain`                                                             | ingest?format=lines                    |
+| 推送一个特殊格式的JSON，包含多个事件，但无需重复列名    | { <br/>  "columns": ["key1","key2"],<br/>  "data": [ <br/>    ["value11","value12"],<br/>    ["value21","value22"],<br/>  ]<br/>} | `application/json`                                                       | ingest?format=compact 或者直接用无参数的 ingest |
+
+
 
 ### 直接推送 JSON 对象
 
@@ -62,6 +77,15 @@
 ```
 
 只要确保在请求正文中使用正确的值指定目标流中的所有列即可。
+
+### 将数据推送到一个仅含一列的数据流
+
+在 Timeplus 中使用单个 `string` 列创建流是一种常见的做法，名为 `raw` 。您可以将 JSON 对象放入此列然后提取值，或者将原始日志消息放入此列。
+
+如果您将Content-Type 头设置为 `text/plan`, 那么取决于URL, Timeplus可以将整个POST 消息视为单个事件或每一行事件。 无论哪种情况，数据都将放入 `raw` 列中。 如果您必须以不同的方式创建列名，请联系我们寻求支持。
+
+* 如果 URL 以 `ingest?format=raw`结尾，那么 POST 请求中的整个正文将放在 `raw` 列中。
+* 如果URL以 `ingest?format=lines`结尾，那么POST body 中的每一行都将被放置在 `原始` 列。
 
 ### 在不重复列的情况下推送数据
 
