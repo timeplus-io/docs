@@ -1,6 +1,6 @@
 # 通过REST API 将数据推送到 Timeplus
 
-作为通用解决方案，您可以使用任何首选语言调用 ingestion REST API 将数据推送到 Timeplus。 With the recent enhancements of the ingest API, in many cases, you can configure other systems to push data directly to Timeplus via webhook, without writing code.
+作为通用解决方案，您可以使用任何首选语言调用 ingestion REST API 将数据推送到 Timeplus。 借助Ingest API的最新增强，在许多情况下，您可以将其他系统配置为通过 webhook 将数据直接推送到 Timeplus，而无需编写代码。
 
 请查看 https://docs.timeplus.com/rest 了解详细的 API 文档。
 
@@ -24,16 +24,16 @@
 
 你需要向这个端点发送 `个 POST` 请求，例如 `https://beta.timeplus.cloud/ws123/api/v1beta1/streams/foo/ingest`
 
-### Options
+### 选项
 
-Depending on your use cases, there are many options to push data to Timeplus via REST API:
+根据您的用例，有很多方法可以通过 REST API 将数据推送到 Timeplus：
 
-| Use Cases                                                                  | Sample POST body                                                                                                                                                      | Content-Type                                                               | URL                                  |
-| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------ |
-| Push JSON objects. Each JSON is an event.                                  | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                                     | `application/x-ndjson`  or`application/vnd.timeplus+json;format=streaming` | ingest?format=streaming              |
-| Push a single JSON or a long text. Single event.                           | {"key1": "value11", "key2": "value12", ...}                                                                                                                           | `text/plain`                                                               | ingest?format=raw                    |
-| Push a set of events in a batch. Each line is an event.                    | event1<br/>event2                                                                                                                                               | `text/plain`                                                               | ingest?format=lines                  |
-| Push a special JSON with mutiple events, without repeating the column name | { <br/>  "columns": ["key1","key2"],<br/>  "data": [ <br/>    ["value11","value12"],<br/>    ["value21","value22"],<br/>  ]<br/>} | `application/json`                                                         | ingest?format=compact or just ingest |
+| 应用场景                                                                       | 样本POST请求内容                                                                                                                                                            | Content-Type                                                             | URL                                  |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
+| 一次推送多个 JSON 对象。 每个 JSON 都是一个事件。                                            | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                                     | `application/x-ndjson` 或`application/vnd.timeplus+json;format=streaming` | ingest?format=streaming              |
+| 推送单个 JSON 或长文本。 Single event.                                              | {"key1": "value11", "key2": "value12", ...}                                                                                                                           | `text/plain`                                                             | ingest?format=raw                    |
+| Push a set of events in a batch. Each line is an event.                    | event1<br/>event2                                                                                                                                               | `text/plain`                                                             | ingest?format=lines                  |
+| Push a special JSON with mutiple events, without repeating the column name | { <br/>  "columns": ["key1","key2"],<br/>  "data": [ <br/>    ["value11","value12"],<br/>    ["value21","value22"],<br/>  ]<br/>} | `application/json`                                                       | ingest?format=compact or just ingest |
 
 
 
