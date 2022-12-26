@@ -8,16 +8,16 @@
 
 
 
-### Biweekly Update 12/12-12/23
+### 每两周更新 12/12-12/23
 
-* With the recent enhancements of the [Ingest API](ingest-api), in many cases, you can configure other systems to push data directly to Timeplus via webhook, without writing code.
-* Now you can set descriptions while creating/updating streams or views.
-* You can edit a view to change its SQL query, without having to delete then recreate it.
-* For materialized views, you can see their row count and disk size. The retention policy can be updated too.
-* In the query page, you can filter results with keyword, without changing the SQL.
+* 借助 [Ingest API](https://docs.timeplus.com/zh/docs/ingest-api)的最新增强，在许多情况下，您可以将其他系统配置为通过 webhook 将数据直接推送到 Timeplus，而无需编写代码。
+* 现在您可以在创建/更新流或视图时设置描述。
+* 您可以编辑视图来更改其 SQL 查询，而不必将其删除然后重新创建。
+* 对于物化视图，您可以查看其行数和磁盘大小。 数据保留政策也可以更新。
+* 在查询页面中，您可以使用关键字筛选结果，而无需更改 SQL。
 
-* In the query page, we removed the pagination. The latest results are shown in the bottom.
-* For columns with long text or JSON value, in previous version, the content can be trimmed in query result. Now you can click on the row to show them in a side panel.
+* 在查询页面中，我们删除了分页。 最新的结果显示在底部。
+* 对于具有长文本或 JSON 值的列，在以前的版本中，过长的内容可能看不见。 现在，您可以单击该行以在侧面板中显示全文。
 
 ### 每两周更新 11/14-11/25
 
