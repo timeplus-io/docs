@@ -8,6 +8,14 @@
 
 
 
+### Biweekly Update 12/26-1/6
+
+* When the local disk is 90% full, Timeplus will stop writing new data. This threshold is configurable.
+* In the Data Lineages page, sources are shown by default.
+* Applied unified UI look&feel in many pages.
+* Released [Timeplus Python SDK 1.1.1](https://pypi.org/project/timeplus/1.1.1/) with more friendly API for create/ingest/query streams.
+* (Experimental) you can now push data to Timeplus, from your local Kafka cluster with [kafka-connect-timeplus](https://github.com/timeplus-io/kafka-connect-timeplus), or from your local Pulsar cluster with [pulsar-io-sink](https://github.com/timeplus-io/pulsar-io-sink), or from an AirByte cluster with [destination-timeplus connector](https://github.com/timeplus-io/airbyte/tree/feature/timeplus-destination/airbyte-integrations/connectors/destination-timeplus). We also documented how Timeplus Cloud can pull data from your local data source via ngrok.
+
 ### 每两周更新 12/12-12/23
 
 * 借助 [Ingest API](https://docs.timeplus.com/zh/docs/ingest-api)的最新增强，在许多情况下，您可以将其他系统配置为通过 webhook 将数据直接推送到 Timeplus，而无需编写代码。
