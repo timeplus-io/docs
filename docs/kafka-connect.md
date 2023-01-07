@@ -45,7 +45,7 @@ value.converter: org.apache.kafka.connect.storage.StringConverter
 
 1. Make sure you have Java installed, only 1.8 or 1.11 is supported.
 
-2. Install Confluent Platform per official documentation. Contact us to get the Kafka Connect package for Confluent Platform. Then install it with `confluent-hub install /path/to/timeplus-kafka-timeplus-connector-sink-version.zip`
+2. Install Confluent Platform per official documentation. Download the zip file from https://github.com/timeplus-io/kafka-connect-timeplus/releases. Then install it with `confluent-hub install /path/to/timeplus-kafka-timeplus-connector-sink-version.zip`
 
 3. Start the Confluent Platform via `confluent local services start`
 
