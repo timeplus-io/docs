@@ -18,9 +18,7 @@
 
 ## 自定义Kafka部署
 
-类似于从 Confluent Cloud 加载数据的步骤。 您可能不需要指定 `SASL 纯` 作为身份验证方法。 请确保Timeplus能够与您的Kafka 经纪人联系。
-
-
+类似于从 Confluent Cloud 加载数据的步骤。 您可能不需要指定 `SASL 纯` 作为身份验证方法。 Please make sure Timeplus can reach out to your Kafka broker(s). You can use tools like [ngrok](https://ngrok.com) to securely expose your local Kafka broker(s) to the internet, so that Timeplus Cloud can connect to it. Check this blog for more details.
 
 ## Kafka源说明
 
