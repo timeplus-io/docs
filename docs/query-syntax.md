@@ -392,12 +392,6 @@ Streaming to dimension table join has some limitations
 
 ### Stream to Stream  Join {#stream_stream_join}
 
-:::info
-
-This experimental feature is recently introduced in the beta program. Please share your feedbacks in the community slack.
-
-:::
-
 In some cases, the real-time data flow to multiple data streams. For example, when the ads are presented to the end users, and when the users click the ads. Timeplus allows you to do correlated searches for multiple data streams, for example, you can check the average time when the user clicks the ad after it is presented.
 
 ```sql

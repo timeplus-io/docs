@@ -4,12 +4,6 @@ In most cases, you don't need to create streams manually or specify the data typ
 
 Like many analytics systems, the following common types are supported.
 
-:::info Beta - Data Types
-
-During our beta, we're supporting a limited number of field types. If there's a specific type that's missing, let us know!
-
-:::
-
 | Category                      | Type       | Example                              | Note                                                         | Related functions                                            |
 | ----------------------------- | ---------- | ------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Numeric Types                 | integer    | -100                                 | default with 4 bytes. You can also use `int`, `smallint`, `bigint`, or even `uint16` etc. | [to_int](functions#to_int)                                   |
@@ -17,8 +11,8 @@ During our beta, we're supporting a limited number of field types. If there's a 
 |                               | float      | -3.1415                              | default with 4 bytes. You can also use `float64` or `double` for 8 bytes | [to_float](functions#to_float)                               |
 | Boolean Type                  | bool       | true                                 | true or false                                                |                                                              |
 | String Type                   | string     | "Hello"                              | strings of an arbitrary length. You can also use `varchar` To create string columns with fixed size in bytes, use `fixed_string(positiveInt)` | [to_string](functions#to_string), [etc.](functions#process-text) |
-| Universally Unique Identifier | uuid       | 1f71acbf-59fc-427d-a634-1679b48029a9 | A universally unique identifier (UUID) is a 16-byte number used to identify records. For detailed information about the UUID, see [Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier) | [uuid](functions#uuid)                                       |
-| JSON Type                     | json       | {"a":1}                              | an experimental new type to provide built-in JSON support, with better query performance comparing saving the JSON as `string` and extract value at query time. Suitable for JSON documents in same schema. Access the value via `column.a` (instead of `column:a` for query-time JSON extraction) |                                                              |
+| Universally Unique Identifier | uuid       | 1f71acbf-59fc-427d-a634-1679b48029a9 | a universally unique identifier (UUID) is a 16-byte number used to identify records. For detailed information about the UUID, see [Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier) | [uuid](functions#uuid)                                       |
+| JSON Type                     | json       | {"a":1}                              | a data type with built-in JSON support, with better query performance comparing saving the JSON as `string` and extracting value at query time. Suitable for JSON documents in same schema. Access the value via `column.a` (instead of `column:a` for query-time JSON extraction) |                                                              |
 | Date and Time Types           | date       | '2022-05-16'                         | without time                                                 | [to_date](functions#to_date), [today](functions#today)       |
 |                               | datetime   | '2022-05-16 11:01:02'                | with second                                                  | [to_time](functions#to_time), [now](functions#now)           |
 |                               | datetime64 | '2022-05-16 11:01:02.345'            | with millisecond, same as datetime64(3)                      | [to_time](functions#to_time), [now64](functions#now64)       |

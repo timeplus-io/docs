@@ -29,7 +29,7 @@ const sidebars = {
   docSidebar:[
     /*{'Internal Docs':['usecases','internal-tptime']},
     {type:'category',
-     label:'Beta User Guide',
+     label:'User Guide',
      link: {
       type: 'doc',
       id:'index'

@@ -1,16 +1,12 @@
 # Frequently Asked Questions
 
-## How to join the public beta?
-
-We appreciate your interest in our beta program. Everyone is invited to sign up the free beta via https://beta.timeplus.cloud 
-
 ## Can I run Timeplus in our own cloud VPC or on-prem?
 
-In this initial phase of the public beta, we only provide AWS-based fully-managed testing environment for you. Please contact us with your requirements.
+In the first few releases of Timeplus, our focus is the AWS-based fully-managed cloud service. Supporting other cloud vendors, or hybird cloud is certainly doable. Please contact us with your requirements.
 
 ## How much data I can load into Timeplus?
 
-During the beta, the total storage for each workspace is 20GB by default. Please contact us if you need to load or keep more data during the beta test.
+For free accounts, the total storage for each workspace is 20GB by default. Please contact us if you need to load or keep more data.
 
 ## Can I invite other members to my workspace?
 
@@ -18,5 +14,5 @@ We are actively working on the team collaboration features and fine-grained acce
 
 ## What's the SLA and can I run production load?
 
-We don't recommend the beta users to run production work load during the beta. Stay tuned for our official product releases.
+Yes! After 10 months of beta program, we now reached LAR (Limited Availability Release) and Timeplus is ready for production use.
 

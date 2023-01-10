@@ -74,6 +74,6 @@ Learn more: [View](view) and [Materialized View](view#m_view)
 
 ## workspace {#workspace}
 
-A workspace is the isolated storage and computing unit for you to run streaming data collection and analysis. During the beta program, every user can create up to 1 free workspace and join many workspaces. Usually a group of users in the same organization join the same workspace, to build one or more streaming analytics solutions.
+A workspace is the isolated storage and computing unit for you to run streaming data collection and analysis. Every user can create up to 1 free workspace and join many workspaces. Usually a group of users in the same organization join the same workspace, to build one or more streaming analytics solutions.
 
 By default, each workspace can save up to 20GB data and with a limit for concurrent queries. If you need more resource, please contact support@timeplus.com to increaes the limit

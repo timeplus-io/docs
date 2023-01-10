@@ -122,8 +122,8 @@ const config = {
             title: 'Company',
             items: [
               {
-                label: 'Join the Beta',
-                href: 'https://timeplus.com',
+                label: 'Timeplus Cloud',
+                href: 'https://timeplus.cloud',
               },
               {
                 label: 'Playground',
@@ -159,7 +159,7 @@ const config = {
             ],
           },*/
         ],
-        copyright: `Copyright © 2022 Timeplus, Inc.`,
+        copyright: `Copyright © 2023 Timeplus, Inc.`,
       },
       prism: {
         theme: lightCodeTheme,
