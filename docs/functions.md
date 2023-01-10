@@ -786,7 +786,6 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 `cbrt(x)` returns a `float` number that is close to the cubic root of the argument `x`
 
-<!--
 
 ### lgamma
 
@@ -799,11 +798,9 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 `tgamma(x)`the gamma function
 
 
-
 ### sin
 
 `sin(x)` the sine
-
 
 
 ### cos
