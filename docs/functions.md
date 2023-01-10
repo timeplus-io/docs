@@ -271,29 +271,35 @@ Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
 ### year
 
-Get current year, for example `year(today())` will be `2022`.
+`year(date)` Get current year, for example `year(today())` will be `2022`.
 
 ### quarter
 
-Get current quarter, for example `quarter(today())` will be `1` if it's in Q1.
+`quarter(date)` Get current quarter, for example `quarter(today())` will be `1` if it's in Q1.
 
 ### month
 
-Get current month, for example `month(today())` will be `2` if it's Feb.
+`month(date)` Get current month, for example `month(today())` will be `2` if it's Feb.
 
 ### day
 
-Get the current day in the month.
+`day(date)` Get the current day in the month.
 
 ### weekday
 
-Get the current day in the week. Monday is 1. Sunday is 7.
+`weekday(date)` Get the current day in the week. Monday is 1. Sunday is 7.
 
 ### hour
 
+`hour(datetime)`
+
 ### minute
 
+`minute(datetime)`
+
 ### second
+
+`second(datetime)`
 
 ### to_unix_timestamp
 
@@ -301,19 +307,31 @@ For example `to_unix_timestamp(now())` gets `1644272032`
 
 ### to_start_of_year
 
+`to_start_of_year(date)`
+
 ### to_start_of_quarter
 
-
+`to_start_of_quarter(date)`
 
 ### to_start_of_month
 
+`to_start_of_month(date)`
+
 ### to_start_of_day
+
+`to_start_of_day(date)`
 
 ### to_start_of_hour
 
+`to_start_of_hour(datetime)`
+
 ### to_start_of_minute
 
+`to_start_of_minute(datetime)`
+
 ### to_start_of_second
+
+`to_start_of_second(datetime64)`
 
 Unlike other `to_start_of_` functions, this function expects a datetime with millisecond, such as `to_start_of_second(now64())`
 
@@ -648,7 +666,7 @@ For example `if(1=2,'a','b')` will get `b`
 
 ### median
 
-Calculate median of a numeric data sample.
+`median(<column_name>)` Calculate median of a numeric data sample.
 
 
 
@@ -780,7 +798,7 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 `tgamma(x)`the gamma function
 
--->
+
 
 ### sin
 

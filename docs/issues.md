@@ -4,8 +4,8 @@ We continuously improve the product. Please be aware of the following known issu
 
 ## UI
 
-* You can use mobile browser to sign up for Timeplus Cloud. But only Google Chrome desktop browser is supported to use the Timeplus Console. 
-* Users in the same workspace will see all activity history and definitions, such as views, sinks, dashboards.
+* You can use a mobile browser to sign up for Timeplus Cloud. But only Google Chrome desktop browser is supported to use the Timeplus Console. 
+* Users in the same workspace will see all activity history and definitions, such as views, sinks, dashboards. Fine grained access control for user/group/role will be provided in the future.
 
 ## Backend
 
