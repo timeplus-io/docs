@@ -2,6 +2,8 @@
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 
+(in year 2022)
+
 ###  Week of 8/1
 
 Last weekly release in Private Beta 1. Starting from August 8, we are transiting to Private Beta 2. Customers will be migrated to the new environments batch by batch. URLs to access beta tenants are changed from [https://{tenant}.beta.timeplus.com](https://tenant.beta.timeplus.com) to [https://beta.timeplus.cloud/{tenant}](https://beta.timeplus.cloud/tenant)

@@ -6,6 +6,8 @@ We are thrilled to launch the second private beta of Timeplus cloud release. Com
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+(in year 2022)
+
 ### Biweekly Update 9/19-9/30
 
 * Streaming engine
