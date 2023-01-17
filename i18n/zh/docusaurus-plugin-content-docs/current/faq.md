@@ -14,5 +14,5 @@
 
 ## SLA是怎么样的，我可以运行生产负载吗？
 
-We don't recommend the beta users to run production work load during the beta. Stay tuned for our official product releases.
+我们不推荐测试版用户在测试阶段运行生产负荷。 请关注我们，获得更多产品信息。
 
