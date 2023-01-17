@@ -1,6 +1,6 @@
 # Release Notes
 
-Currently in Public Beta. Please check [the release notes of Public Beta](public-beta).
+Currently in Public Beta 1. Please check [the release notes of Public Beta 1](public-beta-1).
 
 ## Previous Releases
 

@@ -95,7 +95,7 @@ const sidebars = {
           type: 'doc',
           id:'changelog'
         },
-        items:['public-beta','private-beta-2','private-beta-1']
+        items:['public-beta-1','private-beta-2','private-beta-1']
        },
        'getting-help',
        'glossary',
