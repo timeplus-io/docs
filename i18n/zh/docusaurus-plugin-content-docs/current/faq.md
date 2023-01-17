@@ -2,11 +2,11 @@
 
 ## 我可以在我们自己的cloud VPC中运行Timeplus吗？
 
-In the first few releases of Timeplus, our focus is the AWS-based fully-managed cloud service. Supporting other cloud vendors, or hybird cloud is certainly doable. 关于私有化部署，请与我们联系。
+在 Timeplus 的前几个版本中，我们的重点是基于 AWS 的完全托管的云服务。 支持其他云供应商或混合云当然是可行的。 关于私有化部署，请与我们联系。
 
 ## 我可以加载多少数据到Timeplus？
 
-For free accounts, the total storage for each workspace is 20GB by default. Please contact us if you need to load or keep more data.
+对于免费帐户，默认情况下，每个工作空间的总存储空间为 20GB。 如果您需要加载或保留更多数据，请联系我们。
 
 ## 我能邀请其他成员到我的工作区吗？
 
