@@ -295,9 +295,8 @@ EMIT LAST 2h
 或者他们可以指定一个准确的时间戳，例如：
 
 ```sql
-SELECT window start,count(*) FROM tumblé(1ookings,15m) 
-WHERE action='add' GROUP BY window_start 
-settings seek_to='2022-01-12 06:00:00.000'
+SELECT window_start,count(*) FROM tumble(bookings,15m) 
+WHERE action='add' and _tp_time>='2022-01-12 06:00:00.000' GROUP BY window_start 
 ```
 
 结果：
@@ -483,13 +482,13 @@ SELECT * From trips_votoria
 例如，我们想要了解用户平均在每辆车上开车和开始行程之间的分钟数。 [预订](#bookings) 流和 [旅程中的预订信息](#trips) 流包含行程开始时间和结束时间
 
 ```sql
-选择
-(选择
-    date_diff('second', 预订 s.pling_time, trrips. 启动时间差
-  ROM 预订
-  INNER JOIN 旅行开启 (预订)。 id = trips.bid) 
-     和 date_diff_within(2m, bookings.booking_time, trips.start_time)
-设置
+SELECT avg(gap) FROM
+( SELECT
+    date_diff('second', bookings.booking_time, trips.start_time) AS gap
+  FROM bookings
+  INNER JOIN trips ON (bookings.bid = trips.bid) 
+     AND date_diff_within(2m, bookings.booking_time, trips.start_time)
+) WHERE _tp_time >= now()-1d
 ```
 
 
