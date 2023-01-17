@@ -1,6 +1,6 @@
 
 
-# Public Beta
+# Public Beta 1
 
 We are thrilled to launch the public beta of Timeplus cloud release. 
 
