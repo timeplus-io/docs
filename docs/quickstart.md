@@ -40,7 +40,7 @@ If your streaming data resides in Confluent Cloud or publicly accessible Kafka o
 
 ## Next steps
 
-* Try more streaming SQL capabilities, such as `tumble` window and `seek_to`
+* Try more streaming SQL capabilities, such as `tumble` window
 * Create a dashboard
 * Send the results to Kafka/Pulsar, or email/slack
 * Check the [Glossary](glossary)

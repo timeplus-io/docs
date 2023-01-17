@@ -14,7 +14,7 @@ We will update the beta version from time to time and list key enhancements in t
 * In the Data Lineages page, sources are shown by default.
 * Applied unified UI look&feel in many pages.
 * Released [Timeplus Python SDK 1.1.1](https://pypi.org/project/timeplus/1.1.1/) with more friendly API for create/ingest/query streams.
-* (Experimental) you can now push data to Timeplus, from your local Kafka cluster with [kafka-connect-timeplus](https://github.com/timeplus-io/kafka-connect-timeplus), or from your local Pulsar cluster with [pulsar-io-sink](https://github.com/timeplus-io/pulsar-io-sink), or from an AirByte cluster with [destination-timeplus connector](https://github.com/timeplus-io/airbyte/tree/feature/timeplus-destination/airbyte-integrations/connectors/destination-timeplus). We also documented how Timeplus Cloud can pull data from your local data source via ngrok.
+* (Experimental) you can now push data to Timeplus, from your local Kafka cluster with [kafka-connect-timeplus](https://github.com/timeplus-io/kafka-connect-timeplus), or from your local Pulsar cluster with [pulsar-io-sink](https://github.com/timeplus-io/pulsar-io-sink), or from an AirByte cluster with [destination-timeplus connector](https://github.com/timeplus-io/airbyte/tree/feature/timeplus-destination/airbyte-integrations/connectors/destination-timeplus). We also [documented](https://www.timeplus.com/post/timeplus-cloud-with-ngrok) how Timeplus Cloud can pull data from your local data source via ngrok.
 
 ## Biweekly Update 12/12-12/23
 

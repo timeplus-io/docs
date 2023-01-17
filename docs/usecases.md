@@ -296,8 +296,7 @@ Or they can specify an exactly timestamp, e.g.
 
 ```sql
 SELECT window_start,count(*) FROM tumble(bookings,15m) 
-WHERE action='add' GROUP BY window_start 
-settings seek_to='2022-01-12 06:00:00.000'
+WHERE action='add' and _tp_time>='2022-01-12 06:00:00.000' GROUP BY window_start 
 ```
 
 Result:
@@ -489,7 +488,7 @@ SELECT avg(gap) FROM
   FROM bookings
   INNER JOIN trips ON (bookings.bid = trips.bid) 
      AND date_diff_within(2m, bookings.booking_time, trips.start_time)
-) SETTINGS seek_to='-1d'
+) WHERE _tp_time >= now()-1d
 ```
 
 

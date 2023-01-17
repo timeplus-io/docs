@@ -39,5 +39,5 @@ Different ways to use the materialized views:
 
 1. Streaming mode:  `SELECT * FROM materialized_view` Get the result for future data. This works in the same way as views.
 2. Historical mode:  `SELECT * FROM table(materialized_view)` Get all past results for the materialized view.
-3. Historical + streaming mode: `SELECT * FROM materialized_view SETTINGS seek_to='earliest'` Get all past results and as well as the future data.
+3. Historical + streaming mode: `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` Get all past results and as well as the future data.
 4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where __tp_version in (SELECT max(__tp_version) as m from table(materialized_view))` This immediately returns the most recent query result. We will provide new syntax to simplify this.
