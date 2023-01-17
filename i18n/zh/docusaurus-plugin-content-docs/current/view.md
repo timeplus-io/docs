@@ -39,5 +39,5 @@ DROP VIEW [IF EXISTS] <view_name>
 
 1. 流式查询：  `SELECT * FROM realized_view` 获取未来数据的结果。 这与意见相同。
 2. 历史模式：  `SELECT * FROM table(realized_view)` 获取所有过去的结果用于物化视图。
-3. 历史记录 + 流式模式： `SELECT * FROM materialized_view SETTINGS seek_to='earliest'` 获取所有过去的结果和未来的数据。
+3. 历史记录 + 流式模式： `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` 获取所有过去的结果和未来的数据。
 4. 预聚合模式： `SELECT * FROM table(realized_view) where __tp_version in (ELECT max(__tp_version) as m from table(realized_view))` 这立即返回最近的查询结果。 我们将提供新的语法来简化它。

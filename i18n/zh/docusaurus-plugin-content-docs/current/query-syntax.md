@@ -20,7 +20,13 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 总体来说，Timeplus中的流式查询建立了一个与客户端的长长HTTP/TCP连接，并且根据 `EMIT` 策略持续评估查询和流返回结果，直到结束客户端 中止查询或出现一些异常。 时间插件支持一些内部 `设置` 来微调流式查询处理行为。 以下是一份详尽无遗的清单。 我们将在下面的章节中再谈这些问题。
 
 1. `query_mode=<table|streaming>` 总体查询是否为历史数据处理或流数据处理的常规设置。 默认情况下，是 `串流`。
-3. `search_to=<timestamp|eariest|latest>` `search_to=<timestamp|eariest|latest>` 一个设置，告诉TimePlus通过时间戳在流式存储中寻找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如：`search _to='2022-01-12 06:00:00:00'`, `search_to='-2h'`, 或 `search_to='eariest'`
+2. `search_to=<timestamp|eariest|latest>` `search_to=<timestamp|eariest|latest>` 一个设置，告诉TimePlus通过时间戳在流式存储中寻找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如：`search _to='2022-01-12 06:00:00:00'`, `search_to='-2h'`, 或 `search_to='eariest'`
+
+:::info
+
+请注意，自2023年1月起， `SETTINGS seek_to=..` 不再被推荐使用。 请使用 `WHERE _tp_time>='2023-01-01'` 或类似的WHERE条件。 `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
+
+:::
 
 ### 流式扫描
 
@@ -392,12 +398,6 @@ WHERE device_products_info._tp_time > '2020-01-01T01:01';
    2. `流` LEFT [OUTER] JOIN `单个或多个维度表`
 
 ### 流到串流连接 {#stream_stream_join}
-
-:::info
-
-这项实验性功能最近被引入beta方案。 请分享您在社区贫民窟中的反馈意见。
-
-:::
 
 在某些情况下，实时数据流向多个数据流。 例如，当广告展示给最终用户时，当用户点击广告时。 Timeplus允许您对多个数据流进行关联搜索。 当用户点击广告后，您可以检查平均时间。
 

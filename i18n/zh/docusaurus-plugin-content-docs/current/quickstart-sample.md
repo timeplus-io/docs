@@ -30,7 +30,7 @@ Timeplus提供了一个内置的数据源，用于为一些典型的使用情况
 
 ![单击iot流](/img/sampledata_click_iot.png)
 
-The query will be generated automatically: `SELECT * FROM iot` Click the RUN QUERY button (or press Ctrl+Enter) to run the query.
+查询将自动生成： `SELECT* FROM iot` 单击 RUN QUERY 按钮（或按 Ctrl+Enter）运行查询。
 
 ![运行查询](/img/sampledata_click_run_bn.png)
 

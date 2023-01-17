@@ -1,16 +1,12 @@
 # 常见问题
 
-## 如何加入公共测试版？
-
-我们感谢你对我们的Beta测试计划的兴趣。 欢迎通过 https://cloud.timeplus.com.cn 免费注册测试版
-
 ## 我可以在我们自己的cloud VPC中运行Timeplus吗？
 
-在这个公开测试阶段，我们为您提供基于AWS的全托管测试环境。 关于私有化部署，请与我们联系。
+在 Timeplus 的前几个版本中，我们的重点是基于 AWS 的完全托管的云服务。 支持其他云供应商或混合云当然是可行的。 关于私有化部署，请与我们联系。
 
 ## 我可以加载多少数据到Timeplus？
 
-在测试阶段，默认情况下每个工作区的总存储量为20GB。 如果您需要在测试期间加载或保存更多数据，请与我们联系。
+对于免费帐户，默认情况下，每个工作空间的总存储空间为 20GB。 如果您需要加载或保留更多数据，请联系我们。
 
 ## 我能邀请其他成员到我的工作区吗？
 
@@ -18,5 +14,5 @@
 
 ## SLA是怎么样的，我可以运行生产负载吗？
 
-我们不推荐测试版用户在测试阶段运行生产负荷。 请关注我们，获得更多产品信息。
+We don't recommend the beta users to run production work load during the beta. Stay tuned for our official product releases.
 
