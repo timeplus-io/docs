@@ -20,9 +20,9 @@
 
 ## 向 Timeplus 发送数据
 
-The endpoint for real-time data ingestion is `https://us.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
+实时数据推送的API endpoint是 `https://cloud.timeplus.com.cn/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
-You need to send `POST` request to this endpoint, e.g. `https://us.timeplus.cloud/ws123/api/v1beta1/streams/foo/ingest`
+你需要向这个地址发送 `POST` 请求，例如 `https://cloud.timeplus.com.cn/ws123/api/v1beta1/streams/foo/ingest`
 
 ### 选项
 
@@ -93,7 +93,7 @@ You need to send `POST` request to this endpoint, e.g. `https://us.timeplus.clou
 
 我们还提供了一种性能更高的解决方案，只需要发送一次列名。
 
-Same endpoint URL: `https://us.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
+相同的网址： `https://cloud.timeplus.com.cn/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
 但您需要将 HTTP 头设置为 application/json。
 
