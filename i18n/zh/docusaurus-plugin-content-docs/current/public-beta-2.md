@@ -1,9 +1,9 @@
-# Public Beta 2
+# 公开测试版 2
 
-We are thrilled to launch the next phase of public beta of Timeplus cloud release.
+我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。
 
 我们将不时更新测试版，并在此页面列出关键的增强措施。
 
-(in year 2023)
+(2023年)
 
 ## 1/20
