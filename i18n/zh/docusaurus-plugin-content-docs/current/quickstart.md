@@ -13,7 +13,7 @@ Timeplus Cloud提供以下主要功能：
 
 ## 步骤 1：注册一个Timeplus账户 {#step1}
 
-Let's start by creating an account for [Timeplus Cloud](https://timeplus.cloud). 目前支持谷歌或微软单一登录 (SSO)。 Please choose a work email or Google/Microsoft account to sign up. 获取账户设置并创建第一个 [工作区](glossary#workspace) 通常需要不到2分钟。
+让我们先为 [Timeplus Cloud](https://timeplus.cloud) 创建一个帐户。 目前支持谷歌或微软单一登录 (SSO)。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 获取账户设置并创建第一个 [工作区](glossary#workspace) 通常需要不到2分钟。
 
 ![注册](/img/signup_screen.png)
 
@@ -23,7 +23,7 @@ Let's start by creating an account for [Timeplus Cloud](https://timeplus.cloud).
 
 要创建工作区：
 
-1. Sign in [Timeplus Cloud](https://timeplus.cloud)
+1. 登录 [Timeplus Cloud](https://timeplus.cloud)
 2. 点击 **在登陆页面上创建一个工作区**
 3. 自动创建工作区 ID。 创建一个可读的名称，例如组织名称或团队名称。
 
@@ -40,7 +40,7 @@ Let's start by creating an account for [Timeplus Cloud](https://timeplus.cloud).
 
 ## 今后的步骤
 
-* Try more streaming SQL capabilities, such as `tumble` window
+* 尝试更多流的 SQL 功能，例如 `tumble` 窗口和 `seek_to`
 * 创建仪表板
 * 发送结果到 Kafka/Pulsar 或 email/slack
 * 检查 [术语](glossary)
