@@ -1,12 +1,12 @@
 # 发布说明
 
-Currently in Public Beta 1. Please check [the release notes of Public Beta 1](public-beta-1).
+目前处于公开测试版 1 中。 请查看 [公共测试版 1 的发行说明](public-beta-1)。
 
-## Previous Releases
+## 以往的版本
 
-[Public Beta 1](public-beta-1) (Oct 3, 2022 to Jan 19, 2023)
+[公开测试版 1](public-beta-1) （2022 年 10 月 3 日至 2023 年 1 月 19 日）
 
-[Private Beta 2](private-beta-2) (Aug 9 to Oct 2, 2022)
+[受邀测试版 2](private-beta-2) （2022 年 8 月 9 日至 10 月 2 日）
 
-[Private Beta 1](private-beta-1) (Mar 8 to Aug 8, 2022)
+[受邀测试版 1](private-beta-1) （2022 年 3 月 8 日至 8 月 8 日）
 
