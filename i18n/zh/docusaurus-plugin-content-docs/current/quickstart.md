@@ -19,7 +19,7 @@ Let's start by creating an account for [Timeplus Cloud](https://timeplus.cloud).
 
 ## 第 2 步：创建您的第一个工作区 {#step2}
 
-工作区是您运行流数据收集和分析的独立存储和计算单位。 Every user can create up to 1 free workspace and join many workspaces. 通常，一个组织中的用户组加入了相同的工作区，以建立一个或多个流式分析解决方案。
+工作区是您运行流数据收集和分析的独立存储和计算单位。 每个用户最多可以创建 1 个免费工作空间并加入多个工作区。 通常，一个组织中的用户组加入了相同的工作区，以建立一个或多个流式分析解决方案。
 
 要创建工作区：
 
