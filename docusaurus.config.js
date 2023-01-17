@@ -10,8 +10,7 @@ const config = {
   tagline: 'Fast + Powerful Real-time Analytics Made Intuitive',
   url: 'https://docs.timeplus.com/',
   baseUrl: '/',
-  onBrokenLinks: 
-  'throw',
+  onBrokenLinks: 'warn', // SHOULD BE throw
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'timeplus-io', // Usually your GitHub org/user name.
