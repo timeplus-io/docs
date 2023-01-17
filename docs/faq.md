@@ -14,5 +14,5 @@ We are actively working on the team collaboration features and fine-grained acce
 
 ## What's the SLA and can I run production load?
 
-Yes! After 10 months of beta program, we now reached LAR (Limited Availability Release) and Timeplus is ready for production use.
+We don't recommend the beta users to run production work load during the beta. Stay tuned for our official product releases.
 
