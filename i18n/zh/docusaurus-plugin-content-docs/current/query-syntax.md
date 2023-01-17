@@ -24,7 +24,7 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 
 :::info
 
-Please note, since Jan 2023, `SETTINGS seek_to=..` is no longer recommended to use. Please use `WHERE _tp_time>='2023-01-01'` or something similar. `_tp_time` is the special timestamp column in each raw stream to represent the event time. You can use `>`, `<`, `BETWEEN .. AND` operations to filter the data in Timeplus stream storage.
+请注意，自2023年1月起， `SETTINGS seek_to=..` 不再被推荐使用。 请使用 `WHERE _tp_time>='2023-01-01'` 或类似的WHERE条件。 `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
 
 :::
 
