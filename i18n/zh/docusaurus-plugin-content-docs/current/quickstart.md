@@ -40,7 +40,7 @@ Let's start by creating an account for [Timeplus Cloud](https://timeplus.cloud).
 
 ## 今后的步骤
 
-* 尝试更多流的 SQL 功能，例如 `tumble` 窗口和 `seek_to`
+* Try more streaming SQL capabilities, such as `tumble` window
 * 创建仪表板
 * 发送结果到 Kafka/Pulsar 或 email/slack
 * 检查 [术语](glossary)
