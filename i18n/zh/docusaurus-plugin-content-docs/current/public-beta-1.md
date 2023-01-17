@@ -1,20 +1,20 @@
 
 
-# Public Beta 1
+# 公开测试版 1
 
 我们很高兴地启动Timeplus Cloud公开测试版。
 
 我们将不时更新测试版，并在此页面列出关键的增强措施。
 
-(in year 2022)
+(2022年)
 
-## Biweekly Update 12/26-1/6
+## 每两周更新 12/26-1/6
 
-* When the local disk is 90% full, Timeplus will stop writing new data. This threshold is configurable.
-* In the Data Lineages page, sources are shown by default.
-* Applied unified UI look&feel in many pages.
-* Released [Timeplus Python SDK 1.1.1](https://pypi.org/project/timeplus/1.1.1/) with more friendly API for create/ingest/query streams.
-* (Experimental) you can now push data to Timeplus, from your local Kafka cluster with [kafka-connect-timeplus](https://github.com/timeplus-io/kafka-connect-timeplus), or from your local Pulsar cluster with [pulsar-io-sink](https://github.com/timeplus-io/pulsar-io-sink), or from an AirByte cluster with [destination-timeplus connector](https://github.com/timeplus-io/airbyte/tree/feature/timeplus-destination/airbyte-integrations/connectors/destination-timeplus). We also [documented](https://www.timeplus.com/post/timeplus-cloud-with-ngrok) how Timeplus Cloud can pull data from your local data source via ngrok.
+* 当本地磁盘已满 90% 时，Timeplus 将停止写入新数据。 此阈值是可配置的。
+* 在 “数据谱系” 页面中，默认情况下会显示数据源。
+* 进一步统一了界面风格。
+* 发布 [Timeplus Python SDK 1.1.1](https://pypi.org/project/timeplus/1.1.1/) ，提供更友好的 API 用于创建/摄取/查询流。
+* (实验性) 您现在可以用 [kafka-connect-timeplus](https://github.com/timeplus-io/kafka-connect-timeplus)从您的本地Kafka集群推送数据到 Timeplus， 或用 [pulsar-io-sink](https://github.com/timeplus-io/pulsar-io-sink)从您本地的 Pulsar 集群推送数据到Timeplus，或用 [destination-timeplus connector](https://github.com/timeplus-io/airbyte/tree/feature/timeplus-destination/airbyte-integrations/connectors/destination-timeplus)使用AirByte来抓取数据再发送到Timeplus。 我们还 [记录了](https://www.timeplus.com/post/timeplus-cloud-with-ngrok) Timeplus Cloud如何能够通过 ngrok 从您的本地数据源拉取数据。
 
 ## 每两周更新 12/12-12/23
 
