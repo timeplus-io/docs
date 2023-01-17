@@ -20,9 +20,9 @@ If you would like to leverage a 3rd party system/tool to push data to Timeplus b
 
 ## Push data to Timeplus
 
-The endpoint for real-time data ingestion is `https://beta.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
+The endpoint for real-time data ingestion is `https://us.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
-You need to send `POST` request to this endpoint, e.g. ``https://beta.timeplus.cloud/ws123/api/v1beta1/streams/foo/ingest``
+You need to send `POST` request to this endpoint, e.g. ``https://us.timeplus.cloud/ws123/api/v1beta1/streams/foo/ingest``
 
 ### Options
 
@@ -93,7 +93,7 @@ The above method should work very well for most system integrations.  However, t
 
 We also provide a more performant solution to only list the column names once.
 
-Same endpoint URL: `https://beta.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
+Same endpoint URL: `https://us.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
 But you need to set the HTTP Header to one of these:
 
