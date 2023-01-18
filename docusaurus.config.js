@@ -139,7 +139,7 @@ const config = {
             items: [
               {
                 label: 'Join our Slack',
-                href: 'https://join.slack.com/t/timepluscommunity/shared_invite/zt-14nymxet0-9_Hxszyi5fXUL0Ra_lI~lw',
+                href: 'https://timeplus.com/slack',
               },
             ],
           },

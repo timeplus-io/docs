@@ -81,7 +81,7 @@ const sidebars = {
           type: 'doc',
           id:'query-guide'
         },
-        items:['datatypes','query-syntax','functions','udf','usecases']
+        items:['datatypes','query-syntax','functions',{type:'category',label:'UDF',link:{type:'doc',id:'udf'},items:['remote-udf','js-udf']},'usecases']
        },
        'transformation',
        'viz',
