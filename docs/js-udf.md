@@ -102,6 +102,10 @@ Let's take an example of a function to get the second maxium values from the gro
 | 5     | deserialize(str) | No        | Opposite to serialize(). Read the string and convert back to JS internal state. | function(str){<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
 | 6     | merge(str)       | No        | Merges two states into one. Used for multiple shards processing. | function(str){<br />let s=JSON.parse(str);<br />if..else..}  |
 
+
+
+### Example: get second largest number
+
 The full source code for this JS UDAF is
 
 ```javascript
