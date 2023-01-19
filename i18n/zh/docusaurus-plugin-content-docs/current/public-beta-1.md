@@ -14,7 +14,7 @@
 * 在 “数据谱系” 页面中，默认情况下会显示数据源。
 * 进一步统一了界面风格。
 * 发布 [Timeplus Python SDK 1.1.1](https://pypi.org/project/timeplus/1.1.1/) ，提供更友好的 API 用于创建/摄取/查询流。
-* (实验性) 您现在可以用 [kafka-connect-timeplus](https://github.com/timeplus-io/kafka-connect-timeplus)从您的本地Kafka集群推送数据到 Timeplus， 或用 [pulsar-io-sink](https://github.com/timeplus-io/pulsar-io-sink)从您本地的 Pulsar 集群推送数据到Timeplus，或用 [destination-timeplus connector](https://github.com/timeplus-io/airbyte/tree/feature/timeplus-destination/airbyte-integrations/connectors/destination-timeplus)使用AirByte来抓取数据再发送到Timeplus。 我们还 [记录了](https://www.timeplus.com/post/timeplus-cloud-with-ngrok) Timeplus Cloud如何能够通过 ngrok 从您的本地数据源拉取数据。
+* (实验性) 您现在可以用 [kafka-connect-timeplus](https://github.com/timeplus-io/kafka-connect-timeplus)从您的本地Kafka集群推送数据到 Timeplus， 或用 [pulsar-io-sink](https://github.com/timeplus-io/pulsar-io-sink)从您本地的 Pulsar 集群推送数据到Timeplus，或用 [destination-timeplus connector](https://github.com/jovezhong/airbyte/tree/feature/timeplus-destination/airbyte-integrations/connectors/destination-timeplus)使用AirByte来抓取数据再发送到Timeplus。 我们还 [记录了](https://www.timeplus.com/post/timeplus-cloud-with-ngrok) Timeplus Cloud如何能够通过 ngrok 从您的本地数据源拉取数据。
 
 ## 每两周更新 12/12-12/23
 
