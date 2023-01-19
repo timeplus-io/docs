@@ -93,14 +93,14 @@ function magic_number(values){
 
 比如我们希望获得一组数据中的第二个最大值。
 
-| Order | Function         | Required? | 描述                                                                                              | 示例                                                                                                                                  |
-| ----- | ---------------- | --------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| 1     | initialize()     | Yes       | Initialize the states.                                                                          | function(){<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />}                                                    |
-| 2     | process(args..)  | Yes       | Main logic for the function                                                                     | function(values){<br />values.map(..)<br />}                                                                            |
-| 3     | finalize()       | Yes       | Return the final aggregation result                                                             | function(){<br />return this.sec_max<br />}                                                                             |
-| 4     | serialize()      | No        | Serialize JS internal state to a string, so that Timeplus can persistent for failover/recovery. | function(){<br />return JSON.stringify({'max':this.max,'sec_max':this.sec_max})<br />}                                |
-| 5     | deserialize(str) | No        | Opposite to serialize(). Read the string and convert back to JS internal state.                 | function(str){<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
-| 6     | merge(str)       | No        | Merges two states into one. Used for multiple shards processing.                                | function(str){<br />let s=JSON.parse(str);<br />if..else..}                                                             |
+| 顺序 | 函数               | 是否必需？ | 描述                                           | 示例                                                                                                                                  |
+| -- | ---------------- | ----- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 1  | initialize()     | 是     | 初始化状态。                                       | function(){<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />}                                                    |
+| 2  | process(args..)  | 是     | 该函数的主要逻辑                                     | function(values){<br />values.map(..)<br />}                                                                            |
+| 3  | finalize()       | 是     | 返回最终的聚合结果                                    | function(){<br />return this.sec_max<br />}                                                                             |
+| 4  | serialize()      | 否     | 将 JS 内部状态序列化为字符串，这样 Timeplus 就可以持续进行故障转移/恢复。 | function(){<br />return JSON.stringify({'max':this.max,'sec_max':this.sec_max})<br />}                                |
+| 5  | deserialize(str) | 否     | 与serialize()相反。 读取字符串并转换回 JS 内部状态。           | function(str){<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
+| 6  | merge(str)       | 否     | 将两个状态合并为一个。 用于多分片处理。                         | function(str){<br />let s=JSON.parse(str);<br />if..else..}                                                             |
 
 
 
@@ -163,21 +163,21 @@ function magic_number(values){
 
 ## 备注
 
-* Currently updating JS UDF is not implemented yet. You have to delete the UDF then create with new settings.
+* 目前更新 JS UDF 尚未实现。 你必须删除 UDF 然后使用新设置创建。
 
-* We will provide better testing tools in the future.
+* 将来我们将提供更好的测试工具。
 
-* The custom JavaScript code is running in a sandbox with V8 engine. It won't impact other workspaces.
+* 自定义 JavaScript 代码在装有 V8 引擎的沙箱中运行。 它不会影响其他工作空间。
 
-* Compound data structure such as `array` or `map` are not supported in JS UDF. JavaScript data types are more generic and here is the mapping for JavaScript data type and data type in Timeplus:
+* JS UDF 不支持诸如 `array` 或 `map` 之类的复合数据结构。 JavaScript 数据类型更为通用，以下是 Timeplus 中 JavaScript 数据类型和数据类型的映射：
 
-  | Timeplus Data Types             | JavaScript Data Types   |
-  | ------------------------------- | ----------------------- |
-  | int8/16/32/64                   | 数字                      |
-  | uint8/16/32/64                  | 数字                      |
-  | float32/64                      | 数字                      |
-  | fixed_string/string             | string                  |
-  | date/date32/datetime/datetime64 | Date  (in milliseconds) |
+  | Timeplus 数据类型                   | JavaScript 数据类型 |
+  | ------------------------------- | --------------- |
+  | int8/16/32/64                   | number          |
+  | uint8/16/32/64                  | number          |
+  | float32/64                      | number          |
+  | fixed_string/string             | string          |
+  | date/date32/datetime/datetime64 | Date  (毫秒为精度)   |
 
   
 
