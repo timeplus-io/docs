@@ -163,8 +163,6 @@ Please note, unlike JS scalar function, you need to put all functions under an o
 
 ## Notes
 
-* Currently updating JS UDF is not implemented yet. You have to delete the UDF then create with new settings.
-
 * We will provide better testing tools in the future.
 
 * The custom JavaScript code is running in a sandbox with V8 engine. It won't impact other workspaces.
