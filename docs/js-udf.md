@@ -164,6 +164,20 @@ Please note, unlike JS scalar function, you need to put all functions under an o
 ## Notes
 
 * Currently updating JS UDF is not implemented yet. You have to delete the UDF then create with new settings.
+
 * We will provide better testing tools in the future.
+
 * The custom JavaScript code is running in a sandbox with V8 engine. It won't impact other workspaces.
+
+* Compound data structure such as `array` or `map` are not supported in JS UDF. JavaScript data types are more generic and here is the mapping for JavaScript data type and data type in Timeplus:
+
+  | Timeplus Data Types             | JavaScript Data Types   |
+  | ------------------------------- | ----------------------- |
+  | int8/16/32/64                   | number                  |
+  | uint8/16/32/64                  | number                  |
+  | float32/64                      | number                  |
+  | fixed_string/string             | string                  |
+  | date/date32/datetime/datetime64 | Date  (in milliseconds) |
+
+  
 
