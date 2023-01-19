@@ -87,11 +87,11 @@ In this case, the function will return `42` no matter what parameter is specifie
 
 ## Develop an aggregate function {#udaf}
 
-An aggregate function returns one value per group of rows. When you register the UDF, make sure you turn on the option to indicate this is an aggregation funciton. Comparing to scalar functions, the life cycle is a bit more complex.
+An aggregate function returns one value per group of rows. When you register the UDF, make sure you turn on the option to indicate this is an aggregation function. Comparing to scalar functions, the life cycle is a bit more complex.
 
 ### 3 required and 3 optional functions
 
-Let's take an example of a function to get the second maxium values from the group.
+Let's take an example of a function to get the second maximum values from the group.
 
 | Order | Function         | Required? | 描述                                                                                              | 示例                                                                                                                                  |
 | ----- | ---------------- | --------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -101,6 +101,10 @@ Let's take an example of a function to get the second maxium values from the gro
 | 4     | serialize()      | No        | Serialize JS internal state to a string, so that Timeplus can persistent for failover/recovery. | function(){<br />return JSON.stringify({'max':this.max,'sec_max':this.sec_max})<br />}                                |
 | 5     | deserialize(str) | No        | Opposite to serialize(). Read the string and convert back to JS internal state.                 | function(str){<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
 | 6     | merge(str)       | No        | Merges two states into one. Used for multiple shards processing.                                | function(str){<br />let s=JSON.parse(str);<br />if..else..}                                                             |
+
+
+
+### Example: get second largest number
 
 The full source code for this JS UDAF is
 
@@ -153,5 +157,13 @@ The full source code for this JS UDAF is
 
 To register this function, choose JavaScript as UDF type, make sure turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too.
 
-Please note, unlike JS sclar function, you need to put all functions under an object `{}`. You can define internal priviate functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
+Please note, unlike JS scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
+
+
+
+## Notes
+
+* Currently updating JS UDF is not implemented yet. You have to delete the UDF then create with new settings.
+* We will provide better testing tools in the future.
+* The custom JavaScript code is running in a sandbox with V8 engine. It won't impact other workspaces.
 
