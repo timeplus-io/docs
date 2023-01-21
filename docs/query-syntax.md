@@ -403,7 +403,7 @@ In some cases, the real-time data flow to multiple data streams. For example, wh
 ```sql
 SELECT .. FROM stream1
 INNER JOIN stream2
-ON stream1.id=stream2.id AND data_diff_with(1m)
+ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
 ```
 
@@ -412,7 +412,7 @@ You can also join a stream to itself. A typical use case is to check whether the
 ```sql
 SELECT .. FROM stream1
 INNER JOIN stream1 AS stream2
-ON stream1.id=stream2.id AND data_diff_with(1m)
+ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
 ```
 
