@@ -1,10 +1,10 @@
 # Getting started
 
-This tutorial guides you how to load data into Timeplus and run analytics queries over the data. To perform this tutorial, you need an active Timeplus account. If you don't have a Timeplus account, go https://timeplus.com and request an account.
+This tutorial guides you how to load data into Timeplus and run analytics queries over the data. To perform this tutorial, you need an active Timeplus account. If you don't have a Timeplus account, go to https://us.timeplus.cloud/ and sign up for free.
 
 ## Add Data
 
-To help you quickly get started, we setup each tenant with the demo dataset. Please check the schema and common queries on [Demo Scenario](usecases) page. You can explore and query the streams right away.
+To help you quickly get started, we setup each workspace with the demo dataset. Please check the schema and common queries on [Demo Scenario](usecases) page. You can explore and query the streams right away.
 
 Of course, you can load your own data, such as
 
