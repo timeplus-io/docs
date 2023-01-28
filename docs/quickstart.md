@@ -13,7 +13,7 @@ The following section contains step-by-step instructions on how to easily get st
 
 ## Step 1: Sign up for a Timeplus account {#step1}
 
-Let's start by creating an account for [Timeplus Cloud](https://timeplus.cloud). Currently Google or Microsoft Single Sign-On (SSO) are supported. Please choose a work email or Google/Microsoft account to sign up. It usually takes less than 2 minutes to get the account setup and have the first [workspace](glossary#workspace) created.
+Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. Please choose a work email or Google/Microsoft account to sign up. It usually takes less than 2 minutes to get the account setup and have the first [workspace](glossary#workspace) created.
 
 ![Signup](/img/signup_screen.png)
 
@@ -23,7 +23,7 @@ A workspace is the isolated storage and computing unit for you to run streaming 
 
 To create a workspace:
 
-1. Sign in [Timeplus Cloud](https://timeplus.cloud)
+1. Sign in to [Timeplus Cloud](https://us.timeplus.cloud/)
 2. Click **Create a Workspace** on the landing page
 3. The workspace ID is automatically created. Create a readable name, such as the legal name for the organization or team name.
 
