@@ -123,22 +123,20 @@ Timeplus Connection
 默认情况下，还没有 Timeplus 的存储库。 按 Enter 键创建一个。
 ```
 ✔ Repository? › New Repository
-? Base URL? › https://beta.timeplus.cloud/workspace-id
+? Base URL? › https://us.timeplus.cloud/workspace-id
 ```
-为你的 Timeplus 工作空间设置基本 URL，确保它包含 `https` 或 `http`以及 WorkspaceID，不带结尾 `/`，例如 `https://beta.timeplus.cloud/d335214`
+Set the base URL for your Timeplus workspace, making sure it includes `https` or `http`, as well as the workspaceID, without the ending `/`, e.g. `https://us.timeplus.cloud/d335214`
 
 按回车键
 ```
 Timeplus Connection
 ? Repository? ›
 ❯   New Repository ✔ Repository? › New Repository
-? Base URL? › https://beta.timeplus.cloud/workspace-id Timeplus Connection
-✔ Repository? › New Repository
-✔ Base URL? … https://beta.timeplus.cloud/d335214
+? Base URL? › https://beta.timeplus.cloud/workspace-id … https://us.timeplus.cloud/d335214
 ✔ Connection successful
 
 Timeplus Credentials
-? API Key? › API Key? › 
+? API Key? › 
 ```
 
 你需要设置 API 密钥。 您可以从 Web 控制台获取一个。 （访问 {baseURL}/console/settings/apiKey，或者选择左上角的 “个人设置”，然后切换到 “API 密钥管理” 并单击 “创建 API 密钥” 按钮）。
