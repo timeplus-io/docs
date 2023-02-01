@@ -119,15 +119,15 @@ Timeplus Connection
 By default, there is no repository for Timeplus yet. Press Enter to create one.
 ```
 ✔ Repository? › New Repository
-? Base URL? › https://beta.timeplus.cloud/workspace-id
+? Base URL? › https://us.timeplus.cloud/workspace-id
 ```
-Set the base URL for your Timeplus workspace, making sure it includes `https` or `http`, as well as the workspaceID, without the ending `/`, e.g. `https://beta.timeplus.cloud/d335214`
+Set the base URL for your Timeplus workspace, making sure it includes `https` or `http`, as well as the workspaceID, without the ending `/`, e.g. `https://us.timeplus.cloud/d335214`
 
 Press Enter.
 ```
 Timeplus Connection
 ✔ Repository? › New Repository
-✔ Base URL? … https://beta.timeplus.cloud/d335214
+✔ Base URL? … https://us.timeplus.cloud/d335214
 ✔ Connection successful
 
 Timeplus Credentials
