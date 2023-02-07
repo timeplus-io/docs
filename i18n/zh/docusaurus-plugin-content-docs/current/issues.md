@@ -4,8 +4,8 @@
 
 ## UI
 
-* 您可以使用移动浏览器注册Timeplus云。 但只支持Microsoft Edge或Google Chrome 桌面浏览器才能使用 Timeplus 控制台。
-* 同一工作区的用户将看到所有活动历史和定义，例如视图、 告警、 仪表盘。
+* You can use a mobile browser to sign up for Timeplus Cloud. 但只支持Microsoft Edge或Google Chrome 桌面浏览器才能使用 Timeplus 控制台。
+* Users in the same workspace will see all activity history and definitions, such as views, sinks, dashboards. Fine grained access control for user/group/role will be provided in the future.
 
 ## 后端
 
