@@ -271,29 +271,35 @@ select
 
 ### year
 
-获取当前年份，例如 `year(today)())` 将是 `2022`。
+`year(date)` Get current year, for example `year(today())` will be `2022`.
 
 ### quarter
 
-获取当前季度，例如 `季度(今日))` 将是 `1` 如果是Q1。
+`quarter(date)` Get current quarter, for example `quarter(today())` will be `1` if it's in Q1.
 
 ### month
 
-获取当前月份，例如 `个月(今日))` 将是 `2` 如果是2月。
+`month(date)` Get current month, for example `month(today())` will be `2` if it's Feb.
 
 ### day
 
-获取月份中的当前日子。
+`day(date)` Get the current day in the month.
 
 ### weekday
 
-获得本周中的当前日子。 星期一是 1。 星期日为7天。
+`weekday(date)` Get the current day in the week. 星期一是 1。 星期日为7天。
 
 ### hour
 
+`hour(datetime)`
+
 ### minute
 
+`minute(datetime)`
+
 ### second
+
+`second(datetime)`
 
 ### to_unix_timestamp
 
@@ -301,19 +307,31 @@ select
 
 ### to_start_of_year
 
+`to_start_of_year(date)`
+
 ### to_start_of_quarter
 
-
+`to_start_of_quarter(date)`
 
 ### to_start_of_month
 
+`to_start_of_month(date)`
+
 ### to_start_of_day
+
+`to_start_of_day(date)`
 
 ### to_start_of_hour
 
+`to_start_of_hour(datetime)`
+
 ### to_start_of_minute
 
+`to_start_of_minute(datetime)`
+
 ### to_start_of_second
+
+`to_start_of_second(datetime64)`
 
 不同于其他 `to_start_of_` 函数，这个函数需要一个有毫秒的日期时间，例如 `to_start_of_second(now64())`
 
@@ -647,7 +665,7 @@ SELECT
 
 ### median
 
-计算数值数据样本的中间值。
+`median(<column_name>)` Calculate median of a numeric data sample.
 
 
 
@@ -768,8 +786,6 @@ SELECT
 `cbrt(x)` 返回一个 `浮点` 靠近参数立方根值 `x`
 
 
-<!--
-
 ### lgamma
 
 `lgamma(x)` 伽马函数的对数
@@ -780,12 +796,10 @@ SELECT
 
 `tgamma(x)`伽玛函数
 
--->
 
 ### sin
 
 `sin(x)` 个正弦值
-
 
 
 ### cos
