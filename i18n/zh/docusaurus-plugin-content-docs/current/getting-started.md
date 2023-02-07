@@ -1,10 +1,10 @@
 # 入门开始
 
-本教程指导您如何将数据加载到Timeplus并通过数据运行分析查询。 要执行此教程，您需要一个 Timeplus 帐户。 如果您没有 Timeplus 账户，请访问 https://timeplus.com 开通一个账户。
+本教程指导您如何将数据加载到Timeplus并通过数据运行分析查询。 要执行此教程，您需要一个 Timeplus 帐户。 If you don't have a Timeplus account, go to https://us.timeplus.cloud/ and sign up for free.
 
 ## 添加数据
 
-为了帮助您快速启动，我们用演示数据集设置每个租户。 请在 [演示场景](usecases) 页面检查样式和常见的查询。 您可以立即探索和查询流。
+To help you quickly get started, we setup each workspace with the demo dataset. 请在 [演示场景](usecases) 页面检查样式和常见的查询。 您可以立即探索和查询流。
 
 当然，您可以加载自己的数据，例如：
 

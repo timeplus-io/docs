@@ -163,8 +163,6 @@ function magic_number(values){
 
 ## 备注
 
-* 目前更新 JS UDF 尚未实现。 你必须删除 UDF 然后使用新设置创建。
-
 * 将来我们将提供更好的测试工具。
 
 * 自定义 JavaScript 代码在装有 V8 引擎的沙箱中运行。 它不会影响其他工作空间。
@@ -175,7 +173,7 @@ function magic_number(values){
   | ------------------------------- | --------------- |
   | int8/16/32/64                   | number          |
   | uint8/16/32/64                  | number          |
-  | float32/64                      | number          |
+  | float32/64                      | 数字              |
   | fixed_string/string             | string          |
   | date/date32/datetime/datetime64 | Date  (毫秒为精度)   |
 
