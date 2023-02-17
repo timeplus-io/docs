@@ -6,6 +6,23 @@
 
 (2023年)
 
+## 2/17
+
+* New features
+
+  * [Global aggregation](query-syntax#global) now supports sub-second emit interval.  e.g. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
+  * You can now create multiple materialized views to write data to the same stream. A typical usage of this feature is to apply multiple processing logics on the same raw data and send to the same stream for aggregated results. For materialized views, Timeplus maintains the state of the query, which will work better for long running queries and failover.
+  * (Experimental) After creating a new stream, you can choose to add a few rows directly in the Console UI, without creating a Source or posting via REST API. 如果您想试用此功能，请联系我们。
+  * (Experimental) Built-in support for CDC ([Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)) has been added in Timeplus backend and the console UI will be ready soon. You can create data streams in different modes. By default, it's append-only. You can also create the streams to accept change logs from [Debezium](https://debezium.io/) for INSERT, UPDATE, and DELETE. The streaming aggregation results will reflect the latest data change. 如果您想试用此功能，请联系我们。
+
+* Enhancements
+
+  * For time-series data, you now have the option to set the time range in the Format tab.
+  * The bar chart and column chart types are combined – simply set either horizontal or vertical chart style in the Format tab.
+  * If you start running a streaming SQL then go to another page in Timeplus console, the query will be stopped automatically. This will reduce unnecessary server workload and the number of concurrent queries.
+  * Improved the performance of query results in list mode.
+  * Performance tuning for [external streams](working-with-streams#external_stream) and [materialized views](view#m_view).
+
 ## 2/3
 
 * 查询页面增强功能
@@ -24,12 +41,12 @@
 ## 1/20
 
 * 查询结果的界面更新：
-  * **无限滚动。** 对于流式查询和历史查询，较新的结果显示在底部。 您可以向上滚动查看之前的结果，然后单击底部的 **跳转到最新数据** 按钮继续查看最新结果。
+  * **无限滚动。 ** 对于流式查询和历史查询，较新的结果显示在底部。 您可以向上滚动查看之前的结果，然后单击底部的 **跳转到最新数据** 按钮继续查看最新结果。
   * **行详情**。 对于包含长文本或 JSON 的列，您可以单击 “眼睛” 按钮打开包含该行详细信息的侧面板。
-  * **更新列摘要。** 对于数字列，列头中显示最小/最大/平均值。 数据范围是从查询开始到现在。 对于日期时间列，将显示起始/终止时间戳。 对于布尔列或字符串列，前 3 个值与百分比一起显示。
-  * **快速筛选。** 您可以键入一些关键字来筛选结果，而无需重写 SQL。 它将对所有列执行简单的 `string#contains` 匹配。 暂不支持正则表达式或逻辑条件。
-  * **显示/隐藏列。** 您可以通过新引入的 **设置** 按钮来隐藏某些列，而无需重写 SQL。 您也可以在此对话框中以 CSV 格式下载结果。
-  * **调整列大小**. Timeplus 会根据列类型自动设置适当的初始列大小。 您可以随时通过拖放来调整列的大小。
+  * **更新列摘要。 ** 对于数字列，列头中显示最小/最大/平均值。 数据范围是从查询开始到现在。 对于日期时间列，将显示起始/终止时间戳。 对于布尔列或字符串列，前 3 个值与百分比一起显示。
+  * **快速筛选。 ** 您可以键入一些关键字来筛选结果，而无需重写 SQL。 它将对所有列执行简单的 `string#contains` 匹配。 暂不支持正则表达式或逻辑条件。
+  * **显示/隐藏列。 ** 您可以通过新引入的 **设置** 按钮来隐藏某些列，而无需重写 SQL。 您也可以在此对话框中以 CSV 格式下载结果。
+  * **调整列大小**. **调整列大小**. Timeplus 会根据列类型自动设置适当的初始列大小。 您可以随时通过拖放来调整列的大小。
 * 更多图表类型和选项。 您可以选择折线图、面积图、柱形图、条形图、单值图和图表作为可视化类型。 每个图表都支持基本设置和高级设置。
 * 一种内置 的针对JSON优化的数据类型，与将 JSON 另存为 `string` 并在查询时动态提取相比，查询性能更好。 适合于同一结构的 JSON 文档。 通过 `column.jsonpath` 访问该值（而不是用文本列的方式 `column:jsonpath` ）
 * 我们开始弃用 `settings seek_to=..` 仍然支持时空旅行，你只需要在 WHERE 条件下使用 `_tp_time` 列，例如 `WHERE _tp_time>=now () -1h` 即可在 1 小时前进行时空旅行并显示此后的数据。 或者 `其中 _tp_time >= '2023-01-14'`  Timeplus 中的所有数据流都包含 `_tp_time` 作为事件时间。
