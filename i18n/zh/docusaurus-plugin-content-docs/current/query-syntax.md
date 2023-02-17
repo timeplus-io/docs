@@ -425,6 +425,7 @@ WHERE device_products_info._tp_time > '2020-01-01T01:01';
 在某些情况下，实时数据流向多个数据流。 例如，当广告展示给最终用户时，当用户点击广告时。 Timeplus允许您对多个数据流进行关联搜索。 当用户点击广告后，您可以检查平均时间。
 
 ```sql
+选择... 选择... FROM stream1
 INNER JOIN stream2
 ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
@@ -433,6 +434,7 @@ WHERE ..
 您也可以加入一个流到自己。 一个典型的使用情况是检查同一流中数据是否有某种模式，例如： 是否在两分钟内购买相同的信用卡。 小规模购买后有大宗购买。 这可能是一种欺诈模式。
 
 ```sql
+选择... 选择... FROM stream1
 INNER JOIN stream1 AS stream2
 ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
