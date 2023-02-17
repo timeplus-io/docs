@@ -8,20 +8,20 @@
 
 ## 2/17
 
-* New features
+* 新功能
 
-  * [Global aggregation](query-syntax#global) now supports sub-second emit interval.  e.g. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
-  * You can now create multiple materialized views to write data to the same stream. A typical usage of this feature is to apply multiple processing logics on the same raw data and send to the same stream for aggregated results. For materialized views, Timeplus maintains the state of the query, which will work better for long running queries and failover.
-  * (Experimental) After creating a new stream, you can choose to add a few rows directly in the Console UI, without creating a Source or posting via REST API. 如果您想试用此功能，请联系我们。
-  * (Experimental) Built-in support for CDC ([Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)) has been added in Timeplus backend and the console UI will be ready soon. You can create data streams in different modes. By default, it's append-only. You can also create the streams to accept change logs from [Debezium](https://debezium.io/) for INSERT, UPDATE, and DELETE. The streaming aggregation results will reflect the latest data change. 如果您想试用此功能，请联系我们。
+  * [全局聚合](query-syntax#global) 现在支持亚秒级的输出间隔。  e.g. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
+  * 现在，您可以创建多个物化视图来将数据写入同一个流。 此功能的典型用法是在相同的原始数据上应用多个处理逻辑，然后发送到同一个数据流以获得聚合结果。 对于物化视图，Timeplus 会维护查询的状态，这将更适合长时间运行的查询和故障恢复。
+  * (实验性) 在创建新流后，您可以选择直接在控制台界面中添加少量数据，而不用通过REST API或创建源。 如果您想试用此功能，请联系我们。
+  * （实验性）Timeplus 后端添加了对CDC（[Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)）的内置支持，用户界面将很快准备就绪。 您可以在不同的模式下创建数据流。 默认情况下，它是仅限追加的。 您也可以创建流来接受INSERT、UPDATE和DELETE从 [Debezium](https://debezium.io/) 的更改日志。 流式聚合结果将反映最新的数据变化。 如果您想试用此功能，请联系我们。
 
-* Enhancements
+* 增强
 
-  * For time-series data, you now have the option to set the time range in the Format tab.
-  * The bar chart and column chart types are combined – simply set either horizontal or vertical chart style in the Format tab.
-  * If you start running a streaming SQL then go to another page in Timeplus console, the query will be stopped automatically. This will reduce unnecessary server workload and the number of concurrent queries.
-  * Improved the performance of query results in list mode.
-  * Performance tuning for [external streams](working-with-streams#external_stream) and [materialized views](view#m_view).
+  * 对于时间序列数据的可视化，您现在可以选择在格式选项卡中设置时间范围。
+  * 条形图和柱状图类型组合在一起——只需在 “格式” 选项卡中设置水平或垂直图表样式即可。
+  * 如果你开始运行流式传输 SQL 然后转到 Timeplus 控制台中的另一个页面，查询将自动停止。 这将减少不必要的服务器工作量和并发查询的数量。
+  * 提高了列表模式下查询结果的性能。
+  * [外部流](working-with-streams#external_stream) 和 [物化视图](view#m_view)的性能调整。
 
 ## 2/3
 
