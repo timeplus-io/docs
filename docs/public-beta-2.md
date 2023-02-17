@@ -6,21 +6,20 @@ We will update the beta version from time to time and list key enhancements in t
 
 (in year 2023)
 
-## 2/18
+## 2/17
 
 * New features
 
-  * [Global aggregation](query-syntax#global) supports sub-second emit interval.  e.g. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
-  * You can now create multiple materialized views to write data to the same stream. A typical usage of this feature is to apply multiple processing logics on the same raw data and send to the same stream for aggregated results. Materialized views can ensure the query state and work better for long running and fail over.
-  * (Experimental) After creating a new stream, you can add a few rows directly in the Console UI, without creating Source or posting via REST API. This is disabled by default. Contact us if you want to try this.
-  * (Experimental) Built-in support for CDC ([Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)) is added in Timeplus backend. UI will be ready soon. You can create the data streams in different modes. By default it's append-only. You can also create the streams to accept change logs from [Debezium](https://debezium.io/) for INSERT, UPDATE, DELETE. The streaming aggregation results will reflect the latest data change. Contact us if you want to try this.
+  * [Global aggregation](query-syntax#global) now supports sub-second emit interval.  e.g. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
+  * You can now create multiple materialized views to write data to the same stream. A typical usage of this feature is to apply multiple processing logics on the same raw data and send to the same stream for aggregated results. For materialized views, Timeplus maintains the state of the query, which will work better for long running queries and failover.
+  * (Experimental) After creating a new stream, you can choose to add a few rows directly in the Console UI, without creating a Source or posting via REST API. Contact us if you want to try this feature.
+  * (Experimental) Built-in support for CDC ([Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)) has been added in Timeplus backend and the console UI will be ready soon. You can create data streams in different modes. By default, it's append-only. You can also create the streams to accept change logs from [Debezium](https://debezium.io/) for INSERT, UPDATE, and DELETE. The streaming aggregation results will reflect the latest data change. Contact us if you want to try this feature.
 
 * Enhancements
 
-  * For time-series data, you can optionally set the time range in Format tab.
-
-  * The bar chart and column chart types are combined. You can set either horizontal or vertical chart style in the Format tab.
-  * If you start running a streaming SQL then go to other page in Timeplus console, the query will be stopped automatically. This will reduce unnecessary server workload and end up with less number of concurrent queries.
+  * For time-series data, you now have the option to set the time range in the Format tab.
+  * The bar chart and column chart types are combined – simply set either horizontal or vertical chart style in the Format tab.
+  * If you start running a streaming SQL then go to another page in Timeplus console, the query will be stopped automatically. This will reduce unnecessary server workload and the number of concurrent queries.
   * Improved the performance of query results in list mode.
   * Performance tuning for [external streams](working-with-streams#external_stream) and [materialized views](view#m_view).
 
