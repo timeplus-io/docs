@@ -56,7 +56,7 @@ exports.handler = async (event) => {
 
 1. 输入数据被包装在 JSON 文档中，关键参数 `ip` 在数组中可用
 2. 我们直接调用了 [ipinfo.io](https://ipinfo.io) 的REST API，用的是在Lambda环境变量里定义的API token
-3. 来自 ipinfo.io REST API 的响应将会放入一个 JSON 文档 {“result”：[..]} 作为Lambda输出发送 作为Lambda输出发送
+3. 来自 ipinfo.io REST API 的响应将会放入一个 JSON 文档 {“result”：[..]} 作为Lambda输出发送 作为Lambda输出发送 作为Lambda输出发送
 4. 由于Lambda函数在Timeplus服务器之外运行，对第三方函数库没有任何限制。 在此示例中，我们正在使用内置的 node.js “https” 库。 为了更加复杂的数据处理，人们可以自由地包括更复杂的图书馆，如机器学习。
 
 一旦你部署了 Lambda 函数，你可以生成一个可公开访问的 URL，然后在 Timeplus Web 控制台注册该函数。
