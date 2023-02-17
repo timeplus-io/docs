@@ -271,23 +271,23 @@ select
 
 ### year
 
-`year(date)` Get current year, for example `year(today())` will be `2022`.
+获取当前年份，例如 `year(today())` 将是 `2022`。
 
 ### quarter
 
-`quarter(date)` Get current quarter, for example `quarter(today())` will be `1` if it's in Q1.
+获取当前季度，例如 `quarter(today())` 将是 `1` 如果是Q1。
 
 ### month
 
-`month(date)` Get current month, for example `month(today())` will be `2` if it's Feb.
+获取当前季度，例如 `quarter(today())` 将是 `2` 如果是Q1。
 
 ### day
 
-`day(date)` Get the current day in the month.
+`day(date)` 获取当月的日期。
 
 ### weekday
 
-`weekday(date)` Get the current day in the week. 星期一是 1。 星期日为7天。
+`weekday(date)` Get the current day in the week. 星期一是 1。 星期一是 1。 星期日为7天。
 
 ### hour
 
@@ -615,7 +615,7 @@ SELECT
 
 ### multi_if
 
-`multi_if(condition1, then1, condition2, then2.. ,else)` 一种比 if/self 或 case/when更简单的写法 ,else)</code> 一种比 if/self 或 case/when更简单的写法
+`multi_if(condition1, then1, condition2, then2.. ,else)` 一种比 if/self 或 case/when更简单的写法
 
 ## 聚合
 
@@ -665,7 +665,7 @@ SELECT
 
 ### median
 
-`median(<column_name>)` Calculate median of a numeric data sample.
+`median(<column_name>)` 计算数值数据样本的中值。
 
 
 
