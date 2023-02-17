@@ -287,7 +287,7 @@ select
 
 ### weekday
 
-`weekday(date)` Get the current day in the week. 星期一是 1。 星期一是 1。 星期日为7天。
+`weekday(date)` Get the current day in the week. 星期一是 1。 星期日为7天。
 
 ### hour
 

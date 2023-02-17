@@ -136,14 +136,11 @@ Set the base URL for your Timeplus workspace, making sure it includes `https` or
 Timeplus Connection
 ? Repository? ›
 ❯   New Repository ✔ Repository? › New Repository
-? Base URL? › https://us.timeplus.cloud/workspace-id Timeplus Connection
-? Repository? ›
-❯   New Repository ✔ Repository? › New Repository
-? Base URL? › https://beta.timeplus.cloud/workspace-id … https://us.timeplus.cloud/d335214
+? Base URL? › https://us.timeplus.cloud/workspace-id … https://us.timeplus.cloud/d335214
 ✔ Connection successful
 
 Timeplus Credentials
-? API Key? › API Key? › 
+? API Key? › 
 ```
 
 你需要设置 API 密钥。 您可以从 Web 控制台获取一个。 （访问 {baseURL}/console/settings/apiKey，或者选择左上角的 “个人设置”，然后切换到 “API 密钥管理” 并单击 “创建 API 密钥” 按钮）。

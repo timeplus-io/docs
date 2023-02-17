@@ -4,8 +4,9 @@
 
 ## UI
 
-* You can use a mobile browser to sign up for Timeplus Cloud. 但只支持Microsoft Edge或Google Chrome 桌面浏览器才能使用 Timeplus 控制台。 但只支持Microsoft Edge或Google Chrome 桌面浏览器才能使用 Timeplus 控制台。
-* Users in the same workspace will see all activity history and definitions, such as views, sinks, dashboards. Fine grained access control for user/group/role will be provided in the future. Fine grained access control for user/group/role will be provided in the future.
+
+* You can use a mobile browser to sign up for Timeplus Cloud. 但只支持Microsoft Edge或Google Chrome 桌面浏览器才能使用 Timeplus 控制台。
+* Users in the same workspace will see all activity history and definitions, such as views, sinks, dashboards. Fine grained access control for user/group/role will be provided in the future.
 
 ## 后端
 
