@@ -45,7 +45,7 @@
 
 ### to_bool
 
-将值转换为 `bool` 类型。 例如：`select to_bool(1), to_bool(true),to_bool(True),to_bool('true')` all return `true`. 请注意，您不能运行 `to_bool('True')` 请注意，您不能运行 `to_bool('True')`
+将值转换为 `bool` 类型。 例如：`select to_bool(1), to_bool(true),to_bool(True),to_bool('true')` all return `true`. 请注意，您不能运行 `to_bool('True')` 请注意，您不能运行 `to_bool('True')` 请注意，您不能运行 `to_bool('True')`
 
 
 ### cast
@@ -167,7 +167,7 @@ select
 
 ### array_resize
 
-`array_resize(数组，大小 [,extender])` 更改数组的长度。 如果 `大小`小于当前数组的长度，则数组将被截断. 否则，将创建一个具有指定大小的新数组，用指定的 `extender` 填充值。 例如： `array_sort([3,2,5,4])` 返回 [2,3,4,5]。 ` array_resize([3,4],4,5)`返回 [3,4,5,5]
+`array_resize(数组，大小 [,extender])` 更改数组的长度。 如果 `大小`小于当前数组的长度，则数组将被截断. 如果 `大小`小于当前数组的长度，则数组将被截断. 否则，将创建一个具有指定大小的新数组，用指定的 `extender` 填充值。 例如： `array_sort([3,2,5,4])` 返回 [2,3,4,5]。 `array_resize([3,4],4,5)`返回 [3,4,5,5]
 
 
 
@@ -195,7 +195,7 @@ select
 
 ### array_all
 
-`array_all([function, ]数组)` 返回 1(true) 或 0(Alse) 如果数组中的所有元素都符合条件。 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_all(x->x%2==0,[2,4,6])` 以检查数组中的每个元素是否为偶。 它返回 1。
+`array_all([function, ]数组)` 返回 1(true) 或 0(Alse) 如果数组中的所有元素都符合条件。 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_all(x->x%2==0,[2,4,6])` 以检查数组中的每个元素是否为偶。 它返回 1。
 
 ### array_avg
 
@@ -271,23 +271,23 @@ select
 
 ### year
 
-`year(date)` Get current year, for example `year(today())` will be `2022`.
+获取当前年份，例如 `year(today())` 将是 `2022`。
 
 ### quarter
 
-`quarter(date)` Get current quarter, for example `quarter(today())` will be `1` if it's in Q1.
+获取当前季度，例如 `quarter(today())` 将是 `1` 如果是Q1。
 
 ### month
 
-`month(date)` Get current month, for example `month(today())` will be `2` if it's Feb.
+获取当前季度，例如 `quarter(today())` 将是 `2` 如果是Q1。
 
 ### day
 
-`day(date)` Get the current day in the month.
+`day(date)` 获取当月的日期。
 
 ### weekday
 
-`weekday(date)` Get the current day in the week. 星期一是 1。 星期日为7天。
+`weekday(date)` Get the current day in the week. 星期一是 1。 星期一是 1。 星期日为7天。
 
 ### hour
 
@@ -411,7 +411,7 @@ SELECT
 
 `date_diff(unit,begin,end)`
 
-Calculate the difference between `begin` and `end` and produce a number in `unit`. 例如： `date_diff('second',window_start,window_end)` 例如： `date_diff('second',window_start,window_end)`
+Calculate the difference between `begin` and `end` and produce a number in `unit`. 例如： `date_diff('second',window_start,window_end)` 例如： `date_diff('second',window_start,window_end)` 例如： `date_diff('second',window_start,window_end)`
 
 ### date_diff_within
 
@@ -473,7 +473,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### is_valid_json
 
-`is_valid_json(str)` 来检查给定的字符串是否是有效的 JSON 返回 true(1) 或 false(0) 返回 true(1) 或 false(0)
+`is_valid_json(str)` 来检查给定的字符串是否是有效的 JSON 返回 true(1) 或 false(0) 返回 true(1) 或 false(0) 返回 true(1) 或 false(0)
 
 ### json_has
 
@@ -665,7 +665,7 @@ SELECT
 
 ### median
 
-`median(<column_name>)` Calculate median of a numeric data sample.
+`median(<column_name>)` 计算数值数据样本的中值。
 
 
 
@@ -854,7 +854,7 @@ SELECT
 
 ### radians
 
-`弧度(x)` 将输入值转换为弧度。 例如：  ` radians(180)` 返回3.14。
+如果遗漏了 `N` ，我们认为N 为 0，函数将值轮到附近的整数，e。 。 `圆形(3.14)`作为 3
 
 ### is_finite
 
@@ -894,7 +894,7 @@ SELECT
 
 ### table
 
-`table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT... 默认情况下，如果您运行 <code>SELECT... FROM clicks ..` 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 `table` 函数中。 使用 `count` 作为示例：
+`table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT... 默认情况下，如果您运行 <code>SELECT... FROM clicks ..` 这是一个带有无边界数据的流式查询。 默认情况下，如果您运行 `SELECT... FROM clicks ..` 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 `table` 函数中。 使用 `count` 作为示例：
 
 * 运行 `select count(*) from clicks` 将每2秒显示最新计数，直到你取消这个查询
 * 运行 `select count(*) from table(clicks)` 将立即返回此数据流的历史数据行数。
@@ -935,7 +935,7 @@ SELECT
 
 ### dedup
 
-`dedup(stream, column1 [,otherColumns..] [liveInSecond,limit]) [liveInSecond,limit])`
+`dedup(stream, column1 [,otherColumns..] [liveInSecond,limit]) [liveInSecond,limit]) [liveInSecond,limit])`
 
 在给定的数据流中使用指定的列 (s) 应用反复性。 `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但如果你只想在一定时间内避免重复，请说2分钟，你可以设置 `120s`例如 `dedup(子查询,myId,120s)`
 

@@ -13,13 +13,13 @@ Timeplus Cloud提供以下主要功能：
 
 ## 步骤 1：注册一个Timeplus账户 {#step1}
 
-Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 获取账户设置并创建第一个 [工作区](glossary#workspace) 通常需要不到2分钟。
+Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 Currently, Google or Microsoft Single Sign-On (SSO) are supported. 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 获取账户设置并创建第一个 [工作区](glossary#workspace) 通常需要不到2分钟。
 
 ![注册](/img/signup_screen.png)
 
 ## 第 2 步：创建您的第一个工作区 {#step2}
 
-工作区是您运行流数据收集和分析的独立存储和计算单位。 每个用户最多可以创建 1 个免费工作空间并加入多个工作区。 通常，一个组织中的用户组加入了相同的工作区，以建立一个或多个流式分析解决方案。
+工作区是您运行流数据收集和分析的独立存储和计算单位。 通常，一个组织中的用户组加入了相同的工作区，以建立一个或多个流式分析解决方案。 每个用户最多可以创建 1 个免费工作空间并加入多个工作区。
 
 要创建工作区：
 

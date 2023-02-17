@@ -39,7 +39,7 @@ key.converter: org.apache.kafka.connect.storage.StringConverter
 value.converter: org.apache.kafka.connect.storage.StringConverter
 ```
 
-10. 通过 `bin/connect-standalone.sh config/connect-standalone.properties config/timeplus-sink.properties` 与 Timeplus Kafka Connect 插件一起启动Kafka Connect 服务。它将把数据从`my_topic` 移动到远程Timeplus 中的 `data_from_kakfa` 流。 （你可以通过 `kcat -P -b localhost: 9092 -t my_topic` 输入一些行然后通过 Ctrl+D 生成数据）
+10. 通过 `bin/connect-standalone.sh config/connect-standalone.properties config/timeplus-sink.properties` 与 Timeplus Kafka Connect 插件一起启动Kafka Connect 服务。 它将把数据从`my_topic` 移动到远程Timeplus 中的 `data_from_kakfa` 流。 （你可以通过 `kcat -P -b localhost: 9092 -t my_topic` 输入一些行然后通过 Ctrl+D 生成数据）
 
 ## 使用 Confluent 平台进行设置
 

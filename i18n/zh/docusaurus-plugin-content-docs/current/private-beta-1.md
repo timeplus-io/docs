@@ -128,7 +128,7 @@
 ### 6/13周
 
 * 流引擎
-  * 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
+  * 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
   * 添加 [数组处理](functions#arrays)的其他函数，例如 [array_sum](functions#array_sum), [array_avg](functions#array_avg)
 * 源和汇：
   * Kafka 源支持无需认证的本地schema 注册表

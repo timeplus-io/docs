@@ -15,6 +15,10 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 [GROUP BY clause]
 EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
+[WHERE clause]
+[GROUP BY clause]
+EMIT <window_emit_policy>
+SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
 总体来说，Timeplus中的流式查询建立了一个与客户端的长长HTTP/TCP连接，并且根据 `EMIT` 策略持续评估查询和流返回结果，直到结束客户端 中止查询或出现一些异常。 时间插件支持一些内部 `设置` 来微调流式查询处理行为。 以下是一份详尽无遗的清单。 我们将在下面的章节中再谈这些问题。
@@ -24,7 +28,7 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 
 :::info
 
-请注意，自2023年1月起， `SETTINGS seek_to=..` 不再被推荐使用。 请使用 `WHERE _tp_time>='2023-01-01'` 或类似的WHERE条件。 `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
+请注意，自2023年1月起， `SETTINGS seek_to=..` 不再被推荐使用。 请使用 `WHERE _tp_time>='2023-01-01'` 或类似的WHERE条件。 `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
 
 :::
 
@@ -46,7 +50,7 @@ WHERE cpu_usage >= 99
 
 上面的示例持续评估表 `device_utils` 中新事件的过滤器表达式，过滤事件 `cpu_usage` 小于99。 最后的事件将会流向客户端。
 
-### 全局流聚合
+### 全局流聚合 {#global}
 
 在 Timeplus 中，我们将全球聚合定义为一个聚合查询，而不使用诸如tumble、跳跃等流式窗口。 不同于串流窗口聚合，全局流式聚合并不分割 根据时间戳将未绑定的流式数据放入窗口， 相反，它作为一个巨大的全球窗口处理无界流数据。 由于这个属性，Timeplus现在不能 根据时间戳为全局聚合回收的内存聚合状态/结果。
 
@@ -79,6 +83,8 @@ SELECT <column_name1>, <column_name2>, <aggr_function>
 FROM tumble(<table_name>, [<timestamp_column>], <tumble_window_size>, [<time_zone>])
 [WHERE clause]
 GROUP BY [window_start | window_end], ...
+EMIT <window_emit_policy>
+设置 <key1>=<value1>, <key2>=<value2>, ...
 EMIT <window_emit_policy>
 设置 <key1>=<value1>, <key2>=<value2>, ...
 EMIT <window_emit_policy>
@@ -163,6 +169,8 @@ EMIT <window_emit_policy>
 设置 <key1>=<value1>, <key2>=<value2>, ...
 EMIT <window_emit_policy>
 设置 <key1>=<value1>, <key2>=<value2>, ...
+EMIT <window_emit_policy>
+设置 <key1>=<value1>, <key2>=<value2>, ...
 ```
 
 Hop窗口与tumble窗口相比是一个更加普遍化的窗口。 Hop窗口有一个额外的 参数，名为 `<hop_slide_size>` ，这意味着每次都要进这个幻灯片尺寸。 共有3起案件：
@@ -205,6 +213,10 @@ EMIT AFTER WATERMARK;
 正在修改事件时间戳处于最后X范围内的事件。
 
 ```sql
+SELECT <column_name1>, <column_name2>, ...
+FROM <table_name>
+WHERE <clause>
+EMIT LAST INTERVAL <n> <UNIT>;
 SELECT <column_name1>, <column_name2>, ...
 FROM <table_name>
 WHERE <clause>
@@ -264,6 +276,16 @@ SETTINGS max_keep_windows=<window_count>
 群组由...
 EMIT LAST INTERVAL <n> <UNIT>
 SETTINGS max_keep_windows=<window_count>
+
+群组由...
+SELECT <column_name1>, <column_name2>, <aggr_function>
+FROM <table_name>
+[WHERE clause]
+GROUP BY ...
+EMIT LAST INTERVAL <n> <UNIT>
+SETTINGS max_keep_windows=<window_count>
+EMIT LAST INTERVAL <n> <UNIT>
+SETTINGS max_keep_windows=<window_count>
 ```
 
 示例：
@@ -310,6 +332,7 @@ SELECT device, max(cpu_usage) FROM filteed GROUP BY device;
 ```sql
 WITH cte1 AS (SELECT ..),
      cte2 AS (SELECT ..)
+选择... FROM cte1 UNION SELECT .. 从 Cte2
 选择... FROM cte1 UNION SELECT .. 从 Cte2
 选择... FROM cte1 UNION SELECT .. 从 Cte2    
 ```
@@ -402,7 +425,7 @@ WHERE device_products_info._tp_time > '2020-01-01T01:01';
 在某些情况下，实时数据流向多个数据流。 例如，当广告展示给最终用户时，当用户点击广告时。 Timeplus允许您对多个数据流进行关联搜索。 当用户点击广告后，您可以检查平均时间。
 
 ```sql
-选择... FROM stream1
+选择... 选择... FROM stream1
 INNER JOIN stream2
 ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
@@ -411,7 +434,7 @@ WHERE ..
 您也可以加入一个流到自己。 一个典型的使用情况是检查同一流中数据是否有某种模式，例如： 是否在两分钟内购买相同的信用卡。 小规模购买后有大宗购买。 这可能是一种欺诈模式。
 
 ```sql
-选择... FROM stream1
+选择... 选择... FROM stream1
 INNER JOIN stream1 AS stream2
 ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
