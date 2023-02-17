@@ -45,7 +45,7 @@ WHERE cpu_usage >= 99
 The above example continuously evaluates the filter expression on the new events in the table `device_utils` to filter out events
 which have `cpu_usage` less than 99. The final events will be streamed to clients.
 
-### Global Streaming Aggregation
+### Global Streaming Aggregation {#global}
 
 In Timeplus, we define global aggregation as an aggregation query without using streaming window like tumble, hop. Unlike streaming window aggregation, global streaming aggregation doesn't slice
 the unbound streaming data into windows according to timestamp, instead it processes the unbounded streaming data as one huge big global window. Due to this property, Timeplus for now can't
@@ -58,7 +58,7 @@ FROM <table_name>
 EMIT PERIODIC [<n><UNIT>]
 ```
 
-`PERIODIC <n><UNIT>` tells Timeplus to emit the aggregation periodically. `UNIT` can be s(second), m(minute),h(hour),d(day),w(week),M(month),q(quarter),y(year).`<n>` shall be an integer greater than 0.
+`PERIODIC <n><UNIT>` tells Timeplus to emit the aggregation periodically. `UNIT` can be ms(millisecond), s(second), m(minute),h(hour),d(day),w(week),M(month),q(quarter),y(year).`<n>` shall be an integer greater than 0.
 
 Examples
 
