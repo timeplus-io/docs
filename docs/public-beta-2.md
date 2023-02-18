@@ -17,8 +17,9 @@ We will update the beta version from time to time and list key enhancements in t
 
 * Enhancements
 
-  * For time-series data, you now have the option to set the time range in the Format tab.
+  * For time-series data visualization, you now have the option to set the time range in the Format tab.
   * The bar chart and column chart types are combined – simply set either horizontal or vertical chart style in the Format tab.
+  * Stream list page shows the earliest and latest event time, helping you better understand the freshness for each data stream.
   * If you start running a streaming SQL then go to another page in Timeplus console, the query will be stopped automatically. This will reduce unnecessary server workload and the number of concurrent queries.
   * Improved the performance of query results in list mode.
   * Performance tuning for [external streams](working-with-streams#external_stream) and [materialized views](view#m_view).
