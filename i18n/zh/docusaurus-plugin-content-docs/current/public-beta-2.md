@@ -17,9 +17,9 @@
 
 * 增强
 
-  * For time-series data visualization, you now have the option to set the time range in the Format tab.
+  * 对于时间序列数据的可视化，您现在可以选择在格式选项卡中设置时间范围。
   * 条形图和柱状图类型组合在一起——只需在 “格式” 选项卡中设置水平或垂直图表样式即可。
-  * Stream list page shows the earliest and latest event time, helping you better understand the freshness for each data stream.
+  * 流列表页面显示最早和最新的事件时间，帮助您更好地了解每个数据流有多新鲜。
   * 如果你开始运行流式传输 SQL 然后转到 Timeplus 控制台中的另一个页面，查询将自动停止。 这将减少不必要的服务器工作量和并发查询的数量。
   * 提高了列表模式下查询结果的性能。
   * [外部流](working-with-streams#external_stream) 和 [物化视图](view#m_view)的性能调整。
