@@ -507,7 +507,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### substr
 
-`substr(str,idx1,idx2)`
+`substr(str,index [,length])` Returns the substring of `str` from `index` (starting from 1). `length` is optional.
 
 ### trim
 
