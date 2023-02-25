@@ -507,7 +507,7 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 ### substr
 
-`substr(str,idx1,idx2)`
+`substr(str,index [,length])` Returns the substring of `str` from `index` (starting from 1). `length` is optional. 
 
 ### trim
 
