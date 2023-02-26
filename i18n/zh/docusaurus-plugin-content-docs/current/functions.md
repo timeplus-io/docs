@@ -507,7 +507,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### substr
 
-`substr(str,index [,length])` Returns the substring of `str` from `index` (starting from 1). `length` is optional.
+`substr(str,index [,length])` 返回 `str` 从 `index` 开始的子串(第一个字符的index是1)。 `length` is optional.
 
 ### trim
 
@@ -621,7 +621,7 @@ SELECT
 
 ### count
 
-`count (*)` 获取行号，或者 `count (col)` 获取行数 `coutn` 不是 `NULL`
+`count (*)` 获取满足条件的行数，或者用 `count (col)` 获取 `col` 不是 `NULL`的行数。
 
 ### count_distinct
 
