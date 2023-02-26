@@ -625,27 +625,27 @@ SELECT
 
 ### count_distinct
 
-`count_distant(col)` 获取 `列的唯一值` 列。 与 `个计数(独选一列)` 相同
+`count_distant(col)` 获取 `col` 的不同值的个数。 与 `个计数(独选一列)` 相同
 
 ### count_if
 
-`count_if(condition)` 来应用带有 `条件的筛选器` 并获取记录数量。 例如： `count_if(speed_kmh>80)`
+`count_if(condition)` 来统计符合 `condition` 的记录数。 例如： `count_if(speed_kmh>80)`
 
 ### distinct
 
-`diffent(col)`获取 `列` 列的不同值。
+`distinct(col)`获取 `col` 列的不同值。
 
 ### unique
 
-`唯一(<column_name1>[, <column_name2>, ...])`: 计算列中不同值的大致数。
+`unique(<column_name1>[, <column_name2>, ...])`: 计算某一列中（大致的）不同值。
 
 ### unique_exact
 
-`unique_exact(<column_name1>[, <column_name2>, ...])`计算列中不同值的确切数量。
+`unique_exact(<column_name1>[, <column_name2>, ...])`计算某一列中不同值的确切数量。
 
 ### unique_exact_if
 
-`唯一精确if(col, 请使用` 应用带有 `条件的过滤器` 并获取 `coll`, e. 。 获取高速的汽车 `unie_extract_if(cid,speed_kmh>80)`
+`unie_extract_if(col, condition)` 统计符合 `condition` 条件的行中 `col`的精确不同值个数。比如要找出超速行驶的车牌号 `unie_extract_if(cid,speed_kmh>80)`
 
 ### min
 
@@ -671,19 +671,19 @@ SELECT
 
 ### quantile
 
-`定量(列，级别)`计算一个大致的数值数据序列。 例如： `数量 (a,0.9)`获取列的 P90 和 `数量 (a,0.5)` 获取 [中位](functions#median) 数字
+`quantile(column,level)`计算一个大致的数值数据序列。 例如： ` quantile (a,0.9)`获取列的 P90 和 ` quantile (a,0.5)` 获取 [中位](functions#median) 数字
 
 ### p90
 
-短于 `个数量 (a,0.9)`
+简写形式的 ` quantile (a,0.9)`
 
 ### p95
 
-短于 `数量 (a,0.95)`
+简写形式的 `quantile(a,0.95)`
 
 ### p99
 
-短于 `个数量 (a,0.99)`
+简写形式的 `quantile(a,0.99)`
 
 ### top_k
 
@@ -695,11 +695,11 @@ SELECT
 
 ### min_k
 
-`min_k(<column_name>,K [,context_column])`: 列名中最小的 K 项。 返回一个数组。 您还可以添加列表，获取同行中值的更多上下文，例如 `min_k(价格，3，)。 roduct_id,last _updated)`  这将返回一个数组，每个元素作为管，比如 `[(5)。 2,'c42664',(5.12,'c42664'),(15.36,'c84068')`
+`min_k(<column_name>,K [,context_column])`: 列名中最小的 K 项。 返回一个数组。 您还可以添加列表，获取同行中值的更多上下文，例如 `min_k(price,3,product_id,last_updated)`  这将返回一个数组，每个元素作为元组，比如 `[(5.12,'c42664'),(5.12,'c42664'),(15.36,'c84068')]`
 
 ### max_k
 
-`max_k(<column_name>,K[,context_column])`: 列名中最大的 K 项。 您还可以添加列表，获取同一行中更多值的上下文，例如 `max_k(价格，3，product_id，last_updated)`
+`max_k(<column_name>,K[,context_column])`: 列名中最大的 K 项。 您还可以添加列表，获取同一行中更多值的上下文，例如 `max_k(price，3，product_id，last_updated)`
 
 ### group_array
 
@@ -707,7 +707,7 @@ SELECT
 
 ### moving_sum
 
-`moving_sum(column)` 返回一个数组与指定列的移动和和。 例如， `从下面选择移动_sum(a) (选择1为工会选择2为工会选择3为a)` 将返回[1,3,6]
+`moving_sum(column)` 返回一个数组与指定列的移动和和。 例如， `select moving_sum(a) from(select 1 as a union select 2 as a union select 3 as a)` 将返回[1,3,6]
 
 
 
@@ -715,17 +715,17 @@ SELECT
 
 ### abs
 
-`abs(值)` 返回数字的绝对值。 如果一个<，则返回 -a。
+`abs(value)` 返回数字的绝对值。 如果一个<，则返回 -a。
 
 
 
 ### round
 
-`圆形(x [,N])` 向一定数量的小数位点投射一个值。
+`round(x [,N])` 向一定数量的小数位点投射一个值。
 
-* 如果遗漏了 `N` ，我们认为N 为 0，函数将值轮到附近的整数，e。 。 `圆形(3.14)`作为 3
-* 如果 `N`>0，函数将值转到小数点的右边，例如 `圆(3.14-1)` 转为3.1
-* 如果 `N` <0，则函数将值放回小数点左边。 例如： `圆形(314.15-2)` as 300
+* 如果遗漏了 `N` ，我们认为N 为 0，函数将值轮到附近的整数，e。 。 `round(3.14)`作为 3
+* 如果 `N`>0，函数将值转到小数点的右边，例如 `round(3.14-1)` 转为3.1
+* 如果 `N` <0，则函数将值放回小数点左边。 例如： `round(314.15-2)` as 300
 
 ### e
 
@@ -838,7 +838,7 @@ SELECT
 
 ### power
 
-`功率 (x,y)`  返回 `浮点` 靠近  `x` 靠近 `y`
+`power(x,y)`  返回 `浮点` 靠近  `x` 靠近 `y`
 
 
 
@@ -850,11 +850,11 @@ SELECT
 
 ### degrees
 
-如果遗漏了 `N` ，我们认为N 为 0，函数将值轮到附近的整数，e。 。 `圆形(3.14)`作为 3
+`degrees(x)` 将以弧度为单位的输入值转换为度。 。 `圆形(3.14)`作为 3
 
 ### radians
 
-如果遗漏了 `N` ，我们认为N 为 0，函数将值轮到附近的整数，e。 。 `圆形(3.14)`作为 3
+`radians(x)` 将以度为单位的输入值转换为弧度。 。 `圆形(3.14)`作为 3
 
 ### is_finite
 
