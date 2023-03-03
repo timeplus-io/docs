@@ -6,11 +6,71 @@ Timeplus能够提供盒外流图表和仪表板以可视化实时数据和了解
 
 ## 图表
 
-在您运行查询后，您可以切换到 **VISUALIZATION** 标签，将结果转换为图表。 系统将询问您是否想要显示趋势或最新数据，或详细数据。 Timeplus将为您的大小写获取适当的图表类型。
+After you run a query, you can switch to the **Visualization** tab to turn the results as a chart. You can pick up the proper chart types for your use case.
 
-* **监控趋势**: 已创建线性图表。 您需要设置一个列包含数值的值。 时间列的三个选项：活动时间、索引时间或到达时间。 可选，您可以设置列为类别。 此类别列最多5个唯一值以显示图表中最多5行。
-* **查看最新数据**: 创建单个值图。 您需要设置一个列包含数值的值，之前的值也会显示。
-* **列出结果**: 结果的表视图。
+### Line chart
+
+The chart type that works best with time series data.a line chart is created.
+
+* Data settings:
+  * X-axis: Event Time (_tp_time), or Arrival Time(when the browser gets the data point), or a custom column.
+  * Y-axis: a custom column in numeric data types (int/float/etc)
+  * Color: by default `None` is selected. You can choose a categorical column and draw a line for each unique value of the column value in different color.
+
+* Format settings:
+  * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc)
+  * Y-axis title, min/max value, number of decimal, or prefix/suffix
+  * Whether to show grid lines
+  * Whether to show legend
+  * Whether to show data label
+
+
+### Area chart
+
+Always show a stacked area chart. Same settings as **Line Chart**.
+
+
+
+### Column chart
+
+* Data settings:
+  * X-axis: a categorical column
+  * Y-axis: a numeric column
+  * Color: whether to show grouped data in either stack mode or dodge mode.
+  * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
+
+* Format settings:
+  * X-axis title, Y-axis title, prefix/suffix, whether to show grid lines, show legend, or show data label
+
+
+### Bar chart
+
+Similar to Column chart, the only difference is data points are shown as horizontal bars instead of vertical columns. Best fit for show top-N values.
+
+### Single value chart
+
+* Data settings:
+  * choose a numeric column to show its value
+
+* Format settings:
+  * Suffix or prefix
+  * Number of decimal
+  * Font size
+  * Whether to show sparkline
+  * Whether to show delta for last value vs. the current value
+
+
+### Table
+
+Show the data as a list table.
+
+* Data settings
+  * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest row for each key value.
+  * Maximum row count.
+
+* Format settings
+  * For each column, you can choose to set column width and decimal for numeric columns.
+
 
 可以点击右边的 **添加到仪表板** 按钮将图表添加到仪表板中。
 
@@ -28,9 +88,35 @@ Timeplus能够提供盒外流图表和仪表板以可视化实时数据和了解
 
 
 
+## Dashboard filters and query variables
+
+As a new feature, you can add filters in dashboards. Here is an example if you want to list speeding vehicles.
+
+First, in the query page, to run a SQL with a fixed condition, e.g.
+
+```sql
+select * from car_live_data where speed > 80
+```
+
+Run the query and make sure it meets your need.
+
+Then you can change the fixed condition with a query variable, e.g.
+
+```sql
+select * from car_live_data where speed > {{speed_limit}}
+```
+
+The query editor will show a text input for the value of `speed_limit`. You can put a value and run the parameterized query and turn it to a visualization and add to a new dashboard or an existing dashboard.
+
+In the dashboard, you need to add a filter, either as a text input or a drop down. Define the variable id as `speed_limit`, set a label and default value. For drop down list, you can choose to load the options from a SQL (you should run a bounded queries to get distinct value, such as `select distinct cid from table(dim_car_info)`)
+
+After you save the dashboard, in the dashboard view mode, you can change the value of the filter. Those panels with SQL referring to the same variables will be re-ran.
+
+
+
 ## 与外部BI集成
 
-您可以调用 TimePlus SDK 来加载数据并通过第三方制图库渲染图表。  我们还购买实验性插件以使用redash、metase、Grafana等。
+您可以调用 TimePlus SDK 来加载数据并通过第三方制图库渲染图表。  We also built experimental plugins to work with redash, metabase, Grafana, etc.
 
 :::info
 
