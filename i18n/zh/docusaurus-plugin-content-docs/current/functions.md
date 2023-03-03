@@ -445,6 +445,14 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 *  `date_sub(HOUR, 2, now())` 将获得一个新的日期时间 2 小时
 * `date_sub(now)2h)`  也工作
 
+### earliest_timestamp
+
+`earliest_timestamp()` returns `"1970-1-1 00:00:00"`
+
+### earliest_ts
+
+`earliest_ts()` shortcut for `earliest_timestamp()`
+
 ## 处理 JSON
 
 ### json_extract
