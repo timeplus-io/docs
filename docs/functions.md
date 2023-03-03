@@ -445,6 +445,14 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 *  `date_sub(HOUR, 2, now())` will get a new datetime 2 hours back
 * `date_sub(now(),2h)`  also work
 
+### earliest_timestamp
+
+`earliest_timestamp()` returns `"1970-1-1 00:00:00"`
+
+### earliest_ts
+
+`earliest_ts()` shortcut for `earliest_timestamp()`
+
 ## Process JSON
 
 ### json_extract_int
