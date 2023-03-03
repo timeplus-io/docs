@@ -14,7 +14,7 @@ The chart type that works best with time series data.a line chart is created.
 
 * Data settings:
   * X-axis: Event Time (_tp_time), or Arrival Time(when the browser gets the data point), or a custom column.
-  * Y-axis: a custom column in numberic data types (int/float/etc)
+  * Y-axis: a custom column in numeric data types (int/float/etc)
   * Color: by default `None` is selected. You can choose a categorical column and draw a line for each unique value of the column value in different color.
 
 * Format settings:
@@ -35,17 +35,17 @@ Always show a stacked area chart. Same settings as **Line Chart**.
 
 * Data settings:
   * X-axis: a categorical column
-  * Y-axis: a numberic column
+  * Y-axis: a numeric column
   * Color: whether to show grouped data in either stack mode or dodge mode.
   * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
 
 * Format settings:
-  * X-axis title, Y-axis title, prefix/surfix, whether to show gride lines, show legend, or show data label
+  * X-axis title, Y-axis title, prefix/suffix, whether to show grid lines, show legend, or show data label
 
 
 ### Bar chart
 
-Simliar to Column chart, the only difference is data points are shown as horitiaal bars instead of vertical columns. Best fit for show top-N values.
+Similar to Column chart, the only difference is data points are shown as horizontal bars instead of vertical columns. Best fit for show top-N values.
 
 ### Single value chart
 
@@ -66,10 +66,10 @@ Show the data as a list table.
 
 * Data settings
   * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest row for each key value.
-  * Maxium row count.
+  * Maximum row count.
 
 * Format settings
-  * For each column, you can choose to set column width and decimal for numberic columns.
+  * For each column, you can choose to set column width and decimal for numeric columns.
 
 
 Charts can be added to the dashboard by click the **Add to dashboard** button on the right.
@@ -92,7 +92,7 @@ One or more panels can be added to the dashboard, with 3 options for the size:
 
 As a new feature, you can add filters in dashboards. Here is an example if you want to list speeding vehicles. 
 
-First, in the query page, to run a SQL with a fixed condition,e.g.
+First, in the query page, to run a SQL with a fixed condition, e.g.
 
 ```sql
 select * from car_live_data where speed > 80
