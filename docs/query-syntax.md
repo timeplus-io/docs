@@ -427,7 +427,7 @@ There are many types of JOIN supported in Timeplus:
 
 More details:
 
-#### LATEST JOIN
+#### INNER LATEST JOIN
 
 For example, you have created 2 append-only streams (the default stream type in Timeplus)
 
@@ -437,7 +437,7 @@ For example, you have created 2 append-only streams (the default stream type in 
 Then you start a streaming SQL
 
 ```sql
-select *, _tp_delta from left inner latest join right using(id)
+SELECT *, _tp_delta FROM left INNER LATEST JOIN right USING(id)
 ```
 
 Note:
@@ -454,4 +454,4 @@ Then you can add some events to both streams.
 | Add one event to `right` (id=100, amount=200) | (2 more rows)<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
 | Add one event to `left` (id=100, name=appl)   | (2 more rows)<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1 |
 
-If you run an aggregation function, say `count(*)` with such LATEST JOIN, the result will be always 1, no matter how many times the value with same key is changed.
+If you run an aggregation function, say `count(*)` with such INNER LATEST JOIN, the result will be always 1, no matter how many times the value with same key is changed.
