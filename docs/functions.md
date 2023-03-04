@@ -267,6 +267,10 @@ You can easily access any element in the map, just using mapName[keyName], such 
 
 Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
+### tuple_cast
+
+`tuple_cast(item1,item2)` to generate a tuple with these 2 elements. You can also use the shortcut syntax: `(item1,item2)` to create the tuple directly.
+
 ## Process Date and Time
 
 ### year
@@ -288,6 +292,10 @@ Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 ### weekday
 
 `weekday(date)` Get the current day in the week. Monday is 1. Sunday is 7.
+
+### day_of_year
+
+`day_of_year(date)` Get the number of the day of the year (1-366).
 
 ### hour
 

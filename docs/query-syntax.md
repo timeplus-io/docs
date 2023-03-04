@@ -58,7 +58,7 @@ FROM <table_name>
 EMIT PERIODIC [<n><UNIT>]
 ```
 
-`PERIODIC <n><UNIT>` tells Timeplus to emit the aggregation periodically. `UNIT` can be ms(millisecond), s(second), m(minute),h(hour),d(day),w(week),M(month),q(quarter),y(year).`<n>` shall be an integer greater than 0.
+`PERIODIC <n><UNIT>` tells Timeplus to emit the aggregation periodically. `UNIT` can be ms(millisecond), s(second), m(minute),h(hour),d(day).`<n>` shall be an integer greater than 0.
 
 Examples
 
@@ -416,3 +416,39 @@ ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
 ```
 
+There are many types of JOIN supported in Timeplus:
+
+* The common ones are `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`.
+* A speical `CROSS JOIN`, which produces the full cartesian product of the two streams without considering join keys. Each row from the left stream is combined with each row from the right stream. 
+* A special `ASOF JOIN` provides non-exact matching capabilities. This can work well if two streams with similar id, but not with exactly same timestamps.
+* A special `LATEST JOIN`.  For two append-only streams, if you use `a INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either streams, the previous join result will be cancelled and a new result will be added.
+
+
+
+More details:
+
+#### LATEST JOIN
+
+For example, you have created 2 append-only streams (the default stream type in Timeplus)
+
+* stream `left`, with two columns: id(integer), name(string)
+* stream `right`, with two columns: id(integer), amount(integer)
+
+Then you start a streaming SQL
+
+```sql
+select * from left inner latest join right using(id)
+```
+
+Note: `using(id)` is a shortcut syntax for `on left.id=right.id`
+
+Then you can add some events to both streams.
+
+| Add Data                                    | SQL Result                     | Note                                                         |
+| ------------------------------------------- | ------------------------------ | ------------------------------------------------------------ |
+| Add one event to left (id=100, name=apple)  | (no result)                    | since there is no matching row on right                      |
+| Add one event to right (id=100, amount=100) | id=100, name=apple, amount=100 |                                                              |
+| Add one event to right (id=100, amount=200) | id=100, name=apple, amount=200 | the previous result is cancelled, showing latest amount      |
+| Add one event to left (id=100, name=appl)   | id=100, name=appl, amount=200  | the previous result is cancelled, showing latest amount and name |
+
+If you run an aggregation function, say `count(*)` with such LATEST JOIN, the result will be always 1, no matter how many times the value with same key is changed.
