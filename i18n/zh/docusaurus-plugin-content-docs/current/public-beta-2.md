@@ -6,6 +6,21 @@
 
 (2023年)
 
+## 3/6
+
+* 新功能
+
+  * You can add filters in dashboards. For example, view server status for the recent 5 minutes or recent 1 hour. [Learn more.](viz#filter)
+  * Previously when you open a dashboard, you can resize panels, delete panels any time. Changes are saved automatically. While we are adding more features to the dashboard, we introduced the explicit view mode and edit mode.
+  * (Experimental) You can further decorate your dashboard with panels with [Markdown](https://en.wikipedia.org/wiki/Markdown), which you can add styled text or even images. It is disabled by default. 如果您想试用此功能，请联系我们。
+* 增强
+  * Various enhancements for each chart type. [Learn more.](viz#chart)
+  * Able to run [table()](functions#table) function for a view with streaming sql, e.g. `with c as(select col1,col2 from a_stream where b>0) select * from table(c)`  Please note the streaming SQL in the view cannot contain any aggregation. For example, you can define the field extract from a raw JSON stream as a view, then query the view either in streaming mode or in historical mode.
+  * Introduce a new function `earliest_timestamp()` to return `1970-1-1 00:00:00`(UTC) You can also call this with `earliest_ts()`. A typical usage is `select * from stream where _tp_time>earliest_ts()` to list all data in the past and future. Again, the previous syntax `settings seek_to='earliest'` has been deprecated and will be removed soon.
+  * You can also use `where _tp_time >..` multiple times in a query with JOIN/UNION, to time travel to different starting points for different streams.
+  * To improve readability, you can use numeric literals with underscores, e.g. `select * from iot where age_second > 86_400`. Underscores `_` inside numeric literals are ignored.
+  * Added a new [LATEST JOIN](query-syntax#latest-join) for streaming SQL. For two append-only streams, if you use `a LEFT INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either streams, the previous join result will be cancelled and a new result will be added.
+
 ## 2/17
 
 * 新功能
