@@ -18,5 +18,5 @@
 |              | datetime64 | '2022-05-16 11:01:02.345'            | 以毫秒为单位, 与 datetime64(3) 相同                                                                                                     | [to _time](functions#to_time), [now 64](functions#now64)           |
 | 复合类型         | array      | [1,2]                                | 通过数组访问第一个元素[1]                                                                                                                 | [length](functions#length), [array_concat](functions#array_concat) |
 |              | map        | map_cast('k1','v1','k2','v2')        | 通过 map['key1'] 访问密钥                                                                                                            | [map_cast](functions#map_cast)                                     |
-|              | tuple      | (1,2)                                | 通过 tiple1 访问第一个元素                                                                                                              |                                                                    |
+|              | tuple      | (1,2)                                | 通过 tiple1 访问第一个元素                                                                                                              | [tuple_cast](functions#tuple_cast)                                 |
 
