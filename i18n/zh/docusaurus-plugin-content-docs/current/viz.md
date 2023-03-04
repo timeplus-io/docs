@@ -88,7 +88,7 @@ Show the data as a list table.
 
 
 
-## Dashboard filters and query variables
+## Dashboard filters and query variables {#filter}
 
 As a new feature, you can add filters in dashboards. Here is an example if you want to list speeding vehicles.
 
@@ -107,6 +107,16 @@ select * from car_live_data where speed > {{speed_limit}}
 ```
 
 The query editor will show a text input for the value of `speed_limit`. You can put a value and run the parameterized query and turn it to a visualization and add to a new dashboard or an existing dashboard.
+
+:::info
+
+Please make sure the SQL syntax is correct with query variables. For example if you are filtering with a string value, you should add quote around the variable placeholder, e.g.
+
+```sql
+select * from car_live_data where cid='{{car_id}}'
+```
+
+:::
 
 In the dashboard, you need to add a filter, either as a text input or a drop down. Define the variable id as `speed_limit`, set a label and default value. For drop down list, you can choose to load the options from a SQL (you should run a bounded queries to get distinct value, such as `select distinct cid from table(dim_car_info)`)
 
