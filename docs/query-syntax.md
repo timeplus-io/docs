@@ -437,18 +437,21 @@ For example, you have created 2 append-only streams (the default stream type in 
 Then you start a streaming SQL
 
 ```sql
-select * from left inner latest join right using(id)
+select *, _tp_delta from left inner latest join right using(id)
 ```
 
-Note: `using(id)` is a shortcut syntax for `on left.id=right.id`
+Note:
+
+1.  `using(id)` is a shortcut syntax for `on left.id=right.id`
+2. _tp_delta is a special column only available in changelog stream.
 
 Then you can add some events to both streams.
 
-| Add Data                                    | SQL Result                     | Note                                                         |
-| ------------------------------------------- | ------------------------------ | ------------------------------------------------------------ |
-| Add one event to left (id=100, name=apple)  | (no result)                    | since there is no matching row on right                      |
-| Add one event to right (id=100, amount=100) | id=100, name=apple, amount=100 |                                                              |
-| Add one event to right (id=100, amount=200) | id=100, name=apple, amount=200 | the previous result is cancelled, showing latest amount      |
-| Add one event to left (id=100, name=appl)   | id=100, name=appl, amount=200  | the previous result is cancelled, showing latest amount and name |
+| Add Data                                      | SQL Result                                                   |
+| --------------------------------------------- | ------------------------------------------------------------ |
+| Add one event to `left` (id=100, name=apple)  | (no result)                                                  |
+| Add one event to `right` (id=100, amount=100) | 1. id=100, name=apple, amount=100, _tp_delta=1               |
+| Add one event to `right` (id=100, amount=200) | (2 more rows)<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
+| Add one event to `left` (id=100, name=appl)   | (2 more rows)<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1 |
 
 If you run an aggregation function, say `count(*)` with such LATEST JOIN, the result will be always 1, no matter how many times the value with same key is changed.
