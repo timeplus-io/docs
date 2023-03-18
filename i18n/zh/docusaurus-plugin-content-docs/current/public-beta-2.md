@@ -8,7 +8,7 @@
 
 ## 3/18
 
-* https://demo.timeplus.cloud is set up with built-in FinTech and GitHub live data and real-time dashboards. Any one can sign up and get the read-only access to this demo server.
+* Try out our new demo workspace, [https://demo.timeplus.cloud](https://demo.timeplus.cloud/), with built-in FinTech and GitHub live data and real-time dashboards. Sign up and get read-only access to this demo server.
 
 * 增强
   * Simplified the `LATEST JOIN` syntax. No need to write `INNER LATEST JOIN`. [Learn more](query-syntax#latest-join).
