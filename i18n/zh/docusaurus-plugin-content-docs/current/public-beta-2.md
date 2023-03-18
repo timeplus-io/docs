@@ -6,6 +6,25 @@
 
 (2023年)
 
+## 3/18
+
+* https://demo.timeplus.cloud is set up with built-in FinTech and GitHub live data and real-time dashboards. Any one can sign up and get the read-only access to this demo server.
+
+* 增强
+  * Simplified the `LATEST JOIN` syntax. No need to write `INNER LATEST JOIN`. [Learn more](query-syntax#latest-join).
+  * For historical query with `tumble` window aggregation , if there is no event in a window, such window won't be in the results. To show empty window with default value(0 for numeric types and empty string for string), you can add `order by window_start with fill step <window_size>` .
+  * Added the dependency check while deleting or renaming streams/views. If a stream or view is referred in other views, the system will show an error if you are about to delete the stream/view.
+  * Added a background check to detect the possible dead-lock of UDF, to improve system stability.
+  * Treat the webhook URL of Slack sink as credential.
+  * Auto-cleanup recent query logs if there are too many (500+).
+  * Enhanced the REST API: avoid getting statistics while listing streams or views; provide new API to get statistics for a stream or view; add more documentation/examples in the [REST API doc](https://docs.timeplus.com/rest).
+  * Show the list of dashboards on home page.
+  * Dashboard drop-down filter supports static options.
+  * Support using Markdown in the dashboard descriptions.
+  * Continuously enhanced the charting options and styles. For example, for bar charts, the labels on y-axis are no longer rotated to improve readability.
+  * Refined the sink UI and separated the productional sinks and preview-stage sinks.
+  * Added a Slack button on top-right corner to invite you to join our community slack.
+
 ## 3/6
 
 * 新功能
