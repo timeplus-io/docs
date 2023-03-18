@@ -451,7 +451,7 @@ There are many types of JOIN supported in Timeplus:
 
 More details:
 
-#### INNER LATEST JOIN
+#### LATEST JOIN {#latest-join}
 
 For example, you have created 2 append-only streams (the default stream type in Timeplus)
 
@@ -461,7 +461,7 @@ For example, you have created 2 append-only streams (the default stream type in 
 Then you start a streaming SQL
 
 ```sql
-SELECT *, _tp_delta FROM left INNER LATEST JOIN right USING(id)
+SELECT *, _tp_delta FROM left LATEST JOIN right USING(id)
 ```
 
 备注：
