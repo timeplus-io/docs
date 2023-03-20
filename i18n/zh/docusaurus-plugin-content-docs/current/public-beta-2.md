@@ -1,6 +1,6 @@
 # 公开测试版 2
 
-我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 与 [邀请制测试版1](public-beta-1)相比，大多数后端和前端更改都是递增增强。
+我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 Compared to our [Public Beta 1](public-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from https://beta.timeplus.cloud to https://us.timeplus.cloud
 
 我们将不时更新测试版，并在此页面列出关键的增强措施。
 
@@ -8,22 +8,31 @@
 
 ## 3/18
 
-* Try out our new demo workspace, [https://demo.timeplus.cloud](https://demo.timeplus.cloud/), with built-in FinTech and GitHub live data and real-time dashboards. Sign up and get read-only access to this demo server.
+Try out our new demo workspace, [https://demo.timeplus.cloud](https://demo.timeplus.cloud/), with built-in FinTech and GitHub live data and real-time dashboards. Sign up and get read-only access to this demo server.
 
-* 增强
+Enhancements:
+
+**Query**
   * Simplified the `LATEST JOIN` syntax. No need to write `INNER LATEST JOIN`. [Learn more](query-syntax#latest-join).
-  * For historical query with `tumble` window aggregation , if there is no event in a window, such window won't be in the results. To show empty window with default value(0 for numeric types and empty string for string), you can add `order by window_start with fill step <window_size>` .
-  * Added the dependency check while deleting or renaming streams/views. If a stream or view is referred in other views, the system will show an error if you are about to delete the stream/view.
-  * Added a background check to detect the possible dead-lock of UDF, to improve system stability.
-  * Treat the webhook URL of Slack sink as credential.
-  * Auto-cleanup recent query logs if there are too many (500+).
-  * Enhanced the REST API: avoid getting statistics while listing streams or views; provide new API to get statistics for a stream or view; add more documentation/examples in the [REST API doc](https://docs.timeplus.com/rest).
-  * Show the list of dashboards on home page.
+  * For historical queries with tumble window aggregation, if there is no event in a window, such window won't be in the results. To show an empty window with default value(0 for numeric types and empty string for string), you can add order by window_start with fill step <window_size> .
+  * Auto-cleanup recent query logs: if there are more than 500, older queries are removed.
+
+**仪表板**
+  * Show recent dashboards and their number of charts on the Homepage.
   * Dashboard drop-down filter supports static options.
-  * Support using Markdown in the dashboard descriptions.
+  * Dashboard descriptions now support Markdown (bold, italics, etc., and hyperlinks).
   * Continuously enhanced the charting options and styles. For example, for bar charts, the labels on y-axis are no longer rotated to improve readability.
-  * Refined the sink UI and separated the productional sinks and preview-stage sinks.
-  * Added a Slack button on top-right corner to invite you to join our community slack.
+
+**数据下游**
+  * Refined the sink dialog when sending query results to sink, separating the productional sinks and preview-stage sinks.
+  * The webhook URL of the Slack sink is now treated as a credential and hidden by default (click “Show” to reveal)
+
+**Other**
+  * Added a dependency check when you delete or rename a stream/view. If a stream or view is referred to in other views, the system will show an error when you try to delete/rename it.
+  * Added a background check to detect the possible dead-lock of UDF, to improve system stability.
+  * Enhanced the REST API: avoid getting statistics while listing streams or views; provide new API to get statistics for a stream or view; add more documentation/examples in our [REST API doc](https://docs.timeplus.com/rest).
+  * Added a Slack button to our top header menu, inviting you to join our community Slack.
+
 
 ## 3/6
 
