@@ -1,6 +1,6 @@
 # Public Beta 2
 
-We are thrilled to launch the next phase of public beta of Timeplus cloud release. Comparing to the [Public Beta 1](public-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from https://beta.timeplus.cloud to https://us.timeplus.cloud
+We are thrilled to launch the next phase of public beta of Timeplus cloud release. Compared to our [Public Beta 1](public-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from https://beta.timeplus.cloud to https://us.timeplus.cloud
 
 We will update the beta version from time to time and list key enhancements in this page.
 
