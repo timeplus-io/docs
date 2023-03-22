@@ -269,7 +269,7 @@ select
 
 ### tuple_cast
 
-`tuple_cast(item1,item2)` to generate a tuple with these 2 elements. You can also use the shortcut syntax: `(item1,item2)` to create the tuple directly.
+`tuple_cast (item1, item2)` 生成一个包含这 2 个元素的元组。 你也可以使用快捷语法： `(item1, item2)` 直接创建元组。
 
 ## 处理日期和时间
 
@@ -455,11 +455,11 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### earliest_timestamp
 
-`earliest_timestamp()` returns `"1970-1-1 00:00:00"`
+`earest_timestamp()` 返回 `"1970-1-1 00:00:00"`
 
 ### earliest_ts
 
-`earliest_ts()` shortcut for `earliest_timestamp()`
+`earliest_ts()` 是 `earliest_timestamp()`的简写方式
 
 ## 处理 JSON
 
