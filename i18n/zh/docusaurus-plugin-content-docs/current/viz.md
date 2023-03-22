@@ -6,70 +6,70 @@ Timeplus能够提供盒外流图表和仪表板以可视化实时数据和了解
 
 ## 图表
 
-After you run a query, you can switch to the **Visualization** tab to turn the results as a chart. You can pick up the proper chart types for your use case.
+在您运行查询后，您可以切换到 **VISUALIZATION** 标签，将结果转换为图表。 Timeplus将为您的大小写获取适当的图表类型。
 
-### Line chart
+### 折线图
 
-The chart type that works best with time series data.a line chart is created.
+最适合时间序列数据的图表类型。创建折线图。
 
-* Data settings:
-  * X-axis: Event Time (_tp_time), or Arrival Time(when the browser gets the data point), or a custom column.
-  * Y-axis: a custom column in numeric data types (int/float/etc)
-  * Color: by default `None` is selected. You can choose a categorical column and draw a line for each unique value of the column value in different color.
+* 数据设置：
+  * X 轴：事件时间 (_tp_time)、到达时间（浏览器获取数据点时）或自定义列。
+  * Y 轴：数字数据类型（int/float/etc）中的自定义列
+  * 颜色：默认情况下， `无` 处于选中状态。 您可以选择一个分类列，然后用不同的颜色为该列值的每个唯一值画一条线。
 
-* Format settings:
-  * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc)
-  * Y-axis title, min/max value, number of decimal, or prefix/suffix
-  * Whether to show grid lines
-  * Whether to show legend
-  * Whether to show data label
-
-
-### Area chart
-
-Always show a stacked area chart. Same settings as **Line Chart**.
+* 格式设置
+  * X 轴标题和数据范围（最近 1 分钟、最近 1 小时、所有时间等）
+  * Y 轴标题、最小值/最大值、十进制数或前缀/后缀
+  * 是否显示网格线
+  * 是否显示图例
+  * 是否显示数据标签
 
 
+### 面积图
 
-### Column chart
-
-* Data settings:
-  * X-axis: a categorical column
-  * Y-axis: a numeric column
-  * Color: whether to show grouped data in either stack mode or dodge mode.
-  * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
-
-* Format settings:
-  * X-axis title, Y-axis title, prefix/suffix, whether to show grid lines, show legend, or show data label
+始终显示堆叠面积图。 设置与 **折线图**相同。
 
 
-### Bar chart
 
-Similar to Column chart, the only difference is data points are shown as horizontal bars instead of vertical columns. Best fit for show top-N values.
+### 柱状图
 
-### Single value chart
+* 数据设置：
+  * X 轴：分类列
+  * Y 轴：数值列
+  * 颜色：是在堆栈模式还是减淡模式下显示分组数据。
+  * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
 
-* Data settings:
-  * choose a numeric column to show its value
-
-* Format settings:
-  * Suffix or prefix
-  * Number of decimal
-  * Font size
-  * Whether to show sparkline
-  * Whether to show delta for last value vs. the current value
+* 格式设置
+  * X 轴标题、Y 轴标题、前缀/后缀、是显示网格线、显示图例还是显示数据标签
 
 
-### Table
+### 条形图
 
-Show the data as a list table.
+与柱状图类似，唯一的区别是数据点显示为水平条而不是垂直列。 最适合显示前 n 个值。
 
-* Data settings
-  * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest row for each key value.
-  * Maximum row count.
+### 单值图
 
-* Format settings
-  * For each column, you can choose to set column width and decimal for numeric columns.
+* 数据设置：
+  * 选择一个数字列来显示其值
+
+* 格式设置
+  * 后缀或前缀
+  * 小数位数
+  * 字体大小
+  * 是否显示网格线
+  * 是否显示最后一个值与当前值的差值
+
+
+### 表格
+
+将数据显示为列表表。
+
+* 数据设置
+  * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
+  * 最大行数
+
+* 格式设置
+  * 对于每列，您可以选择为数字列设置列宽和十进制。
 
 
 可以点击右边的 **添加到仪表板** 按钮将图表添加到仪表板中。
@@ -88,29 +88,29 @@ Show the data as a list table.
 
 
 
-## Dashboard filters and query variables {#filter}
+## 仪表板筛选器和查询变量 {#filter}
 
-As a new feature, you can add filters in dashboards. Here is an example if you want to list speeding vehicles.
+作为一项新功能，您可以在仪表板中添加筛选器。 如果你想列出超速行驶的车辆，这里是一个例子。
 
-First, in the query page, to run a SQL with a fixed condition, e.g.
+首先，在查询页面中，使用固定条件运行 SQL，例如
 
 ```sql
 select * from car_live_data where speed > 80
 ```
 
-Run the query and make sure it meets your need.
+运行查询并确保它满足您的需求。
 
-Then you can change the fixed condition with a query variable, e.g.
+然后，您可以使用查询变量更改固定条件，例如
 
 ```sql
 select * from car_live_data where speed > {{speed_limit}}
 ```
 
-The query editor will show a text input for the value of `speed_limit`. You can put a value and run the parameterized query and turn it to a visualization and add to a new dashboard or an existing dashboard.
+查询编辑器将显示 `speed_limit` 的文本输入。 您可以输入一个值并运行参数化查询，然后将其转换为可视化并添加到新的仪表板或现有仪表板中。
 
 :::info
 
-Please make sure the SQL syntax is correct with query variables. For example if you are filtering with a string value, you should add quote around the variable placeholder, e.g.
+请确保查询变量的 SQL 语法正确。 例如，如果您使用字符串值进行过滤，则应在变量占位符周围添加引号，例如
 
 ```sql
 select * from car_live_data where cid='{{car_id}}'
@@ -118,15 +118,15 @@ select * from car_live_data where cid='{{car_id}}'
 
 :::
 
-In the dashboard, you need to add a filter, either as a text input or a drop down. Define the variable id as `speed_limit`, set a label and default value. For drop down list, you can choose to load the options from a SQL (you should run a bounded queries to get distinct value, such as `select distinct cid from table(dim_car_info)`)
+在仪表板中，你需要添加一个过滤器，要么是文本输入，要么是下拉列表。 将变量 ID 定义为 `speed_limit`，设置标签和默认值。 对于下拉列表，你可以选择从 SQL 加载选项（你应该运行有界查询以获得不同的值，例如 `select distinct cid from table(dim_car_info)`）
 
-After you save the dashboard, in the dashboard view mode, you can change the value of the filter. Those panels with SQL referring to the same variables will be re-ran.
+保存仪表板后，在仪表板视图模式下，可以更改筛选器的值。 那些带有 SQL 引用相同变量的面板将重新运行。
 
 
 
 ## 与外部BI集成
 
-您可以调用 TimePlus SDK 来加载数据并通过第三方制图库渲染图表。  We also built experimental plugins to work with redash, metabase, Grafana, etc.
+您可以调用 TimePlus SDK 来加载数据并通过第三方制图库渲染图表。  我们还开发了实验性插件来处理 redash、metabase、Grafana 等。
 
 :::info
 
