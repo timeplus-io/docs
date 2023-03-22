@@ -61,7 +61,7 @@ FROM <table_name>
 EMIT PERIODIC [<n><UNIT>]
 ```
 
-`PERIODIC <n><UNIT>` 告诉Timeplus号定期发布聚合。 `UNIT` can be ms(millisecond), s(second), m(minute),h(hour),d(day).`<n>` shall be an integer greater than 0.
+`PERIODIC <n><UNIT>` 告诉Timeplus号定期发布聚合。 `UNIT` 可以是 ms（毫秒）、s（秒）、m（分钟）、h（小时）、d（天）。`<n>` 应为大于 0 的整数。
 
 示例：
 
