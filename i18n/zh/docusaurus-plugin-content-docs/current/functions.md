@@ -267,6 +267,10 @@ select
 
 或者，您可以使用 `map_cast(key1,value1,key2,value2...)`
 
+### tuple_cast
+
+`tuple_cast (item1, item2)` 生成一个包含这 2 个元素的元组。 你也可以使用快捷语法： `(item1, item2)` 直接创建元组。
+
 ## 处理日期和时间
 
 ### year
@@ -288,6 +292,10 @@ select
 ### weekday
 
 `weekday(date)` Get the current day in the week. 星期一是 1。 星期一是 1。 星期日为7天。
+
+### day_of_year
+
+`day_of_year(date)` Get the number of the day of the year (1-366).
 
 ### hour
 
@@ -444,6 +452,14 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 *  `date_sub(HOUR, 2, now())` 将获得一个新的日期时间 2 小时
 * `date_sub(now)2h)`  也工作
+
+### earliest_timestamp
+
+`earest_timestamp()` 返回 `"1970-1-1 00:00:00"`
+
+### earliest_ts
+
+`earliest_ts()` 是 `earliest_timestamp()`的简写方式
 
 ## 处理 JSON
 

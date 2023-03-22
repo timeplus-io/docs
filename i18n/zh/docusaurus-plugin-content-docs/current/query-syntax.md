@@ -61,7 +61,7 @@ FROM <table_name>
 EMIT PERIODIC [<n><UNIT>]
 ```
 
-`PERIODIC <n><UNIT>` 告诉Timeplus号定期发布聚合。 `UNIT` 可以是 s(second), m(minute), hhour), d(day), w(week), M(week), M(month), q(quarter), y(y).`<n>` 应该是大于0的整数。
+`PERIODIC <n><UNIT>` 告诉Timeplus号定期发布聚合。 `UNIT` 可以是 ms（毫秒）、s（秒）、m（分钟）、h（小时）、d（天）。`<n>` 应为大于 0 的整数。
 
 示例：
 
@@ -440,3 +440,42 @@ ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
 ```
 
+Timeplus 支持多种类型的JOIN：
+
+* 常见是 `INNER JOIN`, `LEFT JOIN`, `Right JOIN`, `FULL JOIN`.
+* 一种特殊的 `CROSS JOIN`，它在不考虑连接键的情况下生成两个流的完整笛卡尔乘积。 左侧流中的每一行与右侧流的每一行合并在一起。
+* 特殊的 `ASOF JOIN` 提供非精确匹配功能。 如果两个直播的ID相似，但时间戳不完全相同，则可以很好地使用。
+* 特别的 `LATEST JOIN`.  对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
+
+
+
+更多细节：
+
+#### LATEST JOIN {#latest-join}
+
+例如，您创建了 2 个仅限追加的流（Timeplus 中的默认流类型）
+
+* 流 `left`，有两列：id（整数）、name（字符串）
+* 流 `right`，有两列：id（整数）、amount（整数）
+
+然后你运行流式SQL
+
+```sql
+SELECT *, _tp_delta FROM left LATEST JOIN right USING(id)
+```
+
+备注：
+
+1.  `using (id)` 是 `on left.id=right.id`的快捷语法
+2. _tp_delta 是仅在变更日志流中可用的特殊列。
+
+然后，您可以向两个流中添加一些事件。
+
+| 添加数据                               | SQL 结果                                                                                                                         |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 添加一行到 `left` (id=100, name=apple)  | 没有结果                                                                                                                           |
+| 添加一行到 `right` (id=100, amount=100) | 1. id=100, name=apple, amount=100, _tp_delta=1                                                                               |
+| 添加一行到 `right` (id=100, amount=200) | （新增2 行）<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
+| 添加一行到 `left` (id=100, name=apple)  | （新增2 行）<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1  |
+
+如果您运行一个聚合函数，使用这种LATEST JOIN, 比如 `count(*)` 结果将永远是1，无论同一键值有多少次变化。
