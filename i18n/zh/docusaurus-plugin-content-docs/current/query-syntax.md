@@ -471,11 +471,11 @@ SELECT *, _tp_delta FROM left LATEST JOIN right USING(id)
 
 然后，您可以向两个流中添加一些事件。
 
-| 添加数据                                          | SQL 结果                                                                                                                               |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| 添加一行到 `left` (id=100, name=apple)             | (no result)                                                                                                                          |
-| Add one event to `right` (id=100, amount=100) | 1. id=100, name=apple, amount=100, _tp_delta=1                                                                                     |
-| Add one event to `right` (id=100, amount=200) | (2 more rows)<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
-| Add one event to `left` (id=100, name=appl)   | (2 more rows)<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1  |
+| 添加数据                               | SQL 结果                                                                                                                         |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 添加一行到 `left` (id=100, name=apple)  | 没有结果                                                                                                                           |
+| 添加一行到 `right` (id=100, amount=100) | 1. id=100, name=apple, amount=100, _tp_delta=1                                                                               |
+| 添加一行到 `right` (id=100, amount=200) | （新增2 行）<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
+| 添加一行到 `left` (id=100, name=apple)  | （新增2 行）<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1  |
 
 如果您运行一个聚合函数，使用这种LATEST JOIN, 比如 `count(*)` 结果将永远是1，无论同一键值有多少次变化。
