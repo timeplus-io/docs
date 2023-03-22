@@ -1,6 +1,6 @@
 # 公开测试版 2
 
-我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 Compared to our [Public Beta 1](public-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from https://beta.timeplus.cloud to https://us.timeplus.cloud
+我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 相比 [公开测试版1](public-beta-1)，大多数后端和前端更改都是递增式的。
 
 我们将不时更新测试版，并在此页面列出关键的增强措施。
 
@@ -8,52 +8,52 @@
 
 ## 3/18
 
-Try out our new demo workspace, [https://demo.timeplus.cloud](https://demo.timeplus.cloud/), with built-in FinTech and GitHub live data and real-time dashboards. Sign up and get read-only access to this demo server.
+试试我们新的演示工作区 [https://demo.timeplus.cloud](https://demo.timeplus.cloud/)，里面有内置的金融科技和 GitHub 实时数据和实时仪表板。 注册并获得此演示服务器的只读访问权限。
 
-Enhancements:
+增强:
 
-**Query**
-  * Simplified the `LATEST JOIN` syntax. No need to write `INNER LATEST JOIN`. [Learn more](query-syntax#latest-join).
-  * For historical queries with tumble window aggregation, if there is no event in a window, such window won't be in the results. To show an empty window with default value(0 for numeric types and empty string for string), you can add order by window_start with fill step <window_size> .
-  * Auto-cleanup recent query logs: if there are more than 500, older queries are removed.
+**查询**
+  * 简化了 `LATEST JOIN` 语法。 没必要写 `INNER LATEST JOIN`。 [了解更多](query-syntax#latest-join).
+  * 对于使用 tumble window 聚合的历史查询，如果窗口中没有事件，则该窗口将不会出现在结果中。 要显示具有默认值的空窗口（数字类型为 0，字符串为空字符串），可以使用带 fill step 的order by window_start 来插入空窗口。 <window_size> .
+  * 自动清理最近的查询日志：如果超过 500 个，则删除较旧的查询。
 
 **仪表板**
-  * Show recent dashboards and their number of charts on the Homepage.
-  * Dashboard drop-down filter supports static options.
-  * Dashboard descriptions now support Markdown (bold, italics, etc., and hyperlinks).
-  * Continuously enhanced the charting options and styles. For example, for bar charts, the labels on y-axis are no longer rotated to improve readability.
+  * 在主页上显示最近的仪表板及其图表数量。
+  * 仪表板下拉过滤器支持静态选项。
+  * 仪表板描述现在支持 Markdown（粗体、斜体等和超链接）。
+  * 不断增强了图表选项和样式。 例如，对于条形图，不再旋转 y 轴上的标签以提高可读性。
 
 **数据下游**
-  * Refined the sink dialog when sending query results to sink, separating the productional sinks and preview-stage sinks.
-  * The webhook URL of the Slack sink is now treated as a credential and hidden by default (click “Show” to reveal)
+  * 调整了sink界面，区分生产级sink和预览行sink。
+  * Slack sink 的 webhook 网址现在被视为密码并默认处于隐藏状态（单击 “显示” 可显示）
 
-**Other**
-  * Added a dependency check when you delete or rename a stream/view. If a stream or view is referred to in other views, the system will show an error when you try to delete/rename it.
-  * Added a background check to detect the possible dead-lock of UDF, to improve system stability.
-  * Enhanced the REST API: avoid getting statistics while listing streams or views; provide new API to get statistics for a stream or view; add more documentation/examples in our [REST API doc](https://docs.timeplus.com/rest).
-  * Added a Slack button to our top header menu, inviting you to join our community Slack.
+**其他**
+  * 在删除或重命名直播/视图时添加了依赖关系检查。 如果在其他视图中引用了某个流或视图，则当您尝试删除/重命名该流或视图时，系统将显示错误。
+  * 添加了背景检查以检测 UDF 可能的死锁，以提高系统稳定性。
+  * 增强了 REST API：避免在列出流或视图时获取统计信息；提供新 API 来获取流或视图的统计信息；在我们的 [REST API 文档](https://docs.timeplus.com/rest)中添加更多文档/示例。
+  * 在我们的顶部标题菜单中添加了 Slack 按钮，邀请您加入我们的社区 Slack。
 
 
 ## 3/6
 
 * 新功能
 
-  * You can add filters in dashboards. For example, view server status for the recent 5 minutes or recent 1 hour. [Learn more.](viz#filter)
-  * Previously when you open a dashboard, you can resize panels, delete panels any time. Changes are saved automatically. While we are adding more features to the dashboard, we introduced the explicit view mode and edit mode.
-  * (Experimental) You can further decorate your dashboard with panels with [Markdown](https://en.wikipedia.org/wiki/Markdown), which you can add styled text or even images. It is disabled by default. 如果您想试用此功能，请联系我们。
+  * 您可以在仪表板中添加筛选器。 例如，查看最近 5 分钟或最近 1 小时的服务器状态。 [了解更多](viz#filter)
+  * 之前当您打开面板时，您可以随时调整面板大小，删除面板。 设置会自动保存。 我们在不断增强仪表板添加更多功能，所以决定引入了显式的视图模式和编辑模式。
+  * （实验性）你可以使用 [Markdown](https://en.wikipedia.org/wiki/Markdown)的面板进一步装饰仪表板，你可以添加样式化文本甚至图像。 可选配置，默认关闭. 如果您想试用此功能，请联系我们。
 * 增强
-  * Various enhancements for each chart type. [Learn more.](viz#chart)
-  * Able to run [table()](functions#table) function for a view with streaming sql, e.g. `with c as(select col1,col2 from a_stream where b>0) select * from table(c)`  Please note the streaming SQL in the view cannot contain any aggregation. For example, you can define the field extract from a raw JSON stream as a view, then query the view either in streaming mode or in historical mode.
-  * Introduce a new function `earliest_timestamp()` to return `1970-1-1 00:00:00`(UTC) You can also call this with `earliest_ts()`. A typical usage is `select * from stream where _tp_time>earliest_ts()` to list all data in the past and future. Again, the previous syntax `settings seek_to='earliest'` has been deprecated and will be removed soon.
-  * You can also use `where _tp_time >..` multiple times in a query with JOIN/UNION, to time travel to different starting points for different streams.
-  * To improve readability, you can use numeric literals with underscores, e.g. `select * from iot where age_second > 86_400`. Underscores `_` inside numeric literals are ignored.
-  * Added a new [LATEST JOIN](query-syntax#latest-join) for streaming SQL. For two append-only streams, if you use `a LEFT INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either streams, the previous join result will be cancelled and a new result will be added.
+  * 每种图表类型的各种增强功能。 [了解更多](viz#chart)
+  * 能够为带有流 sql 的视图运行 [table ()](functions#table) 函数，例如  `with c as(select col1,col2 from a_stream where b>0) select * from table(c)` 请注意，视图中的流 SQL 不能包含任何聚合。 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
+  * 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 ` earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
+  * 你也可以在一个包括JOIN/UNION多个流的SQL中多次使用 `where _tp_time >..` 为不同的流穿越到不同的起点。
+  * 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
+  * 为流式SQL 添加了新的 [LATEST JOIN](https://docs. timeplus. com/zh/docs/query-syntax#latest-join) 。 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
 ## 2/17
 
 * 新功能
 
-  * [全局聚合](query-syntax#global) 现在支持亚秒级的输出间隔。  e.g. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
+  * [全局聚合](query-syntax#global) 现在支持亚秒级的输出间隔。  比如. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
   * 现在，您可以创建多个物化视图来将数据写入同一个流。 此功能的典型用法是在相同的原始数据上应用多个处理逻辑，然后发送到同一个数据流以获得聚合结果。 对于物化视图，Timeplus 会维护查询的状态，这将更适合长时间运行的查询和故障恢复。
   * (实验性) 在创建新流后，您可以选择直接在控制台界面中添加少量数据，而不用通过REST API或创建源。 如果您想试用此功能，请联系我们。
   * （实验性）Timeplus 后端添加了对CDC（[Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)）的内置支持，用户界面将很快准备就绪。 您可以在不同的模式下创建数据流。 默认情况下，它是仅限追加的。 您也可以创建流来接受INSERT、UPDATE和DELETE从 [Debezium](https://debezium.io/) 的更改日志。 流式聚合结果将反映最新的数据变化。 如果您想试用此功能，请联系我们。
