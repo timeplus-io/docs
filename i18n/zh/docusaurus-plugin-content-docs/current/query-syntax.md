@@ -440,25 +440,25 @@ ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
 ```
 
-There are many types of JOIN supported in Timeplus:
+Timeplus 支持多种类型的JOIN：
 
-* The common ones are `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`.
-* A speical `CROSS JOIN`, which produces the full cartesian product of the two streams without considering join keys. Each row from the left stream is combined with each row from the right stream.
-* A special `ASOF JOIN` provides non-exact matching capabilities. This can work well if two streams with similar id, but not with exactly same timestamps.
-* A special `LATEST JOIN`.  For two append-only streams, if you use `a INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either streams, the previous join result will be cancelled and a new result will be added.
+* 常见是 `INNER JOIN`, `LEFT JOIN`, `Right JOIN`, `FULL JOIN`.
+* 一种特殊的 `CROSS JOIN`，它在不考虑连接键的情况下生成两个流的完整笛卡尔乘积。 左侧流中的每一行与右侧流的每一行合并在一起。
+* 特殊的 `ASOF JOIN` 提供非精确匹配功能。 如果两个直播的ID相似，但时间戳不完全相同，则可以很好地使用。
+* 特别的 `LATEST JOIN`.  对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
 
 
-More details:
+更多细节：
 
 #### LATEST JOIN {#latest-join}
 
-For example, you have created 2 append-only streams (the default stream type in Timeplus)
+例如，您创建了 2 个仅限追加的流（Timeplus 中的默认流类型）
 
-* stream `left`, with two columns: id(integer), name(string)
-* stream `right`, with two columns: id(integer), amount(integer)
+* 流 `left`，有两列：id（整数）、name（字符串）
+* 流 `right`，有两列：id（整数）、amount（整数）
 
-Then you start a streaming SQL
+然后你运行流式SQL
 
 ```sql
 SELECT *, _tp_delta FROM left LATEST JOIN right USING(id)
@@ -466,16 +466,16 @@ SELECT *, _tp_delta FROM left LATEST JOIN right USING(id)
 
 备注：
 
-1.  `using(id)` is a shortcut syntax for `on left.id=right.id`
-2. _tp_delta is a special column only available in changelog stream.
+1.  `using (id)` 是 `on left.id=right.id`的快捷语法
+2. _tp_delta 是仅在变更日志流中可用的特殊列。
 
-Then you can add some events to both streams.
+然后，您可以向两个流中添加一些事件。
 
-| 添加数据                                          | SQL Result                                                                                                                           |
+| 添加数据                                          | SQL 结果                                                                                                                               |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Add one event to `left` (id=100, name=apple)  | (no result)                                                                                                                          |
+| 添加一行到 `left` (id=100, name=apple)             | (no result)                                                                                                                          |
 | Add one event to `right` (id=100, amount=100) | 1. id=100, name=apple, amount=100, _tp_delta=1                                                                                     |
 | Add one event to `right` (id=100, amount=200) | (2 more rows)<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
 | Add one event to `left` (id=100, name=appl)   | (2 more rows)<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1  |
 
-If you run an aggregation function, say `count(*)` with such INNER LATEST JOIN, the result will be always 1, no matter how many times the value with same key is changed.
+如果您运行一个聚合函数，使用这种LATEST JOIN, 比如 `count(*)` 结果将永远是1，无论同一键值有多少次变化。
