@@ -2,26 +2,26 @@
 
 我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 相比 [公开测试版1](public-beta-1)，大多数后端和前端更改都是递增式的。
 
-我们将不时更新测试版，并在此页面列出关键的增强措施。
+我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
 (2023年)
 
 ## 3/18
 
-试试我们新的演示工作区 [https://demo.timeplus.cloud](https://demo.timeplus.cloud/)，里面有内置的金融科技和 GitHub 实时数据和实时仪表板。 注册并获得此演示服务器的只读访问权限。
+请试用我们最新的演示工作区 [https://demo.timeplus.cloud](https://demo.timeplus.cloud/)，里面有内置的金融科技和 GitHub 实时数据和实时仪表板。 注册并获得此演示服务器的只读访问权限。
 
-增强:
+增强功能:
 
 **查询**
-  * 简化了 `LATEST JOIN` 语法。 没必要写 `INNER LATEST JOIN`。 [了解更多](query-syntax#latest-join).
-  * 对于使用 tumble window 聚合的历史查询，如果窗口中没有事件，则该窗口将不会出现在结果中。 要显示具有默认值的空窗口（数字类型为 0，字符串为空字符串），可以使用带 fill step 的order by window_start 来插入空窗口。 <window_size> .
+  * 简化了 `LATEST JOIN` 语法。 无须写 `INNER LATEST JOIN`。 [点击此处，了解更多](query-syntax#latest-join).
+  * 对于使用 tumble window 聚合的历史查询，如果窗口中没有事件，则该窗口将不会出现在结果中。 若要显示具有默认值的空窗口（数字类型为 0，字符串为空字符串），可以使用带 fill step 的order by window_start 来插入空窗口。 <window_size> .
   * 自动清理最近的查询日志：如果超过 500 个，则删除较旧的查询。
 
 **仪表板**
   * 在主页上显示最近的仪表板及其图表数量。
   * 仪表板下拉过滤器支持静态选项。
   * 仪表板描述现在支持 Markdown（粗体、斜体等和超链接）。
-  * 不断增强了图表选项和样式。 例如，对于条形图，不再旋转 y 轴上的标签以提高可读性。
+  * 不断优化的图表选项和样式。 例如，条形图无须再旋转 y 轴上的标签，从而提高可读性。
 
 **数据下游**
   * 调整了sink界面，区分生产级sink和预览行sink。
@@ -29,8 +29,8 @@
 
 **其他**
   * 在删除或重命名直播/视图时添加了依赖关系检查。 如果在其他视图中引用了某个流或视图，则当您尝试删除/重命名该流或视图时，系统将显示错误。
-  * 添加了背景检查以检测 UDF 可能的死锁，以提高系统稳定性。
-  * 增强了 REST API：避免在列出流或视图时获取统计信息；提供新 API 来获取流或视图的统计信息；在我们的 [REST API 文档](https://docs.timeplus.com/rest)中添加更多文档/示例。
+  * 添加了后台检查以检测 UDF 可能的死锁，以提高系统稳定性。
+  * 增强了 REST API：避免在列出流或视图时获取统计信息；提供新 API 来获取流或视图的统计信息；已在我们的 [REST API 文档](https://docs.timeplus.com/rest)中添加更多文档/示例。
   * 在我们的顶部标题菜单中添加了 Slack 按钮，邀请您加入我们的社区 Slack。
 
 
@@ -40,9 +40,9 @@
 
   * 您可以在仪表板中添加筛选器。 例如，查看最近 5 分钟或最近 1 小时的服务器状态。 [了解更多](viz#filter)
   * 之前当您打开面板时，您可以随时调整面板大小，删除面板。 设置会自动保存。 我们在不断增强仪表板添加更多功能，所以决定引入了显式的视图模式和编辑模式。
-  * （实验性）你可以使用 [Markdown](https://en.wikipedia.org/wiki/Markdown)的面板进一步装饰仪表板，你可以添加样式化文本甚至图像。 可选配置，默认关闭. 如果您想试用此功能，请联系我们。
-* 增强
-  * 每种图表类型的各种增强功能。 [了解更多](viz#chart)
+  * （实验性）你可以使用 [Markdown](https://en.wikipedia.org/wiki/Markdown)的面板进一步装饰仪表板，你可以添加样式化文本甚至图像。 可选配置，默认情况下关闭. 如果您想试用此功能，请联系我们。
+* 增强功能
+  * 增强并优化每种图表类型的各种功能。 [了解更多](viz#chart)
   * 能够为带有流 sql 的视图运行 [table ()](functions#table) 函数，例如  `with c as(select col1,col2 from a_stream where b>0) select * from table(c)` 请注意，视图中的流 SQL 不能包含任何聚合。 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
   * 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 ` earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
   * 你也可以在一个包括JOIN/UNION多个流的SQL中多次使用 `where _tp_time >..` 为不同的流穿越到不同的起点。
@@ -58,7 +58,7 @@
   * (实验性) 在创建新流后，您可以选择直接在控制台界面中添加少量数据，而不用通过REST API或创建源。 如果您想试用此功能，请联系我们。
   * （实验性）Timeplus 后端添加了对CDC（[Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)）的内置支持，用户界面将很快准备就绪。 您可以在不同的模式下创建数据流。 默认情况下，它是仅限追加的。 您也可以创建流来接受INSERT、UPDATE和DELETE从 [Debezium](https://debezium.io/) 的更改日志。 流式聚合结果将反映最新的数据变化。 如果您想试用此功能，请联系我们。
 
-* 增强
+* 增强功能
 
   * 对于时间序列数据的可视化，您现在可以选择在格式选项卡中设置时间范围。
   * 条形图和柱状图类型组合在一起——只需在 “格式” 选项卡中设置水平或垂直图表样式即可。
