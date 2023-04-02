@@ -717,6 +717,14 @@ SELECT
 
 `max_k(<column_name>,K[,context_column])`: 列名中最大的 K 项。 您还可以添加列表，获取同一行中更多值的上下文，例如 `max_k(price，3，product_id，last_updated)`
 
+### arg_min
+
+`arg_min(argument, value_column)` Gets the value in `arugment` column for a minimal value in `value_column`. If there are several different values of `argument` for minimal values of `value_column`, returns the first of these values encountered. You can achieve the same query with `min_k(value_column,1, argument)[1].2`. But this is much easier.
+
+### arg_max
+
+`arg_max(argument, value_column)` Gets the value in `arugment` column for a maximum value in `value_column`. If there are several different values of `argument` for maximum values of `value_column`, returns the first of these values encountered. You can achieve the same query with `max_k(value_column,1, argument)[1].2`. But this is much easier.
+
 ### group_array
 
 `group_array(<column_name>)` 来合并特定列作为数组的值。 例如，如果有三行，此列的值是“a","b","c"。 此函数将生成单行和单列，值 `['a','b','c']`
