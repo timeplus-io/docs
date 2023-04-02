@@ -718,6 +718,14 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 `max_k(<column_name>,K[,context_column])`: The greatest K items in column_name. You can also add a list of columns to get more context of the values in same row, such as `max_k(price,3,product_id,last_updated)` 
 
+### arg_min
+
+`arg_min(argument, value_column)` Gets the value in `arugment` column for a minimal value in `value_column`. If there are several different values of `argument` for minimal values of `value_column`, returns the first of these values encountered. You can achieve the same query with `min_k(value_column,1, argument)[1].2 `. But this is much easier.
+
+### arg_max
+
+`arg_max(argument, value_column)` Gets the value in `arugment` column for a maximum value in `value_column`. If there are several different values of `argument` for maximum values of `value_column`, returns the first of these values encountered. You can achieve the same query with `max_k(value_column,1, argument)[1].2 `. But this is much easier.
+
 ### group_array
 
 `group_array(<column_name>)` to combine the values of the specific column as an array. For example, if there are 3 rows and the values for this columns are "a","b","c". This function will generate a single row and single column with value `['a','b','c']`

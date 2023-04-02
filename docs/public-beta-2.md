@@ -6,6 +6,23 @@ We will update the beta version from time to time and list key enhancements in t
 
 (in year 2023)
 
+## 4/3
+
+**Streaming Database and SQL**
+
+* Added 2 new functions [arg_min](functions#arg_min) and [arg_max](functions#arg_max). With them, you can quickly locate the row with the minimal or maximum value for one column and get the value for the specific column. To access more rows or columns, please use [min_k](functions#min_k) and [max_k](functions#max_k).
+* (Experimental) In addition to the append-only data streams, now you can create streams with mutations and versions. Contact us if you want to try this feature.
+
+**Dashboards**
+
+  * Conditional formatting is supported in table visualizations. You can highlight the cell or entire row if the value meets a certain condition, such as speed > 80, or is_risky=true. The condition is evaluated in the browser, not via SQL.
+  * Also in table visualizations, if you set the "Update Mode" as "By Key", then you can turn on trend color. For example, when you show the live prices for a set of stocks, if the price for symbol1 increases, the number will be shown in green (configurable) color with an 🔼  icon.
+
+**Others**
+
+  * Updated the source creation UI. The tiles are now smaller so that we can add more data sources in next a few releases. "Confluent Cloud" source is moved to the top level. Kafka and Confluent Cloud wizards are redesigned to provide more intuitive configuration experience. 
+  * Updated the navigation menu. A few features are put at top levels: External Streams, Materialized Views, User-Defined Functions.
+
 ## 3/18
 
 Try out our new demo workspace, [https://demo.timeplus.cloud](https://demo.timeplus.cloud/), with built-in FinTech and GitHub live data and real-time dashboards. Sign up and get read-only access to this demo server.
@@ -13,6 +30,7 @@ Try out our new demo workspace, [https://demo.timeplus.cloud](https://demo.timep
 Enhancements:
 
 **Query**
+
   * Simplified the `LATEST JOIN` syntax. No need to write `INNER LATEST JOIN`. [Learn more](query-syntax#latest-join).
   * For historical queries with tumble window aggregation, if there is no event in a window, such window won't be in the results. To show an empty window with default value(0 for numeric types and empty string for string), you can add order by window_start with fill step <window_size> .
   * Auto-cleanup recent query logs: if there are more than 500, older queries are removed. 
