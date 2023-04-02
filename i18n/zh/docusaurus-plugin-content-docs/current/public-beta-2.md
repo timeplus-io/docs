@@ -6,6 +6,23 @@
 
 (2023年)
 
+## 4/3
+
+**Streaming Database and SQL**
+
+* Added 2 new functions [arg_min](functions#arg_min) and [arg_max](functions#arg_max). With them, you can quickly locate the row with the minimal or maximum value for one column and get the value for the specific column. To access more rows or columns, please use [min_k](functions#min_k) and [max_k](functions#max_k).
+* (Experimental) In addition to the append-only data streams, now you can create streams with mutations and versions. 如果您想试用此功能，请联系我们。
+
+**Dashboards**
+
+  * Conditional formatting is supported in table visualizations. You can highlight the cell or entire row if the value meets a certain condition, such as speed > 80, or is_risky=true. The condition is evaluated in the browser, not via SQL.
+  * Also in table visualizations, if you set the "Update Mode" as "By Key", then you can turn on trend color. For example, when you show the live prices for a set of stocks, if the price for symbol1 increases, the number will be shown in green (configurable) color with an 🔼  icon.
+
+**Others**
+
+  * Updated the source creation UI. The tiles are now smaller so that we can add more data sources in next a few releases. "Confluent Cloud" source is moved to the top level. Kafka and Confluent Cloud wizards are redesigned to provide more intuitive configuration experience.
+  * Updated the navigation menu. A few features are put at top levels: External Streams, Materialized Views, User-Defined Functions.
+
 ## 3/18
 
 请试用我们最新的演示工作区 [https://demo.timeplus.cloud](https://demo.timeplus.cloud/)，里面有内置的金融科技和 GitHub 实时数据和实时仪表板。 注册并获得此演示服务器的只读访问权限。
@@ -13,6 +30,7 @@
 增强功能:
 
 **查询**
+
   * 简化了 `LATEST JOIN` 语法。 无须写 `INNER LATEST JOIN`。 [点击此处，了解更多](query-syntax#latest-join).
   * 对于使用 tumble window 聚合的历史查询，如果窗口中没有事件，则该窗口将不会出现在结果中。 若要显示具有默认值的空窗口（数字类型为 0，字符串为空字符串），可以使用带 fill step 的order by window_start 来插入空窗口。 <window_size> .
   * 自动清理最近的查询日志：如果超过 500 个，则删除较旧的查询。
