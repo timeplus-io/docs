@@ -15,10 +15,10 @@ We will update the beta version from time to time and list key enhancements in t
 
 **Dashboards**
 
-  * Conditional formatting is now supported in table visualizations. You can highlight a cell or an entire row if the value meets a certain condition you've set, such as speed > 80, or is_risky=true. Conditions are set in the "Format" tab in the UI, not via SQL.
-  * Also in table visualizations, if you set the "Update Mode" as "By Key", then you can turn on trend colors. For example, when you show the live prices for a set of stocks, if the price for symbol increases, the delta number will be shown in green with an 🔼 icon. You can also configure the color of the delta number.
+  * Conditional formatting is now supported in table visualizations. You can highlight a cell or an entire row if the value meets a certain condition you've set, such as speed > 80, or is_risky=true. The condition is evaluated in the browser, not on the server side (not via SQL). 
+  * Also in table visualizations, if you set the "Update Mode" as "By Key", then you can turn on trend colors. For example, when you show the live prices for a set of stocks, if the price for a symbol increases, the delta number will be shown in green with an 🔼 icon. You can also configure the color of the delta number.
 
-**Other**
+**Other Enhancements**
 
   * Updated the Source list page: source tiles are now smaller as we prepare to add more in the next few releases.
   * "Apache Kafka" and "Confluent Cloud" wizards have been redesigned to provide a more intuitive configuration experience. 
