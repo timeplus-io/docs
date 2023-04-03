@@ -719,11 +719,11 @@ SELECT
 
 ### arg_min
 
-`arg_min(argument, value_column)` 获取最小的 `value_column`所在行的 `arugment` 列的值。 如果在 `value_column`的最小值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+`arg_min(argument, value_column)` Gets the value in `argument` column for a minimal value in `value_column`. 如果在 `value_column`的最小值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### arg_max
 
-`arg_max(argument, value_column)` 获取最大的 `value_column`所在行的 `arugment` 列的值。 如果在 `value_column`的最大值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+`arg_max(argument, value_column)` Gets the value in `argument` column for a maximum value in `value_column`. 如果在 `value_column`的最大值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### group_array
 
