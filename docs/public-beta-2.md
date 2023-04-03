@@ -10,18 +10,19 @@ We will update the beta version from time to time and list key enhancements in t
 
 **Streaming Database and SQL**
 
-* Added 2 new functions [arg_min](functions#arg_min) and [arg_max](functions#arg_max). With them, you can quickly locate the row with the minimal or maximum value for one column and get the value for the specific column. To access more rows or columns, please use [min_k](functions#min_k) and [max_k](functions#max_k).
-* (Experimental) In addition to the append-only data streams, now you can create streams with mutations and versions. Contact us if you want to try this feature.
+* Added 2 new functions: [arg_min](functions#arg_min) and [arg_max](functions#arg_max). With them, you can quickly locate the row with the minimum or maximum value for one column, and get the value for the specific column. To access more rows or columns, please use [min_k](functions#min_k) and [max_k](functions#max_k).
+* (Experimental) In addition to the default append-only data streams, you can now create streams with mutations and versions. Contact us if you want to try this feature.
 
 **Dashboards**
 
-  * Conditional formatting is supported in table visualizations. You can highlight the cell or entire row if the value meets a certain condition, such as speed > 80, or is_risky=true. The condition is evaluated in the browser, not via SQL.
-  * Also in table visualizations, if you set the "Update Mode" as "By Key", then you can turn on trend color. For example, when you show the live prices for a set of stocks, if the price for symbol1 increases, the number will be shown in green (configurable) color with an 🔼  icon.
+  * Conditional formatting is now supported in table visualizations. You can highlight a cell or an entire row if the value meets a certain condition you've set, such as speed > 80, or is_risky=true. Conditions are set in the "Format" tab in the UI, not via SQL.
+  * Also in table visualizations, if you set the "Update Mode" as "By Key", then you can turn on trend colors. For example, when you show the live prices for a set of stocks, if the price for symbol increases, the delta number will be shown in green with an 🔼 icon. You can also configure the color of the delta number.
 
-**Others**
+**Other**
 
-  * Updated the source creation UI. The tiles are now smaller so that we can add more data sources in next a few releases. "Confluent Cloud" source is moved to the top level. Kafka and Confluent Cloud wizards are redesigned to provide more intuitive configuration experience. 
-  * Updated the navigation menu. A few features are put at top levels: External Streams, Materialized Views, User-Defined Functions.
+  * Updated the Source list page: source tiles are now smaller as we prepare to add more in the next few releases.
+  * "Apache Kafka" and "Confluent Cloud" wizards have been redesigned to provide a more intuitive configuration experience. 
+  * Updated the navigation menu. A few features are now at top levels: External Streams, Materialized Views, and User-Defined Functions.
 
 ## 3/18
 
