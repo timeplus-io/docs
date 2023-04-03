@@ -295,7 +295,7 @@ select
 
 ### day_of_year
 
-`day_of_year(date)` 获取这一天在改年中的天数 (1-366)。
+`day_of_year(date)` 获取这一天在该年中的天数 (1-366)。
 
 ### hour
 
