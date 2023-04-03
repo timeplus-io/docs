@@ -8,21 +8,21 @@
 
 ## 4/3
 
-**Streaming Database and SQL**
+**流数据库和流式SQL**
 
-* Added 2 new functions: [arg_min](functions#arg_min) and [arg_max](functions#arg_max). With them, you can quickly locate the row with the minimum or maximum value for one column, and get the value for the specific column. To access more rows or columns, please use [min_k](functions#min_k) and [max_k](functions#max_k).
-* (Experimental) In addition to the default append-only data streams, you can now create streams with mutations and versions. 如果您想试用此功能，请联系我们。
+* 添加了 2 个新函数： [arg_min](functions#arg_min) 和 [arg_max](functions#arg_max)。 使用它们，您可以快速找到关于某一列最小值或最大值的行，然后获取特定列的值。 要访问更多行或列，请使用 [min_k](functions#min_k) 和 [max_k](functions#max_k)。
+* （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 如果您想试用此功能，请联系我们。
 
-**Dashboards**
+**图表和仪表盘**
 
-  * Conditional formatting is now supported in table visualizations. You can highlight a cell or an entire row if the value meets a certain condition you've set, such as speed > 80, or is_risky=true. The condition is evaluated in the browser, not on the server side (not via SQL).
-  * Also in table visualizations, if you set the "Update Mode" as "By Key", then you can turn on trend colors. For example, when you show the live prices for a set of stocks, if the price for a symbol increases, the delta number will be shown in green with an 🔼 icon. You can also configure the color of the delta number.
+  * 表格可视化支持条件格式化。 如果值符合您设定的特定条件，例如速度 > 80，或is_risky=true，您可以高亮单元格或整个一行。 该条件在浏览器中评估，而不是在通过SQL在服务器端执行。
+  * 同样在表格可视化中，如果您将 “更新模式” 设置为 “按键”，则可以开启趋势颜色。 例如，当您显示一组股票的实时价格时，如果某个交易品种的价格上涨，则增量数字将显示为带有 🔼 图标的绿色。 您也可以配置数字变化的颜色。
 
-**Other Enhancements**
+**其他改进**
 
-  * Updated the Source list page: source tiles are now smaller as we prepare to add more in the next few releases.
-  * "Apache Kafka" and "Confluent Cloud" wizards have been redesigned to provide a more intuitive configuration experience.
-  * Updated the navigation menu. A few features are now at top levels: External Streams, Materialized Views, and User-Defined Functions.
+  * 更新了数据源列表页面：我们缩小了每个数据源方块的大小，这样方便我们在接下来的几个版本中添加更多源文件。
+  * Apache Kafka 和 Confluent Cloud 向导已经过重新设计，以提供更直观的配置体验。
+  * 更新了导航菜单。 一些功能现在处于顶层：外部流、物化视图和用户定义的函数。
 
 ## 3/18
 
