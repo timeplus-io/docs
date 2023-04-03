@@ -720,11 +720,11 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 ### arg_min
 
-`arg_min(argument, value_column)` Gets the value in `arugment` column for a minimal value in `value_column`. If there are several different values of `argument` for minimal values of `value_column`, returns the first of these values encountered. You can achieve the same query with `min_k(value_column,1, argument)[1].2 `. But this is much easier.
+`arg_min(argument, value_column)` Gets the value in `argument` column for a minimal value in `value_column`. If there are several different values of `argument` for minimal values of `value_column`, returns the first of these values encountered. You can achieve the same query with `min_k(value_column,1, argument)[1].2 `. But this is much easier.
 
 ### arg_max
 
-`arg_max(argument, value_column)` Gets the value in `arugment` column for a maximum value in `value_column`. If there are several different values of `argument` for maximum values of `value_column`, returns the first of these values encountered. You can achieve the same query with `max_k(value_column,1, argument)[1].2 `. But this is much easier.
+`arg_max(argument, value_column)` Gets the value in `argument` column for a maximum value in `value_column`. If there are several different values of `argument` for maximum values of `value_column`, returns the first of these values encountered. You can achieve the same query with `max_k(value_column,1, argument)[1].2 `. But this is much easier.
 
 ### group_array
 
