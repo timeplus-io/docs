@@ -295,7 +295,7 @@ select
 
 ### day_of_year
 
-`day_of_year(date)` Get the number of the day of the year (1-366).
+`day_of_year(date)` 获取这一天在该年中的天数 (1-366)。
 
 ### hour
 
@@ -523,7 +523,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### substr
 
-`substr(str,index [,length])` 返回 `str` 从 `index` 开始的子串(第一个字符的index是1)。 `length` is optional.
+`substr(str,index [,length])` 返回 `str` 从 `index` 开始的子串(第一个字符的index是1)。 `length` 是可选的。
 
 ### trim
 
@@ -716,6 +716,14 @@ SELECT
 ### max_k
 
 `max_k(<column_name>,K[,context_column])`: 列名中最大的 K 项。 您还可以添加列表，获取同一行中更多值的上下文，例如 `max_k(price，3，product_id，last_updated)`
+
+### arg_min
+
+`arg_min(argument, value_column)` 获取最小的 `value_column`所在行的 `arugment` 列的值。 如果在 `value_column`的最小值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+
+### arg_max
+
+`arg_max(argument, value_column)` 获取最大的 `value_column`所在行的 `arugment` 列的值。 如果在 `value_column`的最大值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### group_array
 
