@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 通过REST API 将数据推送到 Timeplus
 
 作为通用解决方案，您可以使用任何首选语言调用 ingestion REST API 将数据推送到 Timeplus。 借助Ingest API的最新增强，在许多情况下，您可以将其他系统配置为通过 webhook 将数据直接推送到 Timeplus，而无需编写代码。
@@ -48,6 +51,56 @@ Here are a list of different use cases to push data to Timeplus:
 
 
 #### 1) Push JSON objects directly {#option1}
+Request samples
+<Tabs defaultValue="curl">
+  <TabItem value="js" label="Node.js" default>
+
+```js
+const https = require('https');
+const options = {
+  hostname: 'us.timeplus.cloud',
+  path: '/ws123456/api/v1beta1/streams/foo/ingest?format=streaming',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-ndjson',
+    'X-Api-Key': '<your_api_key>'
+  }
+};
+
+const data = `
+{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+`
+const request=https.request(options, (resp) => {
+});
+request.on('error', (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
+```
+
+  </TabItem>
+  <TabItem value="curl" label="curl">
+
+```bash
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: application/x-ndjson" \
+https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=streaming \
+-d '
+{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+' 
+```
+
+  </TabItem>
+  <TabItem value="py" label="Python">
+    This is a banana 🍌
+  </TabItem>
+  <TabItem value="java" label="Java">
+    This is a banana 🍌
+  </TabItem>
+</Tabs>
 
 你可以将换行符分隔的 JSON (http://ndjson.org/) 推送到终端节点。 确保将 HTTP 标头设置为以下选项之一：
 * `application/x-ndjson`
@@ -89,6 +142,52 @@ Here are a list of different use cases to push data to Timeplus:
 只要确保在请求正文中使用正确的值指定目标流中的所有列即可。
 
 #### 2) Push a single JSON or string to a single column stream {#option2}
+Request samples
+<Tabs defaultValue="curl">
+  <TabItem value="js" label="Node.js" default>
+
+```js
+const https = require('https');
+const options = {
+  hostname: 'us.timeplus.cloud',
+  path: '/ws123456/api/v1beta1/streams/foo/ingest?format=raw',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'text/plain',
+    'X-Api-Key': '<your_api_key>'
+  }
+};
+
+const data = `{"key1": "value11", "key2": "value12"}`
+const request=https.request(options, (resp) => {
+});
+request.on('error', (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
+```
+
+  </TabItem>
+  <TabItem value="curl" label="curl">
+
+```bash
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: text/plain" \
+https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw \
+-d '
+{"key1": "value11", "key2": "value12"}
+' 
+```
+
+  </TabItem>
+  <TabItem value="py" label="Python">
+    This is a banana 🍌
+  </TabItem>
+  <TabItem value="java" label="Java">
+    This is a banana 🍌
+  </TabItem>
+</Tabs>
 
 It's a common pratice to create a stream in Timeplus with a single `string` column, called `raw` You can put JSON objects in this column then extract value (such as `select raw:key1`), or put the raw log message in this column.
 
