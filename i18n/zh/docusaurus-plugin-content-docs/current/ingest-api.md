@@ -20,24 +20,34 @@
 
 ## 向 Timeplus 发送数据
 
+### Endpoint
+
 实时数据推送的API endpoint是 `https://cloud.timeplus.com.cn/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
-你需要向这个地址发送 `POST` 请求，例如 `https://cloud.timeplus.com.cn/ws123/api/v1beta1/streams/foo/ingest`
+:::info
+
+Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is readonly but we will make it editable in the future.
+
+:::
+
+You need to send `POST` request to this endpoint, e.g. `https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest`
 
 ### 选项
 
-根据您的用例，有很多方法可以通过 REST API 将数据推送到 Timeplus：
+Depending on your use cases, there are many options to push data to Timeplus via REST API. You can set different `Content-Type` in the HTTP Header, and add the `format` query parameter in the URL.
 
-| 应用场景                            | 样本POST请求内容                                                                                                                                                            | Content-Type                                                             | URL                                    |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------- |
-| 一次推送多个 JSON 对象。 每个 JSON 都是一个事件。 | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                                     | `application/x-ndjson` 或`application/vnd.timeplus+json;format=streaming` | ingest?format=streaming                |
-| 推送单个 JSON 或长文本。 单个事件            | {"key1": "value11", "key2": "value12", ...}                                                                                                                           | `text/plain`                                                             | ingest?format=raw                      |
-| 一次推送多个事件。 每行都是一个事件。             | event1<br/>event2                                                                                                                                               | `text/plain`                                                             | ingest?format=lines                    |
-| 推送一个特殊格式的JSON，包含多个事件，但无需重复列名    | { <br/>  "columns": ["key1","key2"],<br/>  "data": [ <br/>    ["value11","value12"],<br/>    ["value21","value22"],<br/>  ]<br/>} | `application/json`                                                       | ingest?format=compact 或者直接用无参数的 ingest |
+Here are a list of different use cases to push data to Timeplus:
+
+| 应用场景                                                                          | 样本POST请求内容                                                                                                                                                            | Content-Type           | URL                                    | Columns in the target stream      |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | -------------------------------------- | --------------------------------- |
+| 1) Push JSON objects. 每个 JSON 都是一个事件。                                         | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                                     | `application/x-ndjson` | ingest?format=streaming                | multiple columns, e.g. key1, key2 |
+| 2) Push a single JSON or a long text. 单个事件                                    | {"key1": "value11", "key2": "value12", ...}                                                                                                                           | `text/plain`           | ingest?format=raw                      | single column, named `raw`        |
+| 3) Push a batch of events. 每行都是一个事件。                                          | event1<br/>event2                                                                                                                                               | `text/plain`           | ingest?format=lines                    | single column, named `raw`        |
+| 4) Push a special JSON with mutiple events, without repeating the column name | { <br/>  "columns": ["key1","key2"],<br/>  "data": [ <br/>    ["value11","value12"],<br/>    ["value21","value22"],<br/>  ]<br/>} | `application/json`     | ingest?format=compact 或者直接用无参数的 ingest | multiple columns, e.g. key1, key2 |
 
 
 
-### 直接推送 JSON 对象
+#### 1) Push JSON objects directly {#option1}
 
 你可以将换行符分隔的 JSON (http://ndjson.org/) 推送到终端节点。 确保将 HTTP 标头设置为以下选项之一：
 * `application/x-ndjson`
@@ -78,16 +88,17 @@
 
 只要确保在请求正文中使用正确的值指定目标流中的所有列即可。
 
-### 将数据推送到一个仅含一列的数据流
+#### 2) Push a single JSON or string to a single column stream {#option2}
 
-在 Timeplus 中使用单个 `string` 列创建流是一种常见的做法，名为 `raw` 。 您可以将 JSON 对象放入此列然后提取值，或者将原始日志消息放入此列。
+It's a common pratice to create a stream in Timeplus with a single `string` column, called `raw` You can put JSON objects in this column then extract value (such as `select raw:key1`), or put the raw log message in this column.
 
-如果您将Content-Type 头设置为 `text/plan`, 那么取决于URL, Timeplus可以将整个POST 消息视为单个事件或每一行事件。 无论哪种情况，数据都将放入 `raw` 列中。 如果您必须以不同的方式创建列名，请联系我们寻求支持。
+When you set Content-Type header to `text/plain`, and add `format=raw` to the ingestion endpoint, the entire body in the POST request will be put in the `raw` column.
 
-* 如果 URL 以 `ingest?format=raw`结尾，那么 POST 请求中的整个正文将放在 `raw` 列中。
-* 如果URL以 `ingest?format=lines`结尾，那么POST body 中的每一行都将被放置在 `原始` 列。
+#### 3) Push multiple JSON or text to a single column stream. Each line is an event {#option3}
 
-### 在不重复列的情况下推送数据
+When you set Content-Type header to `text/plain`, and add `format=lines` to the ingestion endpoint, the each line in the POST body will be put in the `raw` column.
+
+#### 4) Push  multiple events in a batch  without repeating the columns {#option4}
 
 上述方法应该适用于大多数系统集成。  但是，将在请求的正文中反复提及列名。
 
