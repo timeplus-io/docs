@@ -95,7 +95,24 @@ https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=streami
 
   </TabItem>
   <TabItem value="py" label="Python">
-    This is a banana 🍌
+
+```python
+from timeplus import Stream, Environment
+
+env = Environment().address("https://us.timeplus.cloud/ws123456").apikey("api_key")
+
+try:
+    stream = Stream(env=env).name("foo").get()
+    payload = """
+{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+    """
+
+    stream.ingest(payload=payload, format="streaming")
+except Exception as e:
+    ..
+```
+
   </TabItem>
   <TabItem value="java" label="Java">
     This is a banana 🍌
@@ -182,7 +199,23 @@ https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw \
 
   </TabItem>
   <TabItem value="py" label="Python">
-    This is a banana 🍌
+
+```python
+from timeplus import Stream, Environment
+
+env = Environment().address("https://us.timeplus.cloud/ws123456").apikey("api_key")
+
+try:
+    stream = Stream(env=env).name("foo").get()
+    payload = """
+{"key1": "value11", "key2": "value12"}
+    """
+
+    stream.ingest(payload=payload, format="raw")
+except Exception as e:
+    ..
+```
+
   </TabItem>
   <TabItem value="java" label="Java">
     This is a banana 🍌
