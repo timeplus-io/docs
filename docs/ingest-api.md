@@ -237,24 +237,59 @@ https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw \
   <TabItem value="py" label="Python">
 
 ```python
-from timeplus import Stream, Environment
+import requests
 
-env = Environment().address("https://us.timeplus.cloud/ws123456").apikey("api_key")
-
-try:
-    stream = Stream(env=env).name("foo").get()
-    payload = """
+url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "text/plain"
+}
+data = '''\
 {"key1": "value11", "key2": "value12"}
-    """
+'''
 
-    stream.ingest(payload=payload, format="raw")
-except Exception as e:
-    ..
+response = requests.post(url, headers=headers, data=data)
+
+print(response.status_code)
+print(response.text)
 ```
 
   </TabItem>
   <TabItem value="java" label="Java">
-    This is a banana 🍌
+
+```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = "{\"key1\": \"value11\", \"key2\": \"value12\"}";
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "text/plain")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
   </TabItem>
 </Tabs>
 
