@@ -35,7 +35,7 @@ You need to create an API key to access Timeplus REST API. To do so:
 3. Choose the 2nd tab **API Key Management**
 4. Click the **Create API Key** button
 5. Set a readable name and choose an expiration date
-6. Save the API key securely in your computer. You are not going to retreive the plain text key again in the console.
+6. Save the API key securely in your computer. You are not going to retrieve the plain text key again in the console.
 
 
 
