@@ -41,39 +41,37 @@ Depending on your use cases, there are many options to push data to Timeplus via
 
 Here are a list of different use cases to push data to Timeplus:
 
-| 应用场景                                                                          | 样本POST请求内容                                                                                                                                                            | Content-Type           | URL                                    | Columns in the target stream      |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | -------------------------------------- | --------------------------------- |
-| 1) Push JSON objects. 每个 JSON 都是一个事件。                                         | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                                     | `application/x-ndjson` | ingest?format=streaming                | multiple columns, e.g. key1, key2 |
-| 2) Push a single JSON or a long text. 单个事件                                    | {"key1": "value11", "key2": "value12", ...}                                                                                                                           | `text/plain`           | ingest?format=raw                      | single column, named `raw`        |
-| 3) Push a batch of events. 每行都是一个事件。                                          | event1<br/>event2                                                                                                                                               | `text/plain`           | ingest?format=lines                    | single column, named `raw`        |
-| 4) Push a special JSON with mutiple events, without repeating the column name | { <br/>  "columns": ["key1","key2"],<br/>  "data": [ <br/>    ["value11","value12"],<br/>    ["value21","value22"],<br/>  ]<br/>} | `application/json`     | ingest?format=compact 或者直接用无参数的 ingest | multiple columns, e.g. key1, key2 |
-
-
+| 应用场景                                                                          | 样本POST请求内容                                                                                                                                                   | Content-Type           | URL                                    | Columns in the target stream      |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | -------------------------------------- | --------------------------------- |
+| 1) Push JSON objects. 每个 JSON 都是一个事件。                                         | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                            | `application/x-ndjson` | ingest?format=streaming                | multiple columns, e.g. key1, key2 |
+| 2) Push a single JSON or a long text. 单个事件                                    | {"key1": "value11", "key2": "value12", ...}                                                                                                                  | `text/plain`           | ingest?format=raw                      | single column, named `raw`        |
+| 3) Push a batch of events. 每行都是一个事件。                                          | event1<br/>event2                                                                                                                                      | `text/plain`           | ingest?format=lines                    | single column, named `raw`        |
+| 4) Push a special JSON with mutiple events, without repeating the column name | { <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `application/json`     | ingest?format=compact 或者直接用无参数的 ingest | multiple columns, e.g. key1, key2 |
 
 #### 1) Push JSON objects directly {#option1}
+
 Request samples
 <Tabs defaultValue="curl">
-  <TabItem value="js" label="Node.js" default>
+<TabItem value="js" label="Node.js" default>
 
 ```js
-const https = require('https');
+const https = require("https");
 const options = {
-  hostname: 'us.timeplus.cloud',
-  path: '/ws123456/api/v1beta1/streams/foo/ingest?format=streaming',
-  method: 'POST',
+  hostname: "us.timeplus.cloud",
+  path: "/ws123456/api/v1beta1/streams/foo/ingest?format=streaming",
+  method: "POST",
   headers: {
-    'Content-Type': 'application/x-ndjson',
-    'X-Api-Key': '<your_api_key>'
-  }
+    "Content-Type": "application/x-ndjson",
+    "X-Api-Key": "<your_api_key>",
+  },
 };
 
 const data = `
 {"key1": "value11", "key2": "value12"}
 {"key1": "value21", "key2": "value22"}
-`
-const request=https.request(options, (resp) => {
-});
-request.on('error', (error) => {
+`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
   console.error(error);
 });
 request.write(data);
@@ -90,38 +88,74 @@ https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=streami
 -d '
 {"key1": "value11", "key2": "value12"}
 {"key1": "value21", "key2": "value22"}
-' 
+'
 ```
 
   </TabItem>
   <TabItem value="py" label="Python">
 
 ```python
-from timeplus import Stream, Environment
+import requests
 
-env = Environment().address("https://us.timeplus.cloud/ws123456").apikey("api_key")
-
-try:
-    stream = Stream(env=env).name("foo").get()
-    payload = """
+url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=streaming"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "application/x-ndjson"
+}
+data = '''\
 {"key1": "value11", "key2": "value12"}
 {"key1": "value21", "key2": "value22"}
-    """
+'''
 
-    stream.ingest(payload=payload, format="streaming")
-except Exception as e:
-    ..
+response = requests.post(url, headers=headers, data=data)
+
+print(response.status_code)
+print(response.text)
 ```
 
   </TabItem>
   <TabItem value="java" label="Java">
-    This is a banana 🍌
+
+```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=streaming";
+        MediaType mediaType = MediaType.parse("application/x-ndjson");
+        String data = "{\"key1\": \"value11\", \"key2\": \"value12\"}\n{\"key1\": \"value21\", \"key2\": \"value22\"}";
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "application/x-ndjson")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
   </TabItem>
 </Tabs>
 
 你可以将换行符分隔的 JSON (http://ndjson.org/) 推送到终端节点。 确保将 HTTP 标头设置为以下选项之一：
-* `application/x-ndjson`
-* `application/vnd.timeplus+json;format=streaming`
+
+- `application/x-ndjson`
+- `application/vnd.timeplus+json;format=streaming`
 
 :::info
 
@@ -138,19 +172,21 @@ except Exception as e:
 ```
 
 每个对象不必在一行中。 例如：
+
 ```json
-{"key1": "value11", "key2": "value12", ...}
-{"key1": "value21", "key2": "value22", ...}
-...
+{
+  "key1": "value11",
+  "key2": "value12", ...
 }
 {
-  "key1": "value21", 
+  "key1": "value21",
   "key2": "value22", ...
 }
 ...
 ```
 
 它们也不必用换行符分隔：
+
 ```json
 {"key1": "valueA", ...}{"key1": "valueB", ...}{"key1": "valueC", ...,
 }...
@@ -159,26 +195,26 @@ except Exception as e:
 只要确保在请求正文中使用正确的值指定目标流中的所有列即可。
 
 #### 2) Push a single JSON or string to a single column stream {#option2}
+
 Request samples
 <Tabs defaultValue="curl">
-  <TabItem value="js" label="Node.js" default>
+<TabItem value="js" label="Node.js" default>
 
 ```js
-const https = require('https');
+const https = require("https");
 const options = {
-  hostname: 'us.timeplus.cloud',
-  path: '/ws123456/api/v1beta1/streams/foo/ingest?format=raw',
-  method: 'POST',
+  hostname: "us.timeplus.cloud",
+  path: "/ws123456/api/v1beta1/streams/foo/ingest?format=raw",
+  method: "POST",
   headers: {
-    'Content-Type': 'text/plain',
-    'X-Api-Key': '<your_api_key>'
-  }
+    "Content-Type": "text/plain",
+    "X-Api-Key": "<your_api_key>",
+  },
 };
 
-const data = `{"key1": "value11", "key2": "value12"}`
-const request=https.request(options, (resp) => {
-});
-request.on('error', (error) => {
+const data = `{"key1": "value11", "key2": "value12"}`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
   console.error(error);
 });
 request.write(data);
@@ -194,31 +230,66 @@ curl -s -X POST -H "X-Api-Key: your_api_key" \
 https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw \
 -d '
 {"key1": "value11", "key2": "value12"}
-' 
+'
 ```
 
   </TabItem>
   <TabItem value="py" label="Python">
 
 ```python
-from timeplus import Stream, Environment
+import requests
 
-env = Environment().address("https://us.timeplus.cloud/ws123456").apikey("api_key")
-
-try:
-    stream = Stream(env=env).name("foo").get()
-    payload = """
+url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "text/plain"
+}
+data = '''\
 {"key1": "value11", "key2": "value12"}
-    """
+'''
 
-    stream.ingest(payload=payload, format="raw")
-except Exception as e:
-    ..
+response = requests.post(url, headers=headers, data=data)
+
+print(response.status_code)
+print(response.text)
 ```
 
   </TabItem>
   <TabItem value="java" label="Java">
-    This is a banana 🍌
+
+```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = "{\"key1\": \"value11\", \"key2\": \"value12\"}";
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "text/plain")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
   </TabItem>
 </Tabs>
 
@@ -230,9 +301,9 @@ When you set Content-Type header to `text/plain`, and add `format=raw` to the in
 
 When you set Content-Type header to `text/plain`, and add `format=lines` to the ingestion endpoint, the each line in the POST body will be put in the `raw` column.
 
-#### 4) Push  multiple events in a batch  without repeating the columns {#option4}
+#### 4) Push multiple events in a batch without repeating the columns {#option4}
 
-上述方法应该适用于大多数系统集成。  但是，将在请求的正文中反复提及列名。
+上述方法应该适用于大多数系统集成。 但是，将在请求的正文中反复提及列名。
 
 我们还提供了一种性能更高的解决方案，只需要发送一次列名。
 
@@ -240,15 +311,16 @@ When you set Content-Type header to `text/plain`, and add `format=lines` to the 
 
 但您需要将 HTTP 头设置为 application/json。
 
-* `application/json`
-* `application/vnd.timeplus+json`
-* `application/vnd.timeplus+json;format=compact`
+- `application/json`
+- `application/vnd.timeplus+json`
+- `application/vnd.timeplus+json;format=compact`
 
 请求正文是这样格式的：
+
 ```json
-{ 
+{
   "columns": [..],
-  "data": [ 
+  "data": [
     [..],
     [..],
   ]
@@ -256,19 +328,20 @@ When you set Content-Type header to `text/plain`, and add `format=lines` to the 
 ```
 
 备注：
-* `columns` 是一个字符串数组，为一系列列名
-* `data` 是一个数组，每个元素也是一个数组。 每个嵌套数组代表一行数据。 值顺序必须与 `列`中完全相同的顺序匹配。
+
+- `columns` 是一个字符串数组，为一系列列名
+- `data` 是一个数组，每个元素也是一个数组。 每个嵌套数组代表一行数据。 值顺序必须与 `列`中完全相同的顺序匹配。
 
 例如：
+
 ```json
-{ 
-  "columns": ["key1","key2"],
-  "data": [ 
-    ["value11","value12"],
-    ["value21","value22"],
+{
+  "columns": ["key1", "key2"],
+  "data": [
+    ["value11", "value12"],
+    ["value21", "value22"]
   ]
 }
-
 ```
 
 您也可以使用我们的其中一个 SDK 来发送数据，而无需处理 REST API 的细节。
