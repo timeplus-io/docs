@@ -102,13 +102,12 @@ headers = {
     "X-Api-Key": "your_api_key",
     "Content-Type": "application/x-ndjson"
 }
-data = '''\
+data = '''
 {"key1": "value11", "key2": "value12"}
 {"key1": "value21", "key2": "value22"}
 '''
 
 response = requests.post(url, headers=headers, data=data)
-
 print(response.status_code)
 print(response.text)
 ```
@@ -131,7 +130,10 @@ public class Example {
 
         String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=streaming";
         MediaType mediaType = MediaType.parse("application/x-ndjson");
-        String data = "{\"key1\": \"value11\", \"key2\": \"value12\"}\n{\"key1\": \"value21\", \"key2\": \"value22\"}";
+        String data = """
+          {"key1": "value11", "key2": "value12"}
+          {"key1": "value21", "key2": "value22"}
+          """;
         RequestBody body = RequestBody.create(mediaType, data);
 
         Request request = new Request.Builder()
@@ -244,12 +246,11 @@ headers = {
     "X-Api-Key": "your_api_key",
     "Content-Type": "text/plain"
 }
-data = '''\
+data = '''
 {"key1": "value11", "key2": "value12"}
 '''
 
 response = requests.post(url, headers=headers, data=data)
-
 print(response.status_code)
 print(response.text)
 ```
@@ -272,7 +273,9 @@ public class Example {
 
         String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw";
         MediaType mediaType = MediaType.parse("text/plain");
-        String data = "{\"key1\": \"value11\", \"key2\": \"value12\"}";
+        String data = """ 
+          {"key1": "value11", "key2": "value12"} 
+          """;
         RequestBody body = RequestBody.create(mediaType, data);
 
         Request request = new Request.Builder()
@@ -298,11 +301,233 @@ It's a common pratice to create a stream in Timeplus with a single `string` colu
 When you set Content-Type header to `text/plain`, and add `format=raw` to the ingestion endpoint, the entire body in the POST request will be put in the `raw` column.
 
 #### 3) Push multiple JSON or text to a single column stream. Each line is an event {#option3}
+Request samples
+<Tabs defaultValue="curl">
+<TabItem value="js" label="Node.js" default>
+
+```js
+const https = require("https");
+const options = {
+  hostname: "us.timeplus.cloud",
+  path: "/ws123456/api/v1beta1/streams/foo/ingest?format=lines",
+  method: "POST",
+  headers: {
+    "Content-Type": "text/plain",
+    "X-Api-Key": "<your_api_key>",
+  },
+};
+
+const data = `{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
+```
+
+  </TabItem>
+  <TabItem value="curl" label="curl">
+
+```bash
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: text/plain" \
+https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=lines \
+-d '{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+'
+```
+
+  </TabItem>
+  <TabItem value="py" label="Python">
+
+```python
+import requests
+
+url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=lines"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "text/plain"
+}
+data = '''{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+'''
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
+```
+
+  </TabItem>
+  <TabItem value="java" label="Java">
+
+```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=lines";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = """
+          {"key1": "value11", "key2": "value12"}
+          {"key1": "value21", "key2": "value22"}
+""";
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "text/plain")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
 
 When you set Content-Type header to `text/plain`, and add `format=lines` to the ingestion endpoint, the each line in the POST body will be put in the `raw` column.
 
 #### 4) Push multiple events in a batch without repeating the columns {#option4}
+Request samples
+<Tabs defaultValue="curl">
+<TabItem value="js" label="Node.js" default>
 
+```js
+const https = require("https");
+const options = {
+  hostname: "us.timeplus.cloud",
+  path: "/ws123456/api/v1beta1/streams/foo/ingest",
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "X-Api-Key": "<your_api_key>",
+  },
+};
+
+const data = `
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
+```
+
+  </TabItem>
+  <TabItem value="curl" label="curl">
+
+```bash
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: application/json" \
+https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest \
+-d '
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+'
+```
+
+  </TabItem>
+  <TabItem value="py" label="Python">
+
+```python
+import requests
+
+url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "application/json"
+}
+data = '''
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+'''
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
+```
+
+  </TabItem>
+  <TabItem value="java" label="Java">
+
+```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = """
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+          """;
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "application/json")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
 The above method should work very well for most system integrations. However, the column names will be repeatedly mentioned in the requested body.
 
 We also provide a more performant solution to only list the column names once.
