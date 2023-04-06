@@ -41,8 +41,14 @@ You need to create an API key to access Timeplus REST API. To do so:
 
 ## Step 3: Send data to Timeplus with the API key
 
-Depending on which tool or programming language works best for you, you can send data to Timeplus in different ways.
+Depending on which tool or programming language works best for you, you can send data to Timeplus in different ways. 
 
+The base endpoint for the ingestion API is `https://us.timeplus.cloud/WORKSPACE_ID/api/v1beta1/streams/STREAM_NAME/ingest`
+:::info
+
+Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is readonly but we will make it editable in the future.
+
+:::
 
 
 ### curl
