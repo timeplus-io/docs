@@ -52,6 +52,10 @@ const sidebars = {
           type: 'doc',
           id:'quickstart-sample',
           label:'with stream generator'
+        },{
+          type: 'doc',
+          id:'quickstart-ingest-api',
+          label:'with ingest API'
         }]
        },
        {
