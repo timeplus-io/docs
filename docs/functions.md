@@ -2,7 +2,7 @@
 
 The following functions are supported in the SQL-like Timeplus query language. Please contact us if you need more functions.
 
-## Type Conversion
+## Type Conversion {#proc_type}
 
 ### to_time
 
@@ -271,7 +271,7 @@ Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
 `tuple_cast(item1,item2)` to generate a tuple with these 2 elements. You can also use the shortcut syntax: `(item1,item2)` to create the tuple directly.
 
-## Process Date and Time
+## Process Date and Time {#proc_datetime}
 
 ### year
 
@@ -461,7 +461,7 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 `earliest_ts()` shortcut for `earliest_timestamp()`
 
-## Process JSON
+## Process JSON {#proc_json}
 
 ### json_extract_int
 
@@ -503,7 +503,7 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 `json_query(json, path)` allows you to access the nested JSON objects as JSON array or JSON object. If the value doesn't exist, an empty string will be returned. For example, `json_query('{"a":true,"b":{"c":1}}','$.b.c')` will return an array with 1 element  `[1]` In a more complex example, `json_query('{"records":[{"b":{"c":1}},{"b":{"c":2}},{"b":{"c":3}}]}','$.records[*].b.c')` will get `[1,2,3]`
 
-## Process text
+## Process text {#proc_text}
 
 ### lower
 
@@ -614,9 +614,13 @@ Please note all keys and values in the returned map is in string type. You can c
 
 `coalesce(value1, value2,..)` Checks from left to right whether `NULL` arguments were passed and return the first non-`NULL` argument. If you get error messages related to Nullable type, e.g. "Nested type array(string) cannot be inside Nullable type", you can use this function to turn the data into non-`NULL` For example `json_extract_array(coalesce(raw:payload, ''))`
 
+### hex
+
+`hex(argument)`Returns a string containing the argument’s hexadecimal representation.` argument` can be any type.
 
 
-## Unique identifier
+
+## Unique identifier {#proc_uuid}
 
 ### uuid
 
@@ -893,6 +897,22 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 `is_nan(x)` to return 1 if the `x` is Not-a-Number(NaN), otherwise return 0.
 
+
+
+## Hash
+
+Hash functions can be used for the deterministic pseudo-random shuffling of elements.
+
+### md5
+
+`md5(string)` Calculates the MD5 from a string and returns the resulting set of bytes as `fixed_string(16)`.  If you want to get the same result as output by the md5sum utility, use `lower(hex(md5(s)))`.
+
+### md4
+
+`md4(string)` Calculates the MD4 from a string and returns the resulting set of bytes as `fixed_string(16)`. 
+
+
+
 ## Financial
 
 ### xirr
@@ -903,7 +923,7 @@ Calculates the internal rate of return of an investment based on a specified ser
 
 
 
-## Geo Location
+## Geo Location {#proc_geo}
 
 ### point_in_polygon
 
@@ -915,7 +935,7 @@ Checks whether the point belongs to the polygon. `point_in_polygon((x,y),[(a,b),
 
 Calculates the distance on WGS-84 ellipsoid. `geo_distance(lon1,lat1,lon2,lat2)`
 
-## Streaming processing
+## Streaming processing {#streaming}
 
 ### table
 
