@@ -2,7 +2,7 @@
 
 以下是Timeplus支持的SQL函数。 如果您需要更多功能，请联系我们。
 
-## 类型转换
+## Type Conversion {#proc_type}
 
 ### to_time
 
@@ -271,7 +271,7 @@ select
 
 `tuple_cast (item1, item2)` 生成一个包含这 2 个元素的元组。 你也可以使用快捷语法： `(item1, item2)` 直接创建元组。
 
-## 处理日期和时间
+## Process Date and Time {#proc_datetime}
 
 ### year
 
@@ -461,7 +461,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `earliest_ts()` 是 `earliest_timestamp()`的简写方式
 
-## 处理 JSON
+## Process JSON {#proc_json}
 
 ### json_extract
 
@@ -503,7 +503,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `json_query(json, path)` 允许您访问 JSON 嵌套的 JSON 对象作为JSON 数组或 JSON 对象。 如果值不存在，则返回空字符串。 例如， `json_query('{"a":true,"b":{"c":1}}','$.b.) ')` 将返回一个 1 元素  `[1]` 的数组更复杂的例子。 `json_query('{"records":[{"b":{"c":1}}},{"b":{"c":2}}},{"b":{"c":3}}},','$. ecords[*].b.c')` 将获得 `[1,2,3]`
 
-## 流程文本
+## Process text {#proc_text}
 
 ### lower
 
@@ -613,9 +613,13 @@ SELECT
 
 `coalesce(value1, value2,...)` 从左到右检查 `NULL` 参数是否被传递并返回第一个非-`NULL` 参数。 如果您获得了与Nullable类型相关的错误信息，例如： “嵌套类型数组(字符串) 不能在Nullable类型内”， 您可以使用此函数将数据转换为非-`NULL` 例如： `json_extract_array(coalesce(raw:payload, ')`
 
+### hex
+
+`hex(argument)`Returns a string containing the argument’s hexadecimal representation.`argument` can be any type.
 
 
-## Unique identifier
+
+## Unique identifier {#proc_uuid}
 
 ### uuid
 
@@ -892,6 +896,22 @@ SELECT
 
 `is_nan(x)` 返回如果 `x` 为 not-a-Number(NAN)，否则返回 0。
 
+
+
+## Hash
+
+Hash functions can be used for the deterministic pseudo-random shuffling of elements.
+
+### md5
+
+`md5(string)` Calculates the MD5 from a string and returns the resulting set of bytes as `fixed_string(16)`.  If you want to get the same result as output by the md5sum utility, use `lower(hex(md5(s)))`.
+
+### md4
+
+`md4(string)` Calculates the MD4 from a string and returns the resulting set of bytes as `fixed_string(16)`.
+
+
+
 ## 财务
 
 ### xirr
@@ -902,7 +922,7 @@ SELECT
 
 
 
-## 地理位置
+## 地理位置 {#proc_geo}
 
 ### point_in_polygon
 
@@ -914,7 +934,7 @@ SELECT
 
 计算 WGS-84 椭圆上的距离。 `geo_distance(lon1,lat1,lon2,lat2)`
 
-## 流处理
+## 流处理 {#streaming}
 
 ### table
 
