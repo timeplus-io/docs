@@ -17,6 +17,7 @@ We will update the beta version from time to time and list key enhancements in t
 
   * We refined the dashboard edit mode. Changes you make while in edit mode won't be saved automatically, to prevent accidental changes. Click the **Save Changes** button to confirm changes, or click the **Cancel** button to discard changes. 
   * You can now customize the colors of lines, areas, and bars for charts. 
+  * **Migration notice:** since we updated the schema of dashboard&chart definition, your existing dashboards need to be re-configured manually to render properly. This would be a one-time effort.
 
 **Other Enhancements**
 
