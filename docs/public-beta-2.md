@@ -10,19 +10,19 @@ We will update the beta version from time to time and list key enhancements in t
 
 **Streaming Database and SQL**
 
-* For stateful time window aggregations([tumble](functions#tumble)/[hop](functions#hop)/[session](functions#session)), now Timeplus support sub-second intervals: `ms` for milliseconds, `us` for microseconds, and `ns` for nanoseconds. For example, you can run a streaming SQL to show results every 10 milliseconds for past 1 second sliding window: `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock` Two months ago, we also added the capability to run global aggregations with fixed interval at sub-second level, such as `select sum(price) from stocks emit periodic 50ms`
-* Added new functions [md5](functions#md5), [md4](functions#md4), as well as [hex](functions#hex), which can help you generate hash keys.
+* For stateful time window aggregations ([tumble](functions#tumble)/[hop](functions#hop)/[session](functions#session)), Timeplus now supports sub-second intervals: `ms` for milliseconds, `us` for microseconds, and `ns` for nanoseconds. For example, you can run a streaming SQL to show results every 10 milliseconds for the past 1 second sliding window: `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. Two months ago, we also added the capability to run global aggregations with fixed interval at sub-second level, such as `select sum(price) from stocks emit periodic 50ms`
+* Added new functions [md5](functions#md5), [md4](functions#md4), and [hex](functions#hex), which can help you generate hash keys.
 
 **Dashboards**
 
-  * We refined the dashboard edit mode. The changes you make at the edit mode won't be saved automatically. Click the **Save Changes** button to confirm your changes, or click the **Cancel** button to discard the changes. 
-  * You can now customize the colors for charts. 
+  * We refined the dashboard edit mode. Changes you make while in edit mode won't be saved automatically, to prevent accidental changes. Click the **Save Changes** button to confirm changes, or click the **Cancel** button to discard changes. 
+  * You can now customize the colors of lines, areas, and bars for charts. 
 
 **Other Enhancements**
 
-  * A new [timeplus-target](https://hub.meltano.com/loaders/target-timeplus) is added in [Meltano](https://meltano.com/) Hub. Meltano provides 500+ source connectors, all of which can be configured to send data to Timeplus. Check [the blog](https://www.timeplus.com/post/meltano-timeplus-target) for more details.
-  * In the query history page, the SQL statements now take more spaces.
-  * If you need to work on multiple Timeplus features in the same time, for example, when you are writing a SQL in **Query** page, and need to create a new view, you can right click the **Views** menu and open a new browser tab.
+  * A new [timeplus-target](https://hub.meltano.com/loaders/target-timeplus) is added in [Meltano](https://meltano.com/) Hub. Meltano provides 500+ source connectors, all of which can be configured to send data to Timeplus. Check [our blog](https://www.timeplus.com/post/meltano-timeplus-target) for more details.
+  * In the query history page, the column for SQL states is now wider, allowing you to see more.
+  * We've made it easier to multi-task in Timeplus by letting you open new browser tabs. for example, when you are writing SQL in the **Query** page, and need to create a new view, you can right click **Views** in the left-side navigation menu and open a tab.
 
 ## 4/3
 
