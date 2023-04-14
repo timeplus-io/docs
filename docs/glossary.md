@@ -18,7 +18,7 @@ CTEs can be thought of as alternatives to derived tables ([subquery](https://en.
 
 ## dashboard {#dashboard}
 
-You can add one or more panels in a dashboard. You can also create one or more dashboards in a workspace.
+You can create multiple dashboards in a workspace, and add multiple charts to a dashboard. You can also add [filters](viz#filter) or Markdown (experimental). 
 
 ## event time
 
