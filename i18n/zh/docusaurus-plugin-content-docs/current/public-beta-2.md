@@ -6,6 +6,24 @@
 
 (2023年)
 
+## 4/17
+
+**流数据库和流式SQL**
+
+* For stateful time window aggregations([tumble](functions#tumble)/[hop](functions#hop)/[session](functions#session)), now Timeplus support sub-second intervals: `ms` for milliseconds, `us` for microseconds, and `ns` for nanoseconds. For example, you can run a streaming SQL to show results every 10 milliseconds for past 1 second sliding window: `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock` Two months ago, we also added the capability to run global aggregations with fixed interval at sub-second level, such as `select sum(price) from stocks emit periodic 50ms`
+* Added new functions [md5](functions#md5), [md4](functions#md4), as well as [hex](functions#hex), which can help you generate hash keys.
+
+**图表和仪表盘**
+
+  * We refined the dashboard edit mode. The changes you make at the edit mode won't be saved automatically. Click the **Save Changes** button to confirm your changes, or click the **Cancel** button to discard the changes.
+  * You can now customize the colors for charts.
+
+**其他改进**
+
+  * A new [timeplus-target](https://hub.meltano.com/loaders/target-timeplus) is added in [Meltano](https://meltano.com/) Hub. Meltano provides 500+ source connectors, all of which can be configured to send data to Timeplus. Check [the blog](https://www.timeplus.com/post/meltano-timeplus-target) for more details.
+  * In the query history page, the SQL statements now take more spaces.
+  * If you need to work on multiple Timeplus features in the same time, for example, when you are writing a SQL in **Query** page, and need to create a new view, you can right click the **Views** menu and open a new browser tab.
+
 ## 4/3
 
 **流数据库和流式SQL**
