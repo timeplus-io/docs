@@ -1,33 +1,33 @@
 # Data Visualization
 
-Timeplus provides out-of-box streaming charts and dashboards to visualize the real-time data and understand the pattern/trend. You can also integrate Timeplus with your external BI systems, such as redash, metabase, Grafana, etc.
+Timeplus provides out-of-box streaming charts and dashboards to visualize the real-time data and understand the pattern/trend. You can also integrate Timeplus with your external BI systems, such as Redash, Metabase, Grafana, etc.
 
 
 
 ## Chart
 
-After you run a query, you can switch to the **Visualization** tab to turn the results as a chart. You can pick up the proper chart types for your use case.
+After you run a query, you can switch to the **Visualization** tab to turn the results into a chart. We offer different chart types for your use cases:
 
 ### Line chart
 
-The chart type that works best with time series data.a line chart is created. 
+Line charts best with time series data.
 
 * Data settings:
   * X-axis: Event Time (_tp_time), or Arrival Time(when the browser gets the data point), or a custom column.
   * Y-axis: a custom column in numeric data types (int/float/etc)
-  * Color: by default `None` is selected. You can choose a categorical column and draw a line for each unique value of the column value in different color.
+  * Color: by default `None` is selected. You can choose a categorical column and draw a line for each unique value of the column value in different colors.
 
 * Format settings:
-  * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc)
+  * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc.)
   * Y-axis title, min/max value, number of decimal, or prefix/suffix
-  * Whether to show grid lines
-  * Whether to show legend
-  * Whether to show data label
+  * Show/hide grid lines
+  * Show/hide legend
+  * Show/hide data label
 
 
 ### Area chart
 
-Always show a stacked area chart. Same settings as **Line Chart**.
+Shows a stacked area chart, with the same format settings as **Line Chart**.
 
 
 
@@ -40,12 +40,12 @@ Always show a stacked area chart. Same settings as **Line Chart**.
   * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
 
 * Format settings:
-  * X-axis title, Y-axis title, prefix/suffix, whether to show grid lines, show legend, or show data label
+  * X-axis title, Y-axis title, prefix/suffix, show/hide grid lines, show/hide legend, or show/hide data label
 
 
 ### Bar chart
 
-Similar to Column chart, the only difference is data points are shown as horizontal bars instead of vertical columns. Best fit for show top-N values.
+Similar to Column chart, with data points shown as horizontal bars instead of vertical columns. Best fit for show top-N values.
 
 ### Single value chart
 
@@ -56,13 +56,13 @@ Similar to Column chart, the only difference is data points are shown as horizon
   * Suffix or prefix
   * Number of decimal
   * Font size
-  * Whether to show sparkline
-  * Whether to show delta for last value vs. the current value
+  * Show/hide sparkline
+  * Show/hide delta for last value vs. the current value
 
 
 ### Table
 
-Show the data as a list table.
+Shows the data as a list table.
 
 * Data settings
   * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest row for each key value.
@@ -70,21 +70,22 @@ Show the data as a list table.
 
 * Format settings
   * For each column, you can choose to set column width and decimal for numeric columns.
+  * Conditional formatting: highlight a cell or an entire row if the value meets a certain condition you've set
 
 
-Charts can be added to the dashboard by click the **Add to dashboard** button on the right.
+Charts can be added to the dashboard by clicking the **Add to dashboard** button on the right.
 
 ## Dashboard
 
-One or more dashboards can be created in each workspace to tell stories about the data.
+One or more dashboards can be created in each workspace to tell stories about your data.
 
-You can set the name and description(optional) for each dashboard.
+You can set a name and optional description for each dashboard.
 
-One or more panels can be added to the dashboard, with 3 options for the size:
+One or more charts can be added to the dashboard, with 3 size options:
 
-* Small: take 1/4 of the page width
-* Medium: take 1/2 of the page width
-* Large: take entire page width
+* Small: takes up 1/4 of the page width
+* Medium: takes up 1/2 of the page width
+* Large: takes up entire page width
 
 
 
