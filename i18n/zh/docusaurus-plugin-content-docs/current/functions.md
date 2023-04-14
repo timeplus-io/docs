@@ -27,11 +27,11 @@
 
 ### to_int
 
-`to_int(字符串)` 将其转换为整数。
+`to_int(string)` Convert a string to an integer.
 
 ### to_float
 
-`to_float(字符串)` 将其转换为一个浮点数，例如 `to_float('3.1415926')`
+`to_float(string)` Convert a string to a float number, e.g. `to_float('3.1415926')`
 
 ### to_decimal
 
@@ -85,6 +85,8 @@ select
 ### length
 
 `length(array)`
+
+Get the length of the array.
 
 ### array\[index\] {#array_element}
 
@@ -275,23 +277,23 @@ select
 
 ### year
 
-获取当前年份，例如 `year(today())` 将是 `2022`。
+`year(date)` Get the year, for example `year(today())` will be `2022`.
 
 ### quarter
 
-获取当前季度，例如 `quarter(today())` 将是 `1` 如果是Q1。
+`quarter(date)` Get the quarter, for example `quarter(today())` will be `1` if it's in Q1.
 
 ### month
 
-获取当前季度，例如 `quarter(today())` 将是 `2` 如果是Q1。
+`month(date)` Get the month, for example `month(today())` will be `2` if it's Feb.
 
 ### day
 
-`day(date)` 获取当月的日期。
+`day(date)` Get the the day in the month.
 
 ### weekday
 
-`weekday(date)` Get the current day in the week. 星期一是 1。 星期一是 1。 星期日为7天。
+`weekday(date)` Get the the day in the week. 星期一是 1。 星期日为7天。
 
 ### day_of_year
 
@@ -301,15 +303,23 @@ select
 
 `hour(datetime)`
 
+Get the hour of the datetime.
+
 ### minute
 
 `minute(datetime)`
+
+Get the minute of the datetime.
 
 ### second
 
 `second(datetime)`
 
+Get the second of the datetime.
+
 ### to_unix_timestamp
+
+Get the UNIX timestamp of the datetime. Returns a number in `uint32`
 
 例如， `to_unix_timestamp(now())` get `1644272032`
 
@@ -317,29 +327,43 @@ select
 
 `to_start_of_year(date)`
 
+Rounds down a date or date with time to the first day of the year. Returns the date.
+
 ### to_start_of_quarter
 
 `to_start_of_quarter(date)`
+
+Rounds down a date or date with time to the first day of the quarter. Returns the date.
 
 ### to_start_of_month
 
 `to_start_of_month(date)`
 
+Rounds down a date or date with time to the first day of the month. Returns the date.
+
 ### to_start_of_day
 
 `to_start_of_day(date)`
+
+Rounds down a date with time to the start of the day.
 
 ### to_start_of_hour
 
 `to_start_of_hour(datetime)`
 
+Rounds down a date or date with time to the start of the hour.
+
 ### to_start_of_minute
 
 `to_start_of_minute(datetime)`
 
+Rounds down a date or date with time to the start of the minute.
+
 ### to_start_of_second
 
 `to_start_of_second(datetime64)`
+
+Rounds down a date or date with time to the start of the second.
 
 不同于其他 `to_start_of_` 函数，这个函数需要一个有毫秒的日期时间，例如 `to_start_of_second(now64())`
 
@@ -354,6 +378,8 @@ select
 ### today
 
 `today()`
+
+Returns the current date.
 
 ### to_YYYYMM
 
@@ -509,13 +535,19 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `小(字符串)`
 
+Converts ASCII Latin symbols in a string to lowercase.
+
 ### upper
 
 `上级(字符串)`
 
+Converts ASCII Latin symbols in a string to uppercase.
+
 ### format
 
-`格式 (template,args)` 例如： `格式 ('{} {}', 'Hello', 'Worldd')`得到 `Hello World`
+`format(template,args)` Formatting constant pattern with the string listed in the arguments.
+
+For example, `format('{} {}', 'Hello', 'World')`gets `Hello World`
 
 ### concat
 
@@ -529,9 +561,15 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `修剪(字符串)`
 
+Removes all specified characters from the start or end of a string. By default removes all consecutive occurrences of common whitespace (ASCII character 32) from both ends of a string.
+
 ### split_by_string
 
-`split_by_string(sep,string)`  例如： `split_by_string('b','abcbxby')`将获得一个包含字符串的数组 `['a','c','x','y']`
+`split_by_string(sep,string)`
+
+Splits a string into substrings separated by a string. It uses a constant string `sep` of multiple characters as the separator. If the string `sep` is empty, it will split the string `string` into an array of single characters.
+
+For example `split_by_string('b','abcbxby')`will get an array with string `['a','c','x','y']`
 
 ### match
 
@@ -560,6 +598,8 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 ### replace_regex
 
 `replace_regex(string,pattern,replacement)`
+
+Replaces all occurrences of the pattern.
 
 这可以用来掩盖数据，例如： 要隐藏完整的电话号码，您可以运行 `replace_regex('604-123-4567' (\\d{3})-(\\d{3})-(\\d{4})','\\1-***-******')` 获得 `604-***-****`
 
@@ -605,6 +645,8 @@ SELECT
 
 ### grok
 
+`grok(string,pattern)`
+
 在不使用正则表达式的情况下从计划文本中提取值。 例如： `SELECT grok('我的名字是杰克) 我在23年前。 ',我的名字是 %{DATA:name}。 我是 %{INT:age} 年前。 ') 因为m` 将得到 `{"name":"Jack","age":"23"}` 作为 `m`
 
 请注意返回地图中的所有密钥和值都是字符串类型。 您可以将它们转换为其他类型，例如 `(m['age'])：int`
@@ -631,11 +673,13 @@ SELECT
 
 `if(condition,yesValue,noValue)`
 
+Controls conditional branching.
+
 例如， `if(1=2,'a','b')` 将得到 `b`
 
 ### multi_if
 
-`multi_if(condition1, then1, condition2, then2.. ,else)` 一种比 if/self 或 case/when更简单的写法
+`multi_if(condition1, then1, condition2, then2.. ,else)` An easier way to write if/self or case/when.
 
 ## 聚合
 
@@ -769,54 +813,46 @@ SELECT
 
 ### exp
 
-`exp(x)` 返回一个 `浮点` 数字接近参数的指数 `x`
+`exp(x)` returns a `float` number that is close to the exponent of the argument `x`.
+
+### exp2
+
+`exp2(x)` returns a `float` number that is close to 2 to the power of `x`.
+
+### exp10
+
+`exp10(x)` returns a `float` number that is close to 10 to the power of `x`.
 
 
 
 ### log
 
-`log(x)`  返回 `浮点` 数字接近参数的自然对数 `x`
-
-
-
-### exp2
-
-`exp2(x)` 返回一个 `浮点` 个接近2的数字到 `x`
-
-
+`log(x)`  returns a `float` number that is close to the natural logarithm of the argument `x`.
 
 ### log2
 
-`log2(x)` 返回 `浮点` 数字接近参数的二进制对数 `x`
-
-
-
-### exp10
-
-`exp10(x)` 返回一个 `浮点` 个接近10的数字到 `x`
-
-
+`log2(x)` returns a `float` number that is close to the binary logarithm of the argument `x`.
 
 ### log10
 
-`log10(x)` 返回 `浮点` 数字接近参数的十进制对数 `x`
+`log10(x)` returns a `float` number that is close to the decimal logarithm of the argument `x`.
 
 
 
 ### sqrt
 
-`sqrt(x)`返回 `浮点` 数字靠近参数的方根 `x`
+`sqrt(x)`returns a `float` number that is close to the square root of the argument `x`.
 
 
 
 ### cbrt
 
-`cbrt(x)` 返回一个 `浮点` 靠近参数立方根值 `x`
+`cbrt(x)` returns a `float` number that is close to the cubic root of the argument `x`.
 
 
 ### lgamma
 
-`lgamma(x)` 伽马函数的对数
+`lgamma(x)` the logarithm of the gamma function.
 
 
 
