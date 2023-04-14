@@ -18,7 +18,7 @@ CTE可以被视为派生表格的替代品([ subquery ](https://en.wikipedia.org
 
 ## 仪表板 Dashboard {#dashboard}
 
-您可以在仪表盘中添加一个或多个面板。 您也可以在工作区中创建一个或多个仪表板。
+You can create multiple dashboards in a workspace, and add multiple charts to a dashboard. You can also add [filters](viz#filter) or Markdown (experimental).
 
 ## 事件时间 Event Time
 
