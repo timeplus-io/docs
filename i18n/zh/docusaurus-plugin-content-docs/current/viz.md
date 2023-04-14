@@ -1,33 +1,33 @@
 # 数据可视化
 
-Timeplus能够提供盒外流图表和仪表板以可视化实时数据和了解模式/趋势。 您也可以将Timeplus成您的外部BI系统，例如redash、metase、Grafana等。
+Timeplus能够提供盒外流图表和仪表板以可视化实时数据和了解模式/趋势。 You can also integrate Timeplus with your external BI systems, such as Redash, Metabase, Grafana, etc.
 
 
 
 ## 图表
 
-在您运行查询后，您可以切换到 **VISUALIZATION** 标签，将结果转换为图表。 Timeplus将为您的大小写获取适当的图表类型。
+After you run a query, you can switch to the **Visualization** tab to turn the results into a chart. We offer different chart types for your use cases:
 
 ### 折线图
 
-最适合时间序列数据的图表类型。创建折线图。
+Line charts best with time series data.
 
 * 数据设置：
   * X 轴：事件时间 (_tp_time)、到达时间（浏览器获取数据点时）或自定义列。
   * Y 轴：数字数据类型（int/float/etc）中的自定义列
-  * 颜色：默认情况下， `无` 处于选中状态。 您可以选择一个分类列，然后用不同的颜色为该列值的每个唯一值画一条线。
+  * 颜色：默认情况下， `无` 处于选中状态。 You can choose a categorical column and draw a line for each unique value of the column value in different colors.
 
 * 格式设置
-  * X 轴标题和数据范围（最近 1 分钟、最近 1 小时、所有时间等）
+  * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc.)
   * Y 轴标题、最小值/最大值、十进制数或前缀/后缀
-  * 是否显示网格线
-  * 是否显示图例
-  * 是否显示数据标签
+  * Show/hide grid lines
+  * Show/hide legend
+  * Show/hide data label
 
 
 ### 面积图
 
-始终显示堆叠面积图。 设置与 **折线图**相同。
+Shows a stacked area chart, with the same format settings as **Line Chart**.
 
 
 
@@ -40,12 +40,12 @@ Timeplus能够提供盒外流图表和仪表板以可视化实时数据和了解
   * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
 
 * 格式设置
-  * X 轴标题、Y 轴标题、前缀/后缀、是显示网格线、显示图例还是显示数据标签
+  * X-axis title, Y-axis title, prefix/suffix, show/hide grid lines, show/hide legend, or show/hide data label
 
 
 ### 条形图
 
-与柱状图类似，唯一的区别是数据点显示为水平条而不是垂直列。 最适合显示前 n 个值。
+Similar to Column chart, with data points shown as horizontal bars instead of vertical columns. 最适合显示前 n 个值。
 
 ### 单值图
 
@@ -56,13 +56,13 @@ Timeplus能够提供盒外流图表和仪表板以可视化实时数据和了解
   * 后缀或前缀
   * 小数位数
   * 字体大小
-  * 是否显示网格线
-  * 是否显示最后一个值与当前值的差值
+  * Show/hide sparkline
+  * Show/hide delta for last value vs. the current value
 
 
 ### 表格
 
-将数据显示为列表表。
+Shows the data as a list table.
 
 * 数据设置
   * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
@@ -70,21 +70,22 @@ Timeplus能够提供盒外流图表和仪表板以可视化实时数据和了解
 
 * 格式设置
   * 对于每列，您可以选择为数字列设置列宽和十进制。
+  * Conditional formatting: highlight a cell or an entire row if the value meets a certain condition you've set
 
 
-可以点击右边的 **添加到仪表板** 按钮将图表添加到仪表板中。
+Charts can be added to the dashboard by clicking the **Add to dashboard** button on the right.
 
 ## 仪表板
 
-每个工作区都可以创建一个或多个仪表板来讲述有关数据的故事。
+One or more dashboards can be created in each workspace to tell stories about your data.
 
-您可以为每个仪表盘设置名称和描述(可选)。
+You can set a name and optional description for each dashboard.
 
-一个或多个面板可以添加到控制面板，大小为3个选项：
+One or more charts can be added to the dashboard, with 3 size options:
 
-* 小：占用1/4的页面宽度
-* 中: 占用页面宽度的1/2
-* 大：占用整个页面宽度
+* Small: takes up 1/4 of the page width
+* Medium: takes up 1/2 of the page width
+* Large: takes up entire page width
 
 
 
