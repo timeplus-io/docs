@@ -27,11 +27,11 @@ You can also convert the time between timezones via [to_timezone](#to_timezone)
 
 ### to_int
 
-`to_int(string)` Convert it to an integer. 
+`to_int(string)` Convert a string to an integer. 
 
 ### to_float
 
-`to_float(string)` Convert it to a float number, e.g. `to_float('3.1415926')`
+`to_float(string)` Convert a string to a float number, e.g. `to_float('3.1415926')`
 
 ### to_decimal
 
@@ -85,6 +85,8 @@ select
 ### length
 
 `length(array)`
+
+Get the length of the array.
 
 ### array\[index\] {#array_element}
 
@@ -275,23 +277,23 @@ Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
 ### year
 
-`year(date)` Get current year, for example `year(today())` will be `2022`.
+`year(date)` Get the year, for example `year(today())` will be `2022`.
 
 ### quarter
 
-`quarter(date)` Get current quarter, for example `quarter(today())` will be `1` if it's in Q1.
+`quarter(date)` Get the quarter, for example `quarter(today())` will be `1` if it's in Q1.
 
 ### month
 
-`month(date)` Get current month, for example `month(today())` will be `2` if it's Feb.
+`month(date)` Get the month, for example `month(today())` will be `2` if it's Feb.
 
 ### day
 
-`day(date)` Get the current day in the month.
+`day(date)` Get the the day in the month.
 
 ### weekday
 
-`weekday(date)` Get the current day in the week. Monday is 1. Sunday is 7.
+`weekday(date)` Get the the day in the week. Monday is 1. Sunday is 7.
 
 ### day_of_year
 
@@ -301,15 +303,23 @@ Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
 `hour(datetime)`
 
+Get the hour of the datetime.
+
 ### minute
 
 `minute(datetime)`
+
+Get the minute of the datetime.
 
 ### second
 
 `second(datetime)`
 
+Get the second of the datetime.
+
 ### to_unix_timestamp
+
+Get the UNIX timestamp of the datetime. Returns a number in `uint32`
 
 For example `to_unix_timestamp(now())` gets `1644272032`
 
@@ -317,29 +327,43 @@ For example `to_unix_timestamp(now())` gets `1644272032`
 
 `to_start_of_year(date)`
 
+Rounds down a date or date with time to the first day of the year. Returns the date.
+
 ### to_start_of_quarter
 
 `to_start_of_quarter(date)`
+
+Rounds down a date or date with time to the first day of the quarter. Returns the date.
 
 ### to_start_of_month
 
 `to_start_of_month(date)`
 
+Rounds down a date or date with time to the first day of the month. Returns the date.
+
 ### to_start_of_day
 
 `to_start_of_day(date)`
+
+Rounds down a date with time to the start of the day.
 
 ### to_start_of_hour
 
 `to_start_of_hour(datetime)`
 
+Rounds down a date or date with time to the start of the hour.
+
 ### to_start_of_minute
 
 `to_start_of_minute(datetime)`
 
+Rounds down a date or date with time to the start of the minute.
+
 ### to_start_of_second
 
 `to_start_of_second(datetime64)`
+
+Rounds down a date or date with time to the start of the second.
 
 Unlike other `to_start_of_` functions, this function expects a datetime with millisecond, such as `to_start_of_second(now64())`
 
@@ -354,6 +378,8 @@ Unlike other `to_start_of_` functions, this function expects a datetime with mil
 ### today
 
 `today()`
+
+Returns the current date.
 
 ### to_YYYYMM
 
@@ -509,13 +535,19 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 `lower(str)`
 
+Converts ASCII Latin symbols in a string to lowercase.
+
 ### upper
 
 `upper(str)`
 
+Converts ASCII Latin symbols in a string to uppercase.
+
 ### format
 
-`format(template,args)` For example, `format('{} {}', 'Hello', 'World')`gets `Hello World`
+`format(template,args)` Formatting constant pattern with the string listed in the arguments.
+
+For example, `format('{} {}', 'Hello', 'World')`gets `Hello World`
 
 ### concat
 
@@ -529,9 +561,15 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 `trim(string)`
 
+Removes all specified characters from the start or end of a string. By default removes all consecutive occurrences of common whitespace (ASCII character 32) from both ends of a string.
+
 ### split_by_string
 
-`split_by_string(sep,string)`  For example `split_by_string('b','abcbxby')`will get an array with string `['a','c','x','y']`
+`split_by_string(sep,string)`  
+
+Splits a string into substrings separated by a string. It uses a constant string `sep` of multiple characters as the separator. If the string `sep` is empty, it will split the string `string` into an array of single characters.
+
+For example `split_by_string('b','abcbxby')`will get an array with string `['a','c','x','y']`
 
 ### match
 
@@ -560,6 +598,8 @@ For example `replace('aabc','a','z')` will get `zzbc`
 ### replace_regex
 
 `replace_regex(string,pattern,replacement)`
+
+Replaces all occurrences of the pattern.
 
 This can be used to mask data, e.g. to hide the full phone number, you can run `replace_regex('604-123-4567','(\\d{3})-(\\d{3})-(\\d{4})','\\1-***-****')` to get `604-***-****`
 
@@ -606,6 +646,8 @@ SELECT
 
 ### grok
 
+`grok(string,pattern)`
+
 Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years ago.','My name is %{DATA:name}. I am %{INT:age} years ago.') as m` will get `{"name":"Jack","age":"23"}` as the `m`. 
 
 Please note all keys and values in the returned map is in string type. You can convert them to other type, e.g. `(m['age'])::int`
@@ -632,11 +674,13 @@ Please note all keys and values in the returned map is in string type. You can c
 
 `if(condition,yesValue,noValue)`
 
+Controls conditional branching.
+
 For example `if(1=2,'a','b')` will get `b`
 
 ### multi_if
 
-`multi_if(condition1, then1, condition2, then2.. ,else)` An easier way to write if/self or case/when
+`multi_if(condition1, then1, condition2, then2.. ,else)` An easier way to write if/self or case/when.
 
 ## Aggregation
 
@@ -770,54 +814,46 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 ### exp
 
-`exp(x)` returns a `float` number that is close to the exponent of the argument `x`
+`exp(x)` returns a `float` number that is close to the exponent of the argument `x`.
+
+### exp2
+
+`exp2(x)` returns a `float` number that is close to 2 to the power of `x`.
+
+### exp10
+
+`exp10(x)` returns a `float` number that is close to 10 to the power of `x`.
 
 
 
 ### log
 
-`log(x)`  returns a `float` number that is close to the natural logarithm of the argument `x`
-
-
-
-### exp2
-
-`exp2(x)` returns a `float` number that is close to 2 to the power of `x`
-
-
+`log(x)`  returns a `float` number that is close to the natural logarithm of the argument `x`.
 
 ### log2
 
-`log2(x)` returns a `float` number that is close to the binary logarithm of the argument `x`
-
-
-
-### exp10
-
-`exp10(x)` returns a `float` number that is close to 10 to the power of `x`
-
-
+`log2(x)` returns a `float` number that is close to the binary logarithm of the argument `x`.
 
 ### log10
 
-`log10(x)` returns a `float` number that is close to the decimal logarithm of the argument `x`
+`log10(x)` returns a `float` number that is close to the decimal logarithm of the argument `x`.
 
 
 
 ### sqrt
 
-`sqrt(x) `returns a `float` number that is close to the square root of the argument `x`
+`sqrt(x) `returns a `float` number that is close to the square root of the argument `x`.
 
 
 
 ### cbrt
 
-`cbrt(x)` returns a `float` number that is close to the cubic root of the argument `x`
+`cbrt(x)` returns a `float` number that is close to the cubic root of the argument `x`.
 
 
 ### lgamma
 
-`lgamma(x)` the logarithm of the gamma function
+`lgamma(x)` the logarithm of the gamma function.
 
 
 
