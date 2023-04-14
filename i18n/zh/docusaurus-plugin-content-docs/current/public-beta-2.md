@@ -24,6 +24,7 @@
   * A new [timeplus-target](https://hub.meltano.com/loaders/target-timeplus) is added in [Meltano](https://meltano.com/) Hub. Meltano provides 500+ source connectors, all of which can be configured to send data to Timeplus. Check [our blog](https://www.timeplus.com/post/meltano-timeplus-target) for more details.
   * In the query history page, the column for SQL states is now wider, allowing you to see more.
   * We've made it easier to multi-task in Timeplus by letting you open new browser tabs. for example, when you are writing SQL in the **Query** page, and need to create a new view, you can right click **Views** in the left-side navigation menu and open a tab.
+  * We refined the documentation of [Ingest API](ingest-api) and added code examples for Node/curl/Python/Java. [A new quickstart](quickstart-ingest-api) for the Ingest API is added too.
 
 ## 4/3
 
