@@ -65,7 +65,18 @@ const sidebars = {
         link: {
           type: 'generated-index',
         },
-        items:['working-with-streams','eventtime','stream-query','history','view','source','destination','alert']
+        items:[
+          {
+            type:'category',
+            label:'Stream',
+            //collapsed: false,
+            link: {
+              type: 'doc',
+              id:'working-with-streams'
+            },
+            items:['changelog-stream','versioned-stream','external-stream']
+          },
+          'eventtime','stream-query','history','view','source','destination','alert']
        },
        {
         type:'category',

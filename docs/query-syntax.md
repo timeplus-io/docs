@@ -420,7 +420,7 @@ There are many types of JOIN supported in Timeplus:
 
 * The common ones are `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`.
 * A speical `CROSS JOIN`, which produces the full cartesian product of the two streams without considering join keys. Each row from the left stream is combined with each row from the right stream. 
-* A special `ASOF JOIN` provides non-exact matching capabilities. This can work well if two streams with similar id, but not with exactly same timestamps.
+* A special `ASOF JOIN` provides non-exact matching capabilities. This can work well if two streams with same id, but not with exactly same timestamps.
 * A special `LATEST JOIN`.  For two append-only streams, if you use `a INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either streams, the previous join result will be cancelled and a new result will be added.
 
 
