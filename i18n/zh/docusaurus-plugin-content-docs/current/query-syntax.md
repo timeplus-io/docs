@@ -444,7 +444,7 @@ Timeplus 支持多种类型的JOIN：
 
 * 常见是 `INNER JOIN`, `LEFT JOIN`, `Right JOIN`, `FULL JOIN`.
 * 一种特殊的 `CROSS JOIN`，它在不考虑连接键的情况下生成两个流的完整笛卡尔乘积。 左侧流中的每一行与右侧流的每一行合并在一起。
-* 特殊的 `ASOF JOIN` 提供非精确匹配功能。 如果两个直播的ID相似，但时间戳不完全相同，则可以很好地使用。
+* 特殊的 `ASOF JOIN` 提供非精确匹配功能。 This can work well if two streams with same id, but not with exactly same timestamps.
 * 特别的 `LATEST JOIN`.  对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
 
