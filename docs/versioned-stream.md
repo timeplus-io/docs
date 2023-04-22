@@ -1,6 +1,6 @@
 # Versioned Stream
 
-When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream direclty, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a JSON with other streams, Timeplus will automatically choose the closest version.
+When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream direclty, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a JOIN with other streams, Timeplus will automatically choose the closest version.
 
 Here are some examples:
 
@@ -8,10 +8,11 @@ Here are some examples:
 
 In this example, you create a stream `dim_products` in `versioned_kv` mode with the following columns:
 
-| Column Name | Date Type | Description                                   |
-| ----------- | --------- | --------------------------------------------- |
-| product_id  | string    | unique id for the product, as the primary key |
-| price       | float     | current price                                 |
+| Column Name | Date Type           | Description                                                  |
+| ----------- | ------------------- | ------------------------------------------------------------ |
+| _tp_time    | datetime64(3,'UTC') | this is automatically created for all streams in Timeplus, with the event time at millisecond precision and UTC timezone |
+| product_id  | string              | unique id for the product, as the primary key                |
+| price       | float               | current price                                                |
 
 If you don't add any data, query `SELECT * FROM dim_products` will return no results and keep waiting for the new results.
 

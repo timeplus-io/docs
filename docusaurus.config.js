@@ -121,12 +121,16 @@ const config = {
             title: 'Company',
             items: [
               {
-                label: 'Timeplus Cloud',
-                href: 'https://timeplus.cloud',
+                label: 'Company Home Page',
+                href: 'https://timeplus.com',
               },
               {
-                label: 'Playground',
-                href: 'https://play.timeplus.com',
+                label: 'Timeplus Cloud',
+                href: 'https://us.timeplus.cloud',
+              },
+              {
+                label: 'Live Demo',
+                href: 'https://demo.timeplus.cloud',
               },
               {
                 label: 'Blog',
@@ -138,8 +142,12 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Join our Slack',
+                label: 'Community Slack',
                 href: 'https://timeplus.com/slack',
+              },
+              {
+                label: 'Github',
+                href: 'https://github.com/timeplus-io/',
               },
             ],
           },
