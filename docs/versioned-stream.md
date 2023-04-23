@@ -1,6 +1,6 @@
 # Versioned Stream
 
-When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream direclty, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a JOIN with other streams, Timeplus will automatically choose the closest version.
+When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a JOIN with other streams, Timeplus will automatically choose the closest version.
 
 Here are some examples:
 
@@ -82,7 +82,7 @@ Then you can change the price of iPhone14 back to 799, by adding a new row in `d
 | ---------- | ----- |
 | iPhone14   | 799   |
 
-Also add new row in `orders`
+Also add a new row in `orders`
 
 | _tp_time                 | order_id | product_id | quantity |
 | ------------------------ | -------- | ---------- | -------- |
