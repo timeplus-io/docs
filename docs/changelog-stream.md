@@ -402,19 +402,19 @@ You can follow this [guide](kafka-source) to add 2 data sources to load data fro
 * Data source name `s1` to load data from topic `doc.public.dim_products` and put in a new stream `rawcdc_dim_products`
 * Data source name `s2` to load data from topic `doc.public.orders` and put in a new stream `rawcdc_orders`
 
-Then create a new materialized view `mv_dim_products` with `dim_products` as the target stream, and the following SQL:
+Then run the following SQL in query page:
 
 ```sql
-select 1 as _tp_delta, after:product_id as product_id, after:price::float as price, to_time(to_string(ts_ms)) as _tp_time from rawcdc_dim_products where op in ('c','r')
+select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op in ('c','r')
 union
-select -1 as _tp_delta, before:product_id as product_id, before:price::float as price, to_time(to_string(ts_ms)) as _tp_time from rawcdc_dim_products where op='d'
+select -1::int8 as _tp_delta, before:product_id as product_id, before:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='d'
 union
-select -1 as _tp_delta, before:product_id as product_id, before:price::float as price, to_time(to_string(ts_ms)) as _tp_time from rawcdc_dim_products where op='u'
+select -1::int8 as _tp_delta, before:product_id as product_id, before:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'
 union 
-select 1 as _tp_delta, after:product_id as product_id, after:price::float as price, to_time(to_string(ts_ms)) as _tp_time from rawcdc_dim_products where op='u'    
+select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'      
 ```
 
-
+Click the **Send as Sink** button and choose Timeplus type, to send the results to an existing stream `dim_products` .
 
 :::info
 
