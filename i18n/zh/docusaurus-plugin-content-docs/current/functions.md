@@ -1,6 +1,6 @@
 # 函数
 
-以下是Timeplus支持的SQL函数。 如果您需要更多功能，请联系我们。
+Timeplus supports ANSI-SQL standard syntax. The following functions are provided for various use cases. 如果您需要更多功能，请联系我们。
 
 ## Type Conversion {#proc_type}
 
