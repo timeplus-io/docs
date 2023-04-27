@@ -1,6 +1,6 @@
 # Functions
 
-The following functions are supported in the SQL-like Timeplus query language. Please contact us if you need more functions.
+Timeplus supports ANSI-SQL standard syntax. The following functions are provided for various use cases. Please contact us if you need more functions.
 
 ## Type Conversion {#proc_type}
 
