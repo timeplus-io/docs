@@ -9,7 +9,7 @@ Timeplus is a streaming analytics platform and data lives in streams. Timeplus `
 Timeplus supports multiple types of streams:
 
 1. By default, the streams are append-only and immutable (older data can be purged automatically by setting a retention policy)
-2. If you want to create a stream to track the latest value for a primary key, you can create [Changelog Streams](changelog-stream). It works great with CDC(Change Data Capture) data sources, such as [Debezium](https://debezium.io/) for PostgreSQL, MongoDB or other databases. The INSERT, UPDATE, DELETE opertions can be converted to update to the Changelog Stream, and you can always get the latest row for any primary key.
+2. If you want to create a stream to track the latest value for a primary key, you can create [Changelog Streams](changelog-stream). It works great with CDC(Change Data Capture) data sources, such as [Debezium](https://debezium.io/) for PostgreSQL, MongoDB or other databases. The INSERT, UPDATE, DELETE operations can be converted to update to the Changelog Stream, and you can always get the latest row for any primary key.
 3. You can also create [Versioned Streams](versioned-stream) if you need keep more than the latest value. When you run SQL to join an append-only stream with such versioned stream, Timeplus will automatically use the version with closest timestamp to match the append-only stream.
 4. You can also define [External Streams](external-stream) to run SQL against remote Kafka/Redpanda brokers.
 

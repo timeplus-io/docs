@@ -6,6 +6,25 @@ We will update the beta version from time to time and list key enhancements in t
 
 (in year 2023)
 
+## 5/1
+
+**Streaming Database and SQL**
+
+* (Experimental) In addition to the default append-only data streams, you can now create streams with mutations and versions. You can leverage tooIs, such as [Debezium](https://debezium.io/), to load CDC(Change Data Capture) data from different sources and track the INSERT, UPDATE, DELETE operations in Timeplus. You can always get the latest event for any primary key. [Learn more.](working-with-streams)
+
+**Dashboards**
+
+  * (Experimental) a new map visualization type is added. You can show latest locations in a live map view.
+  * For table visualization, if the update mode is per-key, then you can turn on the sparkling mode to track the value changes for certain columns.
+
+**Other Enhancements**
+
+  * If you run `SELECT * FROM my_stream` and there is no new data for a while, Timeplus will show you a SQL to query the historical data.
+  * A better color picker is added in visualization configuration forms.
+  * UI for sample dataset is simplified.
+
+
+
 ## 4/17
 
 **Streaming Database and SQL**
