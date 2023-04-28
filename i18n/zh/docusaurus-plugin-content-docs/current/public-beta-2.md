@@ -6,6 +6,25 @@
 
 (2023年)
 
+## 5/1
+
+**流数据库和流式SQL**
+
+* （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 You can leverage tooIs, such as [Debezium](https://debezium.io/), to load CDC(Change Data Capture) data from different sources and track the INSERT, UPDATE, DELETE operations in Timeplus. You can always get the latest event for any primary key. [Learn more.](working-with-streams)
+
+**图表和仪表盘**
+
+  * (Experimental) a new map visualization type is added. You can show latest locations in a live map view.
+  * For table visualization, if the update mode is per-key, then you can turn on the sparkling mode to track the value changes for certain columns.
+
+**其他改进**
+
+  * If you run `SELECT * FROM my_stream` and there is no new data for a while, Timeplus will show you a SQL to query the historical data.
+  * A better color picker is added in visualization configuration forms.
+  * UI for sample dataset is simplified.
+
+
+
 ## 4/17
 
 **流数据库和流式SQL**
