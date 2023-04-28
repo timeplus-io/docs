@@ -4,28 +4,27 @@
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
-(2023年)
 
-## 5/1
+## May 1, 2023
 
 **流数据库和流式SQL**
 
-* （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 You can leverage tooIs, such as [Debezium](https://debezium.io/), to load CDC(Change Data Capture) data from different sources and track the INSERT, UPDATE, DELETE operations in Timeplus. You can always get the latest event for any primary key. [Learn more.](working-with-streams)
+* （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 You can leverage tooIs, such as [Debezium](https://debezium.io/), to load CDC (Change Data Capture) data from different sources and track the INSERT, UPDATE, DELETE operations in Timeplus. You can always get the latest event for any primary key. [Learn more.](working-with-streams)
 
 **图表和仪表盘**
 
-  * (Experimental) a new map visualization type is added. You can show latest locations in a live map view.
-  * For table visualization, if the update mode is per-key, then you can turn on the sparkling mode to track the value changes for certain columns.
+  * (Experimental) A new map visualization type is added, showing latest locations in a live map view.
+  * For table visualization, if the update mode is per-key, you can enable a sparkline to track value changes for certain columns.
 
 **其他改进**
 
-  * If you run `SELECT * FROM my_stream` and there is no new data for a while, Timeplus will show you a SQL to query the historical data.
+  * If you run `SELECT * FROM my_stream` and there is no data coming in for the first while, Timeplus will show you a hint message with SQL to query historical data.
   * A better color picker is added in visualization configuration forms.
-  * UI for sample dataset is simplified.
+  * The UI for our sample dataset is simplified. Instead of the regular configuration flow for other sources, you can now quickly generate sample data with a couple of clicks.
 
 
 
-## 4/17
+## April 17, 2023
 
 **流数据库和流式SQL**
 
@@ -46,7 +45,7 @@
   * We've made it easier to multi-task in Timeplus by letting you open new browser tabs. for example, when you are writing SQL in the **Query** page, and need to create a new view, you can right click **Views** in the left-side navigation menu and open a tab.
   * We refined the documentation of [Ingest API](ingest-api) and added code examples for Node/curl/Python/Java. [A new quickstart](quickstart-ingest-api) for the Ingest API is added too.
 
-## 4/3
+## April 3, 2023
 
 **流数据库和流式SQL**
 
@@ -64,7 +63,7 @@
   * Apache Kafka 和 Confluent Cloud 向导已经过重新设计，以提供更直观的配置体验。
   * 更新了导航菜单。 一些功能现在处于顶层：外部流、物化视图和用户定义的函数。
 
-## 3/18
+## March 18, 2023
 
 请试用我们最新的演示工作区 [https://demo.timeplus.cloud](https://demo.timeplus.cloud/)，里面有内置的金融科技和 GitHub 实时数据和实时仪表板。 注册并获得此演示服务器的只读访问权限。
 
@@ -93,7 +92,7 @@
   * 在我们的顶部标题菜单中添加了 Slack 按钮，邀请您加入我们的社区 Slack。
 
 
-## 3/6
+## March 6, 2023
 
 * 新功能
 
@@ -108,7 +107,7 @@
   * 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
   * 为流式查询添加 [LATEST JOIN](query-syntax#latest-join) 。 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
-## 2/17
+## February 17, 2023
 
 * 新功能
 
@@ -126,7 +125,7 @@
   * 提高了列表模式下查询结果的性能。
   * [外部流](working-with-streams#external_stream) 和 [物化视图](view#m_view)的性能调整。
 
-## 2/3
+## February 3, 2023
 
 * 查询页面增强功能
   * 显示查询是流式查询还是历史查询。
@@ -141,7 +140,7 @@
 
 
 
-## 1/20
+## January 20, 2023
 
 * 查询结果的界面更新：
   * **无限滚动。 ** 对于流式查询和历史查询，较新的结果显示在底部。 您可以向上滚动查看之前的结果，然后单击底部的 **跳转到最新数据** 按钮继续查看最新结果。
