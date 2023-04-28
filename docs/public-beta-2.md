@@ -4,28 +4,27 @@ We are thrilled to launch the next phase of public beta of Timeplus cloud releas
 
 We will update the beta version from time to time and list key enhancements in this page.
 
-(in year 2023)
 
-## 5/1
+## May 1, 2023
 
 **Streaming Database and SQL**
 
-* (Experimental) In addition to the default append-only data streams, you can now create streams with mutations and versions. You can leverage tooIs, such as [Debezium](https://debezium.io/), to load CDC(Change Data Capture) data from different sources and track the INSERT, UPDATE, DELETE operations in Timeplus. You can always get the latest event for any primary key. [Learn more.](working-with-streams)
+* (Experimental) In addition to the default append-only data streams, you can now create streams with mutations and versions. You can leverage tooIs, such as [Debezium](https://debezium.io/), to load CDC (Change Data Capture) data from different sources and track the INSERT, UPDATE, DELETE operations in Timeplus. You can always get the latest event for any primary key. [Learn more.](working-with-streams)
 
 **Dashboards**
 
-  * (Experimental) a new map visualization type is added. You can show latest locations in a live map view.
-  * For table visualization, if the update mode is per-key, then you can turn on the sparkling mode to track the value changes for certain columns.
+  * (Experimental) A new map visualization type is added, showing latest locations in a live map view.
+  * For table visualization, if the update mode is per-key, you can enable a sparkline to track value changes for certain columns.
 
 **Other Enhancements**
 
-  * If you run `SELECT * FROM my_stream` and there is no new data for a while, Timeplus will show you a SQL to query the historical data.
+  * If you run `SELECT * FROM my_stream` and there is no data coming in for the first while, Timeplus will show you a hint message with SQL to query historical data.
   * A better color picker is added in visualization configuration forms.
-  * UI for sample dataset is simplified.
+  * The UI for our sample dataset is simplified. Instead of the regular configuration flow for other sources, you can now quickly generate sample data with a couple of clicks. 
 
 
 
-## 4/17
+## April 17, 2023
 
 **Streaming Database and SQL**
 
@@ -46,7 +45,7 @@ We will update the beta version from time to time and list key enhancements in t
   * We've made it easier to multi-task in Timeplus by letting you open new browser tabs. for example, when you are writing SQL in the **Query** page, and need to create a new view, you can right click **Views** in the left-side navigation menu and open a tab.
   * We refined the documentation of [Ingest API](ingest-api) and added code examples for Node/curl/Python/Java. [A new quickstart](quickstart-ingest-api) for the Ingest API is added too.
 
-## 4/3
+## April 3, 2023
 
 **Streaming Database and SQL**
 
@@ -64,7 +63,7 @@ We will update the beta version from time to time and list key enhancements in t
   * "Apache Kafka" and "Confluent Cloud" wizards have been redesigned to provide a more intuitive configuration experience. 
   * Updated the navigation menu. A few features are now at top levels: External Streams, Materialized Views, and User-Defined Functions.
 
-## 3/18
+## March 18, 2023
 
 Try out our new demo workspace, [https://demo.timeplus.cloud](https://demo.timeplus.cloud/), with built-in FinTech and GitHub live data and real-time dashboards. Sign up and get read-only access to this demo server.
 
@@ -93,7 +92,7 @@ Enhancements:
   * Added a Slack button to our top header menu, inviting you to join our community Slack.
 
 
-## 3/6
+## March 6, 2023
 
 * New features
 
@@ -108,7 +107,7 @@ Enhancements:
   * To improve readability, you can use numeric literals with underscores, e.g. `select * from iot where age_second > 86_400 `. Underscores `_` inside numeric literals are ignored.
   * Added a new [LATEST JOIN](query-syntax#latest-join) for streaming SQL. For two append-only streams, if you use `a LEFT INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either streams, the previous join result will be cancelled and a new result will be added.
 
-## 2/17
+## February 17, 2023
 
 * New features
 
@@ -126,7 +125,7 @@ Enhancements:
   * Improved the performance of query results in list mode.
   * Performance tuning for [external streams](working-with-streams#external_stream) and [materialized views](view#m_view).
 
-## 2/3
+## February 3, 2023
 
 * Query page enhancements
   * Showing whether the query is a streaming query or historical query.
@@ -141,7 +140,7 @@ Enhancements:
 
 
 
-## 1/20
+## January 20, 2023
 
 * UI update for the query result:
   * **Infinite scroll.** For both streaming queries and historical queries, newer results are shown in the bottom. You can scroll up to see earlier results, then click **Jump to latest data** button in the bottom to continue to view latest results.
