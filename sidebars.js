@@ -114,6 +114,7 @@ const sidebars = {
        },
        'getting-help',
        'glossary',
+       'credits',
        /*
       ],
     }*/
