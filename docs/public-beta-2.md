@@ -4,6 +4,16 @@ We are thrilled to launch the next phase of public beta of Timeplus cloud releas
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+## May 16, 2023
+
+**Enhancements: Data Ingestion **
+  * We've made it easier for you to push data via Ingest REST API. We've added a wizard page in our console to take you through the steps of selecting a target stream, a target template, an API key, and then generating a sample code for the push request. [Learn more.](ingest-api)
+  * Our navigation menu now consolidates all data ingestion related options into one page: Data. This page has options to add a source (such as Apache Kafka, Confluent Cloud, Redpanda, etc.), connect an external stream, the new Ingest API wizard, and CSV file upload. 
+  * Our CSV file upload wizard has a new look, in the same UI style as our other wizards.
+
+**Enhacements: Dashboards and Charts**
+  * When you make formatting changes to a chart, your changes will be instant, instead of needing to reload the chart.
+  * We added an icon on mouseover to Dashboard charts, while in View-Only mode, that will open the chart's SQL in the Query editor page. 
 
 ## May 1, 2023
 
