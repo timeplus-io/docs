@@ -10,7 +10,7 @@ After you run a query, you can switch to the **Visualization** tab to turn the r
 
 ### Line chart
 
-Line charts best with time series data.
+Line charts work best with time series data.
 
 * Data settings:
   * X-axis: Event Time (_tp_time), or Arrival Time(when the browser gets the data point), or a custom column.
@@ -18,11 +18,12 @@ Line charts best with time series data.
   * Color: by default `None` is selected. You can choose a categorical column and draw a line for each unique value of the column value in different colors.
 
 * Format settings:
-  * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc.)
-  * Y-axis title, min/max value, number of decimal, or prefix/suffix
+  * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc.). By default, 'Last 1 minute' is selected. If you are running a historical query, please change it to 'All time'.
+  * Y-axis title, min/max value, line color, style
+  * Show/hide the data label for the last value of the line chart, number of decimal and whether to show prefix/surfix as unit.
   * Show/hide grid lines
   * Show/hide legend
-  * Show/hide data label
+  * Show/hide data points
 
 
 ### Area chart
@@ -40,7 +41,7 @@ Shows a stacked area chart, with the same format settings as **Line Chart**.
   * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
 
 * Format settings:
-  * X-axis title, Y-axis title, prefix/suffix, show/hide grid lines, show/hide legend, or show/hide data label
+  * X-axis title, Y-axis title, column color, show/hide data label (with decimal and prefix/surfix unit), show/hide grid lines, show/hide legend
 
 
 ### Bar chart
@@ -53,11 +54,23 @@ Similar to Column chart, with data points shown as horizontal bars instead of ve
   * choose a numeric column to show its value
 
 * Format settings:
-  * Suffix or prefix
   * Number of decimal
   * Font size
+  * Unit as suffix or prefix
   * Show/hide sparkline
   * Show/hide delta for last value vs. the current value
+
+### Map chart
+
+Currently only available on https://us.timeplus.cloud as a preview feature.
+
+* Data settings:
+  * choose the column for longtitude and latitude.
+  * color: whether to show grouped data in either stack mode or dodge mode.
+  * update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
+
+* Format settings:
+  * Map size (TO BE UPDATED)
 
 
 ### Table
@@ -65,11 +78,14 @@ Similar to Column chart, with data points shown as horizontal bars instead of ve
 Shows the data as a list table.
 
 * Data settings
-  * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest row for each key value.
   * Maximum row count.
-
+  * Update mode: 
+    * Show All: show all query results (limited by the maxium row count)
+    * By Time: show data points from the last timestamp
+    * By Key: choose a key column as show latest row for each key value.
+  
 * Format settings
-  * For each column, you can choose to set column width and decimal for numeric columns.
+  * For each column, you can choose to show or hide it, or set column width and decimal for numeric columns.
   * Conditional formatting: highlight a cell or an entire row if the value meets a certain condition you've set
 
 
