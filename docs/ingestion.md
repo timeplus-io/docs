@@ -38,12 +38,11 @@ flowchart LR
 
 If you have some static dataset or lookup tables in the CSV format, you can upload the files directly to Timeplus.
 
-1. Click the **Add Data** from the navigation menu. Then click **Files** and click the **Start** button
-2. Drag and drop a CSV file from your local file system to upload the file. Or you can specify a URL for Timeplus to download the file. Currently we only support CSV format. Other formats will be supported shortly.
-3. Specify a name for this data source, and optionally provide a readable description.
-4. Similar to the Kafka source, you can choose to create a new stream or select an existing stream. Usually the CSV file contains the column header in the first row. Deselect that option if no header is available, then Timeplus will create column names.
-5. Click **Next** to preview the streaming data and choose a column as the event time. 
-6. Finish the rest of the wizard and your streaming data will be available in the new stream immediately. 
+1. Click the **Add Data** from the navigation menu. Then click **Import from CSV** button
+2. Drag and drop a CSV file from your local file system to upload the file. (COMING SOON: if your file is downloadable from a URL or S3 bucket, you can create a source to have Timeplus server to load it. File formtas, other than CSV, will be supported too.)
+3. Choose whether the first row of the file as the column header.
+4. Specify a name for the stream, and optionally provide a readable description.
+5. Click the button to start uploading data and click the **View Imported Data** button to run a query to review imported data.
 
 
 
@@ -51,13 +50,11 @@ If you have some static dataset or lookup tables in the CSV format, you can uplo
 
 If you are not ready to load your real data into Timeplus, or just want to play with the system, you can use this feature to load some sampling streaming data. We provide 3 typical steaming data
 
-1. `iot_data` will generate data for 3 devices(device_0, device_1 and device_2). The `number` value can be anything between 0 to 100. The `time` column is the when the event is generated.
+1. `iot` will generate data for 3 devices(device_0, device_1 and device_2). The `number` value can be anything between 0 to 100. The `time` column is the when the event is generated.
 2. `user_logins` will generate data for 2 users(user1 and user2), from 2 possible `city` value: Shanghai or Beijing. The `time` column is the when the event is generated.
 3. `devops` will generate data for 3 `hostname`(host_0,host_1, and host_2), from 3 possible `region`(eu-central-1, us-west-1, and sa-east-1), 3 possible `rack`(1,2,3), a number `usage_user` from 0 to 100, `usage_system` from 0 to 100, and `time` column for the event time.
 
-You can load such sample datas via the **Add Data** menu and the **Sample Data** option. You can create new streams or choose existing streams for the data.
-
-[Learn more.](stream-generator)
+You can load such sample datas via the **Add Data** button and the **Sample Dataset** option. You can create new streams or choose existing streams for the data.
 
 ## Push data to Timeplus via REST or SDK {#push}
 
