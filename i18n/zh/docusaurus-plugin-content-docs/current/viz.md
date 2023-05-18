@@ -10,7 +10,7 @@ After you run a query, you can switch to the **Visualization** tab to turn the r
 
 ### 折线图
 
-Line charts best with time series data.
+Line charts work best with time series data.
 
 * 数据设置：
   * X 轴：事件时间 (_tp_time)、到达时间（浏览器获取数据点时）或自定义列。
@@ -18,11 +18,12 @@ Line charts best with time series data.
   * 颜色：默认情况下， `无` 处于选中状态。 You can choose a categorical column and draw a line for each unique value of the column value in different colors.
 
 * 格式设置
-  * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc.)
-  * Y 轴标题、最小值/最大值、十进制数或前缀/后缀
+  * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc.). By default, 'Last 1 minute' is selected. If you are running a historical query, please change it to 'All time'.
+  * Y-axis title, min/max value, line color, style
+  * Show/hide the data label for the last value of the line chart, number of decimal and whether to show prefix/surfix as unit.
   * Show/hide grid lines
   * Show/hide legend
-  * Show/hide data label
+  * Show/hide data points
 
 
 ### 面积图
@@ -40,7 +41,7 @@ Shows a stacked area chart, with the same format settings as **Line Chart**.
   * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
 
 * 格式设置
-  * X-axis title, Y-axis title, prefix/suffix, show/hide grid lines, show/hide legend, or show/hide data label
+  * X-axis title, Y-axis title, column color, show/hide data label (with decimal and prefix/surfix unit), show/hide grid lines, show/hide legend
 
 
 ### 条形图
@@ -53,11 +54,23 @@ Similar to Column chart, with data points shown as horizontal bars instead of ve
   * 选择一个数字列来显示其值
 
 * 格式设置
-  * 后缀或前缀
   * 小数位数
   * 字体大小
+  * Unit as suffix or prefix
   * Show/hide sparkline
   * Show/hide delta for last value vs. the current value
+
+### Map chart
+
+Currently only available on https://us.timeplus.cloud as a preview feature.
+
+* 数据设置：
+  * choose the column for longtitude and latitude.
+  * color: whether to show grouped data in either stack mode or dodge mode.
+  * update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
+
+* 格式设置
+  * Map size (TO BE UPDATED)
 
 
 ### 表格
@@ -65,11 +78,14 @@ Similar to Column chart, with data points shown as horizontal bars instead of ve
 Shows the data as a list table.
 
 * 数据设置
-  * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
   * 最大行数
+  * Update mode:
+    * Show All: show all query results (limited by the maxium row count)
+    * By Time: show data points from the last timestamp
+    * By Key: choose a key column as show latest row for each key value.
 
 * 格式设置
-  * 对于每列，您可以选择为数字列设置列宽和十进制。
+  * For each column, you can choose to show or hide it, or set column width and decimal for numeric columns.
   * Conditional formatting: highlight a cell or an entire row if the value meets a certain condition you've set
 
 
