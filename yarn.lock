@@ -1662,10 +1662,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-sc/-/noto-sans-sc-4.5.12.tgz#e7e589455250cd63950337dbb7ac047ccb0e5bc0"
   integrity sha512-KQ8Bn8KCGVS6RKrEw7fp65GJYpKyKEJ/TkePoKGxvNy7smSaHoKV7vrmpIiA46hkqQyYdENix/NKSprxs4Soyw==
 
-"@fontsource/poppins@^4.5.1":
-  version "4.5.8"
-  resolved "https://registry.npmjs.org/@fontsource/poppins/-/poppins-4.5.8.tgz"
-  integrity sha512-HE9yLDxYJEcxooVrYvvEhtyxaYU32hQIx1+npKegVefceE0l0zi0ePqKWWxYxkFpyy6WuZSQ+9rai3INnYKEJA==
+"@fontsource/poppins@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.0.0.tgz#5023921cfd2a167f64060f8029e8f99ce68c32f9"
+  integrity sha512-YdJlR5Q/XXvp1rd0668YtzBM/QQmR/1T/oMyatcn648wkLiAt4FOhi6CT1xxo6PeucqX/+w8gAhP5XvToeMg0Q==
 
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
