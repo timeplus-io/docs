@@ -1661,23 +1661,23 @@
   integrity sha512-yhNfm2hV+5u7PQDSGYraJ6g1nbaVuWJFiE9fo1r0Tg2xthveZsYFOUltLRLCASo3DIkTkPgf1WX8Wpxfm3IEUQ==
 
 "@fontsource/noto-sans-sc@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-sc/-/noto-sans-sc-5.0.0.tgz#524ae4c68070dd5cbf063b67d4d80d8eb1eccb9e"
-  integrity sha512-IQuTL1h/yCd0/LLvADvHd/hacdjtbBMAWFAkg19Ovr33dybmrD5GfGNvQJ7y1BIPp76uGe85p2/kiuYw1hRL4Q==
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-sc/-/noto-sans-sc-5.0.1.tgz#2e4dd53328e45ee02ac2d415fa4c8285d151eca1"
+  integrity sha512-EXTDa3Rcfrfb+iGWW2au+6hj2X/s8+K+r2sqy2cXVGyw+lc0BL02nZDIAUUeIjtBfRNsflVIvv+oGijmFmb3Pg==
 
 "@fontsource/poppins@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.0.0.tgz#5023921cfd2a167f64060f8029e8f99ce68c32f9"
-  integrity sha512-YdJlR5Q/XXvp1rd0668YtzBM/QQmR/1T/oMyatcn648wkLiAt4FOhi6CT1xxo6PeucqX/+w8gAhP5XvToeMg0Q==
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.0.1.tgz#b284e8f66cdb4208d214fe2ccc93cdb1318f8905"
+  integrity sha512-meHDJ+t2NrfiKdcQefv+CYGcup8ZHXoSzOwRV3RolmGXG4569y9zL/lV8qMe3q8WdqSn8CAyRoJKxZXEkPBcAg==
 
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
-  resolved "https://registry.npmjs.org/@hapi/hoek/-/hoek-9.3.0.tgz"
+  resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"
   integrity sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==
 
 "@hapi/topo@^5.0.0":
   version "5.1.0"
-  resolved "https://registry.npmjs.org/@hapi/topo/-/topo-5.1.0.tgz"
+  resolved "https://registry.yarnpkg.com/@hapi/topo/-/topo-5.1.0.tgz#dc448e332c6c6e37a4dc02fd84ba8d44b9afb012"
   integrity sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==
   dependencies:
     "@hapi/hoek" "^9.0.0"
