@@ -1218,13 +1218,16 @@
   resolved "https://registry.npmjs.org/@colors/colors/-/colors-1.5.0.tgz"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@crowdin/cli@3":
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-3.9.1.tgz#f09f3616798ec7474c2c7d162a40bf875e0c9e74"
-  integrity sha512-Ca+mzVvLE9lYmTA4peTHOQdH42+eThwQ0DK6URT7crInQKJRjVJdsA2kkfEwi2mQPruAIG/KIKaPieRWPanlIQ==
+"@crowdin/cli@^3.11.1":
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-3.11.1.tgz#e35cfb50f9307d7ab5c43850ea4acccab9880ece"
+  integrity sha512-dkCTrfZxxAW7u7AfKHGVcQLSPyV/m3e3PL2eSivEcvwgZTKUGj3mDdJwjazbFNL/2c1OnKFblEYHvAP6Ik9NCA==
   dependencies:
-    njre "^0.2.0"
+    command-exists-promise "^2.0.2"
+    node-fetch "2.6.7"
     shelljs "^0.8.4"
+    tar "^4.4.8"
+    yauzl "^2.10.0"
 
 "@docsearch/css@3.1.1":
   version "3.1.1"
@@ -6235,16 +6238,6 @@ neo-async@^2.5.0, neo-async@^2.6.2:
   resolved "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-njre@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/njre/-/njre-0.2.0.tgz#e5abfbafafb3db4438fe6b149da9a733fab0bf3d"
-  integrity sha512-+Wq8R6VmjK+jI8a9NdzfU6Vh50r3tjsdvl5KJE1OyHeH8I/nx5Ptm12qpO3qNUbstXuZfBDgDL0qQZw9JyjhMw==
-  dependencies:
-    command-exists-promise "^2.0.2"
-    node-fetch "^2.5.0"
-    tar "^4.4.8"
-    yauzl "^2.10.0"
-
 no-case@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/no-case/-/no-case-3.0.4.tgz"
@@ -6267,7 +6260,7 @@ node-emoji@^1.10.0:
   dependencies:
     lodash "^4.17.21"
 
-node-fetch@2.6.7, node-fetch@^2.5.0:
+node-fetch@2.6.7:
   version "2.6.7"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.7.tgz"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
