@@ -4,6 +4,21 @@ We are thrilled to launch the next phase of public beta of Timeplus cloud releas
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+## May 29, 2023 
+
+**Data Ingestion **
+  * We now have a consolidated page for adding your data to Timeplus. The new "Add Data" page allows you to add a source (such as Apache Kafka, Confluent Cloud, Redpanda, etc.), push data via Ingest REST API, import a CSV file, and connect an external stream (with Kafka data). Your added sources and external streams are also listed on this page, in separate tabs. 
+  * In the Apache Kafka and Redpanda sources, you can now encode/decode Protobuf. During the "Pull Data" step, enter your Protobus message name and definition. 
+
+**Streaming Database and SQL**
+  * We've made a significant performance enhancement for hop window, from 10x to 100x. This is especially helpful for large window sizes, such as 24 hours as a total window size, but showing updates every second. 
+  * User-defined functions (UDFs) and user-defined aggregates (UDAs) are now able to return array as a data type. 
+
+**Other Enhancements**
+  * (Experimental) We've added a collaboration feature, allowing you to invite team members to your workspace. Contact us to try it out!  
+  * We've reorganized our navigation menu to provider a clearer workflow: "Add Data" is now at the top, followed by "Run SQL". We've also added "Workspace Settings" to the menu, for quicker access to your UDFs and team members. 
+  
+
 ## May 16, 2023
 
 **Enhancements: Data Ingestion **
