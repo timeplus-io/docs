@@ -18,7 +18,7 @@ abort the query or there is some exception happening.
 Timeplus supports some internal `SETTINGS` to fine tune the streaming query processing behaviors. Here is an exhaustive list of them. We will come back to them in sections below.
 
 1. `query_mode=<table|streaming>`. A general setting which decides if the overall query is historical data processing or streaming data processing. By default, it is `streaming`.
-2. `seek_to=<timestamp|eariest|latest>`. A setting which tells Timeplus to seek to old data in streaming store by a timestamp. It can be relative timestamp or an absolute timestamp. By default, it is `latest` which means don't seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='eariest'` 
+2. `seek_to=<timestamp|eariest|latest>`. A setting which tells Timeplus to seek to old data in streaming storage by a timestamp. It can be relative timestamp or an absolute timestamp. By default, it is `latest` which means don't seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='eariest'` 
 
 :::info
 
