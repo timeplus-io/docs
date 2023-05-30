@@ -1218,10 +1218,10 @@
   resolved "https://registry.npmjs.org/@colors/colors/-/colors-1.5.0.tgz"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@crowdin/cli@^3.11.1":
-  version "3.11.1"
-  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-3.11.1.tgz#e35cfb50f9307d7ab5c43850ea4acccab9880ece"
-  integrity sha512-dkCTrfZxxAW7u7AfKHGVcQLSPyV/m3e3PL2eSivEcvwgZTKUGj3mDdJwjazbFNL/2c1OnKFblEYHvAP6Ik9NCA==
+"@crowdin/cli@^3.12.0":
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-3.12.0.tgz#9c8c773c06f47b93688304493a231b005ae082a7"
+  integrity sha512-t0h/auw84s+8foHomRJ4oSlV78iY8n4r7E3mcomjazgNUrXeW5PF1d/QpH2D48m7YQ5b4YuhsaxKpTMlmua4MQ==
   dependencies:
     command-exists-promise "^2.0.2"
     node-fetch "2.6.7"
@@ -1655,20 +1655,20 @@
     url-loader "^4.1.1"
     webpack "^5.73.0"
 
-"@fontsource/inter@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-5.0.1.tgz#43fd31988734fe3abbe6864923ad43ede34038c2"
-  integrity sha512-jezFhHp0HcVy2t6M6r89EcxkT30vx0ofGauveQWQ81j70N/wNDYs4zI+sedeend6zF9GXIEqpOTO2D1k7VQX4w==
+"@fontsource/inter@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-5.0.2.tgz#fdaae4af1000601f9321f828d43d0892a818af6d"
+  integrity sha512-pQ1ms5nbprD+7Dnu5h0T9XOSJi5pvOanLCxi6mA9/5wclXFkkzvZo31ddoD8/Urncx11967qTnvGglPeWEOT+Q==
 
-"@fontsource/noto-sans-sc@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-sc/-/noto-sans-sc-5.0.1.tgz#2e4dd53328e45ee02ac2d415fa4c8285d151eca1"
-  integrity sha512-EXTDa3Rcfrfb+iGWW2au+6hj2X/s8+K+r2sqy2cXVGyw+lc0BL02nZDIAUUeIjtBfRNsflVIvv+oGijmFmb3Pg==
+"@fontsource/noto-sans-sc@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-sc/-/noto-sans-sc-5.0.2.tgz#e4182e59751470933d1a329f0d8b297d0fce56e3"
+  integrity sha512-bivEqvXoZQhZLZuXPVjaHAiXkFjXy3wZA/9xXOx9Y270WX4j2YfvtFgxXXQFXGxyTJqzDf4n8lKEkh5VIlo8sg==
 
-"@fontsource/poppins@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.0.1.tgz#b284e8f66cdb4208d214fe2ccc93cdb1318f8905"
-  integrity sha512-meHDJ+t2NrfiKdcQefv+CYGcup8ZHXoSzOwRV3RolmGXG4569y9zL/lV8qMe3q8WdqSn8CAyRoJKxZXEkPBcAg==
+"@fontsource/poppins@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.0.2.tgz#0f06a1adb3f8584114818e7c21a7d480450dae7c"
+  integrity sha512-504RESq2qbyVxxpjP2TyVQODOWakuBHBD3AtYurtmNHosC4x+mjyOlRSdW2QjsILezlwFCnLkYuGUzYiV44sEg==
 
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
