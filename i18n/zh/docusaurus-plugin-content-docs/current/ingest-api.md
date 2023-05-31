@@ -1,56 +1,56 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 通过REST API 将数据推送到 Timeplus
+# 通过REST API将数据推送到Timeplus
 
-作为通用解决方案，您可以使用任何首选语言调用 ingestion REST API 将数据推送到 Timeplus。 借助Ingest API的最新增强，在许多情况下，您可以将其他系统配置为通过 webhook 将数据直接推送到 Timeplus，而无需编写代码。
+作为通用的解决方案，您可以使用任何语言调用ingestion REST API并将数据推送到Timeplus。 借助Ingest API的最新增强，在许多情况下，您可以通过webhook配置其他系统来将数据直接推送到Timeplus，而无需编写代码。
 
-请查看 https://docs.timeplus.com/rest 了解详细的 API 文档。
+请查看 https://docs.timeplus.com/rest 了解详细的API文档。
 
-## 在 Timeplus 中创建一个流
+## 在Timeplus中创建一个流
 
-首先，您需要在 Timeplus 中创建一个流，要么使用 web UI ，要么通过 REST API。 应每一列设置适当的名称和类型。 在下一节中，我们假设流名称为 `foo`。
+首先，您需要使用Web UI或REST API在Timeplus中创建一个流。 您需要设置具有正确名称和类型的列。 在下一节中，我们假设流名称为 `foo`。
 
-## 在HTTP头发送身份验证令牌
+## 在HTTP标头中设置身份验证令牌
 
-请为工作区生成 API 密钥，并在 HTTP 头中设置 API 密钥，名称为： `X-Api-Key`
+接下来，您需要为工作区设置API密钥，并在 HTTP标头中将API密钥的名称设置为`X-Api-Key`。
 
-:::info
+:::注意
 
-如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义内容类型， 然后您可以使用标准 `application/json` 内容类型，并将 POST 请求发送到 `/api/v1beta1/streams/$KEY/ingest?format=streaming`
-
-:::
-
-## 向 Timeplus 发送数据
-
-### Endpoint
-
-实时数据推送的API endpoint是 `https://cloud.timeplus.com.cn/{workspace-id}/api/v1beta1/streams/{name}/ingest`
-
-:::info
-
-Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is readonly but we will make it editable in the future.
+如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义HTTP标头的话，您可以使用值为`ApiKey $KEY`的标准`Authorization`标头。
 
 :::
 
-You need to send `POST` request to this endpoint, e.g. `https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest`
+## 向Timeplus发送数据
+
+### 终端
+
+实时数据推送的API终端是`https://us.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`。
+
+:::注意
+
+请确保您使用的是`workspace-id`，而不是`workspace-name`。 Workspace-id是一个包含 8 个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
+
+:::
+
+您需要发送`POST`请求到这个终端，例如：`https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest`。
 
 ### 选项
 
-Depending on your use cases, there are many options to push data to Timeplus via REST API. You can set different `Content-Type` in the HTTP Header, and add the `format` query parameter in the URL.
+根据用例，通过REST API将数据推送到Timeplus中有许多选项。 您可以在HTTP标头中设置不同的`Content-Type`，并在URL中添加`format`查询参数。
 
-Here are a list of different use cases to push data to Timeplus:
+这里是将数据推送到Timeplus的不同用例列表：
 
-| 应用场景                                                                          | 样本POST请求内容                                                                                                                                                   | Content-Type           | URL                                    | Columns in the target stream      |
-| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | -------------------------------------- | --------------------------------- |
-| 1) Push JSON objects. 每个 JSON 都是一个事件。                                         | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                            | `application/x-ndjson` | ingest?format=streaming                | multiple columns, e.g. key1, key2 |
-| 2) Push a single JSON or a long text. 单个事件                                    | {"key1": "value11", "key2": "value12", ...}                                                                                                                  | `text/plain`           | ingest?format=raw                      | single column, named `raw`        |
-| 3) Push a batch of events. 每行都是一个事件。                                          | event1<br/>event2                                                                                                                                      | `text/plain`           | ingest?format=lines                    | single column, named `raw`        |
-| 4) Push a special JSON with mutiple events, without repeating the column name | { <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `application/json`     | ingest?format=compact 或者直接用无参数的 ingest | multiple columns, e.g. key1, key2 |
+| 应用场景                                                                          | 样本POST请求内容                                                                                                                                                   | Content-Type           | URL                                   | 目标流中的列          |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | ------------------------------------- | --------------- |
+| 1）推送JSON对象。 每个JSON都是一个事件。                                                     | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                            | `application/x-ndjson` | ingest?format=streaming               | 多列，例如：key1，key2 |
+| 2）推送单个JSON或长文本。 单个事件。                                                         | {"key1": "value11", "key2": "value12", ...}                                                                                                                  | `text/plain`           | ingest?format=raw                     | 单列，命名为`raw`     |
+| 3）推出一批事件。 每行都是一个事件。                                                           | event1<br/>event2                                                                                                                                      | `text/plain`           | ingest?format=lines                   | 单列，命名为`raw`     |
+| 4) Push a special JSON with mutiple events, without repeating the column name | { <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `application/json`     | ingest?format=compact 或者直接用无参数的ingest | 多列，例如：key1，key2 |
 
-#### 1) Push JSON objects directly {#option1}
+#### 1）直接推送 JSON 对象 {#option1}
 
-Request samples
+请求例子
 <Tabs defaultValue="curl">
 <TabItem value="js" label="Node.js" default>
 
@@ -154,18 +154,18 @@ public class Example {
   </TabItem>
 </Tabs>
 
-你可以将换行符分隔的 JSON (http://ndjson.org/) 推送到终端节点。 确保将 HTTP 标头设置为以下选项之一：
+您可以将换行符分隔的JSON (http://ndjson.org/) 推送到终端节点。 确保将 HTTP 标头设置为以下选项之一：
 
 - `application/x-ndjson`
 - `application/vnd.timeplus+json;format=streaming`
 
-:::info
+:::注意
 
-如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义内容类型， 然后您可以使用标准 `application/json` 内容类型，并将 POST 请求发送到 `/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`. 这将确保 Timeplus API 服务器将 POST 数据视为 NDJSON。 这将确保 Timeplus API 服务器将 POST 数据视为 NDJSON。
+如果您想利用第三方系统/工具将数据推送到Timeplus中，但它不允许自定义内容类型时，您可以使用标准的`application/json`，并将POST请求发送到`/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`。 这可以确保Timeplus的API服务器将POST数据视为NDJSON。
 
 :::
 
-请求正文只是一组 JSON 对象。 例如
+请求正文只是一组JSON对象。 例如
 
 ```json
 {"key1": "value11", "key2": "value12", ...}
@@ -194,11 +194,11 @@ public class Example {
 }...
 ```
 
-只要确保在请求正文中使用正确的值指定目标流中的所有列即可。
+只需确保目标流中的所有列都在请求中指定了正确的值。
 
-#### 2) Push a single JSON or string to a single column stream {#option2}
+#### 2）推送单个JSON或单个字符串列的流 {#option2}
 
-Request samples
+请求例子
 <Tabs defaultValue="curl">
 <TabItem value="js" label="Node.js" default>
 
@@ -296,12 +296,12 @@ public class Example {
   </TabItem>
 </Tabs>
 
-It's a common pratice to create a stream in Timeplus with a single `string` column, called `raw` You can put JSON objects in this column then extract value (such as `select raw:key1`), or put the raw log message in this column.
+在Timeplus中创建一个单个`string``列的流是一种常见的做法，称为<code>raw`。您可以将JSON对象放入该列然后提取值（例如<0>select raw:key1</code>），或者将原始日志消息放入该列。
 
-When you set Content-Type header to `text/plain`, and add `format=raw` to the ingestion endpoint, the entire body in the POST request will be put in the `raw` column.
+当您将Content-Type标头设置为`text/plain`，并将`format=raw`添加到摄取终端时，整个POST请求将被放入`raw`列中。
 
-#### 3) Push multiple JSON or text to a single column stream. Each line is an event {#option3}
-Request samples
+#### 3）将多个 JSON 或文本推送到单个列流。 每一行都是一个事件 {#option3}
+请求例子
 <Tabs defaultValue="curl">
 <TabItem value="js" label="Node.js" default>
 
@@ -402,10 +402,10 @@ public class Example {
   </TabItem>
 </Tabs>
 
-When you set Content-Type header to `text/plain`, and add `format=lines` to the ingestion endpoint, the each line in the POST body will be put in the `raw` column.
+当你将Content-Type标头设置为`text/plain`，并将`format=lines`添加到摄取终端时，POST请求中的每一行都将被放入`raw`列中。
 
-#### 4) Push multiple events in a batch without repeating the columns {#option4}
-Request samples
+#### 4）批量推送多个不重复列的事件 {#option4}
+请求例子
 <Tabs defaultValue="curl">
 <TabItem value="js" label="Node.js" default>
 
@@ -528,19 +528,19 @@ public class Example {
 
   </TabItem>
 </Tabs>
-上述方法应该适用于大多数系统集成。 但是，将在请求的正文中反复提及列名。
+上述方法应该适用于大多数系统集成。 但是，列名会在请求的主体中反复提到。
 
-我们还提供了一种性能更高的解决方案，只需要发送一次列名。
+因此，我们还提供了一个性能更高的解决方案，只需要发送一次列名。
 
-相同的网址： `https://cloud.timeplus.com.cn/{workspace-id}/api/v1beta1/streams/{name}/ingest`
+相同的终端网址：`https://us.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
 
-但您需要将 HTTP 头设置为 application/json。
+但您需要将HTTP标头设置为以下其中一个：
 
 - `application/json`
 - `application/vnd.timeplus+json`
 - `application/vnd.timeplus+json;format=compact`
 
-请求正文是这样格式的：
+请求正文是这样的格式：
 
 ```json
 {
@@ -554,8 +554,8 @@ public class Example {
 
 备注：
 
-- `columns` 是一个字符串数组，为一系列列名
-- `data` 是一个数组，每个元素也是一个数组。 每个嵌套数组代表一行数据。 值顺序必须与 `列`中完全相同的顺序匹配。
+- `columns` 是一个字符串数组，带有一些列列名
+- `data` 是一个数组。 每个嵌套数组代表一行数据。 值的顺序必须与`columns`中的顺序完全相同。
 
 例如：
 
@@ -569,4 +569,4 @@ public class Example {
 }
 ```
 
-您也可以使用我们的其中一个 SDK 来发送数据，而无需处理 REST API 的细节。
+当然，您还可以使用我们的其中一个SDK来摄取数据，这样就无需处理 REST API的底层细节了。
