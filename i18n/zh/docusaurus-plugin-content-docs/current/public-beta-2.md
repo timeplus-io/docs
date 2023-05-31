@@ -4,7 +4,7 @@
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
-## May 29, 2023
+## 2023年5月29日
 
 **数据摄取 **
   * 我们现在有一个合并页面，用于将您的数据添加到 Timeplus。 新的“数据添加”页面允许您添加数据源（例如Apache Kafka、Confluent Cloud、Redpanda等），通过Ingest Rest API推动数据，导入CSV文件并连接外部流（使用Kafka数据） 。 您添加的数据源和外部流也将在此页面的单独选项卡中列出。
@@ -20,7 +20,7 @@
   * 我们重新组织了导航菜单，以提供更清晰的工作流程：“数据添加” 现在位于顶部，其次是 “运行 SQL”。 我们还在菜单中添加了 “工作空间设置”，以便更快地访问您的 UDF 和团队成员。
 
 
-## May 16, 2023
+## 2023年5月16日
 
 **增强功能：数据提取 **
   * 我们使您可以更轻松地通过 Ingest REST API 推送数据。 我们在控制台中添加了一个向导页面，用于指导您对目标流、请求模板和API密钥的选择，然后为您的推送请求生成示例代码。 [了解更多](ingest-api)
@@ -30,7 +30,7 @@
   * 当您对图表进行格式更改时，所有的更改效果都将是即时呈现出来的，不需要重新加载图表。
   * 我们在将鼠标悬停在仪表板图表上添加了一个图标。在 “仅查看” 模式下，它将在查询编辑器页面中打开图表的 SQL。
 
-## May 1, 2023
+## 2023年5月1日
 
 **流数据库和流式SQL**
 
@@ -49,7 +49,7 @@
 
 
 
-## April 17, 2023
+## 2023年4月17日
 
 **流数据库和流式SQL**
 
@@ -58,19 +58,19 @@
 
 **图表和仪表盘**
 
-  * 我们完善了仪表板编辑模式。 Changes you make while in edit mode won't be saved automatically, to prevent accidental changes. Click the **Save Changes** button to confirm changes, or click the **Cancel** button to discard changes.
-  * You can now customize the colors of lines, areas, and bars for charts.
-  * **Migration notice:** since we updated the schema of dashboard&chart definition, your existing dashboards need to be re-configured manually to render properly. This would be a one-time effort.
+  * 我们完善了仪表板编辑模式。 您在编辑模式下所做的更改不会自动保存，以防止意外更改。 单击 **保存更改** 按钮确认更改，或单击 **取消** 按钮放弃更改。
+  * 现在，您可以自定义图表的折线、区域和条形的颜色。
+  * **迁移通知：** 由于我们更新了仪表盘和图表定义的数据格式，因此需要手动重新配置现有仪表板才能正确呈现。 这将是一次性的工作。
 
 **其他改进**
 
-  * A new [timeplus-target](https://hub.meltano.com/loaders/target-timeplus) is added in [Meltano](https://meltano.com/) Hub. Meltano provides 500+ source connectors, all of which can be configured to send data to Timeplus. Check [our blog](https://www.timeplus.com/post/meltano-timeplus-target) for more details.
-  * In the query history page, the column for SQL statements is now wider, allowing you to see more.
-  * In the query editor page, function descriptions are added to the auto-complete tooltip box.
-  * We've made it easier to multi-task in Timeplus by letting you open new browser tabs. for example, when you are writing SQL in the **Query** page, and need to create a new view, you can right click **Views** in the left-side navigation menu and open a tab.
-  * We refined the documentation of [Ingest API](ingest-api) and added code examples for Node/curl/Python/Java. [A new quickstart](quickstart-ingest-api) for the Ingest API is added too.
+  * 在 [Meltano](https://meltano.com/) Hub中添加了新的 [Timeplus Target](https://hub.meltano.com/loaders/target-timeplus)。 Meltano 提供 500 多个数据源连接器，所有这些连接器都可以配置为向 Timeplus 发送数据。 查看 [博客](https://www.timeplus.com/post/meltano-timeplus-target) 了解更多详情。
+  * 在查询历史记录页面中，SQL 列变得更宽了，方便您查看更多内容。
+  * 在查询编辑器页面中，函数描述被添加到自动提示框中。
+  * 我们通过允许您打开新的浏览器选项卡，使您在 Timeplus 中进行多任务处理变得更加容易。 例如，当您在 **Query** 页面中编写 SQL 并需要创建新视图时，可以在左侧导航菜单中右键单击 **Views** 并打开一个浏览器窗口。
+  * 我们完善了 [Ingest API](ingest-api) 的文档，并添加了 Node/curl/Python/Java 的代码示例。 Ingest API的也添加了[新快速入门](quickstart-ingest-api) 。
 
-## April 3, 2023
+## 2023年4月3日
 
 **流数据库和流式SQL**
 
@@ -88,7 +88,7 @@
   * Apache Kafka 和 Confluent Cloud 向导已经过重新设计，以提供更直观的配置体验。
   * 更新了导航菜单。 一些功能现在处于顶层：外部流、物化视图和用户定义的函数。
 
-## March 18, 2023
+## 2023年3月18日
 
 请试用我们最新的演示工作区 [https://demo.timeplus.cloud](https://demo.timeplus.cloud/)，里面有内置的金融科技和 GitHub 实时数据和实时仪表板。 注册并获得此演示服务器的只读访问权限。
 
@@ -117,7 +117,7 @@
   * 在我们的顶部标题菜单中添加了 Slack 按钮，邀请您加入我们的社区 Slack。
 
 
-## March 6, 2023
+## 2023年3月6日
 
 * 新功能
 
@@ -132,7 +132,7 @@
   * 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
   * 为流式查询添加 [LATEST JOIN](query-syntax#latest-join) 。 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
-## February 17, 2023
+## 2023年2月17日
 
 * 新功能
 
@@ -150,7 +150,7 @@
   * 提高了列表模式下查询结果的性能。
   * [外部流](working-with-streams#external_stream) 和 [物化视图](view#m_view)的性能调整。
 
-## February 3, 2023
+## 2023年2月3日
 
 * 查询页面增强功能
   * 显示查询是流式查询还是历史查询。
@@ -165,7 +165,7 @@
 
 
 
-## January 20, 2023
+## 2023年1月20日
 
 * 查询结果的界面更新：
   * **无限滚动。 ** 对于流式查询和历史查询，较新的结果显示在底部。 您可以向上滚动查看之前的结果，然后单击底部的 **跳转到最新数据** 按钮继续查看最新结果。
