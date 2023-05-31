@@ -129,7 +129,7 @@ Timeplus Connection
 ✔ Repository? › New Repository
 ? Base URL? › https://us.timeplus.cloud/workspace-id
 ```
-Set the base URL for your Timeplus workspace, making sure it includes `https` or `http`, as well as the workspaceID, without the ending `/`, e.g. `https://us.timeplus.cloud/d335214`
+为你的 Timeplus 工作空间设置URL，确保它包含 `https` 或 `http`以及 WorkspaceID，不带结尾 `/`，例如 `https://us.timeplus.cloud/d335214`
 
 按回车键
 ```
