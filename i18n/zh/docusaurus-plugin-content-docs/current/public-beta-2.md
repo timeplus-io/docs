@@ -6,8 +6,8 @@
 
 ## May 29, 2023
 
-**Data Ingestion **
-  * We now have a consolidated page for adding your data to Timeplus. The new "Add Data" page allows you to add a source (such as Apache Kafka, Confluent Cloud, Redpanda, etc.), push data via Ingest REST API, import a CSV file, and connect an external stream (with Kafka data). Your added sources and external streams are also listed on this page, in separate tabs.
+**数据摄取 **
+  * 我们现在有一个合并页面，用于将您的数据添加到 Timeplus。 The new "Add Data" page allows you to add a source (such as Apache Kafka, Confluent Cloud, Redpanda, etc.), push data via Ingest REST API, import a CSV file, and connect an external stream (with Kafka data). Your added sources and external streams are also listed on this page, in separate tabs.
   * In the Apache Kafka and Redpanda sources, you can now encode/decode Protobuf. During the "Pull Data" step, enter your Protobuf message name and definition.
   * We also now support Debezium JSON as a read data format, with Upsert and CRUD (with CRUD currently being in preview).
 
