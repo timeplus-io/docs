@@ -1,51 +1,51 @@
 # 公开测试版 2
 
-我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 相比 [公开测试版1](public-beta-1)，大多数后端和前端更改都是递增式的。
+我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 相比 [公开测试版1](public-beta-1)，除了入口点从 https://beta.timeplus.cloud 更改为 https://us.timeplus.cloud 以外，大多数后端和前端更改都是递增式的。
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
 ## May 29, 2023
 
 **数据摄取 **
-  * 我们现在有一个合并页面，用于将您的数据添加到 Timeplus。 The new "Add Data" page allows you to add a source (such as Apache Kafka, Confluent Cloud, Redpanda, etc.), push data via Ingest REST API, import a CSV file, and connect an external stream (with Kafka data). Your added sources and external streams are also listed on this page, in separate tabs.
-  * In the Apache Kafka and Redpanda sources, you can now encode/decode Protobuf. During the "Pull Data" step, enter your Protobuf message name and definition.
-  * We also now support Debezium JSON as a read data format, with Upsert and CRUD (with CRUD currently being in preview).
+  * 我们现在有一个合并页面，用于将您的数据添加到 Timeplus。 新的“数据添加”页面允许您添加数据源（例如Apache Kafka、Confluent Cloud、Redpanda等），通过Ingest Rest API推动数据，导入CSV文件并连接外部流（使用Kafka数据） 。 您添加的数据源和外部流也将在此页面的单独选项卡中列出。
+  * 在 Apache Kafka 和 Redpanda 源代码中，您现在可以对 Protobuf 进行编码或解码。 在 “提取数据” 步骤中，输入您的 Protobuf 消息名称和定义。
+  * 我们现在还支持Debezium JSON、Upsert和CRUD作为读取数据格式（CRUD目前正处于预览阶段）。
 
 **流数据库和流式SQL**
-  * We've made a significant performance enhancement for hop window, from 10x to 100x. This is especially helpful for large window sizes, such as 24 hours as a total window size, but showing updates every second.
-  * User-defined functions (UDFs) and user-defined aggregates (UDAs) are now able to return array as a data type.
+  * 我们对滑动窗口进行了显著的性能增强，从 10 倍提高到 100 倍。 这对于较大的窗口特别有用，例如窗口的总大小为 24 小时，但却可以每秒显示一次更新。
+  * 用户定义的函数 (UDF) 和用户定义的聚合 (UDA) 现在能够将数组作为数据类型返回。
 
 **其他改进**
-  * (Experimental) We've added a collaboration feature, allowing you to invite team members to your workspace. Contact us to try it out!
-  * We've reorganized our navigation menu to provider a clearer workflow: "Add Data" is now at the top, followed by "Run SQL". We've also added "Workspace Settings" to the menu, for quicker access to your UDFs and team members.
+  * （实验性）我们添加了协作功能，允许您邀请团队成员加入您的工作空间。 如果您想使用此功能，请联系我们！
+  * 我们重新组织了导航菜单，以提供更清晰的工作流程：“数据添加” 现在位于顶部，其次是 “运行 SQL”。 我们还在菜单中添加了 “工作空间设置”，以便更快地访问您的 UDF 和团队成员。
 
 
 ## May 16, 2023
 
-**Enhancements: Data Ingestion **
-  * We've made it easier for you to push data via Ingest REST API. We've added a wizard page in our console to guide you through the steps of selecting a target stream, a request template, an API key, and then generating a sample code for the push request. [Learn more.](ingest-api)
-  * Our CSV file upload wizard has a new look, in the same UI style as our other wizards.
+**增强功能：数据提取 **
+  * 我们使您可以更轻松地通过 Ingest REST API 推送数据。 我们在控制台中添加了一个向导页面，用于指导您对目标流、请求模板和API密钥的选择，然后为您的推送请求生成示例代码。 [了解更多](ingest-api)
+  * 我们的CSV文件上传向导外观焕然一新，它全新的用户界面风格变得与其他向导相同了。
 
-**Enhacements: Dashboards and Charts**
-  * When you make formatting changes to a chart, your changes will be instant, instead of needing to reload the chart.
-  * We added an icon on mouseover to Dashboard charts, while in View-Only mode, that will open the chart's SQL in the Query editor page.
+**增强功能：仪表板和图表**
+  * 当您对图表进行格式更改时，所有的更改效果都将是即时呈现出来的，不需要重新加载图表。
+  * 我们在将鼠标悬停在仪表板图表上添加了一个图标。在 “仅查看” 模式下，它将在查询编辑器页面中打开图表的 SQL。
 
 ## May 1, 2023
 
 **流数据库和流式SQL**
 
-* （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 You can leverage tooIs, such as [Debezium](https://debezium.io/), to load CDC (Change Data Capture) data from different sources and track the INSERT, UPDATE, DELETE operations in Timeplus. You can always get the latest event for any primary key. [Learn more.](working-with-streams)
+* （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 你可以利用 [Debezium](https://debezium.io/)等工具加载来自不同来源的 CDC（更改数据捕获）数据，并在 Timeplus 中跟踪您的插入、更新、删除操作。 您可以随时获得任意主键的最新数据。 [了解更多](working-with-streams)
 
 **图表和仪表盘**
 
-  * (Experimental) A new map visualization type is added, showing latest locations in a live map view.
-  * For table visualization, if the update mode is per-key, you can enable a sparkline to track value changes for certain columns.
+  * （实验性）添加了新的地图可视化类型，可以在实时地图视图中显示最新位置。
+  * 对于表可视化，如果更新模式是按键更新，则可以启用 sparkline 来跟踪某些列的值变化。
 
 **其他改进**
 
-  * If you run `SELECT * FROM my_stream` and there is no data coming in for the first while, Timeplus will show you a hint message with SQL to query historical data.
-  * A better color picker is added in visualization configuration forms.
-  * The UI for our sample dataset is simplified. Instead of the regular configuration flow for other sources, you can now quickly generate sample data with a couple of clicks.
+  * 如果运行 `SELECT * FROM my_stream` 并且当时没有新数据流入，Timeplus将向您建议使用一个新的 SQL以查询历史数据。
+  * 在可视化配置表单中添加了更好的颜色选择器。
+  * 我们的示例数据集的用户界面已简化。 现在，相对于其他来源的常规配置流程，您只需点击几下即可快速生成示例数据。
 
 
 
@@ -53,12 +53,12 @@
 
 **流数据库和流式SQL**
 
-* For stateful time window aggregations ([tumble](functions#tumble)/[hop](functions#hop)/[session](functions#session)), Timeplus now supports sub-second intervals: `ms` for milliseconds, `us` for microseconds, and `ns` for nanoseconds. For example, you can run a streaming SQL to show results every 10 milliseconds for the past 1 second sliding window: `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. Two months ago, we also added the capability to run global aggregations with fixed interval at sub-second level, such as `select sum(price) from stocks emit periodic 50ms`
-* Added new functions [md5](functions#md5), [md4](functions#md4), and [hex](functions#hex), which can help you generate hash keys.
+* 对于状态时间窗口聚合([tumble](functions#tumble)/[hop](functions#hop)/[session](functions#session)), Timeplus现在支持亚秒间隔： `ms` 表示毫秒。 `us` 表示微秒 `ns` 表示纳秒。 例如，您可以通过运行流式SQL，在过去1秒的滑动窗口中每10毫秒显示结果： `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. 两个月前，我们还增加了亚秒级间隔运行全局聚合的能力。 例如 `select sum(price) from stocks emit periodic 50m`
+* 添加了新功能来 [md5](functions#md5), [md4](functions#md4), and [hex](functions#hex)，可以帮助您生成哈希键。
 
 **图表和仪表盘**
 
-  * We refined the dashboard edit mode. Changes you make while in edit mode won't be saved automatically, to prevent accidental changes. Click the **Save Changes** button to confirm changes, or click the **Cancel** button to discard changes.
+  * 我们完善了仪表板编辑模式。 Changes you make while in edit mode won't be saved automatically, to prevent accidental changes. Click the **Save Changes** button to confirm changes, or click the **Cancel** button to discard changes.
   * You can now customize the colors of lines, areas, and bars for charts.
   * **Migration notice:** since we updated the schema of dashboard&chart definition, your existing dashboards need to be re-configured manually to render properly. This would be a one-time effort.
 
