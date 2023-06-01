@@ -298,7 +298,7 @@ public class Example {
 
 在Timeplus中创建一个单个`string`类型称为`raw`的流是一种常见的做法。您可以将复杂JSON对象放入该列然后动态提取某个路径的值（例如`select raw:key1`），或者将原始日志消息放入该列。
 
-当您将Content-Type标头设置为`text/plain`，并将`format=raw`添加到摄取终端时，整个POST请求将被放入`raw`列中。
+当您将Content-Type标头设置为`text/plain`，并将`format=raw`添加到URL时，整个POST请求将被放入`raw`列中。
 
 #### 3）将多个 JSON 或文本推送到单个列流。 每一行都是一个事件 {#option3}
 请求例子
