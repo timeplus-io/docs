@@ -9,7 +9,7 @@
 **数据摄取 **
   * 我们现在有一个全新页面，列出了各种将数据添加到 Timeplus的方式。 新的“数据添加”页面允许您添加数据源（例如Apache Kafka、Confluent Cloud、Redpanda等），通过Ingest Rest API推动数据，导入CSV文件并连接外部流（使用Kafka数据） 。 您添加的数据源和外部流也将在此页面的单独选项卡中列出。
   * 在 Apache Kafka 和 Redpanda 数据源中，您现在可以对 Protobuf 进行编码或解码。 在 “提取数据” 步骤中，输入您的 Protobuf 消息名称和定义。
-  * 我们现在还支持Debezium JSON、Upsert和CRUD作为读取数据格式（CRUD目前正处于预览阶段）。
+  * 我们现在还支持 Debezium JSON 作为读取数据格式，包括 Upsert 和 CRUD（CRUD 目前处于预览阶段）。
 
 **流数据库和流式SQL**
   * 我们对滑动窗口进行了显著的性能增强，从 10 倍提高到 100 倍。 这对于较大的窗口特别有用，例如窗口的总大小为 24 小时，但却可以每秒显示一次更新。
