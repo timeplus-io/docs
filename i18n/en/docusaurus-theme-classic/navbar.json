@@ -22,5 +22,9 @@
   "item.label.REST API": {
     "message": "REST API",
     "description": "Navbar item with label REST API"
+  },
+  "logo.alt": {
+    "message": "Timeplus",
+    "description": "The alt text of navbar logo"
   }
 }
