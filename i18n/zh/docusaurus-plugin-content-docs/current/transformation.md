@@ -4,7 +4,7 @@
 
 :::info
 
-Airbyte的 Timeplus 目标插件正处于早期阶段。 请联系我们来安排整合。
+The Timeplus dbt plugin is in the early stage. 请联系我们来安排整合。
 
 :::
 
