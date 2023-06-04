@@ -16,15 +16,15 @@
     "description": "The footer copyright"
   },
   "link.item.label.Company Home Page": {
-    "message": "Company Home Page",
+    "message": "公司主页",
     "description": "The label of footer link with label=Company Home Page linking to https://timeplus.com"
   },
   "link.item.label.Timeplus Cloud": {
-    "message": "Timeplus Cloud",
+    "message": "Timeplus 云服务",
     "description": "The label of footer link with label=Timeplus Cloud linking to https://us.timeplus.cloud"
   },
   "link.item.label.Live Demo": {
-    "message": "Live Demo",
+    "message": "实时演示",
     "description": "The label of footer link with label=Live Demo linking to https://demo.timeplus.cloud"
   },
   "link.item.label.Community Slack": {
