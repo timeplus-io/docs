@@ -40,7 +40,7 @@
     "description": "The label for category UDF in sidebar docSidebar"
   },
   "sidebar.docSidebar.doc.with ingest API": {
-    "message": "with ingest API",
+    "message": "使用 Ingest API",
     "description": "The label for the doc item with ingest API in sidebar docSidebar, linking to the doc quickstart-ingest-api"
   }
 }
