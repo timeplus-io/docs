@@ -4,7 +4,7 @@
 
 :::info
 
-The Timeplus dbt plugin is in the early stage. 请联系我们来安排整合。
+Timeplus dbt 插件还处于预览阶段。 请联系我们来安排整合。
 
 :::
 
