@@ -4,7 +4,7 @@ You can transform data with [streaming SQL](https://www.timeplus.com/post/top-10
 
 :::info
 
-The Timeplus destination plugin for Airbyte is in the early stage. Please contact us to arrange the integration. 
+The Timeplus dbt plugin is in the early stage. Please contact us to arrange the integration. 
 
 :::
 
