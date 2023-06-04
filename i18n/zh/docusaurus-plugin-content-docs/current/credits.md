@@ -5,7 +5,7 @@
 Timeplus 产品的部分功能基于开源项目。 特别感谢：
 
 * 数据源和数据下游的基于 [Benthos](https://www.benthos.dev/)构建, MIT 授权
-* Embeddable, persistent state store is based on [RocksDB](https://github.com/facebook/rocksdb), under Apache License 2.0
+* 嵌入式的持久化状态存储基于 [RocksDB](https://github.com/facebook/rocksdb), Apache 2.0 许可协议
 
 ```
 Copyright (c) 2020 Ashley Jeffs
