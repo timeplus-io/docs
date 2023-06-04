@@ -38,12 +38,11 @@ flowchart LR
 
 如果您有一些静态数据集或查找CSV格式的表，您可以直接上传文件到Timeplus。
 
-1. 点击 **从导航菜单中添加数据**。 然后点击 **文件** 并点击 **开始** 按钮
-2. 从您的本地文件系统拖放一个 CSV 文件来上传文件。 或者您可以指定一个用于下载文件的 Timeplus 的 URL。 目前我们只支持 CSV 格式。 其他格式不久将得到支持。
-3. 指定此数据源的名称并提供可读的描述。
-4. 与 Kafka 源相似，您可以选择创建一个新流或选择一个现有流。 通常，在第一行中，CSV文件包含列头部。 取消选中此选项，如果没有标题，则TimePlus将创建列名称。
-5. 点击 **下一个** 预览流式数据并选择列作为事件时间。
-6. 完成向导的其余部分和您的流数据将立即在新流中提供。
+1. 点击 **从导航菜单中添加数据**。 Then click **Import from CSV** button
+2. 从您的本地文件系统拖放一个 CSV 文件来上传文件。 (COMING SOON: if your file is downloadable from a URL or S3 bucket, you can create a source to have Timeplus server to load it. File formtas, other than CSV, will be supported too.)
+3. Choose whether the first row of the file as the column header.
+4. Specify a name for the stream, and optionally provide a readable description.
+5. Click the button to start uploading data and click the **View Imported Data** button to run a query to review imported data.
 
 
 
@@ -51,13 +50,11 @@ flowchart LR
 
 如果您没有准备好将您的真实数据加载到Timeplus中，或者只是想要与系统一起玩， 您可以使用此功能加载一些采样流数据。 我们提供了三个典型的蒸发数据
 
-1. `iot_data` 将生成3台设备 (device_0, device_1 和 device_2) 的数据。 `数字` 值可以是 0 到 100 之间。 `时间` 列是事件生成的时间。
+1. `iot` will generate data for 3 devices(device_0, device_1 and device_2). `数字` 值可以是 0 到 100 之间。 `时间` 列是事件生成的时间。
 2. `user_logins` 将生成两个用户的数据(用户1和用户2)，可能来自 `城市` 值：上海或北京。 `时间` 列是事件生成的时间。
 3. `devops` 将生成3 `主机名`(host_0,host_1, 和 host_2, 从 3 可能的 `区域`(eu-central-1, us-west-1, sa-east-1), 3 可能的 `机车`(1,2,3), 数字 `usage_user` 从 0 到 100 `用法系统` 从 0 到 100 和 `时间` 列为事件时间。
 
-您可以通过 **添加数据** 菜单和 **示例数据** 选项加载这些样本数据。 您可以为数据创建新流或选择现有流。
-
-[了解更多。](stream-generator)
+You can load such sample datas via the **Add Data** button and the **Sample Dataset** option. 您可以为数据创建新流或选择现有流。
 
 ## 通过 REST 或 SDK 将数据推送到 Timeplus {#push}
 

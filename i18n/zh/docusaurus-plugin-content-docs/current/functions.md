@@ -1,8 +1,8 @@
 # 函数
 
-以下是Timeplus支持的SQL函数。 如果您需要更多功能，请联系我们。
+Timeplus supports ANSI-SQL standard syntax. The following functions are provided for various use cases. 如果您需要更多功能，请联系我们。
 
-## 类型转换
+## Type Conversion {#proc_type}
 
 ### to_time
 
@@ -27,11 +27,11 @@
 
 ### to_int
 
-`to_int(字符串)` 将其转换为整数。
+`to_int(string)` Convert a string to an integer.
 
 ### to_float
 
-`to_float(字符串)` 将其转换为一个浮点数，例如 `to_float('3.1415926')`
+`to_float(string)` Convert a string to a float number, e.g. `to_float('3.1415926')`
 
 ### to_decimal
 
@@ -85,6 +85,8 @@ select
 ### length
 
 `length(array)`
+
+Get the length of the array.
 
 ### array\[index\] {#array_element}
 
@@ -271,27 +273,27 @@ select
 
 `tuple_cast (item1, item2)` 生成一个包含这 2 个元素的元组。 你也可以使用快捷语法： `(item1, item2)` 直接创建元组。
 
-## 处理日期和时间
+## Process Date and Time {#proc_datetime}
 
 ### year
 
-获取当前年份，例如 `year(today())` 将是 `2022`。
+`year(date)` Get the year, for example `year(today())` will be `2022`.
 
 ### quarter
 
-获取当前季度，例如 `quarter(today())` 将是 `1` 如果是Q1。
+`quarter(date)` Get the quarter, for example `quarter(today())` will be `1` if it's in Q1.
 
 ### month
 
-获取当前季度，例如 `quarter(today())` 将是 `2` 如果是Q1。
+`month(date)` Get the month, for example `month(today())` will be `2` if it's Feb.
 
 ### day
 
-`day(date)` 获取当月的日期。
+`day(date)` Get the the day in the month.
 
 ### weekday
 
-`weekday(date)` Get the current day in the week. 星期一是 1。 星期一是 1。 星期日为7天。
+`weekday(date)` Get the the day in the week. 星期一是 1。 星期日为7天。
 
 ### day_of_year
 
@@ -301,15 +303,23 @@ select
 
 `hour(datetime)`
 
+Get the hour of the datetime.
+
 ### minute
 
 `minute(datetime)`
+
+Get the minute of the datetime.
 
 ### second
 
 `second(datetime)`
 
+Get the second of the datetime.
+
 ### to_unix_timestamp
+
+Get the UNIX timestamp of the datetime. Returns a number in `uint32`
 
 例如， `to_unix_timestamp(now())` get `1644272032`
 
@@ -317,29 +327,43 @@ select
 
 `to_start_of_year(date)`
 
+Rounds down a date or date with time to the first day of the year. Returns the date.
+
 ### to_start_of_quarter
 
 `to_start_of_quarter(date)`
+
+Rounds down a date or date with time to the first day of the quarter. Returns the date.
 
 ### to_start_of_month
 
 `to_start_of_month(date)`
 
+Rounds down a date or date with time to the first day of the month. Returns the date.
+
 ### to_start_of_day
 
 `to_start_of_day(date)`
+
+Rounds down a date with time to the start of the day.
 
 ### to_start_of_hour
 
 `to_start_of_hour(datetime)`
 
+Rounds down a date or date with time to the start of the hour.
+
 ### to_start_of_minute
 
 `to_start_of_minute(datetime)`
 
+Rounds down a date or date with time to the start of the minute.
+
 ### to_start_of_second
 
 `to_start_of_second(datetime64)`
+
+Rounds down a date or date with time to the start of the second.
 
 不同于其他 `to_start_of_` 函数，这个函数需要一个有毫秒的日期时间，例如 `to_start_of_second(now64())`
 
@@ -354,6 +378,8 @@ select
 ### today
 
 `today()`
+
+Returns the current date.
 
 ### to_YYYYMM
 
@@ -461,7 +487,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `earliest_ts()` 是 `earliest_timestamp()`的简写方式
 
-## 处理 JSON
+## Process JSON {#proc_json}
 
 ### json_extract
 
@@ -503,19 +529,25 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `json_query(json, path)` 允许您访问 JSON 嵌套的 JSON 对象作为JSON 数组或 JSON 对象。 如果值不存在，则返回空字符串。 例如， `json_query('{"a":true,"b":{"c":1}}','$.b.) ')` 将返回一个 1 元素  `[1]` 的数组更复杂的例子。 `json_query('{"records":[{"b":{"c":1}}},{"b":{"c":2}}},{"b":{"c":3}}},','$. ecords[*].b.c')` 将获得 `[1,2,3]`
 
-## 流程文本
+## Process text {#proc_text}
 
 ### lower
 
 `小(字符串)`
 
+Converts ASCII Latin symbols in a string to lowercase.
+
 ### upper
 
 `上级(字符串)`
 
+Converts ASCII Latin symbols in a string to uppercase.
+
 ### format
 
-`格式 (template,args)` 例如： `格式 ('{} {}', 'Hello', 'Worldd')`得到 `Hello World`
+`format(template,args)` Formatting constant pattern with the string listed in the arguments.
+
+For example, `format('{} {}', 'Hello', 'World')`gets `Hello World`
 
 ### concat
 
@@ -529,9 +561,15 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 `修剪(字符串)`
 
+Removes all specified characters from the start or end of a string. By default removes all consecutive occurrences of common whitespace (ASCII character 32) from both ends of a string.
+
 ### split_by_string
 
-`split_by_string(sep,string)`  例如： `split_by_string('b','abcbxby')`将获得一个包含字符串的数组 `['a','c','x','y']`
+`split_by_string(sep,string)`
+
+Splits a string into substrings separated by a string. It uses a constant string `sep` of multiple characters as the separator. If the string `sep` is empty, it will split the string `string` into an array of single characters.
+
+For example `split_by_string('b','abcbxby')`will get an array with string `['a','c','x','y']`
 
 ### match
 
@@ -560,6 +598,8 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 ### replace_regex
 
 `replace_regex(string,pattern,replacement)`
+
+Replaces all occurrences of the pattern.
 
 这可以用来掩盖数据，例如： 要隐藏完整的电话号码，您可以运行 `replace_regex('604-123-4567' (\\d{3})-(\\d{3})-(\\d{4})','\\1-***-******')` 获得 `604-***-****`
 
@@ -605,6 +645,8 @@ SELECT
 
 ### grok
 
+`grok(string,pattern)`
+
 在不使用正则表达式的情况下从计划文本中提取值。 例如： `SELECT grok('我的名字是杰克) 我在23年前。 ',我的名字是 %{DATA:name}。 我是 %{INT:age} 年前。 ') 因为m` 将得到 `{"name":"Jack","age":"23"}` 作为 `m`
 
 请注意返回地图中的所有密钥和值都是字符串类型。 您可以将它们转换为其他类型，例如 `(m['age'])：int`
@@ -613,9 +655,13 @@ SELECT
 
 `coalesce(value1, value2,...)` 从左到右检查 `NULL` 参数是否被传递并返回第一个非-`NULL` 参数。 如果您获得了与Nullable类型相关的错误信息，例如： “嵌套类型数组(字符串) 不能在Nullable类型内”， 您可以使用此函数将数据转换为非-`NULL` 例如： `json_extract_array(coalesce(raw:payload, ')`
 
+### hex
+
+`hex(argument)`Returns a string containing the argument’s hexadecimal representation.`argument` can be any type.
 
 
-## Unique identifier
+
+## Unique identifier {#proc_uuid}
 
 ### uuid
 
@@ -627,11 +673,13 @@ SELECT
 
 `if(condition,yesValue,noValue)`
 
+Controls conditional branching.
+
 例如， `if(1=2,'a','b')` 将得到 `b`
 
 ### multi_if
 
-`multi_if(condition1, then1, condition2, then2.. ,else)` 一种比 if/self 或 case/when更简单的写法
+`multi_if(condition1, then1, condition2, then2.. ,else)` An easier way to write if/self or case/when.
 
 ## 聚合
 
@@ -719,11 +767,11 @@ SELECT
 
 ### arg_min
 
-`arg_min(argument, value_column)` 获取最小的 `value_column`所在行的 `arugment` 列的值。 如果在 `value_column`的最小值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+`arg_min(argument, value_column)` Gets the value in `argument` column for a minimal value in `value_column`. 如果在 `value_column`的最小值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### arg_max
 
-`arg_max(argument, value_column)` 获取最大的 `value_column`所在行的 `arugment` 列的值。 如果在 `value_column`的最大值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+`arg_max(argument, value_column)` Gets the value in `argument` column for a maximum value in `value_column`. 如果在 `value_column`的最大值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### group_array
 
@@ -765,54 +813,46 @@ SELECT
 
 ### exp
 
-`exp(x)` 返回一个 `浮点` 数字接近参数的指数 `x`
+`exp(x)` returns a `float` number that is close to the exponent of the argument `x`.
+
+### exp2
+
+`exp2(x)` returns a `float` number that is close to 2 to the power of `x`.
+
+### exp10
+
+`exp10(x)` returns a `float` number that is close to 10 to the power of `x`.
 
 
 
 ### log
 
-`log(x)`  返回 `浮点` 数字接近参数的自然对数 `x`
-
-
-
-### exp2
-
-`exp2(x)` 返回一个 `浮点` 个接近2的数字到 `x`
-
-
+`log(x)`  returns a `float` number that is close to the natural logarithm of the argument `x`.
 
 ### log2
 
-`log2(x)` 返回 `浮点` 数字接近参数的二进制对数 `x`
-
-
-
-### exp10
-
-`exp10(x)` 返回一个 `浮点` 个接近10的数字到 `x`
-
-
+`log2(x)` returns a `float` number that is close to the binary logarithm of the argument `x`.
 
 ### log10
 
-`log10(x)` 返回 `浮点` 数字接近参数的十进制对数 `x`
+`log10(x)` returns a `float` number that is close to the decimal logarithm of the argument `x`.
 
 
 
 ### sqrt
 
-`sqrt(x)`返回 `浮点` 数字靠近参数的方根 `x`
+`sqrt(x)`returns a `float` number that is close to the square root of the argument `x`.
 
 
 
 ### cbrt
 
-`cbrt(x)` 返回一个 `浮点` 靠近参数立方根值 `x`
+`cbrt(x)` returns a `float` number that is close to the cubic root of the argument `x`.
 
 
 ### lgamma
 
-`lgamma(x)` 伽马函数的对数
+`lgamma(x)` the logarithm of the gamma function.
 
 
 
@@ -892,6 +932,22 @@ SELECT
 
 `is_nan(x)` 返回如果 `x` 为 not-a-Number(NAN)，否则返回 0。
 
+
+
+## Hash
+
+Hash functions can be used for the deterministic pseudo-random shuffling of elements.
+
+### md5
+
+`md5(string)` Calculates the MD5 from a string and returns the resulting set of bytes as `fixed_string(16)`.  If you want to get the same result as output by the md5sum utility, use `lower(hex(md5(s)))`.
+
+### md4
+
+`md4(string)` Calculates the MD4 from a string and returns the resulting set of bytes as `fixed_string(16)`.
+
+
+
 ## 财务
 
 ### xirr
@@ -902,7 +958,7 @@ SELECT
 
 
 
-## 地理位置
+## 地理位置 {#proc_geo}
 
 ### point_in_polygon
 
@@ -914,7 +970,7 @@ SELECT
 
 计算 WGS-84 椭圆上的距离。 `geo_distance(lon1,lat1,lon2,lat2)`
 
-## 流处理
+## 流处理 {#streaming}
 
 ### table
 

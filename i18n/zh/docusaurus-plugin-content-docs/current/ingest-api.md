@@ -1,55 +1,171 @@
-# 通过REST API 将数据推送到 Timeplus
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-作为通用解决方案，您可以使用任何首选语言调用 ingestion REST API 将数据推送到 Timeplus。 借助Ingest API的最新增强，在许多情况下，您可以将其他系统配置为通过 webhook 将数据直接推送到 Timeplus，而无需编写代码。
+# 通过REST API将数据推送到Timeplus
 
-请查看 https://docs.timeplus.com/rest 了解详细的 API 文档。
+作为通用的解决方案，您可以使用任何语言调用ingestion REST API并将数据推送到Timeplus。 借助Ingest API的最新增强，在许多情况下，您可以通过webhook配置其他系统来将数据直接推送到Timeplus，而无需编写代码。
 
-## 在 Timeplus 中创建一个流
+请查看 https://docs.timeplus.com/rest 了解详细的API文档。
 
-首先，您需要在 Timeplus 中创建一个流，要么使用 web UI ，要么通过 REST API。 应每一列设置适当的名称和类型。 在下一节中，我们假设流名称为 `foo`。
+## 在Timeplus中创建一个流
 
-## 在HTTP头发送身份验证令牌
+首先，您需要使用Web UI或REST API在Timeplus中创建一个流。 您需要设置具有正确名称和类型的列。 在下一节中，我们假设流名称为 `foo`。
 
-请为工作区生成 API 密钥，并在 HTTP 头中设置 API 密钥，名称为： `X-Api-Key`
+## 在HTTP标头中设置身份验证令牌
 
-:::info
+接下来，您需要为工作区设置API密钥，并在 HTTP标头中将API密钥的名称设置为`X-Api-Key`。
 
-如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义内容类型， 然后您可以使用标准 `application/json` 内容类型，并将 POST 请求发送到 `/api/v1beta1/streams/$KEY/ingest?format=streaming`
+:::注意
+
+如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义HTTP标头的话，您可以使用值为`ApiKey $KEY`的标准`Authorization`标头。
 
 :::
 
-## 向 Timeplus 发送数据
+## 向Timeplus发送数据
 
-实时数据推送的API endpoint是 `https://cloud.timeplus.com.cn/{workspace-id}/api/v1beta1/streams/{name}/ingest`
+### 终端
 
-你需要向这个地址发送 `POST` 请求，例如 `https://cloud.timeplus.com.cn/ws123/api/v1beta1/streams/foo/ingest`
+实时数据推送的API终端是`https://us.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`。
+
+:::注意
+
+请确保您使用的是`workspace-id`，而不是`workspace-name`。 Workspace-id是一个包含 8 个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
+
+:::
+
+您需要发送`POST`请求到这个终端，例如：`https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest`。
 
 ### 选项
 
-根据您的用例，有很多方法可以通过 REST API 将数据推送到 Timeplus：
+根据用例，通过REST API将数据推送到Timeplus中有许多选项。 您可以在HTTP标头中设置不同的`Content-Type`，并在URL中添加`format`查询参数。
 
-| 应用场景                            | 样本POST请求内容                                                                                                                                                            | Content-Type                                                             | URL                                    |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------- |
-| 一次推送多个 JSON 对象。 每个 JSON 都是一个事件。 | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                                     | `application/x-ndjson` 或`application/vnd.timeplus+json;format=streaming` | ingest?format=streaming                |
-| 推送单个 JSON 或长文本。 单个事件            | {"key1": "value11", "key2": "value12", ...}                                                                                                                           | `text/plain`                                                             | ingest?format=raw                      |
-| 一次推送多个事件。 每行都是一个事件。             | event1<br/>event2                                                                                                                                               | `text/plain`                                                             | ingest?format=lines                    |
-| 推送一个特殊格式的JSON，包含多个事件，但无需重复列名    | { <br/>  "columns": ["key1","key2"],<br/>  "data": [ <br/>    ["value11","value12"],<br/>    ["value21","value22"],<br/>  ]<br/>} | `application/json`                                                       | ingest?format=compact 或者直接用无参数的 ingest |
+这里是将数据推送到Timeplus的不同用例列表：
 
+| 应用场景                        | 样本POST请求内容                                                                                                                                                   | Content-Type           | URL                                   | 目标流中的列          |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | ------------------------------------- | --------------- |
+| 1）推送JSON对象。 每个JSON都是一个事件。   | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                            | `application/x-ndjson` | ingest?format=streaming               | 多列，例如：key1，key2 |
+| 2）推送单个JSON或长文本。 单个事件。       | {"key1": "value11", "key2": "value12", ...}                                                                                                                  | `text/plain`           | ingest?format=raw                     | 单列，命名为`raw`     |
+| 3）推出一批事件。 每行都是一个事件。         | event1<br/>event2                                                                                                                                      | `text/plain`           | ingest?format=lines                   | 单列，命名为`raw`     |
+| 4）推送一个带有多个事件的特殊JSON，而无需重复列名 | { <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `application/json`     | ingest?format=compact 或者直接用无参数的ingest | 多列，例如：key1，key2 |
 
+#### 1）直接推送 JSON 对象 {#option1}
 
-### 直接推送 JSON 对象
+请求例子
+<Tabs defaultValue="curl">
+<TabItem value="js" label="Node.js" default>
 
-你可以将换行符分隔的 JSON (http://ndjson.org/) 推送到终端节点。 确保将 HTTP 标头设置为以下选项之一：
-* `application/x-ndjson`
-* `application/vnd.timeplus+json;format=streaming`
+```js
+const https = require("https");
+const options = {
+  hostname: "us.timeplus.cloud",
+  path: "/ws123456/api/v1beta1/streams/foo/ingest?format=streaming",
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-ndjson",
+    "X-Api-Key": "<your_api_key>",
+  },
+};
 
-:::info
+const data = `
+{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
+```
 
-如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义内容类型， 然后您可以使用标准 `application/json` 内容类型，并将 POST 请求发送到 `/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`. 这将确保 Timeplus API 服务器将 POST 数据视为 NDJSON。 这将确保 Timeplus API 服务器将 POST 数据视为 NDJSON。
+  </TabItem>
+  <TabItem value="curl" label="curl">
+
+```bash
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: application/x-ndjson" \
+https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=streaming \
+-d '
+{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+'
+```
+
+  </TabItem>
+  <TabItem value="py" label="Python">
+
+```python
+import requests
+
+url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=streaming"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "application/x-ndjson"
+}
+data = '''
+{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+'''
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
+```
+
+  </TabItem>
+  <TabItem value="java" label="Java">
+
+```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=streaming";
+        MediaType mediaType = MediaType.parse("application/x-ndjson");
+        String data = """
+          {"key1": "value11", "key2": "value12"}
+          {"key1": "value21", "key2": "value22"}
+          """;
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "application/x-ndjson")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+您可以将换行符分隔的JSON (http://ndjson.org/) 推送到终端节点。 确保将 HTTP 标头设置为以下选项之一：
+
+- `application/x-ndjson`
+- `application/vnd.timeplus+json;format=streaming`
+
+:::注意
+
+如果您想利用第三方系统/工具将数据推送到Timeplus中，但它不允许自定义内容类型时，您可以使用标准的`application/json`，并将POST请求发送到`/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`。 这可以确保Timeplus的API服务器将POST数据视为NDJSON。
 
 :::
 
-请求正文只是一组 JSON 对象。 例如
+请求正文只是一组JSON对象。 例如
 
 ```json
 {"key1": "value11", "key2": "value12", ...}
@@ -58,54 +174,378 @@
 ```
 
 每个对象不必在一行中。 例如：
+
 ```json
-{"key1": "value11", "key2": "value12", ...}
-{"key1": "value21", "key2": "value22", ...}
-...
+{
+  "key1": "value11",
+  "key2": "value12", ...
 }
 {
-  "key1": "value21", 
+  "key1": "value21",
   "key2": "value22", ...
 }
 ...
 ```
 
 它们也不必用换行符分隔：
+
 ```json
 {"key1": "valueA", ...}{"key1": "valueB", ...}{"key1": "valueC", ...,
 }...
 ```
 
-只要确保在请求正文中使用正确的值指定目标流中的所有列即可。
+只需确保目标流中的所有列都在请求中指定了正确的值。
 
-### 将数据推送到一个仅含一列的数据流
+#### 2）推送单个JSON或单个字符串列的流 {#option2}
 
-在 Timeplus 中使用单个 `string` 列创建流是一种常见的做法，名为 `raw` 。 您可以将 JSON 对象放入此列然后提取值，或者将原始日志消息放入此列。
+请求例子
+<Tabs defaultValue="curl">
+<TabItem value="js" label="Node.js" default>
 
-如果您将Content-Type 头设置为 `text/plan`, 那么取决于URL, Timeplus可以将整个POST 消息视为单个事件或每一行事件。 无论哪种情况，数据都将放入 `raw` 列中。 如果您必须以不同的方式创建列名，请联系我们寻求支持。
+```js
+const https = require("https");
+const options = {
+  hostname: "us.timeplus.cloud",
+  path: "/ws123456/api/v1beta1/streams/foo/ingest?format=raw",
+  method: "POST",
+  headers: {
+    "Content-Type": "text/plain",
+    "X-Api-Key": "<your_api_key>",
+  },
+};
 
-* 如果 URL 以 `ingest?format=raw`结尾，那么 POST 请求中的整个正文将放在 `raw` 列中。
-* 如果URL以 `ingest?format=lines`结尾，那么POST body 中的每一行都将被放置在 `原始` 列。
+const data = `{"key1": "value11", "key2": "value12"}`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
+```
 
-### 在不重复列的情况下推送数据
+  </TabItem>
+  <TabItem value="curl" label="curl">
 
-上述方法应该适用于大多数系统集成。  但是，将在请求的正文中反复提及列名。
+```bash
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: text/plain" \
+https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw \
+-d '
+{"key1": "value11", "key2": "value12"}
+'
+```
 
-我们还提供了一种性能更高的解决方案，只需要发送一次列名。
+  </TabItem>
+  <TabItem value="py" label="Python">
 
-相同的网址： `https://cloud.timeplus.com.cn/{workspace-id}/api/v1beta1/streams/{name}/ingest`
+```python
+import requests
 
-但您需要将 HTTP 头设置为 application/json。
+url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "text/plain"
+}
+data = '''
+{"key1": "value11", "key2": "value12"}
+'''
 
-* `application/json`
-* `application/vnd.timeplus+json`
-* `application/vnd.timeplus+json;format=compact`
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
+```
 
-请求正文是这样格式的：
+  </TabItem>
+  <TabItem value="java" label="Java">
+
+```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = """ 
+          {"key1": "value11", "key2": "value12"} 
+          """;
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "text/plain")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+在Timeplus中创建一个单个`string`类型称为`raw`的流是一种常见的做法。您可以将复杂JSON对象放入该列然后动态提取某个路径的值（例如`select raw:key1`），或者将原始日志消息放入该列。
+
+当您将Content-Type标头设置为`text/plain`，并将`format=raw`添加到URL时，整个POST请求将被放入`raw`列中。
+
+#### 3）将多个 JSON 或文本推送到单个列流。 每一行都是一个事件 {#option3}
+请求例子
+<Tabs defaultValue="curl">
+<TabItem value="js" label="Node.js" default>
+
+```js
+const https = require("https");
+const options = {
+  hostname: "us.timeplus.cloud",
+  path: "/ws123456/api/v1beta1/streams/foo/ingest?format=lines",
+  method: "POST",
+  headers: {
+    "Content-Type": "text/plain",
+    "X-Api-Key": "<your_api_key>",
+  },
+};
+
+const data = `{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
+```
+
+  </TabItem>
+  <TabItem value="curl" label="curl">
+
+```bash
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: text/plain" \
+https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=lines \
+-d '{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+'
+```
+
+  </TabItem>
+  <TabItem value="py" label="Python">
+
+```python
+import requests
+
+url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=lines"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "text/plain"
+}
+data = '''{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+'''
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
+```
+
+  </TabItem>
+  <TabItem value="java" label="Java">
+
+```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=lines";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = """
+          {"key1": "value11", "key2": "value12"}
+          {"key1": "value21", "key2": "value22"}
+""";
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "text/plain")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+当你将Content-Type标头设置为`text/plain`，并将`format=lines`添加到摄取终端时，POST请求中的每一行都将被放入`raw`列中。
+
+#### 4）批量推送多个不重复列的事件 {#option4}
+请求例子
+<Tabs defaultValue="curl">
+<TabItem value="js" label="Node.js" default>
+
+```js
+const https = require("https");
+const options = {
+  hostname: "us.timeplus.cloud",
+  path: "/ws123456/api/v1beta1/streams/foo/ingest",
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "X-Api-Key": "<your_api_key>",
+  },
+};
+
+const data = `
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
+```
+
+  </TabItem>
+  <TabItem value="curl" label="curl">
+
+```bash
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: application/json" \
+https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest \
+-d '
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+'
+```
+
+  </TabItem>
+  <TabItem value="py" label="Python">
+
+```python
+import requests
+
+url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "application/json"
+}
+data = '''
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+'''
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
+```
+
+  </TabItem>
+  <TabItem value="java" label="Java">
+
+```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = """
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+          """;
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "application/json")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+上述方法应该适用于大多数系统集成。 但是，列名会在请求的主体中反复提到。
+
+因此，我们还提供了一个性能更高的解决方案，只需要发送一次列名。
+
+相同的终端网址：`https://us.timeplus.cloud/{workspace-id}/api/v1beta1/streams/{name}/ingest`
+
+但您需要将HTTP标头设置为以下其中一个：
+
+- `application/json`
+- `application/vnd.timeplus+json`
+- `application/vnd.timeplus+json;format=compact`
+
+请求正文是这样的格式：
+
 ```json
-{ 
+{
   "columns": [..],
-  "data": [ 
+  "data": [
     [..],
     [..],
   ]
@@ -113,19 +553,20 @@
 ```
 
 备注：
-* `columns` 是一个字符串数组，为一系列列名
-* `data` 是一个数组，每个元素也是一个数组。 每个嵌套数组代表一行数据。 值顺序必须与 `列`中完全相同的顺序匹配。
+
+- `columns` 是一个字符串数组，带有一些列列名
+- `data` 是一个数组。 每个嵌套数组代表一行数据。 值的顺序必须与`columns`中的顺序完全相同。
 
 例如：
+
 ```json
-{ 
-  "columns": ["key1","key2"],
-  "data": [ 
-    ["value11","value12"],
-    ["value21","value22"],
+{
+  "columns": ["key1", "key2"],
+  "data": [
+    ["value11", "value12"],
+    ["value21", "value22"]
   ]
 }
-
 ```
 
-您也可以使用我们的其中一个 SDK 来发送数据，而无需处理 REST API 的细节。
+当然，您还可以使用我们的其中一个SDK来摄取数据，这样就无需处理 REST API的底层细节了。
