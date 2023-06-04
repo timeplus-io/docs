@@ -24,7 +24,7 @@
     "description": "The label of footer link with label=Join our Slack linking to https://join.slack.com/t/timepluscommunity/shared_invite/zt-14nymxet0-9_Hxszyi5fXUL0Ra_lI~lw"
   },
   "copyright": {
-    "message": "Copyright © 2023 Timeplus, Inc.",
+    "message": "版权所有 © 2023 Timeplus, Inc.",
     "description": "The footer copyright"
   }
 }

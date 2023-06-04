@@ -24,7 +24,7 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 总体来说，Timeplus中的流式查询建立了一个与客户端的长长HTTP/TCP连接，并且根据 `EMIT` 策略持续评估查询和流返回结果，直到结束客户端 中止查询或出现一些异常。 时间插件支持一些内部 `设置` 来微调流式查询处理行为。 以下是一份详尽无遗的清单。 我们将在下面的章节中再谈这些问题。
 
 1. `query_mode=<table|streaming>` 总体查询是否为历史数据处理或流数据处理的常规设置。 默认情况下，是 `串流`。
-2. `search_to=<timestamp|eariest|latest>` A setting which tells Timeplus to seek to old data in streaming storage by a timestamp. 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如：`search _to='2022-01-12 06:00:00:00'`, `search_to='-2h'`, 或 `search_to='eariest'`
+2. `seek_to=<timestamp|eariest|latest>`. 设置告诉 Timeplus 通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='eariest'`
 
 :::info
 
