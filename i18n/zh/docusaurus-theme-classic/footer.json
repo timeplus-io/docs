@@ -7,24 +7,32 @@
     "message": "社区",
     "description": "The title of the footer links column with title=Community in the footer"
   },
-  "link.item.label.Join the Beta": {
-    "message": "加入测试版",
-    "description": "The label of footer link with label=Join the Beta linking to https://timeplus.com"
-  },
-  "link.item.label.Playground": {
-    "message": "游乐场",
-    "description": "The label of footer link with label=Playground linking to https://play.timeplus.com"
-  },
   "link.item.label.Blog": {
     "message": "博客",
     "description": "The label of footer link with label=Blog linking to https://timeplus.com/blog"
   },
-  "link.item.label.Join our Slack": {
-    "message": "加入我们的Slack",
-    "description": "The label of footer link with label=Join our Slack linking to https://join.slack.com/t/timepluscommunity/shared_invite/zt-14nymxet0-9_Hxszyi5fXUL0Ra_lI~lw"
-  },
   "copyright": {
     "message": "版权所有 © 2023 Timeplus, Inc.",
     "description": "The footer copyright"
+  },
+  "link.item.label.Company Home Page": {
+    "message": "Company Home Page",
+    "description": "The label of footer link with label=Company Home Page linking to https://timeplus.com"
+  },
+  "link.item.label.Timeplus Cloud": {
+    "message": "Timeplus Cloud",
+    "description": "The label of footer link with label=Timeplus Cloud linking to https://us.timeplus.cloud"
+  },
+  "link.item.label.Live Demo": {
+    "message": "Live Demo",
+    "description": "The label of footer link with label=Live Demo linking to https://demo.timeplus.cloud"
+  },
+  "link.item.label.Community Slack": {
+    "message": "社区Slack",
+    "description": "The label of footer link with label=Community Slack linking to https://timeplus.com/slack"
+  },
+  "link.item.label.Github": {
+    "message": "Github",
+    "description": "The label of footer link with label=Github linking to https://github.com/timeplus-io/"
   }
 }
