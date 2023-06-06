@@ -1,3 +1,6 @@
+- - -
+slug: /
+- - -
 # Timeplus文档
 
 Timeplus是一个快速和强大的实时分析平台。
