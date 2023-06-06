@@ -43,7 +43,7 @@ You need to create an API key to access Timeplus REST API. To do so:
 
 Depending on which tool or programming language works best for you, you can send data to Timeplus in different ways.
 
-The base endpoint for the ingestion API is `https://us.timeplus.cloud/WORKSPACE_ID/api/v1beta1/streams/STREAM_NAME/ingest` :::info
+The base endpoint for the ingestion API is `https://us.timeplus.cloud/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest` :::info
 
 请确保您使用的是`workspace-id`，而不是`workspace-name`。 Workspace-id是一个包含 8 个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
 
@@ -55,7 +55,7 @@ The base endpoint for the ingestion API is `https://us.timeplus.cloud/WORKSPACE_
 ```bash
 curl -s -X POST -H "X-Api-Key: your_api_key" \
 -H "Content-Type: text/plain" \
-https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw \
+https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
 -d '
 {"key1": "value11", "key2": 12}
 '
@@ -67,7 +67,7 @@ https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw \
 const https = require("https");
 const options = {
   hostname: "us.timeplus.cloud",
-  path: "/ws123456/api/v1beta1/streams/foo/ingest?format=raw",
+  path: "/ws123456/api/v1beta2/streams/foo/ingest?format=raw",
   method: "POST",
   headers: {
     "Content-Type": "text/plain",
@@ -89,7 +89,7 @@ request.end();
 ```python
 import requests
 
-url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw"
+url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw"
 headers = {
     "X-Api-Key": "your_api_key",
     "Content-Type": "text/plain"
@@ -126,7 +126,7 @@ public class Example {
     public static void main(String[] args) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://us.timeplus.cloud/ws123456/api/v1beta1/streams/foo/ingest?format=raw";
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
         MediaType mediaType = MediaType.parse("text/plain");
         String data = """ 
           {"key1": "value11", "key2": 12} 
