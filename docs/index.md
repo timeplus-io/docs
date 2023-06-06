@@ -1,3 +1,6 @@
+---
+slug: /
+---
 # Timeplus documentation
 
 Timeplus is a fast and powerful real-time analytics platform.

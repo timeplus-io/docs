@@ -18,6 +18,8 @@ html[data-theme='dark'] {
   --ifm-font-family-base: 'Inter';
 }
 */
+@import url('https://fonts.googleapis.com/css?family=Inter');
+
 html[data-theme='dark'] {
   --ifm-color-primary: #D53C97;
   --ifm-color-primary-dark: #B52D7F;

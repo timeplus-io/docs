@@ -24,16 +24,14 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          path: 'docs',
+          routeBasePath: '/', // Serve the docs at the site's root
           remarkPlugins: [require('mdx-mermaid')],
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           //editUrl: 'https://github.com/timeplus-io/docs/blob/main',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          //editUrl:'https://github.com/timeplus-io/docs/blob/main',
-        },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
