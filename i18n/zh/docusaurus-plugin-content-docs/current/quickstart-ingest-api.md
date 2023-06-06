@@ -1,4 +1,4 @@
-# Quickstart with ingestion REST API
+# 使用Ingest API
 
 You can call the ingestion REST API to push data to Timeplus, with any preferred languages.
 

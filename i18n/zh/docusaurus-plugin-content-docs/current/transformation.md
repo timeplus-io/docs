@@ -4,7 +4,7 @@
 
 :::info
 
-Airbyte的 Timeplus 目标插件正处于早期阶段。 请联系我们来安排整合。
+Timeplus dbt 插件还处于预览阶段。 请联系我们来安排整合。
 
 :::
 

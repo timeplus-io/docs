@@ -30,5 +30,17 @@
   "sidebar.docSidebar.doc.with stream generator": {
     "message": "使用流生成器",
     "description": "The label for the doc item with stream generator in sidebar docSidebar, linking to the doc quickstart-sample"
+  },
+  "sidebar.docSidebar.category.Stream": {
+    "message": "流",
+    "description": "The label for category Stream in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.UDF": {
+    "message": "UDF",
+    "description": "The label for category UDF in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.doc.with ingest API": {
+    "message": "使用Ingest API",
+    "description": "The label for the doc item with ingest API in sidebar docSidebar, linking to the doc quickstart-ingest-api"
   }
 }
