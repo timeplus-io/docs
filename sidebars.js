@@ -26,7 +26,7 @@ const sidebars = {
     },
   ],
    */
-  docSidebar:[
+  docSidebar: [
     /*{'Internal Docs':['usecases','internal-tptime']},
     {type:'category',
      label:'User Guide',
@@ -35,89 +35,89 @@ const sidebars = {
       id:'index'
      },collapsed: false,items:[
        */
-       'index',
-       {
-        type:'category',
-        label:'Quickstart',
-        //collapsed: false,
-        link: {
-          type: 'doc',
-          id:'quickstart'
-        },
-        items:[{
-          type: 'doc',
-          id:'quickstart-confluent',
-          label:'with Confluent Cloud'
-        },{
-          type: 'doc',
-          id:'quickstart-sample',
-          label:'with stream generator'
-        },{
-          type: 'doc',
-          id:'quickstart-ingest-api',
-          label:'with ingest API'
-        }]
-       },
-       {
-        type:'category',
-        label:'Concepts',
-        //collapsed: false,
-        link: {
-          type: 'generated-index',
-        },
-        items:[
-          {
-            type:'category',
-            label:'Stream',
-            //collapsed: false,
-            link: {
-              type: 'doc',
-              id:'working-with-streams'
-            },
-            items:['changelog-stream','versioned-stream','external-stream']
+    'index',
+    {
+      type: 'category',
+      label: 'Quickstart',
+      //collapsed: false,
+      link: {
+        type: 'doc',
+        id: 'quickstart'
+      },
+      items: [{
+        type: 'doc',
+        id: 'quickstart-confluent',
+        label: 'with Confluent Cloud'
+      }, {
+        type: 'doc',
+        id: 'quickstart-sample',
+        label: 'with stream generator'
+      }, {
+        type: 'doc',
+        id: 'quickstart-ingest-api',
+        label: 'with ingest API'
+      }]
+    },
+    {
+      type: 'category',
+      label: 'Concepts',
+      //collapsed: false,
+      link: {
+        type: 'generated-index',
+      },
+      items: [
+        {
+          type: 'category',
+          label: 'Stream',
+          //collapsed: false,
+          link: {
+            type: 'doc',
+            id: 'working-with-streams'
           },
-          'eventtime','stream-query','history','view','source','destination','alert']
-       },
-       {
-        type:'category',
-        label:'Data Ingestion',
-        //collapsed: false,
-        link: {
-          type: 'doc',
-          id:'ingestion'
+          items: ['changelog-stream', 'versioned-stream', 'external-stream']
         },
-        items:['kafka-source','kafka-connect','pulsar-source','ingest-api','datapm']
-       },
-       {
-        type:'category',
-        label:'Query Guide',
-        //collapsed: false,
-        link: {
-          type: 'doc',
-          id:'query-guide'
-        },
-        items:['datatypes','query-syntax','functions',{type:'category',label:'UDF',link:{type:'doc',id:'udf'},items:['remote-udf','js-udf']},'usecases']
-       },
-       'transformation',
-       'viz',
-       'faq',
-       'issues',
-       {
-        type:'category',
-        label:'Release Notes',
-        //collapsed: false,
-        link: {
-          type: 'doc',
-          id:'changelog'
-        },
-        items:['public-beta-2','public-beta-1','private-beta-2','private-beta-1']
-       },
-       'getting-help',
-       'glossary',
-       'credits',
-       /*
-      ],
-    }*/
+        'eventtime', 'stream-query', 'history', 'view', 'source', 'destination', 'alert']
+    },
+    {
+      type: 'category',
+      label: 'Data Ingestion',
+      //collapsed: false,
+      link: {
+        type: 'doc',
+        id: 'ingestion'
+      },
+      items: ['kafka-source', 'kafka-connect', 'pulsar-source', 'ingest-api', 'datapm']
+    },
+    {
+      type: 'category',
+      label: 'Query Guide',
+      //collapsed: false,
+      link: {
+        type: 'doc',
+        id: 'query-guide'
+      },
+      items: ['datatypes', 'query-syntax', 'functions', { type: 'category', label: 'UDF', link: { type: 'doc', id: 'udf' }, items: ['remote-udf', 'js-udf'] }, 'usecases', 'query-api']
+    },
+    'transformation',
+    'viz',
+    'faq',
+    'issues',
+    {
+      type: 'category',
+      label: 'Release Notes',
+      //collapsed: false,
+      link: {
+        type: 'doc',
+        id: 'changelog'
+      },
+      items: ['public-beta-2', 'public-beta-1', 'private-beta-2', 'private-beta-1']
+    },
+    'getting-help',
+    'glossary',
+    'credits',
+    /*
+   ],
+ }*/
   ]
 };
 
