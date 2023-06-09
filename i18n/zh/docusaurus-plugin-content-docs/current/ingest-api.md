@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 
 ### 终端
 
-The endpoint for real-time data ingestion is `https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
+实时数据推送的 API 是 `https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
 
 :::注意
 
@@ -33,7 +33,7 @@ The endpoint for real-time data ingestion is `https://us.timeplus.cloud/{workspa
 
 :::
 
-You need to send `POST` request to this endpoint, e.g. `https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest`
+您需要发送 `POST` 请求到 URL`https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest`
 
 ### 选项
 
@@ -161,7 +161,7 @@ public class Example {
 
 :::注意
 
-If you would like to leverage a 3rd party system/tool to push data to Timeplus but it doesn't allow custom content type, then you can use the standard `application/json`, and send POST request to `/api/v1beta2/streams/$STREAM_NAME/ingest?format=streaming`. 这可以确保Timeplus的API服务器将POST数据视为NDJSON。
+如果您想利用第三方系统/工具将数据推送到Timeplus中，但它不允许自定义内容类型时，您可以使用标准的`application/json`，并将POST请求发送到`/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`。 这可以确保Timeplus的API服务器将POST数据视为NDJSON。
 
 :::
 
@@ -532,7 +532,7 @@ public class Example {
 
 因此，我们还提供了一个性能更高的解决方案，只需要发送一次列名。
 
-Same endpoint URL: `https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
+相同的API 地址：`https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
 
 但您需要将HTTP标头设置为以下其中一个：
 
