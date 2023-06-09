@@ -161,7 +161,7 @@ public class Example {
 
 :::注意
 
-如果您想利用第三方系统/工具将数据推送到Timeplus中，但它不允许自定义内容类型时，您可以使用标准的`application/json`，并将POST请求发送到`/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`。 这可以确保Timeplus的API服务器将POST数据视为NDJSON。
+如果您想利用第三方系统/工具将数据推送到Timeplus中，但它不允许自定义内容类型时，您可以使用标准的`application/json`，并将POST请求发送到`/api/v1beta2/streams/$STREAM_NAME/ingest?format=streaming`。 这可以确保Timeplus的API服务器将POST数据视为NDJSON。
 
 :::
 
