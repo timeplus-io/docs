@@ -1,6 +1,6 @@
 # Query API with Server-sent Events (SSE)
 
-All Timeplus functions is available through RESTful API. To support real-time query result pushed from server to client side, there are two popular solutions, [websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) and [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). Timeplus is now leveraging sever-sent events to push real-time query result to the client.
+All Timeplus functions are available through REST API. To support real-time query result pushed from server to client side, there are two popular solutions, [websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) and [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). Timeplus is now leveraging sever-sent events to push real-time query result to the client.
 
 ## Event Stream Protocol
 
@@ -21,16 +21,7 @@ Content-Type: text/event-stream
 Transfer-Encoding: chunked
 
 event: query
-data: {
-    "id":"b3347493-92a2-4bde-bdc5-8ac119199e75",
-    "sql":"select * from iot",
-    "result":{
-        "header":[
-            {'name': 'in_use', 'type': 'bool'},
-            {'name': 'speed', 'type': 'float32'}
-            ]
-        }
-    }
+data: {"id":"b3347493-92a2-4bde-bdc5-8ac119199e75","sql":"select * from iot","result":{"header":[{'name': 'in_use', 'type': 'bool'},{'name': 'speed', 'type': 'float32'}]}}
 
 data: [[True,73.85],[False, 77.1],[True, 80.0]]
 
@@ -39,19 +30,11 @@ data: [[False,83.12],[True, 95.2],[False, 88.1]]
 data: [[True,93.70],[False, 88.4],[True, 82.3]]
 
 event: metric
-data: {
-    "count": 117,
-    "eps": 75,
-    "processing_time": 1560,
-    "last_event_time": 1686237113265,
-    "response_time": 861,
-    "scanned_rows": 117,
-    "scanned_bytes": 7605
-    }
+data: {"count": 117,"eps": 75,"processing_time": 1560,"last_event_time": 1686237113265,"response_time": 861,"scanned_rows": 117,"scanned_bytes": 7605}
 
 ```
 
-There are three different types of events
+There are three different types of events:
 
 ### Query Metadata
 
@@ -63,15 +46,8 @@ in the following events, where there is no event type which is the defaut SSE me
 
 ### Query Metric
 
-the last event type is metrics, which returns the current query statistics, which can be used to observe the health status of current query.
+the last event type is metrics, which returns the current query statistics in a json object, which can be used to observe the health status of current query.
 
 ## SSE Client
 
-There are different SSE libraris that provides SSE client functions, here are some you can use.
-
-- Python
-  [sseclient](https://github.com/mpetazzoni/sseclient)
-- Golang
-  [go-sse](https://github.com/subchord/go-sse)
-- Java
-  [okhttp-eventsource](https://github.com/launchdarkly/okhttp-eventsource)
+There are different SSE libraris that provides SSE client functions, Timeplus also has a python SDK project which already included SSE event parsing to avoid handle those low-level details.
