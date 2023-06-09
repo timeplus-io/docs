@@ -46,7 +46,9 @@ In case of **historical (table) query**, the last event will be query metadata a
 
 We don't assign any event type in order to save bandwidth here. Each query result message is an array of array, representing multiple rows of query results. The data in each row follows the same order defined in the `result.header`.
 
-# the last event type is metrics, which returns the current query statistics in a json object, which can be used to observe the health status of current query.
+### Query Metric (`event: metric`)
+
+the last event type is metrics, which returns the current query statistics in a json object, which can be used to observe the health status of current query.
 
 Take the example above:
 
