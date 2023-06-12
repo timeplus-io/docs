@@ -7,14 +7,14 @@ We will update the beta version from time to time and list key enhancements in t
 ## Jun 12, 2023 
 
 **New Feature**
-  * Introducing collaboration in Timeplus: you can invite team members to your Timeplus workspace (during our Public Beta, you may invite unlimited team members). Members in the same workspace can access and edit all streams/sources/sinks/dashboards/etc. Only the workspace owner can invite or remove members.
+  * Introducing collaboration in Timeplus: you can invite team members to your Timeplus workspace (during our Public Beta, you may invite unlimited team members). Members in the same workspace can access and edit all streams, sources, sinks, dashboards, etc. Only the workspace owner can invite or remove members.
 
 **Data Ingestion and Sinks**
-  * You can now ingest data to Timeplus via [Kafka Connect plugin for Timeplus](https://www.confluent.io/hub/timeplus/kafka-timeplus-connector-sink). It is now published on Confluent Hub, and you can install it on Confluent Cloud or on-prem Confluent Platform and Apache Kafka.
-  * We've added Protobuf encoding for Apache Kafka and Redpanda sinks. Currently only available via REST API. Contact us to try it out!  
+  * You can now ingest data to Timeplus via [Kafka Connect plugin for Timeplus](https://www.confluent.io/hub/timeplus/kafka-timeplus-connector-sink). It is published on Confluent Hub, and you can install it on Confluent Cloud or on-prem Confluent Platform and Apache Kafka.
+  * We've added Protobuf encoding for Apache Kafka and Redpanda sinks, currently available via REST API. Contact us to try it out!  
 
 **Other Enhancements**
-  * For streams, you can now set separate retention policies for streaming and historical data. For example, for a stream with IoT data, you can set 1 day for the streaming data and 3 months for the historical data.
+  * For streams, you can now set separate retention policies for streaming and historical data. For example, for a stream with IoT data, you can set 1 day for the streaming data and 90 days for the historical data.
   * Please note: REST API v1beta1 is now depreciated, and it will be removed in a couple of months. Please check the v1beta2 [API Docs](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/), [Java Sample Code](https://github.com/timeplus-io/java-demo) and [Streamlit Demo App](https://github.com/timeplus-io/streamlit_apps) are updated.
 
 
