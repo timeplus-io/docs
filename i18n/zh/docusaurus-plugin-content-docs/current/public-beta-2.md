@@ -4,9 +4,23 @@
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
+## Jun 12, 2023
+
+**New Feature**
+  * Introducing collaboration in Timeplus: you can invite team members to your Timeplus workspace (during our Public Beta, you may invite unlimited team members). Members in the same workspace can access and edit all streams, sources, sinks, dashboards, etc. Only the workspace owner can invite or remove members.
+
+**Data Ingestion and Sinks**
+  * You can now ingest data to Timeplus via [Kafka Connect plugin for Timeplus](https://www.confluent.io/hub/timeplus/kafka-timeplus-connector-sink). It is published on Confluent Hub, and you can install it on Confluent Cloud or on-prem Confluent Platform and Apache Kafka.
+  * We've added Protobuf encoding for Apache Kafka and Redpanda sinks, currently available via REST API.
+
+**其他改进**
+  * For streams, you can now set separate retention policies for streaming and historical data. For example, for a stream with IoT data, you can set 1 day for the streaming data and 90 days for the historical data.
+  * Please note: REST API v1beta1 is now depreciated, and it will be removed in a couple of months. Please check the v1beta2 [API Docs](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/), [Java Sample Code](https://github.com/timeplus-io/java-demo) and [Streamlit Demo App](https://github.com/timeplus-io/streamlit_apps) are updated.
+
+
 ## 2023年5月29日
 
-**数据摄取 **
+**数据摄取**
   * 我们现在有一个全新页面，列出了各种将数据添加到 Timeplus的方式。 新的“数据添加”页面允许您添加数据源（例如Apache Kafka、Confluent Cloud、Redpanda等），通过Ingest Rest API推动数据，导入CSV文件并连接外部流（使用Kafka数据） 。 您添加的数据源和外部流也将在此页面的单独选项卡中列出。
   * 在 Apache Kafka 和 Redpanda 数据源中，您现在可以对 Protobuf 进行编码或解码。 在 “提取数据” 步骤中，输入您的 Protobuf 消息名称和定义。
   * 我们现在还支持 Debezium JSON 作为读取数据格式，包括 Upsert 和 CRUD（CRUD 目前处于预览阶段）。
