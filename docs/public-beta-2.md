@@ -4,6 +4,20 @@ We are thrilled to launch the next phase of public beta of Timeplus cloud releas
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+## Jun 12, 2023 
+
+**New Feature**
+  * Introducing collaboration in Timeplus: you can invite team members to your Timeplus workspace (during our Public Beta, you may invite unlimited team members). 
+
+**Data Ingestion and Sinks**
+  * You can now ingest data to Timeplus with a third party tool: the Kafka Connect plugin for Timeplus is now published on [Confluent Hub](https://www.confluent.io/hub/timeplus/kafka-timeplus-connector-sink).
+  * We've added Protobuf encoding for Apache Kafka and Redpanda sinks.
+
+**Other Enhancements**
+  * For streams, you can now set separate retention policies for streaming and historical data. 
+  * Please note: REST API v1beta1 is now depreciated, so please use v1beta2. Python SDK and Streamlit App are updated.
+
+
 ## May 29, 2023 
 
 **Data Ingestion **
