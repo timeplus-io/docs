@@ -58,7 +58,7 @@ Convert an input value to the specified data type. Three syntax variants are sup
 
 While
 
-- x — A value to convert. Maybe of any type.
+- x — A value to convert. May be of any type.
 - T — The name of the target data type. String.
 - t — The target data type
 
