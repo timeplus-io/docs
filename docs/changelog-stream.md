@@ -79,7 +79,7 @@ If you run queries like `select count(1), sum(price) from dim_products` , this s
 
 ## Use Changelog Stream in JOIN as lookup
 
-In the above examples, you always get the latest version of the event with the same primary key. This is very useful when such stream acts as the "lookup-table" for the JOIN.
+In the above examples, you always get the latest version of the event with the same primary key. This is very useful when such streams acts as the "lookup-table" for the JOIN.
 
 Imagine you have an append-only stream for the `orders`:
 
@@ -239,7 +239,7 @@ SASL_JAAS_CONFIG=org.apache.kafka.common.security.scram.ScramLoginModule require
 SECURITY_PROTOCOL=SASL_SSL
 ```
 
-Optionally, you can add Redpanda Console in the docker compose file. It provides nice UI for you to add/review topics and manage connectors.
+Optionally, you can add Redpanda Console in the docker compose file. It provides a nice UI for you to add/review topics and manage connectors.
 
 ```yaml
   console:
