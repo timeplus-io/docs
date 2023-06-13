@@ -10,7 +10,7 @@ Timeplus supports ANSI-SQL standard syntax. The following functions are provided
 
 For example `to_time('1/2/22')` or `to_time('1/2/22','America/New_York')`
 
-Some of the common timezones are:
+Some of the common time zones are:
 
 * `UTC`: same as `GMT`(Greenwich Mean Time)
 * `EST`: US Eastern Time
@@ -21,9 +21,9 @@ Some of the common timezones are:
 * `America/Vancouver`: same as `PST8PDT`
 * `Asia/Shanghai`: same as `PRC`
 
-For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+For the full list of possible time zones, please check the "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
-You can also convert the time between timezones via [to_timezone](#to_timezone)
+You can also convert the time between time zones via [to_timezone](#to_timezone)
 
 ### to_int
 
@@ -58,7 +58,7 @@ Convert an input value to the specified data type. Three syntax variants are sup
 
 While
 
-- x — A value to convert. May be of any type.
+- x — A value to convert. Maybe of any type.
 - T — The name of the target data type. String.
 - t — The target data type
 
@@ -74,7 +74,7 @@ select
 
 ### to_type_name
 
-`to_type_name(x)` to show the type name of the argument `x`. This is mainly for troubleshooting purpose to understand the date type for a  function call.
+`to_type_name(x)` to show the type name of the argument `x`. This is mainly for troubleshooting purposes to understand the date type for a  function call.
 
 ## Access Compound Type {#arrays}
 
@@ -153,11 +153,11 @@ For example `select array_join([10,20]) as v, 'text' as t` will get 2 rows
 
 ### array_push_back
 
-`array_push_back(array, value)` add the value to the array as the last item. e.g. `array_push_back([1,2,3],4)` returns [1,2,3,4]
+`array_push_back(array, value)` adds the value to the array as the last item. e.g. `array_push_back([1,2,3],4)` returns [1,2,3,4]
 
 ### array_push_front
 
-`array_push_front(array, value)` add the value to the array as the first item. e.g. `array_push_front([1,2,3],4)` returns [4,1,2,3]
+`array_push_front(array, value)` adds the value to the array as the first item. e.g. `array_push_front([1,2,3],4)` returns [4,1,2,3]
 
 
 
@@ -181,7 +181,7 @@ For example `select array_join([10,20]) as v, 'text' as t` will get 2 rows
 
 ### array_slice
 
-`array_slice(arr, offset [,length])` returns a slice of the array. If `length` is not specified, then slice to the end of the array, e.g. `array_slice([1,2,3,4,5],2)` returns [2,3,4,5]. If `offset` is greater than the array lenghth, returns an empty array []. If `length` is specfied, this is the lenght of new array, e.g. `array_slice([1,2,3,4,5],2,3)` returns [2,3,4]
+`array_slice(arr, offset [,length])` returns a slice of the array. If `length` is not specified, then slice to the end of the array, e.g. `array_slice([1,2,3,4,5],2)` returns [2,3,4,5]. If `offset` is greater than the array length, it returns an empty array []. If `length` is specified, this is the length of the new array, e.g. `array_slice([1,2,3,4,5],2,3)` returns [2,3,4]
 
 
 
@@ -197,7 +197,7 @@ For example `select array_join([10,20]) as v, 'text' as t` will get 2 rows
 
 ### array_all
 
-`array_all([func,] array)` returns 1(true) or 0(false) if all elements in the array meet the condition. For example, `array_all([1,2])` return 1, and `array_all([0,0])`return 0. You can pass a lambda function to it as the first argument to customize the condition check, such as `array_all(x->x%2==0,[2,4,6])` to check whether each element in the array is even. It returns 1.
+`array_all([func,] array)` returns 1(true) or 0(false) if all elements in the array meets the condition. For example, `array_all([1,2])` return 1, and `array_all([0,0])`return 0. You can pass a lambda function to it as the first argument to customize the condition check, such as `array_all(x->x%2==0,[2,4,6])` to check whether each element in the array is even. It returns 1.
 
 ### array_avg
 
@@ -229,15 +229,15 @@ For example `select array_join([10,20]) as v, 'text' as t` will get 2 rows
 
 ### array_last
 
-`array_last(func, array)` returns the last element that matches the condition of the specified function. e.g. `array_last(x->x%2==0, [1,2,3,4])`returns 4.  If nothing found, return 0.
+`array_last(func, array)` returns the last element that matches the condition of the specified function. e.g. `array_last(x->x%2==0, [1,2,3,4])`returns 4.  If nothing is found, it returns 0.
 
 ### array_last_index
 
-`array_last_index(func, array)` returns the index of the last element that matches the condition of the specified function. e.g. `array_last_index(x->x%2==0, [1,2,3,4])`returns 4. If nothing found, return 0.
+`array_last_index(func, array)` returns the index of the last element that matches the condition of the specified function. e.g. `array_last_index(x->x%2==0, [1,2,3,4])`returns 4. If nothing is found, it returns 0.
 
 ### array_map
 
-`array_map(func, array)` apply the function to every element in the array and returns a new array. e.g. `array_map(x->x*x,[1,2])`returns [1,4]
+`array_map(func, array)` applies the function to every element in the array and returns a new array. e.g. `array_map(x->x*x,[1,2])`returns [1,4]
 
 ### array_max
 
@@ -249,7 +249,7 @@ For example `select array_join([10,20]) as v, 'text' as t` will get 2 rows
 
 ### array_sort
 
-`array_sort(func, array)` sorts the array elements in asecending order. e.g. `array_sort([3,2,5,4])` returns [2,3,4,5]. You can pass a lambda function to it as the first argument to apply the function before the sort, e.g. `array_sort(x->-x,[3,2,5,4])`returns [5,4,3,2]
+`array_sort(func, array)` sorts the array elements in ascending order. e.g. `array_sort([3,2,5,4])` returns [2,3,4,5]. You can pass a lambda function to it as the first argument to apply the function before the sort, e.g. `array_sort(x->-x,[3,2,5,4])`returns [5,4,3,2]
 
 
 
@@ -265,7 +265,7 @@ You can easily access any element in the map, just using mapName[keyName], such 
 
 ### map_cast
 
-`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` (these 2 arrays should be with same size). For example `map_cast(['k1','k2'],[91,95])` will get `{'k1':91,'k2':95} ` 
+`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` (these 2 arrays should be the same size). For example `map_cast(['k1','k2'],[91,95])` will get `{'k1':91,'k2':95} ` 
 
 Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
@@ -289,11 +289,11 @@ Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
 ### day
 
-`day(date)` Get the the day in the month.
+`day(date)` Get the day in the month.
 
 ### weekday
 
-`weekday(date)` Get the the day in the week. Monday is 1. Sunday is 7.
+`weekday(date)` Get the day of the week. Monday is 1. Sunday is 7.
 
 ### day_of_year
 
@@ -403,7 +403,7 @@ Get a number.
 
 `to_timezone(datetime_in_a_timezone,target_timezone)` Convert the datetime from one timezone to the other.
 
-For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For the common timezones, pls check [to_time](#to_time)
+For the full list of possible time zones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For the common time zones, pls check [to_time](#to_time)
 
 For example, 
 
@@ -511,7 +511,7 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 ### json_extract_keys
 
-`json_extract_keys(jsonStr)` to parse the JSON string and extracts the keys. e.g. `select '{"system_diskio_name":"nvme0n1"}' as tags,json_extract_keys(tags)` will get an array: ` [ "system_diskio_name" ]`
+`json_extract_keys(jsonStr)` to parse the JSON string and extract the keys. e.g. `select '{"system_diskio_name":"nvme0n1"}' as tags,json_extract_keys(tags)` will get an array: ` [ "system_diskio_name" ]`
 
 ### is_valid_json
 
@@ -519,7 +519,7 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 ### json_has
 
-`json_has(json, key)` to check whether specified key exists in the JSON document. For example `json_has('{"a":10,"b":20}','c')`returns 0(false).
+`json_has(json, key)` to check whether a specified key exists in the JSON document. For example `json_has('{"a":10,"b":20}','c')`returns 0(false).
 
 ### json_value
 
@@ -551,7 +551,7 @@ For example, `format('{} {}', 'Hello', 'World')`gets `Hello World`
 
 ### concat
 
-`concat(str1,str2 [,str3])` Combine 2 or more strings as a single string. For example, `concat('95','%')` to get 95%. You can also use `||` as the shortcut syntax, e.g. `'95' || '%' ` Each parameter in this function need to be a string. You can use [to_string](#to_string) function to convert them, for example `to_string(95) || '%'`
+`concat(str1,str2 [,str3])` Combine 2 or more strings as a single string. For example, `concat('95','%')` to get 95%. You can also use `||` as the shortcut syntax, e.g. `'95' || '%' ` Each parameter in this function needs to be a string. You can use [to_string](#to_string) function to convert them, for example `to_string(95) || '%'`
 
 ### substr
 
@@ -573,11 +573,11 @@ For example `split_by_string('b','abcbxby')`will get an array with string `['a',
 
 ### match
 
-`match(string,pattern)` determine whether the string matches the given regular expression. For example, to check whether the text contains a sensitive AWS ARN, you can run `match(text,'arn:aws:kms:us-east-1:\d{12}:key/.{36}')`
+`match(string,pattern)` determines whether the string matches the given regular expression. For example, to check whether the text contains a sensitive AWS ARN, you can run `match(text,'arn:aws:kms:us-east-1:\d{12}:key/.{36}')`
 
 ### multi_search_any
 
-`multi_search_any(text, array)` determine whether the text contains any of string from the given array. For example, to check whether the text contains any sensitive keywords, you can run `multi_search_any(text,['password','token','secret'])`
+`multi_search_any(text, array)` determines whether the text contains any of the strings from the given array. For example, to check whether the text contains any sensitive keywords, you can run `multi_search_any(text,['password','token','secret'])`
 
 ### replace_one
 
@@ -648,13 +648,13 @@ SELECT
 
 `grok(string,pattern)`
 
-Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years ago.','My name is %{DATA:name}. I am %{INT:age} years ago.') as m` will get `{"name":"Jack","age":"23"}` as the `m`. 
+Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years old.','My name is %{DATA:name}. I am %{INT:age} years ago.') as m` will get `{"name":"Jack","age":"23"}` as the `m`. 
 
-Please note all keys and values in the returned map is in string type. You can convert them to other type, e.g. `(m['age'])::int`
+Please note all keys and values in the returned map are in string type. You can convert them to other type, e.g. `(m['age'])::int`
 
 ### coalesce
 
-`coalesce(value1, value2,..)` Checks from left to right whether `NULL` arguments were passed and return the first non-`NULL` argument. If you get error messages related to Nullable type, e.g. "Nested type array(string) cannot be inside Nullable type", you can use this function to turn the data into non-`NULL` For example `json_extract_array(coalesce(raw:payload, ''))`
+`coalesce(value1, value2,..)` Checks from left to right whether `NULL` arguments were passed and returns the first non-`NULL` argument. If you get error messages related to Nullable type, e.g. "Nested type array(string) cannot be inside Nullable type", you can use this function to turn the data into non-`NULL` For example `json_extract_array(coalesce(raw:payload, ''))`
 
 ### hex
 
@@ -666,7 +666,7 @@ Please note all keys and values in the returned map is in string type. You can c
 
 ### uuid
 
-`uuid()` or `uuid(x)` Generate a universally unique identifier (UUID) which is a 16-byte number used to identify records. In order to generate multiple UUID in one row, pass a parameter in each function call, such as `SELECT uuid(1) as a, uuid(2) as b` Otherwise if there is no parameter while calling multiple `uuid` functions in one SQL statement, the same UUID value will be returned.
+`uuid()` or `uuid(x)` Generates a universally unique identifier (UUID) which is a 16-byte number used to identify records. In order to generate multiple UUID in one row, pass a parameter in each function call, such as `SELECT uuid(1) as a, uuid(2) as b` Otherwise if there is no parameter while calling multiple `uuid` functions in one SQL statement, the same UUID value will be returned.
 
 ## Logic
 
@@ -690,7 +690,7 @@ For example `if(1=2,'a','b')` will get `b`
 
 ### count_distinct
 
-`count_distinct(col)` to get the number of unique value for the `col` column. Same as `count(distinct col)`
+`count_distinct(col)` to get the number of unique values for the `col` column. Same as `count(distinct col)`
 
 ### count_if
 
@@ -710,7 +710,7 @@ For example `if(1=2,'a','b')` will get `b`
 
 ### unique_exact_if
 
-`unique_exact_if(col,condition)` to apply a filter with `condition` and get the distincat count of `col`, e.g. to get the cars with high speed `unique_exact_if(cid,speed_kmh>80)`
+`unique_exact_if(col,condition)` to apply a filter with `condition` and get the distinct count of `col`, e.g. to get the cars with high speed `unique_exact_if(cid,speed_kmh>80)`
 
 ### min
 
@@ -726,7 +726,7 @@ For example `if(1=2,'a','b')` will get `b`
 
 ### avg
 
-`avg(<column_name>)`: average value of a column (sum(column) / count(column)). Only works for numeric column.
+`avg(<column_name>)`: average value of a column (sum(column) / count(column)). Only works for numeric columns.
 
 ### median
 
@@ -768,15 +768,15 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 ### arg_min
 
-`arg_min(argument, value_column)` Gets the value in `argument` column for a minimal value in `value_column`. If there are several different values of `argument` for minimal values of `value_column`, returns the first of these values encountered. You can achieve the same query with `min_k(value_column,1, argument)[1].2 `. But this is much easier.
+`arg_min(argument, value_column)` Gets the value in the `argument` column for a minimal value in the `value_column`. If there are several different values of `argument` for minimal values of `value_column`, it returns the first of these values encountered. You can achieve the same query with `min_k(value_column,1, argument)[1].2 `. But this is much easier.
 
 ### arg_max
 
-`arg_max(argument, value_column)` Gets the value in `argument` column for a maximum value in `value_column`. If there are several different values of `argument` for maximum values of `value_column`, returns the first of these values encountered. You can achieve the same query with `max_k(value_column,1, argument)[1].2 `. But this is much easier.
+`arg_max(argument, value_column)` Gets the value in the `argument` column for a maximum value in the `value_column`. If there are several different values of `argument` for maximum values of `value_column`, it returns the first of these values encountered. You can achieve the same query with `max_k(value_column,1, argument)[1].2 `. But this is much easier.
 
 ### group_array
 
-`group_array(<column_name>)` to combine the values of the specific column as an array. For example, if there are 3 rows and the values for this columns are "a","b","c". This function will generate a single row and single column with value `['a','b','c']`
+`group_array(<column_name>)` to combine the values of the specific column as an array. For example, if there are 3 rows and the values for these columns are "a","b","c". This function will generate a single row and single column with value `['a','b','c']`
 
 ### moving_sum
 
@@ -923,7 +923,7 @@ If you don't need the event count, you can set false for the 3rd parameter, e.g.
 
 ### is_finite
 
-`is_finite(x)` return 1 when the value `x` is not infinite and not a NaN, othewise return 0.
+`is_finite(x)` return 1 when the value `x` is not infinite and not a NaN, otherwise return 0.
 
 ### is_infinite
 
@@ -977,7 +977,7 @@ Calculates the distance on WGS-84 ellipsoid. `geo_distance(lon1,lat1,lon2,lat2)`
 
 `table(stream)` turns the unbounded data stream as a bounded table, and query its historical data. For example, you may load the clickstream data from a Kafka topic into the `clicks` stream in Timeplus. By default, if you run `SELECT .. FROM clicks ..` This is a streaming query with unbounded data. The query will keep sending you new results whenever it's available. If you only need to analyze the past data, you can put the stream into the `table` function. Taking a `count` as an example:
 
-* running `select count(*) from clicks` will show latest count every 2 seconds and never ends, until the query is cancelled by the user
+* running `select count(*) from clicks` will show latest count every 2 seconds and never ends, until the query is canceled by the user
 * running `select count(*) from table(clicks)` will return immediately with the row count for the historical data for this data stream.
 
 You can create views such as `create view histrical_view as select * from table(stream_name)`, if you want to query the data in the table mode more than once. This may work well for static data, such as lookup information(city names and their zip code).
@@ -993,7 +993,7 @@ Create a tumble window view for the data stream, for example `tumble(iot,5s)` wi
 ### hop
 
 `hop(stream [,timeCol], step, windowSize)`
-Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` will create windows for every 5 seconds for the data stream `iot` and moving the window forwards every second. The SQL must end with `group by ` with either `window_start` or `window_end` or both.
+Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` will create windows for every 5 seconds for the data stream `iot` and move the windows forward every second. The SQL must end with `group by ` with either `window_start` or `window_end` or both.
 
 ### session
 
@@ -1019,7 +1019,7 @@ For example, if the car keeps sending data when it's moving and stops sending da
 
 `dedup(stream, column1 [,otherColumns..] [liveInSecond,limit])`
 
-Apply the deduplication at the given data stream with the specified column(s). `liveInSecond` is specify how long the keys will be kept in the memory/state. By default forever. But if you only want to avoid duplicating within a certain time peroid, say 2 minutes, you can set `120s`, e.g. `dedup(subquery,myId,120s)`
+Apply the deduplication at the given data stream with the specified column(s). `liveInSecond` specifies how long the keys will be kept in the memory/state. By default forever. But if you only want to avoid duplicating within a certain time period, say 2 minutes, you can set `120s`, e.g. `dedup(subquery,myId,120s)`
 
 The last parameter `limit` is optional which is `100000` by default. It limits the max unique keys maintained in the query engine. If the limit reaches, the system will recycle the earliest keys to maintain this limit.
 
@@ -1035,15 +1035,15 @@ You can cascade this table function like `tumble(dedup(table(....` and so far th
 
 ### lags
 
-`lags(<column_name>, begin_offset, end_offset [, <default_value>])` simliar to `lag` function but can get a list of value. e.g. `lags(total,1,3)` will return an array for the last 1, last 2 and last 3 values.
+`lags(<column_name>, begin_offset, end_offset [, <default_value>])` similar to `lag` function but can get a list of values. e.g. `lags(total,1,3)` will return an array for the last 1, last 2 and last 3 values.
 
 ### latest
 
-`latest(<column_name>)` get the latest value for specific column, working with streaming aggregation with group by.
+`latest(<column_name>)` gets the latest value for a specific column, working with streaming aggregation with group by.
 
 ### earliest
 
-`earliest(<column_name>)` get the earliest value for specific column, working with streaming aggregation with group by.
+`earliest(<column_name>)` gets the earliest value for a specific column, working with streaming aggregation with group by.
 
 ### now
 
@@ -1057,7 +1057,7 @@ If the now() is used in a streaming query, no matter `SELECT` or `WHERE` or `tum
 
 Similar to `now()` but with extra millisecond information, such as 2022-01-28 05:08:22.680
 
-It can be also used in streaming query to show latest datetime with millisecond.
+It can be also used in streaming queries to show the latest datetime with milliseconds.
 
 ### emit_version
 
