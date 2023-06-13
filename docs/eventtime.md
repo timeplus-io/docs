@@ -2,9 +2,9 @@
 
 ## All data with an event time
 
-Streams are where data live and each data contains an event time. Timeplus takes this attribute as one important identity of event.
+Streams are where data live and each data contains an event time. Timeplus takes this attribute as one important identity of an event.
 
-Event time is used to identify when the event is generated, like a birthday to a human being.  It can be the exact timestamp when the order is placed, when the user logins a system, when an error occurs, or when a IoT device reports its status. If no suitable timestamp attribute in the event, Timeplus will generate the event time based on the data ingestion time.
+Event time is used to identify when the event is generated, like a birthday to a human being.  It can be the exact timestamp when the order is placed, when the user logins a system, when an error occurs, or when an IoT device reports its status. If there is no suitable timestamp attribute in the event, Timeplus will generate the event time based on the data ingestion time.
 
 Usually the event time is in `DateTime` type with second precision or in `DateTime64` type with millisecond precision. 
 
@@ -14,14 +14,14 @@ Event time is used almost everywhere in Timeplus data processing and analysis wo
 
 * while doing time window based aggregations, such as [tumble](functions#tumble) or [hop](functions#hop) to get the downsampled data or outlier in each time window, Timeplus will use the event time to decide whether certain event belongs to a specific window
 * in such time sensitive analytics, event time is also used to identify out of order events or late events, and drop them in order to get timely streaming insights.
-* when one data stream is joined with the other, event time is the key to collate the data, without expecting two events happened in the exactly same millisecond.
+* when one data stream is joined with the other, event time is the key to collate the data, without expecting two events to happen in  exactly the same millisecond.
 * event time also plays an important role to device how long the data will be kept in the stream
 
 ## How to specify the event time
 
 ### Specify during data ingestion
 
-When you [ingest data](ingestion) into Timeplus, you can specify an attribute in the data which best represents the event time. Even the attribute is in `String` type, Timeplus will automatically convert it to a timestamp for further processing.
+When you [ingest data](ingestion) into Timeplus, you can specify an attribute in the data which best represents the event time. Even if the attribute is in `String` type, Timeplus will automatically convert it to a timestamp for further processing.
 
 If you don't choose an attribute in the wizard, then Timeplus will use the ingestion time to present the event time, i.e. when Timeplus receives the data. This may work well for most static or dimensional data, such as city names with zip codes.
 

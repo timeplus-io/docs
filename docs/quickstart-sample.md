@@ -20,7 +20,7 @@ Click **Next** button. You will review the source configuration. Click **Create 
 
 ![IOT sample dataset confirm](/img/sampledata_confirm.png)
 
-A message will be shown the source is created successfully.
+A message will be shown if the source is created successfully.
 
 ![IOT sample dataset confirm](/img/sampledata_ok.png)
 
@@ -34,7 +34,7 @@ The query will be generated automatically: `SELECT * FROM iot` Click the RUN QUE
 
 ![Run query](/img/sampledata_click_run_bn.png)
 
-The streaming SQL willl keep showing latest results in the UI.
+The streaming SQL will keep showing the latest results in the UI.
 
 ![Run query](/img/sampledata_click_query_live.png)
 

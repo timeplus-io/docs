@@ -20,7 +20,7 @@ Line charts work best with time series data.
 * Format settings:
   * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc.). By default, 'Last 1 minute' is selected. If you are running a historical query, please change it to 'All time'.
   * Y-axis title, min/max value, line color, style
-  * Show/hide the data label for the last value of the line chart, number of decimal and whether to show prefix/surfix as unit.
+  * Show/hide the data label for the last value of the line chart, number of decimal and whether to show prefix/suffix as unit.
   * Show/hide grid lines
   * Show/hide legend
   * Show/hide data points
@@ -38,15 +38,15 @@ Shows a stacked area chart, with the same format settings as **Line Chart**.
   * X-axis: a categorical column
   * Y-axis: a numeric column
   * Color: whether to show grouped data in either stack mode or dodge mode.
-  * Update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
+  * Update mode: append only, or show data points from the last timestamp, or choose a key column to show the latest data value for each key value.
 
 * Format settings:
-  * X-axis title, Y-axis title, column color, show/hide data label (with decimal and prefix/surfix unit), show/hide grid lines, show/hide legend
+  * X-axis title, Y-axis title, column color, show/hide data label (with decimal and prefix/suffix unit), show/hide grid lines, show/hide legend
 
 
 ### Bar chart
 
-Similar to Column chart, with data points shown as horizontal bars instead of vertical columns. Best fit for show top-N values.
+Similar to the Column chart, with data points shown as horizontal bars instead of vertical columns. Best fit for show top-N values.
 
 ### Single value chart
 
@@ -65,9 +65,9 @@ Similar to Column chart, with data points shown as horizontal bars instead of ve
 Currently only available on https://us.timeplus.cloud as a preview feature.
 
 * Data settings:
-  * choose the column for longtitude and latitude.
+  * choose the column for longitude and latitude.
   * color: whether to show grouped data in either stack mode or dodge mode.
-  * update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
+  * update mode: append only, or show data points from the last timestamp, or choose a key column to show the latest data value for each key value.
 
 * Format settings:
   * Map size (TO BE UPDATED)
@@ -80,9 +80,9 @@ Shows the data as a list table.
 * Data settings
   * Maximum row count.
   * Update mode: 
-    * Show All: show all query results (limited by the maxium row count)
+    * Show All: show all query results (limited by the maximum row count)
     * By Time: show data points from the last timestamp
-    * By Key: choose a key column as show latest row for each key value.
+    * By Key: choose a key column to show latest row for each key value.
   
 * Format settings
   * For each column, you can choose to show or hide it, or set column width and decimal for numeric columns.
@@ -123,7 +123,7 @@ Then you can change the fixed condition with a query variable, e.g.
 select * from car_live_data where speed > {{speed_limit}}
 ```
 
-The query editor will show a text input for the value of `speed_limit`. You can put a value and run the parameterized query and turn it to a visualization and add to a new dashboard or an existing dashboard.
+The query editor will show a text input for the value of `speed_limit`. You can put a value and run the parameterized query and turn it to a visualization and add it to a new dashboard or an existing dashboard.
 
 :::info
 
@@ -147,7 +147,7 @@ You can call Timeplus SDK to load the data and render the chart with 3rd party c
 
 :::info
 
-The Timeplus datasource plugin for Grafana is in the early stage. Please contact us to arrange the integration. 
+The Timeplus datasource plugin for Grafana is in the early stages. Please contact us to arrange the integration. 
 
 :::
 
