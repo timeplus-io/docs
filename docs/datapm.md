@@ -48,7 +48,7 @@ Open a terminal window and run `datapm`
 ❯   Fetch data
     Search for data
     Create new package and publish
-    Pubish existing package
+    Publish existing package
     Update a package's stats
     Edit a package's descriptions
     Log into a registry
@@ -90,7 +90,7 @@ Finding Stream Sets
 
 Type the file path for the local file (e.g. CSV, or a zip). You may also drag the file to the terminal window.
 
-Datapm will load the content from local file system or remote system and ask you whether to change the column names or remove some columns.
+Datapm will load the content from a local file system or remote system and ask you whether to change the column names or remove some columns.
 
 #### Send data to Timeplus
 Once you have configured the data source, choose a sink:
@@ -137,7 +137,7 @@ Timeplus Credentials
 You need to set the API key. You can get one from the web console. (by visiting {baseURL}/console/settings/apiKey, or choose "Personal Settings" on the top-left corner, then switch to the "API Key Management" and click "Create API Key" button).
 
 :::info
-datapm will save the configuration, including the Timeplus baseURL and the API key. Next time, you can choose those cached repository and secret.
+datapm will save the configuration, including the Timeplus baseURL and the API key. Next time, you can choose those cached repositories and secrets.
 :::
 
 ```
