@@ -46,7 +46,7 @@ Depending on which tool or programming language works best for you, you can send
 The base endpoint for the ingestion API is `https://us.timeplus.cloud/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest`
 :::info
 
-Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is readonly but we will make it editable in the future.
+Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is read only but we will make it editable in the future.
 
 :::
 
