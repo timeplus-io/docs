@@ -10,7 +10,7 @@ After you start running a streaming query, you can click the icon to send real-t
 
 You need to create a Slack incoming webhook so that Timeplus can send a slack message in the specific channel for each result. Please follow the [Slack documentation](https://api.slack.com/messaging/webhooks) for the instructions.
 
-Once you've got the Slack webhook URL, you can specify it in the dialog and set a message body. You can refer to column name via the `{{.column}}` expression. For instance, assume the output of the query is
+Once you've got the Slack webhook URL, you can specify it in the dialog and set a message body. You can refer to the column name via the `{{.column}}` expression. For instance, assume the output of the query is
 
 | time                    | number | note |
 | ----------------------- | ------ | ---- |
@@ -45,7 +45,7 @@ Please refer to the [Kafka source](ingestion#kafka) for details of the parameter
 
 You can apply streaming analysis in Timeplus, then send the results to Snowflake. There are a few different ways to make it happen:
 
-1. You can send the streaming results to Confluent Cloud or Kafka. Then leverage the [Snowflake sink in Confluent Cloud](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html) to move the data into Snowflake. This approach will achieve lower latency. Please note the Confluent Cloud Kafka cluster need reside in the same cloud vendor and region, for example, both of them in us-west-1 of AWS. By default, the table in Snowflake will be created with the same name of the Kafka topic and the JSON document is saved in a TEXT column `RECORD_CONTENT`
+1. You can send the streaming results to Confluent Cloud or Kafka. Then leverage the [Snowflake sink in Confluent Cloud](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html) to move the data into Snowflake. This approach will achieve lower latency. Please note the Confluent Cloud Kafka cluster needs to reside in the same cloud vendor and region, for example, both of them in us-west-1 of AWS. By default, the table in Snowflake will be created with the same name of the Kafka topic and the JSON document is saved in a TEXT column `RECORD_CONTENT`
 
 ```mermaid
 flowchart LR
@@ -64,7 +64,7 @@ from tumble(car_live_data,2s) group by cid, window_end
 
 Then create a Kafka sink to send such data to the topic: snowflake.
 
-After setting up the sink connector in Confluent Cloud, a `snowflake` table will be created the specified database and schema in your snowflake environment.  Then you can create a view to flatten the JSON document, such as
+After setting up the sink connector in Confluent Cloud, a `snowflake` table will be created with the specified database and schema in your snowflake environment.  Then you can create a view to flatten the JSON document, such as
 
 ```sql
 create view downsampled as select RECORD_CONTENT:time::timestamp_tz as time,
@@ -75,7 +75,7 @@ RECORD_CONTENT:speed_kmh as speed_kmh,RECORD_CONTENT:total_km as total_km from s
 
 
 
-2. You can also use other data integration tools to move data. For example, using AirByte to load latest data from Timeplus table, then move them to Snowflake or other destinations. 
+2. You can also use other data integration tools to move data. For example, using AirByte to load the latest data from Timeplus table, then move them to Snowflake or other destinations. 
 
 ```mermaid
 flowchart LR
@@ -91,4 +91,4 @@ The Timeplus source plugin for Airbyte is in the early stage. Please contact us 
 
 ## Trigger Actions via webhook{#webhook}
 
-You can also add automations to trigger other systems to take actions when Timeplus finds any real-time insights. Simply choose the **Webhook** as the action type and optionally set a message body (by default, the entire row will be encoded as a JSON document and send to the webhook). You can use this approach to perform rule-based automation without human interaction, such as swapping a overheated equipment, scaling up to scaling down the server farm, or reminder users on slack, etc. Please check [this blog](https://www.timeplus.com/post/build-a-real-time-security-app-in-3-easy-steps) for real-world examples.
+You can also add automations to trigger other systems to take actions when Timeplus finds any real-time insights. Simply choose the **Webhook** as the action type and optionally set a message body (by default, the entire row will be encoded as a JSON document and sent to the webhook). You can use this approach to perform rule-based automation without human interaction, such as swapping a overheated equipment, scaling up to scaling down the server farm, or reminder users on slack, etc. Please check [this blog](https://www.timeplus.com/post/build-a-real-time-security-app-in-3-easy-steps) for real-world examples.
