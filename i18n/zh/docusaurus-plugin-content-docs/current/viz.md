@@ -20,7 +20,7 @@ Line charts work best with time series data.
 * 格式设置
   * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc.). By default, 'Last 1 minute' is selected. If you are running a historical query, please change it to 'All time'.
   * Y-axis title, min/max value, line color, style
-  * Show/hide the data label for the last value of the line chart, number of decimal and whether to show prefix/surfix as unit.
+  * Show/hide the data label for the last value of the line chart, number of decimal and whether to show prefix/suffix as unit.
   * Show/hide grid lines
   * Show/hide legend
   * Show/hide data points
@@ -38,15 +38,15 @@ Shows a stacked area chart, with the same format settings as **Line Chart**.
   * X 轴：分类列
   * Y 轴：数值列
   * 颜色：是在堆栈模式还是减淡模式下显示分组数据。
-  * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
+  * Update mode: append only, or show data points from the last timestamp, or choose a key column to show the latest data value for each key value.
 
 * 格式设置
-  * X-axis title, Y-axis title, column color, show/hide data label (with decimal and prefix/surfix unit), show/hide grid lines, show/hide legend
+  * X-axis title, Y-axis title, column color, show/hide data label (with decimal and prefix/suffix unit), show/hide grid lines, show/hide legend
 
 
 ### 条形图
 
-Similar to Column chart, with data points shown as horizontal bars instead of vertical columns. 最适合显示前 n 个值。
+Similar to the Column chart, with data points shown as horizontal bars instead of vertical columns. 最适合显示前 n 个值。
 
 ### 单值图
 
@@ -65,9 +65,9 @@ Similar to Column chart, with data points shown as horizontal bars instead of ve
 Currently only available on https://us.timeplus.cloud as a preview feature.
 
 * 数据设置：
-  * choose the column for longtitude and latitude.
+  * choose the column for longitude and latitude.
   * color: whether to show grouped data in either stack mode or dodge mode.
-  * update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
+  * update mode: append only, or show data points from the last timestamp, or choose a key column to show the latest data value for each key value.
 
 * 格式设置
   * Map size (TO BE UPDATED)
@@ -80,9 +80,9 @@ Shows the data as a list table.
 * 数据设置
   * 最大行数
   * Update mode:
-    * Show All: show all query results (limited by the maxium row count)
+    * Show All: show all query results (limited by the maximum row count)
     * By Time: show data points from the last timestamp
-    * By Key: choose a key column as show latest row for each key value.
+    * By Key: choose a key column to show the latest row for each key value.
 
 * 格式设置
   * For each column, you can choose to show or hide it, or set column width and decimal for numeric columns.
@@ -115,7 +115,7 @@ One or more charts can be added to the dashboard, with 3 size options:
 select * from car_live_data where speed > 80
 ```
 
-运行查询并确保它满足您的需求。
+Run the query and make sure it meets your needs.
 
 然后，您可以使用查询变量更改固定条件，例如
 
@@ -123,7 +123,7 @@ select * from car_live_data where speed > 80
 select * from car_live_data where speed > {{speed_limit}}
 ```
 
-查询编辑器将显示 `speed_limit` 的文本输入。 您可以输入一个值并运行参数化查询，然后将其转换为可视化并添加到新的仪表板或现有仪表板中。
+查询编辑器将显示 `speed_limit` 的文本输入。 You can put a value and run the parameterized query and turn it to a visualization and add it to a new dashboard or an existing dashboard.
 
 :::info
 
@@ -147,7 +147,7 @@ select * from car_live_data where cid='{{car_id}}'
 
 :::info
 
-Grafana 的 Timeplus 数据源插件正处于初级阶段。 请联系我们来安排整合。
+The Timeplus datasource plugin for Grafana is in the early stages. 请联系我们来安排整合。
 
 :::
 
