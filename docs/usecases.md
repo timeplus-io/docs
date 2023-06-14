@@ -7,13 +7,13 @@ This document demonstrates how to run streaming queries in Timeplus to solve var
 
 ## Customer Scenario and Data Model {#model}
 
-You are the lead business analyst in a carsharing company. Sensors are equipped in each car to report car locations. The customers use the mobile app to find available cars nearby, book them, unlock them and hit the road. At the end of the trip, the customer parks the car, locks it, ends the trip. The payment will be proceeded automatically with the registered credit card.
+You are the lead business analyst in a carsharing company. Sensors are equipped in each car to report car locations. The customers use the mobile app to find available cars nearby, book them, unlock them and hit the road. At the end of the trip, the customer parks the car, locks it, and ends the trip. The payment will proceed automatically with the registered credit card.
 
 Some of the typical use cases for time-sensitive insights are:
 
-* how many cars are being driven by users in certain location? do we need to move some cars from less busy locations to those hot zones?
-* which cars are being driven too fast or running low fuel? The service team may need to take actions.
-* which users keep booking cars then cancelling them? Shall we send real-time notification to those users to avoid abuse.
+* How many cars are being driven by users in certain locations? Do we need to move some cars from less busy locations to those hot zones?
+* Which cars are being driven too fast or running low on fuel? The service team may need to take action.
+* Which users keep booking cars then canceling them? Shall we send real-time notification to those users to avoid abuse.
 
 There are multiple data streams in the systems:
 
@@ -60,7 +60,7 @@ erDiagram
 
 ### dim_user_info
 
-A relative static stream with all registered user informations.
+A relative static stream with all registered user information.
 
 | Column      | Type   | Sample Value    |
 | ----------- | ------ | --------------- |
@@ -84,7 +84,7 @@ A relative static stream with all registered cars
 
 ### car_live_data
 
-A data stream with latest data from car sensors. When the car engine is started, report data every second. Otherwise, report data every half an hour.
+A data stream with the latest data from car sensors. When the car engine is started, report data every second. Otherwise, report data every half an hour.
 
 | Column      | Comment                                                      | Type     | Sample Value            |
 | ----------- | ------------------------------------------------------------ | -------- | ----------------------- |
@@ -106,7 +106,7 @@ A data stream with trip details and payment info. Each row is generated during t
 * when the user unlock the car, a new event with action=service
 * when the user completes the trip and lock the car, a new event with action=end
 * when the user cancels the booking, a new event with action=cancel
-* when the user extends the booking for another 30min, a new event with action=extend, and update the expire field
+* when the user extends the booking for another 30 min, a new event with action=extend, and update the expire field
 * if the user doesn't unlock the car before the expire time, then new event is added with action=expire
 
 ```mermaid
@@ -176,7 +176,7 @@ Result:
 
 ### S-DOWNSAMPLING: Converting detailed data points to high level data {#s-downsampling}
 
-**Use Case:** the sensors on each car may report data from half second to every 10 seconds. The analyst may reduce the granularity and only need to save per-mintute data to downstream
+**Use Case:** The sensors on each car may report data from half a second to every 10 seconds. The analyst may reduce the granularity and only need to save per-minute data to downstream
 
 ```sql
 SELECT window_start,cid, avg(gas_percent) AS avg_gas_percent,avg(speed_kmh) AS avg_speed FROM
@@ -235,14 +235,14 @@ Result:
 
 There are other ways to get similar results, with more verbose queries
 
-1. We can apply a global aggregation for data in recent 1 hour window. `select sum(amount) from trips where end_time > date_sub(now(), 1h)`
+1. We can apply a global aggregation for data in a recent 1 hour window. `select sum(amount) from trips where end_time > date_sub(now(), 1h)`
 
-2. The other solution is to use hop window aggregation. Similar to the `tumble` window in [S-DOWNSAMPLING](#s-downsampling) ,the data are grouped per a fixed size time window, such a hour. Tumble windows are not overlapped to each other, so it's ideal for downsampling without data duplication (for example, for `count` aggregation, no data will be counted twice) For hop window, it will be shifted to the left or right(past or future in the timeline) with a sliding step. For example, the following query will use the hop window to get total revenue for the past 1 hour, the result will be sent out every second. `select window_start,window_end, sum(amount) from hop(trips,end_time,1s,1h) 
+2. The other solution is to use hop window aggregation. Similar to the `tumble` window in [S-DOWNSAMPLING](#s-downsampling) ,the data are grouped per a fixed size time window, such an hour. Tumble windows are not overlapped to each other, so it's ideal for downsampling without data duplication (for example, for `count` aggregation, no data will be counted twice) For hop window, it will be shifted to the left or right(past or future in the timeline) with a sliding step. For example, the following query will use the hop window to get total revenue for the past 1 hour, the result will be sent out every second. `select window_start,window_end, sum(amount) from hop(trips,end_time,1s,1h) 
    group by window_start,window_end`
 
 ###  S-SESSION: analyzing activities with active sessions {#s-session}
 
-**Use Case:** the analyst wants to track the daily movement of the cars. The sensors on the cars report data every second while the engine is started, and report data every half an hour when the engine is off. If the server doesn't receive the data for a running car for 5 seconds, the car is considered as disconnected.  We can run the following query to show the  trip distances for each running cars
+**Use Case:** The analyst wants to track the daily movement of the cars. The sensors on the cars report data every second while the engine is started, and report data every half an hour when the engine is off. If the server doesn't receive the data for a running car for 5 seconds, the car is considered disconnected.  We can run the following query to show the  trip distances for each running cars
 
 ```sql
 SELECT cid,window_start,window_end,max(total_km)-min(total_km) AS trip_km 
@@ -258,7 +258,7 @@ Result:
 | c00040 | 2022-03-23 21:42:08.000 | 2022-03-23 21:42:12.000 | 0.05395412226778262 |
 | c00078 | 2022-03-23 21:42:08.000 | 2022-03-23 21:42:33.000 | 0.4258001818272703  |
 
-More complex query can be created to aggregate the data by car id and trip ending time.
+More complex queries can be created to aggregate the data by car id and trip ending time.
 
 ```sql
 with query_1 AS (
@@ -310,7 +310,7 @@ Not only the past data will be analyzed, but also the latest incoming data will 
 
 ### S-MVIEW: Creating materialized view to keep latest analysis result and cache for other systems to query {#s-mview}
 
-**Use Case:** unlike the traditional SQL queries, streaming queries never end until the user cancels it. The analysis results are kept pushing to the web UI or slack/kafka destinations. The analysts want to run advanced streaming query in Timeplus and cache the results as a materialized view. So that they can use regular SQL tools/systems to get the streaming insights as regular tables. Materialized views are also useful to downsample the data to reduce the data volume for future analysis and storage
+**Use Case:** Unlike the traditional SQL queries, streaming queries never end until the user cancels it. The analysis results are kept pushing to the web UI or slack/kafka destinations. The analysts want to run advanced streaming queries in Timeplus and cache the results as a materialized view. So that they can use regular SQL tools/systems to get the streaming insights as regular tables. Materialized views are also useful to downsample the data to reduce the data volume for future analysis and storage
 
 ```sql
 CREATE MATERIALIZED VIEW today_revenue as
@@ -324,9 +324,9 @@ SELECT * FROM today_revenue
 
 ### S-DROP-LATE: Dropping late events to get real-time aggregation insights {#s-drop-late}
 
-**Use Case:** the streaming data may arrive late for many reasons, such as network latency, iot sensor malfunction, etc. When we run streaming analysis (such as payment per minute), we aggregate the data based on their event time (when the payment actually happened, instead of when Timeplus receives the data), and we don't want to wait for events which are significantly too late.
+**Use Case:** The streaming data may arrive late for many reasons, such as network latency, iot sensor malfunction, etc. When we run streaming analysis (such as payment per minute), we aggregate the data based on their event time (when the payment actually happened, instead of when Timeplus receives the data), and we don't want to wait for events which are significantly too late.
 
-Watermark is a common mechanism in the streaming processing world to set the bar how late the events can be. Unlike other systems, Timeplus makes it very easy to identify late event without explicitly setting a watermark policy. 
+Watermark is a common mechanism in the streaming processing world to set the bar on how late the events can be. Unlike other systems, Timeplus makes it very easy to identify late events without explicitly setting a watermark policy. 
 
 For a query like this 
 
@@ -344,12 +344,12 @@ It will show the total payment every minute, for example
 | 2022-01-12 10:00:00.000 | 2022-01-12 10:01:00.000 | 200         | 42       |
 | 2022-01-12 10:01:00.000 | 2022-01-12 10:02:00.000 | 300         | 67       |
 
-Considering two cars are returned in the same time at 10:00:10. For tripA and trip, both of them are supposed to be calculated into the first time window. However for some reason, the data point tripA arrives in Timeplus on 10:01:15, and tripB data point arrives on 10:01:16. Timeplus will accept tripA data and add it into the 1st window aggregation, and also close the first window. The watermark will be sent to 10:01:00. So when tripB data point arrives, it's considered to be too late and won't be calculated in the streaming result. But it'll be still available when we run a historical query.
+Considering two cars are returned at the same time at 10:00:10. For tripA and trip, both of them are supposed to be calculated into the first time window. However, for some reason, the data point tripA arrives in Timeplus on 10:01:15, and tripB data point arrives on 10:01:16. Timeplus will accept tripA data and add it into the 1st window aggregation, and also close the first window. The watermark will be sent to 10:01:00. So when tripB data point arrives, it's considered to be too late and won't be calculated in the streaming result. But it'll still be available when we run a historical query.
 
 | data point | event time              | arrive time             | note                                                                                                                                                                                              |
 | ---------- | ----------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | tripA      | 2022-01-12 10:00:10.000 | 2022-01-12 10:01:15.000 | included in 1st window, trigger the watermark change                                                                                                                                              |
-| tripB      | 2022-01-12 10:00:10.000 | 2022-01-12 10:01:16.000 | its time is lower than watermark. <br />1st window has been closed(not accepting more data)<br />The data is dropped for streaming analysis. <br />Still can be analyzed with historical searches |
+| tripB      | 2022-01-12 10:00:10.000 | 2022-01-12 10:01:16.000 | its time is lower than the watermark. <br />1st window has been closed(not accepting more data)<br />The data is dropped for streaming analysis. <br />Still can be analyzed with historical searches |
 
 
 
@@ -440,7 +440,7 @@ Result
 | 2022-01-12 10:01:00.000 | 80           | 88             | -8   |
 | 2022-01-12 10:02:00.000 | 90           | 80             | 10   |
 
-This is a very powerful and useful capability. Besides comparing the last aggregation result, the analysts can also compare the data for the past. For example this second with the same second in last minute or last hour.
+This is a very powerful and useful capability. Besides comparing the last aggregation result, the analysts can also compare the data for the past. For example this second with the same second in the last minute or last hour.
 
 The following query comparing the number of car sensor data by each second, comparing the number of events in last m
 
@@ -464,9 +464,9 @@ Result
 
 ### S-UNION-STREAMS: Merging multiple streams in same schema to a single stream {#s-union-streams}
 
-**Use Case:** there can be some data streams in the same data schema but intentionally put into different streams, such as one stream for one city, or a country (for performance or regulation considerations, for example). We would like to merge the data to understand the big picture.
+**Use Case:** There can be some data streams in the same data schema but intentionally put into different streams, such as one stream for one city, or a country (for performance or regulation considerations, for example). We would like to merge the data to understand the big picture.
 
-For example, the car sharing company starts their business in Vancouver BC first. Then expand it to Victoria, BC. Per local city government's regulation requirements, two systems are setup. The head quarter wants to show streaming analysis for both cities.
+For example, the car sharing company starts their business in Vancouver BC first. Then expand it to Victoria, BC. Per local city government's regulation requirements, two systems are set up. The headquarter wants to show streaming analysis for both cities.
 
 ```sql
 SELECT * FROM trips_vancouver
@@ -477,9 +477,9 @@ SELECT * FROM trips_victoria
 
 ### S-JOIN-STREAMS: Querying multiple data streams in the same time {#s-join-streams}
 
-**Use Case:** Data keeps changing, and each type of changing data is a stream. It's a common requirement to query multiple kinds of data in the same time to enrich the data, get more context and understand their correlation.
+**Use Case:** Data keeps changing, and each type of changing data is a stream. It's a common requirement to query multiple kinds of data at the same time to enrich the data, get more context and understand their correlation.
 
-For example, we want to understand how many minutes by average between the user books the car and start the trip. The booking information in [bookings](#bookings) stream and [trips](#trips) stream contains the trip start time and end time
+For example, we want to understand how many minutes on average between the user booking the car and starting the trip. The booking information in [bookings](#bookings) stream and [trips](#trips) stream contains the trip start time and end time
 
 ```sql
 SELECT avg(gap) FROM
@@ -508,7 +508,7 @@ WHERE in_use GROUP BY window_start
 
 ### Get the top 10 cars order by revenue {#top10cars}
 
-We probably want to understand which cars help the company earn most revenue  or which cars are not gaining enough revenue. This can be done with the following query
+We probably want to understand which cars help the company earn the most revenue or which cars are not gaining enough revenue. This can be done with the following query
 
 ```sql
 SELECT cid,sum(amount) AS revenue from trips 
@@ -589,7 +589,7 @@ Result:
 
 ### T-DERIVE: Computing derived columns from raw data {#t-derive}
 
-**Use Case:** Create new columns to combine informations from multiple columns in the raw data, or turn data in certain columns in other format to make them ready to be displayed.
+**Use Case:** Create new columns to combine information from multiple columns in the raw data, or turn data in certain columns in another format to make them ready to be displayed.
 
 ```sql
 SELECT uid, concat(first_name,' ',last_name) AS full_name,
