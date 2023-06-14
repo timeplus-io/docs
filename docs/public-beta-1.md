@@ -113,7 +113,7 @@ We will update the beta version from time to time and list key enhancements in t
   * Bar chart is back. You need to add `GROUP BY` in the query. Choose “Viewing latest data” and select the column for “Group by”.
   * More information is shown in the "Data Lineage" page when you move the mouse over the entities. For example you can see the data schema for the streams, and the query behind the views.
   * Greatly improved the user experience of query tabs and bookmarks. You can easily set meaningful names for each query tab. When the query editor is not empty, click the bookmark icon to save this SQL for future use. Rename or delete the bookmarks in the query side panel.
-  * Column names and types are shown for views in the "Stream Catalog"
+  * Column names and types are shown for views in the "Stream Catalog".
 
 ## Biweekly Update 10/3-10/14
 
