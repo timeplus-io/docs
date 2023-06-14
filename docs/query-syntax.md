@@ -18,7 +18,7 @@ abort the query or there is some exception happening.
 Timeplus supports some internal `SETTINGS` to fine tune the streaming query processing behaviors. Here is an exhaustive list of them. We will come back to them in sections below.
 
 1. `query_mode=<table|streaming>`. A general setting which decides if the overall query is historical data processing or streaming data processing. By default, it is `streaming`.
-2. `seek_to=<timestamp|eariest|latest>`. A setting which tells Timeplus to seek to old data in streaming storage by a timestamp. It can be relative timestamp or an absolute timestamp. By default, it is `latest` which means don't seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='eariest'` 
+2. `seek_to=<timestamp|earliest|latest>`. A setting which tells Timeplus to seek old data in streaming storage by a timestamp. It can be a relative timestamp or an absolute timestamp. By default, it is `latest` which means don't seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'` 
 
 :::info
 
@@ -47,7 +47,7 @@ which have `cpu_usage` less than 99. The final events will be streamed to client
 
 ### Global Streaming Aggregation {#global}
 
-In Timeplus, we define global aggregation as an aggregation query without using streaming window like tumble, hop. Unlike streaming window aggregation, global streaming aggregation doesn't slice
+In Timeplus, we define global aggregation as an aggregation query without using streaming windows like tumble, hop. Unlike streaming window aggregation, global streaming aggregation doesn't slice
 the unbound streaming data into windows according to timestamp, instead it processes the unbounded streaming data as one huge big global window. Due to this property, Timeplus for now can't
 recycle in-memory aggregation states / results according to timestamp for global aggregation.
 
@@ -105,17 +105,17 @@ bounds of a tumble window.
 
 `tumble` table function accepts 4 parameters: `<timestamp_column>` and `<time-zone>` are optional, the others are mandatory.
 
-When `<timestamp_column>` parameter is omitted from the query, the table's default event timestamp column which is `_tp_time` will be used.
+When the `<timestamp_column>` parameter is omitted from the query, the table's default event timestamp column which is `_tp_time` will be used.
 
-When `<time_zone>` parameter is omitted the system's default timezone will be used. `<time_zone>` is a string type parameter, for example `UTC`.
+When the `<time_zone>` parameter is omitted the system's default timezone will be used. `<time_zone>` is a string type parameter, for example `UTC`.
 
 `<tumble_window_size>` is an interval parameter: `<n><UNIT>` where `<UNIT>` supports `s`, `m`, `h`, `d`, `w`.
 It doesn't yet support `M`, `q`, `y`. For example, `tumble(my_table, 5s)`.
 
 Timeplus supports 2 emit policies for tumble window, so `<window_emit_policy>` can be:
 
-1. `AFTER WATERMARK`: aggregation results will be emitted and pushed to clients right after watermark is observed. This is the default behaviors when this clause is omitted.
-2. `AFTER WATERMARK AND DELAY <internval>`: aggregation results will be held after watermark is observed until the specified delay reaches. Users can use interval shortcuts for the delay. For example, `DELAY 5s`.
+1. `AFTER WATERMARK`: aggregation results will be emitted and pushed to clients right after a watermark is observed. This is the default behavior when this clause is omitted.
+2. `AFTER WATERMARK AND DELAY <interval>`: aggregation results will be held after the watermark is observed until the specified delay reaches. Users can use interval shortcuts for the delay. For example, `DELAY 5s`.
 
 **Note** `watermark` is an internal timestamp which is observed and calculated and emitted by Timeplus and is used to indicate when a streaming window shall close. It is guaranteed to be increased monotonically per stream query.
 
@@ -160,7 +160,7 @@ EMIT AFTER WATERMARK DELAY 2s;
 
 ### Hop Streaming Window Aggregation {#hop}
 
-Like [Tumble](#tumble), Hop also slices the unbounded streaming data into smaller windows, and it has an addition sliding step.
+Like [Tumble](#tumble), Hop also slices the unbounded streaming data into smaller windows, and it has an additional sliding step.
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -171,12 +171,12 @@ EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-Hop window is a more generalized window comparing to tumble window. Hop window has an additional
-parameter called `<hop_slide_size>` which means window progress this slide size every time. There are 3 cases:
+Hop window is a more generalized window compared to tumble window. Hop window has an additional
+parameter called `<hop_slide_size>` which means window progresses this slide size every time. There are 3 cases:
 
 1. `<hop_slide_size>` is less than `<hop_window_size>`. Hop windows have overlaps meaning an event can fall into several hop windows.
 2. `<hop_slide_size>` is equal to `<hop_window_size>`. Degenerated to a tumble window.
-3. `<hop_slide_size>` is greater than `<hop_window_size>`. Windows has gap in between. Usually not useful, hence not supported so far.
+3. `<hop_slide_size>` is greater than `<hop_window_size>`. Windows has a gap in between. Usually not useful, hence not supported so far.
 
 Please note, at this point, you need to use the same time unit in `<hop_slide_size>` and `<hop_window_size>`, for example `hop(device_utils, 1s, 60s)` instead of `hop(device_utils, 1s, 1m)`. 
 
@@ -190,7 +190,7 @@ Here is one hop window example which has 2 seconds slide and 5 seconds hop windo
 ...
 ```
 
-Except that hop window can have overlaps, other semantics are identical to the tumble window.
+Except that the hop window can have overlaps, other semantics are identical to the tumble window.
 
 ```sql
 SELECT device, max(cpu_usage)
@@ -203,13 +203,13 @@ The above example SQL continuously aggregates max cpu usage per device per hop w
 
 ### Last X Streaming Processing
 
-In streaming processing, there is one typical query which is processing last X seconds / minutes / hours of data. For example, show me the cpu usage per device in the last 1 hour. We called this type of processing `Last X Streaming Processing` in Timeplus and Timeplus provides specialized SQL extension for easy of use: `EMIT LAST <n><UNIT>`. As in other part of streaming queries, users can use interval shortcuts here.
+In streaming processing, there is one typical query which is processing the last X seconds / minutes / hours of data. For example, show me the cpu usage per device in the last 1 hour. We call this type of processing `Last X Streaming Processing` in Timeplus and Timeplus provides a specialized SQL extension for ease of use: `EMIT LAST <n><UNIT>`. As in other parts of streaming queries, users can use interval shortcuts here.
 
-**Note** For now, last X streaming processing is process time processing by default and Timeplus will seek streaming storage to backfill data in last X time range and it is using wall clock time to do the seek. Event time based last X processing is still under development. When event based last X processing is ready, the by default last X processing will be changed to event time.
+**Note** For now, last X streaming processing is process time processing by default and Timeplus will seek streaming storage to backfill data in last X time range and it is using wall clock time to do the seek. Event time based on last X processing is still under development. When event based last X processing is ready, the by default last X processing will be changed to event time.
 
 #### Last X Tail
 
-Tailing events whose event timestamps are in last X range.
+Tailing events whose event timestamps are in the last X range.
 
 ```sql
 SELECT <column_name1>, <column_name2>, ...
@@ -227,7 +227,7 @@ WHERE cpu_usage > 80
 EMIT LAST 5m
 ```
 
-The above example filters events in `device_utils` table where `cpu_usage` greater than 80% and events are appended in the last 5 minutes. Internally, Timeplus seeks streaming storage back to 5 minutes (wall-clock time from now) and tailing the data from there.
+The above example filters events in the `device_utils` table where `cpu_usage` is greater than 80% and events are appended in the last 5 minutes. Internally, Timeplus seeks streaming storage back to 5 minutes (wall-clock time from now) and tailing the data from there.
 
 #### Last X Global Aggregation
 
@@ -241,7 +241,7 @@ SETTINGS max_keep_windows=<window_count>
 ```
 
 **Note** Internally Timeplus chops streaming data into small windows and does the aggregation in each small window and as time goes, it slides out old small windows to keep the overall time window fixed and keep the incremental aggregation efficient. By default, the maximum keeping windows is 100. If the last X interval is very big and the periodic emit interval is small,
-then users will need explicitly setup a bigger max windows : `last_x_interval / periodic_emit_interval`.
+then users will need to explicitly set up a bigger max window : `last_x_interval / periodic_emit_interval`.
 
 Examples
 
@@ -276,7 +276,7 @@ EMIT LAST 1h
 SETTINGS max_keep_windows=720;
 ```
 
-Similarly, we can apply last X on hopping window.
+Similarly, we can apply the last X on hopping window.
 
 ### Subquery
 
@@ -294,15 +294,15 @@ FROM (
 ) GROUP BY device;
 ```
 
-Vanilla subquery can be arbitrary nested until Timeplus's system limit is hit. The outer parent query can be any normal vanilla query or windows aggregation or global aggregation.
+Vanilla subquery can be arbitrarily nested until Timeplus's system limit is hit. The outer parent query can be any normal vanilla query or windows aggregation or global aggregation.
 
-User can also writes the query by using Common Table Expression (CTE) style.
+Users can also write the query by using Common Table Expression (CTE) style.
 
 ```sql
 WITH filtered AS(
     SELECT * FROM device_utils WHERE cpu_usage > 80 -- vanilla subquery
 )
-SELECT device, max(cpu_usage) FROM filteed GROUP BY device;
+SELECT device, max(cpu_usage) FROM filtered GROUP BY device;
 ```
 
 Multiple CTE can be defined in one query, such as
@@ -355,7 +355,7 @@ GROUP BY device;
 
 A global aggregated subquery contains global aggregation. There are some limitations users can do with global aggregated subquery:
 
-1. Timeplus supports global over global aggregation and they can be multiple levels until a system limit is hit.
+1. Timeplus supports global over global aggregation and there can be multiple levels until a system limit is hit.
 2. Flat transformation over global aggregation can be multiple levels until a system limit is hit.
 3. Window aggregation over global aggregation is not supported.
 
@@ -373,9 +373,9 @@ FROM
 
 ### Streaming and Dimension Table Join{#stream_table_join}
 
-In Timeplus, all data live in streams and the default query mode is streaming. Streaming mode focus on latest real-time tail data which is suitable for streaming processing. On the other hand, historical focuses old indexed data in the past and optimized for big batch processing like terabytes large scan. Streaming is the by default mode when a query is running against it. To query the historical data of a stream, `table()` function can be used.
+In Timeplus, all data live in streams and the default query mode is streaming. Streaming mode focuses on the latest real-time tail data which is suitable for streaming processing. On the other hand, historical focuses on the old indexed data in the past and optimized for big batch processing like terabytes large scans. Streaming is the by default mode when a query is running against it. To query the historical data of a stream, `table()` function can be used.
 
-There are typical cases that an unbounded data streaming needs enrichment by connecting to a relative static dimension table. Timeplus can do this in one single engine by storing streaming data and dimension table in it via a streaming to dimension table join.
+There are typical cases that an unbounded data stream needs enrichment by connecting to a relative static dimension table. Timeplus can do this in one single engine by storing streaming data and dimension tables in it via a streaming to dimension table join.
 
 Examples
 
@@ -387,7 +387,7 @@ ON device_utils.product_id = device_products_info.id
 WHERE device_products_info._tp_time > '2020-01-01T01:01:01';
 ```
 
-In the above example, data from `device_utils` is a stream and data from `device_products_info` is historical data since it is tagged with `table()` function. For every (new) row from `device_utils`, it is continuously (hashed) joined with rows from dimension table `device_products_info` and enrich the streaming data with product vendor information.
+In the above example, data from `device_utils` is a stream and data from `device_products_info` is historical data since it is tagged with `table()` function. For every (new) row from `device_utils`, it is continuously (hashed) joined with rows from dimension table `device_products_info` and enriches the streaming data with product vendor information.
 
 Streaming to dimension table join has some limitations
 
@@ -398,7 +398,7 @@ Streaming to dimension table join has some limitations
 
 ### Stream to Stream  Join {#stream_stream_join}
 
-In some cases, the real-time data flow to multiple data streams. For example, when the ads are presented to the end users, and when the users click the ads. Timeplus allows you to do correlated searches for multiple data streams, for example, you can check the average time when the user clicks the ad after it is presented.
+In some cases, the real-time data flows to multiple data streams. For example, when the ads are presented to the end users, and when the users click the ads. Timeplus allows you to do correlated searches for multiple data streams, for example, you can check the average time when the user clicks the ad after it is presented.
 
 ```sql
 SELECT .. FROM stream1
@@ -419,9 +419,9 @@ WHERE ..
 There are many types of JOIN supported in Timeplus:
 
 * The common ones are `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`.
-* A speical `CROSS JOIN`, which produces the full cartesian product of the two streams without considering join keys. Each row from the left stream is combined with each row from the right stream. 
-* A special `ASOF JOIN` provides non-exact matching capabilities. This can work well if two streams with same id, but not with exactly same timestamps.
-* A special `LATEST JOIN`.  For two append-only streams, if you use `a INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either streams, the previous join result will be cancelled and a new result will be added.
+* A special `CROSS JOIN`, which produces the full cartesian product of the two streams without considering join keys. Each row from the left stream is combined with each row from the right stream. 
+* A special `ASOF JOIN` provides non-exact matching capabilities. This can work well if two streams have the same id, but not with exactly the same timestamps.
+* A special `LATEST JOIN`.  For two append-only streams, if you use `a INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either stream, the previous join result will be canceled and a new result will be added.
 
 
 
@@ -454,4 +454,4 @@ Then you can add some events to both streams.
 | Add one event to `right` (id=100, amount=200) | (2 more rows)<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
 | Add one event to `left` (id=100, name=appl)   | (2 more rows)<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1 |
 
-If you run an aggregation function, say `count(*)` with such INNER LATEST JOIN, the result will be always 1, no matter how many times the value with same key is changed.
+If you run an aggregation function, say `count(*)` with such INNER LATEST JOIN, the result will always be 1, no matter how many times the value with the same key is changed.
