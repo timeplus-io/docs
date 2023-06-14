@@ -1,6 +1,6 @@
 # 公开测试版 2
 
-我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 相比 [公开测试版1](public-beta-1)，除了入口点从 https://beta.timeplus.cloud 更改为 https://us.timeplus.cloud 以外，大多数后端和前端更改都是递增式的。
+We are thrilled to launch the next phase of the public beta of Timeplus cloud release. 相比 [公开测试版1](public-beta-1)，除了入口点从 https://beta.timeplus.cloud 更改为 https://us.timeplus.cloud 以外，大多数后端和前端更改都是递增式的。
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
@@ -15,7 +15,7 @@
 
 **其他改进**
   * 对于流，您现在可以为流媒体和历史数据设置单独的保留策略。 例如，对于包含 IoT 数据的流，您可以为流数据设置 1 天的时间，或者为历史数据设置 90 天的时限。
-  * 请注意：REST API v1beta1 现已废弃，将在几个月后被删除。 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/)、 [Java 示例代码](https://github.com/timeplus-io/java-demo) 和 [Streamlit 演示应用程序](https://github.com/timeplus-io/streamlit_apps) 已更新。
+  * Please note: REST API v1beta1 is now deprecated, and it will be removed in a couple of months. 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/)、 [Java 示例代码](https://github.com/timeplus-io/java-demo) 和 [Streamlit 演示应用程序](https://github.com/timeplus-io/streamlit_apps) 已更新。
 
 
 ## 2023年5月29日
@@ -26,12 +26,12 @@
   * 我们现在还支持 Debezium JSON 作为读取数据格式，包括 Upsert 和 CRUD（CRUD 目前处于预览阶段）。
 
 **流数据库和流式SQL**
-  * 我们对滑动窗口进行了显著的性能增强，从 10 倍提高到 100 倍。 这对于较大的窗口特别有用，例如窗口的总大小为 24 小时，但却可以每秒显示一次更新。
-  * 用户定义的函数 (UDF) 和用户定义的聚合 (UDA) 现在能够将数组作为数据类型返回。
+  * We've made a significant performance enhancement for the hop window, from 10x to 100x. 这对于较大的窗口特别有用，例如窗口的总大小为 24 小时，但却可以每秒显示一次更新。
+  * User-defined functions (UDFs) and user-defined aggregates (UDAs) are now able to return an array as a data type.
 
 **其他改进**
   * （实验性）我们添加了协作功能，允许您邀请团队成员加入您的工作空间。
-  * 我们重新组织了导航菜单，以提供更清晰的工作流程：“数据添加” 现在位于顶部，其次是 “运行 SQL”。 我们还在菜单中添加了 “工作空间设置”，以便更快地访问您的 UDF 和团队成员。
+  * We've reorganized our navigation menu to provide a clearer workflow: "Add Data" is now at the top, followed by "Run SQL". 我们还在菜单中添加了 “工作空间设置”，以便更快地访问您的 UDF 和团队成员。
 
 
 ## 2023年5月16日
@@ -40,7 +40,7 @@
   * 我们使您可以更轻松地通过 Ingest REST API 推送数据。 我们在控制台中添加了一个向导页面，用于指导您对目标流、请求模板和API密钥的选择，然后为您的推送请求生成示例代码。 [了解更多](ingest-api)
   * 我们的CSV文件上传向导外观焕然一新，它全新的用户界面风格变得与其他向导相同了。
 
-**增强功能：仪表板和图表**
+**Enhancements: Dashboards and Charts**
   * 当您对图表进行格式更改时，所有的更改效果都将是即时呈现出来的，不需要重新加载图表。
   * 我们在将鼠标悬停在仪表板图表上添加了一个图标。在 “仅查看” 模式下，它将在查询编辑器页面中打开图表的 SQL。
 
@@ -52,7 +52,7 @@
 
 **图表和仪表盘**
 
-  * （实验性）添加了新的地图可视化类型，可以在实时地图视图中显示最新位置。
+  * (Experimental) A new map visualization type is added, showing the latest locations in a live map view.
   * 对于表可视化，如果更新模式是按键更新，则可以启用 sparkline 来跟踪某些列的值变化。
 
 **其他改进**
@@ -74,7 +74,7 @@
 
   * 我们完善了仪表板编辑模式。 您在编辑模式下所做的更改不会自动保存，以防止意外更改。 单击 **保存更改** 按钮确认更改，或单击 **取消** 按钮放弃更改。
   * 现在，您可以自定义图表的折线、区域和条形的颜色。
-  * **迁移通知：** 由于我们更新了仪表盘和图表定义的数据格式，因此需要手动重新配置现有仪表板才能正确呈现。 这将是一次性的工作。
+  * **Migration notice:** since we updated the schema of dashboard & chart definition, your existing dashboards need to be re-configured manually to render properly. 这将是一次性的工作。
 
 **其他改进**
 
@@ -144,13 +144,13 @@
   * 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 ` earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
   * 你也可以在一个包括JOIN/UNION多个流的SQL中多次使用 `where _tp_time >..` 为不同的流穿越到不同的起点。
   * 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
-  * 为流式查询添加 [LATEST JOIN](query-syntax#latest-join) 。 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
+  * 为流式查询添加 [LATEST JOIN](query-syntax#latest-join) 。 For two append-only streams, if you use `a LEFT INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either stream, the previous join result will be canceled and a new result will be added.
 
 ## 2023年2月17日
 
 * 新功能
 
-  * [全局聚合](query-syntax#global) 现在支持亚秒级的输出间隔。  比如. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
+  * [Global aggregation](query-syntax#global) now supports sub-second emit intervals.  比如. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
   * 现在，您可以创建多个物化视图来将数据写入同一个流。 此功能的典型用法是在相同的原始数据上应用多个处理逻辑，然后发送到同一个数据流以获得聚合结果。 对于物化视图，Timeplus 会维护查询的状态，这将更适合长时间运行的查询和故障恢复。
   * (实验性) 在创建新流后，您可以选择直接在控制台界面中添加少量数据，而不用通过REST API或创建源。 如果您想试用此功能，请联系我们。
   * （实验性）Timeplus 后端添加了对CDC（[Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)）的内置支持，用户界面将很快准备就绪。 您可以在不同的模式下创建数据流。 默认情况下，它是仅限追加的。 您也可以创建流来接受INSERT、UPDATE和DELETE从 [Debezium](https://debezium.io/) 的更改日志。 流式聚合结果将反映最新的数据变化。 如果您想试用此功能，请联系我们。
@@ -168,7 +168,7 @@
 
 * 查询页面增强功能
   * 显示查询是流式查询还是历史查询。
-  * 显示基本查询指标，例如 EPS 和所用时间。 点击链接打开详细指标面板。
+  * 显示基本查询指标，例如 EPS 和所用时间。 Click the link to open a detailed metrics panel.
   * 查询运行时，查询选项卡上的绿点作为标识。
   * 查询页面现在可通过 URL 分享状态。 当您在编辑器中键入 SQL 时，它会成为 URL 的一部分。 将 URL 共享给其他人，可以在查询界面打开同一 SQL。
   * 对于包含长文本的列，您可以打开 “设置” 以打开 “自动换行文本” 模式。
@@ -182,13 +182,13 @@
 ## 2023年1月20日
 
 * 查询结果的界面更新：
-  * **无限滚动。 ** 对于流式查询和历史查询，较新的结果显示在底部。 您可以向上滚动查看之前的结果，然后单击底部的 **跳转到最新数据** 按钮继续查看最新结果。
+  * **无限滚动。 ** 对于流式查询和历史查询，较新的结果显示在底部。 You can scroll up to see earlier results, then click **Jump to latest data** button in the bottom to continue to view the latest results.
   * **行详情**。 对于包含长文本或 JSON 的列，您可以单击 “眼睛” 按钮打开包含该行详细信息的侧面板。
-  * **更新列摘要。 ** 对于数字列，列头中显示最小/最大/平均值。 数据范围是从查询开始到现在。 对于日期时间列，将显示起始/终止时间戳。 对于布尔列或字符串列，前 3 个值与百分比一起显示。
-  * **快速筛选。 ** 您可以键入一些关键字来筛选结果，而无需重写 SQL。 它将对所有列执行简单的 `string#contains` 匹配。 暂不支持正则表达式或逻辑条件。
+  * **更新列摘要。 ** 对于数字列，列头中显示最小/最大/平均值。 The data range is since the query starts till now. 对于日期时间列，将显示起始/终止时间戳。 For boolean or string columns, the top 3 values are shown with the percentage.
+  * **快速筛选。 ** 您可以键入一些关键字来筛选结果，而无需重写 SQL。 它将对所有列执行简单的 `string#contains` 匹配。 Regular expression or logic conditions are not supported.
   * **显示/隐藏列。 ** 您可以通过新引入的 **设置** 按钮来隐藏某些列，而无需重写 SQL。 您也可以在此对话框中以 CSV 格式下载结果。
-  * **调整列大小**. **调整列大小**. Timeplus 会根据列类型自动设置适当的初始列大小。 您可以随时通过拖放来调整列的大小。
+  * **调整列大小**. Timeplus automatically sets a proper initial column size based on column type. 您可以随时通过拖放来调整列的大小。
 * 更多图表类型和选项。 您可以选择折线图、面积图、柱形图、条形图、单值图和图表作为可视化类型。 每个图表都支持基本设置和高级设置。
 * 添加了一种内置的针对`json`优化的数据类型，与将 JSON 另存为 `string` 并在查询时动态提取相比，查询性能更好。 适合于同一结构的 JSON 文档。 通过 `column.jsonpath` 访问该值（而不是用文本列的方式 `column:jsonpath` ）
 * 我们开始弃用 `settings seek_to=..` 仍然支持时空旅行，你只需要在 WHERE 条件下使用 `_tp_time` 列，例如 `WHERE _tp_time>=now () -1h` 即可在 1 小时前进行时空旅行并显示此后的数据。 或者 `其中 _tp_time >= '2023-01-14'`  Timeplus 中的所有数据流都包含 `_tp_time` 作为事件时间。
-* （实验性）除了 [Remote UDF](remote-udf)之外，现在你还可以使用 JavaScript 定义新函数。 支持标量函数和聚合函数。 请查看 [JS UDF](js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。
+* (Experimental) In addition to the [Remote UDF](remote-udf), now you can define new functions with JavaScript. 支持标量函数和聚合函数。 请查看 [JS UDF](js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。
