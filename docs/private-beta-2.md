@@ -15,34 +15,34 @@ We will update the beta version from time to time and list key enhancements in t
   * Support sub-stream, e.g. `select cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) as last_spd from car_live_data` 
 * Source, sink, API and SDK
   * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](glossary#workspace) 
-  * Updated the [REST API](/rest) to show the optinal description for source/sink, and replace "tenant" with "workspace-id" in the documentation.
+  * Updated the [REST API](/rest) to show the optional description for source/sink, and replace "tenant" with "workspace-id" in the documentation.
   * The Kafka sink no longer auto-create the topics
 
 * UI improvements
-  * Show the total data size on the home page, as well as the averge data in and data out throughput.
+  * Show the total data size on the home page, as well as the average data in and data out throughput.
   * Added a new 'SQL Templates' button in the query page to help you quickly add common snippets, such as `settings seek_to='-1h'`
-  * Added a closable page description, as well as context aware help sidepanel.
+  * Added a closable page description, as well as context aware help side panel.
   * Refined "Data Lineage" page to show stream schema, view SQL, and sink types.
-  * Able to set units when you choose to view latest data.
+  * Able to set units when you choose to view the latest data.
   * Mobile friendly login/signup page.
 
 ### Biweekly Update 9/5-9/16
 
 * Streaming engine
   * Added a [round](functions#round) function to round a value to a specified number of decimal places.
-  * Improved cluser support.
+  * Improved cluster support.
 * Source, sink, API and SDK
-  * Added new CRUD API for dashboards. The previous charts on home page will be removed automatically during upgrade.
-  * Simplifid the hostname for the streamlit demo to https://timeplus.streamlitapp.com
+  * Added new CRUD API for dashboards. The previous charts on the homepage will be removed automatically during upgrade.
+  * Simplified the hostname for the streamlit demo to https://timeplus.streamlitapp.com
 
 * UI improvements
   * Introduced full dashboard management. You can create multiple dashboards with name/description/charts.
   * Redesigned home page to show high level information for the workspace.
   * Introduced a new 'Data Lineage' page to visualize the relationship between sources/streams/views/sinks.
-  * Enhanced the workflow for visualizing the query result. You need to choose whether to view latest data, or check data trend, or view detailed data.
+  * Enhanced the workflow for visualizing the query result. You need to choose whether to view the latest data, check data trend, or view detailed data.
   * Now you can visualize the query results from a historical query, e.g. `select .. from table(..)..`, and add the charts to dashboards.
-  * Removed the browser side data aggregation to improve performance. If the rate of the data is greater than the render interval (200ms), only the last data point within the interval will be rendered.  If you run a streaming tail or filter, you no longer can visulize the data with bar chart. Please use `GROUP BY` in the SQL for such analysis.
-  * Enhanced the SQL editor to show column names without using stream name.
+  * Removed the browser side data aggregation to improve performance. If the rate of the data is greater than the render interval (200ms), only the last data point within the interval will be rendered.  If you run a streaming tail or filter, you no longer can visualize the data with a bar chart. Please use `GROUP BY` in the SQL for such analysis.
+  * Enhanced the SQL editor to show column names without using stream names.
   * Mobile friendly login/signup page.
 
 ###  Biweekly Update 8/22-9/2
@@ -74,7 +74,7 @@ We have migrated beta1 customers to the beta2. https://demo.timeplus.com is no l
 * UI improvements
   * New UI for Apache Pulsar as a source or a sink.
   * The columns in the query results are now resizable with drag-and-drop.
-  * Unattended streaming SQL will be cancelled automatically.
+  * Unattended streaming SQL will be canceled automatically.
 
 ###  Week of 8/8
 
@@ -91,4 +91,4 @@ First product update in the Private Beta 2.
 * UI improvements
   * New login screen.
   * Experimental sink UI for Snowflake.
-  * Improved multi-tenant support in varoius UI pages.
+  * Improved multi-tenant support in various UI pages.
