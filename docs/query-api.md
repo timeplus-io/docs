@@ -1,6 +1,6 @@
 # Query API with Server-sent Events (SSE)
 
-All Timeplus functions are available through REST API. To support real-time query result pushed from server to client side, there are two popular solutions, [websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) and [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). Timeplus is now leveraging sever-sent events to push real-time query result to the client.
+All Timeplus functions are available through REST API. To support real-time query result pushed from server to client side, there are two popular solutions, [websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) and [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). Timeplus is now leveraging server-sent events to push real-time query results to the client.
 
 ## Event Stream Protocol
 
@@ -40,15 +40,15 @@ There are three different types of events:
 
 Query metadata is always **the first SSE message** returned through the query API, it has event type `query`, which is a json object, some often used fields are `id`, `sql` and `result.header`. The content of the metadata is the same as the response of [get query](https://docs.timeplus.com/rest.html#tag/Queries-v1beta2/paths/~1v1beta2~1queries~1%7Bid%7D/get).
 
-In case of **historical (table) query**, the last event will be query metadata as well. The reason we send it again as the end of SSE session is to notify the client about the final status of the query. A typical use case here is that the client can make use of the final `duration` and `end_time` of the query.
+In case of **historical (table) query**, the last event will query metadata as well. The reason we send it again at the end of the SSE session is to notify the client about the final status of the query. A typical use case here is that the client can make use of the final `duration` and `end_time` of the query.
 
 ### Query Results (no event type)
 
-We don't assign any event type in order to save bandwidth here. Each query result message is an array of array, representing multiple rows of query results. The data in each row follows the same order defined in the `result.header`.
+We don't assign any event type in order to save bandwidth here. Each query result message is an array of arrays, representing multiple rows of query results. The data in each row follows the same order defined in the `result.header`.
 
 ### Query Metric (`event: metric`)
 
-the last event type is metrics, which returns the current query statistics in a json object, which can be used to observe the health status of current query.
+The last event type is metrics, which returns the current query statistics in a json object, which can be used to observe the health status of the current query.
 
 Take the example above:
 
@@ -68,4 +68,4 @@ Query metric message represents the current query statistics, which can be used 
 
 ## SSE Client
 
-There are different SSE libraris that provides SSE client functions, Timeplus also has a python SDK project which already included SSE event parsing to avoid handle those low-level details.
+There are different SSE libraries that provide SSE client functions, Timeplus also has a python SDK project which already included SSE event parsing to avoid handling those low-level details.
