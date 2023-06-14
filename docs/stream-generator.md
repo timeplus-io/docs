@@ -4,7 +4,7 @@ Please check Load [sample streaming data](ingestion#load-sample-streaming-data) 
 
 ## Sample configuration
 
-Here is a sample of stream generator configuraion json:
+Here is a sample of stream generator configuration json:
 
 ```json
 {
@@ -57,7 +57,7 @@ For  `fields`, the following attributes are supported:
 
 ## Timestamp
 
-By default, the timestamp will be generated as a int which is the unit timestamp that is the time in ms since 1970.1.1.
+By default, the timestamp will be generated as an int which is the unit timestamp that is the time in ms since 1970.1.1.
 if `timestamp_format` is specified, it will be generated as a string using this `format`.  Refer to [this document](https://www.geeksforgeeks.org/time-formatting-in-golang/) for details.
 
 ## Regex Rule
