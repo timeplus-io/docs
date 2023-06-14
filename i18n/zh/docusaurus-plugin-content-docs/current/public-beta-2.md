@@ -10,12 +10,12 @@
   * 向您介绍Timeplus中的协作功能：您可以邀请团队成员加入您的 Timeplus 工作空间（在我们的公开测试期间，您可以邀请无限的团队成员）。 同一工作空间中的成员可以访问和编辑所有流、数据源、数据下游、仪表板等。 只有工作空间所有者可以邀请或移除成员。
 
 **数据摄取和接收**
-  * You can now ingest data to Timeplus via [Kafka Connect plugin for Timeplus](https://www.confluent.io/hub/timeplus/kafka-timeplus-connector-sink). It is published on Confluent Hub, and you can install it on Confluent Cloud or on-prem Confluent Platform and Apache Kafka.
-  * We've added Protobuf encoding for Apache Kafka and Redpanda sinks, currently available via REST API.
+  * 您现在可以通过 [Timeplus的插件Kafka Connect](https://www.confluent.io/hub/timeplus/kafka-timeplus-connector-sink) 把数据从本地或云端的 Kafka 推送到 Timeplus。 它在 Confluent Hub 上发布，您可以将其安装在 Confluent Cloud 或本地的Confluent Platform 和 Apache Kafka 上。
+  * 我们为 Apache Kafka 和 Redpanda 数据下游添加了 Protobuf 编码，您现在可通过 REST API 获得。
 
 **其他改进**
-  * For streams, you can now set separate retention policies for streaming and historical data. For example, for a stream with IoT data, you can set 1 day for the streaming data and 90 days for the historical data.
-  * Please note: REST API v1beta1 is now depreciated, and it will be removed in a couple of months. Please check the v1beta2 [API Docs](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/), [Java Sample Code](https://github.com/timeplus-io/java-demo) and [Streamlit Demo App](https://github.com/timeplus-io/streamlit_apps) are updated.
+  * 对于流，您现在可以为流媒体和历史数据设置单独的保留策略。 例如，对于包含 IoT 数据的流，您可以为流数据设置 1 天的时间，或者为历史数据设置 90 天的时限。
+  * 请注意：REST API v1beta1 现已废弃，将在几个月后被删除。 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/)、 [Java 示例代码](https://github.com/timeplus-io/java-demo) 和 [Streamlit 演示应用程序](https://github.com/timeplus-io/streamlit_apps) 已更新。
 
 
 ## 2023年5月29日
