@@ -6,10 +6,10 @@
 
 ## Jun 12, 2023
 
-**New Feature**
-  * Introducing collaboration in Timeplus: you can invite team members to your Timeplus workspace (during our Public Beta, you may invite unlimited team members). Members in the same workspace can access and edit all streams, sources, sinks, dashboards, etc. Only the workspace owner can invite or remove members.
+**新功能**
+  * 向您介绍Timeplus中的协作功能：您可以邀请团队成员加入您的 Timeplus 工作空间（在我们的公开测试期间，您可以邀请无限的团队成员）。 同一工作空间中的成员可以访问和编辑所有流、数据源、数据下游、仪表板等。 只有工作空间所有者可以邀请或移除成员。
 
-**Data Ingestion and Sinks**
+**数据摄取和接收**
   * You can now ingest data to Timeplus via [Kafka Connect plugin for Timeplus](https://www.confluent.io/hub/timeplus/kafka-timeplus-connector-sink). It is published on Confluent Hub, and you can install it on Confluent Cloud or on-prem Confluent Platform and Apache Kafka.
   * We've added Protobuf encoding for Apache Kafka and Redpanda sinks, currently available via REST API.
 
