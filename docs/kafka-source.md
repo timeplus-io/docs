@@ -26,5 +26,5 @@ Please note:
 
 1. Currently we support JSON and AVRO formats for the messages in Kafka topics
 2. The topic level JSON attributes will be converted to stream columns. For nested attributes, the element will be saved as a `String` column and later you can query them with one of the [JSON functions](functions#processing-json).
-3. Values in number or boolean types in the JSON message will be converted to corresponding type in the stream.
+3. Values in number or boolean types in the JSON message will be converted to corresponding types in the stream.
 4. Datetime or timestamp will be saved as a String column. You can convert them back to DateTime via [to_time function](functions#to_time).

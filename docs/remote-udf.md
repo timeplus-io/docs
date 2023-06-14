@@ -64,7 +64,7 @@ Once you have deployed the Lambda function, you can generate a publicly accessib
 
 ## Register the UDF
 
-Only Timeplus workspace administer can register new UDF. Open the Workspace menu on the left, then choose "User-Defined Functions" tab, and click the 'Register New Function' button.
+Only Timeplus workspace administrators can register new UDF. Open the Workspace menu on the left, then choose the "User-Defined Functions" tab, and click the 'Register New Function' button.
 
 Simply choose a name for the function and specify the input/output data type. Set the Lambda URL in the form. You can choose to enable extra authentication key/value in the HTTP header, securing the endpoint to avoid unauthorized access.
 

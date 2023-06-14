@@ -4,14 +4,14 @@
 
 By default, Timeplus’s query behavior is different from traditional SQL which answers the question of what had happened. Instead, Timeplus’ query tries to answer the question of what is happening now in real-time and continuously updates the answer when new events enter the system.
 
-Timeplus query is running on an unbounded stream. In the most of the cases, the query won't stop unless the user cancels it. 
+Timeplus query is running on an unbounded stream. In most of the cases, the query won't stop unless the user cancels it. 
 For example, the following query will return all the events in the stream that enter the Timeplus system in real-time after the query is executed. Each new event will trigger a new query result. And this query won't stop unless the user cancels the query.
 
 ```sql
 select * from my_stream
 ```
 
-The unbounded query can be converted to a bounded query by applying the function [table()](functions#table), when the user wants to ask the question about what has happened like the traditional SQL. The table() function could be used to decorate the stream. For example, the following query will return all the events that have already existed in the stream at the moment of the query execution. The query will terminate once all results have been returned to the user and it won't wait for new event coming.
+The unbounded query can be converted to a bounded query by applying the function [table()](functions#table), when the user wants to ask the question about what has happened like the traditional SQL. The table() function could be used to decorate the stream. For example, the following query will return all the events that have already existed in the stream at the moment of the query execution. The query will terminate once all results have been returned to the user and it won't wait for a new event coming.
 
 ```sql
 select * from table(my_stream)
@@ -80,11 +80,11 @@ from tumble(my_stream,order_time, 5s) group by window_start, window_end
 
 #### Window watermark
 
-Window aggregation is triggered per-window. There is an internal watermark mechanism in Timeplus to check if all the events in the specific window has arrived or not. Once the watermark has shown that all events in that window are available, the aggregated analysis result will be triggered and send to the client. 
+Window aggregation is triggered per-window. There is an internal watermark mechanism in Timeplus to check if all the events in the specific window have arrived or not. Once the watermark has shown that all events in that window are available, the aggregated analysis result will be triggered and sent to the client. 
 
 #### Watermark and delay
 
-For more advanced scenario, you can add delay to the trigger policy, such as adding 2 more seconds delay to allow more late events to be considered in each time window.
+For more advanced scenarios, you can add delay to the trigger policy, such as adding 2 more seconds delay to allow more late events to be considered in each time window.
 
 ```sql
 select window_start, window_end, count(*) as count, max(c1) as max_c1

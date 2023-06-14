@@ -6,7 +6,7 @@ Timeplus is a fast and powerful real-time analytics platform.
 
 ## High performance storage {#fast}
 
-Timeplus has designed a column based data format called **Timeplus Data Format (TDF)**, which supports blazing fast serialization and de-serialization. Since it is in column format, data can be vectorized for high performance analytic computation.  To fully leverage the capability of TDF, Timeplus also designed a stream storage called Timeplus **Native Log**. Combined with TDF, Timeplus Native Log provides high performance data ingestion, it can quickly prune data on disk and filter out data which is not required for streaming processing.  Timeplus Native log also supports timestamp based seek and optimized time series data analytics scenarios.
+Timeplus has designed a column based data format called **Timeplus Data Format (TDF)**, which supports blazing fast serialization and deserialization. Since it is in column format, data can be vectorized for high performance analytic computation.  To fully leverage the capability of TDF, Timeplus also designed a stream storage called Timeplus **Native Log**. Combined with TDF, Timeplus Native Log provides high performance data ingestion, it can quickly prune data on disk and filter out data which is not required for streaming processing.  Timeplus Native log also supports timestamp based seek and optimized time series data analytics scenarios.
 
 ## Powerful analytic engine {#powerful}
 

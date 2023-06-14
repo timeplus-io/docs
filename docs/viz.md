@@ -82,7 +82,7 @@ Shows the data as a list table.
   * Update mode: 
     * Show All: show all query results (limited by the maximum row count)
     * By Time: show data points from the last timestamp
-    * By Key: choose a key column to show latest row for each key value.
+    * By Key: choose a key column to show the latest row for each key value.
   
 * Format settings
   * For each column, you can choose to show or hide it, or set column width and decimal for numeric columns.
@@ -115,7 +115,7 @@ First, in the query page, to run a SQL with a fixed condition, e.g.
 select * from car_live_data where speed > 80
 ```
 
-Run the query and make sure it meets your need.
+Run the query and make sure it meets your needs.
 
 Then you can change the fixed condition with a query variable, e.g.
 
