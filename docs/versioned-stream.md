@@ -96,7 +96,7 @@ You will get the 3rd row in the previous streaming SQL:
 | 2023-04-20T10:01:00.000Z | 2        | iPhone14_Plus | 1        | 899    |
 | 2023-04-20T11:00:00.000Z | 3        | iPhone14      | 1        | 799    |
 
-It shows that the latest price of iPhone14 is applied to the JOIN of new event.
+It shows that the latest price of iPhone14 is applied to the JOIN of new events.
 
 You can also run a streaming SQL `select sum(price) from dim_products`, it should show the number 1698, because the latest prices are 799 and 899.
 
@@ -114,14 +114,14 @@ FROM orders ASOF JOIN dim_products
 ON orders.product_id=dim_products.product_id AND orders._tp_time >= dim_products._tp_time
 ```
 
-If the current iPhone14 price is 800, and you add a new order for 1 iPhone14, then you will get transaction amount as 800.
+If the current iPhone14 price is 800, and you add a new order for 1 iPhone14, then you will get a transaction amount of 800.
 
-Then you change iPhone14 price to 799, and add a new order for 1 iPhone14, you will get transaction amount as 799.
+Then you change the iPhone14 price to 799, and add a new order for 1 iPhone14, you will get a transaction amount of 799.
 
-But if you add an order with _tp_time before the price change, you will get the transaction amount as 800 again, because Timeplus keeps multiple versions for the price and choose the older version that best matches the order time. 
+But if you add an order with _tp_time before the price change, you will get the transaction amount as 800 again, because Timeplus keeps multiple versions for the price and chooses the older version that best matches the order time. 
 
 :::info
 
-If you are not familiar with `ASOF JOIN`, this special JOIN provides non-exact matching capabilities. This can work well if two streams with same id, but not with exactly same timestamps.
+If you are not familiar with `ASOF JOIN`, this special JOIN provides non-exact matching capabilities. This can work well if two streams have the same id, but not exactly the same timestamps.
 
 :::
