@@ -12,7 +12,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
   * Added 2 geo related functions: [point_in_polygon](functions#point_in_polygon) and [geo_distance](functions#geo_distance). 
 
 * Source, sink, API and SDK
-  * Updated the layout of "Sources" page to leave more space for the source definitions. 
+  * Updated the layout of the "Sources" page to leave more space for the source definitions. 
 * UI improvements
   * Added a visual indicator on the query tab if the query is running.
   * Updated the error or page-not-found screens.
@@ -25,7 +25,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
   * Refined typing system and logical comparisons return `bool` instead of `uint8`
 * Source, sink, API and SDK
   * All Timeplus sinks now use the `{{.columnName}}` syntax to access the column value in the sink title or body. Numbers and other primitive types are supported (previously only string columns are supported).
-  * Fixed an issue that cancelled queries could be marked as finished.
+  * Fixed an issue that canceled queries could be marked as finished.
   * Fixed an issue that EPS(event per second) won't be shown if the query finishes too fast.
 * UI improvements
   * Added a new option in the 'Send data to..' dialog to send the results to a stream in the Timeplus tenant.
@@ -40,14 +40,14 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
   * Added the [count_if](functions#count_if) function and [unique_exact_if](functions#unique_exact_if) function to count the number of rows or unique value matching certain conditions.
   * Added [json_extract_keys](functions#json_extract_keys) function to get the keys for the JSON map object.
   * Added the [to_bool](functions#to_bool) function to convert other types to `bool`
-  * Added [is_nan](functions#is_nan), [is_infinite](functions#is_infinite), [is_finite](functions#is_finite) functions to detect the edge cases when a number column contains infinite number etc.
-  * Added [to_type_name](functions#to_type_name) function to show the data type name, mainly for troubleshooting purpose.
+  * Added [is_nan](functions#is_nan), [is_infinite](functions#is_infinite), [is_finite](functions#is_finite) functions to detect the edge cases when a number column contains infinite numbers, etc.
+  * Added [to_type_name](functions#to_type_name) function to show the data type name, mainly for troubleshooting purposes.
 
 * Source, sink, API and SDK
   * Updated the [Python SDK](https://pypi.org/project/timeplus/0.1.10/) to show the metrics
 * UI improvements
   * Added new visualization types: bar chart and streaming table
-  * Enhanced the management page of sinks, to show the sink status, number of message sent, failure count, etc.
+  * Enhanced the management page of sinks, to show the sink status, number of messages sent, failure count, etc.
   * Enhanced the SQL editor to highlight the beginning/ending (),{},[]. This could be very helpful for complex SQLs with nested function calls.
 
 ### Week of 7/11
@@ -91,14 +91,14 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 * Source, sink and API
 
   * The tenant/workspace level access token has been removed in REST API and UI. Please create API keys per user.
-  * Greatly improved the type inference when you create a stream with the Kafka source. More accruate data type for primitive types. Added array/map support.
+  * Greatly improved the type inference when you create a stream with the Kafka source. More accurate data type for primitive types. Added array/map support.
 
 * UI improvements
 
   * Now you can register UDF(User-Defined-Function) in the Workspace menu (only available for workspace admin)
   * Greatly improved the data type selector in the stream creation page
   * Improved the display for columns in boolean and date types, and better display for null value
-  * Refined the look&feel for the navigation menu
+  * Refined the look & feel for the navigation menu
   * Improved the display of error messages
 
 
@@ -107,8 +107,8 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 * Streaming engine
 
   * [Session window](functions#session) now supports millisecond for window_start/window_end.
-  * Added a new [lags](functions#lags) function to get a range of past results. This could help the pure-SQL based ML/predition.
-  * Added a new [grok](functions#grok) function to parse a line of text into key/value pairs, without having to write regular expression. 
+  * Added a new [lags](functions#lags) function to get a range of past results. This could help the pure-SQL based ML/prediction.
+  * Added a new [grok](functions#grok) function to parse a line of text into key/value pairs, without having to write regular expressions. 
 
 * Source and sink
 
@@ -121,14 +121,14 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 * API
 
-  * Updated the [REST API doc](https://docs.timeplus.com/rest.html), adding the experimental stream-level rentetion policies.
+  * Updated the [REST API doc](https://docs.timeplus.com/rest.html), adding the experimental stream-level rentention policies.
 
   
 
 ### Week of 6/13
 
 * Streaming engine
-  * Added new function [moving_sum](functions#moving_sum) to calculate the moving sum for a column. This unlocks more use cases stateful streaming processing, such as [streaming over](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py).
+  * Added new function [moving_sum](functions#moving_sum) to calculate the moving sum for a column. This unlocks more use cases of stateful streaming processing, such as [streaming over](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py).
   * Added other functions for [array processing](functions#arrays), such as [array_sum](functions#array_sum), [array_avg](functions#array_avg)
 * Source and sink
   * Kafka source supports local schema registry without authentication 
@@ -140,7 +140,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 * Streaming engine
   * More [math functions](functions#math) are exposed. This can help you to run SQL-based simple ML/prediction models.
-  * (Experimental) [stream-to-stream join](query-syntax#stream_stream_join) no longer requires a ` date_diff_within(..)`, although it's still recommended to add timestamp constrains to improve performance. 
+  * (Experimental) [stream-to-stream join](query-syntax#stream_stream_join) no longer requires a ` date_diff_within(..)`, although it's still recommended to add timestamp constraints to improve performance. 
   * (Experimental) able to set a retention policy for each stream, either time-based (say only keep recent 7 days' data), or size based(say only keep recent 1GB data)
 * Source and sink
   * (Experimental) support Personal Access Token (PAT) in the REST API, which is long-living (or set an expiration date) and per-user. Tenant-level access token will be deprecated. 
@@ -151,7 +151,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 ### Week of 5/30
 
 * Streaming engine
-  * (Experimental) able to use the external Kakfa/Confluent/Redpanda as Timeplus stream storage.
+  * (Experimental) able to use the external Kafka/Confluent/Redpanda as Timeplus stream storage.
   * (Experimental) the [table](functions#table) function now works with [seek_to](query-syntax) You can query historical data by combining `table(streamName)` and `settings seek_to='..'`
 * Source and sink
   * Worked with [datapm](https://datapm.io/docs/quick-start/) to send live Twitter data to https://demo.timeplus.com 
@@ -167,7 +167,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
   * New function [date_diff_within](functions#date_diff_within) to determine whether 2 datetime are within the specified range. This is necessary for stream to stream join. You can also use more flexible expressions like `date_diff('second',left.time,right.time) between -3 and 5`
 * Source and sink
   * Enhanced the [datapm](https://datapm.io/docs/quick-start/) Timeplus sink to support loading JSON data from PostgreSQL.
-  * When you are previewing data from Kafka, you can choose the timezone if the timezone is not included in the raw data.
+  * When you are previewing data from Kafka, you can choose the timezone if the time zone is not included in the raw data.
 * UI improvements
   * Able to edit the panel titles on dashboards.
   * Improve UI consistency.
@@ -194,7 +194,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
   * enhanced the [datapm](https://datapm.io/docs/quick-start/) Timeplus sink to support loading data from PostgreSQL
   * (Experimental) a new source to load data from [ably](https://ably.com/hub)
 * UI improvements
-  * You can pause a streaming query, then sort by columns or use the pagination buttons. This can help you to review the streaming query results. Clicking on the resume button to continue to get latest streaming results.
+  * You can pause a streaming query, then sort by columns or use the pagination buttons. This can help you to review the streaming query results. Clicking on the resume button to continue to get the latest streaming results.
   * (Experimental) updated the query tab style, with buttons on the tabs to save the queries.
 
 ### Week of 5/2
