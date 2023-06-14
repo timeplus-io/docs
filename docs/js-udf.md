@@ -15,7 +15,7 @@ Recently we also added the support of JavaScript-based local UDF. You can develo
 
 ## Develop a scalar function {#udf}
 
-A scalar function is a function that returns one value per invocation; in most cases, you can think of this as returning one value per row. This contrasts with [Aggregate Functions](#udaf), which return one value per group of rows.
+A scalar function is a function that returns one value per invocation; in most cases, you can think of this as returning one value per row. This contrasts with [Aggregate Functions](#udaf), which returns one value per group of rows.
 
 
 
@@ -37,8 +37,8 @@ function is_work_email(values){
 
 Notes:
 
-1. The first line defines a function with the exactly same name as the UDF. The number of arguments should match what you specify in the UDF form.
-2. Please note the input is actually a JavaScript list. For the sake of high performance, Timeplus will reduce the number of function calls by combining the arguments together. You need to return a list with the exactly same length of the input.
+1. The first line defines a function with the exact same name as the UDF. The number of arguments should match what you specify in the UDF form.
+2. Please note the input is actually a JavaScript list. For the sake of high performance, Timeplus will reduce the number of function calls by combining the arguments together. You need to return a list with the exact same length of the input.
 3. `values.map(..)` creates a new array populated with the results of calling a provided function on every element in the calling array ([doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)).
 4. `email=>email.endsWith("@gmail.com")` is the shortcut to return a `bool` by checking whether the email ends with "@gmail.com". You can add more complex logic, or write in multiple lines and end with `return ..`.
 
@@ -87,7 +87,7 @@ In this case, the function will return `42` no matter what parameter is specifie
 
 ## Develop an aggregate function {#udaf}
 
-An aggregate function returns one value per group of rows. When you register the UDF, make sure you turn on the option to indicate this is an aggregation function. Comparing to scalar functions, the life cycle is a bit more complex.
+An aggregate function returns one value per group of rows. When you register the UDF, make sure you turn on the option to indicate this is an aggregation function. Compared to scalar functions, the life cycle is a bit more complex.
 
 ### 3 required and 3 optional functions
 
@@ -98,7 +98,7 @@ Let's take an example of a function to get the second maximum values from the gr
 | 1     | initialize()     | Yes       | Initialize the states.                                       | function(){<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />} |
 | 2     | process(args..)  | Yes       | Main logic for the function                                  | function(values){<br />values.map(..)<br />}                 |
 | 3     | finalize()       | Yes       | Return the final aggregation result                          | function(){<br />return this.sec_max<br />}                  |
-| 4     | serialize()      | No        | Serialize JS internal state to a string, so that Timeplus can persistent for failover/recovery. | function(){<br />return JSON.stringify({'max':this.max,'sec_max':this.sec_max})<br />} |
+| 4     | serialize()      | No        | Serialize JS internal state to a string, so that Timeplus can persist for failover/recovery. | function(){<br />return JSON.stringify({'max':this.max,'sec_max':this.sec_max})<br />} |
 | 5     | deserialize(str) | No        | Opposite to serialize(). Read the string and convert back to JS internal state. | function(str){<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
 | 6     | merge(str)       | No        | Merges two states into one. Used for multiple shards processing. | function(str){<br />let s=JSON.parse(str);<br />if..else..}  |
 
@@ -155,7 +155,7 @@ The full source code for this JS UDAF is
 };
 ```
 
-To register this function, choose JavaScript as UDF type, make sure turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too.
+To register this function, choose JavaScript as UDF type, make sure to turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too.
 
 Please note, unlike JS scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
 
@@ -167,7 +167,7 @@ Please note, unlike JS scalar function, you need to put all functions under an o
 
 * The custom JavaScript code is running in a sandbox with V8 engine. It won't impact other workspaces.
 
-* Compound data structure such as `array` or `map` are not supported in JS UDF. JavaScript data types are more generic and here is the mapping for JavaScript data type and data type in Timeplus:
+* Compound data structures such as `array` or `map` are not supported in JS UDF. JavaScript data types are more generic and here is the mapping for JavaScript data type and data type in Timeplus:
 
   | Timeplus Data Types             | JavaScript Data Types   |
   | ------------------------------- | ----------------------- |
