@@ -29,7 +29,7 @@ The endpoint for real-time data ingestion is `https://us.timeplus.cloud/{workspa
 
 :::info
 
-Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is readonly but we will make it editable in the future.
+Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is read only but we will make it editable in the future.
 
 :::
 
@@ -46,7 +46,7 @@ Here are a list of different use cases to push data to Timeplus:
 | 1) Push JSON objects. Each JSON is an event.                                  | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                              | `application/x-ndjson` | ingest?format=streaming              | multiple columns, e.g. key1, key2 |
 | 2) Push a single JSON or a long text. Single event.                           | {"key1": "value11", "key2": "value12", ...}                                                                              | `text/plain`           | ingest?format=raw                    | single column, named `raw`        |
 | 3) Push a batch of events. Each line is an event.                             | event1<br/>event2                                                                                                        | `text/plain`           | ingest?format=lines                  | single column, named `raw`        |
-| 4) Push a special JSON with mutiple events, without repeating the column name | { <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `application/json`     | ingest?format=compact or just ingest | multiple columns, e.g. key1, key2 |
+| 4) Push a special JSON with multiple events, without repeating the column name | { <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `application/json`     | ingest?format=compact or just ingest | multiple columns, e.g. key1, key2 |
 
 #### 1) Push JSON objects directly {#option1}
 
@@ -161,7 +161,7 @@ You can push Newline Delimited JSON (http://ndjson.org/) to the endpoint. Make s
 
 :::info
 
-If you would like to leverage a 3rd party system/tool to push data to Timeplus but it doesn't allow custom content type, then you can use the standard `application/json`, and send POST request to `/api/v1beta2/streams/$STREAM_NAME/ingest?format=streaming`. This will ensure the Timeplus API server to treat the POST data as NDJSON.
+If you would like to leverage a 3rd party system/tool to push data to Timeplus but it doesn't allow custom content type, then you can use the standard `application/json`, and send POST request to `/api/v1beta2/streams/$STREAM_NAME/ingest?format=streaming`. This will ensure the Timeplus API server treats the POST data as NDJSON.
 
 :::
 
@@ -296,7 +296,7 @@ public class Example {
   </TabItem>
 </Tabs>
 
-It's a common pratice to create a stream in Timeplus with a single `string` column, called `raw` You can put JSON objects in this column then extract value (such as `select raw:key1`), or put the raw log message in this column.
+It's a common practice to create a stream in Timeplus with a single `string` column, called `raw`. You can put JSON objects in this column then extract values (such as `select raw:key1`), or put the raw log message in this column.
 
 When you set Content-Type header to `text/plain`, and add `format=raw` to the ingestion endpoint, the entire body in the POST request will be put in the `raw` column.
 
@@ -402,7 +402,7 @@ public class Example {
   </TabItem>
 </Tabs>
 
-When you set Content-Type header to `text/plain`, and add `format=lines` to the ingestion endpoint, the each line in the POST body will be put in the `raw` column.
+When you set Content-Type header to `text/plain`, and add `format=lines` to the ingestion endpoint, each line in the POST body will be put in the `raw` column.
 
 #### 4) Push multiple events in a batch without repeating the columns {#option4}
 Request samples
@@ -555,7 +555,7 @@ The request body is this format:
 Note:
 
 - the `columns` is an array of string, with the column names
-- the `data` is an array of array. Each nested array represents a row of data. The value order must match the exact same order in the `columns`.
+- the `data` is an array of arrays. Each nested array represents a row of data. The value order must match the exact same order in the `columns`.
 
 For example:
 
