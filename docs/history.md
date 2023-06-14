@@ -2,7 +2,7 @@
 
 Timeplus also supports pure historical data query processing. There are 2 ways to do it
 
-1. Run historical query to the whole query by setting `query_mode='table'`. This mode is useful if there are multiple streams in the query and users like to do historical data processing as whole in the query.
+1. Run historical query to the whole query by setting `query_mode='table'`. This mode is useful if there are multiple streams in the query and users like to do historical data processing as a whole in the query.
 
 ```sql
 SELECT * FROM device_utils SETTINGS query_mode='table';
