@@ -2,11 +2,11 @@
 
 Kafka Connect is a framework for connecting Kafka with external systems such as databases, key-value stores, search indexes, and file systems, using so-called *Connectors*. 
 
-Kafka Connectors are ready-to-use components, which can help data team to import data from external systems into Kafka topics and export data from Kafka topics into external systems. 
+Kafka Connectors are ready-to-use components, which can help data teams to import data from external systems into Kafka topics and export data from Kafka topics into external systems. 
 
-A Kafka Connect plugin for Timeplus is provided to continuously sending data from Kafka topics to Timeplus Cloud or self-managed Timeplus deployment, no matter you run Kafka in the cloud or on-prem.
+A Kafka Connect plugin for Timeplus is provided to continuously send data from Kafka topics to Timeplus Cloud or self-managed Timeplus deployment, no matter if you run Kafka in the cloud or on-prem.
 
-Depending on how you run Kakfa (with open-source Kafka, Confluent Platform, Confluent Cloud, or Redpanda), you can check the corresponding documentations to setup the Kafka Connect.
+Depending on how you run Kafka (with open-source Kafka, Confluent Platform, Confluent Cloud, or Redpanda), you can check the corresponding documentation to set up the Kafka Connect.
 
 ## Setup with Apache Kafka
 
@@ -85,5 +85,5 @@ value.converter: org.apache.kafka.connect.storage.StringConverter
       }
       ```
 
-6. Click **Launch** button, in few seconds, you should see the connector is running.
-7. You can open the Query Console in Timeplus and run a streaming query like `SELECT * FROM data_from_kafka`. Then create a message in Confluent Control Center (choose **Topics**, select the my_topic, choose **Messages** tab, and produce a sample message). Almost in the same time, the message will appear in Timeplus Console.
+6. Click **Launch** button, in a few seconds, you should see the connector is running.
+7. You can open the Query Console in Timeplus and run a streaming query like `SELECT * FROM data_from_kafka`. Then create a message in Confluent Control Center (choose **Topics**, select the my_topic, choose **Messages** tab, and produce a sample message). Almost in the same time, the message will appear in the Timeplus Console.
