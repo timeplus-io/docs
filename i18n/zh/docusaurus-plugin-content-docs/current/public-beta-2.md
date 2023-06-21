@@ -1,10 +1,10 @@
 # 公开测试版 2
 
-We are thrilled to launch the next phase of the public beta of Timeplus cloud release. 相比 [公开测试版1](public-beta-1)，除了入口点从 https://beta.timeplus.cloud 更改为 https://us.timeplus.cloud 以外，大多数后端和前端更改都是递增式的。
+我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 相比 [公开测试版1](public-beta-1)，除了入口点从 https://beta.timeplus.cloud 更改为 https://us.timeplus.cloud 以外，大多数后端和前端更改都是递增式的。
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
-## Jun 12, 2023
+## 2023年6月12日
 
 **新功能**
   * 向您介绍Timeplus中的协作功能：您可以邀请团队成员加入您的 Timeplus 工作空间（在我们的公开测试期间，您可以邀请无限的团队成员）。 同一工作空间中的成员可以访问和编辑所有流、数据源、数据下游、仪表板等。 只有工作空间所有者可以邀请或移除成员。
@@ -15,7 +15,7 @@ We are thrilled to launch the next phase of the public beta of Timeplus cloud re
 
 **其他改进**
   * 对于流，您现在可以为流媒体和历史数据设置单独的保留策略。 例如，对于包含 IoT 数据的流，您可以为流数据设置 1 天的时间，或者为历史数据设置 90 天的时限。
-  * Please note: REST API v1beta1 is now deprecated, and it will be removed in a couple of months. 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/)、 [Java 示例代码](https://github.com/timeplus-io/java-demo) 和 [Streamlit 演示应用程序](https://github.com/timeplus-io/streamlit_apps) 已更新。
+  * 请注意：REST API v1beta1 现已废弃，将在几个月后被删除。 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/)、 [Java 示例代码](https://github.com/timeplus-io/java-demo) 和 [Streamlit 演示应用程序](https://github.com/timeplus-io/streamlit_apps) 已更新。
 
 
 ## 2023年5月29日
@@ -26,12 +26,12 @@ We are thrilled to launch the next phase of the public beta of Timeplus cloud re
   * 我们现在还支持 Debezium JSON 作为读取数据格式，包括 Upsert 和 CRUD（CRUD 目前处于预览阶段）。
 
 **流数据库和流式SQL**
-  * We've made a significant performance enhancement for the hop window, from 10x to 100x. 这对于较大的窗口特别有用，例如窗口的总大小为 24 小时，但却可以每秒显示一次更新。
-  * User-defined functions (UDFs) and user-defined aggregates (UDAs) are now able to return an array as a data type.
+  * 我们对滑动窗口进行了显著的性能增强，从 10 倍提高到 100 倍。 这对于较大的窗口特别有用，例如窗口的总大小为 24 小时，但却可以每秒显示一次更新。
+  * 用户定义的函数 (UDF) 和用户定义的聚合 (UDA) 现在能够将数组作为数据类型返回。
 
 **其他改进**
   * （实验性）我们添加了协作功能，允许您邀请团队成员加入您的工作空间。
-  * We've reorganized our navigation menu to provide a clearer workflow: "Add Data" is now at the top, followed by "Run SQL". 我们还在菜单中添加了 “工作空间设置”，以便更快地访问您的 UDF 和团队成员。
+  * 我们重新组织了导航菜单，以提供更清晰的工作流程：“数据添加” 现在位于顶部，其次是 “运行 SQL”。 我们还在菜单中添加了 “工作空间设置”，以便更快地访问您的 UDF 和团队成员。
 
 
 ## 2023年5月16日
@@ -40,7 +40,7 @@ We are thrilled to launch the next phase of the public beta of Timeplus cloud re
   * 我们使您可以更轻松地通过 Ingest REST API 推送数据。 我们在控制台中添加了一个向导页面，用于指导您对目标流、请求模板和API密钥的选择，然后为您的推送请求生成示例代码。 [了解更多](ingest-api)
   * 我们的CSV文件上传向导外观焕然一新，它全新的用户界面风格变得与其他向导相同了。
 
-**Enhancements: Dashboards and Charts**
+**增强功能：仪表板和图表**
   * 当您对图表进行格式更改时，所有的更改效果都将是即时呈现出来的，不需要重新加载图表。
   * 我们在将鼠标悬停在仪表板图表上添加了一个图标。在 “仅查看” 模式下，它将在查询编辑器页面中打开图表的 SQL。
 
@@ -52,7 +52,7 @@ We are thrilled to launch the next phase of the public beta of Timeplus cloud re
 
 **图表和仪表盘**
 
-  * (Experimental) A new map visualization type is added, showing the latest locations in a live map view.
+  * （实验性）添加了新的地图可视化类型，可以在实时地图视图中显示最新位置。
   * 对于表可视化，如果更新模式是按键更新，则可以启用 sparkline 来跟踪某些列的值变化。
 
 **其他改进**
@@ -74,7 +74,7 @@ We are thrilled to launch the next phase of the public beta of Timeplus cloud re
 
   * 我们完善了仪表板编辑模式。 您在编辑模式下所做的更改不会自动保存，以防止意外更改。 单击 **保存更改** 按钮确认更改，或单击 **取消** 按钮放弃更改。
   * 现在，您可以自定义图表的折线、区域和条形的颜色。
-  * **Migration notice:** since we updated the schema of dashboard & chart definition, your existing dashboards need to be re-configured manually to render properly. 这将是一次性的工作。
+  * **迁移通知：** 由于我们更新了仪表盘和图表定义的数据格式，因此需要手动重新配置现有仪表板才能正确呈现。 这将是一次性的工作。
 
 **其他改进**
 
