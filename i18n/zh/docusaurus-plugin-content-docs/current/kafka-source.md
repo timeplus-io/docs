@@ -20,6 +20,14 @@
 
 类似于从 Confluent Cloud 加载数据的步骤。 您可能不需要指定 `SASL 纯` 作为身份验证方法。 请确保Timeplus能够与您的Kafka 服务器直接连接。 你可以使用像 [ngrok](https://ngrok.com) 这样的工具将你的本地 Kafka 代理安全地暴露在互联网上，这样 Timeplus Cloud 就可以连接到它。 查看 [此博客](https://www.timeplus.com/post/timeplus-cloud-with-ngrok) 了解更多详情。
 
+:::info
+
+If you maintain an IP whitelist, you'll need to whitelist our static IP:
+
+`44.232.236.191` for us.timeplus.cloud
+
+:::
+
 ## Kafka源说明
 
 请注意：
