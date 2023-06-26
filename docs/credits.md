@@ -7,6 +7,8 @@ Parts of the Timeplus product are based on open source projects. Particular than
 * Sources and sinks are based on [Benthos](https://www.benthos.dev/), under MIT License
 * Embeddable, persistent state store is based on [RocksDB](https://github.com/facebook/rocksdb), under Apache License 2.0
 
+## Benthos MIT License
+
 ```
 Copyright (c) 2020 Ashley Jeffs
 
@@ -29,7 +31,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-
+## Apache License 2.0
 
 ```
  Apache License

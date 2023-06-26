@@ -20,6 +20,14 @@ As of today, Apache Kafka is the primary data source (and sink) for Timeplus. Wi
 
 Similar steps as loading data from Confluent Cloud. You may not need to specify the `SASL Plain` as the authentication method. Please make sure Timeplus can reach out to your Kafka broker(s). You can use tools like [ngrok](https://ngrok.com) to securely expose your local Kafka broker(s) to the internet, so that Timeplus Cloud can connect to it. Check [this blog](https://www.timeplus.com/post/timeplus-cloud-with-ngrok) for more details.
 
+:::info
+
+If you maintain an IP whitelist, you'll need to whitelist our static IP:
+
+`44.232.236.191` for us.timeplus.cloud
+
+:::
+
 ## Notes for Kafka source
 
 Please note:
