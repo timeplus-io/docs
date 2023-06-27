@@ -4,6 +4,24 @@ We are thrilled to launch the next phase of the public beta of Timeplus cloud re
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+## Jun 27, 2023 
+
+A beta version of the [new Timeplus Python SDK](https://pypi.org/project/timeplus/1.3.0b2/) is available. It supports SQL Academy so we can integrate Timeplus with rich ecosystems in Python, such as [Superset](https://superset.apache.org/), [QueryBook](www.querybook.org), and [LangChain](https://python.langchain.com/docs/get_started/introduction.html). Contact us if you want to try this new feature.
+
+The [Meltano plugin for Timeplus](https://github.com/timeplus-io/target-timeplus) is updated to use the latest Python SDK and support more flexible data schema.
+
+**Console UI**
+  * For changelog or versioned streams, you can create complex primary keys that include multiple columns.
+  * Side panels in the Query page have a new look: the SQL Helper panel no longer overlaps the SQL editor and results table, and the row details panel is now shown inside the results table.
+  * For Sources and Sinks, mouseover on the "i" icon next to the status to see the last error message.
+  * Improved error messages for SQL queries, to show more details.
+  * For API keys, we now show the first four and last four characters, and the previous name is now the description. 
+
+**REST API**
+  * Check required parameters for Sources and Sinks.
+  * Updated our [REST API documentation](https://docs.timeplus.com/rest) 
+
+
 ## Jun 12, 2023 
 
 **New Feature**
