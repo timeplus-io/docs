@@ -13,7 +13,7 @@ The [Meltano plugin for Timeplus](https://github.com/timeplus-io/target-timeplus
 **Console UI**
   * For changelog or versioned streams, you can create complex primary keys that include multiple columns.
   * Side panels in the Query page have a new look: the SQL Helper panel no longer overlaps the SQL editor and results table, and the row details panel is now shown inside the results table.
-  * For Sources and Sinks, mouseover on the "i" icon next to the status to see the last error message.
+  * For Sources and Sinks, click on the "i" next to the status, to see the last error message.
   * Improved error messages for SQL queries, to show more details.
   * For API keys, we now show the first four and last four characters, and the previous name is now the description. 
 
