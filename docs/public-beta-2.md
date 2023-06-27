@@ -17,7 +17,6 @@ The [Meltano plugin for Timeplus](https://github.com/timeplus-io/target-timeplus
   * For API keys, we now show the first four and last four characters, and the previous name is now the description. 
 
 **REST API**
-  * Check required parameters for Sources and Sinks.
   * We marked the required parameters in our [REST API documentation](https://docs.timeplus.com/rest) and completed validation to avoid creating resources without required information.
   * Updated our REST API docs to include more descriptions. 
 
