@@ -6,7 +6,7 @@ We will update the beta version from time to time and list key enhancements in t
 
 ## Jun 27, 2023 
 
-A beta version of the [new Timeplus Python SDK](https://pypi.org/project/timeplus/1.3.0b2/) is available. It supports SQL Academy so we can integrate Timeplus with rich ecosystems in Python, such as [Superset](https://superset.apache.org/), [QueryBook](www.querybook.org), and [LangChain](https://python.langchain.com/docs/get_started/introduction.html). Contact us if you want to try this new feature.
+A beta version of the [new Timeplus Python SDK](https://pypi.org/project/timeplus/1.3.0b2/) is available. It supports SQL Academy so we can integrate Timeplus with rich ecosystems in Python, such as [Superset](https://superset.apache.org/), [QueryBook](https://www.querybook.org), and [LangChain](https://python.langchain.com/docs/get_started/introduction.html). Contact us if you want to try this new feature.
 The [Meltano plugin for Timeplus](https://github.com/timeplus-io/target-timeplus) is updated to use the latest Python SDK and support more flexible data schema.
 
 **Console UI**
