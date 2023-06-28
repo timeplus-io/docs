@@ -11,3 +11,13 @@
 * [远程 UDF](remote-udf). 将 webhook 注册为 UDF。 将 webhook 注册为 UDF。 你可以使用任何编程语言/框架来开发/部署 webhook。 一个不错的起点是使用 AWS Lambda。
 * [JavaScript 的本地 UDF](js-udf). 最近，我们还增加了对基于 JavaScript 的本地 UDF 的支持。 最近，我们还增加了对基于 JavaScript 的本地 UDF 的支持。 您可以使用现代 JavaScript（由 V8提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
+
+
+:::info
+
+Please note, there are many factors to determine the number of function calls. For example, when you run a query, Timeplus query analzyer will dry-run the query first. During the query execution, a batch of data will be sent to the UDF, depending on how the data is organzied.
+
+Long story short, developers should not make assumption for the number of function calls. For User-defined scalar functions (UDFs) it should be stateless, and for User-defined aggregate functions (UDAFs), data might be aggregated more than once, but the final result is correct.
+
+:::
+
