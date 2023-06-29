@@ -4,7 +4,7 @@
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
-## Jun 27, 2023
+## 2023年6月27日
 
 A beta version of the [new Timeplus Python SDK](https://pypi.org/project/timeplus/1.3.0b2/) is available. It supports SQL Academy so we can integrate Timeplus with rich ecosystems in Python, such as [Superset](https://superset.apache.org/), [QueryBook](https://www.querybook.org), and [LangChain](https://python.langchain.com/docs/get_started/introduction.html). Contact us if you want to try this new feature. The [Meltano plugin for Timeplus](https://github.com/timeplus-io/target-timeplus) is updated to use the latest Python SDK and support more flexible data schema.
 
@@ -161,13 +161,13 @@ A beta version of the [new Timeplus Python SDK](https://pypi.org/project/timeplu
   * 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 ` earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
   * 你也可以在一个包括JOIN/UNION多个流的SQL中多次使用 `where _tp_time >..` 为不同的流穿越到不同的起点。
   * 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
-  * 为流式查询添加 [LATEST JOIN](query-syntax#latest-join) 。 For two append-only streams, if you use `a LEFT INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either stream, the previous join result will be canceled and a new result will be added.
+  * 为流式查询添加 [LATEST JOIN](query-syntax#latest-join) 。 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。 无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
 ## 2023年2月17日
 
 * 新功能
 
-  * [Global aggregation](query-syntax#global) now supports sub-second emit intervals.  比如. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
+  * [全局聚合](query-syntax#global) 现在支持亚秒级的输出间隔。  比如. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
   * 现在，您可以创建多个物化视图来将数据写入同一个流。 此功能的典型用法是在相同的原始数据上应用多个处理逻辑，然后发送到同一个数据流以获得聚合结果。 对于物化视图，Timeplus 会维护查询的状态，这将更适合长时间运行的查询和故障恢复。
   * (实验性) 在创建新流后，您可以选择直接在控制台界面中添加少量数据，而不用通过REST API或创建源。 如果您想试用此功能，请联系我们。
   * （实验性）Timeplus 后端添加了对CDC（[Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)）的内置支持，用户界面将很快准备就绪。 您可以在不同的模式下创建数据流。 默认情况下，它是仅限追加的。 您也可以创建流来接受INSERT、UPDATE和DELETE从 [Debezium](https://debezium.io/) 的更改日志。 流式聚合结果将反映最新的数据变化。 如果您想试用此功能，请联系我们。
@@ -185,7 +185,7 @@ A beta version of the [new Timeplus Python SDK](https://pypi.org/project/timeplu
 
 * 查询页面增强功能
   * 显示查询是流式查询还是历史查询。
-  * 显示基本查询指标，例如 EPS 和所用时间。 Click the link to open a detailed metrics panel.
+  * 显示基本查询指标，例如 EPS 和所用时间。 点击链接打开详细指标面板。
   * 查询运行时，查询选项卡上的绿点作为标识。
   * 查询页面现在可通过 URL 分享状态。 当您在编辑器中键入 SQL 时，它会成为 URL 的一部分。 将 URL 共享给其他人，可以在查询界面打开同一 SQL。
   * 对于包含长文本的列，您可以打开 “设置” 以打开 “自动换行文本” 模式。
@@ -199,7 +199,7 @@ A beta version of the [new Timeplus Python SDK](https://pypi.org/project/timeplu
 ## 2023年1月20日
 
 * 查询结果的界面更新：
-  * **无限滚动。 ** 对于流式查询和历史查询，较新的结果显示在底部。 You can scroll up to see earlier results, then click **Jump to latest data** button in the bottom to continue to view the latest results.
+  * **无限滚动。 ** 对于流式查询和历史查询，较新的结果显示在底部。 您可以向上滚动查看之前的结果，然后单击底部的 **跳转到最新数据** 按钮继续查看最新结果。
   * **行详情**。 对于包含长文本或 JSON 的列，您可以单击 “眼睛” 按钮打开包含该行详细信息的侧面板。
   * **更新列摘要。 ** 对于数字列，列头中显示最小/最大/平均值。 数据范围是从查询开始到现在。 对于日期时间列，将显示起始/终止时间戳。 对于布尔列或字符串列，前 3 个值会与百分比一起显示。
   * **快速筛选。 ** 您可以键入一些关键字来筛选结果，而无需重写 SQL。 它将对所有列执行简单的 `string#contains` 匹配。 暂不支持正则表达式或逻辑条件。
@@ -208,4 +208,4 @@ A beta version of the [new Timeplus Python SDK](https://pypi.org/project/timeplu
 * 更多图表类型和选项。 您可以选择折线图、面积图、柱形图、条形图、单值图和图表作为可视化类型。 每个图表都支持基本设置和高级设置。
 * 添加了一种内置的针对`json`优化的数据类型，与将 JSON 另存为 `string` 并在查询时动态提取相比，查询性能更好。 适合于同一结构的 JSON 文档。 通过 `column.jsonpath` 访问该值（而不是用文本列的方式 `column:jsonpath` ）
 * 我们开始弃用 `settings seek_to=..` 仍然支持时空旅行，你只需要在 WHERE 条件下使用 `_tp_time` 列，例如 `WHERE _tp_time>=now () -1h` 即可在 1 小时前进行时空旅行并显示此后的数据。 或者 `其中 _tp_time >= '2023-01-14'`  Timeplus 中的所有数据流都包含 `_tp_time` 作为事件时间。
-* (Experimental) In addition to the [Remote UDF](remote-udf), now you can define new functions with JavaScript. 支持标量函数和聚合函数。 请查看 [JS UDF](js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。
+* （实验性）除了 [Remote UDF](remote-udf)之外，现在你还可以使用 JavaScript 来定义新函数。 支持标量函数和聚合函数。 请查看 [JS UDF](js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。
