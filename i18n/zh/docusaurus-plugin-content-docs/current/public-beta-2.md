@@ -6,19 +6,19 @@
 
 ## 2023年6月27日
 
-A beta version of the [new Timeplus Python SDK](https://pypi.org/project/timeplus/1.3.0b2/) is available. It supports SQL Academy so we can integrate Timeplus with rich ecosystems in Python, such as [Superset](https://superset.apache.org/), [QueryBook](https://www.querybook.org), and [LangChain](https://python.langchain.com/docs/get_started/introduction.html). Contact us if you want to try this new feature. The [Meltano plugin for Timeplus](https://github.com/timeplus-io/target-timeplus) is updated to use the latest Python SDK and support more flexible data schema.
+[新的Timeplus Python SDK](https://pypi.org/project/timeplus/1.3.0b2/) 的测试版本可供下载。 它支持 SQL Academy，以便我们可以将Timeplus与丰富的Python生态系统整合起来。 例如 [Superset](https://superset.apache.org/), [QueryBook](https://www.querybook.org)和 [LangChain](https://python.langchain.com/docs/get_started/introduction.html)。 如果您想试用此功能，请联系我们。 Timeplus的 [Meltano 插件](https://github.com/timeplus-io/target-timeplus) 已更新，使用最新的 Python SDK，支持更灵活的数据结构。
 
-**Console UI**
-  * For changelog or versioned streams, you can create complex primary keys which include multiple columns.
-  * Side panels in the Query page have a new look: the SQL Helper panel no longer overlaps the SQL editor and results table, and the row details panel is now shown inside the results table.
-  * For Sources and Sinks, click on the "i" next to the status, to see the last error message.
-  * Improved error messages for SQL queries, to show more details.
-  * For API keys, we now show the first four and last four characters, and the previous name is now the description.
+**控制台用户界面**
+  * 对于变更日志或版本控制流，您可以创建包含多列的复杂主键。
+  * “查询” 页面中的侧面板焕然一新：SQL Helper 面板不再与 SQL 编辑器和结果表重叠，行详细信息面板现在显示在结果表中。
+  * 对于数据源与下游，点击状态旁边的 “i”，查看最后一条错误消息。
+  * 改进了 SQL 查询的错误消息，以显示更多详细信息。
+  * 对于 API 密钥，我们现在显示前四个和最后四个字符，以前的名称现在是描述。
 
 **REST API**
-  * Check required parameters for Sources and Sinks.
-  * We marked the required parameters in our [REST API documentation](https://docs.timeplus.com/rest) and completed validation to avoid creating resources without required information.
-  * Updated our REST API docs to include more descriptions.
+  * 检查源和下游所需的参数。
+  * 我们在 [REST API 文档](https://docs.timeplus.com/rest) 中标记了必需的参数，并完成了验证，以避免在没有必要信息的情况下创建资源。
+  * 更新了我们的 REST API 文档，加入了更多描述。
 
 
 ## 2023年6月12日
