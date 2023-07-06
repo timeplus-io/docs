@@ -2,11 +2,11 @@
 
 Kafka Connect是Kafka与数据库等外部系统连接的一个框架。 使用 *连接器* 来对接各种数据库、搜索引擎和文件系统。
 
-Kafka Connectors are ready-to-use components, which can help data teams to import data from external systems into Kafka topics and export data from Kafka topics into external systems.
+Kafka 连接器是现成组件， 它可以帮助数据团队将外部系统的数据导入Kafka，并将Kafka的数据导入外部系统。
 
-A Kafka Connect plugin for Timeplus is provided to continuously send data from Kafka topics to Timeplus Cloud or self-managed Timeplus deployment, no matter if you run Kafka in the cloud or on-prem.
+无论你在云端还是在本地运行 Kafka，Timeplus 的 Kafka Connect 插件都可以持续将来自 Kafka 主题的数据发送到 Timeplus 云或自管的 Timeplus 部署。
 
-Depending on how you run Kafka (with open-source Kafka, Confluent Platform, Confluent Cloud, or Redpanda), you can check the corresponding documentation to set up the Kafka Connect.
+根据你运行 Kakfa 的方式（使用开源 Kafka、Confluent 平台、Confluent Cloud 或 Redpanda），你可以查看相应的文档来设置 Kafka Connect。
 
 ## 使用 Apache Kafka 进行设置
 
@@ -85,5 +85,5 @@ value.converter: org.apache.kafka.connect.storage.StringConverter
       }
       ```
 
-6. Click **Launch** button, in a few seconds, you should see the connector is running.
-7. 你可以在 Timeplus 中打开查询控制台然后运行像 `SELECT * FROM data_from_kafka`这样的流式查询。 然后在 Confluent 控制中心创建一条消息（选择 **Topics**，选择 my_topic，选择 **Messages** 选项卡，然后生成一条示例消息）。 Almost in the same time, the message will appear in the Timeplus Console.
+6. 单击 **Launch** 按钮，几秒钟后，您应该会看到连接器正在运行。
+7. 你可以在 Timeplus 中打开查询控制台然后运行像 `SELECT * FROM data_from_kafka`这样的流式查询。 然后在 Confluent 控制中心创建一条消息（选择 **Topics**，选择 my_topic，选择 **Messages** 选项卡，然后生成一条示例消息）。 几乎在同一时间，该消息将出现在Timeplus 控制台中。
