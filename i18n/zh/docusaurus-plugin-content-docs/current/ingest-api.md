@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
 
 :::注意
 
-请确保您使用的是`workspace-id`，而不是`workspace-name`。 Workspace-id是一个包含 8 个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name是您在创建工作区时设置的名称。 Currently this name is read only but we will make it editable in the future.
+请确保您使用的是`workspace-id`，而不是`workspace-name`。 Workspace-id是一个包含 8 个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
 
 :::
 
@@ -41,12 +41,12 @@ import TabItem from '@theme/TabItem';
 
 这里是将数据推送到Timeplus的不同用例列表：
 
-| 应用场景                                                                           | 样本POST请求内容                                                                                                                                                   | Content-Type           | URL                                   | 目标流中的列          |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | ------------------------------------- | --------------- |
-| 1）推送JSON对象。 每个JSON都是一个事件。                                                      | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                            | `application/x-ndjson` | ingest?format=streaming               | 多列，例如：key1，key2 |
-| 2）推送单个JSON或长文本。 单个事件。                                                          | {"key1": "value11", "key2": "value12", ...}                                                                                                                  | `text/plain`           | ingest?format=raw                     | 单列，命名为`raw`     |
-| 3）推出一批事件。 每行都是一个事件。                                                            | event1<br/>event2                                                                                                                                      | `text/plain`           | ingest?format=lines                   | 单列，命名为`raw`     |
-| 4) Push a special JSON with multiple events, without repeating the column name | { <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `application/json`     | ingest?format=compact 或者直接用无参数的ingest | 多列，例如：key1，key2 |
+| 应用场景                        | 样本POST请求内容                                                                                                                                                   | Content-Type           | URL                                   | 目标流中的列          |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | ------------------------------------- | --------------- |
+| 1）推送JSON对象。 每个JSON都是一个事件。   | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                                                            | `application/x-ndjson` | ingest?format=streaming               | 多列，例如：key1，key2 |
+| 2）推送单个JSON或长文本。 单个事件。       | {"key1": "value11", "key2": "value12", ...}                                                                                                                  | `text/plain`           | ingest?format=raw                     | 单列，命名为`raw`     |
+| 3）推出一批事件。 每行都是一个事件。         | event1<br/>event2                                                                                                                                      | `text/plain`           | ingest?format=lines                   | 单列，命名为`raw`     |
+| 4）推送一个带有多个事件的特殊JSON，而无需重复列名 | { <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `application/json`     | ingest?format=compact 或者直接用无参数的ingest | 多列，例如：key1，key2 |
 
 #### 1）直接推送 JSON 对象 {#option1}
 
@@ -161,7 +161,7 @@ public class Example {
 
 :::注意
 
-如果您想利用第三方系统/工具将数据推送到Timeplus中，但它不允许自定义内容类型时，您可以使用标准的`application/json`，并将POST请求发送到`/api/v1beta2/streams/$STREAM_NAME/ingest?format=streaming`。 This will ensure the Timeplus API server treats the POST data as NDJSON.
+如果您想利用第三方系统/工具将数据推送到Timeplus中，但它不允许自定义内容类型时，您可以使用标准的`application/json`，并将POST请求发送到`/api/v1beta2/streams/$STREAM_NAME/ingest?format=streaming`。 这可以确保 Timeplus 的 API 服务器将 POST 数据视为 NDJSON。
 
 :::
 
@@ -296,7 +296,7 @@ public class Example {
   </TabItem>
 </Tabs>
 
-It's a common practice to create a stream in Timeplus with a single `string` column, called `raw`. You can put JSON objects in this column then extract values (such as `select raw:key1`), or put the raw log message in this column.
+在 Timeplus 中创建具有单个 `string` 列的直播是一种常见的做法，称为 `raw`。 您可以将 JSON 对象放在此列中，然后提取值（例如 `select raw: key1`），或者将原始日志消息放入此列中。
 
 当您将Content-Type标头设置为`text/plain`，并将`format=raw`添加到URL时，整个POST请求将被放入`raw`列中。
 
@@ -402,7 +402,7 @@ public class Example {
   </TabItem>
 </Tabs>
 
-When you set Content-Type header to `text/plain`, and add `format=lines` to the ingestion endpoint, each line in the POST body will be put in the `raw` column.
+当你将 Content-Type 标头设置为`text/plain`，并将 `format=lines` 添加到摄取终端时，POST 请求中的每一行都将被放入 `raw` 列中。
 
 #### 4）批量推送多个不重复列的事件 {#option4}
 请求例子
@@ -555,7 +555,7 @@ public class Example {
 备注：
 
 - `columns` 是一个字符串数组，带有一些列列名
-- the `data` is an array of arrays. 每个嵌套数组代表一行数据。 值的顺序必须与`columns`中的顺序完全相同。
+- `data` 是数组的一个数组。 每个嵌套数组代表一行数据。 值的顺序必须与`columns`中的顺序完全相同。
 
 例如：
 
