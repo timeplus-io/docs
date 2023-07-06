@@ -7,7 +7,7 @@ Timeplus 产品的部分功能基于开源项目。 特别感谢：
 * 数据源和数据下游的基于 [Benthos](https://www.benthos.dev/)构建, MIT 授权
 * 嵌入式的持久化状态存储基于 [RocksDB](https://github.com/facebook/rocksdb), Apache 2.0 许可协议
 
-## Benthos MIT License
+## Benthos MIT 许可证
 
 ```
 Copyright (c) 2020 Ashley Jeffs
@@ -31,7 +31,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-## Apache License 2.0
+## Apache 许可证 2.0
 
 ```
  Apache License
