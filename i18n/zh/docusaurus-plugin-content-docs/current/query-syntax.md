@@ -24,9 +24,9 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 总体来说，Timeplus中的流式查询建立了一个与客户端的长长HTTP/TCP连接，并且根据 `EMIT` 策略持续评估查询和流返回结果，直到结束客户端 中止查询或出现一些异常。 时间插件支持一些内部 `设置` 来微调流式查询处理行为。 以下是一份详尽无遗的清单。 我们将在下面的章节中再谈这些问题。
 
 1. `query_mode=<table|streaming>` 总体查询是否为历史数据处理或流数据处理的常规设置。 默认情况下，是 `串流`。
-2. `seek_to=<timestamp|earliest|latest>`. A setting which tells Timeplus to seek old data in streaming storage by a timestamp. It can be a relative timestamp or an absolute timestamp. 默认情况下， `是最新` 表示不寻找旧数据。 Example:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, or `seek_to='earliest'`
+2. `seek_to=<timestamp|earliest|latest>`. 设置告诉 Timeplus 通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
-:::info
+:::注意
 
 请注意，自2023年1月起， `SETTINGS seek_to=..` 不再被推荐使用。 请使用 `WHERE _tp_time>='2023-01-01'` 或类似的WHERE条件。 `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
 
@@ -52,7 +52,7 @@ WHERE cpu_usage >= 99
 
 ### 全局流聚合 {#global}
 
-In Timeplus, we define global aggregation as an aggregation query without using streaming windows like tumble, hop. 不同于串流窗口聚合，全局流式聚合并不分割 根据时间戳将未绑定的流式数据放入窗口， 相反，它作为一个巨大的全球窗口处理无界流数据。 由于这个属性，Timeplus现在不能 根据时间戳为全局聚合回收的内存聚合状态/结果。
+在 Timeplus 中，我们将全球聚合定义为一个聚合查询，而不使用诸如tumble、跳跃等流式窗口。 不同于串流窗口聚合，全局流式聚合并不分割 根据时间戳将未绑定的流式数据放入窗口， 相反，它作为一个巨大的全球窗口处理无界流数据。 由于这个属性，Timeplus现在不能 根据时间戳为全局聚合回收的内存聚合状态/结果。
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -106,16 +106,16 @@ Timeplus中的`tumble` 窗口左闭右开 `[)` meaning it includes all events wh
 
 `tumble` 表格函数接受4个参数： `<timestamp_column>` 和 `<time-zone>` 是可选的，其他函数是强制性的。
 
-When the `<timestamp_column>` parameter is omitted from the query, the table's default event timestamp column which is `_tp_time` will be used.
+当 `<timestamp_column>` 参数从查询中省略时，将使用该表的默认事件时间戳列，它是 `_tp_time`
 
-When the `<time_zone>` parameter is omitted the system's default timezone will be used. `<time_zone>` 是一个字符串类型的参数，例如 `UTC`。
+当 `<time_zone>` 参数被省略时，系统的默认时区将被使用。 `<time_zone>` 是一个字符串类型的参数，例如 `UTC`。
 
 `<tumble_window_size>` 是一个间隔参数： `<n><UNIT>` `<UNIT>` 支持 `s`, `m`, `h`, `d`, `w`. 它还不支持 `M`, `q`, `y`。 它还不支持 `M`, `q`, `y`。 例如： `tumble(my_table, 5s)`。
 
 Timeplus支持tumble窗口的2个发射策略，所以 `<window_emit_policy>` 可以是：
 
-1. `AFTER WATERMARK`: aggregation results will be emitted and pushed to clients right after a watermark is observed. This is the default behavior when this clause is omitted.
-2. `AFTER WATERMARK AND DELAY <interval>`: aggregation results will be held after the watermark is observed until the specified delay reaches. 用户可以对延迟使用间隔快捷键。 例如， `DELAY 5s`。
+1. `预留水印`: 集合结果将在水印观察后立即排放到客户端。 省略此条款时这是默认行为。
+2. `预留水域和水域 <interval>`: 集合结果将在观察到水印后保存，直到指定的延迟到达为止。 用户可以对延迟使用间隔快捷键。 例如， `DELAY 5s`。
 
 **注意** `水印` 是一个内部的时间戳，由Timeplus观察、计算和释放，用来表示流式窗口何时关闭。 保证每个流量查询都能增加单一流量。
 
@@ -158,7 +158,7 @@ EMIT AFTER WATERMARK DELAY 2s;
 
 ### 热流窗口聚合 {#hop}
 
-Like [Tumble](#tumble), Hop also slices the unbounded streaming data into smaller windows, and it has an additional sliding step.
+像 [Tumble](#tumble)一样，Hop也将无限流流量数据切片放入较小的窗口，它还有一个附加的滑动步骤。
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -173,11 +173,11 @@ EMIT <window_emit_policy>
 设置 <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-Hop window is a more generalized window compared to tumble window. Hop window has an additional parameter called `<hop_slide_size>` which means window progresses this slide size every time. 共有3起案件：
+滑动窗口与tumble窗口相比是一个更加普遍化的窗口。 滑动窗口有一个额外的 参数，名为 `<hop_slide_size>` ，这意味着每次都要进这个幻灯片尺寸。 共有3起案件：
 
 1. `<hop_slide_size>` 等于 `<hop_window_size>`。 衰落到tumble窗口。
 2. `<hop_slide_size>` 小于 `<hop_window_size>`. Hop窗口有重叠，意味着事件可能会进入几个节点窗口。 衰落到tumble窗口。
-3. `<hop_slide_size>` 大于 `<hop_window_size>`。 Windows has a gap in between. 通常没有用处，因此迄今不予支持。
+3. `<hop_slide_size>` 大于 `<hop_window_size>`。 Windows之间有差距。 通常没有用处，因此迄今不予支持。
 
 请注意此点。 您需要在 `<hop_slide_size>` 和 `<hop_window_size>`中使用相同的时间单位 例如 `hop(device_utils, 1s, 60s)` 代替 `hop(device_utils, 1s, 1m)`
 
@@ -191,7 +191,7 @@ Hop window is a more generalized window compared to tumble window. Hop window ha
 ...
 ```
 
-Except that the hop window can have overlaps, other semantics are identical to the tumble window.
+除了这个滑动窗口可能有重叠，其他语义与tumble窗口相同。
 
 ```sql
 SELECT device, max(cpu_usage)
