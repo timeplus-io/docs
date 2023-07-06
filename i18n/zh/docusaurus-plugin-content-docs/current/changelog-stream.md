@@ -1,128 +1,128 @@
 # 变更日志流
 
-当你使用 `更新日志kv`的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 数据可以更新或删除。 You can use Changelog Stream in JOIN either on the left or on the right. Timeplus will automatically choose the latest version.
+当您使用 `更新日志_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 数据可以更新或删除。 您可以在左侧或右侧的JOIN中使用更新日志流。 Timeplus 将自动选择最新版本。
 
-Here are some examples:
+以下是一些例子：
 
-## Create the Stream
+## 创建流
 
-In this example, you create a stream `dim_products` in `changelog_kv` mode with the following columns:
+在此示例中，您在 `changelog_kv` 模式中创建了一个带有以下列的流 `dim_products`：
 
-| Column Name | Date Type           | 描述                                                                                                                       |
-| ----------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| _tp_time  | datetime64(3,'UTC') | this is automatically created for all streams in Timeplus, with the event time at millisecond precision and UTC timezone |
-| _tp_delta | 整数                  | a special column, 1 means new data, -1 means deleted data                                                                |
-| product_id  | string              | unique id for the product, as the primary key                                                                            |
-| price       | float               | current price                                                                                                            |
+| 列名          | 数据类型                | 描述                                         |
+| ----------- | ------------------- | ------------------------------------------ |
+| _tp_time  | datetime64(3,'UTC') | 它是自动为所有在 Timeplus 中的流创建的，具有毫秒精度和UTC时区的事件时间 |
+| _tp_delta | 整数                  | 特殊列，1表示新数据，-1表示已删除的数据                      |
+| 产品名称        | 字符串                 | 产品的唯一 ID，作为主键                              |
+| 价格          | 浮点数                 | 当前价格                                       |
 
-## Query Single Stream
+## 查询单个流
 
-If you don't add any data, query `SELECT * FROM dim_products` will return no results and keep waiting for the new results.
+如果您没有添加任何数据，查询 `SELECT * FROM dim_products` 将不返回任何结果并继续等待新的结果。
 
-### Add data
+### 添加数据
 
-Keep the query running and add a few more rows to the stream (via REST API or create a new browser tab and add rows to the streams directly).
+保持查询运行并将更多的行添加到流中 (通过 REST API 或创建新的浏览器标签页并直接将行添加到流)。
 
-| _tp_delta | product_id    | price |
-| ----------- | ------------- | ----- |
-| 1           | iPhone14      | 799   |
-| 1           | iPhone14_Plus | 899   |
+| _tp_delta | 产品名称          | 价格  |
+| ----------- | ------------- | --- |
+| 1           | iPhone14      | 799 |
+| 1           | iPhone14_Plus | 899 |
 
-The query console will show those 2 rows automatically.
+查询控制台将自动显示这两行。
 
-### Delete data
+### 删除数据
 
-Somehow, you don't want to list iPhone14_Plus any more. All you need is to add a row with `_tp_delta=-1`:
+如果您不想再列出iPhone14_Plus。 您需要添加一行为 `_tp_delta=-1`：
 
-| _tp_delta | product_id    | price |
-| ----------- | ------------- | ----- |
-| -1          | iPhone14_Plus | 899   |
+| _tp_delta | 产品名称          | 价格  |
+| ----------- | ------------- | --- |
+| -1          | iPhone14_Plus | 899 |
 
-Then cancel the query and run it again, you will only get 1 row, not 3 rows. The reason for that is the 2nd row and 3rd row are with the same primary id but with opposite _tp_delta, so Timeplus merges them. This process is called "compaction".
+然后取消查询并再次运行它，您只会得到1行，而不是3行。 原因是第二行和第三行具有相同的主要ID，但有相反的 _tp_delta，所以 TimePlus 会将它们合并。 这一过程被称为“压缩”。
 
-| _tp_delta | product_id | price |
-| ----------- | ---------- | ----- |
-| 1           | iPhone14   | 799   |
+| _tp_delta | 产品名称     | 价格  |
+| ----------- | -------- | --- |
+| 1           | iPhone14 | 799 |
 
-### Update data
+### 更新数据
 
-Now if you want to change the price of iPhone14, you need to add two rows:
+现在，如果您想要更改iPhone14的价格，您需要添加两行：
 
-| _tp_delta | product_id | price |
-| ----------- | ---------- | ----- |
-| -1          | iPhone14   | 799   |
-| 1           | iPhone14   | 800   |
+| _tp_delta | 产品名称     | 价格  |
+| ----------- | -------- | --- |
+| -1          | iPhone14 | 799 |
+| 1           | iPhone14 | 800 |
 
-Cancel the query `SELECT * FROM dim_products` and run again, you will get only 1 row in the product list:
+取消查询 `SELECT * FROM dim_products` 并再次运行，您将只会在产品列表中获得1行：
 
-| _tp_delta | product_id | price |
-| ----------- | ---------- | ----- |
-| 1           | iPhone14   | 800   |
+| _tp_delta | 产品名称     | 价格  |
+| ----------- | -------- | --- |
+| 1           | iPhone14 | 800 |
 
-As you can imagine, you can keep adding new rows. If _tp_delta is 1 and the primary key is new, then you will get a new row in the query result. If _tp_delta is -1 and the primary key exists already, then the previous row is deleted. You can update the value by adding a new row with the primary key.
+您可以想象，您可以继续添加新的行。 如果 _tp_delta 是1并且主键是新的，那么您将在查询结果中获得一个新的行。 如果 _tp_delta 是-1并且主键已经存在，那么前一行将被删除。 您可以通过添加带有主键的新行来更新该值。
 
-:::info
+:::注意
 
-In fact, you can assign an expression as the primary key. For example you can use `first_name||' '||last_name` to use the combined full name as the primary key, instead of using a single column.
+事实上，您可以指定一个表达式作为主键。 例如，您可以使用 `first_name|' '||last_name` 来合并全名作为主键，而不是使用单列。
 
 :::
 
-### Show aggregated results
+### 显示聚合结果
 
-If you run queries like `select count(1), sum(price) from dim_products` , this streaming SQL will always give you latest results:
+如果您运行 `select count(1), sum(price) from dim_products` 这样的查询，此串流 SQL 将始终给您提供最新的结果：
 
-| count(1) | sum(price) |                                    |
-| -------- | ---------- | ---------------------------------- |
-| 1        | 800        | when there is only 1 row: iPhone14 |
-| 2        | 1699       | when  iPhone14_Plus is added       |
-| 1        | 800        | when  iPhone14_Plus is removed     |
+| 计数(1) | 总和（价格） |                     |
+| ----- | ------ | ------------------- |
+| 1     | 800    | 当只有1行时：iPhone14     |
+| 2     | 1699   | 当 iPhone14_Plus 被添加 |
+| 1     | 800    | 当 iPhone14_Plus 被移除 |
 
-## Use Changelog Stream in JOIN as lookup
+## 在 JOIN 中使用更新日志流作为查询
 
-In the above examples, you always get the latest version of the event with the same primary key. This is very useful when such stream acts as the "lookup-table" for the JOIN.
+在上述示例中，您总是获得具有相同主键的事件的最新版本。 当这样的流充当 JOIN 的“查询表”时，这非常有用。
 
-Imagine you have an append-only stream for the `orders`:
+想象您有 `订单` 的一个附加流：
 
-| _tp_time | order_id | product_id | quantity |
-| ---------- | -------- | ---------- | -------- |
-|            |          |            |          |
+| _tp_time | 订单编号 | 产品名称 | 数量 |
+| ---------- | ---- | ---- | -- |
+|            |      |      |    |
 
-The current `dim_products` stream is:
+当前 `dim_product` 流是：
 
-| _tp_delta | product_id    | price |
-| ----------- | ------------- | ----- |
-| 1           | iPhone14      | 799   |
-| 1           | iPhone14_Plus | 899   |
+| _tp_delta | 产品名称          | 价格  |
+| ----------- | ------------- | --- |
+| 1           | iPhone14      | 799 |
+| 1           | iPhone14_Plus | 899 |
 
-Now start a streaming SQL:
+现在运行流式SQL：
 
 ```sql
 SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS amount
 FROM orders JOIN dim_products USING(product_id)
 ```
 
-Then add 2 rows:
+然后添加两行：
 
-| _tp_time               | order_id | product_id    | quantity |
-| ------------------------ | -------- | ------------- | -------- |
-| 2023-04-20T10:00:00.000Z | 1        | iPhone14      | 1        |
-| 2023-04-20T10:01:00.000Z | 2        | iPhone14_Plus | 1        |
+| _tp_time               | 订单编号 | 产品名称          | 数量 |
+| ------------------------ | ---- | ------------- | -- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone14      | 1  |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone14_Plus | 1  |
 
-In the query console, you will see 2 rows one by one:
+在查询控制台中，您将逐一看到这两行：
 
-| _tp_time               | order_id | product_id    | quantity | 金额  |
-| ------------------------ | -------- | ------------- | -------- | --- |
-| 2023-04-20T10:00:00.000Z | 1        | iPhone14      | 1        | 799 |
-| 2023-04-20T10:01:00.000Z | 2        | iPhone14_Plus | 1        | 899 |
+| _tp_time               | 订单编号 | 产品名称          | 数量 | 金额  |
+| ------------------------ | ---- | ------------- | -- | --- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone14      | 1  | 799 |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone14_Plus | 1  | 899 |
 
-Then you can change the price of iPhone14 to 800, by adding 2 new rows in `dim_products`
+然后，您可以通过在 `dim_products` 中添加两个新的行来更改 iPhone14 的价格至800
 
-| _tp_delta | product_id | price |
-| ----------- | ---------- | ----- |
-| -1          | iPhone14   | 799   |
-| 1           | iPhone14   | 800   |
+| _tp_delta | 产品名称     | 价格  |
+| ----------- | -------- | --- |
+| -1          | iPhone14 | 799 |
+| 1           | iPhone14 | 800 |
 
-Also add a new row in `orders`
+也在 `订单` 中添加新的行
 
 | _tp_time               | order_id | product_id | quantity |
 | ------------------------ | -------- | ---------- | -------- |
