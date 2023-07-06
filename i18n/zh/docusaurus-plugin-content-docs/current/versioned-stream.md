@@ -8,11 +8,11 @@ Here are some examples:
 
 In this example, you create a stream `dim_products` in `versioned_kv` mode with the following columns:
 
-| Column Name | Date Type           | 描述                                                                                                                       |
-| ----------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| _tp_time  | datetime64(3,'UTC') | this is automatically created for all streams in Timeplus, with the event time at millisecond precision and UTC timezone |
-| product_id  | string              | unique id for the product, as the primary key                                                                            |
-| price       | float               | current price                                                                                                            |
+| Column Name | Date Type           | 描述                                            |
+| ----------- | ------------------- | --------------------------------------------- |
+| _tp_time  | datetime64(3,'UTC') | 它是自动为所有在 Timeplus 中的流创建的，具有毫秒精度和UTC时区的事件时间    |
+| product_id  | string              | unique id for the product, as the primary key |
+| price       | float               | current price                                 |
 
 If you don't add any data, query `SELECT * FROM dim_products` will return no results and keep waiting for the new results.
 
@@ -83,7 +83,7 @@ Then you can change the price of iPhone14 back to 799, by adding a new row in `d
 | ---------- | ----- |
 | iPhone14   | 799   |
 
-Also add a new row in `orders`
+也在 `订单` 中添加新的行
 
 | _tp_time               | order_id | product_id | quantity |
 | ------------------------ | -------- | ---------- | -------- |
