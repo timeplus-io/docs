@@ -290,23 +290,23 @@ localhost:8083/connectors \
 
 * `publication.autocreate.mode` 是 `过滤后的`， `table.include.list` 是您想要应用 CDC 的一系列列表。 有时，您没有权限为所有表启用发布。 因此，建议使用 `过滤后的` 。
 * `plugin.name` 是 `pgoutput`。 这与新版本的 PostgreSQL（10+）配合使用效果很好。 默认值为 `decoderbufs`，它需要单独安装。
-* `topic.prefix` 已设置为 `doc`。 顾名思义，它将成为 Kafka 主题的前缀。 Since the schema is `public`, the topics to be used will be `doc.public.dim_products` and `doc.public.orders`
+* `topic.prefix` 已设置为 `doc`。 顾名思义，它将成为 Kafka 主题的前缀。 由于架构是 `公开的`，将使用的主题将是 `doc.public.dim_products` 和 `doc.public.orders`
 
-Make sure you create those 2 topics in Kafka/Redpanda. Then in a few seconds, new messages should be available in the topics.
+确保你在 Kafka/Redpanda 中创建了这两个主题。 然后在几秒钟内，主题中应该有新的消息。
 
-You can try INSERT/UPDATE/DELETE data in PostgreSQL and check the generated JSON messages.
+您可以在 PostgreSQL 中尝试 插入/更新/删除 数据并检查生成的 JSON 消息。
 
-### Sample CDC Data
+### 示例 CDC 数据
 
-#### INSERT
+#### 插入
 
-SQL:
+SQL：
 
 ```sql
-INSERT INTO dim_products ("product_id", "price") VALUES ('iPhone14', 799)
+在 dim_products（“product_id”、“price”）中插入值（'iPhone14'，799）
 ```
 
-CDC Data:
+CDC 数据：
 
 ```json
 {
@@ -323,15 +323,15 @@ CDC Data:
 }
 ```
 
-#### UPDATE
+#### 更新
 
-SQL:
+SQL：
 
 ```sql
-UPDATE dim_products set price=800 WHERE product_id='iPhone14'
+更新 dim_products 设置价格=800 其中 product_id='iPhone14'
 ```
 
-CDC Data:
+CDC 数据：
 
 ```json
 {
@@ -351,15 +351,15 @@ CDC Data:
 }
 ```
 
-#### DELETE
+#### 删除
 
-SQL:
+SQL：
 
 ```sql
-DELETE FROM dim_products
+从 dim_products 中删除
 ```
 
-CDC Data:
+CDC 数据：
 
 ```json
 {
@@ -376,9 +376,9 @@ CDC Data:
 }
 ```
 
-#### For existing rows
+#### 对于已经存在的行
 
-Debezium also read all existing rows and generate messages like this
+Debezium 也会读取所有现有的行并生成这样的消息
 
 ```json
 {
@@ -397,14 +397,14 @@ Debezium also read all existing rows and generate messages like this
 
 
 
-### Load data to Timeplus
+### 将数据加载到 Timeplus
 
-You can follow this [guide](kafka-source) to add 2 data sources to load data from Kafka or Redpanda.  例如：
+您可以按照这个 [指南](kafka-source) 添加两个数据源来从 Kafka 或 Redpanda 加载数据。  例如：
 
-* Data source name `s1` to load data from topic `doc.public.dim_products` and put in a new stream `rawcdc_dim_products`
-* Data source name `s2` to load data from topic `doc.public.orders` and put in a new stream `rawcdc_orders`
+* 数据源名称 `s1` 从主题 `doc.public.dim_products` 中加载数据并放入新流 `rawcdc_dim_products`
+* 数据源名称 `s2` 从主题 `doc.public.orders` 中加载数据并放入新流 `rawcdc_orders`
 
-Then run the following SQL in query page:
+然后在查询页中运行以下 SQL：
 
 ```sql
 select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op in ('c','r')
@@ -416,15 +416,15 @@ union
 select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'      
 ```
 
-Click the **Send as Sink** button and choose Timeplus type, to send the results to an existing stream `dim_products` .
+点击 **作为下游发送** 按钮，并选择 Timeplus 类型，将结果发送到现有的流 `dim_products`。
 
-:::info
+:::注意
 
-In the coming version of Timeplus, we will simplify the process so that you don't need to write custom SQL to extract the Debezium CDC messages.
+在即将推出的 Timeplus 版本中，我们将简化流程，这样您就无需编写自定义 SQL 来提取 Debezium CDC 消息。
 
 :::
 
-Similarly, here is the SQL to convert raw CDC messages for `orders` :
+相同地，这里是 SQL 将原生的 CDC 消息转换为 `订单`：
 
 ```sql
 select 1::int8 as _tp_delta, after:order_id as order_id, after:product_id as product_id, after:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op in ('c','r')
