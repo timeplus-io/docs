@@ -20,11 +20,11 @@
 
 类似于从 Confluent Cloud 加载数据的步骤。 您可能不需要指定 `SASL 纯` 作为身份验证方法。 请确保Timeplus能够与您的Kafka 服务器直接连接。 你可以使用像 [ngrok](https://ngrok.com) 这样的工具将你的本地 Kafka 代理安全地暴露在互联网上，这样 Timeplus Cloud 就可以连接到它。 查看 [此博客](https://www.timeplus.com/post/timeplus-cloud-with-ngrok) 了解更多详情。
 
-:::info
+:::注意
 
-If you maintain an IP whitelist, you'll need to whitelist our static IP:
+如果您保持 IP 白名单，则需要将我们的静态 IP 列入白名单：
 
-`44.232.236.191` for us.timeplus.cloud
+`44.232.236.191` 对于 us.timeplus.cloud
 
 :::
 
@@ -34,5 +34,5 @@ If you maintain an IP whitelist, you'll need to whitelist our static IP:
 
 1. 目前，我们支持 Kafka 主题中的消息采用 JSON 和 AVRO 格式
 2. 主题级别 JSON 属性将被转换为流列。 对于嵌套属性， 元素将被保存为 `String` 列，然后您可以用 [JSON 函数之一](functions#processing-json) 查询它们。
-3. Values in number or boolean types in the JSON message will be converted to corresponding types in the stream.
+3. JSON消息中的数值或布尔值类型将被转换为流中的对应类型。
 4. 日期时间或时间戳将被保存为字符串列。 你可以通过 [to_time 函数](functions#to_time)将它们转换回 DateTime。
