@@ -1,6 +1,6 @@
 # 变更日志流
 
-When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. Data can be updated or deleted. You can use Changelog Stream in JOIN either on the left or on the right. Timeplus will automatically choose the latest version.
+当你使用 `更新日志kv`的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 数据可以更新或删除。 You can use Changelog Stream in JOIN either on the left or on the right. Timeplus will automatically choose the latest version.
 
 Here are some examples:
 
