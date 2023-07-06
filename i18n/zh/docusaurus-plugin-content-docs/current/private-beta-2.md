@@ -15,34 +15,34 @@
   * 支持子串流，例如 `选择 cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) 作为从car_live_data 的 last_spd`
 * 源、 汇、 API 和 SDK
   * 更新 Python SDK https://pypi.org/project/timeplus/以自动删除查询历史，改进错误处理。 请注意出现了一个突破性的更改， `Env()。 enant(id)` 更改为 `Env().workspace(id)` 更符合我们的 [术语](glossary#workspace)
-  * Updated the [REST API](/rest) to show the optional description for source/sink, and replace "tenant" with "workspace-id" in the documentation.
+  * 更新了 [REST API](/rest) 来显示源/汇的optinal 描述，并在文档中将“租户”改为“workspaceid”。
   * Kafka sink 不再自动创建主题
 
 * 界面改进
-  * Show the total data size on the home page, as well as the average data in and data out throughput.
+  * 在主页上显示总数据大小，以及平均数据和输出数据。
   * 在查询页面中添加一个新的 'SQL 模板' 按钮来帮助您快速添加常见的代码片段, 例如 `setting_to='-1h'`
-  * Added a closable page description, as well as context aware help side panel.
+  * 添加了一个可关闭的页面描述以及上下文意识到帮助侧面板.
   * 精炼“数据行线”页面以显示流模式、查看 SQL 和汇类型。
-  * Able to set units when you choose to view the latest data.
+  * 当您选择查看最新数据时能够设置单位。
   * 移动友好登录/注册页面。
 
 ### 每两周更新 9/5-9/16
 
 * 流引擎
   * 添加了一个 [round](functions#round) 函数来将一个值转到指定的小数位位置。
-  * Improved cluster support.
+  * 改进了对集群的支持。
 * 源、 汇、 API 和 SDK
-  * 为仪表板添加新的 CRUD API。 The previous charts on the homepage will be removed automatically during upgrade.
-  * Simplified the hostname for the streamlit demo to https://timeplus.streamlitapp.com
+  * 为仪表板添加新的 CRUD API。 升级期间将自动删除主页上的上一个图表。
+  * 简化串流演示的主机名到 https://timeplus.streamlitapp.com
 
 * 界面改进
   * 启用完整的仪表板管理。 您可以创建多个带有名称/描述/图表的仪表板。
   * 重新设计主页以显示工作区的高层信息。
   * 开启了一个新的“数据行”页面以直观化源/流/视图/汇之间的关系。
-  * 增强可视化查询结果的工作流。 You need to choose whether to view the latest data, check data trend, or view detailed data.
+  * 增强可视化查询结果的工作流。 您需要选择是查看最新数据，还是检查数据趋势，还是查看详细数据。
   * 现在您可以可视化历史查询的查询结果，例如 `select.. from table(...)...`, 并将图表添加到仪表板。
-  * 删除浏览器侧边数据集合以提高性能。 如果数据速度大于渲染时间间隔（200毫秒），则只会在间隔内提供最后一个数据点。  If you run a streaming tail or filter, you no longer can visualize the data with a bar chart. 请使用 `GROUP BY` 来进行这种分析。
-  * Enhanced the SQL editor to show column names without using stream names.
+  * 删除浏览器侧边数据集合以提高性能。 如果数据速度大于渲染时间间隔（200毫秒），则只会在间隔内提供最后一个数据点。  如果您运行串流尾或过滤器，您不再能够用条形图对数据进行视觉。 请使用 `GROUP BY` 来进行这种分析。
+  * 增强SQL编辑器以显示列名而不使用流名。
   * 移动友好登录/注册页面。
 
 ### 双周更新 8/22-9/2
@@ -74,7 +74,7 @@
 * 界面改进
   * Apache Pulsar作为源或汇的新界面。
   * 查询结果中的列现在可以用拖动来调整大小。
-  * Unattended streaming SQL will be canceled automatically.
+  * 未使用的流 SQL 将被自动取消。
 
 ### 8/8周
 
@@ -91,4 +91,4 @@
 * 界面改进
   * 新的登录屏幕。
   * 雪花实验吸收汇界面。
-  * Improved multi-tenant support in various UI pages.
+  * 改进了各种 UI 页面中的多租户支持。
