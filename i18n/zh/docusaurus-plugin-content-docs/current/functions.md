@@ -801,58 +801,58 @@ SELECT
 
 ### e
 
-`e()` 返回一个 `浮点` 数字接近数字 `e`
+`e()` 返回一个 `浮点` 数字接近数字 `e`。
 
 
 
 ### pi
 
-`pi()` 返回一个 `浮点` 靠近数字 `位符`
+`pi()` 返回一个 `浮点` 靠近数字 `π`。
 
 
 
 ### exp
 
-`exp(x)` 返回一个 `float` 数字接近参数的指数 `x`。
+`exp(x)` 返回一个 `浮点` 接近实参指数的数 `x`。
 
 ### exp2
 
-`exp2(x)` 返回一个 `float` 接近2的数字到 `x`.
+`exp2(x)` 返回一个 `浮点` 接近2的次幂的数 `x`。
 
 ### exp10
 
-`exp10(x)` 返回一个 `float` 接近10的数字到 `x`.
+`exp10(x)` 返回一个 `浮点` 接近10的次幂的数 `x`。
 
 
 
 ### log
 
-`log(x)`  returns a `float` number that is close to the natural logarithm of the argument `x`.
+`log(x)`  返回一个 `浮点` 与实参的自然对数接近的数 `x`。
 
 ### log2
 
-`log2(x)` returns a `float` number that is close to the binary logarithm of the argument `x`.
+`log2(x)` 返回一个 `浮点` 与参数的二进制对数接近的数 `x`。
 
 ### log10
 
-`log10(x)` returns a `float` number that is close to the decimal logarithm of the argument `x`.
+`log10(x)` 返回一个 `浮点` 接近实参的十进制对数的数 `x`。
 
 
 
 ### sqrt
 
-`sqrt(x)`returns a `float` number that is close to the square root of the argument `x`.
+`sqrt(x)`返回一个 `浮点` 接近实参平方根的数 `x`。
 
 
 
 ### cbrt
 
-`cbrt(x)` returns a `float` number that is close to the cubic root of the argument `x`.
+`cbrt(x)` 返回一个 `浮点` 接近实参的立方根的数 `x`。
 
 
 ### lgamma
 
-`lgamma(x)` the logarithm of the gamma function.
+`lgamma(x)` 伽玛函数的对数。
 
 
 
@@ -934,17 +934,17 @@ SELECT
 
 
 
-## Hash
+## 函数的对数
 
-Hash functions can be used for the deterministic pseudo-random shuffling of elements.
+哈希函数可用于元素的确定性伪随机洗牌。
 
 ### md5
 
-`md5(string)` Calculates the MD5 from a string and returns the resulting set of bytes as `fixed_string(16)`.  If you want to get the same result as output by the md5sum utility, use `lower(hex(md5(s)))`.
+`md5(string)` 从字符串计算 MD5 并返回结果字节集为 `fixed_string(16)`。  如果您想获得与 md5sum 实用程序输出相同的结果，请使用 `lower(hex(md5(s)))`。
 
 ### md4
 
-`md4(string)` Calculates the MD4 from a string and returns the resulting set of bytes as `fixed_string(16)`.
+`md4(string)` 从字符串中计算MD4并将结果字节集返回为 `fixed_string(16)`。
 
 
 
