@@ -15,7 +15,7 @@
 
 ## 开发标量函数 {#udf}
 
-标量函数是每次调用返回一个值的函数；在大多数情况下，您可以将其视为每行返回一个值。 This contrasts with [Aggregate Functions](#udaf), which returns one value per group of rows.
+标量函数是每次调用返回一个值的函数；在大多数情况下，您可以将其视为每行返回一个值。 这与 [聚合函数](#udaf) 不同，它返回每行组的一个值。
 
 
 
@@ -37,8 +37,8 @@ function is_work_email(values){
 
 备注：
 
-1. The first line defines a function with the exact same name as the UDF. 参数的数量应与您在 UDF 表单中指定的数量相匹配。
-2. 请注意，输入实际上是一个 JavaScript 列表。 为了提高性能，Timeplus 将通过将参数组合在一起来减少函数调用的次数。 You need to return a list with the exact same length of the input.
+1. 第一行定义了一个与 UDF 名称完全相同的函数。 参数的数量应与您在 UDF 表单中指定的数量相匹配。
+2. 请注意，输入实际上是一个 JavaScript 列表。 为了提高性能，Timeplus 将通过将参数组合在一起来减少函数调用的次数。 你需要返回一个与输入长度完全相同的列表。
 3. `values.map(..)` 创建一个新的数组，其结果是在调用数组中的每个元素上调用一个提供的函数([doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map))。
 4. `email=>email.endSwith (” @gmail .com”)` 是通过检查电子邮件是否以 “@gmail .com” 结尾来返回 `bool` 的快捷方式。 你可以添加更复杂的逻辑，也可以写入多行并以 `return ..`返回结果。
 
@@ -87,20 +87,20 @@ function magic_number(values){
 
 ## 定义一个新的聚集函数 {#udaf}
 
-聚合函数为每组行返回一个值。 注册 UDF 时，请务必打开该选项以表明这是聚合函数。 Compared to scalar functions, the life cycle is a bit more complex.
+聚合函数为每组行返回一个值。 注册 UDF 时，请务必打开该选项以表明这是聚合函数。 与标量函数相比，生命周期要复杂一些。
 
 ### 3 个必需的和 3 个可选的函数
 
 比如我们希望获得一组数据中的第二个最大值。
 
-| 顺序 | 函数               | 是否必需？ | 描述                                                                                           | 示例                                                                                                                                  |
-| -- | ---------------- | ----- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| 1  | initialize()     | 是     | 初始化状态。                                                                                       | function(){<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />}                                                    |
-| 2  | process(args..)  | 是     | 该函数的主要逻辑                                                                                     | function(values){<br />values.map(..)<br />}                                                                            |
-| 3  | finalize()       | 是     | 返回最终的聚合结果                                                                                    | function(){<br />return this.sec_max<br />}                                                                             |
-| 4  | serialize()      | 否     | Serialize JS internal state to a string, so that Timeplus can persist for failover/recovery. | function(){<br />return JSON.stringify({'max':this.max,'sec_max':this.sec_max})<br />}                                |
-| 5  | deserialize(str) | 否     | 与serialize()相反。 读取字符串并转换回 JS 内部状态。                                                           | function(str){<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
-| 6  | merge(str)       | 否     | 将两个状态合并为一个。 用于多分片处理。                                                                         | function(str){<br />let s=JSON.parse(str);<br />if..else..}                                                             |
+| 顺序 | 函数               | 是否必需？ | 描述                                           | 示例                                                                                                                                  |
+| -- | ---------------- | ----- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 1  | merge(str)       | 是     | 初始化状态。                                       | function(){<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />}                                                    |
+| 2  | process(args..)  | 是     | 该函数的主要逻辑                                     | function(values){<br />values.map(..)<br />}                                                                            |
+| 3  | finalize()       | 是     | 返回最终的聚合结果                                    | function(){<br />return this.sec_max<br />}                                                                             |
+| 4  | serialize()      | 否     | 将 JS 内部状态序列化为字符串，这样 Timeplus 就可以持续进行故障转移/恢复。 | function(){<br />return JSON.stringify({'max':this.max,'sec_max':this.sec_max})<br />}                                |
+| 5  | deserialize(str) | 否     | 与serialize()相反。 读取字符串并转换回 JS 内部状态。           | function(str){<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
+| 6  | merge(str)       | 否     | 将两个状态合并为一个。 用于多分片处理。                         | function(str){<br />let s=JSON.parse(str);<br />if..else..}                                                             |
 
 
 
@@ -155,7 +155,7 @@ function magic_number(values){
 };
 ```
 
-To register this function, choose JavaScript as UDF type, make sure to turn on 'is aggregation'. 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 在 `float` 类型中添加一个参数，并将返回类型也设置为 `float` 。
+要注册此函数，请选择 JavaScript 作为 UDF 类型，确保打开 “是聚合”。 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 在 `float` 类型中添加一个参数，并将返回类型也设置为 `float` 。
 
 请注意，与 JS 标量函数不同，您需要将所有函数放在对象 `{}`下。 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。
 
@@ -167,7 +167,7 @@ To register this function, choose JavaScript as UDF type, make sure to turn on '
 
 * 自定义 JavaScript 代码在装有 V8 引擎的沙箱中运行。 它不会影响其他工作空间。
 
-* Compound data structures such as `array` or `map` are not supported in JS UDF. JavaScript 数据类型更为通用，以下是 Timeplus 中 JavaScript 数据类型和数据类型的映射：
+* JS UDF 不支持诸如 `array` 或 `map` 之类的复合数据结构。 JavaScript 数据类型更为通用，以下是 Timeplus 中 JavaScript 数据类型和数据类型的映射：
 
   | Timeplus 数据类型                   | JavaScript 数据类型 |
   | ------------------------------- | --------------- |
