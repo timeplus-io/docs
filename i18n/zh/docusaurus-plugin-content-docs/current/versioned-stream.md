@@ -1,6 +1,6 @@
 # 多版本流
 
-When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a JOIN with other streams, Timeplus will automatically choose the closest version.
+When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. 当您直接查询流时，仅显示相同主键的最新版本。 When you use this stream as "right-table" in a JOIN with other streams, Timeplus will automatically choose the closest version.
 
 Here are some examples:
 
