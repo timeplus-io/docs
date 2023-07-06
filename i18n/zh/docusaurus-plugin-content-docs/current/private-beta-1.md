@@ -12,7 +12,7 @@
   * 添加了2个与地理位置相关的函数： [point_in_polygon](functions#point_in_polygon) and [geo_distance](functions#geo_distance)。
 
 * 源、 汇、 API 和 SDK
-  * Updated the layout of the "Sources" page to leave more space for the source definitions.
+  * 更新“源”页面的布局，以便为源定义留出更多空间。
 * 界面改进
   * 如果查询正在运行，在查询选项卡上添加一个视觉指示器。
   * 更新错误或页面未找到的屏幕。
@@ -25,7 +25,7 @@
   * 精炼打字系统和逻辑比较返回 `bool` 而不是 `uint8`
 * 源、 汇、 API 和 SDK
   * 所有计时器汇现在都使用 `{{.columnName}}` 语法来访问汇主标题或正文中的列值。 支持数字和其他原始类型(以前只支持字符串列)。
-  * Fixed an issue that canceled queries could be marked as finished.
+  * 修复一个取消查询的问题可以标记为已完成。
   * 修复了一个问题，如果查询完成得太快，则EPS(每秒事件)不会显示。
 * 界面改进
   * 在“发送数据到...”对话框中添加了一个新选项，以便将结果发送到Timeplus租户中的一个流中。
@@ -40,14 +40,14 @@
   * 添加 [count_if](functions#count_if) 函数和 [唯一的](functions#unique_exact_if) 函数来计数匹配某些条件的行数或唯一值。
   * 添加 [json_extract_key_](functions#json_extract_keys) 函数来获取JSON 映射对象的键值。
   * 添加 [to_bool](functions#to_bool) 函数来将其他类型转换为 `bool`
-  * Added [is_nan](functions#is_nan), [is_infinite](functions#is_infinite), [is_finite](functions#is_finite) functions to detect the edge cases when a number column contains infinite numbers, etc.
-  * Added [to_type_name](functions#to_type_name) function to show the data type name, mainly for troubleshooting purposes.
+  * 添加 [is_nan](functions#is_nan), [is_infinite](functions#is_infinite), [is_finite](functions#is_finite) 函数用于检测边缘案例的数字列包含无限数字等。
+  * 添加 [to_type_name](functions#to_type_name) 函数来显示数据类型名称，主要用于故障排除目的。
 
 * 源、 汇、 API 和 SDK
   * 更新 [Python SDK](https://pypi.org/project/timeplus/0.1.10/) 以显示指标
 * 界面改进
   * 添加新的可视化类型：条形图和串流表
-  * Enhanced the management page of sinks, to show the sink status, number of messages sent, failure count, etc.
+  * 增强汇的管理页面，以显示汇的状态、发送的消息数量、失败计数等。
   * 增强SQL编辑器以突出显示开始/结束(){},[]。 这对于嵌套函数调用的复杂SQL非常有用。
 
 ### 7/11周
@@ -91,14 +91,14 @@
 * 源、 sink 和 API
 
   * 在REST API 和UI中删除了租户/工作区级别访问令牌。 请每个用户创建 API 密钥。
-  * 在 Kafka 源代码创建流时大幅改进推断类型。 More accurate data type for primitive types. 增加数组/地图支持。
+  * 在 Kafka 源代码创建流时大幅改进推断类型。 原始类型更多的累积数据类型。 增加数组/地图支持。
 
 * 界面改进
 
   * 现在您可以在工作区菜单中注册 UDF (User-Defined-Function) (仅适用于工作区管理员)
   * 大大改进流创建页面中的数据类型选择器
   * 改进布尔值和日期类型的列显示以及更好的空值
-  * Refined the look & feel for the navigation menu
+  * 精炼导航菜单的外观&感觉
   * 改进了错误消息的显示
 
 
@@ -107,8 +107,8 @@
 * 流引擎
 
   * [会话窗口](functions#session) 现在支持 window_start/window_end。
-  * 添加新的 [滞后](functions#lags) 函数来获得一系列过去的结果。 This could help the pure-SQL based ML/prediction.
-  * Added a new [grok](functions#grok) function to parse a line of text into key/value pairs, without having to write regular expressions.
+  * 添加新的 [滞后](functions#lags) 函数来获得一系列过去的结果。 这可以帮助基于纯 SQL 的 ML/预配。
+  * 添加了一个新的 [grok](functions#grok) 函数来解析一行文本到键/值对等符号，而无需写正则表达式。
 
 * 源和汇：
 
@@ -121,14 +121,14 @@
 
 * API
 
-  * Updated the [REST API doc](https://docs.timeplus.com/rest.html), adding the experimental stream-level rentention policies.
+  * 更新了 [REST API doc](https://docs.timeplus.com/rest.html)，添加了实验性流级租借策略。
 
 
 
 ### 6/13周
 
 * 流引擎
-  * 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。 This unlocks more use cases of stateful streaming processing, such as [streaming over](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py).
+  * 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。 这将解锁更多使用状态流处理的情况，例如 [流媒体通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
   * 添加 [数组处理](functions#arrays)的其他函数，例如 [array_sum](functions#array_sum), [array_avg](functions#array_avg)
 * 源和汇：
   * Kafka 源支持无需认证的本地schema 注册表
@@ -140,7 +140,7 @@
 
 * 流引擎
   * 更多 [的数学函数](functions#math) 被曝光。 这可以帮助您运行基于 SQL 的简单ML/预测模型。
-  * (Experimental) [stream-to-stream join](query-syntax#stream_stream_join) no longer requires a `date_diff_within(..)`, although it's still recommended to add timestamp constraints to improve performance.
+  * (实验性) [流到流加入](query-syntax#stream_stream_join) 不再需要 `date_diff_within (...)`，尽管仍然建议添加时间戳约束以提高性能。
   * (试验性的)能够为每一流制定保留政策， 基于时间的(说只保持最近的7天数据)，或基于大小(说只保持最近的1GB数据)
 * 源和汇：
   * (实验性) 支持 REST API中的个人访问令牌(PAT)，该令牌为长寿(或设定过期日期)和每个用户。 租户级别的访问令牌将被弃用。
@@ -151,8 +151,8 @@
 ### 5/30周
 
 * 流引擎
-  * (Experimental) able to use the external Kafka/Confluent/Redpanda as Timeplus stream storage.
-  * (实验性) [表格](functions#table) 函数现在可以与 [search_to](query-syntax) 一起。 您可以通过合并 `表格(流名)` 和 `设置来查询历史数据。 '`
+  * （实验性）能够使用外部的 Kakfa/Confluent/Redpanda 作为 Timeplus 流存储。
+  * （实验性） [表格](functions#table) 函数现在可以与 [search_to](query-syntax) 一起。 您可以通过合并 `表格(流名)` 和 `设置来查询历史数据。 `
 * 源和汇：
   * 使用 [datapm](https://datapm.io/docs/quick-start/) 发送实时Twitter 数据到 https://demo.timeplus.com
   * 更新 [REST API doc](https://docs.timeplus.com/rest.html), `/exec` 端点已被删除。 发送 `POST` 请求给 `/查询` 替代。
@@ -167,7 +167,7 @@
   * 新函数 [date_diff_witter 在](functions#date_diff_within) 范围内确定是否有 2 个日期时间。 这是串流加入所必需的。 您也可以使用更灵活的表达式，如 `date_diff('second',left.time,right.time) 介于 -3 和 5` 之间。
 * 源和汇：
   * 升级 [datapm](https://datapm.io/docs/quick-start/) Timeplus sink 以支持从 PostgreSQL 加载 JSON 数据。
-  * When you are previewing data from Kafka, you can choose the timezone if the time zone is not included in the raw data.
+  * 当您正在预览Kafka的数据时，如果时区未包括在原始数据中，您可以选择时区。
 * 界面改进
   * 能够编辑仪表板上的面板标题。
   * 提高界面的一致性。
@@ -194,7 +194,7 @@
   * 升级 [datapm](https://datapm.io/docs/quick-start/) Timeplus sink 来支持从 PostgreSQL 加载数据
   * (实验性) 一个能够从 [加载数据的新源](https://ably.com/hub)
 * 界面改进
-  * 您可以暂停流式查询，然后按列排序或使用分页按钮。 这可以帮助您查看流式查询结果。 Clicking on the resume button to continue to get the latest streaming results.
+  * 您可以暂停流式查询，然后按列排序或使用分页按钮。 这可以帮助您查看流式查询结果。 点击恢复按钮继续获取最新流式结果。
   * (实验性) 更新了查询标签样式，并在标签上添加按钮以保存查询。
 
 ### 5/2 周
