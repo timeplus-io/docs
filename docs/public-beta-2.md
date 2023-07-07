@@ -4,6 +4,21 @@ We are thrilled to launch the next phase of the public beta of Timeplus cloud re
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+## Jul 10, 2023
+
+**Resource Tables UI**
+  * Resource tables (such as Sources, Streams, Sinks. etc.) now show a Created By/On column. 
+  * These tables no longer auto-refresh. Click the arrow icon at the top-right corner to manually refresh the table.
+  * For Versioned and Changelog streams, the row count and earliest/latest event columns are now hidden.
+
+**Query Page**
+  * Added keyboard shortcuts to add or remove comments in the SQL editor: `⌘/` to toggle line comment, and `⇧⌥A` to toggle block comment.
+  * More improved error messages for SQL queries, to show more details.
+
+**Sources**
+  * For Apache Kafka, Confluent Cloud, and Redpanda sources, we removed "Advanced Settings" during the Pull Data step, so the "Consumer Group" field is now shown directly. 
+
+
 ## Jun 27, 2023 
 
 A beta version of the [new Timeplus Python SDK](https://pypi.org/project/timeplus/1.3.0b2/) is available. It supports SQL Academy so we can integrate Timeplus with rich ecosystems in Python, such as [Superset](https://superset.apache.org/), [QueryBook](https://www.querybook.org), and [LangChain](https://python.langchain.com/docs/get_started/introduction.html). Contact us if you want to try this new feature.
