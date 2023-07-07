@@ -61,7 +61,7 @@
 
 您可以想象，您可以继续添加新的行。 如果 _tp_delta 是1并且主键是新的，那么您将在查询结果中获得一个新的行。 如果 _tp_delta 是-1并且主键已经存在，那么前一行将被删除。 您可以通过添加带有主键的新行来更新该值。
 
-:::注意
+:::info
 
 事实上，您可以指定一个表达式作为主键。 例如，您可以使用 `first_name|' '||last_name` 来合并全名作为主键，而不是使用单列。
 
@@ -418,7 +418,7 @@ select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float 
 
 点击 **作为下游发送** 按钮，并选择 Timeplus 类型，将结果发送到现有的流 `dim_products`。
 
-:::注意
+:::info
 
 在即将推出的 Timeplus 版本中，我们将简化流程，这样您就无需编写自定义 SQL 来提取 Debezium CDC 消息。
 
