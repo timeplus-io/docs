@@ -9,38 +9,38 @@
   },
   "sidebar.docSidebar.category.Concepts": {
     "message": "基本概念",
-    "description": "The label for category Concepts in sidebar docSidebar"
+    "description": "侧边栏 docSidebar 中“概念”类别的标签"
   },
   "sidebar.docSidebar.category.Data Ingestion": {
     "message": "数据摄取",
-    "description": "The label for category Data Ingestion in sidebar docSidebar"
+    "description": "侧边栏 docSidebar 中“数据摄入”类别的标签"
   },
   "sidebar.docSidebar.category.Query Guide": {
     "message": "查询指南",
-    "description": "The label for category Query Guide in sidebar docSidebar"
+    "description": "侧边栏 docSidebar 中的 “查询指南” 类别的标签"
   },
   "sidebar.docSidebar.category.Release Notes": {
     "message": "更新日志",
-    "description": "The label for category Release Notes in sidebar docSidebar"
+    "description": "侧边栏 docSidebar 中“发布说明”类别的标签"
   },
   "sidebar.docSidebar.doc.with Confluent Cloud": {
     "message": "使用Confluent Cloud",
-    "description": "The label for the doc item with Confluent Cloud in sidebar docSidebar, linking to the doc quickstart-confluent"
+    "description": "侧边栏 docSidbar 中带有 Confluent Cloud 的文档项目的标签，链接到文档 quickstart-confluent"
   },
   "sidebar.docSidebar.doc.with stream generator": {
     "message": "使用流生成器",
-    "description": "The label for the doc item with stream generator in sidebar docSidebar, linking to the doc quickstart-sample"
+    "description": "侧边栏 docSidbar 中带有流发生器的文档项目的标签，链接到文档 quickstart-sample"
   },
   "sidebar.docSidebar.category.Stream": {
     "message": "流",
-    "description": "The label for category Stream in sidebar docSidebar"
+    "description": "侧边栏 docSidebar 中“流”类别的标签"
   },
   "sidebar.docSidebar.category.UDF": {
     "message": "UDF",
-    "description": "The label for category UDF in sidebar docSidebar"
+    "description": "侧边栏 docSidebar 中“UDF”类别的标签"
   },
   "sidebar.docSidebar.doc.with ingest API": {
     "message": "使用Ingest API",
-    "description": "The label for the doc item with ingest API in sidebar docSidebar, linking to the doc quickstart-ingest-api"
+    "description": "侧边栏 docSidbar 中带有 ingest API 的文档项目的标签，链接到文档 quickstart-ingest-api"
   }
 }
