@@ -2,14 +2,14 @@
 
 ## 所有数据都在流中
 
-Timeplus是一个流式分析平台和数据流中的生命值。 Timeplus中的`stream`类似传统数据库中的`table` 两者基本上都是数据集。 Both of them are essentially datasets. The key difference is that Timeplus stream is an append-only (by default), unbounded, constantly changing events group.
+Timeplus 是一个流式分析平台和数据流中的生命值。 Timeplus 中的 `stream` 类似传统数据库中的 `table` 两者基本上都是数据集。 两者基本上都是数据集。 关键的区别在于 Timeplus 流是一个只能附加的（默认情况下）、无界的、不断变化的事件组。
 
-:::info
+:::注意
 
-Timeplus supports multiple types of streams:
+Timeplus 支持多种类型的流：
 
-1. By default, the streams are append-only and immutable (older data can be purged automatically by setting a retention policy).
-2. If you want to create a stream to track the latest value for a primary key, you can create [Changelog Streams](changelog-stream). It works great with CDC(Change Data Capture) data sources, such as [Debezium](https://debezium.io/) for PostgreSQL, MongoDB or other databases. The INSERT, UPDATE, DELETE operations can be converted to update to the Changelog Stream, and you can always get the latest row for any primary key.
+1. 默认情况下，这些流是仅限附加且不可变的（可以通过设置保留策略自动清除较旧的数据）。
+2. 如果您想要创建一个流来追踪主键的最新值，您可以创建 [变更日志流](changelog-stream)。 它非常适合与 CDC（更改数据捕获）数据源配合使用，例如适用于 PostgreSQL，MongoDB 或其他数据库的 [Debezium](https://debezium.io/) 。 The INSERT, UPDATE, DELETE operations can be converted to update to the Changelog Stream, and you can always get the latest row for any primary key.
 3. You can also create [Versioned Streams](versioned-stream) if you need to keep more than the latest value. When you run SQL to join an append-only stream with such a versioned stream, Timeplus will automatically use the version with the closest timestamp to match the append-only stream.
 4. You can also define [External Streams](external-stream) to run SQL against remote Kafka/Redpanda brokers.
 
