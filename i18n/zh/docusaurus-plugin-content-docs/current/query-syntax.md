@@ -26,7 +26,7 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 1. `query_mode=<table|streaming>` 总体查询是否为历史数据处理或流数据处理的常规设置。 默认情况下，是 `串流`。
 2. `seek_to=<timestamp|earliest|latest>`. 设置告诉 Timeplus 通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
-:::注意
+:::info
 
 请注意，自2023年1月起， `SETTINGS seek_to=..` 不再被推荐使用。 请使用 `WHERE _tp_time>='2023-01-01'` 或类似的WHERE条件。 `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
 
