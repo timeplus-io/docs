@@ -43,7 +43,7 @@ select raw:key1 as k1, raw:key2::int as k2 from foo
 
 根据哪种工具或编程语言最适合您，您可以通过不同的方式向 Timeplus 发送数据。
 
-ingestion API 的基础端点是 `https://us.timeplus.cloud/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest` ::: 注意
+ingestion API 的基础端点是 `https://cloud.timeplus.com.cn/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest` ::: info
 
 请确保您使用的是 `workspace-id`，而不是 `workspace-name`。 Workspace-id 是一个包含8个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name 是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
 
