@@ -7,13 +7,13 @@ import TabItem from '@theme/TabItem';
 
 ## 客户场景和数据模型 {#model}
 
-您是一个carsharing 公司的主要业务分析员。 每辆汽车上都配备了传感器，以报告汽车位置。 客户使用移动应用程序在附近找到可用的汽车，预订它们，解锁它们并走上道路。 At the end of the trip, the customer parks the car, locks it, and ends the trip. The payment will proceed automatically with the registered credit card.
+您是一个carsharing 公司的主要业务分析员。 每辆汽车上都配备了传感器，以报告汽车位置。 客户使用移动应用程序在附近找到可用的汽车，预订它们，解锁它们并走上道路。 在旅行结束时，客户停车场将车锁定，行程结束。 付款将使用注册信用卡自动进行。
 
 有些典型的用来进行时间敏感的见解的案例有：
 
-* How many cars are being driven by users in certain locations? Do we need to move some cars from less busy locations to those hot zones?
-* Which cars are being driven too fast or running low on fuel? The service team may need to take action.
-* Which users keep booking cars then canceling them? 我们应向这些用户发送实时通知，以避免滥用。
+* 在某个地点有多少辆汽车是由用户驾驶的？ 我们是否需要将一些汽车从不太繁忙的地点搬到这些热点地区？
+* 哪些车驾驶得太快或燃料不足? 服务小组可能需要采取行动。
+* 哪些用户继续预订汽车，然后取消它们？ 我们应向这些用户发送实时通知，以避免滥用。
 
 系统中有多个数据流：
 
@@ -60,7 +60,7 @@ erDiagram
 
 ### dim_user_info
 
-A relative static stream with all registered user information.
+使用所有注册用户信息的相对静态流。
 
 | 列      | 类型  | 示例值             |
 | ------ | --- | --------------- |
@@ -84,7 +84,7 @@ A relative static stream with all registered user information.
 
 ### 汽车直播数据
 
-A data stream with the latest data from car sensors. 当汽车引擎启动时，每秒汇报数据。 否则，每半小时报告数据。
+来自汽车传感器的最新数据流。 当汽车引擎启动时，每秒汇报数据。 否则，每半小时报告数据。
 
 | 列       | 评论                    | 类型    | 示例值                     |
 | ------- | --------------------- | ----- | ----------------------- |
@@ -106,7 +106,7 @@ A data stream with the latest data from car sensors. 当汽车引擎启动时，
 * 当用户解锁汽车时，一个带动动作=服务的新事件
 * 当用户完成行程并锁定汽车时，一个带动动作=end 的新事件
 * 当用户取消预订时，一个带动动作=取消的新事件
-* when the user extends the booking for another 30 min, a new event with action=extend, and update the expire field
+* 当用户将预订再延长30分钟时, 一个新的事件, 动作=extend, 并更新过期字段
 * 如果用户不在到期前解锁汽车，则添加动作=过期的新事件
 
 ```mermaid
@@ -176,7 +176,7 @@ SELECT * FROM car_live_data
 
 ### S-DOWNSAMPING：将详细数据点转换为高级数据 {#s-downsampling}
 
-**Use Case:** The sensors on each car may report data from half a second to every 10 seconds. The analyst may reduce the granularity and only need to save per-minute data to downstream
+**用例：** 每辆车上的传感器可能会报告半秒到每 10 秒钟的数据。 分析员可能会降低颗粒度，仅需要将每分钟的数据保存到下行
 
 ```sql
 SELECT window start,cid,avgggggas_percent,avg(speed_kmh) AS avg_spep FROM
@@ -235,14 +235,14 @@ Timeplus提供了一个特殊的语法来轻松获取这种结果
 
 有其他方法可以获得类似的结果，并且有更详细的查询
 
-1. We can apply a global aggregation for data in a recent 1 hour window. `从结束时间 > date_sub(现在)，1h)` 的旅行中选择sum(金额)
+1. 我们可以在 1 小时窗口中对数据应用全局聚合。 `从结束时间 > date_sub(现在)，1h)` 的旅行中选择sum(金额)
 
-2. 另一个解决方案是使用节点窗口聚合。 Similar to the `tumble` window in [S-DOWNSAMPLING](#s-downsampling) ,the data are grouped per a fixed size time window, such an hour. 简易窗口不会相互重叠，所以最好是在不重复数据的情况下下下采样(例如， `计数` 聚合) 节点窗口不会被计数两次， 它将转到左边或右边（时间安排中的过去或未来）并带有滑动的步骤。 例如，下面的查询将使用连接窗口获得过去1小时的总收入， 结果将每秒发送一次。 `通过 window _start,window _end,sum(amount) 从chop(trips,end_time,1s,1h) 
+2. 另一个解决方案是使用节点窗口聚合。 类似于 [S-DOWNSAMING](#s-downsampling) 的 `tumble` 窗口，数据按固定大小的时间窗口分组，这样的一个小时。 简易窗口不会相互重叠，所以最好是在不重复数据的情况下下下采样(例如， `计数` 聚合) 节点窗口不会被计数两次， 它将转到左边或右边（时间安排中的过去或未来）并带有滑动的步骤。 例如，下面的查询将使用连接窗口获得过去1小时的总收入， 结果将每秒发送一次。 `通过 window _start,window _end,sum(amount) 从chop(trips,end_time,1s,1h) 
 组 window start,window _end`
 
 ### S-SESSION：用活跃会话分析活动 {#s-session}
 
-**Use Case:** The analyst wants to track the daily movement of the cars. 在发动机启动时，汽车上的传感器每隔两次报告数据， 并在引擎关闭时每半小时报告一次数据。 If the server doesn't receive the data for a running car for 5 seconds, the car is considered disconnected.  我们可以运行以下查询来显示每辆运行中的汽车的行程距离
+**使用案例：** 分析员想要跟踪汽车的每日移动情况。 在发动机启动时，汽车上的传感器每隔两次报告数据， 并在引擎关闭时每半小时报告一次数据。 如果服务器5秒内没有收到运行车的数据，则该车被认为已断开。  我们可以运行以下查询来显示每辆运行中的汽车的行程距离
 
 ```sql
 SELECT cid,window _start,window_end,max(total_km) AS trip_km 
@@ -258,7 +258,7 @@ HAVING trip_km > 0
 | c00040 | 2022-03-23 21:42:08.000 | 2022-03-23 21:42:12.000 | 0.05395412226778262 |
 | c00078 | 2022-03-23 21:42:08.000 | 2022-03-23 21:42:33.000 | 0.4258001818272703  |
 
-More complex queries can be created to aggregate the data by car id and trip ending time.
+可以创建更复杂的查询，按汽车ID和行程结束时间汇总数据。
 
 ```sql
 用 query_1 AS (
@@ -310,7 +310,7 @@ WHERE action='add' and _tp_time>='2022-01-12 06:00:00.000' GROUP BY window_start
 
 ### S-MVIEW：创建实事求是的视图，保存最新的分析结果和缓存供其他系统查询 {#s-mview}
 
-**Use Case:** Unlike the traditional SQL queries, streaming queries never end until the user cancels it. 分析结果一直被推送到Web UI或slack/kafka目的地。 The analysts want to run advanced streaming queries in Timeplus and cache the results as a materialized view. 这样他们可以使用常规的 SQL 工具/系统来获取流式洞察力作为普通表。 有针对性的看法也有助于对数据进行采样，以减少数据流量，供今后分析和储存。
+**使用案例：** 不同于传统的 SQL 查询，串流查询在用户取消之前永远不会结束。 分析结果一直被推送到Web UI或slack/kafka目的地。 分析家想要在 Timeplus 中运行高级流流查询，并将结果缓存为实际化视图。 这样他们可以使用常规的 SQL 工具/系统来获取流式洞察力作为普通表。 有针对性的看法也有助于对数据进行采样，以减少数据流量，供今后分析和储存。
 
 ```sql
 创建今天的市场收入作为
@@ -324,9 +324,9 @@ SELECT * 来自今日收入
 
 ### S-DROP-LATE：丢弃晚期事件以获得实时聚合洞察力 {#s-drop-late}
 
-**Use Case:** The streaming data may arrive late for many reasons, such as network latency, iot sensor malfunction, etc. 当我们运行流式分析(例如每分钟付款)，我们根据他们的事件时间(当付款实际发生时)汇总数据， 而不是当TimePlus收到数据时，我们不想等待太晚的事件。
+**使用案例：** 流式数据可能由于网络延迟、iot传感器故障等多种原因而延迟到达。 当我们运行流式分析(例如每分钟付款)，我们根据他们的事件时间(当付款实际发生时)汇总数据， 而不是当TimePlus收到数据时，我们不想等待太晚的事件。
 
-Watermark is a common mechanism in the streaming processing world to set the bar on how late the events can be. Unlike other systems, Timeplus makes it very easy to identify late events without explicitly setting a watermark policy.
+Watermark是流式处理世界中的一种常见机制，用来设定事件的时间间隔。 与其他系统不同，TimePlus使得在不明确制定水印政策的情况下识别晚期事件非常容易。
 
 类似查询的查询
 
@@ -344,12 +344,12 @@ SELECT window_start,wind_end,sum(amount),count(*)
 | 2022-01-12 10:00:00.000 | 2022-01-12 10:01:00.000 | 200     | 42    |
 | 2022-01-12 10:01:00.000 | 2022-01-12 10:02:00.000 | 300     | 67    |
 
-Considering two cars are returned at the same time at 10:00:10. 就旅程和旅行而言，这两者都应算入第一次窗口。 However, for some reason, the data point tripA arrives in Timeplus on 10:01:15, and tripB data point arrives on 10:01:16. Timeplus将接受TripA数据并将其添加到第一个窗口合计，并且关闭第一个窗口。 水印将发送至 10:01:00。 所以当旅程B数据点到达时，它被认为太晚，不会在流式结果中进行计算。 But it'll still be available when we run a historical query.
+考虑到两辆汽车于上午10时10分返还。 就旅程和旅行而言，这两者都应算入第一次窗口。 然而，出于某种原因，数据点旅程A在10:01:15抵达，TripB数据点于10:01:16抵达。 Timeplus将接受TripA数据并将其添加到第一个窗口合计，并且关闭第一个窗口。 水印将发送至 10:01:00。 所以当旅程B数据点到达时，它被认为太晚，不会在流式结果中进行计算。 但当我们运行一个历史查询时，它仍然可以使用。
 
-| 数据点   | 活动时间                    | 到达时间                    | 备注                                                                                                                     |
-| ----- | ----------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| 行程    | 2022-01-12 10:00:10.000 | 2022-01-12 10:01:15.000 | 包含在第一个窗口中，触发水印变化                                                                                                       |
-| tripB | 2022-01-12 10:00:10.000 | 2022-01-12 10:01:16.000 | its time is lower than the watermark. <br />第一个窗口已关闭(不接受更多数据)<br />数据被丢弃以进行流式分析。 <br />仍然可以通过历史搜索来分析 |
+| 数据点   | 活动时间                    | 到达时间                    | 备注                                                                                         |
+| ----- | ----------------------- | ----------------------- | ------------------------------------------------------------------------------------------ |
+| 行程    | 2022-01-12 10:00:10.000 | 2022-01-12 10:01:15.000 | 包含在第一个窗口中，触发水印变化                                                                           |
+| tripB | 2022-01-12 10:00:10.000 | 2022-01-12 10:01:16.000 | 它的时间小于水印。 <br />第一个窗口已关闭(不接受更多数据)<br />数据被丢弃以进行流式分析。 <br />仍然可以通过历史搜索来分析 |
 
 
 
@@ -420,7 +420,7 @@ EMIT AFTER WATERMARK and DELAY 30s
 
 ### S-OVER-TIME：为每个时间窗口的结果获取差异/差距 {#s-over-time}
 
-**使用大小写：** 和Timeplus, 分析家可以轻松地比较当前分钟数据和最后一分钟数据。
+**使用案例：** 和Timeplus, 分析家可以轻松地比较当前分钟数据和最后一分钟数据。
 
 例如，用户想要了解每分钟使用多少辆汽车，以及它如何不同于最后一分钟
 
@@ -440,7 +440,7 @@ FROM tumble(trips,1m) GROUP BY window_start
 | 2022-01-12 10:01:00.000 | 80  | 88       | -8 |
 | 2022-01-12 10:02:00.000 | 90  | 80       | 10 |
 
-这是一种非常强大和有益的能力。 除了比较最后的汇总结果外，分析员还可以比较过去的数据。 For example this second with the same second in the last minute or last hour.
+这是一种非常强大和有益的能力。 除了比较最后的汇总结果外，分析员还可以比较过去的数据。 例如，这第二个在最后一分钟或最后一小时都是相同的第二个。
 
 下面的查询按秒比较汽车传感器数据的数量，比较最后几米的事件数
 
@@ -464,9 +464,9 @@ FROM tumble(car_live_data,1s) GROUP BY window_start
 
 ### S-UNION-STREAMS：将同一个方案中的多个流合并到单个流 {#s-union-streams}
 
-**Use Case:** There can be some data streams in the same data schema but intentionally put into different streams, such as one stream for one city, or a country (for performance or regulation considerations, for example). 我们想要合并数据以了解整个情况。
+**使用案例：** 在相同的数据模式中可能有一些数据流，但有意放入不同的数据流， 例如，某一城市或某一国家(例如业绩或条例方面的考虑因素)的一流活动。 我们想要合并数据以了解整个情况。
 
-例如，共用汽车公司首先在温哥华公司开业。 然后将其扩展到不列颠哥伦比亚省维多利亚。 Per local city government's regulation requirements, two systems are set up. The headquarter wants to show streaming analysis for both cities.
+例如，共用汽车公司首先在温哥华公司开业。 然后将其扩展到不列颠哥伦比亚省维多利亚。 每个地方政府的管理要求都有两套系统。 总部希望展示两个城市的流媒体分析。
 
 ```sql
 SELECT * 从 trips_vancouver
@@ -477,9 +477,9 @@ SELECT * From trips_votoria
 
 ### S-JOIN-STREAMS：同时查询多个数据流 {#s-join-streams}
 
-**使用大小写：** 数据不断变化，每种类型的变化数据都是一个流体。 It's a common requirement to query multiple kinds of data at the same time to enrich the data, get more context and understand their correlation.
+**使用案例：** 数据不断变化，每种类型的变化数据都是一个流体。 一个常见的要求是同时查询多种类型的数据以丰富数据，获得更多的上下文并了解它们之间的关系。
 
-For example, we want to understand how many minutes on average between the user booking the car and starting the trip. [预订](#bookings) 流和 [旅程中的预订信息](#trips) 流包含行程开始时间和结束时间
+例如，我们想要了解用户平均在每辆车上开车和开始行程之间的分钟数。 [预订](#bookings) 流和 [旅程中的预订信息](#trips) 流包含行程开始时间和结束时间
 
 ```sql
 SELECT avg(gap) FROM
@@ -508,7 +508,7 @@ WHERE in_use GROUP BY window_start
 
 ### 按收入获得最高10辆汽车订单 {#top10cars}
 
-We probably want to understand which cars help the company earn the most revenue or which cars are not gaining enough revenue. 这可以通过以下查询完成
+我们或许想知道哪些汽车帮助公司赚取大部分收入，哪些汽车没有获得足够的收入。 这可以通过以下查询完成
 
 ```sql
 旅游收入 
@@ -589,7 +589,7 @@ FROM user_info
 
 ### T-DERIVE：计算来自原始数据的列 {#t-derive}
 
-**Use Case:** Create new columns to combine information from multiple columns in the raw data, or turn data in certain columns in another format to make them ready to be displayed.
+**使用案例：** 创建新列来合并原始数据中多列的信息。 或以其他格式转换某些列的数据以使其可以显示。
 
 ```sql
 SELECT uid, concat(first_name,' ',last_name) AS ful_name,
