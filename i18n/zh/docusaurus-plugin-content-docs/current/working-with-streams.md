@@ -9,21 +9,21 @@ Timeplus 是一个流式分析平台和数据流中的生命值。 Timeplus 中�
 Timeplus 支持多种类型的流：
 
 1. 默认情况下，这些流是仅限附加且不可变的（可以通过设置保留策略自动清除较旧的数据）。
-2. 如果您想要创建一个流来追踪主键的最新值，您可以创建 [变更日志流](changelog-stream)。 它非常适合与 CDC（更改数据捕获）数据源配合使用，例如适用于 PostgreSQL，MongoDB 或其他数据库的 [Debezium](https://debezium.io/) 。 The INSERT, UPDATE, DELETE operations can be converted to update to the Changelog Stream, and you can always get the latest row for any primary key.
-3. You can also create [Versioned Streams](versioned-stream) if you need to keep more than the latest value. When you run SQL to join an append-only stream with such a versioned stream, Timeplus will automatically use the version with the closest timestamp to match the append-only stream.
-4. You can also define [External Streams](external-stream) to run SQL against remote Kafka/Redpanda brokers.
+2. 如果您想要创建一个流来追踪主键的最新值，您可以创建 [变更日志流](changelog-stream)。 它非常适合与 CDC（更改数据捕获）数据源配合使用，例如适用于 PostgreSQL，MongoDB 或其他数据库的 [Debezium](https://debezium.io/) 。 可以将插入，更新，删除这些操作转换并更新到变更日志流，并且您总是可以获得任何主键的最新行。
+3. 如果需要保留比最新值更多的值，您也可以创建 [版本流](versioned-stream)。 当您运行 SQL 将仅限附加的流与此类版本化流连接时，Timeplus 将自动使用时间戳最接近的版本来匹配仅限附加的流。
+4. 您也可以定义 [外部流](external-stream) 来对远程的 Kafka/Redpanda 代理运行 SQL 。
 
 :::
 
 ## 创建一个流
 
-In most cases, you don't need to explicitly create a stream in Timeplus. 当您 [从 Kafka 或 file 源到 Timeplus 的](ingestion) 数据时，可以自动创建数据流以匹配数据模式。
+在大多数情况下，您不需要在Timeplus中明确创建一个流。 当您 [从 Kafka 或 file 源到 Timeplus 的](ingestion) 数据时，可以自动创建数据流以匹配数据模式。
 
 
 
 ## 查询流
 
-默认情况下，查询流将持续扫描新事件和输出新结果。 除非用户取消查询，否则它永远不会结束。 For example, you can get the latest web logs with HTTP 500 error or get the min/max/avg of a metric for every minute from an IoT device. 欲了解更多详情，请阅读 [流查询](stream-query)。
+默认情况下，查询流将持续扫描新事件和输出新结果。 除非用户取消查询，否则它永远不会结束。 例如， 您可以从 HTTP 500 错误获取最新的网页日志，或从 IoT 设备获取每分钟的最大/最大/平均公尺。 欲了解更多详情，请阅读 [流查询](stream-query)。
 
 如果您只想分析现有数据并需要立即响应， 您可以通过 [表](functions#table) 函数运行 [非流式查询](history)。 这将在边界模式下转向查询，只扫描现有数据。 例如，您可以运行 `从表(串流1)` 中选择计数(*)以获取数据流中的行数。
 
