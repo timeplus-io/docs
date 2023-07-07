@@ -204,13 +204,13 @@ EMIT AFTER WATERMARK;
 
 ### 最后X流处理
 
-In streaming processing, there is one typical query which is processing the last X seconds / minutes / hours of data. 例如，在过去 1 小时内显示每台设备的 cpu 使用量。 We call this type of processing `Last X Streaming Processing` in Timeplus and Timeplus provides a specialized SQL extension for ease of use: `EMIT LAST <n><UNIT>`. As in other parts of streaming queries, users can use interval shortcuts here.
+在串流处理中，有一个典型的查询正在处理过去 X 秒/分钟/小时的数据。 例如，在过去 1 小时内显示每台设备的 cpu 使用量。 我们称这种类型的处理 `最后X 流处理` Timeplus和Timeplus提供专门的 SQL 扩展以便于使用： `EMIT LAST <n><UNIT>` 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。
 
-**现在请注意** 最后的 X 串流处理是默认的处理时间处理，Timeplus 将寻找流式存储器以在最后的 X 时间范围内回填数据，它正在使用墙时钟时间进行寻找。 Event time based on last X processing is still under development. 当基于事件的最后X处理准备就绪时，默认的最后X处理将被更改为事件时间。
+**现在请注意** 最后的 X 串流处理是默认的处理时间处理，Timeplus 将寻找流式存储器以在最后的 X 时间范围内回填数据，它正在使用墙时钟时间进行寻找。 基于事件时间的最后X处理仍在开发中。 当基于事件的最后X处理准备就绪时，默认的最后X处理将被更改为事件时间。
 
 #### 最后X 尾迹
 
-Tailing events whose event timestamps are in the last X range.
+正在修改事件时间戳处于最后X范围内的事件。
 
 ```sql
 SELECT <column_name1>, <column_name2>, ...
@@ -235,7 +235,7 @@ WHERE cpu_usage > 80
 EMIT LAST 5m
 ```
 
-The above example filters events in the `device_utils` table where `cpu_usage` is greater than 80% and events are appended in the last 5 minutes. 在内部，Timeplus寻求流式存储回到5分钟(从现在起全时时间)并从那里压缩数据。
+上面的示例过滤器事件在 `device_utils` 表中，其中 `cpu_usage` 大于80%，事件在过去 5 分钟内被添加。 在内部，Timeplus寻求流式存储回到5分钟(从现在起全时时间)并从那里压缩数据。
 
 #### 最后X 全球聚合
 
@@ -250,7 +250,7 @@ EMIT LAST INTERVAL <n> <UNIT>
 SETTINGS max_keep_windows=<window_count>
 ```
 
-**注意** 内部Timeplus片段数据流到小窗口，并在每个小窗口和时间结束时进行聚合， 它滑出旧的小窗口，以保持整个时间窗口的固定并保持递增聚合的效率。 默认情况下，最大保留窗口是 100。 If the last X interval is very big and the periodic emit interval is small, then users will need to explicitly set up a bigger max window : `last_x_interval / periodic_emit_interval`.
+**注意** 内部Timeplus片段数据流到小窗口，并在每个小窗口和时间结束时进行聚合， 它滑出旧的小窗口，以保持整个时间窗口的固定并保持递增聚合的效率。 默认情况下，最大保留窗口是 100。 如果最后的 X 间隔非常大且周期性的发射间隔较小。 然后用户将需要明确设置一个较大的最大窗口： `last_x_interval / period_emit_interval`。
 
 示例：
 
@@ -299,7 +299,7 @@ EMIT LaST 1h
 SETTTINGS max_keep_windows=720;
 ```
 
-Similarly, we can apply the last X on hopping window.
+同样，我们可以在跳跃窗口上应用最后X。
 
 ### Subquery
 
@@ -316,9 +316,9 @@ FROM (
 ) GROUP BY device;
 ```
 
-Vanilla subquery can be arbitrarily nested until Timeplus's system limit is hit. 外部父查询可以是任何正常的原版查询或窗口聚合或全局聚合。
+Vanilla 子查询可以任意嵌套，直到达到Timeplus的系统限制。 外部父查询可以是任何正常的原版查询或窗口聚合或全局聚合。
 
-Users can also write the query by using Common Table Expression (CTE) style.
+用户也可以通过使用通用表表达式(CTE)样式来写查询。
 
 ```sql
 WITH filtered AS(
@@ -379,7 +379,7 @@ GROUP BY device;
 
 全球综合子查询包括全球汇总。 有一些限制用户可以处理全局总合子查询：
 
-1. Timeplus supports global over global aggregation and there can be multiple levels until a system limit is hit.
+1. Timeplus支持全局聚合而不是全局聚合，可以是多个层次，直到达到系统限制为止。
 2. 全局聚合的平面转换可以是多层次，直到系统限制被击中。
 3. 不支持全局聚合的窗口聚合。
 
@@ -397,9 +397,9 @@ FROM
 
 ### 流量和尺寸表加入{#stream_table_join}
 
-在 Timeplus 中，所有数据都生活在流中，默认查询模式正在流中。 Streaming mode focuses on the latest real-time tail data which is suitable for streaming processing. On the other hand, historical focuses on the old indexed data in the past and optimized for big batch processing like terabytes large scans. 当一个查询正在对其运行时，流是默认模式。 要查询流的历史数据，可以使用 `table()` 函数。
+在 Timeplus 中，所有数据都生活在流中，默认查询模式正在流中。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 要查询流的历史数据，可以使用 `table()` 函数。
 
-There are typical cases that an unbounded data stream needs enrichment by connecting to a relative static dimension table. Timeplus can do this in one single engine by storing streaming data and dimension tables in it via a streaming to dimension table join.
+有些典型的情况是，无约束的数据流需要通过连接到相对静态尺寸表来丰富。 Timeplus可以在一个引擎中通过流式到维度表加入来存储流式数据和尺寸表。
 
 示例：
 
@@ -411,7 +411,7 @@ on device_utils.product_id = device_products_info.id
 WHERE device_products_info._tp_time > '2020-01-01T01:01';
 ```
 
-在上述例子中， 来自 `device_utils` 的数据是一个流，而来自 `device_products_info` 的数据是历史数据，因为它已经被标记 `table()` 函数。 For every (new) row from `device_utils`, it is continuously (hashed) joined with rows from dimension table `device_products_info` and enriches the streaming data with product vendor information.
+在上述例子中， 来自 `device_utils` 的数据是一个流，而来自 `device_products_info` 的数据是历史数据，因为它已经被标记 `table()` 函数。 对于来自 `device_utils`的每 (新) 行 它持续不断地加入了维度表 `device_products_info` 中的行，并用产品供应商信息丰富流数据。
 
 串流到尺寸表的加入有一些限制
 
@@ -422,7 +422,7 @@ WHERE device_products_info._tp_time > '2020-01-01T01:01';
 
 ### 流到串流连接 {#stream_stream_join}
 
-In some cases, the real-time data flows to multiple data streams. 例如，当广告展示给最终用户时，当用户点击广告时。 Timeplus允许您对多个数据流进行关联搜索。 当用户点击广告后，您可以检查平均时间。
+在某些情况下，实时数据流向多个数据流。 例如，当广告展示给最终用户时，当用户点击广告时。 Timeplus允许您对多个数据流进行关联搜索。 当用户点击广告后，您可以检查平均时间。
 
 ```sql
 选择... 选择... FROM stream1
@@ -443,9 +443,9 @@ WHERE ..
 Timeplus 支持多种类型的JOIN：
 
 * 常见是 `INNER JOIN`, `LEFT JOIN`, `Right JOIN`, `FULL JOIN`.
-* A special `CROSS JOIN`, which produces the full cartesian product of the two streams without considering join keys. 左侧流中的每一行与右侧流的每一行合并在一起。
-* 特殊的 `ASOF JOIN` 提供非精确匹配功能。 This can work well if two streams have the same id, but not with exactly the same timestamps.
-* 特别的 `LATEST JOIN`.  For two append-only streams, if you use `a INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either stream, the previous join result will be canceled and a new result will be added.
+* 一种特殊的 `CROSS JOIN`，它在不考虑连接键的情况下生成两个流的完整笛卡尔乘积。 左侧流中的每一行与右侧流的每一行合并在一起。
+* 特殊的 `ASOF JOIN` 提供非精确匹配功能。 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
+* 特别的 `LATEST JOIN`.  对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
 
 
@@ -478,4 +478,4 @@ SELECT *, _tp_delta FROM left LATEST JOIN right USING(id)
 | 添加一行到 `right` (id=100, amount=200) | （新增2 行）<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
 | 添加一行到 `left` (id=100, name=apple)  | （新增2 行）<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1  |
 
-If you run an aggregation function, say `count(*)` with such INNER LATEST JOIN, the result will always be 1, no matter how many times the value with the same key is changed.
+如果您运行一个聚合函数，使用这种LATEST JOIN, 比如 `count(*)` 结果将永远是1，无论同一键值有多少次变化。
