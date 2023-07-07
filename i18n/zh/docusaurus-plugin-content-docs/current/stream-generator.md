@@ -4,7 +4,7 @@
 
 ## 示例配置
 
-Here is a sample of stream generator configuration json:
+下面是流生成器配置json样本：
 
 ```json
 {
@@ -57,7 +57,7 @@ Here is a sample of stream generator configuration json:
 
 ## 时间戳
 
-By default, the timestamp will be generated as an int which is the unit timestamp that is the time in ms since 1970.1.1. 如果指定 `时间戳格式` ，它将被生成为一个字符串，使用这个 `格式`。  详情参考 [此文档](https://www.geeksforgeeks.org/time-formatting-in-golang/)
+默认情况下，时间戳将生成为 int，单位时间戳是1970年以来毫秒内的时间。 如果指定 `时间戳格式` ，它将被生成为一个字符串，使用这个 `格式`。  详情参考 [此文档](https://www.geeksforgeeks.org/time-formatting-in-golang/)
 
 ## 正则表达式规则
 
