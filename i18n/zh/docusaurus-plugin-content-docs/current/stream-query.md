@@ -4,13 +4,13 @@
 
 默认情况下，Timeplus的查询行为不同于传统的 SQL ，后者回答了发生的问题。 而是这样。 Timeplus的查询试图回答目前正在实时发生的事情的问题，并在新事件进入系统时不断更新答案。
 
-Timeplus查询正在运行于一个无边界流中。 In most of the cases, the query won't stop unless the user cancels it. 例如，下面的查询将在执行查询后实时返回输入Timeplus系统的流中的所有事件。 每个新事件将触发一个新的查询结果。 除非用户取消查询，这个查询不会停止。
+Timeplus查询正在运行于一个无边界流中。 在大多数情况下，除非用户取消查询，否则查询不会停止。 例如，下面的查询将在执行查询后实时返回输入Timeplus系统的流中的所有事件。 每个新事件将触发一个新的查询结果。 除非用户取消查询，这个查询不会停止。
 
 ```sql
 select * from my_stream
 ```
 
-无边界查询可以通过应用函数 [table()](functions#table), 转换为有边界的查询。 当用户想要询问像传统的 SQL 一样发生了什么情况。 Table() 函数可以用于装饰流. 例如，下面的查询将返回在执行查询时在流中已存在的所有事件。 The query will terminate once all results have been returned to the user and it won't wait for a new event coming.
+无边界查询可以通过应用函数 [table()](functions#table), 转换为有边界的查询。 当用户想要询问像传统的 SQL 一样发生了什么情况。 Table() 函数可以用于装饰流. 例如，下面的查询将返回在执行查询时在流中已存在的所有事件。 一旦所有结果被退回用户，查询将会终止，它不会等待新的事件。
 
 ```sql
 select * from table(my_stream)
@@ -79,11 +79,11 @@ from tumble(my_stream,order_time, 5s) group by window_start, window_end
 
 #### 窗口水位线
 
-窗口聚合按窗口触发。 There is an internal watermark mechanism in Timeplus to check if all the events in the specific window have arrived or not. Once the watermark has shown that all events in that window are available, the aggregated analysis result will be triggered and sent to the client.
+窗口聚合按窗口触发。 Timeplus有一个内部水印机制，用以检查特定窗口中的所有事件是否已经到达。 一旦水印表明该窗口中的所有事件都可用，总合分析结果将会被触发并发送给客户。
 
 #### 水印和延迟
 
-For more advanced scenarios, you can add delay to the trigger policy, such as adding 2 more seconds delay to allow more late events to be considered in each time window.
+对于更高级的场景，您可以添加触发策略的延迟。 例如添加2秒的延迟，以便在每个时间窗口中考虑更多的延迟事件。
 
 ```sql
 select window_start, window_end, count(*) as count, max(c1) as max_c1
