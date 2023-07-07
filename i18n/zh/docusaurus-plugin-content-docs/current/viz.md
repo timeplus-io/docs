@@ -125,7 +125,7 @@ select * from car_live_data where speed > {{speed_limit}}
 
 查询编辑器将显示 `speed_limit` 的文本输入。 您可以输入一个值并运行参数化查询，然后将其转换为可视化并添加到新的仪表板或现有仪表板中。
 
-:::注意
+:::info
 
 请确保查询变量的 SQL 语法正确。 例如，如果您使用字符串值进行过滤，则应在变量占位符周围添加引号，例如
 
@@ -145,7 +145,7 @@ select * from car_live_data where cid='{{car_id}}'
 
 您可以调用 TimePlus SDK 来加载数据并通过第三方制图库渲染图表。  我们还开发了实验性插件来处理 redash、metabase、Grafana 等。
 
-:::注意
+:::info
 
 Grafana 的 Timeplus 数据源插件正处于初级阶段。 请联系我们来安排整合。
 
