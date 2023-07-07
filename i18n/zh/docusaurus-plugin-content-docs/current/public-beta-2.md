@@ -4,19 +4,19 @@
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
-## Jul 10, 2023
+## 2023年7月10日
 
-**Resource Tables UI**
-  * Resource tables (such as Sources, Streams, Sinks. etc.) now show a Created By/On column.
-  * These tables no longer auto-refresh. Click the arrow icon at the top-right corner to manually refresh the table.
-  * For Versioned and Changelog streams, the row count and earliest/latest event columns are now hidden.
+**资源列表**
+  * 资源列表（例如数据源、流、下游 等等）现在显示 “创建者/时间” 列。
+  * 这些表不再自动刷新。 单击右上角的箭头图标可手动刷新表格。
+  * 对于 Versioned 和 Changelog 流，行数和最早/最新事件列不再显示。
 
-**Query Page**
-  * Added keyboard shortcuts to add or remove comments in the SQL editor: `⌘/` to toggle line comment, and `⇧⌥A` to toggle block comment.
-  * More improved error messages for SQL queries, to show more details.
+**查询页面**
+  * 添加了用于在 SQL 编辑器中添加或删除注释的键盘快捷键： `⌘/`用于切换行注释， `⇧⌥A` 用于切换区块注释。
+  * 改进了 SQL 查询的错误消息，以显示更多详细信息。
 
-**Sources**
-  * For Apache Kafka, Confluent Cloud, and Redpanda sources, we removed "Advanced Settings" during the Pull Data step, so the "Consumer Group" field is now shown directly.
+**数据源**
+  * 对于 Apache Kafka、Confluent Cloud 和 Redpanda 数据源，我们在提取数据步骤中删除了 “高级设置”，因此 “消费者组” 字段现在直接显示。
 
 
 ## 2023年6月27日
