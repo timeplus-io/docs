@@ -15,7 +15,7 @@ import TabItem from '@theme/TabItem';
 
 接下来，您需要为工作区设置API密钥，并在 HTTP标头中将API密钥的名称设置为`X-Api-Key`。
 
-:::注意
+:::info
 
 如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义HTTP标头的话，您可以使用值为`ApiKey $KEY`的标准`Authorization`标头。
 
@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 实时数据推送的 API 是 `https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
 
-:::注意
+:::info
 
 请确保您使用的是`workspace-id`，而不是`workspace-name`。 Workspace-id是一个包含 8 个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
 
@@ -159,7 +159,7 @@ public class Example {
 - `application/x-ndjson`
 - `application/vnd.timeplus+json;format=streaming`
 
-:::注意
+:::info
 
 如果您想利用第三方系统/工具将数据推送到Timeplus中，但它不允许自定义内容类型时，您可以使用标准的`application/json`，并将POST请求发送到`/api/v1beta2/streams/$STREAM_NAME/ingest?format=streaming`。 这可以确保 Timeplus 的 API 服务器将 POST 数据视为 NDJSON。
 
