@@ -1,10 +1,10 @@
 # 常见问题
 
-## Can I run Timeplus in our own cloud VPC or on-prem? {#deployment}
+## 我可以在我们自己的cloud VPC中运行Timeplus吗？ {#deployment}
 
-在 Timeplus 的前几个版本中，我们的重点是基于 AWS 的完全托管的云服务。 Supporting other cloud vendors, or hybrid cloud is certainly doable. 关于私有化部署，请与我们联系。
+在 Timeplus 的前几个版本中，我们的重点是基于 AWS 的完全托管的云服务。 支持其他云供应商或混合云当然是可行的。 关于私有化部署，请与我们联系。
 
-## How much data I can load into Timeplus? {#datasize}
+## 我可以加载多少数据到Timeplus？ {#datasize}
 
 For Free Trial accounts, the total storage for each workspace is 20GB by default. 如果您需要加载或保留更多数据，请联系我们。 You can choose the storage size when you upgrade to a paid plan.
 
