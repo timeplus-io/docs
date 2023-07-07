@@ -1,30 +1,30 @@
 {
   "title": {
     "message": "文档",
-    "description": "The title in the navbar"
+    "description": "导航栏中的标题"
   },
   "item.label.Overview": {
     "message": "概览",
-    "description": "Navbar item with label Overview"
+    "description": "带有概览标签的导航栏项目"
   },
   "item.label.Quickstart": {
     "message": "快速入门",
-    "description": "Navbar item with label Quickstart"
+    "description": "带有快速入门标签的导航栏项目"
   },
   "item.label.Functions": {
     "message": "函数",
-    "description": "Navbar item with label Functions"
+    "description": "带有函数标签的导航栏项目"
   },
   "item.label.What's New": {
     "message": "产品更新",
-    "description": "Navbar item with label What's New"
+    "description": "带有产品更新标签的导航栏项目"
   },
   "item.label.REST API": {
     "message": "REST API",
-    "description": "Navbar item with label REST API"
+    "description": "带有REST API标签的导航栏项目"
   },
   "logo.alt": {
     "message": "Timeplus",
-    "description": "The alt text of navbar logo"
+    "description": "导航栏徽标的替代文本"
   }
 }
