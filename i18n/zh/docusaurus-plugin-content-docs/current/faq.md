@@ -6,18 +6,18 @@
 
 ## 我可以加载多少数据到Timeplus？ {#datasize}
 
-For Free Trial accounts, the total storage for each workspace is 20GB by default. 如果您需要加载或保留更多数据，请联系我们。 You can choose the storage size when you upgrade to a paid plan.
+对于免费帐户，默认情况下，每个工作空间的总存储空间为 20GB。 如果您需要加载或保留更多数据，请联系我们。 当您升级到付费套餐时，您可以选择存储空间大小。
 
 ## 我能邀请其他成员到我的工作区吗？ {#invite}
 
-Yes, the workspace owner can invite team members to access the workspace. Go to the "Settings" and "Members" tab. An email will be sent to the members and once they login, they will have the access to all objects in the workspace. More team collaboration features and fine-grained access control are in the product roadmap.
+是的，工作空间所有者可以邀请团队成员访问工作空间。 进入“设置”和“成员”选项卡。 将向成员发送一封电子邮件，一旦他们登录，他们就可以访问工作区中的所有对象。 更多的团队协作特性和精细访问控制请查看产品路线图。
 
 ## SLA是怎么样的，我可以运行生产负载吗？ {#sla}
 
-We don't recommend the beta users to run production workload during the beta. 请关注我们，获得更多产品信息。
+我们不推荐测试版用户在测试阶段运行生产负荷。 请关注我们，获得更多产品信息。
 
-## What is the IP address for Timeplus Cloud so that I can allow Timeplus to access my Kafka/Redpanda/Pulsar servers {#ip}
+## Timeplus Cloud 的 IP 地址是多少，以便我可以允许 Timeplus 访问我的 Kafka/Redpanda/Pulsar 服务器 {#ip}
 
-If you maintain an IP whitelist, you'll need to whitelist our static IP:
+如果您保持 IP 白名单，则需要将我们的静态 IP 列入白名单：
 
 `44.232.236.191` for us.timeplus.cloud
