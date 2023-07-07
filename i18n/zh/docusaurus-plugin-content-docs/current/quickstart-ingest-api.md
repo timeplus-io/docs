@@ -1,22 +1,22 @@
 # 使用Ingest API
 
-You can call the ingestion REST API to push data to Timeplus, with any preferred languages.
+您可以使用任何语言调用 ingestion REST API 并将数据推送到 Timeplus。
 
 借助Ingest API的最新增强，在许多情况下，您可以通过webhook配置其他系统来将数据直接推送到Timeplus，而无需编写代码。
 
-In this quickstart guide, you will push JSON documents one by one to the targeted stream `foo`. Please check [this document](ingest-api) for more details.
+在本快速入门指南中，您会将 JSON 文档逐个推送到目标流 `foo`。 更多详细信息，请查看 [这个文档](ingest-api) 。
 
-## Step 1: Create the target stream
+## 第 1 步：创建目标流
 
-Timeplus provides many options to push data as a single document or in a batch with multiple documents, or as a flexible schema or fixed schema. For the sake of simplicity, in this tutorial, you will post JSON documents like this to a stream with a single column called `raw` in `string` type.
+Timeplus 提供了许多选项来将数据作为单个文档推送，或批量推送多个文档，亦或者作为灵活的架构或固定架构推送。 为了简单起见，在本教程中，您将把像这样的 JSON 文档发布到一个流中，其中有一个在 `字符串` 类型中被命名为 `raw` 的单列。
 
 ```json
 {"key1": "value11", "key2": 12}
 ```
 
-First, login in Timeplus Console, in the Streams page, click the **New Stream** button. Set **Stream Name** as `foo`, leaving the **Description** empty. In the **Columns** list, type `raw` as the NAME, type or choose `string` as the TYPE. Then click **Create** button.
+首先，登录 Timeplus 控制台，在流页面中，单击 **新的流** 按钮。 将 **流名称** 设置为 `foo`，将 **描述** 留空。 在 **列** 列表中，键入 `raw` 作为名称，键入或选择 `字符串` 作为类型。 然后，单击 **创建** 按钮。
 
-What we will do is to add new JSON documents in this stream, and later on you can query them via Streaming SQL with easy access to the JSON attributes, e.g.
+我们要做的是在这个流中添加新的 JSON 文档，稍后您可以通过 Streaming SQL 查询它们，轻松访问 JSON 属性，例如
 
 ```sql
 select raw:key1 as k1, raw:key2::int as k2 from foo
@@ -24,28 +24,28 @@ select raw:key1 as k1, raw:key2::int as k2 from foo
 
 
 
-## Step 2: Create an API Key
+## 第二步：创建API密钥
 
 
 
-You need to create an API key to access Timeplus REST API. To do so:
+您需要创建 API 密钥才能访问 Timeplus REST API。 为此，请执行以下操作：
 
-1. Click the user icon on the top-right corner.
-2. Choose **Personal Settings**
-3. Choose the 2nd tab **API Key Management**
-4. Click the **Create API Key** button
-5. Set a readable name and choose an expiration date
-6. Save the API key securely in your computer. You are not going to retrieve the plain text key again in the console.
+1. 单击右上角用户图标。
+2. 选择 **个人设置**
+3. 选择第二个选项卡 **API 密钥管理**
+4. 单击 **创建 API 密钥** 按钮
+5. 设置一个可读的名称并选择到期日期
+6. 将 API 密钥安全地保存在您的计算机中。 您不会在控制台中再次检索纯文本密钥。
 
 
 
-## Step 3: Send data to Timeplus with the API key
+## 第 3 步：使用 API 密钥向 Timeplus 发送数据
 
-Depending on which tool or programming language works best for you, you can send data to Timeplus in different ways.
+根据哪种工具或编程语言最适合您，您可以通过不同的方式向 Timeplus 发送数据。
 
-The base endpoint for the ingestion API is `https://us.timeplus.cloud/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest` :::info
+ingestion API 的基础端点是 `https://us.timeplus.cloud/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest` ::: 注意
 
-请确保您使用的是`workspace-id`，而不是`workspace-name`。 Workspace-id是一个包含 8 个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
+请确保您使用的是 `workspace-id`，而不是 `workspace-name`。 Workspace-id 是一个包含8个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name 是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
 
 :::
 
@@ -105,9 +105,9 @@ print(response.text)
 
 ### Java
 
-You can use built-in libraries or 3rd party libraries to make HTTP requests. In this example, we are using [okhttp](https://square.github.io/okhttp/).
+您可以使用内置库或第三方库发出 HTTP 请求。 在这个例子中，我们使用的是 [okhttp](https://square.github.io/okhttp/)。
 
-The latest release is available on [Maven Central](https://search.maven.org/artifact/com.squareup.okhttp3/okhttp/4.10.0/jar).
+最新版本已在 [Maven Central](https://search.maven.org/artifact/com.squareup.okhttp3/okhttp/4.10.0/jar) 上发布。
 
 ```groovy
 implementation("com.squareup.okhttp3:okhttp:4.10.0")
