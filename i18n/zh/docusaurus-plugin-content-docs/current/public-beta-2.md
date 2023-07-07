@@ -4,6 +4,21 @@
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
+## Jul 10, 2023
+
+**Resource Tables UI**
+  * Resource tables (such as Sources, Streams, Sinks. etc.) now show a Created By/On column.
+  * These tables no longer auto-refresh. Click the arrow icon at the top-right corner to manually refresh the table.
+  * For Versioned and Changelog streams, the row count and earliest/latest event columns are now hidden.
+
+**Query Page**
+  * Added keyboard shortcuts to add or remove comments in the SQL editor: `⌘/` to toggle line comment, and `⇧⌥A` to toggle block comment.
+  * More improved error messages for SQL queries, to show more details.
+
+**Sources**
+  * For Apache Kafka, Confluent Cloud, and Redpanda sources, we removed "Advanced Settings" during the Pull Data step, so the "Consumer Group" field is now shown directly.
+
+
 ## 2023年6月27日
 
 [新的Timeplus Python SDK](https://pypi.org/project/timeplus/1.3.0b2/) 的测试版本可供下载。 它支持 SQL Academy，以便我们可以将Timeplus与丰富的Python生态系统整合起来。 例如 [Superset](https://superset.apache.org/), [QueryBook](https://www.querybook.org)和 [LangChain](https://python.langchain.com/docs/get_started/introduction.html)。 如果您想试用此功能，请联系我们。 Timeplus的 [Meltano 插件](https://github.com/timeplus-io/target-timeplus) 已更新，使用最新的 Python SDK，支持更灵活的数据结构。
