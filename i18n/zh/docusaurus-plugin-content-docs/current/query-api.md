@@ -1,12 +1,12 @@
-# Query API with Server-sent Events (SSE)
+# 带有服务器发送事件（SSE）的查询API
 
-All Timeplus functions are available through REST API. To support real-time query result pushed from server to client side, there are two popular solutions, [websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) and [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events). Timeplus is now leveraging server-sent events to push real-time query results to the client.
+所有 Timeplus 功能均可通过 REST API 获得。 为了支持从服务器端推送到客户端的实时查询结果，有两种流行的解决方案， [websocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) 和 [服务器发送的事件](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)。 Timeplus 现在利用服务器发送的事件将实时查询结果推送到客户端。
 
-## Event Stream Protocol
+## 事件流协议
 
-An SSE event stream is delivered as a streaming HTTP response: the client initiates a regular HTTP request, the server responds with a custom "text/event-stream" content-type, and then streams the UTF-8 encoded event data.
+SSE 事件流作为流 HTTP 响应发送：客户端发起常规 HTTP 请求，服务器响应自定义的“文本/事件流”内容类型，然后流式传输 UTF-8 编码的事件数据。
 
-Here is a sample:
+以下是示例：
 
 ```
 => Request
@@ -34,23 +34,23 @@ data: {"count": 117,"eps": 75,"processing_time": 1560,"last_event_time": 1686237
 
 ```
 
-There are three different types of events:
+有三种不同类型的事件：
 
-### Query Metadata (`event: query`)
+### 查询元数据（`event: query`）
 
-Query metadata is always **the first SSE message** returned through the query API, it has event type `query`, which is a json object, some often used fields are `id`, `sql` and `result.header`. The content of the metadata is the same as the response of [get query](https://docs.timeplus.com/rest.html#tag/Queries-v1beta2/paths/~1v1beta2~1queries~1%7Bid%7D/get).
+查询元数据总是通过查询API返回的 **第一个 SSE 消息**，它有事件类型 `查询`，这是一个 json 对象，一些经常使用的字段是 `id`，`sql` 和 `result.header`。 元数据的内容与 [获取查询](https://docs.timeplus.com/rest.html#tag/Queries-v1beta2/paths/~1v1beta2~1queries~1%7Bid%7D/get) 的响应相同。
 
-In case of **historical (table) query**, the last event will query metadata as well. The reason we send it again at the end of the SSE session is to notify the client about the final status of the query. A typical use case here is that the client can make use of the final `duration` and `end_time` of the query.
+在 **历史查询（表格）** 的情况下，最后一个事件也会查询元数据。 我们在 SSE 会话结束时再次发送它的原因是为了通知客户查询的最终状态。 这里的一个典型案例是，客户端可以使用查询的最后 `持续时间` 和 `结束时间` 。
 
-### Query Results (no event type)
+### 查询结果（无事件类型）
 
-We don't assign any event type in order to save bandwidth here. Each query result message is an array of arrays, representing multiple rows of query results. The data in each row follows the same order defined in the `result.header`.
+为了节省带宽，我们没有分配任何事件类型。 每个查询结果消息是一个数组的数组，代表多行的查询结果。 每行中的数据遵循 `result.header` 中定义的相同顺序。
 
-### Query Metric (`event: metric`)
+### 查询计量（`event: metric`）
 
-The last event type is metrics, which returns the current query statistics in a json object, which can be used to observe the health status of the current query.
+最后一种事件类型是计量，它以 json 对象返回当前查询统计信息，可用于观察当前查询的运行状态。
 
-Take the example above:
+以上面的例子为例：
 
 ```
 data: [[True,73.85],[False, 77.1],[True, 80.0]]
@@ -62,10 +62,10 @@ data: [[True,73.85],[False, 77.1],[True, 80.0]]
 // Event 3: [True,    80.0]
 ```
 
-### Query Metric (`event: metrics`)
+### 查询计量（`event: metrics`）
 
-Query metric message represents the current query statistics, which can be used to observe the status of current query such as number of scanned rows.
+查询计量消息表示当前查询统计，可用于观察当前查询的状态，如扫描行数。
 
-## SSE Client
+## SSE 客户端
 
-There are different SSE libraries that provide SSE client functions, Timeplus also has a python SDK project which already included SSE event parsing to avoid handling those low-level details.
+有不同的 SSE 库提供 SSE 客户端功能，Timeplus 还有一个 python SDK 项目，它已经包含了 SSE 事件解析，以避免处理那些低级细节。
