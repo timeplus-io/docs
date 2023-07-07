@@ -12,13 +12,13 @@ Timeplus支持广泛的数据来源。
 
 ### 从 Apache Pulsar 加载流数据 {#pulsar}
 
-Apache® PulsarTM 是一个云端、分发、开源消息和流式平台，用于实时工作量。 最近，Timeplus为Apache Pulsar添加了一流集成，既作为数据源又作为数据汇。
+Apache® PulsarTM 是一个云端、分发、开源消息和流式平台，用于实时工作量。 最近，Timeplus 为 Apache Pulsar添加了一流的集成，既可以作为数据源，也可以作为数据下游。
 
 [了解更多。](pulsar-source)
 
 ### 从 Kinesis 加载流式数据 {#kinesis}
 
-如果您的流式数据流在 [Amazon Kinesis 数据流](https://aws.amazon.com/kinesis/data-streams/)中，您可以分两步加载它们到 Timeplus。
+如果您的流数据在 [Amazon Kinesis 数据流](https://aws.amazon.com/kinesis/data-streams/) 中，您可以分两步把它们加载到 Timeplus中。
 
 1.  首先通过 [将Kinesis 源连接器为 Confluent Cloud](https://docs.confluent.io/cloud/current/connectors/cc-kinesis-source.html) 或 [Amazon Kinesis 源连接器将Kinesis 数据加载到 Kafka 主题](https://docs.confluent.io/kafka-connect-kinesis/current/overview.html)
 2. 使用 Timeplus 上面的Kafka 源将数据加载到流中。
@@ -38,23 +38,23 @@ flowchart LR
 
 如果您有一些静态数据集或查找CSV格式的表，您可以直接上传文件到Timeplus。
 
-1. 点击 **从导航菜单中添加数据**。 Then click **Import from CSV** button
-2. 从您的本地文件系统拖放一个 CSV 文件来上传文件。 (COMING SOON: if your file is downloadable from a URL or S3 bucket, you can create a source to have Timeplus server to load it. File formtas, other than CSV, will be supported too.)
-3. Choose whether the first row of the file as the column header.
-4. Specify a name for the stream, and optionally provide a readable description.
-5. Click the button to start uploading data and click the **View Imported Data** button to run a query to review imported data.
+1. 点击 **从导航菜单中添加数据**。 然后点击 **从 CSV 导入** 按钮
+2. 从您的本地文件系统拖放一个 CSV 文件来上传文件。 （即将推出：如果您的文件是从 URL 或 S3 存储桶中下载，那么您可以创建数据源来让 Timeplus 服务器加载该文件。 CSV 以外的文件格式也将得到支持。)
+3. 选择文件的第一行是否为列标题。
+4. 为流指定一个名称，并可选择提供一个可读的描述。
+5. 单击按钮开始上传数据，然后单击 **查看导入的数据** 按钮运行查询以查看导入的数据。
 
 
 
 ### 加载示例流数据
 
-如果您没有准备好将您的真实数据加载到Timeplus中，或者只是想要与系统一起玩， 您可以使用此功能加载一些采样流数据。 我们提供了三个典型的蒸发数据
+如果您没有准备好将您的真实数据加载到Timeplus中，或者只是想要与系统一起玩， 您可以使用此功能加载一些采样流数据。 我们提供了三个典型的流数据。
 
-1. `iot` will generate data for 3 devices(device_0, device_1 and device_2). `数字` 值可以是 0 到 100 之间。 `时间` 列是事件生成的时间。
-2. `user_logins` 将生成两个用户的数据(用户1和用户2)，可能来自 `城市` 值：上海或北京。 `时间` 列是事件生成的时间。
+1. `iot` 将生成3台设备（device_0，device_1 和 device_2）的数据。 `数字` 值可以是 0 到 100 之间。 `时间` 列是事件生成的时间。
+2. `user_logins` 将从两个可能的 `城市` 的值：上海或北京中生成两个用户的数据（用户1和用户2）。 `时间` 列是事件生成的时间。
 3. `devops` 将生成3 `主机名`(host_0,host_1, 和 host_2, 从 3 可能的 `区域`(eu-central-1, us-west-1, sa-east-1), 3 可能的 `机车`(1,2,3), 数字 `usage_user` 从 0 到 100 `用法系统` 从 0 到 100 和 `时间` 列为事件时间。
 
-You can load such sample datas via the **Add Data** button and the **Sample Dataset** option. 您可以为数据创建新流或选择现有流。
+您可以通过 **添加数据** 菜单和 **示例数据** 选项加载这些样本数据。 您可以为数据创建新流或选择现有流。
 
 ## 通过 REST 或 SDK 将数据推送到 Timeplus {#push}
 
@@ -79,7 +79,7 @@ AirByte提供开放源码软件版本和管理云以收集数据、转换数据�
 
 1. AirByte 可以从许多不同的数据来源获取数据，包括数据库/DC或基础设施日志、应用程序日志，甚至商业应用程序(例如Salesforce)
 2. 数据可以通过 AirByte 内置能力正常化。 或者可以先将其保存到目的地数据库，然后依靠dbt或其他工具进行转换/实现。
-3. AirByte收集的数据可以发送到许多目的地，包括Timeplus。
+3. AirByte 收集的数据可以发送到许多目的地，包括 Timeplus。
 
 只需命名来自Airby的几个数据源：
 
@@ -103,7 +103,7 @@ Airbyte的 Timeplus 目标插件正处于早期阶段。 请联系我们来安�
 
 ### Kafka 连接器
 
-您可以使用 Kafka Connector 将数据源中的数据加载到 Confluent Cloud, Confluent Platform, 或 Apache Kafka，然后使用 Timerplus 通过内置的Kafka Source将其加载到流中。
+您可以使用 Kafka Connector 将数据源中的数据加载到 Confluent Cloud，Confluent Platform 或 Apache Kafka，然后使用 Timerplus 通过内置的Kafka Source 将其加载到流中。
 
 有几个可以通过Kafka Connects进入Timeplus的数据源例子。 详情请查看 https://www.confluent.io/product/confluent-connectors/。
 

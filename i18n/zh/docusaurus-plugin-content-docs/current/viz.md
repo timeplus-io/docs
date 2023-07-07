@@ -1,34 +1,34 @@
 # 数据可视化
 
-Timeplus能够提供盒外流图表和仪表板以可视化实时数据和了解模式/趋势。 You can also integrate Timeplus with your external BI systems, such as Redash, Metabase, Grafana, etc.
+Timeplus能够提供盒外流图表和仪表板以可视化实时数据和了解模式/趋势。 您也可以将Timeplus成您的外部BI系统，例如Redash、Metabase、Grafana等。
 
 
 
 ## 图表
 
-After you run a query, you can switch to the **Visualization** tab to turn the results into a chart. We offer different chart types for your use cases:
+在您运行查询后，您可以切换到 **可视化** 标签，将结果转换为图表。 我们为您的用例提供不同的图表类型：
 
 ### 折线图
 
-Line charts work best with time series data.
+折线图最适合处理时间序列数据。
 
 * 数据设置：
   * X 轴：事件时间 (_tp_time)、到达时间（浏览器获取数据点时）或自定义列。
   * Y 轴：数字数据类型（int/float/etc）中的自定义列
-  * 颜色：默认情况下， `无` 处于选中状态。 You can choose a categorical column and draw a line for each unique value of the column value in different colors.
+  * 颜色：默认情况下， `无` 处于选中状态。 您可以选择一个分类列，然后用不同的颜色为该列值的每个唯一值画一条线。
 
 * 格式设置
-  * X-axis title and the data range(last 1 minute, last 1 hour, all time, etc.). By default, 'Last 1 minute' is selected. If you are running a historical query, please change it to 'All time'.
-  * Y-axis title, min/max value, line color, style
-  * Show/hide the data label for the last value of the line chart, number of decimal and whether to show prefix/surfix as unit.
-  * Show/hide grid lines
-  * Show/hide legend
-  * Show/hide data points
+  * X 轴标题和数据范围（最近 1 分钟、最近 1 小时、所有时间等）。 默认情况下，选择 “最后1分钟”。 如果您正在运行历史查询，请将其更改为“所有时间”。
+  * Y 轴标题、最小值/最大值、线条颜色、样式
+  * 显示/隐藏折线图最后一个值的数据标签、十进制数以及是否以单位显示前缀/后缀。
+  * 显示/隐藏网格线
+  * 显示/隐藏图例
+  * 显示/隐藏数据点
 
 
 ### 面积图
 
-Shows a stacked area chart, with the same format settings as **Line Chart**.
+显示堆叠面积图，其格式设置与 **折线图** 相同。
 
 
 
@@ -41,12 +41,12 @@ Shows a stacked area chart, with the same format settings as **Line Chart**.
   * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
 
 * 格式设置
-  * X-axis title, Y-axis title, column color, show/hide data label (with decimal and prefix/surfix unit), show/hide grid lines, show/hide legend
+  * X 轴标题、Y 轴标题、列颜色、显示/隐藏数据标签（使用十进制和前缀/后缀单位）、显示/隐藏网格线、显示/隐藏图例
 
 
 ### 条形图
 
-Similar to Column chart, with data points shown as horizontal bars instead of vertical columns. 最适合显示前 n 个值。
+与柱状图类似，数据点显示为水平条而不是垂直列。 最适合显示前 n 个值。
 
 ### 单值图
 
@@ -56,52 +56,52 @@ Similar to Column chart, with data points shown as horizontal bars instead of ve
 * 格式设置
   * 小数位数
   * 字体大小
-  * Unit as suffix or prefix
-  * Show/hide sparkline
-  * Show/hide delta for last value vs. the current value
+  * 作为后缀或前缀的单位
+  * 显示/隐藏迷你图
+  * 显示/隐藏最后一个值与当前值的差值
 
-### Map chart
+### 地图
 
-Currently only available on https://us.timeplus.cloud as a preview feature.
+目前仅在 https://us.timeplus.cloud 上作为预览功能提供。
 
 * 数据设置：
-  * choose the column for longtitude and latitude.
-  * color: whether to show grouped data in either stack mode or dodge mode.
-  * update mode: append only, or show data points from the last timestamp, or choose a key column as show latest data value for each key value.
+  * 选择经度和纬度列。
+  * 颜色：是在堆栈模式还是减淡模式下显示分组数据。
+  * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
 
 * 格式设置
-  * Map size (TO BE UPDATED)
+  * 地图大小（待更新）
 
 
 ### 表格
 
-Shows the data as a list table.
+将数据显示为列表表。
 
 * 数据设置
   * 最大行数
-  * Update mode:
-    * Show All: show all query results (limited by the maxium row count)
-    * By Time: show data points from the last timestamp
-    * By Key: choose a key column as show latest row for each key value.
+  * 更新模式:
+    * 全部显示：显示所有查询结果（受最大行数限制）
+    * 按时间：显示上次时间戳中的数据点
+    * 按键：选择一个键列以显示每个键值的最新行。
 
 * 格式设置
-  * For each column, you can choose to show or hide it, or set column width and decimal for numeric columns.
-  * Conditional formatting: highlight a cell or an entire row if the value meets a certain condition you've set
+  * 对于每列，您可以选择显示或隐藏它，或者为数值列设置列宽和十进制。
+  * 条件格式：如果值满足您设置的特定条件，则突出显示单元格或整行
 
 
-Charts can be added to the dashboard by clicking the **Add to dashboard** button on the right.
+可以点击右边的 **添加到仪表板** 按钮将图表添加到仪表板中。
 
 ## 仪表板
 
-One or more dashboards can be created in each workspace to tell stories about your data.
+每个工作区都可以创建一个或多个仪表板来讲述有关数据的故事。
 
-You can set a name and optional description for each dashboard.
+您可以为每个仪表板设置名称和可选描述。
 
-One or more charts can be added to the dashboard, with 3 size options:
+一个或多个图表可以添加到仪表板，有3个大小选项:
 
-* Small: takes up 1/4 of the page width
-* Medium: takes up 1/2 of the page width
-* Large: takes up entire page width
+* 小：占用1/4的页面宽度
+* 中: 占用页面宽度的1/2
+* 大：占用整个页面宽度
 
 
 

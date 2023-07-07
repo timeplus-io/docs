@@ -1,180 +1,180 @@
 # 变更日志流
 
-When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. Data can be updated or deleted. You can use Changelog Stream in JOIN either on the left or on the right. Timeplus will automatically choose the latest version.
+当您使用 `更新日志_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 数据可以更新或删除。 您可以在左侧或右侧的JOIN中使用更新日志流。 Timeplus 将自动选择最新版本。
 
-Here are some examples:
+以下是一些例子：
 
-## Create the Stream
+## 创建流
 
-In this example, you create a stream `dim_products` in `changelog_kv` mode with the following columns:
+在此示例中，您在 `changelog_kv` 模式中创建了一个带有以下列的流 `dim_products`：
 
-| Column Name | Date Type           | 描述                                                                                                                       |
-| ----------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| _tp_time  | datetime64(3,'UTC') | this is automatically created for all streams in Timeplus, with the event time at millisecond precision and UTC timezone |
-| _tp_delta | 整数                  | a special column, 1 means new data, -1 means deleted data                                                                |
-| product_id  | string              | unique id for the product, as the primary key                                                                            |
-| price       | float               | current price                                                                                                            |
+| 列名          | 数据类型                | 描述                                         |
+| ----------- | ------------------- | ------------------------------------------ |
+| _tp_time  | datetime64(3,'UTC') | 它是自动为所有在 Timeplus 中的流创建的，具有毫秒精度和UTC时区的事件时间 |
+| _tp_delta | 整数                  | 特殊列，1表示新数据，-1表示已删除的数据                      |
+| 产品名称        | 字符串                 | 产品的唯一 ID，作为主键                              |
+| 价格          | 浮点数                 | 当前价格                                       |
 
-## Query Single Stream
+## 查询单个流
 
-If you don't add any data, query `SELECT * FROM dim_products` will return no results and keep waiting for the new results.
+如果您没有添加任何数据，查询 `SELECT * FROM dim_products` 将不返回任何结果并继续等待新的结果。
 
-### Add data
+### 添加数据
 
-Keep the query running and add a few more rows to the stream (via REST API or create a new browser tab and add rows to the streams directly).
+保持查询运行并将更多的行添加到流中 (通过 REST API 或创建新的浏览器标签页并直接将行添加到流)。
 
-| _tp_delta | product_id    | price |
-| ----------- | ------------- | ----- |
-| 1           | iPhone14      | 799   |
-| 1           | iPhone14_Plus | 899   |
+| _tp_delta | 产品名称          | 价格  |
+| ----------- | ------------- | --- |
+| 1           | iPhone14      | 799 |
+| 1           | iPhone14_Plus | 899 |
 
-The query console will show those 2 rows automatically.
+查询控制台将自动显示这两行。
 
-### Delete data
+### 删除数据
 
-Somehow, you don't want to list iPhone14_Plus any more. All you need is to add a row with `_tp_delta=-1`:
+如果您不想再列出iPhone14_Plus。 您需要添加一行为 `_tp_delta=-1`：
 
-| _tp_delta | product_id    | price |
-| ----------- | ------------- | ----- |
-| -1          | iPhone14_Plus | 899   |
+| _tp_delta | 产品名称          | 价格  |
+| ----------- | ------------- | --- |
+| -1          | iPhone14_Plus | 899 |
 
-Then cancel the query and run it again, you will only get 1 row, not 3 rows. The reason for that is the 2nd row and 3rd row are with the same primary id but with opposite _tp_delta, so Timeplus merges them. This process is called "compaction".
+然后取消查询并再次运行它，您只会得到1行，而不是3行。 原因是第二行和第三行具有相同的主要ID，但有相反的 _tp_delta，所以 TimePlus 会将它们合并。 这一过程被称为“压缩”。
 
-| _tp_delta | product_id | price |
-| ----------- | ---------- | ----- |
-| 1           | iPhone14   | 799   |
+| _tp_delta | 产品名称     | 价格  |
+| ----------- | -------- | --- |
+| 1           | iPhone14 | 799 |
 
-### Update data
+### 更新数据
 
-Now if you want to change the price of iPhone14, you need to add two rows:
+现在，如果您想要更改iPhone14的价格，您需要添加两行：
 
-| _tp_delta | product_id | price |
-| ----------- | ---------- | ----- |
-| -1          | iPhone14   | 799   |
-| 1           | iPhone14   | 800   |
+| _tp_delta | 产品名称     | 价格  |
+| ----------- | -------- | --- |
+| -1          | iPhone14 | 799 |
+| 1           | iPhone14 | 800 |
 
-Cancel the query `SELECT * FROM dim_products` and run again, you will get only 1 row in the product list:
+取消查询 `SELECT * FROM dim_products` 并再次运行，您将只会在产品列表中获得1行：
 
-| _tp_delta | product_id | price |
-| ----------- | ---------- | ----- |
-| 1           | iPhone14   | 800   |
+| _tp_delta | 产品名称     | 价格  |
+| ----------- | -------- | --- |
+| 1           | iPhone14 | 800 |
 
-As you can imagine, you can keep adding new rows. If _tp_delta is 1 and the primary key is new, then you will get a new row in the query result. If _tp_delta is -1 and the primary key exists already, then the previous row is deleted. You can update the value by adding a new row with the primary key.
+您可以想象，您可以继续添加新的行。 如果 _tp_delta 是1并且主键是新的，那么您将在查询结果中获得一个新的行。 如果 _tp_delta 是-1并且主键已经存在，那么前一行将被删除。 您可以通过添加带有主键的新行来更新该值。
 
 :::info
 
-In fact, you can assign an expression as the primary key. For example you can use `first_name||' '||last_name` to use the combined full name as the primary key, instead of using a single column.
+事实上，您可以指定一个表达式作为主键。 例如，您可以使用 `first_name|' '||last_name` 来合并全名作为主键，而不是使用单列。
 
 :::
 
-### Show aggregated results
+### 显示聚合结果
 
-If you run queries like `select count(1), sum(price) from dim_products` , this streaming SQL will always give you latest results:
+如果您运行 `select count(1), sum(price) from dim_products` 这样的查询，此串流 SQL 将始终给您提供最新的结果：
 
-| count(1) | sum(price) |                                    |
-| -------- | ---------- | ---------------------------------- |
-| 1        | 800        | when there is only 1 row: iPhone14 |
-| 2        | 1699       | when  iPhone14_Plus is added       |
-| 1        | 800        | when  iPhone14_Plus is removed     |
+| 计数(1) | 总和（价格） |                     |
+| ----- | ------ | ------------------- |
+| 1     | 800    | 当只有1行时：iPhone14     |
+| 2     | 1699   | 当 iPhone14_Plus 被添加 |
+| 1     | 800    | 当 iPhone14_Plus 被移除 |
 
-## Use Changelog Stream in JOIN as lookup
+## 在 JOIN 中使用更新日志流作为查询
 
-In the above examples, you always get the latest version of the event with the same primary key. This is very useful when such stream acts as the "lookup-table" for the JOIN.
+在上述示例中，您总是获得具有相同主键的事件的最新版本。 当这样的流充当 JOIN 的“查询表”时，这非常有用。
 
-Imagine you have an append-only stream for the `orders`:
+想象您有 `订单` 的一个附加流：
 
-| _tp_time | order_id | product_id | quantity |
-| ---------- | -------- | ---------- | -------- |
-|            |          |            |          |
+| _tp_time | 订单编号 | 产品名称 | 数量 |
+| ---------- | ---- | ---- | -- |
+|            |      |      |    |
 
-The current `dim_products` stream is:
+当前 `dim_product` 流是：
 
-| _tp_delta | product_id    | price |
-| ----------- | ------------- | ----- |
-| 1           | iPhone14      | 799   |
-| 1           | iPhone14_Plus | 899   |
+| _tp_delta | 产品名称          | 价格  |
+| ----------- | ------------- | --- |
+| 1           | iPhone14      | 799 |
+| 1           | iPhone14_Plus | 899 |
 
-Now start a streaming SQL:
+现在运行流式SQL：
 
 ```sql
 SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS amount
 FROM orders JOIN dim_products USING(product_id)
 ```
 
-Then add 2 rows:
+然后添加两行：
 
-| _tp_time               | order_id | product_id    | quantity |
-| ------------------------ | -------- | ------------- | -------- |
-| 2023-04-20T10:00:00.000Z | 1        | iPhone14      | 1        |
-| 2023-04-20T10:01:00.000Z | 2        | iPhone14_Plus | 1        |
+| _tp_time               | 订单编号 | 产品名称          | 数量 |
+| ------------------------ | ---- | ------------- | -- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone14      | 1  |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone14_Plus | 1  |
 
-In the query console, you will see 2 rows one by one:
+在查询控制台中，您将逐一看到这两行：
 
-| _tp_time               | order_id | product_id    | quantity | 金额  |
-| ------------------------ | -------- | ------------- | -------- | --- |
-| 2023-04-20T10:00:00.000Z | 1        | iPhone14      | 1        | 799 |
-| 2023-04-20T10:01:00.000Z | 2        | iPhone14_Plus | 1        | 899 |
+| _tp_time               | 订单编号 | 产品名称          | 数量 | 金额  |
+| ------------------------ | ---- | ------------- | -- | --- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone14      | 1  | 799 |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone14_Plus | 1  | 899 |
 
-Then you can change the price of iPhone14 to 800, by adding 2 new rows in `dim_products`
+然后，您可以通过在 `dim_products` 中添加两个新的行来更改 iPhone14 的价格至800
 
-| _tp_delta | product_id | price |
-| ----------- | ---------- | ----- |
-| -1          | iPhone14   | 799   |
-| 1           | iPhone14   | 800   |
+| _tp_delta | 产品名称     | 价格  |
+| ----------- | -------- | --- |
+| -1          | iPhone14 | 799 |
+| 1           | iPhone14 | 800 |
 
-Also add a new row in `orders`
+也在 `订单` 中添加新的行
 
-| _tp_time               | order_id | product_id | quantity |
-| ------------------------ | -------- | ---------- | -------- |
-| 2023-04-20T11:00:00.000Z | 3        | iPhone14   | 1        |
+| _tp_time               | 订单编号 | 产品名称     | 数量 |
+| ------------------------ | ---- | -------- | -- |
+| 2023-04-20T11:00:00.000Z | 3    | iPhone14 | 1  |
 
-You will get the 3rd row in the previous streaming SQL:
+您将在前一个流的 SQL 中获得第三行：
 
-| _tp_time               | order_id | product_id    | quantity | 金额  |
-| ------------------------ | -------- | ------------- | -------- | --- |
-| 2023-04-20T10:00:00.000Z | 1        | iPhone14      | 1        | 799 |
-| 2023-04-20T10:01:00.000Z | 2        | iPhone14_Plus | 1        | 899 |
-| 2023-04-20T11:00:00.000Z | 3        | iPhone14      | 1        | 800 |
+| _tp_time               | 订单编号 | 产品名称          | 数量 | 金额  |
+| ------------------------ | ---- | ------------- | -- | --- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone14      | 1  | 799 |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone14_Plus | 1  | 899 |
+| 2023-04-20T11:00:00.000Z | 3    | iPhone14      | 1  | 800 |
 
-It shows that the latest price of iPhone14 is applied to the JOIN of new event.
+可以看出，iPhone14 的最新价格被应用到新事件的 JOIN 中。
 
-## Use Changelog Stream in JOIN as left table
+## 在 JOIN 中使用更新日志流作为左表
 
-You can also use Changelog Stream on the left side of the JOIN.
+您也可以在 JOIN 左侧使用更新日志流。
 
-Let's create a new stream `order2` in Changelog Stream mode:
+让我们在更新日志流模式下创建一个新流 `订单2`
 
-| _tp_time | _tp_delta | order_id | product_id | quantity |
-| ---------- | ----------- | -------- | ---------- | -------- |
-|            |             |          |            |          |
+| _tp_time | _tp_delta | 订单编号 | 产品名称 | 数量 |
+| ---------- | ----------- | ---- | ---- | -- |
+|            |             |      |      |    |
 
-You can add/update/delete orders by adding the rows with proper _tp_delta value. When you run streaming SQL like:
+您可以通过添加具有适当 _tp_delta 值的行来添加/更新/删除订单。 当您运行流式 SQL 时：
 
 ```sql
 SELECT orders2._tp_time, order_id,product_id,quantity, price*quantity AS amount
 FROM orders2 JOIN dim_products USING(product_id)
 ```
 
-Timeplus will use the latest version of order records to join with the lookup table.
+Timeplus 将使用最新版本的订单记录加入查询表。
 
-What's more useful is that if you run aggregations such as:
+更有用的是，如果您运行聚合，比如：
 
 ```sql
 SELECT count(1) AS order_count, sum(price*quantity) AS revenue
 FROM orders2 JOIN dim_products USING(product_id)
 ```
 
-you will get the correct numbers whenever the order is added, updated, or deleted.
+每当订单被添加、更新或删除时，您将获得正确的数字。
 
-## Setup CDC with Changelog Stream
+## 使用更新日志流设置 CDC
 
-CDC, or Change Data Capture, is a critical part of Modern Data Stack. Most of the modern databases support CDC to sync the data changes to other systems at real-time. One popular open-source solution is [Debezium](https://debezium.io/).
+CDC（更改数据捕获），是现代数据存储的一个关键部分。 大多数现代数据库都支持 CDC 实时同步数据变化到其他系统。 一个受欢迎的开源解决方案是 [Debezium](https://debezium.io/)。
 
-Timeplus Changelog Stream can work with Debezium or other CDC solutions. It can also work without them, if your applications can generate events with the proper _tp_delta flag (1 for adding data, -1 for deleting data).
+Timeplus 的变更日志流可以与 Debezium 或其他 CDC 解决方案配合使用。 如果您的应用程序可以使用适当的 _tp_delta 标志生成事件（1表示添加数据，-1表示删除数据），那么没有它们也可以正常运行。
 
-For example, you created 2 tables in PostgreSQL 14:
+例如，您在 PostgreSQL 14 中创建了两个表格：
 
-### Setup PostgreSQL Tables
+### 设置 PostgreSQL 表
 
 ```sql
 CREATE TABLE dim_products(
@@ -189,18 +189,18 @@ CREATE TABLE orders(
 );
 ```
 
-In order to capture the `before` values for UPDATE or DELETE, you also need to set `REPLICA IDENTIFY` to `FULL`. Check the [Debezium documentation](https://debezium.io/documentation/reference/2.2/connectors/postgresql.html#postgresql-replica-identity) for more details.
+为了更新或删除来抓取 `之前` 的值，您还需要将 `REPLICA IDENTIFY` 设置成 `FULL` 查看 [Debezium 文档](https://debezium.io/documentation/reference/2.2/connectors/postgresql.html#postgresql-replica-identity) 了解更多详情。
 
 ```sql
 ALTER TABLE dim_products REPLICA IDENTITY FULL;
 ALTER TABLE orders REPLICA IDENTITY FULL;
 ```
 
-### Setup Debezium
+### 设置 Debezium
 
-Now start Debezium with Kafka Connect in your preferred way. You also need a local or remote Kafka/Redpanda as message brokers to receive CDC data.
+现在以您喜欢的方式开始使用Kafka Connect的Debezium 。 您还需要本地或远程的 Kafka/Redpanda 作为消息代理来接收 CDC 数据。
 
-In this example, we are going to use Redpanda Cloud as message broker, and a local docker image for the Kafka Connect with built-in Debezium. The docker-compose file:
+在此示例中，我们将使用 Redpanda Cloud 作为消息代理，并使用内置 Debezium 的 Kafka Connect 的本地 docker 镜像。 docker-compose 文件：
 
 ```yaml
 version: "3.7"
@@ -231,7 +231,7 @@ services:
       - CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE=false
 ```
 
- You can put the credentials in a `.env` file in the same folder:
+ 您可以将凭据放置在同一文件夹的 `.env` 文件中：
 
 ```
 BOOTSTRAP_SERVERS=demourl.cloud.redpanda.com:9092
@@ -241,7 +241,7 @@ SASL_JAAS_CONFIG=org.apache.kafka.common.security.scram.ScramLoginModule require
 SECURITY_PROTOCOL=SASL_SSL
 ```
 
-Optionally, you can add Redpanda Console in the docker compose file. It provides nice UI for you to add/review topics and manage connectors.
+或者，您可以在 docker 撰写文件中添加 Redpanda 控制台。 它为您添加/查看主题和管理连接器提供了很好的用户界面。
 
 ```yaml
   console:
@@ -274,11 +274,11 @@ Optionally, you can add Redpanda Console in the docker compose file. It provides
 
 
 
-### Add PostgreSQL Connector
+### 添加 PostgreSQL 连接器
 
-Start the docker-comose with `docker-compose up`. It will load the images for Debezium and Redpanda Console. You can access the Redpanda Console via http://localhost:8080 and the Kafka Connect REST API endpoint is http://localhost:8083
+以 `docker-compose up` 开启 docker-comose。 它将加载 Debezium 和 Redpanda 控制台的图像。 您可以通过 http://localhost:8080 访问 Redpanda 控制台，Kafka Connect REST API 的端点是 http://localhost:8083
 
-You may add the Debezium connector via the web UI. But the following command line just works fine:
+您可以通过 Web 用户界面添加 Debezium 连接器。 但以下命令行可以正常运行：
 
 ```bash
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" \
@@ -286,27 +286,27 @@ localhost:8083/connectors \
 -d '{"name":"pg-connector","config":{"connector.class": "io.debezium.connector.postgresql.PostgresConnector","publication.autocreate.mode": "filtered",  "database.dbname": "defaultdb",  "database.user": "avnadmin",  "schema.include.list": "public",  "database.port": "28851",  "plugin.name": "pgoutput",  "database.sslmode": "require",  "topic.prefix": "doc",  "database.hostname": "xyz.aivencloud.com",  "database.password": "***",  "table.include.list": "public.dim_products,public.orders"}}'
 ```
 
-This will add a new connector with the name `pg-connector`, connecting to a PostgreSQL database in a remote server (in this case, Aiven Cloud). A few notes to the configuration items:
+这将添加一个名为 `pg-connector` 的新连接器，并连接到远程服务器上的 PostgreSQL 数据库（在这种情况下，Aiven Cloud）。 配置项目的一些注意事项：
 
-* `publication.autocreate.mode` is `filtered`, and `table.include.list` is a list of tables you want to apply CDC. Sometimes you don't have permissions to enable publications for all tables. So `filtered` is recommended.
-* `plugin.name` is `pgoutput`. This works well with new versions of PostgreSQL (10+). The default value is `decoderbufs`, which is required to be installed separately.
-* `topic.prefix` is set to `doc`. As the name implies, it will be the prefix for Kafka topics. Since the schema is `public`, the topics to be used will be `doc.public.dim_products` and `doc.public.orders`
+* `publication.autocreate.mode` 是 `过滤后的`， `table.include.list` 是您想要应用 CDC 的一系列列表。 有时，您没有权限为所有表启用发布。 因此，建议使用 `过滤后的` 。
+* `plugin.name` 是 `pgoutput`。 这与新版本的 PostgreSQL（10+）配合使用效果很好。 默认值为 `decoderbufs`，它需要单独安装。
+* `topic.prefix` 已设置为 `doc`。 顾名思义，它将成为 Kafka 主题的前缀。 由于架构是 `公开的`，将使用的主题将是 `doc.public.dim_products` 和 `doc.public.orders`
 
-Make sure you create those 2 topics in Kafka/Redpanda. Then in a few seconds, new messages should be available in the topics.
+确保你在 Kafka/Redpanda 中创建了这两个主题。 然后在几秒钟内，主题中应该有新的消息。
 
-You can try INSERT/UPDATE/DELETE data in PostgreSQL and check the generated JSON messages.
+您可以在 PostgreSQL 中尝试 插入/更新/删除 数据并检查生成的 JSON 消息。
 
-### Sample CDC Data
+### 示例 CDC 数据
 
-#### INSERT
+#### 插入
 
-SQL:
+SQL：
 
 ```sql
-INSERT INTO dim_products ("product_id", "price") VALUES ('iPhone14', 799)
+在 dim_products（“product_id”、“price”）中插入值（'iPhone14'，799）
 ```
 
-CDC Data:
+CDC 数据：
 
 ```json
 {
@@ -323,15 +323,15 @@ CDC Data:
 }
 ```
 
-#### UPDATE
+#### 更新
 
-SQL:
+SQL：
 
 ```sql
-UPDATE dim_products set price=800 WHERE product_id='iPhone14'
+更新 dim_products 设置价格=800 其中 product_id='iPhone14'
 ```
 
-CDC Data:
+CDC 数据：
 
 ```json
 {
@@ -351,15 +351,15 @@ CDC Data:
 }
 ```
 
-#### DELETE
+#### 删除
 
-SQL:
+SQL：
 
 ```sql
-DELETE FROM dim_products
+从 dim_products 中删除
 ```
 
-CDC Data:
+CDC 数据：
 
 ```json
 {
@@ -376,9 +376,9 @@ CDC Data:
 }
 ```
 
-#### For existing rows
+#### 对于已经存在的行
 
-Debezium also read all existing rows and generate messages like this
+Debezium 也会读取所有现有的行并生成这样的消息
 
 ```json
 {
@@ -397,14 +397,14 @@ Debezium also read all existing rows and generate messages like this
 
 
 
-### Load data to Timeplus
+### 将数据加载到 Timeplus
 
-You can follow this [guide](kafka-source) to add 2 data sources to load data from Kafka or Redpanda.  例如：
+您可以按照这个 [指南](kafka-source) 添加两个数据源来从 Kafka 或 Redpanda 加载数据。  例如：
 
-* Data source name `s1` to load data from topic `doc.public.dim_products` and put in a new stream `rawcdc_dim_products`
-* Data source name `s2` to load data from topic `doc.public.orders` and put in a new stream `rawcdc_orders`
+* 数据源名称 `s1` 从主题 `doc.public.dim_products` 中加载数据并放入新流 `rawcdc_dim_products`
+* 数据源名称 `s2` 从主题 `doc.public.orders` 中加载数据并放入新流 `rawcdc_orders`
 
-Then run the following SQL in query page:
+然后在查询页中运行以下 SQL：
 
 ```sql
 select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op in ('c','r')
@@ -416,15 +416,15 @@ union
 select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'      
 ```
 
-Click the **Send as Sink** button and choose Timeplus type, to send the results to an existing stream `dim_products` .
+点击 **作为下游发送** 按钮，并选择 Timeplus 类型，将结果发送到现有的流 `dim_products`。
 
 :::info
 
-In the coming version of Timeplus, we will simplify the process so that you don't need to write custom SQL to extract the Debezium CDC messages.
+在即将推出的 Timeplus 版本中，我们将简化流程，这样您就无需编写自定义 SQL 来提取 Debezium CDC 消息。
 
 :::
 
-Similarly, here is the SQL to convert raw CDC messages for `orders` :
+相同地，这里是 SQL 将原生的 CDC 消息转换为 `订单`：
 
 ```sql
 select 1::int8 as _tp_delta, after:order_id as order_id, after:product_id as product_id, after:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op in ('c','r')

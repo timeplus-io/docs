@@ -6,7 +6,7 @@ Timeplus是一个快速和强大的实时分析平台。
 
 ## 高性能存储 {#fast}
 
-Timeplus 设计了一个基于列的数据格式，名为 **Timeplus 文件格式 (TDF)**, 支持快速序列化和反序列化。 由于数据为列式存储，数据可以通过向量化进行高性能分析计算。  为了充分利用TDF的能力，Timeplus还设计了一个叫做Timeplus **原生日志 NativeLog** 的流存储。 加上TDF, Timeplus NativeLog 提供了高性能数据摄取， 它可以在磁盘上快速扫描数据并过滤流数据处理中不需要的内容。  Timeplus NativeLog也支持基于时间戳的快速寻找和针对时间序列数据分析的优化。
+Timeplus 设计了一种基于列的数据格式，称为 **Timeplus数据格式(TDF)**，它支持极快的序列化和反序列化。 由于数据为列式存储，数据可以通过向量化进行高性能分析计算。  为了充分利用TDF的能力，Timeplus还设计了一个叫做Timeplus **原生日志 NativeLog** 的流存储。 加上TDF, Timeplus NativeLog 提供了高性能数据摄取， 它可以在磁盘上快速扫描数据并过滤流数据处理中不需要的内容。  Timeplus NativeLog也支持基于时间戳的快速寻找和针对时间序列数据分析的优化。
 
 ## 强大的分析引擎 {#powerful}
 

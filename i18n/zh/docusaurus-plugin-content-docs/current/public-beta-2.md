@@ -4,9 +4,54 @@
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
+## 2023年7月10日
+
+**资源列表**
+  * 资源列表（例如数据源、流、下游 等等）现在显示 “创建者/时间” 列。
+  * 这些表不再自动刷新。 单击右上角的箭头图标可手动刷新表格。
+  * 对于 Versioned 和 Changelog 流，行数和最早/最新事件列不再显示。
+
+**查询页面**
+  * 添加了用于在 SQL 编辑器中添加或删除注释的键盘快捷键： `⌘/`用于切换行注释， `⇧⌥A` 用于切换区块注释。
+  * 改进了 SQL 查询的错误消息，以显示更多详细信息。
+
+**数据源**
+  * 对于 Apache Kafka、Confluent Cloud 和 Redpanda 数据源，我们在提取数据步骤中删除了 “高级设置”，因此 “消费者组” 字段现在直接显示。
+
+
+## 2023年6月27日
+
+[新的Timeplus Python SDK](https://pypi.org/project/timeplus/1.3.0b2/) 的测试版本可供下载。 它支持 SQL Academy，以便我们可以将Timeplus与丰富的Python生态系统整合起来。 例如 [Superset](https://superset.apache.org/), [QueryBook](https://www.querybook.org)和 [LangChain](https://python.langchain.com/docs/get_started/introduction.html)。 如果您想试用此功能，请联系我们。 Timeplus的 [Meltano 插件](https://github.com/timeplus-io/target-timeplus) 已更新，使用最新的 Python SDK，支持更灵活的数据结构。
+
+**控制台用户界面**
+  * 对于变更日志或版本控制流，您可以创建包含多列的复杂主键。
+  * “查询” 页面中的帮助面板焕然一新：SQL Helper 面板不再与 SQL 编辑器和结果表重叠，行详细信息面板现在显示在结果表中。
+  * 对于数据源与下游，点击状态旁边的 “i”，查看最后一条错误消息。
+  * 改进了 SQL 查询的错误消息，以显示更多详细信息。
+  * 对于 API 密钥，我们现在显示前四个和最后四个字符，以前的名称现在是描述。
+
+**REST API**
+  * 我们在 [REST API 文档](https://docs.timeplus.com/rest) 中标记了必需的参数，并完成了验证，以避免在没有必要信息的情况下创建资源。
+  * 更新了我们的 REST API 文档，加入了更多描述。
+
+
+## 2023年6月12日
+
+**新功能**
+  * 向您介绍Timeplus中的协作功能：您可以邀请团队成员加入您的 Timeplus 工作空间（在我们的公开测试期间，您可以邀请无限的团队成员）。 同一工作空间中的成员可以访问和编辑所有流、数据源、数据下游、仪表板等。 只有工作空间所有者可以邀请或移除成员。
+
+**数据摄取和接收**
+  * 您现在可以通过 [Timeplus的插件Kafka Connect](https://www.confluent.io/hub/timeplus/kafka-timeplus-connector-sink) 把数据从本地或云端的 Kafka 推送到 Timeplus。 它在 Confluent Hub 上发布，您可以将其安装在 Confluent Cloud 或本地的Confluent Platform 和 Apache Kafka 上。
+  * 我们为 Apache Kafka 和 Redpanda 数据下游添加了 Protobuf 编码，您现在可通过 REST API 获得。
+
+**其他改进**
+  * 对于流，您现在可以为流媒体和历史数据设置单独的保留策略。 例如，对于包含 IoT 数据的流，您可以为流数据设置 1 天的保留时间，为历史数据设置 90 天的保留时限。
+  * 请注意：REST API v1beta1 现已废弃，将在几个月后被删除。 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/)、 [Java 示例代码](https://github.com/timeplus-io/java-demo) 和 [Streamlit 演示应用程序](https://github.com/timeplus-io/streamlit_apps) 已更新。
+
+
 ## 2023年5月29日
 
-**数据摄取 **
+**数据摄取**
   * 我们现在有一个全新页面，列出了各种将数据添加到 Timeplus的方式。 新的“数据添加”页面允许您添加数据源（例如Apache Kafka、Confluent Cloud、Redpanda等），通过Ingest Rest API推动数据，导入CSV文件并连接外部流（使用Kafka数据） 。 您添加的数据源和外部流也将在此页面的单独选项卡中列出。
   * 在 Apache Kafka 和 Redpanda 数据源中，您现在可以对 Protobuf 进行编码或解码。 在 “提取数据” 步骤中，输入您的 Protobuf 消息名称和定义。
   * 我们现在还支持 Debezium JSON 作为读取数据格式，包括 Upsert 和 CRUD（CRUD 目前处于预览阶段）。
@@ -130,7 +175,7 @@
   * 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 ` earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
   * 你也可以在一个包括JOIN/UNION多个流的SQL中多次使用 `where _tp_time >..` 为不同的流穿越到不同的起点。
   * 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
-  * 为流式查询添加 [LATEST JOIN](query-syntax#latest-join) 。 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
+  * 为流式查询添加 [LATEST JOIN](query-syntax#latest-join) 。 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。 无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
 ## 2023年2月17日
 
@@ -170,11 +215,11 @@
 * 查询结果的界面更新：
   * **无限滚动。 ** 对于流式查询和历史查询，较新的结果显示在底部。 您可以向上滚动查看之前的结果，然后单击底部的 **跳转到最新数据** 按钮继续查看最新结果。
   * **行详情**。 对于包含长文本或 JSON 的列，您可以单击 “眼睛” 按钮打开包含该行详细信息的侧面板。
-  * **更新列摘要。 ** 对于数字列，列头中显示最小/最大/平均值。 数据范围是从查询开始到现在。 对于日期时间列，将显示起始/终止时间戳。 对于布尔列或字符串列，前 3 个值与百分比一起显示。
+  * **更新列摘要。 ** 对于数字列，列头中显示最小/最大/平均值。 数据范围是从查询开始到现在。 对于日期时间列，将显示起始/终止时间戳。 对于布尔列或字符串列，前 3 个值会与百分比一起显示。
   * **快速筛选。 ** 您可以键入一些关键字来筛选结果，而无需重写 SQL。 它将对所有列执行简单的 `string#contains` 匹配。 暂不支持正则表达式或逻辑条件。
   * **显示/隐藏列。 ** 您可以通过新引入的 **设置** 按钮来隐藏某些列，而无需重写 SQL。 您也可以在此对话框中以 CSV 格式下载结果。
-  * **调整列大小**. **调整列大小**. Timeplus 会根据列类型自动设置适当的初始列大小。 您可以随时通过拖放来调整列的大小。
+  * **调整列大小**. Timeplus会根据列的类型自动设置适当的初始列大小。 您可以随时通过拖放来调整列的大小。
 * 更多图表类型和选项。 您可以选择折线图、面积图、柱形图、条形图、单值图和图表作为可视化类型。 每个图表都支持基本设置和高级设置。
 * 添加了一种内置的针对`json`优化的数据类型，与将 JSON 另存为 `string` 并在查询时动态提取相比，查询性能更好。 适合于同一结构的 JSON 文档。 通过 `column.jsonpath` 访问该值（而不是用文本列的方式 `column:jsonpath` ）
 * 我们开始弃用 `settings seek_to=..` 仍然支持时空旅行，你只需要在 WHERE 条件下使用 `_tp_time` 列，例如 `WHERE _tp_time>=now () -1h` 即可在 1 小时前进行时空旅行并显示此后的数据。 或者 `其中 _tp_time >= '2023-01-14'`  Timeplus 中的所有数据流都包含 `_tp_time` 作为事件时间。
-* （实验性）除了 [Remote UDF](remote-udf)之外，现在你还可以使用 JavaScript 定义新函数。 支持标量函数和聚合函数。 请查看 [JS UDF](js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。
+* （实验性）除了 [Remote UDF](remote-udf)之外，现在你还可以使用 JavaScript 来定义新函数。 支持标量函数和聚合函数。 请查看 [JS UDF](js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。

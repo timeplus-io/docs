@@ -15,7 +15,7 @@ import TabItem from '@theme/TabItem';
 
 接下来，您需要为工作区设置API密钥，并在 HTTP标头中将API密钥的名称设置为`X-Api-Key`。
 
-:::注意
+:::info
 
 如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义HTTP标头的话，您可以使用值为`ApiKey $KEY`的标准`Authorization`标头。
 
@@ -25,15 +25,15 @@ import TabItem from '@theme/TabItem';
 
 ### 终端
 
-实时数据推送的API终端是`https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`。
+实时数据推送的 API 是 `https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
 
-:::注意
+:::info
 
 请确保您使用的是`workspace-id`，而不是`workspace-name`。 Workspace-id是一个包含 8 个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
 
 :::
 
-您需要发送`POST`请求到这个终端，例如：`https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest`。
+您需要发送 `POST` 请求到 URL`https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest`
 
 ### 选项
 
@@ -159,9 +159,9 @@ public class Example {
 - `application/x-ndjson`
 - `application/vnd.timeplus+json;format=streaming`
 
-:::注意
+:::info
 
-如果您想利用第三方系统/工具将数据推送到Timeplus中，但它不允许自定义内容类型时，您可以使用标准的`application/json`，并将POST请求发送到`/api/v1beta2/streams/$STREAM_NAME/ingest?format=streaming`。 这可以确保Timeplus的API服务器将POST数据视为NDJSON。
+如果您想利用第三方系统/工具将数据推送到Timeplus中，但它不允许自定义内容类型时，您可以使用标准的`application/json`，并将POST请求发送到`/api/v1beta2/streams/$STREAM_NAME/ingest?format=streaming`。 这可以确保 Timeplus 的 API 服务器将 POST 数据视为 NDJSON。
 
 :::
 
@@ -296,7 +296,7 @@ public class Example {
   </TabItem>
 </Tabs>
 
-在Timeplus中创建一个单个`string`类型称为`raw`的流是一种常见的做法。您可以将复杂JSON对象放入该列然后动态提取某个路径的值（例如`select raw:key1`），或者将原始日志消息放入该列。
+在 Timeplus 中创建具有单个 `string` 列的直播是一种常见的做法，称为 `raw`。 您可以将 JSON 对象放在此列中，然后提取值（例如 `select raw: key1`），或者将原始日志消息放入此列中。
 
 当您将Content-Type标头设置为`text/plain`，并将`format=raw`添加到URL时，整个POST请求将被放入`raw`列中。
 
@@ -402,7 +402,7 @@ public class Example {
   </TabItem>
 </Tabs>
 
-当你将Content-Type标头设置为`text/plain`，并将`format=lines`添加到摄取终端时，POST请求中的每一行都将被放入`raw`列中。
+当你将 Content-Type 标头设置为`text/plain`，并将 `format=lines` 添加到摄取终端时，POST 请求中的每一行都将被放入 `raw` 列中。
 
 #### 4）批量推送多个不重复列的事件 {#option4}
 请求例子
@@ -532,7 +532,7 @@ public class Example {
 
 因此，我们还提供了一个性能更高的解决方案，只需要发送一次列名。
 
-相同的终端网址：`https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
+相同的API 地址：`https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
 
 但您需要将HTTP标头设置为以下其中一个：
 
@@ -555,7 +555,7 @@ public class Example {
 备注：
 
 - `columns` 是一个字符串数组，带有一些列列名
-- `data` 是一个数组。 每个嵌套数组代表一行数据。 值的顺序必须与`columns`中的顺序完全相同。
+- `data` 是数组的一个数组。 每个嵌套数组代表一行数据。 值的顺序必须与`columns`中的顺序完全相同。
 
 例如：
 

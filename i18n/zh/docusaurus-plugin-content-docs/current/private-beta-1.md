@@ -98,7 +98,7 @@
   * 现在您可以在工作区菜单中注册 UDF (User-Defined-Function) (仅适用于工作区管理员)
   * 大大改进流创建页面中的数据类型选择器
   * 改进布尔值和日期类型的列显示以及更好的空值
-  * 精炼导航菜单的外观&
+  * 精炼导航菜单的外观&感觉
   * 改进了错误消息的显示
 
 
@@ -107,7 +107,7 @@
 * 流引擎
 
   * [会话窗口](functions#session) 现在支持 window_start/window_end。
-  * 添加新的 [滞后](functions#lags) 函数来获得一系列过去的结果。 这可能有助于基于纯SQL的ML/预配。
+  * 添加新的 [滞后](functions#lags) 函数来获得一系列过去的结果。 这可以帮助基于纯 SQL 的 ML/预配。
   * 添加了一个新的 [grok](functions#grok) 函数来解析一行文本到键/值对等符号，而无需写正则表达式。
 
 * 源和汇：
@@ -128,7 +128,7 @@
 ### 6/13周
 
 * 流引擎
-  * 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
+  * 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。 这将解锁更多使用状态流处理的情况，例如 [流媒体通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
   * 添加 [数组处理](functions#arrays)的其他函数，例如 [array_sum](functions#array_sum), [array_avg](functions#array_avg)
 * 源和汇：
   * Kafka 源支持无需认证的本地schema 注册表
@@ -140,7 +140,7 @@
 
 * 流引擎
   * 更多 [的数学函数](functions#math) 被曝光。 这可以帮助您运行基于 SQL 的简单ML/预测模型。
-  * (实验性) [流到串流加入](query-syntax#stream_stream_join) 不再需要 `日期_diff_within (...)`, 尽管仍然建议添加时间戳约束以提高性能。
+  * (实验性) [流到流加入](query-syntax#stream_stream_join) 不再需要 `date_diff_within (...)`，尽管仍然建议添加时间戳约束以提高性能。
   * (试验性的)能够为每一流制定保留政策， 基于时间的(说只保持最近的7天数据)，或基于大小(说只保持最近的1GB数据)
 * 源和汇：
   * (实验性) 支持 REST API中的个人访问令牌(PAT)，该令牌为长寿(或设定过期日期)和每个用户。 租户级别的访问令牌将被弃用。
@@ -151,8 +151,8 @@
 ### 5/30周
 
 * 流引擎
-  * (实验性) 能够使用外部的 Kakfa/Confluent/Redpanda 作为Timeplus流存储。
-  * (实验性) [表格](functions#table) 函数现在可以与 [search_to](query-syntax) 一起。 您可以通过合并 `表格(流名)` 和 `设置来查询历史数据。 '`
+  * （实验性）能够使用外部的 Kakfa/Confluent/Redpanda 作为 Timeplus 流存储。
+  * （实验性） [表格](functions#table) 函数现在可以与 [search_to](query-syntax) 一起。 您可以通过合并 `表格(流名)` 和 `设置来查询历史数据。 `
 * 源和汇：
   * 使用 [datapm](https://datapm.io/docs/quick-start/) 发送实时Twitter 数据到 https://demo.timeplus.com
   * 更新 [REST API doc](https://docs.timeplus.com/rest.html), `/exec` 端点已被删除。 发送 `POST` 请求给 `/查询` 替代。

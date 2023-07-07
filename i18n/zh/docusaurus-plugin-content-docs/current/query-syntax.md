@@ -24,7 +24,7 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 总体来说，Timeplus中的流式查询建立了一个与客户端的长长HTTP/TCP连接，并且根据 `EMIT` 策略持续评估查询和流返回结果，直到结束客户端 中止查询或出现一些异常。 时间插件支持一些内部 `设置` 来微调流式查询处理行为。 以下是一份详尽无遗的清单。 我们将在下面的章节中再谈这些问题。
 
 1. `query_mode=<table|streaming>` 总体查询是否为历史数据处理或流数据处理的常规设置。 默认情况下，是 `串流`。
-2. `seek_to=<timestamp|eariest|latest>`. 设置告诉 Timeplus 通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='eariest'`
+2. `seek_to=<timestamp|earliest|latest>`. 设置告诉 Timeplus 通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
 :::info
 
@@ -115,7 +115,7 @@ Timeplus中的`tumble` 窗口左闭右开 `[)` meaning it includes all events wh
 Timeplus支持tumble窗口的2个发射策略，所以 `<window_emit_policy>` 可以是：
 
 1. `预留水印`: 集合结果将在水印观察后立即排放到客户端。 省略此条款时这是默认行为。
-2. `预留水域和水域 <internval>`: 集合结果将在观察到水印后保存，直到指定的延迟到达为止。 用户可以对延迟使用间隔快捷键。 例如， `DELAY 5s`。
+2. `预留水域和水域 <interval>`: 集合结果将在观察到水印后保存，直到指定的延迟到达为止。 用户可以对延迟使用间隔快捷键。 例如， `DELAY 5s`。
 
 **注意** `水印` 是一个内部的时间戳，由Timeplus观察、计算和释放，用来表示流式窗口何时关闭。 保证每个流量查询都能增加单一流量。
 
@@ -156,7 +156,7 @@ GROUP BY device, window_end
 EMIT AFTER WATERMARK DELAY 2s;
 ```
 
-### 热流窗口聚合 {#hop}
+### 滑动窗口聚合 {#hop}
 
 像 [Tumble](#tumble)一样，Hop也将无限流流量数据切片放入较小的窗口，它还有一个附加的滑动步骤。
 
@@ -173,7 +173,7 @@ EMIT <window_emit_policy>
 设置 <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-Hop窗口与tumble窗口相比是一个更加普遍化的窗口。 Hop窗口有一个额外的 参数，名为 `<hop_slide_size>` ，这意味着每次都要进这个幻灯片尺寸。 共有3起案件：
+滑动窗口与tumble窗口相比是一个更加普遍化的窗口。 滑动窗口有一个额外的 参数，名为 `<hop_slide_size>` ，这意味着每次都要进这个幻灯片尺寸。 共有3起案件：
 
 1. `<hop_slide_size>` 等于 `<hop_window_size>`。 衰落到tumble窗口。
 2. `<hop_slide_size>` 小于 `<hop_window_size>`. Hop窗口有重叠，意味着事件可能会进入几个节点窗口。 衰落到tumble窗口。
@@ -191,7 +191,7 @@ Hop窗口与tumble窗口相比是一个更加普遍化的窗口。 Hop窗口有�
 ...
 ```
 
-除了这个跳跃窗口可能有重叠，其他语义与tumble窗口相同。
+除了这个滑动窗口可能有重叠，其他语义与tumble窗口相同。
 
 ```sql
 SELECT device, max(cpu_usage)
@@ -202,13 +202,13 @@ EMIT AFTER WATERMARK;
 
 上面的示例 SQL 持续聚合每个设备在表 `设备 _utils` 中的最大cpu 使用量。 每次关闭一个窗口，Timeplus号发布聚合结果。
 
-### 最后X流处理
+### 最近若干时间处理
 
-在串流处理中，有一个典型的查询正在处理过去 X 秒/分钟/小时的数据。 例如，在过去 1 小时内显示每台设备的 cpu 使用量。 我们称这种类型的处理 `最后X 流处理` Timeplus和Timeplus提供专门的 SQL 扩展以便于使用： `EMIT LAST <n><UNIT>` 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。
+在流处理中，有一个典型的查询正在处理过去 X 秒/分钟/小时的数据。 例如，在过去 1 小时内显示每台设备的 cpu 使用量。 我们称这种类型的处理 `最后X 流处理` Timeplus和Timeplus提供专门的 SQL 扩展以便于使用： `EMIT LAST <n><UNIT>` 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。
 
 **现在请注意** 最后的 X 串流处理是默认的处理时间处理，Timeplus 将寻找流式存储器以在最后的 X 时间范围内回填数据，它正在使用墙时钟时间进行寻找。 基于事件时间的最后X处理仍在开发中。 当基于事件的最后X处理准备就绪时，默认的最后X处理将被更改为事件时间。
 
-#### 最后X 尾迹
+#### 最近若干时间数据扫描
 
 正在修改事件时间戳处于最后X范围内的事件。
 
@@ -237,7 +237,7 @@ EMIT LAST 5m
 
 上面的示例过滤器事件在 `device_utils` 表中，其中 `cpu_usage` 大于80%，事件在过去 5 分钟内被添加。 在内部，Timeplus寻求流式存储回到5分钟(从现在起全时时间)并从那里压缩数据。
 
-#### 最后X 全球聚合
+#### 最近若干时间全局聚合
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -263,7 +263,7 @@ EMIT LAST 1h AND PERIODIC 5s
 SETTINGS max_keep_windows=720;
 ```
 
-#### 最后X 窗口聚合
+#### 最近若干时间窗口聚合
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -301,9 +301,9 @@ SETTTINGS max_keep_windows=720;
 
 同样，我们可以在跳跃窗口上应用最后X。
 
-### Subquery
+### 子查询
 
-#### Vanilla Subquery
+#### 普通子查询
 
 原版子查询没有任何聚合(这是一个递归定义)，但可以任意数目的过滤预测、转换函数。 一些系统调用这个 `平坦地图`。
 
@@ -324,7 +324,7 @@ Vanilla 子查询可以任意嵌套，直到达到Timeplus的系统限制。 外
 WITH filtered AS(
     SELECT * FROM device_utils WHERE cpu_usage > 80 -- vanilla subquery
 )
-SELECT device, max(cpu_usage) FROM filteed GROUP BY device;
+SELECT device, max(cpu_usage) FROM filtered GROUP BY device;
 ```
 
 在一个查询中可以定义多个CTE，例如：
@@ -375,11 +375,11 @@ FROM
 GROUP BY device;
 ```
 
-#### 全球聚合子查询
+#### 全局聚合子查询
 
 全球综合子查询包括全球汇总。 有一些限制用户可以处理全局总合子查询：
 
-1. Timeplus支持全局聚合而不是全局聚合，它们可以是多个层次，直到达到系统限制为止。
+1. Timeplus支持全局聚合而不是全局聚合，可以是多个层次，直到达到系统限制为止。
 2. 全局聚合的平面转换可以是多层次，直到系统限制被击中。
 3. 不支持全局聚合的窗口聚合。
 
@@ -395,7 +395,7 @@ FROM
 ) AS avg_5_second;
 ```
 
-### 流量和尺寸表加入{#stream_table_join}
+### 流表和维度表联查{#stream_table_join}
 
 在 Timeplus 中，所有数据都生活在流中，默认查询模式正在流中。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 要查询流的历史数据，可以使用 `table()` 函数。
 
@@ -420,7 +420,7 @@ WHERE device_products_info._tp_time > '2020-01-01T01:01';
    1. `流` INNER JOIN `单个或多个维度表`
    2. `流` LEFT [OUTER] JOIN `单个或多个维度表`
 
-### 流到串流连接 {#stream_stream_join}
+### 流到流联查 {#stream_stream_join}
 
 在某些情况下，实时数据流向多个数据流。 例如，当广告展示给最终用户时，当用户点击广告时。 Timeplus允许您对多个数据流进行关联搜索。 当用户点击广告后，您可以检查平均时间。
 
@@ -444,7 +444,7 @@ Timeplus 支持多种类型的JOIN：
 
 * 常见是 `INNER JOIN`, `LEFT JOIN`, `Right JOIN`, `FULL JOIN`.
 * 一种特殊的 `CROSS JOIN`，它在不考虑连接键的情况下生成两个流的完整笛卡尔乘积。 左侧流中的每一行与右侧流的每一行合并在一起。
-* 特殊的 `ASOF JOIN` 提供非精确匹配功能。 This can work well if two streams with same id, but not with exactly same timestamps.
+* 特殊的 `ASOF JOIN` 提供非精确匹配功能。 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
 * 特别的 `LATEST JOIN`.  对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
 

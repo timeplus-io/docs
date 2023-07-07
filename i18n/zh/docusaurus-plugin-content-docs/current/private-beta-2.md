@@ -30,7 +30,7 @@
 
 * 流引擎
   * 添加了一个 [round](functions#round) 函数来将一个值转到指定的小数位位置。
-  * 改进集群支持。
+  * 改进了对集群的支持。
 * 源、 汇、 API 和 SDK
   * 为仪表板添加新的 CRUD API。 升级期间将自动删除主页上的上一个图表。
   * 简化串流演示的主机名到 https://timeplus.streamlitapp.com

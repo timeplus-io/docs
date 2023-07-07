@@ -1,6 +1,6 @@
 # 从 Pulsar 加载流数据
 
-Apache® PulsarTM 是一个云端、分发、开源消息和流式平台，用于实时工作量。 最近，Timeplus为Apache Pulsar添加了原生支持，既作为数据源又作为数据下游。
+Apache® PulsarTM 是一个云端、分发、开源消息和流式平台，用于实时工作量。 最近，Timeplus 为 Apache Pulsar添加了一流的集成，既可以作为数据源，也可以作为数据下游。
 
 ## 支持的 Pulsar 版本、部署和身份验证
 

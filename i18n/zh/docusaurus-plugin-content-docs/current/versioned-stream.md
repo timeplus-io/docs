@@ -1,113 +1,113 @@
 # 多版本流
 
-When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a JOIN with other streams, Timeplus will automatically choose the closest version.
+当您使用 `versioned_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 当您在与其他流的 JOIN 中将这个流用作 “右表” 时，Timeplus 会自动选择最接近的版本。
 
-Here are some examples:
+以下是一些例子：
 
-## Query Single Stream
+## 查询单个流
 
-In this example, you create a stream `dim_products` in `versioned_kv` mode with the following columns:
+在此示例中，您在 `versioned_kv` 模式中创建了一个带有以下列的流 `dim_products`：
 
-| Column Name | Date Type           | 描述                                                                                                                       |
-| ----------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| _tp_time  | datetime64(3,'UTC') | this is automatically created for all streams in Timeplus, with the event time at millisecond precision and UTC timezone |
-| product_id  | string              | unique id for the product, as the primary key                                                                            |
-| price       | float               | current price                                                                                                            |
+| 列名         | 数据类型                | 描述                                         |
+| ---------- | ------------------- | ------------------------------------------ |
+| _tp_time | datetime64(3,'UTC') | 它是自动为所有在 Timeplus 中的流创建的，具有毫秒精度和UTC时区的事件时间 |
+| 产品名称       | 字符串                 | 产品的唯一 ID，作为主键                              |
+| 价格         | 浮点数                 | 当前价格                                       |
 
-If you don't add any data, query `SELECT * FROM dim_products` will return no results and keep waiting for the new results.
+如果您没有添加任何数据，查询 `SELECT * FROM dim_products` 将不返回任何结果并继续等待新的结果。
 
-Now cancel this query, and add a few more rows to the stream.
+现在取消此查询，再向流中添加几行。
 
-| product_id    | price |
-| ------------- | ----- |
-| iPhone14      | 799   |
-| iPhone14_Plus | 899   |
+| 产品名称          | 价格  |
+| ------------- | --- |
+| iPhone14      | 799 |
+| iPhone14_Plus | 899 |
 
-Running `SELECT * FROM dim_products` again will get those 2 rows.
+再次运行 `SELECT * FROM dim_products` 将获得这两行。
 
-Now if you add one more row:
+现在，如果您再添加一行：
 
-| product_id | price |
-| ---------- | ----- |
-| iPhone14   | 800   |
+| 产品名称     | 价格  |
+| -------- | --- |
+| iPhone14 | 800 |
 
-Then query `SELECT * FROM dim_products` again will get 2 rows (not 3, because the initial price of "iPhone14" is overwritten).
+然后再次查询 `SELECT * FROM dim_products` 将获得两行（不是三行，因为“iPhone14”的初始价格已被覆盖）。
 
-| product_id    | price |
-| ------------- | ----- |
-| iPhone14      | 800   |
-| iPhone14_Plus | 899   |
+| 产品名称          | 价格  |
+| ------------- | --- |
+| iPhone14      | 800 |
+| iPhone14_Plus | 899 |
 
-As you can imagine, you can keep adding new rows. If the primary key is new, then you will get a new row in the query result. If the primary key exists already, then the previous row is overwritten with the values in the newly-added row.
+正如您想象的，您可以继续添加新的行。 如果主键是新的，那么您将在查询结果中获得一个新的行。 如果主键已经存在，则前一行将被新添加行中的值覆盖。
 
 :::info
 
-In fact, you can assign an expression as the primary key. For example you can use `first_name||' '||last_name` to use the combined full name as the primary key, instead of using a single column.
+事实上，您可以指定一个表达式作为主键。 例如，您可以使用 `first_name|' '||last_name` 来合并全名作为主键，而不是使用单列。
 
 :::
 
-## Use Versioned Stream in INNER JOIN
+## 在 INNER JOIN 中使用多版本流
 
-In the above example, you always get the latest version of the event with the same primary key. This works in the similar way as [Changelog Stream](changelog-stream). The reason why this stream mode is called Versioned Stream is that multiple versions will be tracked by Timeplus. This is mainly used when the Versioned Stream acts as the "right-table" for the JOIN.
+在上述示例中，您总是获得具有相同主键的事件的最新版本。 其运行方式与 [变更日志流](changelog-stream) 类似。 这种流模式之所以被称为多版本流，是因为 Timeplus 将跟踪多个版本。 这主要在多版本流充当 JOIN 的 “右表” 时使用。
 
-Imagine you have an append-only stream for the `orders`:
+想象您有 `订单` 的一个附加流：
 
-| _tp_time | order_id | product_id | quantity |
-| ---------- | -------- | ---------- | -------- |
-|            |          |            |          |
+| _tp_time | 订单编号 | 产品名称 | 数量 |
+| ---------- | ---- | ---- | -- |
+|            |      |      |    |
 
-Now start a streaming SQL:
+现在运行流式SQL：
 
 ```sql
 SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS amount
 FROM orders JOIN dim_products USING(product_id)
 ```
 
-Then add 2 rows:
+然后添加两行：
 
-| _tp_time               | order_id | product_id    | quantity |
-| ------------------------ | -------- | ------------- | -------- |
-| 2023-04-20T10:00:00.000Z | 1        | iPhone14      | 1        |
-| 2023-04-20T10:01:00.000Z | 2        | iPhone14_Plus | 1        |
+| _tp_time               | 订单编号 | 产品名称          | 数量 |
+| ------------------------ | ---- | ------------- | -- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone14      | 1  |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone14_Plus | 1  |
 
-In the query console, you will see 2 rows one by one:
+在查询控制台中，您将逐一看到这两行：
 
-| _tp_time               | order_id | product_id    | quantity | 金额  |
-| ------------------------ | -------- | ------------- | -------- | --- |
-| 2023-04-20T10:00:00.000Z | 1        | iPhone14      | 1        | 800 |
-| 2023-04-20T10:01:00.000Z | 2        | iPhone14_Plus | 1        | 899 |
+| _tp_time               | 订单编号 | 产品名称          | 数量 | 金额  |
+| ------------------------ | ---- | ------------- | -- | --- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone14      | 1  | 800 |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone14_Plus | 1  | 899 |
 
-Then you can change the price of iPhone14 back to 799, by adding a new row in `dim_products`
+然后，您可以通过在 `dim_products` 中添加新的一行来更改 iPhone14 的价格至799
 
-| product_id | price |
-| ---------- | ----- |
-| iPhone14   | 799   |
+| 产品名称     | 价格  |
+| -------- | --- |
+| iPhone14 | 799 |
 
-Also add a new row in `orders`
+也在 `订单` 中添加新的一行
 
-| _tp_time               | order_id | product_id | quantity |
-| ------------------------ | -------- | ---------- | -------- |
-| 2023-04-20T11:00:00.000Z | 3        | iPhone14   | 1        |
+| _tp_time               | 订单编号 | 产品名称     | 数量 |
+| ------------------------ | ---- | -------- | -- |
+| 2023-04-20T11:00:00.000Z | 3    | iPhone14 | 1  |
 
-You will get the 3rd row in the previous streaming SQL:
+您将在前一个流式 SQL 中获得第三行：
 
-| _tp_time               | order_id | product_id    | quantity | 金额  |
-| ------------------------ | -------- | ------------- | -------- | --- |
-| 2023-04-20T10:00:00.000Z | 1        | iPhone14      | 1        | 800 |
-| 2023-04-20T10:01:00.000Z | 2        | iPhone14_Plus | 1        | 899 |
-| 2023-04-20T11:00:00.000Z | 3        | iPhone14      | 1        | 799 |
+| _tp_time               | 订单编号 | 产品名称          | 数量 | 金额  |
+| ------------------------ | ---- | ------------- | -- | --- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone14      | 1  | 800 |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone14_Plus | 1  | 899 |
+| 2023-04-20T11:00:00.000Z | 3    | iPhone14      | 1  | 799 |
 
-It shows that the latest price of iPhone14 is applied to the JOIN of new event.
+可以看出，iPhone14 的最新价格被应用到新事件的 JOIN 中。
 
-You can also run a streaming SQL `select sum(price) from dim_products`, it should show the number 1698, because the latest prices are 799 and 899.
+您也可以运行一个流式 SQL `select sum(price) from dim_products`，它应显示1698，因为最新的价格是799和899。
 
-If you add a new row to set iPhone14 to 800, cancel the previous query and run again, you will get 1699.
+如果您添加新的一行以将 iPhone14 设置为 800，取消之前的查询并再次运行，您将获得 1699。
 
-## Use Versioned Stream in ASOF JOIN
+## 在 ASOF JOIN 中使用多版本流
 
-The best part of Versioned Stream is that in `ASOF JOIN` Timeplus is able to automatically choose the closest version.
+多版本流的最佳部分是在 `ASOF JOIN` 中 Timeplus 能够自动选择最接近的版本。
 
-Continue on our previous scenario.
+继续前面的场景。
 
 ```sql
 SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS amount
@@ -115,14 +115,14 @@ FROM orders ASOF JOIN dim_products
 ON orders.product_id=dim_products.product_id AND orders._tp_time >= dim_products._tp_time
 ```
 
-If the current iPhone14 price is 800, and you add a new order for 1 iPhone14, then you will get transaction amount as 800.
+如果当前的 iPhone14 价格为 800，并且您添加了1部 iPhone14 的新订单，那么您将获得 800 的交易金额。
 
-Then you change iPhone14 price to 799, and add a new order for 1 iPhone14, you will get transaction amount as 799.
+然后您将 iPhone14 的价格更改为 799，并添加一个 iPhone14 的新订单，您将获得799的交易金额。
 
-But if you add an order with _tp_time before the price change, you will get the transaction amount as 800 again, because Timeplus keeps multiple versions for the price and choose the older version that best matches the order time.
+但是，如果您在价格变动之前使用 _tp_time 添加订单，则交易金额将再次变为 800，因为 Timeplus 保留了多个版本的价格，并选择了与订单时间最匹配的旧版本。
 
 :::info
 
-If you are not familiar with `ASOF JOIN`, this special JOIN provides non-exact matching capabilities. This can work well if two streams with same id, but not with exactly same timestamps.
+如果你不熟悉 `ASOF JOIN` ，这个特殊的 JOIN 可以提供非精确匹配功能。 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
 
 :::

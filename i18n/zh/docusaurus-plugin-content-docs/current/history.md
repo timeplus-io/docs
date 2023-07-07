@@ -2,7 +2,7 @@
 
 Timeplus还支持纯历史数据查询处理。 有两种方法来做它
 
-1. 为整个查询设置 `query_mode='table'` 。 如果查询中有多个流，并且用户希望在查询中对历史数据进行整体处理，则此模式很有用。
+1. 为整个查询设置 `query_mode='table'` 。 如果查询中有多个流，并且用户喜欢在查询中作为一个整体进行历史数据处理，则此模式非常有用。
 
 ```sql
 SELECT * FROM device_utils 设置 TTINGS query_mode='table';
