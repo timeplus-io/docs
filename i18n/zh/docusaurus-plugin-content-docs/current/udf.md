@@ -13,11 +13,11 @@
 
 
 
-:::info
+:::注意
 
-Please note, there are many factors to determine the number of function calls. For example, when you run a query, Timeplus query analzyer will dry-run the query first. During the query execution, a batch of data will be sent to the UDF, depending on how the data is organzied.
+请注意，决定函数调用次数的因素有很多。 例如，当您运行查询时，Timeplus 查询分析器将首先试运行查询。 在查询执行期间，一批数据将发送到 UDF，具体取决于数据的组织方式。
 
-Long story short, developers should not make assumption for the number of function calls. For User-defined scalar functions (UDFs) it should be stateless, and for User-defined aggregate functions (UDAFs), data might be aggregated more than once, but the final result is correct.
+长话短说，开发者不应该假设函数调用的次数。 对于用户定义的标量函数 (UDF)，它应该是无状态的；对于用户定义的聚合函数 (UDAF)，数据可能会被多次聚合，但最终结果是正确的。
 
 :::
 
