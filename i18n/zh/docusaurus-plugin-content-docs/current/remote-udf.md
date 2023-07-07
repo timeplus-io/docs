@@ -63,7 +63,7 @@ exports.handler = async (event) => {
 
 ## 注册UDF
 
-Only Timeplus workspace administrators can register new UDF. Open the Workspace menu on the left, then choose the "User-Defined Functions" tab, and click the 'Register New Function' button.
+只有Timeplus工作区管理员才能注册新的UDF。 打开左边的工作区菜单，然后选择"用户定义函数"选项卡，然后点击"注册新函数"按钮。
 
 只需为函数选择一个名称并指定输入/输出数据类型。 在表单中设置Lambda URL。 您可以选择在 HTTP 头中启用额外的验证密钥/值，保护端点以避免未经授权的访问。
 
