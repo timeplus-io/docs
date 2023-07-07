@@ -1,206 +1,206 @@
 {
   "theme.ErrorPageContent.title": {
     "message": "页面已崩溃。",
-    "description": "The title of the fallback page when the page crashed"
+    "description": "页面崩溃时的回退页的标题"
   },
   "theme.ErrorPageContent.tryAgain": {
     "message": "再试一次",
-    "description": "The label of the button to try again rendering when the React error boundary captures an error"
+    "description": "当 React 错误边界捕获到错误时，要尝试再次呈现的按钮的标签"
   },
   "theme.NotFound.title": {
     "message": "无法找到页面",
-    "description": "The title of the 404 page"
+    "description": "404 页面的标题"
   },
   "theme.NotFound.p1": {
     "message": "我们找不到您要找的页面。",
-    "description": "The first paragraph of the 404 page"
+    "description": "404 页面的第一段"
   },
   "theme.NotFound.p2": {
     "message": "请联系为你提供连接的人, 让他们知道这个链接不可用.",
-    "description": "The 2nd paragraph of the 404 page"
+    "description": "404 页面的第二段"
   },
   "theme.admonition.note": {
     "message": "备注",
-    "description": "The default label used for the Note admonition (:::note)"
+    "description": "用于注释警告的默认标签（:::note）"
   },
   "theme.admonition.tip": {
-    "message": "tip",
-    "description": "The default label used for the Tip admonition (:::tip)"
+    "message": "提示",
+    "description": "用于提示警告的默认标签（:::tip）"
   },
   "theme.admonition.danger": {
-    "message": "danger",
-    "description": "The default label used for the Danger admonition (:::danger)"
+    "message": "危险",
+    "description": "用于危险警告的默认标签（:::danger）"
   },
   "theme.admonition.info": {
-    "message": "info",
-    "description": "The default label used for the Info admonition (:::info)"
+    "message": "注意",
+    "description": "用于注意警告的默认标签（:::info）"
   },
   "theme.admonition.caution": {
-    "message": "caution",
-    "description": "The default label used for the Caution admonition (:::caution)"
+    "message": "警告",
+    "description": "用于Caution警告的默认标签（:::Caution）"
   },
   "theme.BackToTopButton.buttonAriaLabel": {
     "message": "回到顶部",
-    "description": "The ARIA label for the back to top button"
+    "description": "返回顶部按钮的 ARIA 标签"
   },
   "theme.blog.archive.title": {
     "message": "归档",
-    "description": "The page & hero title of the blog archive page"
+    "description": "博客归档页面的页面和英雄标题"
   },
   "theme.blog.archive.description": {
     "message": "归档",
-    "description": "The page & hero description of the blog archive page"
+    "description": "博客归档页面的页面和英雄描述"
   },
   "theme.blog.paginator.navAriaLabel": {
     "message": "博客列表导航",
-    "description": "The ARIA label for the blog pagination"
+    "description": "博客分页的 ARIA 标签"
   },
   "theme.blog.paginator.newerEntries": {
     "message": "较新的博文",
-    "description": "The label used to navigate to the newer blog posts page (previous page)"
+    "description": "用于导航到较新的博客文章页面的标签（前一页）"
   },
   "theme.blog.paginator.olderEntries": {
     "message": "较早的文章",
-    "description": "The label used to navigate to the older blog posts page (next page)"
+    "description": "用于导航到较旧的博客文章页面的标签（下一页）"
   },
   "theme.blog.post.paginator.navAriaLabel": {
     "message": "博文页面导航",
-    "description": "The ARIA label for the blog posts pagination"
+    "description": "博客文章分页的 ARIA 标签"
   },
   "theme.blog.post.paginator.newerPost": {
     "message": "较新的帖子",
-    "description": "The blog post button label to navigate to the newer/previous post"
+    "description": "博客帖子按钮标签，用于导航到较新的博文/上一个博文按钮标签"
   },
   "theme.blog.post.paginator.olderPost": {
     "message": "较旧的帖子",
-    "description": "The blog post button label to navigate to the older/next post"
+    "description": "博客帖子按钮标签，用于导航到较旧的博文/上一个博文按钮标签"
   },
   "theme.blog.post.plurals": {
     "message": "{count} 篇博文",
-    "description": "Pluralized label for \"{count} posts\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+    "description": "“{count} 文章” 的多元化标签。尽可能多地使用复数形式（用 “|” 分隔），以支持您的语言（详情见 https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html）"
   },
   "theme.blog.tagTitle": {
     "message": "{nPosts} 含有标签「{tagName}」",
-    "description": "The title of the page for a blog tag"
+    "description": "博客标签的页面标题"
   },
   "theme.tags.tagsPageLink": {
     "message": "查看所有标签",
-    "description": "The label of the link targeting the tag list page"
+    "description": "指向标签列表页面的链接的标签"
   },
   "theme.colorToggle.ariaLabel": {
     "message": "选择暗色/浅色模式 (当前为 {mode})",
-    "description": "The ARIA label for the navbar color mode toggle"
+    "description": "导航栏颜色模式切换的 ARIA 标签"
   },
   "theme.colorToggle.ariaLabel.mode.dark": {
     "message": "暗色模式",
-    "description": "The name for the dark color mode"
+    "description": "深色模式的名称"
   },
   "theme.colorToggle.ariaLabel.mode.light": {
     "message": "浅色模式",
-    "description": "The name for the light color mode"
+    "description": "浅色模式的名称"
   },
   "theme.docs.breadcrumbs.home": {
     "message": "主页",
-    "description": "The ARIA label for the home page in the breadcrumbs"
+    "description": "首页面包屑导航中的 ARIA 标签"
   },
   "theme.docs.breadcrumbs.navAriaLabel": {
     "message": "面包屑导航",
-    "description": "The ARIA label for the breadcrumbs"
+    "description": "面包屑导航的 ARIA 标签"
   },
   "theme.docs.DocCard.categoryDescription": {
     "message": "{count} 篇内容  ",
-    "description": "The default description for a category card in the generated index about how many items this category includes"
+    "description": "生成的索引中类别卡的默认描述，说明该类别包含多少项"
   },
   "theme.docs.paginator.navAriaLabel": {
     "message": "文档页面导航",
-    "description": "The ARIA label for the docs pagination"
+    "description": "文档分页的 ARIA 标签"
   },
   "theme.docs.paginator.previous": {
     "message": "上一篇",
-    "description": "The label used to navigate to the previous doc"
+    "description": "用于导航到上一篇文档的标签"
   },
   "theme.docs.paginator.next": {
     "message": "下一篇",
-    "description": "The label used to navigate to the next doc"
+    "description": "用于导航到下一篇文档的标签"
   },
   "theme.docs.tagDocListPageTitle.nDocsTagged": {
     "message": "{count} 篇文档带有标签",
-    "description": "Pluralized label for \"{count} docs tagged\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+    "description": "“{count} 篇文档” 的多元化标签。尽可能多地使用复数形式（用 “|” 分隔），以支持您的语言（详情见 https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html）"
   },
   "theme.docs.tagDocListPageTitle": {
     "message": "{nDocsTagged} 的标签是 \"{tagName}\"",
-    "description": "The title of the page for a docs tag"
+    "description": "文档标签的页面标题"
   },
   "theme.docs.versionBadge.label": {
     "message": "版本：{versionLabel}"
   },
   "theme.docs.versions.unreleasedVersionLabel": {
     "message": "此为 {siteTitle} {versionLabel} 版尚未发行的文档。",
-    "description": "The label used to tell the user that he's browsing an unreleased doc version"
+    "description": "这个标签用来告诉用户他正在浏览一个未发布的文档版本"
   },
   "theme.docs.versions.unmaintainedVersionLabel": {
     "message": "此为 {siteTitle} {versionLabel} 版的文档，现已不再积极维护。",
-    "description": "The label used to tell the user that he's browsing an unmaintained doc version"
+    "description": "这个标签用来告诉用户他正在浏览一个未维护的文档版本"
   },
   "theme.docs.versions.latestVersionSuggestionLabel": {
     "message": "要查看最新版本，请参阅{latestVersionLink}({versionLabel})。",
-    "description": "The label used to tell the user to check the latest version"
+    "description": "用来告诉用户检查最新版本的标签"
   },
   "theme.docs.versions.latestVersionLinkLabel": {
     "message": "最新文档",
-    "description": "The label used for the latest version suggestion link label"
+    "description": "用于最新版本建议链接标签的标签"
   },
   "theme.common.editThisPage": {
     "message": "编辑此页面",
-    "description": "The link label to edit the current page"
+    "description": "用于编辑当前页面的链接标签"
   },
   "theme.common.headingLinkTitle": {
     "message": "标题直链",
-    "description": "Title for link to heading"
+    "description": "标题链接的标题"
   },
   "theme.lastUpdated.atDate": {
     "message": " 于 {date}",
-    "description": "The words used to describe on which date a page has been last updated"
+    "description": "用来描述页面最后更新的日期的单词"
   },
   "theme.lastUpdated.byUser": {
     "message": " 由 {user}",
-    "description": "The words used to describe by who the page has been last updated"
+    "description": "用来描述页面最后更新者是谁的单词"
   },
   "theme.lastUpdated.lastUpdatedAtBy": {
     "message": "最后更新在 {atDate}，由 {byUser} 撰写",
-    "description": "The sentence used to display when a page has been last updated, and by who"
+    "description": "用于显示页面最后更新时间以及更新者是谁的句子"
   },
   "theme.navbar.mobileVersionsDropdown.label": {
     "message": "版本",
-    "description": "The label for the navbar versions dropdown on mobile view"
+    "description": "移动视图上导航栏版本下拉的标签"
   },
   "theme.tags.tagsListLabel": {
     "message": "标签：",
-    "description": "The label alongside a tag list"
+    "description": "标签列表旁边的标签"
   },
   "theme.AnnouncementBar.closeButtonAriaLabel": {
     "message": "关闭",
-    "description": "The ARIA label for close button of announcement bar"
+    "description": "通知栏关闭按钮的 ARIA 标签"
   },
   "theme.blog.sidebar.navAriaLabel": {
     "message": "最近博文导航",
-    "description": "The ARIA label for recent posts in the blog sidebar"
+    "description": "博客侧边栏中最近发布的文章的 ARIA 标签"
   },
   "theme.CodeBlock.copied": {
     "message": "已复制",
-    "description": "The copied button label on code blocks"
+    "description": "代码块上复制的按钮标签"
   },
   "theme.CodeBlock.copyButtonAriaLabel": {
     "message": "复制代码到剪贴板",
-    "description": "The ARIA label for copy code blocks button"
+    "description": "用于复制代码块的 ARIA 标签按钮"
   },
   "theme.CodeBlock.copy": {
     "message": "复制",
-    "description": "The copy button label on code blocks"
+    "description": "代码块上复制的按钮标签"
   },
   "theme.CodeBlock.wordWrapToggle": {
     "message": "切换自动换行",
-    "description": "The title attribute for toggle word wrapping button of code block lines"
+    "description": "用于切换代码块行换行按钮的标题属性"
   },
   "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": {
     "message": "打开/收起侧边栏菜单「{label}」",
