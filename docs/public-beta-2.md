@@ -9,10 +9,12 @@ We will update the beta version from time to time and list key enhancements in t
 **Resource Tables UI**
   * Resource tables (such as Sources, Streams, Sinks. etc.) now show a Created By/On column. 
   * These tables no longer auto-refresh. Click the arrow icon at the top-right corner to manually refresh the table.
-  * For Versioned and Changelog streams, the row count and earliest/latest event columns are now hidden.
+  * For Versioned and Changelog streams, we now show a key icon to indicate that it's not an Append-Only stream. The row count and earliest/latest event columns are also now hidden.
 
 **Query Page**
-  * Added keyboard shortcuts to add or remove comments in the SQL editor: `⌘/` to toggle line comment, and `⇧⌥A` to toggle block comment.
+  * Added keyboard shortcuts to add or remove comments in the SQL editor:
+    On PC: `Ctrl + /` to toggle line comment, and `Shift + Alt + A` to toggle block comment
+    On Mac: `Cmd + /` to toggle line comment, and `Shift + Option + A` to toggle block comment
   * More improved error messages for SQL queries, to show more details.
 
 **Sources**
