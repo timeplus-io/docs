@@ -9,10 +9,10 @@
 **资源列表**
   * 资源列表（例如数据源、流、下游 等等）现在显示 “创建者/时间” 列。
   * 这些表不再自动刷新。 单击右上角的箭头图标可手动刷新表格。
-  * 对于 Versioned 和 Changelog 流，行数和最早/最新事件列不再显示。
+  * For Versioned and Changelog streams, we now show a key icon to indicate that it's not an Append-Only stream. The row count and earliest/latest event columns are also now hidden.
 
 **查询页面**
-  * 添加了用于在 SQL 编辑器中添加或删除注释的键盘快捷键： `⌘/`用于切换行注释， `⇧⌥A` 用于切换区块注释。
+  * Added keyboard shortcuts to add or remove comments in the SQL editor: On PC: `Ctrl + /` to toggle line comment, and `Shift + Alt + A` to toggle block comment On Mac: `Cmd + /` to toggle line comment, and `Shift + Option + A` to toggle block comment
   * 改进了 SQL 查询的错误消息，以显示更多详细信息。
 
 **数据源**
