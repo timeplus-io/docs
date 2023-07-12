@@ -9,10 +9,10 @@
 **资源列表**
   * 资源列表（例如数据源、流、下游 等等）现在显示 “创建者/时间” 列。
   * 这些表不再自动刷新。 单击右上角的箭头图标可手动刷新表格。
-  * 对于多版本流和变更日志流，我们现在显示一个关键图标来表示它不是一个追加流。 The row count and earliest/latest event columns are also now hidden.
+  * 对于多版本流和变更日志流，我们现在显示一个关键图标来表示它不是一个追加流。 行数和最早/最新事件列现在也已隐藏。
 
 **查询页面**
-  * Added keyboard shortcuts to add or remove comments in the SQL editor: On PC: `Ctrl + /` to toggle line comment, and `Shift + Alt + A` to toggle block comment On Mac: `Cmd + /` to toggle line comment, and `Shift + Option + A` to toggle block comment
+  * 我们添加了键盘快捷键来添加或删除 SQL 编辑器中的注释： 在 Windows 电脑端：`Ctrl + /` 用来切换行注释，`Shift + Alt + A` 用来切换块注释。 在 Mac 端：`Cmd + /` 用来要切换行注释，`Shift + Option + A` 用来切换块注释。
   * 改进了 SQL 查询的错误消息，以显示更多详细信息。
 
 **数据源**
