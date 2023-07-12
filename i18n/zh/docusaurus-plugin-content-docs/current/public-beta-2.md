@@ -9,7 +9,7 @@
 **资源列表**
   * 资源列表（例如数据源、流、下游 等等）现在显示 “创建者/时间” 列。
   * 这些表不再自动刷新。 单击右上角的箭头图标可手动刷新表格。
-  * For Versioned and Changelog streams, we now show a key icon to indicate that it's not an Append-Only stream. The row count and earliest/latest event columns are also now hidden.
+  * 对于多版本流和变更日志流，我们现在显示一个关键图标来表示它不是一个追加流。 The row count and earliest/latest event columns are also now hidden.
 
 **查询页面**
   * Added keyboard shortcuts to add or remove comments in the SQL editor: On PC: `Ctrl + /` to toggle line comment, and `Shift + Alt + A` to toggle block comment On Mac: `Cmd + /` to toggle line comment, and `Shift + Option + A` to toggle block comment
