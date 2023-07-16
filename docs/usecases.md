@@ -166,8 +166,6 @@ or focusing on which cars are almost running out of gas (so that they can send s
 SELECT time,cid,gas_percent FROM car_live_data WHERE gas_percent < 25 
 ```
 
-[Try in playground](https://play.timeplus.com/playground/s-tail)
-
 Result:
 
 | time                    | cid    | gas_percent | in_use |
@@ -182,8 +180,6 @@ Result:
 SELECT window_start,cid, avg(gas_percent) AS avg_gas_percent,avg(speed_kmh) AS avg_speed FROM
 tumble(car_live_data,1m) GROUP BY window_start, cid
 ```
-
-[Try in playground](https://play.timeplus.com/playground/s-downsampling)
 
 Result:
 
@@ -222,8 +218,6 @@ Timeplus provides a special syntax to get such result easily
 ```sql
 SELECT sum(amount) FROM trips EMIT LAST 1h
 ```
-
-[Try in playground](https://play.timeplus.com/playground/s-agg-recent)
 
 Once the query is submitted, it will show quite a few rows based on the past day, then show new results in a streaming fashion.
 
@@ -290,8 +284,6 @@ WHERE action='add' GROUP BY window_start
 EMIT LAST 2h
 ```
 
-[Try in playground](https://play.timeplus.com/playground/s-time-travel)
-
 Or they can specify an exactly timestamp, e.g.
 
 ```sql
@@ -320,8 +312,6 @@ SELECT sum(amount) FROM trips WHERE end_time > today();
 SELECT * FROM today_revenue
 ```
 
-[Try in playground](https://play.timeplus.com/playground/s-mview)
-
 ### S-DROP-LATE: Dropping late events to get real-time aggregation insights {#s-drop-late}
 
 **Use Case:** The streaming data may arrive late for many reasons, such as network latency, iot sensor malfunction, etc. When we run streaming analysis (such as payment per minute), we aggregate the data based on their event time (when the payment actually happened, instead of when Timeplus receives the data), and we don't want to wait for events which are significantly too late.
@@ -334,8 +324,6 @@ For a query like this
 SELECT window_start,window_end,sum(amount),count(*)
 FROM tumble(trips,end_time,1m) GROUP BY window_start,window_end
 ```
-
-[Try in playground](https://play.timeplus.com/playground/s-drop-late)
 
 It will show the total payment every minute, for example
 
@@ -365,8 +353,6 @@ FROM tumble(trips,end_time,1m) GROUP BY window_start,window_end
 EMIT AFTER WATERMARK AND DELAY 30s
 ```
 
-[Try in playground](https://play.timeplus.com/playground/s-wait-late)
-
 ### S-TOP-K: Getting the most common value for each streaming window {#s-top-k}
 
 **Use Case:** the analysts want to understand which cars are booked most often every day or every hour
@@ -374,8 +360,6 @@ EMIT AFTER WATERMARK AND DELAY 30s
 ```sql
 SELECT window_start,top_k(cid,3) AS popular_cars FROM tumble(bookings,1h) GROUP BY window_start
 ```
-
-[Try in playground](https://play.timeplus.com/playground/s-top-k)
 
 This will generate a daily report like this
 
@@ -392,8 +376,6 @@ This will generate a daily report like this
 SELECT window_start,max_k(amount,3,bid,distance) AS longest_trips FROM tumble(trips,1d) GROUP BY window_start
 ```
 
-[Try in playground](https://play.timeplus.com/playground/s-max-k)
-
 This will generate a daily report like this
 
 | window_start            | longest_trips                                            |
@@ -409,8 +391,6 @@ To get the booking id for the 2nd longest trip, you can `select ..,longest_trips
 ```sql
 SELECT window_start,min_k(amount,3,bid,distance) AS shortest_trips FROM tumble(trips,1d) GROUP BY window_start
 ```
-
-[Try in playground](https://play.timeplus.com/playground/s-min-k)
 
 This will generate a daily report like this
 
@@ -429,8 +409,6 @@ SELECT window_start,count(*) AS num_of_trips,
 lag(num_of_trips) AS last_min_trips,num_of_trips-last_min_trips AS gap
 FROM tumble(trips,1m) GROUP BY window_start
 ```
-
-[Try in playground](https://play.timeplus.com/playground/s-over-time)
 
 Result
 
@@ -504,8 +482,6 @@ SELECT window_start, count(distinct cid) FROM tumble(car_live_data,1s)
 WHERE in_use GROUP BY window_start
 ```
 
-[Try in playground](https://play.timeplus.com/playground/num-cars)
-
 ### Get the top 10 cars order by revenue {#top10cars}
 
 We probably want to understand which cars help the company earn the most revenue or which cars are not gaining enough revenue. This can be done with the following query
@@ -517,8 +493,6 @@ WHERE end_time > today() GROUP BY cid
 ORDER BY revenue DESC LIMIT 10
 settings query_mode='table'
 ```
-
-[Try in playground](https://play.timeplus.com/playground/top10cars)
 
 The result is like this
 
@@ -579,8 +553,6 @@ SELECT uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') AS ca
 FROM user_info
 ```
 
-[Try in playground](https://play.timeplus.com/playground/t-mask)
-
 Result:
 
 | uid    | card        |
@@ -595,8 +567,6 @@ Result:
 SELECT uid, concat(first_name,' ',last_name) AS full_name,
 year(today())-year(to_date(birthday)) AS age FROM user_info
 ```
-
-[Try in playground](https://play.timeplus.com/playground/t-derive)
 
 Result:
 
@@ -613,8 +583,6 @@ SELECT time, cid, c.license_plate_no AS license,gas_percent,speed_kmh FROM car_l
 INNER JOIN car_info AS c 
 ON car_live_data.cid=c.cid 
 ```
-
-[Try in playground](https://play.timeplus.com/playground/t-lookup)
 
 Result:
 
