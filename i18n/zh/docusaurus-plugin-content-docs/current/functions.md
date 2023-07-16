@@ -10,7 +10,7 @@ Timeplus 支持 ANSI-SQL 标准语法。 以下功能适用于各种使用案例
 
 例如： `to_time('1/22')` or `to_time('1/2/22','America/New_York')`
 
-一些常见的时区是：
+Some of the common time zones are:
 
 * `UTC`: 等效于 `GMT`(格林威治平均时间)
 * `EST`: 美国东部时间
@@ -21,9 +21,9 @@ Timeplus 支持 ANSI-SQL 标准语法。 以下功能适用于各种使用案例
 * `America/Vancouver`: 等同于 `PST8PDT`
 * `Asia/Shanghi`: 等同于 `PRC`
 
-对于可能的时区的完整列表，请检查 [维基百科页面](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) 中的“TZ 数据库名称”栏。
+For the full list of possible time zones, please check the "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
-您也可以通过 [to_timezone](#to_timezone)将转换时区
+You can also convert the time between time zones via [to_timezone](#to_timezone)
 
 ### to_int
 
@@ -58,7 +58,7 @@ Timeplus 支持 ANSI-SQL 标准语法。 以下功能适用于各种使用案例
 
 说明：
 
-- x - 一个要转换的值。 也许是任何类型。
+- x - 一个要转换的值。 Can be of any type.
 - T——目标数据类型的名称。 字符串。
 - t - 目标数据类型
 
@@ -74,7 +74,7 @@ select
 
 ### to_type_name
 
-`to_type_name(x)` 来显示参数的类型名称 `x` 这主要是为了排除故障以了解函数调用的日期类型。 这主要是为了排除故障以了解函数调用的日期类型。
+`to_type_name(x)` 来显示参数的类型名称 `x` 这主要是为了排除故障以了解函数调用的日期类型。 This is mainly for troubleshooting purposes to understand the date type for a  function call.
 
 ## 访问复合类型 {#arrays}
 
@@ -153,11 +153,11 @@ select
 
 ### array_push_back
 
-`array_push_back(数组，值)` 将数组作为最后一个项目添加到数组。 例如： `array_pup_back([1,2,3],4)` 返回 [1,2,3,4]
+`array_push_back(array, value)` adds the value to the array as the last item. 例如： `array_pup_back([1,2,3],4)` 返回 [1,2,3,4]
 
 ### array_push_front
 
-`array_push_front(数组，值)` 将数组作为第一个项添加值。 例如： `array_push_front([1,2,3],4)` 返回 [4,1,2,3]
+`array_push_front(array, value)` adds the value to the array as the first item. 例如： `array_push_front([1,2,3],4)` 返回 [4,1,2,3]
 
 
 
@@ -181,7 +181,7 @@ select
 
 ### array_slice
 
-`array_slice(arr, 偏移 [,长度])` 返回数组的分割。 如果没有指定 `长度` ，则分割到数组的末尾，例如 `array_slice([1,2,3,4,5,],2)` 返回 [2,3,4,5]。 如果 `偏移` 大于数组长度，则返回一个空数组 []。 如果 `长度` 被视为新数组的长度，例如： `array_slice([1,2,3,4,4,5],2,3)` 返回 [2,3,4]
+`array_slice(arr, 偏移 [,长度])` 返回数组的分割。 如果没有指定 `长度` ，则分割到数组的末尾，例如 `array_slice([1,2,3,4,5,],2)` 返回 [2,3,4,5]。 If `offset` is greater than the array length, it returns an empty array []. If `length` is specified, this is the length of the new array, e.g. `array_slice([1,2,3,4,5],2,3)` returns [2,3,4]
 
 
 
@@ -197,7 +197,7 @@ select
 
 ### array_all
 
-`array_all([function, ]数组)` 返回 1(true) 或 0(Alse) 如果数组中的所有元素都符合条件。 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_all(x->x%2==0,[2,4,6])` 以检查数组中的每个元素是否为偶。 它返回 1。
+`array_all([func,] array)` returns 1(true) or 0(false) if all elements in the array meets the condition. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_all(x->x%2==0,[2,4,6])` 以检查数组中的每个元素是否为偶。 它返回 1。
 
 ### array_avg
 
@@ -229,15 +229,15 @@ select
 
 ### array_last
 
-`array_last(func, 数组)` 返回符合指定函数条件的最后一个元素。 例如： `array_last(x->x%2==0, [1,2,3,4])`返回 4。  如果没有找到, 返回 0。
+`array_last(func, 数组)` 返回符合指定函数条件的最后一个元素。 例如： `array_last(x->x%2==0, [1,2,3,4])`返回 4。  If nothing is found, it returns 0.
 
 ### array_last_index
 
-`array_last_index(ffunc, 数组)` 返回匹配指定函数条件的最后一个元素的索引。 例如： `array_last_index(x->x%2==0, [1,2,3,4])`返回 4。 如果没有找到, 返回 0。
+`array_last_index(ffunc, 数组)` 返回匹配指定函数条件的最后一个元素的索引。 例如： `array_last_index(x->x%2==0, [1,2,3,4])`返回 4。 If nothing is found, it returns 0.
 
 ### array_map
 
-`index_of(arr,x)` 返回数组中 `x` 的索引 `arr` 第一个元素的索引是 1。 如果 `x` 不在数组中，返回 0。
+`array_map(func, array)` applies the function to every element in the array and returns a new array. 如果 `x` 不在数组中，返回 0。
 
 ### array_max
 
@@ -249,7 +249,7 @@ select
 
 ### array_sort
 
-`array_sort(func, array)` 排序中的数组元素。 例如： `array_sort([3,2,5,4])` 返回 [2,3,4,5]。 你可以将 lambda 函数传递给它作为第一个参数在排序前应用函数。 。 `array_sort(x->-x,[3,2,5,4])`返回 [5,4,3,2]
+`array_sort(func, array)` sorts the array elements in ascending order. 例如： `array_sort([3,2,5,4])` 返回 [2,3,4,5]。 你可以将 lambda 函数传递给它作为第一个参数在排序前应用函数。 。 `array_sort(x->-x,[3,2,5,4])`返回 [5,4,3,2]
 
 
 
@@ -265,7 +265,7 @@ select
 
 ### map_cast
 
-`array_cast(元素1,元素2,...)` 创建一个新的数组给定元素，例如 `array_cast(1,2)` 将得到 `[1,2]` 请注意，元素应该是同一类型。 例如 `array_cast('a','n')`, not `array_cast('a',0')`
+`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` (these 2 arrays should be the same size). 例如 `array_cast('a','n')`, not `array_cast('a',0')`
 
 或者，您可以使用 `map_cast(key1,value1,key2,value2...)`
 
@@ -289,11 +289,11 @@ select
 
 ### day
 
-使用 `day(date)` 来获取当月的日期。
+`day(date)` Get the day in the month.
 
 ### weekday
 
-使用 `weekday(date)` 来获取周中的某一天。 星期一是1。 星期日是7。
+`weekday(date)` Get the day of the week. 星期一是1。 星期日是7。
 
 ### day_of_year
 
@@ -403,7 +403,7 @@ select
 
 `to_timezone(datectime_in_a_timezone,target_timezone)` 将日期时间从一个时区转换到另一个时区。
 
-对于可能的时区的完整列表，请检查 [维基百科页面](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) 中的“TZ 数据库名称”栏。 对于常见的时区，请检查 [到 _time](#to_time)
+For the full list of possible time zones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For the common time zones, pls check [to_time](#to_time)
 
 例如，
 
@@ -511,7 +511,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### json_extract_keys
 
-`json_extract_keys(jsonStr)` 来解析 JSON 字符串并提取密钥。 例如： `选择 '{"system_diskio_name":"nvme0n1"}" 作为标签，json_extract_keys(标签)` 将获得一个数组： `[ "system_diskio_name" ]`
+`json_extract_keys(jsonStr)` to parse the JSON string and extract the keys. 例如： `选择 '{"system_diskio_name":"nvme0n1"}" 作为标签，json_extract_keys(标签)` 将获得一个数组： `[ "system_diskio_name" ]`
 
 ### is_valid_json
 
@@ -519,7 +519,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### json_has
 
-`json_value(json, path)` 允许您访问嵌套的 JSON 对象。 For example, `json_value('{"a":true,"b":{"c":1}}','$.b.c')` will return the number `1`
+`json_has(json, key)` to check whether a specified key exists in the JSON document. For example, `json_value('{"a":true,"b":{"c":1}}','$.b.c')` will return the number `1`
 
 ### json_value
 
@@ -551,7 +551,7 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### concat
 
-`concat(str1,str2 [,str3])` 将2 或更多字符串合并为单个字符串。 例如， `concat('95','%')` 以获得95%。 您也可以使用 `||` 作为快捷语法，例如： `'95' || '%'` 此函数中的每个参数必须是字符串。 您可以使用 [to_string](#to_string) 函数来转换他们，例如 `到_string(95)|| '%'`
+`concat(str1,str2 [,str3])` 将2 或更多字符串合并为单个字符串。 例如， `concat('95','%')` 以获得95%。 You can also use `||` as the shortcut syntax, e.g. `'95' || '%'` Each parameter in this function needs to be a string. 您可以使用 [to_string](#to_string) 函数来转换他们，例如 `到_string(95)|| '%'`
 
 ### substr
 
@@ -573,11 +573,11 @@ Calculate the difference between `begin` and `end` and produce a number in `unit
 
 ### match
 
-`匹配(string,pattern)` 决定字符串是否匹配给定的正则表达式。 例如，要检查文本是否包含一个敏感的 AWS ARN，您可以运行 `匹配(text,'arn:aws:kms:us-east-1:\d{12}:key/.{36}')`
+`match(string,pattern)` determines whether the string matches the given regular expression. 例如，要检查文本是否包含一个敏感的 AWS ARN，您可以运行 `匹配(text,'arn:aws:kms:us-east-1:\d{12}:key/.{36}')`
 
 ### multi_search
 
-`multi_search_any(文本数组)` 决定文本是否包含给定数组中的字符串。 例如，要检查文本是否包含任何敏感关键词，您可以运行 `multi_search_any(text,['password','token','secret'])`
+`multi_search_any(text, array)` determines whether the text contains any of the strings from the given array. 例如，要检查文本是否包含任何敏感关键词，您可以运行 `multi_search_any(text,['password','token','secret'])`
 
 ### replace_one
 
@@ -647,13 +647,13 @@ SELECT
 
 `grok(string,pattern)`
 
-在不使用正则表达式的情况下从计划文本中提取值。 例如： `SELECT grok('我的名字是杰克) 我在23年前。 ',我的名字是 %{DATA:name}。 我是 %{INT:age} 年前。 ') 因为m` 将得到 `{"name":"Jack","age":"23"}` 作为 `m`
+在不使用正则表达式的情况下从计划文本中提取值。 例如： `SELECT grok('我的名字是杰克) 我在23年前。 I am 23 years old.','My name is %{DATA:name}. 我是 %{INT:age} 年前。 ') 因为m` 将得到 `{"name":"Jack","age":"23"}` 作为 `m`
 
-请注意返回地图中的所有密钥和值都是字符串类型。 您可以将它们转换为其他类型，例如 `(m['age'])：int`
+Please note all keys and values in the returned map are in string type. 您可以将它们转换为其他类型，例如 `(m['age'])：int`
 
 ### coalesce
 
-`coalesce(value1, value2,...)` 从左到右检查 `NULL` 参数是否被传递并返回第一个非-`NULL` 参数。 如果您获得了与Nullable类型相关的错误信息，例如： “嵌套类型数组(字符串) 不能在Nullable类型内”， 您可以使用此函数将数据转换为非-`NULL` 例如： `json_extract_array(coalesce(raw:payload, ')`
+`coalesce(value1, value2,..)` Checks from left to right whether `NULL` arguments were passed and returns the first non-`NULL` argument. 如果您获得了与Nullable类型相关的错误信息，例如： “嵌套类型数组(字符串) 不能在Nullable类型内”， 您可以使用此函数将数据转换为非-`NULL` 例如： `json_extract_array(coalesce(raw:payload, ')`
 
 ### hex
 
@@ -665,7 +665,7 @@ SELECT
 
 ### uuid
 
-`uuid()` 或 `uuid(x)` 生成一个普遍唯一的标识符(UUID)，这是一个用于识别记录的16字节。 为了在一行中生成多个UUID, 在每个函数调用中传递一个参数, 例如 `SELECT uuid(1) as a, uuid(2) 为 b` ，否则如果在调用多个 `uuid 时没有参数` 函数在一个 SQL 语句中 将返回相同的 UUID 值。
+`uuid()` or `uuid(x)` Generates a universally unique identifier (UUID) which is a 16-byte number used to identify records. 为了在一行中生成多个UUID, 在每个函数调用中传递一个参数, 例如 `SELECT uuid(1) as a, uuid(2) 为 b` ，否则如果在调用多个 `uuid 时没有参数` 函数在一个 SQL 语句中 将返回相同的 UUID 值。
 
 ## 逻辑值
 
@@ -689,7 +689,7 @@ SELECT
 
 ### count_distinct
 
-`count_distant(col)` 获取 `col` 的不同值的个数。 与 `个计数(独选一列)` 相同
+`count_distinct(col)` to get the number of unique values for the `col` column. 与 `个计数(独选一列)` 相同
 
 ### count_if
 
@@ -709,7 +709,7 @@ SELECT
 
 ### unique_exact_if
 
-`unie_extract_if(col, condition)` 统计符合 `condition` 条件的行中 `col`的精确不同值个数。比如要找出超速行驶的车牌号 `unie_extract_if(cid,speed_kmh>80)`
+`unique_exact_if(col,condition)` to apply a filter with `condition` and get the distinct count of `col`, e.g. to get the cars with high speed `unique_exact_if(cid,speed_kmh>80)`
 
 ### min
 
@@ -725,7 +725,7 @@ SELECT
 
 ### avg
 
-`avg(<column_name>)`: 一列的平均值 (sum(column) / count(column)). 仅适用于数字列。 仅适用于数字列。
+`avg(<column_name>)`: 一列的平均值 (sum(column) / count(column)). 仅适用于数字列。 Only works for numeric columns.
 
 ### median
 
@@ -757,25 +757,31 @@ SELECT
 
 如果您不需要事件计数，您可以设置第三个参数的 false，例如： `top_k(cid, 3, false)` 可能得到 `['c01','c02','c03']`
 
+Read more on [Top-N Query Pattern](sql-pattern-topn) page.
+
 ### min_k
 
 `min_k(<column_name>,K [,context_column])`: 列名中最小的 K 项。 返回一个数组。 您还可以添加列表，获取同行中值的更多上下文，例如 `min_k(price,3,product_id,last_updated)`  这将返回一个数组，每个元素作为元组，比如 `[(5.12,'c42664'),(5.12,'c42664'),(15.36,'c84068')]`
+
+Read more on [Top-N Query Pattern](sql-pattern-topn) page.
 
 ### max_k
 
 `max_k(<column_name>,K[,context_column])`: 列名中最大的 K 项。 您还可以添加列表，获取同一行中更多值的上下文，例如 `max_k(price，3，product_id，last_updated)`
 
+Read more on [Top-N Query Pattern](sql-pattern-topn) page.
+
 ### arg_min
 
-`arg_min(argument, value_column)` 获取最小的 `value_column` 所在行的 `arugment` 列的值。 如果在 `value_column`的最小值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+`arg_min(argument, value_column)` Gets the value in the `argument` column for a minimal value in the `value_column`. If there are several different values of `argument` for minimal values of `value_column`, it returns the first of these values encountered. 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### arg_max
 
-`arg_max(argument, value_column)` 获取最大的 `value_column` 所在行的 `arugment` 列的值。 如果在 `value_column`的最大值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+`arg_max(argument, value_column)` Gets the value in the `argument` column for a maximum value in the `value_column`. If there are several different values of `argument` for maximum values of `value_column`, it returns the first of these values encountered. 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### group_array
 
-`group_array(<column_name>)` 来合并特定列作为数组的值。 例如，如果有三行，此列的值是“a","b","c"。 此函数将生成单行和单列，值 `['a','b','c']`
+`group_array(<column_name>)` 来合并特定列作为数组的值。 For example, if there are 3 rows and the values for these columns are "a","b","c". 此函数将生成单行和单列，值 `['a','b','c']`
 
 ### moving_sum
 
@@ -922,7 +928,7 @@ SELECT
 
 ### is_finite
 
-`is_finite(x)` 返回值 `x` 不是无限的而不是NAN, 顺便返回0。
+`is_finite(x)` return 1 when the value `x` is not infinite and not a NaN, otherwise return 0.
 
 ### is_infinite
 
@@ -976,7 +982,7 @@ SELECT
 
 `table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT... 默认情况下，如果您运行 <code>SELECT... FROM clicks ..` 这是一个带有无边界数据的流式查询。 默认情况下，如果您运行 `SELECT... FROM clicks ..` 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 `table` 函数中。 使用 `count` 作为示例：
 
-* 运行 `select count(*) from clicks` 将每2秒显示最新计数，直到你取消这个查询
+* running `select count(*) from clicks` will show latest count every 2 seconds and never ends, until the query is canceled by the user
 * 运行 `select count(*) from table(clicks)` 将立即返回此数据流的历史数据行数。
 
 您可以创建视图，如 `create view histrical_view as select * from table(stream_name)`, 如果您想要多次查询表模式中的数据。 对于静态数据，例如查找信息(城市名称及其邮政编码)，这种方法可能很有效。
@@ -991,7 +997,7 @@ SELECT
 
 ### hop
 
-`hop(stream [,timeCol], step, windowSize)` 为数据流创建一个跳跃窗口视图, 例如 `hop(iot,1s,5s)` 将创建每5秒数据流的窗口 `iot` 并每秒移动窗口转发一次。 SQL 必须以 `group by` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
+`hop(stream [,timeCol], step, windowSize)` Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` will create windows for every 5 seconds for the data stream `iot` and move the windows forward every second. SQL 必须以 `group by` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
 
 ### session
 
@@ -1017,7 +1023,7 @@ SELECT
 
 `dedup(stream, column1 [,otherColumns..] [liveInSecond,limit]) [liveInSecond,limit]) [liveInSecond,limit])`
 
-在给定的数据流中使用指定的列 (s) 应用反复性。 `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但如果你只想在一定时间内避免重复，请说2分钟，你可以设置 `120s`例如 `dedup(子查询,myId,120s)`
+在给定的数据流中使用指定的列 (s) 应用反复性。 `liveInSecond` specifies how long the keys will be kept in the memory/state. 默认永远存在。 But if you only want to avoid duplicating within a certain time period, say 2 minutes, you can set `120s`, e.g. `dedup(subquery,myId,120s)`
 
 最后一个参数 `限制` 是可选的，默认是 `100 000`。 它限制在查询引擎中最大唯一密钥。 如果达到限制，系统将回收最早的密钥以保持这一限制。
 
@@ -1033,15 +1039,15 @@ SELECT
 
 ### lags
 
-`lags(<column_name>, begin_offset, end_offset [, <default_value>])` simliar to `lags` 函数，但可以获得一个数值列表。 例如: `lags(total,1,3)` 将返回一个数组, 最后1, 最后2和最后3个值。
+`lags(<column_name>, begin_offset, end_offset [, <default_value>])` similar to `lag` function but can get a list of values. 例如: `lags(total,1,3)` 将返回一个数组, 最后1, 最后2和最后3个值。
 
 ### latest
 
-`latest(<column_name>)` 获取特定列的最新值，用于与群组的串流聚合。
+`latest(<column_name>)` gets the latest value for a specific column, working with streaming aggregation with group by.
 
 ### earliest
 
-`earliest(<column_name>)` 获得特定列的最早值，与分组的串流聚合一起工作。
+`earliest(<column_name>)` gets the earliest value for a specific column, working with streaming aggregation with group by.
 
 ### now
 
@@ -1055,7 +1061,7 @@ SELECT
 
 类似于 `now ()` 但有额外毫秒信息，例如2022-01-28 05:08:22.680
 
-它也可以用于流查询以显示最新的日期时间和毫秒。
+It can be also used in streaming queries to show the latest datetime with milliseconds.
 
 ### emit_version
 
