@@ -166,8 +166,6 @@ SELECT * FROM car_live_data
 选择时间,cid,gas_per FROM car_live_data WHERE gas_per < 25 
 ```
 
-[在游乐场试试](https://play.timeplus.com/playground/s-tail)
-
 结果：
 
 | 时间                      | cid      | 气体百分比 | 在使用   |
@@ -182,8 +180,6 @@ SELECT * FROM car_live_data
 SELECT window start,cid,avgggggas_percent,avg(speed_kmh) AS avg_spep FROM
 tumbl(car_live_data,1m) GROUP BY window_start, cid
 ```
-
-[在游乐场试试](https://play.timeplus.com/playground/s-downsampling)
 
 结果：
 
@@ -222,8 +218,6 @@ Timeplus提供了一个特殊的语法来轻松获取这种结果
 ```sql
 从EMIT LAST 1小时的行程中选择总金额
 ```
-
-[在游乐场试试](https://play.timeplus.com/playground/s-agg-recent)
 
 一旦提交查询，它将根据过去的一天显示相当多的行，然后以流式方式显示新的结果。
 
@@ -290,8 +284,6 @@ WHERE action='add' GROUP By window_start
 EMIT LAST 2h
 ```
 
-[在游乐场试试](https://play.timeplus.com/playground/s-time-travel)
-
 或者他们可以指定一个准确的时间戳，例如：
 
 ```sql
@@ -320,8 +312,6 @@ WHERE action='add' and _tp_time>='2022-01-12 06:00:00.000' GROUP BY window_start
 SELECT * 来自今日收入
 ```
 
-[在游乐场试试](https://play.timeplus.com/playground/s-mview)
-
 ### S-DROP-LATE：丢弃晚期事件以获得实时聚合洞察力 {#s-drop-late}
 
 **使用案例：** 流式数据可能由于网络延迟、iot传感器故障等多种原因而延迟到达。 当我们运行流式分析(例如每分钟付款)，我们根据他们的事件时间(当付款实际发生时)汇总数据， 而不是当TimePlus收到数据时，我们不想等待太晚的事件。
@@ -334,8 +324,6 @@ Watermark是流式处理世界中的一种常见机制，用来设定事件的�
 SELECT window_start,wind_end,sum(amount),count(*)
 从tumbl(trips,end_time,1m) GROUP BY window_start,window
 ```
-
-[在游乐场试试](https://play.timeplus.com/playground/s-drop-late)
 
 它将显示每分钟支付总额，例如：
 
@@ -365,8 +353,6 @@ SELECT window_start,window_end,sum(amount),count(*)
 EMIT AFTER WATERMARK and DELAY 30s
 ```
 
-[在游乐场试试](https://play.timeplus.com/playground/s-wait-late)
-
 ### S-TOP-K：获取每个流式窗口最常用的值 {#s-top-k}
 
 **使用案例：** 分析家想要理解哪辆汽车每天或每小时最常被预订
@@ -374,8 +360,6 @@ EMIT AFTER WATERMARK and DELAY 30s
 ```sql
 选择窗口启动，top_k(cid,3) 从tumble中选择的公共汽车(预订，1h) 由窗口起始组
 ```
-
-[在游乐场试试](https://play.timeplus.com/playground/s-top-k)
 
 这将生成像这样的每日报告
 
@@ -392,8 +376,6 @@ EMIT AFTER WATERMARK and DELAY 30s
 选择窗口启动，最大窗口启动(数量、3,bid,距离)
 ```
 
-[在游乐场试试](https://play.timeplus.com/playground/s-max-k)
-
 这将生成像这样的每日报告
 
 | 窗口开始                    | 最长旅行                                                     |
@@ -409,8 +391,6 @@ EMIT AFTER WATERMARK and DELAY 30s
 ```sql
 选择窗口启动，最小_k(数量、3,bid,距离)
 ```
-
-[在游乐场试试](https://play.timeplus.com/playground/s-min-k)
 
 这将生成像这样的每日报告
 
@@ -429,8 +409,6 @@ SELECT window_start,count(*) AS num_of_trips,
 lag(num_of_trips) AS last_min_trips,num_of_trips-last_min_travel as get
 FROM tumble(trips,1m) GROUP BY window_start
 ```
-
-[在游乐场试试](https://play.timeplus.com/playground/s-over-time)
 
 结果
 
@@ -504,8 +482,6 @@ SELECT avg(gap) FROM
 WHERE in_use GROUP BY window_start
 ```
 
-[在游乐场试试](https://play.timeplus.com/playground/num-cars)
-
 ### 按收入获得最高10辆汽车订单 {#top10cars}
 
 我们或许想知道哪些汽车帮助公司赚取大部分收入，哪些汽车没有获得足够的收入。 这可以通过以下查询完成
@@ -517,8 +493,6 @@ WHERE end_time > today() GROUP BY cid
 ORDER BY income DESC LIMIT 10
 设置 query_mode='table'
 ```
-
-[在游乐场试试](https://play.timeplus.com/playground/top10cars)
 
 结果就像这样：
 
@@ -579,8 +553,6 @@ SELECT uid,replace_regex(credit_card,'(\\d{4}) (\\d*) (\\d{4})','\\1***\\3') AS 
 FROM user_info
 ```
 
-[在游乐场试试](https://play.timeplus.com/playground/t-mask)
-
 结果：
 
 | uid    | 卡           |
@@ -595,8 +567,6 @@ FROM user_info
 SELECT uid, concat(first_name,' ',last_name) AS ful_name,
 year(today())-year(to_date(irthday)) AS age FROM user_info
 ```
-
-[在游乐场试试](https://play.timeplus.com/playground/t-derive)
 
 结果：
 
@@ -613,8 +583,6 @@ SELECT time，cid，c.license_plate_no AS license,gas_percent,speed_kmh FROM car
 INNER JOIN car_info c 
 on car_live_data.cid=c.cid 
 ```
-
-[在游乐场试试](https://play.timeplus.com/playground/t-lookup)
 
 结果：
 
