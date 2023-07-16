@@ -1,9 +1,9 @@
-# 示例查询
+# Query Patterns
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-本文档演示如何在 Timeplus 中运行串流查询以解决各种使用案例。
+This document demonstrates some typical query patterns that you can achieve in Timeplus to solve various use cases. You can also check the subpages for some of the highlighted query recipes.
 
 ## 客户场景和数据模型 {#model}
 
