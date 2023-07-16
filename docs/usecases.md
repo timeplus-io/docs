@@ -1,9 +1,9 @@
-# Sample Queries
+# SQL Patterns
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-This document demonstrates how to run streaming queries in Timeplus to solve various use cases.
+This document demonstrates some typical query patterns that you can achieve in Timeplus to solve various use cases. You can also check the subpages for some of the highlighted query recipes. 
 
 ## Customer Scenario and Data Model {#model}
 

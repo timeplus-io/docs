@@ -96,7 +96,10 @@ const sidebars = {
         type: 'doc',
         id: 'query-guide'
       },
-      items: ['datatypes', 'query-syntax', 'functions', { type: 'category', label: 'UDF', link: { type: 'doc', id: 'udf' }, items: ['remote-udf', 'js-udf'] }, 'usecases', 'query-api']
+      items: ['datatypes', 'query-syntax', 'functions', 
+              { type: 'category', label: 'UDF', link: { type: 'doc', id: 'udf' }, items: ['remote-udf', 'js-udf'] }, 
+              { type: 'category', label: 'Query Patterns', link: { type: 'doc', id: 'usecases' }, items: ['sql-pattern-topn'] }, 
+              'query-api']
     },
     'transformation',
     'viz',
