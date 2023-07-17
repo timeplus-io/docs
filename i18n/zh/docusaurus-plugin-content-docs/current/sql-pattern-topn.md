@@ -96,3 +96,18 @@ Or:
 ```sql
 select min_k(speed_kmh,3,cid,_tp_time) from car_live_data
 ```
+
+
+
+## Top-N By Group
+
+No matter top_k, max_k, or min_k, you can also combine them with `partition by` to get the top-N value in a specify group.
+
+Say if there is a `model` attribute for each car data.
+
+This query can get the fastest 3 cars in each model
+
+```sql
+select max_k(speed_kmh,3,cid,_tp_time,model) over(partition by model) from car_live_data
+```
+
