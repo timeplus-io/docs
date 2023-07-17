@@ -10,7 +10,7 @@ Timeplus 支持 ANSI-SQL 标准语法。 以下功能适用于各种使用案例
 
 例如： `to_time('1/22')` or `to_time('1/2/22','America/New_York')`
 
-Some of the common time zones are:
+一些常见的时区是：
 
 * `UTC`: 等效于 `GMT`(格林威治平均时间)
 * `EST`: 美国东部时间
@@ -21,9 +21,9 @@ Some of the common time zones are:
 * `America/Vancouver`: 等同于 `PST8PDT`
 * `Asia/Shanghi`: 等同于 `PRC`
 
-For the full list of possible time zones, please check the "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+对于可能的时区的完整列表，请检查 [维基百科页面](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) 中的“TZ 数据库名称”栏。
 
-You can also convert the time between time zones via [to_timezone](#to_timezone)
+您也可以通过 [to_timezone](#to_timezone) 转换时区
 
 ### to_int
 
@@ -74,7 +74,7 @@ select
 
 ### to_type_name
 
-`to_type_name(x)` 来显示参数的类型名称 `x` 这主要是为了排除故障以了解函数调用的日期类型。 This is mainly for troubleshooting purposes to understand the date type for a  function call.
+`to_type_name(x)` 来显示参数的类型名称 `x` 这主要是为了排除故障以了解函数调用的日期类型。 这主要是为了进行故障排除，以便了解函数调用的日期类型。
 
 ## 访问复合类型 {#arrays}
 
@@ -153,11 +153,11 @@ select
 
 ### array_push_back
 
-`array_push_back(array, value)` adds the value to the array as the last item. 例如： `array_pup_back([1,2,3],4)` 返回 [1,2,3,4]
+`array_push_back(数组，值)` 将数值作为最后一个项目添加到数组。 例如： `array_pup_back([1,2,3],4)` 返回 [1,2,3,4]
 
 ### array_push_front
 
-`array_push_front(array, value)` adds the value to the array as the first item. 例如： `array_push_front([1,2,3],4)` 返回 [4,1,2,3]
+`array_push_front(数组，值)` 将数值作为第一个项添加值添加到数组。 例如： `array_push_front([1,2,3],4)` 返回 [4,1,2,3]
 
 
 
@@ -169,7 +169,7 @@ select
 
 ### array_resize
 
-`array_resize(数组，大小 [,extender])` 更改数组的长度。 如果 `大小`小于当前数组的长度，则数组将被截断. 如果 `大小`小于当前数组的长度，则数组将被截断. 否则，将创建一个具有指定大小的新数组，用指定的 `extender` 填充值。 例如： `array_sort([3,2,5,4])` 返回 [2,3,4,5]。 `array_resize([3,4],4,5)`返回 [3,4,5,5]
+`array_resize(array,size [,extender])` 更改数组的长度。 如果 `size` 小于当前数组的长度，则数组将被截断。 如果 `size` 小于当前数组的长度，则数组将被截断. 否则，将创建一个具有指定大小的新数组，用指定的 `extender` 填充值。 例如：`array_resize([3,4],1)` 返回 [3]。 `array_resize([3,4],4,5)` 返回 [3,4,5,5]
 
 
 
@@ -181,7 +181,7 @@ select
 
 ### array_slice
 
-`array_slice(arr, 偏移 [,长度])` 返回数组的分割。 如果没有指定 `长度` ，则分割到数组的末尾，例如 `array_slice([1,2,3,4,5,],2)` 返回 [2,3,4,5]。 If `offset` is greater than the array length, it returns an empty array []. If `length` is specified, this is the length of the new array, e.g. `array_slice([1,2,3,4,5],2,3)` returns [2,3,4]
+`array_slice(arr, offset [,length])` 返回数组的分割。 如果没有指定 `length`，则分割到数组的末尾，例如 `array_slice([1,2,3,4,5,],2)` 返回 [2,3,4,5]。 如果 `offset` 大于数组长度，则返回一个空数组 []。 如果 `length` 被视为新数组的长度，例如： `array_slice([1,2,3,4,4,5],2,3)` 返回 [2,3,4]
 
 
 
@@ -193,15 +193,15 @@ select
 
 ### array_zip
 
-`array_resize(数组，大小 [,extender])` 更改数组的长度。 如果 `大小`小于当前数组的长度，则数组将被截断. 否则，将创建一个具有指定大小的新数组，用指定的 `extender` 填充值。 e.g. `array_resize([3,4],1)` returns [3]. `array_resize([3,4],4,5)`返回 [3,4,5,5]
+`array_zip(arr1,arr2,.. arrN)` 将来自不同数组的元素分组到一个新的元组数组。 例如：`array_zip([1,2,3],['a','b','c'])` returns [(1,'a'),(2,'b'),(3,'c')]
 
 ### array_all
 
-`array_all([func,] array)` returns 1(true) or 0(false) if all elements in the array meets the condition. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0. 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_all(x->x%2==0,[2,4,6])` 以检查数组中的每个元素是否为偶。 它返回 1。
+`array_all([func,] array)` 返回 1(true) 或 0(false) 如果数组中的所有元素都符合条件。 例如， `array_all([1,2])` 返回 1, 而 `array_all([0,0])`返回 0。 您可以将 lambda 函数传递给它作为自定义条件检查的第一个参数， 例如 `array_exists(x->x%2==0,[2,3,4])` 检查数组中是否有任何元素。 它返回 1。
 
 ### array_avg
 
-`array_cum_sum([func, ]array)` 返回源数组中部分元素的数组(运行总和)。 例如： `array_cum_sum([1,1,1,1])` 返回 [1,2,3]。 您可以在 lambda 函数中作为第一个参数，在计算移动总和之前应用于每个元素， 例如 `array_cum_sum(x->x*x,[1,2])` 获得[1,5]
+`array_cum_sum([func, ]array)` 返回源数组中部分元素的数组(运行总和)。 例如：`array_avg([2,6])` 返回 4。 您可以将lambda函数作为第一个参数传递给它，在计算平均值之前应用于每个元素，例如 `array_avg(x->x*x,[2,6])` 获得2*2 和 6\*6的总和，这是20。
 
 ### array_count
 
@@ -289,11 +289,11 @@ select
 
 ### day
 
-`day(date)` Get the day in the month.
+使用 `day(date)` 来获取当月的日期。
 
 ### weekday
 
-`weekday(date)` Get the day of the week. 星期一是1。 星期日是7。
+使用 `weekday(date)` 来获取周中的某一天。 星期一是1。 星期日是7。
 
 ### day_of_year
 
@@ -403,7 +403,7 @@ select
 
 `to_timezone(datectime_in_a_timezone,target_timezone)` 将日期时间从一个时区转换到另一个时区。
 
-For the full list of possible time zones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For the common time zones, pls check [to_time](#to_time)
+对于可能的时区的完整列表，请检查 [维基百科页面](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) 中的“TZ 数据库名称”栏。 对于常见的时区，请检查 [to _time](#to_time)
 
 例如，
 
@@ -445,7 +445,7 @@ SELECT
 
 `date_diff(unit,begin,end)`
 
-Calculate the difference between `begin` and `end` and produce a number in `unit`. 例如： `date_diff('second',window_start,window_end)` 例如： `date_diff('second',window_start,window_end)` 例如： `date_diff('second',window_start,window_end)`
+计算 `begin` 和 `end` 的差值并在 `unit` 中产生一个数字。例如： `date_diff('second',window_start,window_end)</0> 例如： <code>date_diff('second',window_start,window_end)</0> 例如： <code>date_diff('second',window_start,window_end)`
 
 ### date_diff_within
 
