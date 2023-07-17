@@ -1,12 +1,12 @@
-# 事件时间
+# _tp_time (Event time)
 
 ## 所有流数据都应有事件时间
 
-流指数据在哪里运行，每个数据包含一个事件时间。 Timeplus将此属性作为事件的一个重要特征。
+Streams are where data live and each data contains a `_tp_time` column as the event time. Timeplus takes this attribute as one important identity of an event.
 
-事件时间用来确定事件发生的时间，例如一个人生日。  当下单时，当用户登录系统时，它可以是确切的时间戳。 当发生错误时，或当一个 IoT 设备报告其状态。 如果事件中没有合适的时间戳属性，Timeplus将根据数据摄取时间生成事件时间。
+事件时间用来确定事件发生的时间，例如一个人生日。  It can be the exact timestamp when the order is placed, when the user logins a system, when an error occurs, or when an IoT device reports its status. If there is no suitable timestamp attribute in the event, Timeplus will generate the event time based on the data ingestion time.
 
-事件时间通常是 `日期时间` 类型，其第二精度为 `日期时间64` 类型的毫秒。
+By default, the `_tp_time` column is in `datetime64(3, 'UTC')` type with millisecond precision. You can also create it it in `datetime` type with second precision.
 
 ## 为什么事件时间受到不同的处理
 
@@ -14,14 +14,14 @@
 
 * 在执行基于时间窗口的聚合时， 例如 [tumble](functions#tumble) 或 [hop](functions#hop) 以获取每次窗口中的下载数据或外部数据， Timeplus将使用事件时间来决定某些事件是否属于特定窗口
 * 在这种具有时间敏感性的分析中，事件时间也用来识别不合顺序的事件或较晚的事件， 并丢弃它们以便及时获得串流洞察力。
-* 当一个数据流与另一个数据流合并时，事件时间是整理数据的钥匙。 没有想到两个事件发生在完全相同的毫秒。
+* when one data stream is joined with the other, event time is the key to collate the data, without expecting two events to happen in  exactly the same millisecond.
 * 事件时间也发挥重要作用来设备数据在流中保存的时间
 
 ## 如何指定事件时间
 
 ### 在数据摄取过程中指定
 
-当你 [摄取数据](ingestion) 到 Timeplus 时，你可以在数据中指定一个属性来最能代表事件时间。 即使该属性是在 `字符串` 类型中，Timeplus将自动转换为时间戳以便进一步处理。
+当你 [摄取数据](ingestion) 到 Timeplus 时，你可以在数据中指定一个属性来最能代表事件时间。 Even if the attribute is in `String` type, Timeplus will automatically convert it to a timestamp for further processing.
 
 如果您不在向导中选择属性，则Timeplus将使用摄取时间来显示事件时间。 当Timeplus接收数据时。 这可能对大多数静态或维数据很有用，例如带有邮政编码的城市名称。
 
