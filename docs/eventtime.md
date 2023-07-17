@@ -1,12 +1,12 @@
-# Event time
+# _tp_time (Event time)
 
 ## All data with an event time
 
-Streams are where data live and each data contains an event time. Timeplus takes this attribute as one important identity of an event.
+Streams are where data live and each data contains a `_tp_time` column as the event time. Timeplus takes this attribute as one important identity of an event.
 
 Event time is used to identify when the event is generated, like a birthday to a human being.  It can be the exact timestamp when the order is placed, when the user logins a system, when an error occurs, or when an IoT device reports its status. If there is no suitable timestamp attribute in the event, Timeplus will generate the event time based on the data ingestion time.
 
-Usually the event time is in `DateTime` type with second precision or in `DateTime64` type with millisecond precision. 
+By default, the `_tp_time` column is in `datetime64(3, 'UTC')` type with millisecond precision. You can also create it it in `datetime` type with second precision. 
 
 ## Why event time is treated differently
 
