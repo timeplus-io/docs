@@ -2,6 +2,12 @@
 
 最近，我们还增加了对基于 JavaScript 的本地 UDF 的支持。 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
+:::info
+
+This feature is invite-only. Please contact us to enable it in your workspace. Alternatively, you can use [Remote UDF](remote-udf) to register a webhook as the UDF.
+
+:::
+
 ## 注册 JS UDF {#register}
 
 1. 点击右上角的工作空间名称并选择 **设置**，打开工作空间设置页面。
