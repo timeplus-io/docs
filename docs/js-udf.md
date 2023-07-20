@@ -2,6 +2,12 @@
 
 Recently we also added the support of JavaScript-based local UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
 
+:::info
+
+This feature is invite-only. Please contact us to enable it in your workspace. Alternatively, you can use [Remote UDF](remote-udf) to register a webhook as the UDF.
+
+:::
+
 ## Register a JS UDF {#register}
 
 1. Open the workspace settings page via clicking on the workspace name at top-right corner and choosing **Settings**.
