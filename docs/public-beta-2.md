@@ -4,6 +4,26 @@ We are thrilled to launch the next phase of the public beta of Timeplus cloud re
 
 We will update the beta version from time to time and list key enhancements in this page.
 
+## Jul 24, 2023
+
+**Dashboards and Charts**
+  * When you make changes to your SQL, we will try to preserve the chart's formatting settings, such as when modifying the WHERE condition or ORDER BY.
+  * Table chart: click and drag to resize column widths.
+  * Single value chart: more formatting options are added – change the colors of the number, delta increases/decreases, and sparkline.
+  * Enhanced the color picker for charts to show shades of a color.
+
+**Other UI Enhancements**
+  * In the results table of the Query page, in for date/time columns, we now show the original timestamp with the timezone.
+  * Improved how expiry dates are shown for API keys in Personal Settings.
+
+**Streaming Database and SQLs**
+  * Performance for Sources and Sinks are greatly improved
+  * Improvements for JOIN
+    * versioned kv join versioned kv with partilar primary key
+    * changelog_kv join changelog_kv
+    * changelog_kv join versioned_kv
+    * introduce changelog() table function
+
 ## Jul 10, 2023
 
 **Resource Tables UI**
