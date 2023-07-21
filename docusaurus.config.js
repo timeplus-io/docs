@@ -15,7 +15,7 @@ const config = {
   favicon: 'img/favicon.ico',
   organizationName: 'timeplus-io', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
-  scripts:['/heap.js','/hotjar.js','https://data.timeplus.com/p.js'],
+  scripts:['/heap.js','/hotjar.js','/ai.js','https://data.timeplus.com/p.js'],
   plugins: ['docusaurus-plugin-hubspot'],
 
   presets: [
