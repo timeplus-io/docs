@@ -2,6 +2,12 @@
 
 Timeplus supports ANSI-SQL standard syntax. The following functions are provided for various use cases. Please contact us if you need more functions.
 
+:::info
+
+Please note, functions in Timeplus are case-sensitive and always in lower-case. For example, you can run `SELECT count(*) FROM car_live_data` but not `SELECT COUNT(*) FROM car_live_data` Keywords such as `SELECT` or `FROM` are case-insensitive.
+
+:::
+
 ## Type Conversion {#proc_type}
 
 ### to_time
