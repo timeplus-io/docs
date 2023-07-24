@@ -8,19 +8,19 @@ We will update the beta version from time to time and list key enhancements in t
 
 **Dashboards and Charts**
   * When you make changes to your SQL, we will try to preserve the chart's formatting settings, such as when modifying the `WHERE` condition or `ORDER BY`.
-  * Table chart: click and drag to resize column widths in the edit mode.
+  * Table chart: click and drag to resize column widths in edit mode.
   * Single value chart: more formatting options are added – change the colors of the number, delta increases/decreases, and sparkline.
   * Enhanced the color picker for charts to show shades of a color.
 
 **Other UI Enhancements**
-  * In the results table of the Query page, for date/time columns, we now show the original timestamp (no longer in the browser's local timezone). In Timeplus, by default the _tp_time column is created in the UTC timezone. Please check the [_tp_time (Event time)](eventtime) for details.
+  * In the results table of the Query page, for date/time columns, we now show the original timestamp (no longer showing the browser's local timezone). In Timeplus, by default the _tp_time column is created in the UTC timezone. Please check the [_tp_time (Event time)](eventtime) for details.
   * Improved how expiry dates are shown for API keys in Personal Settings.
 
 **Streaming Database and SQLs**
   * Performance for Sources and Sinks are greatly improved.
   * Improvements for `JOIN`:
-    * If you run `JOIN` for a normal stream (append-only) with a [Versioned Stream](versioned-stream), in the previous releases, all primary key columns of the Versioned Stream need to be in the `ON` clause. Since this release, as long as all primary key columns are selected, you can use one or more primary key columns in the `ON` clause.
-    * (Experimental) We also added the support for [Changelog Stream](changelog-stream) `JOIN` [Changelog Stream](changelog-stream), or [Changelog Stream](changelog-stream) `JOIN` [Versioned Stream](versioned-stream).
+    * Previously, if you run `JOIN` for a normal stream (append-only) with a [Versioned Stream](versioned-stream), all primary key columns of the Versioned Stream need to be in the `ON` clause. Now, as long as all primary key columns are selected, you can use one or more primary key columns in the `ON` clause.
+    * (Experimental) We also added support for [Changelog Stream](changelog-stream) `JOIN` [Changelog Stream](changelog-stream), or [Changelog Stream](changelog-stream) `JOIN` [Versioned Stream](versioned-stream).
 
 ## Jul 10, 2023
 
