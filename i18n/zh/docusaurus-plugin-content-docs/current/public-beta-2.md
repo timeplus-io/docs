@@ -4,6 +4,24 @@
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
+## Jul 24, 2023
+
+**Dashboards and Charts**
+  * When you make changes to your SQL, we will try to preserve the chart's formatting settings, such as when modifying the `WHERE` condition or `ORDER BY`.
+  * Table chart: click and drag to resize column widths in edit mode.
+  * Single value chart: more formatting options are added – change the colors of the number, delta increases/decreases, and sparkline.
+  * Enhanced the color picker for charts to show shades of a color.
+
+**Other UI Enhancements**
+  * In the results table of the Query page, for date/time columns, we now show the original timestamp (no longer showing the browser's local timezone). In Timeplus, by default the _tp_time column is created in the UTC timezone. Please check the [_tp_time (Event time)](eventtime) for details.
+  * Improved how expiry dates are shown for API keys in Personal Settings.
+
+**Streaming Database and SQLs**
+  * Performance for Sources and Sinks are greatly improved.
+  * Improvements for `JOIN`:
+    * Previously, if you run `JOIN` for a normal stream (append-only) with a [Versioned Stream](versioned-stream), all primary key columns of the Versioned Stream need to be in the `ON` clause. Now, as long as all primary key columns are selected, you can use one or more primary key columns in the `ON` clause.
+    * (Experimental) We also added support for [Changelog Stream](changelog-stream) `JOIN` [Changelog Stream](changelog-stream), or [Changelog Stream](changelog-stream) `JOIN` [Versioned Stream](versioned-stream).
+
 ## 2023年7月10日
 
 **资源列表**
