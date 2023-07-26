@@ -4,23 +4,23 @@
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
-## Jul 24, 2023
+## 2023年7月24日
 
-**Dashboards and Charts**
-  * When you make changes to your SQL, we will try to preserve the chart's formatting settings, such as when modifying the `WHERE` condition or `ORDER BY`.
-  * Table chart: click and drag to resize column widths in edit mode.
-  * Single value chart: more formatting options are added – change the colors of the number, delta increases/decreases, and sparkline.
-  * Enhanced the color picker for charts to show shades of a color.
+**仪表板和图表**
+  * 当您对 SQL 进行更改时，我们将尝试保留图表格式化设置。 例如当修改 `WHERE` 条件或 `ORDER BY` 时。
+  * 图表：点击并拖动以在编辑模式下调整列宽度的大小。
+  * 单值图表：添加了更多格式选项——更改数字的颜色、批量增加/减少和闪烁效果。
+  * 增强了图表的颜色选择器，以显示颜色的阴影。
 
-**Other UI Enhancements**
-  * In the results table of the Query page, for date/time columns, we now show the original timestamp (no longer showing the browser's local timezone). In Timeplus, by default the _tp_time column is created in the UTC timezone. Please check the [_tp_time (Event time)](eventtime) for details.
-  * Improved how expiry dates are shown for API keys in Personal Settings.
+**其他用户界面的改进**
+  * 在查询页面的结果表中，对于日期/时间列，我们现在显示原始时间戳（不再显示浏览器的本地时区）。 在 Timeplus 中，默认情况下 _tp_time 列是在 UTC 时区创建的。 详情请查看 [_tp_time（活动时间）](eventtime) 。
+  * 改进了在个人设置中显示 API 密钥到期日期的方式。
 
-**Streaming Database and SQLs**
-  * Performance for Sources and Sinks are greatly improved.
-  * Improvements for `JOIN`:
-    * Previously, if you run `JOIN` for a normal stream (append-only) with a [Versioned Stream](versioned-stream), all primary key columns of the Versioned Stream need to be in the `ON` clause. Now, as long as all primary key columns are selected, you can use one or more primary key columns in the `ON` clause.
-    * (Experimental) We also added support for [Changelog Stream](changelog-stream) `JOIN` [Changelog Stream](changelog-stream), or [Changelog Stream](changelog-stream) `JOIN` [Versioned Stream](versioned-stream).
+**流数据库和流式SQL**
+  * 极大地提高了源和下游的性能。
+  * `JOIN`的改进：
+    * 以前，如果你对带有 [多版本流](versioned-stream) 的普通流（仅附加）运行 `JOIN`，那么多版本流的所有主键列都需要在 `ON` 条款中。 现在，只要选择了所有主键列，就可以在 `ON` 条款中使用一个或多个主键列。
+    * (实验性) 我们还添加了对 [变更日志流](changelog-stream) 的 `JOIN` [变更日志流](changelog-stream) 或 [变更日志](changelog-stream) 的 `JOIN` [多版本流](versioned-stream)。
 
 ## 2023年7月10日
 
