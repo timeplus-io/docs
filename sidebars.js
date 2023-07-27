@@ -91,7 +91,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Query Guide',
-      //collapsed: false,
+      collapsed: false,
       link: {
         type: 'doc',
         id: 'query-guide'

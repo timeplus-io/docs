@@ -25,48 +25,120 @@ Here is the full source code for the Lambda function:
 const https = require('https');
 
 exports.handler = async (event) => {
-  if(event.body===undefined){
-    return {statusCode: 200,body:'no body in the request'}
-  }
-  let body = JSON.parse(event.body)
-
-  const promise = new Promise(function(resolve, reject) {
-    https.get(`https://ipinfo.io/${body.ip[0]}?token=${process.env.TOKEN}`, (resp) => {
-      let data = '';
-      resp.on('data', (chunk) => {
-        data += chunk;
-      });
-      resp.on('end', () => {
-        const response = {
-          statusCode: 200,
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({result:[data]})
+    if(event.body===undefined){
+        return {statusCode: 200,body:'no body in the request'}
+    }
+    let body = JSON.parse(event.body)
+    let ip=body.ip||body.arg0 //ip is an array of string
+    
+    const promise = new Promise(function(resolve, reject) {
+        const dataString = JSON.stringify(ip);
+        const options = {
+          hostname: 'ipinfo.io',
+          path: '/batch',
+          headers: {
+              'Authorization': `Bearer ${process.env.TOKEN}`,
+              'Content-Type': 'application/json',
+              'Content-Length': dataString.length,
+            },
+          method: 'POST'
         };
-        resolve(response);
-      });
-    }).on("error", (err) => {
-      console.log("Error: " + err.message);
-      reject(Error(err))
-    });
-  })
-  return promise
+        const req = https.request(options, (resp) => {
+            let data = '';
+            resp.on('data', (chunk) => {
+                data += chunk;
+            });
+            resp.on('end', () => {
+                let batchMap = JSON.parse(data);
+                let rows =[] //return an array of results to Timeplus
+                for(var i=0;i<ip.length;i++){
+                    let info=batchMap[ip[i]]
+                    if(info===undefined){
+                        info={};
+                    }
+                    rows.push(JSON.stringify(info))
+                }
+                const response = {
+                    statusCode: 200,
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({result:rows})
+                };
+                resolve(response);
+            });
+        }).on("error", (err) => {
+            reject(Error(err))
+        });
+        req.write(dataString);
+        req.end();
+    })
+    return promise
 };
 ```
 
 The code is straightforward. A few notes:
 
-1. The input data is wrapped in a JSON document and key parameter `ip` is available in the array
-2. We simply call the REST API of [ipinfo.io](https://ipinfo.io) with the API token from the Lambda environment variable
-3. The response from ipinfo.io REST API will be put into a JSON document {“result”:[..]} and sent out as the Lambda output
-4. Since the Lambda function is running outside Timeplus servers, there are no restrictions for 3rd party libraries. In this example, we are using the built-in node.js “https” library. For more complex data processing, feel free to include more sophisticated libraries, such as machine learning.
+1. You can call the UDF for more than 1 row, such as `select my_udf(col) from my_stream`. To improve the efficiency, Timeplus will send batch requests to the remote UDF, e.g. `my_udf([input1, input2, input3])`and the return value is an array too `[return1, return2, return3]`
+2. The input data is wrapped in a JSON document `{"ip":["ip1","ip2","ip3"]}`
+3. We simply call the REST API of [ipinfo.io](https://ipinfo.io) with the API token from the Lambda environment variable
+4. The response from ipinfo.io REST API will be put into a JSON document {“result”:[..]} and sent out as the Lambda output
+5. Since the Lambda function is running outside Timeplus servers, there are no restrictions for 3rd party libraries. In this example, we are using the built-in node.js “https” library. For more complex data processing, feel free to include more sophisticated libraries, such as machine learning.
 
 Once you have deployed the Lambda function, you can generate a publicly accessible URL, then register the function in Timeplus Web Console.
 
 ## Register the UDF
 
-Only Timeplus workspace administrators can register new UDF. Open the Workspace menu on the left, then choose the "User-Defined Functions" tab, and click the 'Register New Function' button.
+Only Timeplus workspace administrators can register new UDF. Open "UDFs" from the navigation menu on the left, and click the 'Register New Function' button. Choose "Remote" as the UDF type.
 
-Simply choose a name for the function and specify the input/output data type. Set the Lambda URL in the form. You can choose to enable extra authentication key/value in the HTTP header, securing the endpoint to avoid unauthorized access.
+Set a name for the function and specify the arguments and return data type. Set the webhook URL(e.g. Lambda URL) in the form. You can choose to enable extra authentication key/value in the HTTP header, securing the endpoint to avoid unauthorized access.
+
+### Arguments
+
+The data transferring between Timeplus and Remote UDF endpoint is `JSONColumns` format. For example, if a remote UDF has two arguments, one `feature` argument is of type `array(float32)` and the other `model` argument is of type `string`, below is the data transferring to UDF endpoint in `JSONColumns` format:
+
+```json
+{
+  "features": [
+   [66, 66],[72, 72]
+  ],
+  "model": [
+    "line1",
+    "line2"
+  ]
+}
+```
+
+The following data types in Timeplus are supported as Remote UDF arguments:
+
+| Timeplus Data Types        | Payload in UDF HTTP Request                 |
+| -------------------------- | ------------------------------------------- |
+| array(TYPE)                | {"argument_name":[array1,arrary2]}          |
+| bool                       | {"argument_name":[true,false]}              |
+| date, datetime, datetime64 | {"argument_name":[dateString1,dateString2]} |
+| float, float64, integer    | {"argument_name":[number1,number2]}         |
+| string                     | {"argument_name":[string1,string2]}         |
+
+
+
+### Returned value
+
+The remote UDF endpoint should return the text representation of a JSON document:
+
+```json
+{
+  "result":[result1, result2]
+}
+```
+
+Timeplus will take each element of the result array and convert back to Timeplus data type. The supported return type are similar to argument types. The only difference is that if you return a complex data structure as a JSON, it will be converted to a `tuple` in Timeplus.
+
+| UDF HTTP Response                    | Timeplus Data Types        |
+| ------------------------------------ | -------------------------- |
+| {"result":[array1,arrary2]}          | array(TYPE)                |
+| {"result":[true,false]}              | bool                       |
+| {"result":[dateString1,dateString2]} | date, datetime, datetime64 |
+| {"result":[number1,number2]}         | float, float64, integer    |
+| {"result":[string1,string2]}         | string                     |
+| {"result":[json1,json2]}             | tuple                      |
 
 
 
@@ -90,3 +162,5 @@ User-defined functions open the door for new possibilities to process and analyz
 5. Properly adding logs to your UDF code can greatly help troubleshoot/tune the function code.
 6. Only the Timeplus workspace administrators can register new User-Defined Functions, while all members in the workspace can use the UDFs.
 7. Make sure the UDF name doesn’t conflict with the [built-in functions](functions) or other UDFs in the same workspace.
+
+
