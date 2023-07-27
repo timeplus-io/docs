@@ -116,7 +116,7 @@
 
 **流数据库和流式SQL**
 
-* 对于状态时间窗口聚合([tumble](functions#tumble)/[hop](functions#hop)/[session](functions#session)), Timeplus现在支持亚秒间隔： `ms` 表示毫秒。 `us` 表示微秒 `ns` 表示纳秒。 例如，您可以通过运行流式SQL，在过去1秒的滑动窗口中每10毫秒显示结果： `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. 两个月前，我们还增加了亚秒级间隔运行全局聚合的能力。 例如 `select sum(price) from stocks emit periodic 50m`
+* For stateful time window aggregations ([tumble](functions_for_streaming#tumble)/[hop](functions_for_streaming#hop)/[session](functions_for_streaming#session)), Timeplus now supports sub-second intervals: `ms` for milliseconds, `us` for microseconds, and `ns` for nanoseconds. 例如，您可以通过运行流式SQL，在过去1秒的滑动窗口中每10毫秒显示结果： `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. 两个月前，我们还增加了亚秒级间隔运行全局聚合的能力。 例如 `select sum(price) from stocks emit periodic 50m`
 * 添加了新功能来 [md5](functions#md5), [md4](functions#md4), and [hex](functions#hex)，可以帮助您生成哈希键。
 
 **图表和仪表盘**
