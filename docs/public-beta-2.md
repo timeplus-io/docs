@@ -119,7 +119,7 @@ The [Meltano plugin for Timeplus](https://github.com/timeplus-io/target-timeplus
 
 **Streaming Database and SQL**
 
-* For stateful time window aggregations ([tumble](functions#tumble)/[hop](functions#hop)/[session](functions#session)), Timeplus now supports sub-second intervals: `ms` for milliseconds, `us` for microseconds, and `ns` for nanoseconds. For example, you can run a streaming SQL to show results every 10 milliseconds for the past 1 second sliding window: `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. Two months ago, we also added the capability to run global aggregations with fixed interval at sub-second level, such as `select sum(price) from stocks emit periodic 50ms`
+* For stateful time window aggregations ([tumble](functions_for_streaming#tumble)/[hop](functions_for_streaming#hop)/[session](functions_for_streaming#session)), Timeplus now supports sub-second intervals: `ms` for milliseconds, `us` for microseconds, and `ns` for nanoseconds. For example, you can run a streaming SQL to show results every 10 milliseconds for the past 1 second sliding window: `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. Two months ago, we also added the capability to run global aggregations with fixed interval at sub-second level, such as `select sum(price) from stocks emit periodic 50ms`
 * Added new functions [md5](functions#md5), [md4](functions#md4), and [hex](functions#hex), which can help you generate hash keys.
 
 **Dashboards**

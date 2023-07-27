@@ -67,7 +67,7 @@ We have migrated beta1 customers to the beta2. https://demo.timeplus.com is no l
 ###  Week of 8/15
 
 * Streaming engine
-  * (Experimental) enhanced the [session window](functions#session) aggregation to create substreams based on customized logic for window start and window end
+  * (Experimental) enhanced the [session window](functions_for_streaming#session) aggregation to create substreams based on customized logic for window start and window end
   * Added a new function [extract_all_groups](functions#extract_all_groups) to process text with regular expressions.
 * Source, sink, API and SDK
   * Webhook sink is enhanced to support customized HTTP method, content type and headers.

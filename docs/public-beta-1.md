@@ -87,9 +87,9 @@ We will update the beta version from time to time and list key enhancements in t
 
 * Streaming engine
 
-  * We simplified the [session](functions#session) time window: if you want to create sub-streams, you no longer need to set the `keyBy` column as one parameter of the session window. Just use `SELECT .. FROM session(..) PARTITION BY keyBy` . Other time window functions([tumble](functions#tumble) and [hop](functions#hop)) support the `PARTITION BY` in the same way.
+  * We simplified the [session](functions_for_streaming#session) time window: if you want to create sub-streams, you no longer need to set the `keyBy` column as one parameter of the session window. Just use `SELECT .. FROM session(..) PARTITION BY keyBy` . Other time window functions([tumble](functions_for_streaming#tumble) and [hop](functions_for_streaming#hop)) support the `PARTITION BY` in the same way.
 
-  * The other enhancement of the [session](functions#session) time window: we introduced an intuitive way to express whether the events for startCondtion or endCondition should be included in the session window. Four combinations supported: `[startCondition, endCondition]`, `(startCondtion, endCondition)`, `[startCondition,endCondition)`,`(startCondition,endCondition]`
+  * The other enhancement of the [session](functions_for_streaming#session) time window: we introduced an intuitive way to express whether the events for startCondtion or endCondition should be included in the session window. Four combinations supported: `[startCondition, endCondition]`, `(startCondtion, endCondition)`, `[startCondition,endCondition)`,`(startCondition,endCondition]`
 
   * We added the support of `<agg> FILTER(WHERE ..)` as a shortcut to run aggregation for data with certain condition, e.g. 
 

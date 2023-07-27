@@ -25,7 +25,7 @@ In most cases, you don't need to explicitly create a stream in Timeplus. When yo
 
 By default, querying the stream will continuously scan new events and output new results. It never ends unless the user cancels the query. For example, you can get the latest web logs with HTTP 500 error or get the min/max/avg of a metric for every minute from an IoT device. Please read [Streaming Queries](stream-query) for more details.
 
-If you only want to analyze the existing data and need an immediate response, you can run [Non-streaming Queries](history) via the [table](functions#table) function. This will turn the query in the bounded mode and only scan the existing data. For example, you can run `select count(*) from table(stream1)` to get the total number of rows in the data stream.
+If you only want to analyze the existing data and need an immediate response, you can run [Non-streaming Queries](history) via the [table](functions_for_streaming#table) function. This will turn the query in the bounded mode and only scan the existing data. For example, you can run `select count(*) from table(stream1)` to get the total number of rows in the data stream.
 
 
 

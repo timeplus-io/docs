@@ -36,7 +36,7 @@ A special view that is kept running in the background and persistent the query r
 
 ## query {#query}
 
-Timeplus provides powerful streaming analytics capabilities through the enhanced SQL. By default, queries are unbounded and keep pushing the latest results to the client. The unbounded query can be converted to a bounded query by applying the function [table()](functions#table), when the user wants to ask the question about what has happened like the traditional SQL.
+Timeplus provides powerful streaming analytics capabilities through the enhanced SQL. By default, queries are unbounded and keep pushing the latest results to the client. The unbounded query can be converted to a bounded query by applying the function [table()](functions_for_streaming#table), when the user wants to ask the question about what has happened like the traditional SQL.
 
 Learn more: [Streaming Query](stream-query) and [Non-Streaming Query](history)
 

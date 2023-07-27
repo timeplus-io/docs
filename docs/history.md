@@ -10,7 +10,7 @@ SELECT * FROM device_utils SETTINGS query_mode='table';
 
 
 
-2. Run historical query per stream by wrapping stream with [table](functions#table) function. This mode is flexible and sometimes required in some scenarios like streaming and dimension table join. 
+2. Run historical query per stream by wrapping stream with [table](functions_for_streaming#table) function. This mode is flexible and sometimes required in some scenarios like streaming and dimension table join. 
 
 ```sql
 SELECT * FROM table(device_utils);

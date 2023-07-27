@@ -12,7 +12,7 @@ By default, the `_tp_time` column is in `datetime64(3, 'UTC')` type with millise
 
 Event time is used almost everywhere in Timeplus data processing and analysis workflow:
 
-* while doing time window based aggregations, such as [tumble](functions#tumble) or [hop](functions#hop) to get the downsampled data or outlier in each time window, Timeplus will use the event time to decide whether certain event belongs to a specific window
+* while doing time window based aggregations, such as [tumble](functions_for_streaming#tumble) or [hop](functions_for_streaming#hop) to get the downsampled data or outlier in each time window, Timeplus will use the event time to decide whether certain event belongs to a specific window
 * in such time sensitive analytics, event time is also used to identify out of order events or late events, and drop them in order to get timely streaming insights.
 * when one data stream is joined with the other, event time is the key to collate the data, without expecting two events to happen in  exactly the same millisecond.
 * event time also plays an important role to device how long the data will be kept in the stream
@@ -27,7 +27,7 @@ If you don't choose an attribute in the wizard, then Timeplus will use the inges
 
 ### Specify during query
 
-The [tumble](functions#tumble) or [hop](functions#hop) window functions take an optional parameter as the event time column. By default, we will use the event time in each data. However you can also specify a different column as the event time.
+The [tumble](functions_for_streaming#tumble) or [hop](functions_for_streaming#hop) window functions take an optional parameter as the event time column. By default, we will use the event time in each data. However you can also specify a different column as the event time.
 
 Taking an example for taxi passengers. The data stream can be
 

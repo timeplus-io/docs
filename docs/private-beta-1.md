@@ -39,9 +39,9 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
   * Refined the behavior of [materialized views](view#m_view), to keep it consistent with the other Timeplus queries. `SELECT * FROM table(a_materialized_view)` will get all past results, instead of the recent one. 
   * Added the [count_if](functions#count_if) function and [unique_exact_if](functions#unique_exact_if) function to count the number of rows or unique value matching certain conditions.
   * Added [json_extract_keys](functions#json_extract_keys) function to get the keys for the JSON map object.
-  * Added the [to_bool](functions#to_bool) function to convert other types to `bool`
+  * Added the [to_bool](functions_for_type#to_bool) function to convert other types to `bool`
   * Added [is_nan](functions#is_nan), [is_infinite](functions#is_infinite), [is_finite](functions#is_finite) functions to detect the edge cases when a number column contains infinite numbers, etc.
-  * Added [to_type_name](functions#to_type_name) function to show the data type name, mainly for troubleshooting purposes.
+  * Added [to_type_name](functions_for_type#to_type_name) function to show the data type name, mainly for troubleshooting purposes.
 
 * Source, sink, API and SDK
   * Updated the [Python SDK](https://pypi.org/project/timeplus/0.1.10/) to show the metrics
@@ -86,7 +86,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 * Streaming engine
 
-  * At this point, [session window](functions#session) aggregation only supports streaming queries. Properly reject the query if the `session(..)` is used together with `table(..)` function.
+  * At this point, [session window](functions_for_streaming#session) aggregation only supports streaming queries. Properly reject the query if the `session(..)` is used together with `table(..)` function.
 
 * Source, sink and API
 
@@ -106,7 +106,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 * Streaming engine
 
-  * [Session window](functions#session) now supports millisecond for window_start/window_end.
+  * [Session window](functions_for_streaming#session) now supports millisecond for window_start/window_end.
   * Added a new [lags](functions#lags) function to get a range of past results. This could help the pure-SQL based ML/prediction.
   * Added a new [grok](functions#grok) function to parse a line of text into key/value pairs, without having to write regular expressions. 
 
@@ -232,7 +232,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 ### Week of 4/18
 
 * Improved the API token UI
-* Experimental [session](functions#session) window for streaming processing. Many new use cases will be unlocked.
+* Experimental [session](functions_for_streaming#session) window for streaming processing. Many new use cases will be unlocked.
 * Enhanced the [top_k](functions#top_k) function to show event counts by default
 * Added new functions for array and map: [map_cast](functions#map_cast) , [group_array](functions#group_array)
 * Added new streaming functions [earliest](functions#earliest) and [latest](functions#latest) and to show the first or last event in the streaming window.
