@@ -25,7 +25,7 @@ Timeplus 支持多种类型的流：
 
 默认情况下，查询流将持续扫描新事件和输出新结果。 除非用户取消查询，否则它永远不会结束。 例如， 您可以从 HTTP 500 错误获取最新的网页日志，或从 IoT 设备获取每分钟的最大/最大/平均公尺。 欲了解更多详情，请阅读 [流查询](stream-query)。
 
-如果您只想分析现有数据并需要立即响应， 您可以通过 [表](functions#table) 函数运行 [非流式查询](history)。 这将在边界模式下转向查询，只扫描现有数据。 例如，您可以运行 `从表(串流1)` 中选择计数(*)以获取数据流中的行数。
+If you only want to analyze the existing data and need an immediate response, you can run [Non-streaming Queries](history) via the [table](functions_for_streaming#table) function. 这将在边界模式下转向查询，只扫描现有数据。 例如，您可以运行 `从表(串流1)` 中选择计数(*)以获取数据流中的行数。
 
 
 
