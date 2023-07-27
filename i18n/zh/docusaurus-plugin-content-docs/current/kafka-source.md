@@ -33,6 +33,6 @@
 请注意：
 
 1. 目前，我们支持 Kafka 主题中的消息采用 JSON 和 AVRO 格式
-2. 主题级别 JSON 属性将被转换为流列。 对于嵌套属性， 元素将被保存为 `String` 列，然后您可以用 [JSON 函数之一](functions#processing-json) 查询它们。
+2. 主题级别 JSON 属性将被转换为流列。 For nested attributes, the element will be saved as a `String` column and later you can query them with one of the [JSON functions](functions_for_json).
 3. JSON消息中的数值或布尔值类型将被转换为流中的对应类型。
-4. 日期时间或时间戳将被保存为字符串列。 你可以通过 [to_time 函数](functions#to_time)将它们转换回 DateTime。
+4. 日期时间或时间戳将被保存为字符串列。 You can convert them back to DateTime via [to_time function](functions_for_type#to_time).
