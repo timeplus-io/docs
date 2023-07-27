@@ -12,7 +12,7 @@ By default, the `_tp_time` column is in `datetime64(3, 'UTC')` type with millise
 
 事件时间几乎在任何地方在 Timeplus 数据处理和分析工作流程中使用：
 
-* 在执行基于时间窗口的聚合时， 例如 [tumble](functions#tumble) 或 [hop](functions#hop) 以获取每次窗口中的下载数据或外部数据， Timeplus将使用事件时间来决定某些事件是否属于特定窗口
+* while doing time window based aggregations, such as [tumble](functions_for_streaming#tumble) or [hop](functions_for_streaming#hop) to get the downsampled data or outlier in each time window, Timeplus will use the event time to decide whether certain event belongs to a specific window
 * 在这种具有时间敏感性的分析中，事件时间也用来识别不合顺序的事件或较晚的事件， 并丢弃它们以便及时获得串流洞察力。
 * when one data stream is joined with the other, event time is the key to collate the data, without expecting two events to happen in  exactly the same millisecond.
 * 事件时间也发挥重要作用来设备数据在流中保存的时间
@@ -27,7 +27,7 @@ By default, the `_tp_time` column is in `datetime64(3, 'UTC')` type with millise
 
 ### 在查询时指定
 
-[tumble](functions#tumble) 或 [hop](functions#hop) 窗口函数将可选参数作为事件时间列。 默认情况下，我们将使用每个数据中的事件时间。 然而，您也可以指定一个不同的列作为事件时间。
+The [tumble](functions_for_streaming#tumble) or [hop](functions_for_streaming#hop) window functions take an optional parameter as the event time column. 默认情况下，我们将使用每个数据中的事件时间。 然而，您也可以指定一个不同的列作为事件时间。
 
 举出租车乘客为例。 数据流可以是
 
