@@ -20,7 +20,7 @@
   * 极大地提高了源和下游的性能。
   * `JOIN`的改进：
     * 以前，如果你对带有 [多版本流](versioned-stream) 的普通流（仅附加）运行 `JOIN`，那么多版本流的所有主键列都需要在 `ON` 子句中。 现在，只要选择了所有主键列，就可以在 `ON` 子句中使用一个或多个主键列。
-    * (实验性) 我们还添加了对 [变更日志流](changelog-stream) 的 `JOIN` [变更日志流](changelog-stream) 或 [变更日志](changelog-stream) 的 `JOIN` [多版本流](versioned-stream)。
+    * (实验性) 我们还添加了对 [变更日志流](changelog-stream) `JOIN` [变更日志流](changelog-stream) 或 [变更日志](changelog-stream) 的 `JOIN` [多版本流](versioned-stream) 的支持。
 
 ## 2023年7月10日
 
