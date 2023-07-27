@@ -39,9 +39,9 @@
   * 精炼 [实际化视图](view#m_view)的行为，使其与其他Timeplus查询保持一致。 `SELECT * FROM table(a_possiblealized_view)` 将获得所有过去的结果，而不是最近的结果。
   * 添加 [count_if](functions#count_if) 函数和 [唯一的](functions#unique_exact_if) 函数来计数匹配某些条件的行数或唯一值。
   * 添加 [json_extract_key_](functions#json_extract_keys) 函数来获取JSON 映射对象的键值。
-  * 添加 [to_bool](functions#to_bool) 函数来将其他类型转换为 `bool`
+  * Added the [to_bool](functions_for_type#to_bool) function to convert other types to `bool`
   * 添加 [is_nan](functions#is_nan), [is_infinite](functions#is_infinite), [is_finite](functions#is_finite) 函数用于检测边缘案例的数字列包含无限数字等。
-  * 添加 [to_type_name](functions#to_type_name) 函数来显示数据类型名称，主要用于故障排除目的。
+  * Added [to_type_name](functions_for_type#to_type_name) function to show the data type name, mainly for troubleshooting purposes.
 
 * 源、 汇、 API 和 SDK
   * 更新 [Python SDK](https://pypi.org/project/timeplus/0.1.10/) 以显示指标
@@ -86,7 +86,7 @@
 
 * 流引擎
 
-  * 在这一点上， [会话窗口](functions#session) 聚合仅支持串流查询。 正确拒绝查询 `session(...)` 与 `table(...)` 函数一起使用。
+  * At this point, [session window](functions_for_streaming#session) aggregation only supports streaming queries. 正确拒绝查询 `session(...)` 与 `table(...)` 函数一起使用。
 
 * 源、 sink 和 API
 
@@ -106,7 +106,7 @@
 
 * 流引擎
 
-  * [会话窗口](functions#session) 现在支持 window_start/window_end。
+  * [Session window](functions_for_streaming#session) now supports millisecond for window_start/window_end.
   * 添加新的 [滞后](functions#lags) 函数来获得一系列过去的结果。 这可以帮助基于纯 SQL 的 ML/预配。
   * 添加了一个新的 [grok](functions#grok) 函数来解析一行文本到键/值对等符号，而无需写正则表达式。
 
@@ -232,7 +232,7 @@
 ### 每周4/18
 
 * 改进了 API 令牌界面
-* 用于串流处理的测试 [会话](functions#session) 窗口。 许多新的使用案例将解锁。
+* Experimental [session](functions_for_streaming#session) window for streaming processing. 许多新的使用案例将解锁。
 * 增强 [top_k](functions#top_k) 函数默认显示事件计数
 * 为数组和地图添加了新功能： [map_cast](functions#map_cast) , [group_array](functions#group_array)
 * 添加了新的流式功能 [最早的](functions#earliest) 和 [最新的](functions#latest) 并在流式窗口中显示第一个或最后一个事件。
