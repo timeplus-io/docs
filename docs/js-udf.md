@@ -1,23 +1,49 @@
 # Local UDF in JavaScript
 
-Recently we also added the support of JavaScript-based local UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
+In addition to [Remote UDF](remote-udf), Timeplus also supports JavaScript-based UDF running in the database engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
 
 :::info
 
-This feature is invite-only. Please contact us to enable it in your workspace. Alternatively, you can use [Remote UDF](remote-udf) to register a webhook as the UDF.
+The JavaScript-based UDF can run in both Timeplus Cloud and the on-prem deployments. It runs "locally" in the database engine. It doesn't mean this feature is only available for local deployment.
 
 :::
 
 ## Register a JS UDF {#register}
 
-1. Open the workspace settings page via clicking on the workspace name at top-right corner and choosing **Settings**.
-2. Click the **Register New Function** button.
-3. Specify a function name, such as `second_max`. Make sure the name won't conflict with built-in functions or other UDF. Description is optional.
-4. Choose the data type for input parameters and return value.
-5. Choose JavaScript as the UDF type.
-6. Specify whether the function is for aggregation or not.
-7. Enter the JavaScript source for the UDF. (We will explain more how to write the code.)
-8. Click **Create** button to register the function.
+1. Open "UDFs" from the navigation menu on the left, and click the 'Register New Function' button. 
+2. Specify a function name, such as `second_max`. Make sure the name won't conflict with built-in functions or other UDF. Description is optional.
+3. Choose the data type for input parameters and return value.
+4. Choose "JavaScript" as the UDF type.
+5. Specify whether the function is for aggregation or not.
+6. Enter the JavaScript source for the UDF. (We will explain more how to write the code.)
+7. Click **Create** button to register the function.
+
+### Arguments
+
+Unlike Remote UDF, the argument names don't matter when you register a JS UDF. Make sure you the list of arguments matches the input parameter lists in your JavaScript function.
+
+The input data are in Timeplus data type. They will be converted to JavaScript data type.
+
+| Timeplus Data Types                      | JavaScript Data Types   |
+| ---------------------------------------- | ----------------------- |
+| int8/16/32/64, uint8/16/32/64,float32/64 | number                  |
+| bool                                     | boolean                 |
+| fixed_string/string                      | string                  |
+| date/date32/datetime/datetime64          | Date  (in milliseconds) |
+| array(Type)                              | Array                   |
+
+### Returned value
+
+The JavaScript UDF can return the following data types and they will be converted back to the specified Timeplus data types. The supported return type are similar to argument types. The only difference is that if you return a complex data structure as an `object`, it will be converted to a named `tuple` in Timeplus.
+
+| JavaScript Data Types   | Timeplus Data Types                      |
+| ----------------------- | ---------------------------------------- |
+| number                  | int8/16/32/64, uint8/16/32/64,float32/64 |
+| boolean                 | bool                                     |
+| string                  | fixed_string/string                      |
+| Date  (in milliseconds) | date/date32/datetime/datetime64          |
+| Array                   | array(Type)                              |
+| object                  | tuple                                    |
 
 ## Develop a scalar function {#udf}
 
@@ -170,18 +196,5 @@ Please note, unlike JS scalar function, you need to put all functions under an o
 ## Notes
 
 * We will provide better testing tools in the future.
-
 * The custom JavaScript code is running in a sandbox with V8 engine. It won't impact other workspaces.
-
-* Compound data structures such as `array` or `map` are not supported in JS UDF. JavaScript data types are more generic and here is the mapping for JavaScript data type and data type in Timeplus:
-
-  | Timeplus Data Types             | JavaScript Data Types   |
-  | ------------------------------- | ----------------------- |
-  | int8/16/32/64                   | number                  |
-  | uint8/16/32/64                  | number                  |
-  | float32/64                      | number                  |
-  | fixed_string/string             | string                  |
-  | date/date32/datetime/datetime64 | Date  (in milliseconds) |
-
-  
 
