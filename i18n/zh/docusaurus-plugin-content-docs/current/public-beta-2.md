@@ -4,16 +4,34 @@
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
+## 2023年7月24日
+
+**仪表板和图表**
+  * 当您对 SQL 进行更改时，我们将尝试保留图表格式化设置。 例如当修改 `WHERE` 条件或 `ORDER BY` 时。
+  * 图表：点击并拖动以在编辑模式下调整列宽度的大小。
+  * 单值图表：添加了更多格式选项——更改数字的颜色、或差值的颜色和迷你图颜色。
+  * 增强了图表的颜色选择器，以显示不同颜色。
+
+**其他用户界面的改进**
+  * 在查询页面的结果表中，对于日期/时间列，我们现在显示原始时间戳（不再显示浏览器的本地时区）。 在 Timeplus 中，默认情况下 _tp_time 列是在 UTC 时区创建的。 详情请查看 [_tp_time（事件时间）](eventtime) 。
+  * 改进了在个人设置中显示 API 密钥到期日期的方式。
+
+**流数据库和流式SQL**
+  * 极大地提高了源和下游的性能。
+  * `JOIN`的改进：
+    * 以前，如果你对带有 [多版本流](versioned-stream) 的普通流（仅附加）运行 `JOIN`，那么多版本流的所有主键列都需要在 `ON` 子句中。 现在，只要选择了所有主键列，就可以在 `ON` 子句中使用一个或多个主键列。
+    * (实验性) 我们还添加了对 [变更日志流](changelog-stream) `JOIN` [变更日志流](changelog-stream) 或 [变更日志](changelog-stream) 的 `JOIN` [多版本流](versioned-stream) 的支持。
+
 ## 2023年7月10日
 
 **资源列表**
   * 资源列表（例如数据源、流、下游 等等）现在显示 “创建者/时间” 列。
   * 这些表不再自动刷新。 单击右上角的箭头图标可手动刷新表格。
-  * 对于 Versioned 和 Changelog 流，行数和最早/最新事件列不再显示。
+  * 对于多版本流和变更日志流，我们现在显示一个钥匙图标来表示它不是一个追加流。 行数和最早/最新事件列现在也已隐藏。
 
 **查询页面**
-  * 添加了用于在 SQL 编辑器中添加或删除注释的键盘快捷键： `⌘/`用于切换行注释， `⇧⌥A` 用于切换区块注释。
-  * 改进了 SQL 查询的错误消息，以显示更多详细信息。
+  * 我们添加了键盘快捷键来添加或删除 SQL 编辑器中的注释： 在 Windows 电脑端：`Ctrl + /` 用来切换行注释，`Shift + Alt + A` 用来切换块注释。 在 Mac 端：`Cmd + /` 用来要切换行注释，`Shift + Option + A` 用来切换块注释。
+  * 优化了 SQL 查询的错误消息，以显示更多详细信息。
 
 **数据源**
   * 对于 Apache Kafka、Confluent Cloud 和 Redpanda 数据源，我们在提取数据步骤中删除了 “高级设置”，因此 “消费者组” 字段现在直接显示。
@@ -98,7 +116,7 @@
 
 **流数据库和流式SQL**
 
-* 对于状态时间窗口聚合([tumble](functions#tumble)/[hop](functions#hop)/[session](functions#session)), Timeplus现在支持亚秒间隔： `ms` 表示毫秒。 `us` 表示微秒 `ns` 表示纳秒。 例如，您可以通过运行流式SQL，在过去1秒的滑动窗口中每10毫秒显示结果： `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. 两个月前，我们还增加了亚秒级间隔运行全局聚合的能力。 例如 `select sum(price) from stocks emit periodic 50m`
+* 对于状态时间窗口聚合([tumble](functions_for_streaming#tumble)/[hop](functions_for_streaming#hop)/[session](functions_for_streaming#session)), Timeplus现在支持亚秒间隔： `ms` 表示毫秒。 `us` 表示微秒 `ns` 表示纳秒。 例如，您可以通过运行流式SQL，在过去1秒的滑动窗口中每10毫秒显示结果： `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. 两个月前，我们还增加了亚秒级间隔运行全局聚合的能力。 例如 `select sum(price) from stocks emit periodic 50m`
 * 添加了新功能来 [md5](functions#md5), [md4](functions#md4), and [hex](functions#hex)，可以帮助您生成哈希键。
 
 **图表和仪表盘**

@@ -67,7 +67,7 @@
 ### 8/15周
 
 * 流引擎
-  * (实验性) 增强了 [场会话窗口](functions#session) 聚合，以根据自定义的窗口启动和窗口结束逻辑创建子流
+  * (实验性的) 增强了 [会话窗口](functions_for_streaming#session) 聚合，以根据自定义的窗口启动和窗口结束逻辑创建子流
   * 添加了一个新函数 [extract_all_group](functions#extract_all_groups) 来处理正则表达式的文本。
 * 源、 汇、 API 和 SDK
   * Webhook sink 得到增强，以支持自定义的 HTTP 方法、内容类型和头部。

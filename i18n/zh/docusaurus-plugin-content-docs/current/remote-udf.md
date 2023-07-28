@@ -1,6 +1,6 @@
 # 远程 UDF
 
-将 webhook 注册为 UDF。 你可以使用任何编程语言/框架来开发/部署 webhook。 一个不错的起点是使用 AWS Lambda。
+将 webhook 注册为 UDF。 您可以使用任何编程语言/框架来开发/部署 webhook。 一个不错的起点是使用 AWS Lambda。
 
 ## IP 查找示例
 
@@ -8,7 +8,7 @@
 
 这可以用纯的 SQL 大致可行，带有大量正则表达式或案例/分支。 即使如此，城市/国家也不会十分准确，因为在这种静态分析中可能会有一些边缘情况没有得到很好的考虑。
 
-幸运的是，有许多在线服务(如 [ipinfo)。 o](https://ipinfo.io)将IP地址变成城市/国家，即使有丰富的详细信息，例如地址或互联网提供者。 下面是Timeplus中UDF(ip_lookup)的示例：
+幸运的是，有许多在线服务（例如 [ipinfo.io](https://ipinfo.io)）将IP地址变成城市/国家，即使有丰富的详细信息，例如地址或互联网提供者。 下面是 Timeplus 中 UDF(ip_lookup) 的示例：
 
 ```sql
 select ip_lookup(ip) as data, data:country, data:timezone from test_udf
@@ -24,48 +24,120 @@ select ip_lookup(ip) as data, data:country, data:timezone from test_udf
 const https = require('https');
 
 exports.handler = async (event) => {
-  if(event.body===undefined){
-    return {statusCode: 200,body:'no body in the request'}
-  }
-  let body = JSON.parse(event.body)
+    if(event.body===undefined){
+        return {statusCode: 200,body:'no body in the request'}
+    }
+    let body = JSON.parse(event.body)
+    let ip=body.ip||body.arg0 //ip is an array of string
 
-  const promise = new Promise(function(resolve, reject) {
-    https.get(`https://ipinfo.io/${body.ip[0]}?token=${process.env.TOKEN}`, (resp) => {
-      let data = '';
-      resp.on('data', (chunk) => {
-        data += chunk;
-      });
-      resp.on('end', () => {
-        const response = {
-          statusCode: 200,
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({result:[data]})
+    const promise = new Promise(function(resolve, reject) {
+        const dataString = JSON.stringify(ip);
+        const options = {
+          hostname: 'ipinfo.io',
+          path: '/batch',
+          headers: {
+              'Authorization': `Bearer ${process.env.TOKEN}`,
+              'Content-Type': 'application/json',
+              'Content-Length': dataString.length,
+            },
+          method: 'POST'
         };
-        resolve(response);
-      });
-    }).on("error", (err) => {
-      console.log("Error: " + err.message);
-      reject(Error(err))
-    });
-  })
-  return promise
+        const req = https.request(options, (resp) => {
+            let data = '';
+            resp.on('data', (chunk) => {
+                data += chunk;
+            });
+            resp.on('end', () => {
+                let batchMap = JSON.parse(data);
+                let rows =[] //return an array of results to Timeplus
+                for(var i=0;i<ip.length;i++){
+                    let info=batchMap[ip[i]]
+                    if(info===undefined){
+                        info={};
+                    }
+                    rows.push(JSON.stringify(info))
+                }
+                const response = {
+                    statusCode: 200,
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({result:rows})
+                };
+                resolve(response);
+            });
+        }).on("error", (err) => {
+            reject(Error(err))
+        });
+        req.write(dataString);
+        req.end();
+    })
+    return promise
 };
 ```
 
 代码是直截了当的。 以下几个说明：
 
-1. 输入数据被包装在 JSON 文档中，关键参数 `ip` 在数组中可用
-2. 我们直接调用了 [ipinfo.io](https://ipinfo.io) 的REST API，用的是在Lambda环境变量里定义的API token
-3. 来自 ipinfo.io REST API 的响应将会放入一个 JSON 文档 {“result”：[..]} 作为Lambda输出发送 作为Lambda输出发送 作为Lambda输出发送
-4. 由于Lambda函数在Timeplus服务器之外运行，对第三方函数库没有任何限制。 在此示例中，我们正在使用内置的 node.js “https” 库。 为了更加复杂的数据处理，人们可以自由地包括更复杂的图书馆，如机器学习。
+1. 您可以调用UDF多于 1 行，如 `select my_udf(col) from my_stream`。 为了提高效率，Timeplus 会向远程 UDF 发送批量请求，例如 `my_udf([input1, input2, input3])` 返回值也是一个数组 `[return1, return2, return3]`
+2. 输入的数据被包装在 JSON 文档 `{"ip":["ip1","ip2","ip3"]}`
+3. 我们直接调用了 [ipinfo.io](https://ipinfo.io) 的REST API，用的是在Lambda环境变量里定义的API token
+4. 来自 ipinfo.io REST API 的响应将会放入一个 JSON 文档 {“result”：[..]} 作为Lambda输出发送 作为Lambda输出发送 作为Lambda输出发送
+5. 由于Lambda函数在Timeplus服务器之外运行，对第三方函数库没有任何限制。 在此示例中，我们正在使用内置的 node.js “https” 库。 为了更加复杂的数据处理，人们可以自由地包括更复杂的图书馆，如机器学习。
 
 一旦你部署了 Lambda 函数，你可以生成一个可公开访问的 URL，然后在 Timeplus Web 控制台注册该函数。
 
 ## 注册UDF
 
-只有Timeplus工作区管理员才能注册新的UDF。 打开左边的工作区菜单，然后选择"用户定义函数"选项卡，然后点击"注册新函数"按钮。
+只有Timeplus工作区管理员才能注册新的UDF。 从左侧导航菜单中打开 “UDF”，然后单击 “注册新功能” 按钮。 选择 “远程” 作为 UDF 类型。
 
-只需为函数选择一个名称并指定输入/输出数据类型。 在表单中设置Lambda URL。 您可以选择在 HTTP 头中启用额外的验证密钥/值，保护端点以避免未经授权的访问。
+设置函数名称并指定参数和返回数据类型。 设置表单中的 webhook URL（例如 Lambda URL）。 您可以选择在 HTTP 头中启用额外的验证密钥/值，保护端点以避免未经授权的访问。
+
+### 参数
+
+Timeplus 和远程 UDF 端点之间的数据传输为 `JSONColums` 格式。 例如，如果远程 UDF 有两个参数， 一个 `功能` 参数是 `array(float32)` 类型，另一个 `模型` 参数是 `字符串` 类型，下面是以 `JSONColums` 格式传输到 UDF 端点的数据：
+
+```json
+{
+  "features": [
+   [66, 66],[72, 72]
+  ],
+  "model": [
+    "line1",
+    "line2"
+  ]
+}
+```
+
+Timeplus 中支持以下数据类型作为远程 UDF 参数：
+
+| Timeplus 数据类型              | Payload in UDF HTTP Request                 |
+| -------------------------- | ------------------------------------------- |
+| array(TYPE)                | {"argument_name":[array1,arrary2]}          |
+| bool                       | {"argument_name":[true,false]}              |
+| date, datetime, datetime64 | {"argument_name":[dateString1,dateString2]} |
+| float, float64, integer    | {"argument_name":[number1,number2]}         |
+| string                     | {"argument_name":[string1,string2]}         |
+
+
+
+### 返回值
+
+远程 UDF 端点应返回 JSON 文档的文本表示形式：
+
+```json
+{
+  "result":[result1, result2]
+}
+```
+
+Timeplus 将获取结果数组的每个元素并转换回 Timeplus 数据类型。 支持的返回类型与参数类型类似。 唯一的区别是，如果您以 JSON 形式返回一个复杂的数据结构，它将在 Timeplus 中被转换为 `tuple`。
+
+| UDF HTTP Response                    | Timeplus 数据类型              |
+| ------------------------------------ | -------------------------- |
+| {"result":[array1,arrary2]}          | array(TYPE)                |
+| {"result":[true,false]}              | bool                       |
+| {"result":[dateString1,dateString2]} | date, datetime, datetime64 |
+| {"result":[number1,number2]}         | float, float64, integer    |
+| {"result":[string1,string2]}         | string                     |
+| {"result":[json1,json2]}             | tuple                      |
 
 
 
@@ -86,3 +158,5 @@ exports.handler = async (event) => {
 5. 正确添加日志到您的 UDF 代码会极大地帮助疑难解答/调整函数代码。
 6. 只有Timeplus工作区管理员可以注册新的用户定义功能，而工作区的所有成员都可以使用UDF。
 7. 请确保UDF 名称与同一工作区的 [内置函数](functions) 或其他UDF 不冲突。
+
+

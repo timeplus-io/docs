@@ -86,9 +86,9 @@
 
 * 流引擎
 
-  * 我们简化了 [session](functions#session) 时间窗口：如果您想要创建子流， 您不再需要设置 `keyBy` 列作为会话窗口的一个参数。 只需使用 `SELECT... FROM session(..) PARTITION BY keyBy` . 只需使用 `SELECT... FROM session(..) PARTITION BY keyBy` . 其它时间窗口函数([tumble](functions#tumble) and [hop](functions#hop)) 以同样方式支持 `PARTITION BY`
+  * 我们简化了 [session](functions_for_streaming#session) 时间窗口：如果您想要创建子流， 您不再需要设置 `keyBy` 列作为会话窗口的一个参数。 只需使用 `SELECT... FROM session(..) PARTITION BY keyBy` . 其它时间窗口函数([tumble](functions_for_streaming#tumble) and [hop](functions_for_streaming#hop)) 以同样方式支持 ` PARTITION BY`。
 
-  * [session](functions#session) 时间窗口的另一个增强：我们引入了一种直觉的方式来表示是否应该将启动或结束条件的事件包含在会话窗口中。 支持四种组合： `[startCondition, endCondition]`, `(startCondtion, endCondition)`, `[startCondition,endCondition)`,`(startCondition,endCondition)`
+  * [session](functions_for_streaming#session) 时间窗口的另一个增强：我们引入了一种直观的方式来表示是否应该将启动或结束条件的事件包含在会话窗口中。 支持四种组合： `[startCondition, endCondition]`, `(startCondtion, endCondition)`, `[startCondition,endCondition)`,`(startCondition,endCondition)`
 
   * 我们添加了 `<agg> FILTER(WHERE...)` 的支持作为一个快捷方式，为具有某些条件的数据运行聚合，例如：
 
