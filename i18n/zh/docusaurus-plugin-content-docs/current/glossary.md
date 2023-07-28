@@ -6,7 +6,7 @@
 
 查询书签。 您可以将常见的 SQL 语句保存为书签。 只需单击即可在 Web 控制台中快速运行。 您可以在查询页面创建、列出、编辑、删除书签。
 
-Both bookmarks and [views](#view) can help you easily re-run a query. 但在流式数据库中定义了视图，您可以直接通过 `select ..  from ..` 来查询这个视图。但书签仅仅是界面快捷方式。 当您点击书签时，最初的 SQL 语句将在查询控制台中预先填写。 您不能运行 `select .. from my_bookmark`
+书签和 [视图](#view) 可以帮助您轻松地重新运行一个查询。 但在流式数据库中定义了视图，您可以直接通过 `select ..  from ..` 来查询这个视图。但书签仅仅是界面快捷方式。 当您点击书签时，最初的 SQL 语句将在查询控制台中预先填写。 您不能运行 `select .. from my_bookmark`
 
 
 
@@ -36,7 +36,7 @@ CTE可以被视为派生表格的替代品([ subquery ](https://en.wikipedia.org
 
 ## 查询 Query {#query}
 
-Timeplus provides powerful streaming analytics capabilities through the enhanced SQL. By default, queries are unbounded and keep pushing the latest results to the client. The unbounded query can be converted to a bounded query by applying the function [table()](functions_for_streaming#table), when the user wants to ask the question about what has happened like the traditional SQL.
+Timeplus 通过增强的 SQL 提供强大的流式分析能力。 默认情况下，查询不受约束，并不断向客户端推送最新结果。 无边界查询可以通过使用函数 [table()](functions_for_streaming#table)，转换为有边界的查询，当用户想询问发生了什么事情时，就像传统的 SQL 一样。
 
 了解更多： [流查询](stream-query) and [非流查询](history)
 
@@ -66,7 +66,7 @@ Timeplus是一个流式分析平台和数据流中的生命值。 Timeplus中的
 
 ## 视图(View) {#view}
 
-您可以将可重复使用的 SQL 语句定义为视图，以便您可以将它们作为数据流一样查询 `select.. from view1 ..` By default, views don't take any extra computing or storage resources. 当他们被查询时，他们需要使用 SQL 定义。 You can also create materialized views to 'materialize' them (keeping running them in the background and saving the results to the disk).
+您可以将可重复使用的 SQL 语句定义为视图，以便您可以将它们作为数据流一样查询 `select.. from view1...` 默认情况下，视图不需要任何额外的计算或存储资源。 当他们被查询时，他们需要使用 SQL 定义。 您也可以创建实际化的视图，让它们“变成物理的” （保持在后台运行并将结果保存到磁盘）。
 
 了解更多： [查看](view) 和 [物化视图](view#m_view)
 
@@ -74,4 +74,4 @@ Timeplus是一个流式分析平台和数据流中的生命值。 Timeplus中的
 
 工作区是您运行流数据收集和分析的独立存储和计算单位。 通常，一个组织中的用户组加入了相同的工作区，以建立一个或多个流式分析解决方案。 每个用户最多可以创建 1 个免费工作空间并加入多个工作区。
 
-默认情况下，每个工作区最多可以保存20GB 数据，并且限制并行查询。 If you need more resources, please contact support@timeplus.com to increase the limit.
+默认情况下，每个工作区最多可以保存20GB 数据，并且限制并行查询。 如果您需要更多的资源，请联系 support@timeplus.com 以增加限制。
