@@ -22,7 +22,7 @@ CTE可以被视为派生表格的替代品([ subquery ](https://en.wikipedia.org
 
 ## 事件时间 Event Time
 
-事件时间用来确定事件发生的时间，例如一个人生日。 It can be the exact timestamp when the order is placed, when the user logins a system, when an error occurs, or when an IoT device reports its status. 如果事件中没有合适的时间戳属性，Timeplus将根据数据摄取时间生成事件时间。
+事件时间用来确定事件发生的时间，例如一个人生日。 它可以是下单时的确切时间戳，用户登录系统时的确切时间戳，发生错误时的确切时间戳，或者 IoT 设备报告其状态时的确切时间戳。 如果事件中没有合适的时间戳属性，Timeplus将根据数据摄取时间生成事件时间。
 
 了解更多： [事件时间](eventtime)
 
