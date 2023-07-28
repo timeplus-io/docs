@@ -271,23 +271,21 @@ THE SOFTWARE.
 如果满足以下条件，则允许以源代码和二进制形式重新分发和使用，无论是否修改：
     * 源代码的重新分发必须保留上述版权声明，
       此条件列表和以下免责声明。
-    * Redistributions in binary form must reproduce the above
-      copyright notice, this list of conditions and the following
-      disclaimer in the documentation and/or other materials provided
-      with the distribution.
-    * Neither the name of Google Inc. nor the names of its
-      contributors may be used to endorse or promote products derived
-      from this software without specific prior written permission.
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    * 二进制形式的重新分配必须复制上述版权声明，
+      条件列表
+      以及文档和/或其它配送材料中的下列免责声明。
+    * Google Inc.的名称或其贡献者的名称
+      在未经事先书面许可的情况下，不可以被使用于
+      认可或推广源自本软件的产品。
+本软件由版权所有者和贡献者“按原样”提供
+不承担任何明示或暗示的保证，
+包括但不限于对适销性和适合特定目的的暗示保证。 在任何情况下，版权所有人或贡献者
+均不对任何直接、间接、附带、特殊、
+示范或后果性损害负责(包括但不限于：
+购买替代商品或服务，失去使用，
+数据或利润；或业务中断)，无论如何造成的，
+以及根据任何责任理论，无论是合同责任，严格责任，
+还是侵权行为（包括疏忽或其他)，即使被告知该等损害的可能性，
+也会因使用本软件而以任何方式产生。
 ```
 
