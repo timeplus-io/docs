@@ -42,5 +42,13 @@
   "sidebar.docSidebar.doc.with ingest API": {
     "message": "使用Ingest API",
     "description": "侧边栏 docSidbar 中带有 ingest API 的文档项目的标签，链接到文档 quickstart-ingest-api"
+  },
+  "sidebar.docSidebar.category.Functions": {
+    "message": "函数",
+    "description": "The label for category Functions in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Query Patterns": {
+    "message": "查询模式",
+    "description": "The label for category Query Patterns in sidebar docSidebar"
   }
 }
