@@ -22,7 +22,7 @@
 
 ### concat
 
-`concat(str1,str2 [,str3])` 将2 或更多字符串合并为单个字符串。 例如， `concat('95','%')` 以获得95%。 You can also use `||` as the shortcut syntax, e.g. `'95' || '%'` Each parameter in this function needs to be a string. 您可以使用 [to_string](#to_string) 函数来转换他们，例如 `到_string(95)|| '%'`
+`concat(str1,str2 [,str3])` 将2 或更多字符串合并为单个字符串。 例如， `concat('95','%')` 以获得95%。 您也可以使用 `||` 作为快捷语法，例如：`'95' || '%'` 此函数中的每个参数必须是字符串。 您可以使用 [to_string](#to_string) 函数来转换他们，例如 `到_string(95)|| '%'`
 
 ### substr
 
@@ -44,11 +44,11 @@
 
 ### match
 
-`match(string,pattern)` determines whether the string matches the given regular expression. 例如，要检查文本是否包含一个敏感的 AWS ARN，您可以运行 `匹配(text,'arn:aws:kms:us-east-1:\d{12}:key/.{36}')`
+`match(string,pattern)` 决定字符串是否匹配给定的正则表达式。 例如，要检查文本是否包含一个敏感的 AWS ARN，您可以运行 `match(text,'arn:aws:kms:us-east-1:\d{12}:key/.{36}')`
 
 ### multi_search
 
-`multi_search_any(text, array)` determines whether the text contains any of the strings from the given array. 例如，要检查文本是否包含任何敏感关键词，您可以运行 `multi_search_any(text,['password','token','secret'])`
+`multi_search_any(text, array)` 决定文本是否包含给定数组中的字符串。 例如，要检查文本是否包含任何敏感关键词，您可以运行 `multi_search_any(text,['password','token','secret'])`
 
 ### replace_one
 
@@ -118,13 +118,13 @@ SELECT
 
 `grok(string,pattern)`
 
-在不使用正则表达式的情况下从计划文本中提取值。 例如： `SELECT grok('我的名字是杰克) 我在23年前。 I am 23 years old.','My name is %{DATA:name}. 我是 %{INT:age} 年前。 ') 因为m` 将得到 `{"name":"Jack","age":"23"}` 作为 `m`
+在不使用正则表达式的情况下从计划文本中提取值。 例如：`SELECT grok('我的名字是杰克。 我今年 23 岁。','我的名字是 %{DATA:name}。 我是 %{INT:age} 岁。） 因为m`将得到 `{"name":"Jack","age":"23"}` 作为 `m`
 
-Please note all keys and values in the returned map are in string type. 您可以将它们转换为其他类型，例如 `(m['age'])：int`
+请注意返回 map 中的所有密钥和值都是字符串类型。 您可以将它们转换为其他类型，例如 `(m['age'])：int`
 
 ### coalesce
 
-`coalesce(value1, value2,..)` Checks from left to right whether `NULL` arguments were passed and returns the first non-`NULL` argument. 如果您获得了与Nullable类型相关的错误信息，例如： “嵌套类型数组(字符串) 不能在Nullable类型内”， 您可以使用此函数将数据转换为非-`NULL` 例如： `json_extract_array(coalesce(raw:payload, ')`
+`coalesce(value1, value2,...)` 从左到右检查 `NULL` 参数是否被传递并返回第一个非 `NULL` 参数。 如果您获得了与Nullable类型相关的错误信息，例如： “嵌套类型数组(字符串) 不能在Nullable类型内”， 您可以使用此函数将数据转换为非-`NULL` 例如： `json_extract_array(coalesce(raw:payload, ')`
 
 ### hex
 
@@ -132,4 +132,4 @@ Please note all keys and values in the returned map are in string type. 您可�
 
 ### uuid
 
-`uuid()` or `uuid(x)` Generates a universally unique identifier (UUID) which is a 16-byte number used to identify records. 为了在一行中生成多个UUID, 在每个函数调用中传递一个参数, 例如 `SELECT uuid(1) as a, uuid(2) 为 b` ，否则如果在调用多个 `uuid 时没有参数` 函数在一个 SQL 语句中 将返回相同的 UUID 值。
+`uuid ()` 或 `uuid (x)` 生成通用唯一标识符 (UUID)，这是一个用于识别记录的 16 字节数字。 为了在一行中生成多个UUID, 在每个函数调用中传递一个参数, 例如 `SELECT uuid(1) as a, uuid(2) 为 b` ，否则如果在调用多个 `uuid 时没有参数` 函数在一个 SQL 语句中 将返回相同的 UUID 值。
