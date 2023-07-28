@@ -92,15 +92,15 @@
 
 ### arg_min
 
-`arg_min(argument, value_column)` 获取在 `argument` 列中 `value_column` 最小的值。 If there are several different values of `argument` for minimal values of `value_column`, it returns the first of these values encountered. 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+`arg_min(argument, value_column)` 获取在 `argument` 列中 `value_column` 最小的值。 如果在 `value_column` 的最小值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### arg_max
 
-`arg_max(argument, value_column)` Gets the value in the `argument` column for a maximum value in the `value_column`. If there are several different values of `argument` for maximum values of `value_column`, it returns the first of these values encountered. 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+`arg_max(argument, value_column)` 获取在 `argument` 列中 `value_column` 最大的值。 如果在 `value_column` 的最大值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### group_array
 
-`group_array(<column_name>)` 来合并特定列作为数组的值。 For example, if there are 3 rows and the values for these columns are "a","b","c". 此函数将生成单行和单列，值 `['a','b','c']`
+`group_array(<column_name>)` 来合并特定列作为数组的值。 例如，如果有三行，并且这些列的值是“a”，“b”，“c”。 此函数将生成单行和单列，值 `['a','b','c']`
 
 ### moving_sum
 
