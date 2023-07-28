@@ -1,9 +1,9 @@
-# Query Patterns
+# 查询模式
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-This document demonstrates some typical query patterns that you can achieve in Timeplus to solve various use cases. You can also check the subpages for some of the highlighted query recipes.
+本文档演示了一些典型的查询模式，您可以在 Timeplus 中实现这些模式来解决各种需求。 您还可以在子页面中查看一些突出显示的查询方法。
 
 ## 客户场景和数据模型 {#model}
 
