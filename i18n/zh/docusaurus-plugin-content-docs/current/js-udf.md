@@ -4,7 +4,7 @@
 
 :::info
 
-This feature is invite-only. Please contact us to enable it in your workspace. Alternatively, you can use [Remote UDF](remote-udf) to register a webhook as the UDF.
+此功能仅限邀请。 请联系我们以在您的工作空间中启用它。 或者，您可以使用 [Remote UDF](remote-udf) 注册 webhook 作为 UDF。
 
 :::
 
