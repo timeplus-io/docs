@@ -2,15 +2,15 @@
 
 ## 查询默认不受限制
 
-默认情况下，Timeplus的查询行为不同于传统的 SQL ，后者回答了发生的问题。 而是这样。 Timeplus的查询试图回答目前正在实时发生的事情的问题，并在新事件进入系统时不断更新答案。
+默认情况下，Timeplus 的查询行为不同于传统的 SQL ，后者回答了已经发生的问题。 相反，Timeplus 的查询试图回答目前正在实时发生的事情的问题，并在新事件进入系统时不断更新答案。
 
-Timeplus查询正在运行于一个无边界流中。 在大多数情况下，除非用户取消查询，否则查询不会停止。 例如，下面的查询将在执行查询后实时返回输入Timeplus系统的流中的所有事件。 每个新事件将触发一个新的查询结果。 除非用户取消查询，这个查询不会停止。
+Timeplus 查询正在运行于一个无边界流中。 在大多数情况下，除非用户取消查询，否则查询不会停止。 例如，下面的查询将在执行查询后实时返回输入 Timeplus 系统的流中的所有事件。 每个新事件将触发一个新的查询结果。 除非用户取消查询，否则这个查询不会停止。
 
 ```sql
 select * from my_stream
 ```
 
-The unbounded query can be converted to a bounded query by applying the function [table()](functions_for_streaming#table), when the user wants to ask the question about what has happened like the traditional SQL. 当用户想要询问像传统的 SQL 一样发生了什么情况。 Table() 函数可以用于装饰流. 例如，下面的查询将返回在执行查询时在流中已存在的所有事件。 一旦所有结果被退回用户，查询将会终止，它不会等待新的事件。
+无边界查询可以通过使用函数 [table()](functions_for_streaming#table)，转换为有边界的查询，当用户想询问发生了什么事情时，就像传统的 SQL 一样。 table() 函数可以用来装饰流。 例如：下面的查询将返回在执行查询时在流中已存在的所有事件。 一旦所有结果被退回用户，查询将会终止，它不会等待新的事件。
 
 ```sql
 select * from table(my_stream)
@@ -30,7 +30,7 @@ select * from table(my_stream)
 
 ### 非聚合
 
-汇总是将不同事件的数据合并为一个或多个新数据的过程。 有些查询不涉及任何聚合，例如：
+聚合是将不同事件的数据合并为一个或多个新数据的过程。 有些查询不涉及任何聚合，例如：
 
 #### Tail
 
@@ -68,7 +68,7 @@ from user_activities
 
 当使用窗口函数进行聚合时，事件时间用于决定事件是否在该窗口中。 如果用户没有指定时间戳，将使用默认时间。 用户也可以在此事件中使用任何字段作为日期时间类型作为时间戳或动态生成日期时间字段作为时间戳。
 
-Two typical window functions are [tumble](functions_for_streaming#tumble) and [hop](functions_for_streaming#hop).
+两个典型的窗口函数是 [tumble](functions_for_streaming#tumble) 和 [hop](functions_for_streaming#hop)。
 
 例如：
 
