@@ -24,7 +24,7 @@
 
 ### json_extract_keys
 
-`json_extract_keys(jsonStr)` to parse the JSON string and extract the keys. 例如： `选择 '{"system_diskio_name":"nvme0n1"}" 作为标签，json_extract_keys(标签)` 将获得一个数组： `[ "system_diskio_name" ]`
+`json_extract_keys(jsonStr)` 来解析 JSON 字符串并提取密钥。 例如： `选择 '{"system_diskio_name":"nvme0n1"}" 作为标签，json_extract_keys(标签)` 将获得一个数组： `[ "system_diskio_name" ]`
 
 ### is_valid_json
 
@@ -32,7 +32,7 @@
 
 ### json_has
 
-`json_has(json, key)` to check whether a specified key exists in the JSON document. For example, `json_value('{"a":true,"b":{"c":1}}','$.b.c')` will return the number `1`
+`json_has(json, key)` 检查JSON文档中是否存在指定的键。 For example, `json_value('{"a":true,"b":{"c":1}}','$.b.c')` will return the number `1`
 
 ### json_value
 
