@@ -6,7 +6,7 @@ Timeplus 产品的部分功能基于开源项目。 特别感谢：
 
 * 数据源和数据下游的基于 [Benthos](https://www.benthos.dev/)构建, MIT 授权
 * 嵌入式的持久化状态存储基于 [RocksDB](https://github.com/facebook/rocksdb), Apache 2.0 许可协议
-* JavaScript UDF is based on [V8](https://v8.dev/), under BSD License
+* JavaScript UDF 基于 BSD许可证下的 [V8](https://v8.dev/)
 
 ## Benthos MIT 许可证
 
@@ -238,14 +238,13 @@ THE SOFTWARE.
    limitations under the License.
 ```
 
-## V8 BSD-style License
+## V8 BSD许可证
 
 ```
-This license applies to all parts of V8 that are not externally
-maintained libraries.  The externally maintained libraries used by V8
-are:
-  - PCRE test suite, located in
-    test/mjsunit/third_party/regexp-pcre/regexp-pcre.js.  This is based on the
+此许可适用于V8的所有非外部部件
+维护库。  V8使用的外部维护库是：
+  - PCRE 测试套件，位于
+    test/mjsunit/third_party/regexp-pcre/regexp-pcre.js。  This is based on the
     test suite from PCRE-7.3, which is copyrighted by the University
     of Cambridge and Google, Inc.  The copyright notice and license
     are embedded in regexp-pcre.js.
