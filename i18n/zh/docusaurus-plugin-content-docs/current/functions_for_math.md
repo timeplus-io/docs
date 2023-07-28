@@ -145,4 +145,4 @@
 
 ### nan
 
-`is_nan(x)` 返回如果 `x` 为 not-a-Number(NAN)，否则返回 0。
+`is_nan(x)` 返回 1 当值 `x` 是 Not-a-Number(NaN)，否则返回 0。
