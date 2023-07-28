@@ -1,23 +1,49 @@
 # 本地JavaScript自定义函数
 
-最近，我们还增加了对基于 JavaScript 的本地 UDF 的支持。 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
+In addition to [Remote UDF](remote-udf), Timeplus also supports JavaScript-based UDF running in the database engine. 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
 :::info
 
-此功能仅限邀请。 请联系我们以在您的工作空间中启用它。 或者，您可以使用 [Remote UDF](remote-udf) 注册 webhook 作为 UDF。
+The JavaScript-based UDF can run in both Timeplus Cloud and the on-prem deployments. It runs "locally" in the database engine. It doesn't mean this feature is only available for local deployment.
 
 :::
 
 ## 注册 JS UDF {#register}
 
-1. 点击右上角的工作空间名称并选择 **设置**，打开工作空间设置页面。
-2. 单击 **Register New Function**按钮。
-3. 指定函数名称，例如 `second_max`。 确保名称不会与内置函数或其他 UDF 冲突。 描述（可选）
-4. 为输入参数和返回值选择数据类型。
-5. 选择 JavaScript 作为 UDF 类型。
-6. 指定该函数是否用于聚合。
-7. 输入 UDF 的 JavaScript 代码。 （我们将进一步解释如何编写代码。）
-8. 单击 **创建** 按钮注册该函数。
+1. 从左侧导航菜单中打开 “UDF”，然后单击 “注册新功能” 按钮。
+2. 指定函数名称，例如 `second_max`。 确保名称不会与内置函数或其他 UDF 冲突。 描述（可选）
+3. 为输入参数和返回值选择数据类型。
+4. Choose "JavaScript" as the UDF type.
+5. 指定该函数是否用于聚合。
+6. 输入 UDF 的 JavaScript 代码。 （我们将进一步解释如何编写代码。）
+7. 单击 **创建** 按钮注册该函数。
+
+### 参数
+
+Unlike Remote UDF, the argument names don't matter when you register a JS UDF. Make sure you the list of arguments matches the input parameter lists in your JavaScript function.
+
+The input data are in Timeplus data type. They will be converted to JavaScript data type.
+
+| Timeplus 数据类型                            | JavaScript 数据类型 |
+| ---------------------------------------- | --------------- |
+| int8/16/32/64, uint8/16/32/64,float32/64 | number          |
+| bool                                     | boolean         |
+| fixed_string/string                      | string          |
+| date/date32/datetime/datetime64          | Date  (毫秒为精度)   |
+| array(Type)                              | Array           |
+
+### 返回值
+
+The JavaScript UDF can return the following data types and they will be converted back to the specified Timeplus data types. 支持的返回类型与参数类型类似。 The only difference is that if you return a complex data structure as an `object`, it will be converted to a named `tuple` in Timeplus.
+
+| JavaScript 数据类型 | Timeplus 数据类型                            |
+| --------------- | ---------------------------------------- |
+| number          | int8/16/32/64, uint8/16/32/64,float32/64 |
+| boolean         | bool                                     |
+| string          | fixed_string/string                      |
+| Date  (毫秒为精度)   | date/date32/datetime/datetime64          |
+| Array           | array(Type)                              |
+| object          | tuple                                    |
 
 ## 开发标量函数 {#udf}
 
@@ -170,18 +196,5 @@ function magic_number(values){
 ## 备注
 
 * 将来我们将提供更好的测试工具。
-
 * 自定义 JavaScript 代码在装有 V8 引擎的沙箱中运行。 它不会影响其他工作空间。
-
-* JS UDF 不支持诸如 `array` 或 `map` 之类的复合数据结构。 JavaScript 数据类型更为通用，以下是 Timeplus 中 JavaScript 数据类型和数据类型的映射：
-
-  | Timeplus 数据类型                   | JavaScript 数据类型 |
-  | ------------------------------- | --------------- |
-  | int8/16/32/64                   | number          |
-  | uint8/16/32/64                  | number          |
-  | float32/64                      | 数字              |
-  | fixed_string/string             | string          |
-  | date/date32/datetime/datetime64 | Date  (毫秒为精度)   |
-
-  
 
