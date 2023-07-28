@@ -1,10 +1,10 @@
 # Top-N
 
-You can get the top-most or bottom-most events in a Timeplus stream or a view, based on a condition.
+您可以根据条件在 Timeplus 流或视图中获得最顶部或最底部的事件。
 
-There are 3 types of Top-N query patterns:
+有 3 种类型的 Top-N 查询模式：
 
-1. Top-K: to get the most common value for a field. For example, each event with an `action` field, can be add/remove/service. You want to check which actions are most common in the live data. To avoid confusion with the general Top-N patterns, we call this pattern as Top-K.
+1. Top-K：获取字段的最常用值。 For example, each event with an `action` field, can be add/remove/service. You want to check which actions are most common in the live data. To avoid confusion with the general Top-N patterns, we call this pattern as Top-K.
 2. Max-K: to get the top-most value for a field. For example, each event with a `speed_kmh` field. You want to get the cars with top speed. In some systems, this is called TopN. But we think Max-N or Max-K will be more accurate.
 3. Min-K: to get the bottom-most value for a field. For example, each event with a `speed_kmh` field. You want to get the cars with slowest speed.
 
