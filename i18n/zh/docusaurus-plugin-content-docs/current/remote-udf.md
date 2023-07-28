@@ -108,13 +108,15 @@ Timeplus 和远程 UDF 端点之间的数据传输为 `JSONColums` 格式。 例
 
 Timeplus 中支持以下数据类型作为远程 UDF 参数：
 
-| Timeplus 数据类型              | Payload in UDF HTTP Request                 |
-| -------------------------- | ------------------------------------------- |
-| array(TYPE)                | {"argument_name":[array1,arrary2]}          |
-| bool                       | {"argument_name":[true,false]}              |
-| date, datetime, datetime64 | {"argument_name":[dateString1,dateString2]} |
-| float, float64, integer    | {"argument_name":[number1,number2]}         |
-| string                     | {"argument_name":[string1,string2]}         |
+| Timeplus 数据类型           | Payload in UDF HTTP Request                                              |
+| ----------------------- | ------------------------------------------------------------------------ |
+| array(TYPE)             | {"argument_name":[array1,arrary2]}                                       |
+| bool                    | {"argument_name":[true,false]}                                           |
+| date                    | {"argument_name":["2023-07-27","2023-07-28"]}                            |
+| datetime                | {"argument_name":["2023-07-27 04:00:00","2023-07-28  04:00:00"]}         |
+| datetime64              | {"argument_name":["2023-07-27 04:00:00.000","2023-07-28  04:00:00.000"]} |
+| float, float64, integer | {"argument_name":[number1,number2]}                                      |
+| string                  | {"argument_name":[string1,string2]}                                      |
 
 
 
