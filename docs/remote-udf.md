@@ -109,13 +109,15 @@ The data transferring between Timeplus and Remote UDF endpoint is `JSONColumns` 
 
 The following data types in Timeplus are supported as Remote UDF arguments:
 
-| Timeplus Data Types        | Payload in UDF HTTP Request                 |
-| -------------------------- | ------------------------------------------- |
-| array(TYPE)                | {"argument_name":[array1,arrary2]}          |
-| bool                       | {"argument_name":[true,false]}              |
-| date, datetime, datetime64 | {"argument_name":[dateString1,dateString2]} |
-| float, float64, integer    | {"argument_name":[number1,number2]}         |
-| string                     | {"argument_name":[string1,string2]}         |
+| Timeplus Data Types     | Payload in UDF HTTP Request                                  |
+| ----------------------- | ------------------------------------------------------------ |
+| array(TYPE)             | {"argument_name":[array1,arrary2]}                           |
+| bool                    | {"argument_name":[true,false]}                               |
+| date                    | {"argument_name":["2023-07-27","2023-07-28"]}                |
+| datetime                | {"argument_name":["2023-07-27 04:00:00","2023-07-28  04:00:00"]} |
+| datetime64              | {"argument_name":["2023-07-27 04:00:00.000","2023-07-28  04:00:00.000"]} |
+| float, float64, integer | {"argument_name":[number1,number2]}                          |
+| string                  | {"argument_name":[string1,string2]}                          |
 
 
 

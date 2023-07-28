@@ -42,5 +42,13 @@
   "sidebar.docSidebar.doc.with ingest API": {
     "message": "with ingest API",
     "description": "The label for the doc item with ingest API in sidebar docSidebar, linking to the doc quickstart-ingest-api"
+  },
+  "sidebar.docSidebar.category.Functions": {
+    "message": "Functions",
+    "description": "The label for category Functions in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Query Patterns": {
+    "message": "Query Patterns",
+    "description": "The label for category Query Patterns in sidebar docSidebar"
   }
 }
