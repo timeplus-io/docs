@@ -2,9 +2,9 @@
 
 ### table
 
-`table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT... 默认情况下，如果您运行 <code>SELECT... FROM clicks ..` 这是一个带有无边界数据的流式查询。 默认情况下，如果您运行 `SELECT... FROM clicks ..` 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 `table` 函数中。 使用 `count` 作为示例：
+`table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic 中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT FROM clicks</0> 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 <code>table` 函数中。 使用 `count` 作为示例：
 
-* running `select count(*) from clicks` will show latest count every 2 seconds and never ends, until the query is canceled by the user
+* 运行 `select count(*) from clicks` 将每2秒显示最新计数，直到您取消这个查询。
 * 运行 `select count(*) from table(clicks)` 将立即返回此数据流的历史数据行数。
 
 您可以创建视图，如 `create view histrical_view as select * from table(stream_name)`, 如果您想要多次查询表模式中的数据。 对于静态数据，例如查找信息(城市名称及其邮政编码)，这种方法可能很有效。
@@ -19,7 +19,7 @@
 
 ### hop
 
-`hop(stream [,timeCol], step, windowSize)` Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` will create windows for every 5 seconds for the data stream `iot` and move the windows forward every second. SQL 必须以 `group by` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
+`hop(stream [,timeCol], step, windowSize)` 为数据流创建一个滑窗视图, 例如 `hop(iot,1s,5s)` 将创建每5秒数据流的窗口 `iot` 并每秒移动窗口转发一次。 SQL 必须以 `group by` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
 
 ### session
 
@@ -45,7 +45,7 @@
 
 `dedup(stream, column1 [,otherColumns..] [liveInSecond,limit]) [liveInSecond,limit]) [liveInSecond,limit])`
 
-在给定的数据流中使用指定的列 (s) 应用反复性。 `liveInSecond` specifies how long the keys will be kept in the memory/state. 默认永远存在。 But if you only want to avoid duplicating within a certain time period, say 2 minutes, you can set `120s`, e.g. `dedup(subquery,myId,120s)`
+在给定的数据流中使用指定的列 (s) 应用反复性。 `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但是，如果您只想在特定时间段内避免重复，例如2分钟，则可以设置 `120s` 例如 `dedup(subquery,myId,120s)`
 
 最后一个参数 `限制` 是可选的，默认是 `100 000`。 它限制在查询引擎中最大唯一密钥。 如果达到限制，系统将回收最早的密钥以保持这一限制。
 
@@ -61,15 +61,15 @@
 
 ### lags
 
-`lags(<column_name>, begin_offset, end_offset [, <default_value>])` similar to `lag` function but can get a list of values. 例如: `lags(total,1,3)` 将返回一个数组, 最后1, 最后2和最后3个值。
+`lags(<column_name>, begin_offset, end_offset [, <default_value>])` 与 `lags` 函数相似，但可以获得一个数值列表。 例如: `lags(total,1,3)` 将返回一个数组，最后1，最后2和最后3个值。
 
 ### latest
 
-`latest(<column_name>)` gets the latest value for a specific column, working with streaming aggregation with group by.
+`latest(<column_name>)` 获取特定列的最新值，用于与群组的串流聚合。
 
 ### earliest
 
-`earliest(<column_name>)` gets the earliest value for a specific column, working with streaming aggregation with group by.
+`earliest(<column_name>)` 获得特定列的最早值，与分组的串流聚合一起工作。
 
 ### now
 
@@ -83,7 +83,7 @@
 
 类似于 `now ()` 但有额外毫秒信息，例如2022-01-28 05:08:22.680
 
-It can be also used in streaming queries to show the latest datetime with milliseconds.
+它也可以用于流查询以显示最新的日期时间和毫秒。
 
 ### emit_version
 
