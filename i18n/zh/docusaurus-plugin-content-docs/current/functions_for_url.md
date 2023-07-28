@@ -1,53 +1,53 @@
 
 
-# Process URL
+# 处理 URL
 
-### protocol
+### 协议
 
-`protocol(url)` Extracts the protocol from a URL.
+`protocol(url)` 从 URL 中提取协议。
 
-For example `protocol('https://docs.timeplus.com/functions')`will return the string `https`
+例如 `protocol('https://docs.timeplus.com/functions')` 将返回字符串 `https`
 
-### domain
+### 域名
 
-`domain(url)` Extracts the domain from a URL.
+`domain(url)` 从 URL 中提取域。
 
-For example `domain('https://docs.timeplus.com/functions')`will return the string `docs.timeplus.com`
+例如 `domain('https://docs.timeplus.com/functions')` 将返回字符串 `docs.timeplus.com`
 
-### port
+### 端口
 
-`port(url)` Extracts the port from a URL. If port is missing in the URL, it returns 0.
+`port(url)` 从 URL 中提取端口。 如果 URL 中缺少端口，则返回 0。
 
-For example `port('https://docs.timeplus.com/functions')` will return the integer 0
+例如 `port('https://docs.timeplus.com/functions')` 将返回整数 0
 
-### path
+### 路径
 
-`path(url)` Extracts the path from a URL, without the query string or fragment.
+`path (url)` 从 URL 中提取路径，不含查询字符串或片段。
 
-For example `path('https://docs.timeplus.com/functions')` will return the string `/functions`
+例如 `path('https://docs.timeplus.com/functions')` 将返回字符串 `/functions`
 
-### path_all
+### 所有路径
 
-`path_all(url)` Extracts the path from a URL, including the query string or fragment.
+`path_all (url)` 从 URL 中提取路径，包括查询字符串或片段。
 
-For example `path_full('https://docs.timeplus.com/functions_for_logic#if')` will return the string `/functions_for_logic#if`
+例如 `path_full('https://docs.timeplus.com/functions_for_logic#if')` 将返回字符串 `/functions_for_logic#if`
 
-### fragment
+### 片段
 
-`fragment(url)` Extracts the fragment from a URL. If there is no fragment, return an empty string.
+`fragment(url)` 从 URL 中提取片段。 如果没有片段，则返回一个空字符串。
 
-For example `fragment('https://docs.timeplus.com/functions_for_logic#if')` will return the string `if`
+例如 `fragment('https://docs.timeplus.com/functions_for_logic#if')` 将返回字符串 `if`
 
-### query_string
+### 查询字符串
 
-`query_string(url)` Extracts the query string from a URL. If there is no query string, return an empty string.
+`query_string (url)` 从 URL 中提取查询字符串。 如果没有查询字符串，则返回一个空字符串。
 
-For example `query_string('https://a.com?k=v&key=value')` will return the string `k=v&key=value`
+例如 `query_string('https://a.com?k=v&key=value')` 将返回字符串 `k=v&key=value`
 
 ### decode_url_component
 
-`decode_url_component(url)` Returns the decoded URL.
+`decode_url_component(url)` 返回解码的 URL。
 
 ### encode_url_component
 
-`encode_url_component(url)` Returns the encoded URL.
+`encode_url_component(url)` 返回编码的 URL。
