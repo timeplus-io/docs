@@ -2,7 +2,7 @@
 
 ### abs
 
-`abs(value)` 返回数字的绝对值。 如果一个<，则返回 -a。
+`abs(value)` 返回数字的绝对值。 如果一个 <，则返回 -a。
 
 
 
@@ -10,59 +10,59 @@
 
 `round(x [,N])` 向一定数量的小数位点投射一个值。
 
-* 如果遗漏了 `N` ，我们认为N 为 0，函数将值轮到附近的整数，e。 。 `round(3.14)`作为 3
-* 如果 `N`>0，函数将值转到小数点的右边，例如 `round(3.14-1)` 转为3.1
-* 如果 `N` <0，则函数将值放回小数点左边。 例如： `round(314.15-2)` as 300
+* 如果遗漏了 `N` ，我们认为 N 为 0，该函数将值舍入到近整数，例如： `round(3.14)` 是 3
+* 如果 `N`>0，则函数将值舍入到小数点右边，例如： `round(3.14-1)` 转为 3.1
+* 如果 `N`<0，则函数将值舍入到小数点左边。 例如： `round(314.15-2)` 转为 300
 
 ### e
 
-`e()` 返回一个 `浮点` 数字接近数字 `e`。
+`e()` 返回一个接近数字 `e` 的 `float` 数字。
 
 
 
 ### pi
 
-`pi()` 返回一个 `浮点` 靠近数字 `π`。
+`pi()` 返回一个接近数字 `π` 的 `float` 数字。
 
 
 
 ### exp
 
-`exp(x)` 返回一个 `浮点` 接近实参指数的数 `x`。
+`exp(x)` 返回一个接近参数 `x` 的指数的 `float` 数字。
 
 ### exp2
 
-`exp2(x)` 返回一个 `浮点` 接近2的次幂的数 `x`。
+`exp2(x)` 返回一个接近 2 的 `x` 次方的 `float` 数字。
 
 ### exp10
 
-`exp10(x)` 返回一个 `浮点` 接近10的次幂的数 `x`。
+`exp10(x)` 返回一个接近10的 `x` 次方的 `float` 数字。
 
 
 
 ### log
 
-`log(x)`  返回一个 `浮点` 与实参的自然对数接近的数 `x`。
+`log(x)`  返回一个接近于 `x` 的自然对数的 `float` 数字。
 
 ### log2
 
-`log2(x)` 返回一个 `浮点` 与参数的二进制对数接近的数 `x`。
+`log2(x)` 返回一个接近于参数 `x` 的二进制对数的 `float` 数字。
 
 ### log10
 
-`log10(x)` 返回一个 `浮点` 接近实参的十进制对数的数 `x`。
+`log10(x)` 返回一个接近于参数 `x` 的十进制对数的 `float` 数字。
 
 
 
 ### sqrt
 
-`sqrt(x)`返回一个 `浮点` 接近实参平方根的数 `x`。
+`sqrt(x)` 返回一个接近参数 `x` 的平方根的 `float` 数字。
 
 
 
 ### cbrt
 
-`cbrt(x)` 返回一个 `浮点` 接近实参的立方根的数 `x`。
+`cbrt(x)` 返回一个接近参数 `x` 的立方根的 `float` 数字。
 
 
 ### lgamma
@@ -73,75 +73,75 @@
 
 ### tgamma
 
-`tgamma(x)`伽玛函数
+`tgamma(x)` 伽玛函数。
 
 
 ### sin
 
-`sin(x)` 个正弦值
+`sin(x)` 正弦值。
 
 
 ### cos
 
-`cos(x)` 余osine
+`cos (x)` 余弦值。
 
 
 
 ### tan
 
-`tan(x)` 切线
+`tan (x)` 切线。
 
 
 
 ### asin
 
-`asin(x)` 弧正体
+`asin(x)` 反正弦。
 
 
 
 ### acos
 
-`acos(x)` arc cosine
+`acos(x)` 反余弦。
 
 ### atan
 
-`atan(x)` 弧切点
+`atan(x)` 弧切点。
 
 
 
 ### pow
 
-`pow(x,y)` 返回一个 `浮点` 靠近  `x` 靠近 `y` 的数字
+`pow(x,y)` 返回一个接近 `x` 的 `y` 次方的 `float` 数字。
 
 
 
 ### power
 
-`power(x,y)`  返回 `浮点` 靠近  `x` 靠近 `y`
+`power(x,y)` 返回一个接近 `x` 的 `y` 次方的 `float` 数字。
 
 
 
 ### sign
 
-`sign(x)` 返回数字 `x` 的签名。 如果x<0, 返回 -1。 如果x>0, 返回 1。 否则，返回0。
+`sign(x)` 返回数字 `x` 的符号。 如果 x<0, return -1. If x>0，返回 1。 否则，返回0。
 
 
 
 ### degrees
 
-`degrees(x)` 将以弧度为单位的输入值转换为度。 。 `圆形(3.14)`作为 3
+`degrees(x)` 将以弧度为单位的输入值转换为度。 例如： `degress(3.14)` 返回 180。
 
 ### radians
 
-`radians(x)` 将以度为单位的输入值转换为弧度。 。 `圆形(3.14)`作为 3
+`radians(x)` 将以度为单位的输入值转换为弧度。 例如： `radians(180)` 返回 3.14。
 
 ### is_finite
 
-`is_finite(x)` return 1 when the value `x` is not infinite and not a NaN, otherwise return 0.
+`is_finite(x)` 返回 1 当值 `x` 不是无限的，也不是NaN，否则返回 0。
 
 ### is_infinite
 
-`is _infinite(x)` to return 1 while the value `x` is 无限，否则返回 0。
+`is _infinite(x)` 返回 1 当值 `x` 是无限的，否则返回 0。
 
 ### nan
 
