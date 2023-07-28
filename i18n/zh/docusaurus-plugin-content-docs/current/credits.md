@@ -244,35 +244,33 @@ THE SOFTWARE.
 此许可适用于V8的所有非外部部件
 维护库。  V8使用的外部维护库是：
   - PCRE 测试套件，位于
-    test/mjsunit/third_party/regexp-pcre/regexp-pcre.js。  This is based on the
-    test suite from PCRE-7.3, which is copyrighted by the University
-    of Cambridge and Google, Inc.  The copyright notice and license
-    are embedded in regexp-pcre.js.
-  - Layout tests, located in test/mjsunit/third_party/object-keys.  These are
-    based on layout tests from webkit.org which are copyrighted by
-    Apple Computer, Inc. and released under a 3-clause BSD license.
-  - Strongtalk assembler, the basis of the files assembler-arm-inl.h,
+    test/mjsunit/third_party/regexp-pcre/regexp-pcre.js。  这是基于PCRE-7的
+    测试套装的，版权归剑桥大学
+    和Google公司所有。版权声明和许可证
+    已嵌入regexp-pcre.js中。
+  - 布局测试，位于 test/mjsunit/third_party/object-keys 中。  这些是
+    基于 webkit.org 的布局测试，这些测试的版权归
+    苹果电脑公司所有，并且根据 3 个条款的 BSD 许可发布。
+  - Strongtalk 汇编器, 是以下 assembler-arm-inl.h,
     assembler-arm.cc, assembler-arm.h, assembler-ia32-inl.h,
     assembler-ia32.cc, assembler-ia32.h, assembler-x64-inl.h,
-    assembler-x64.cc, assembler-x64.h, assembler.cc and assembler.h.
-    This code is copyrighted by Sun Microsystems Inc. and released
-    under a 3-clause BSD license.
-  - Valgrind client API header, located at src/third_party/valgrind/valgrind.h
-    This is released under the BSD license.
-  - The Wasm C/C++ API headers, located at third_party/wasm-api/wasm.{h,hh}
-    This is released under the Apache license. The API's upstream prototype
-    implementation also formed the basis of V8's implementation in
-    src/wasm/c-api.cc.
-These libraries have their own licenses; we recommend you read them,
-as their terms may differ from the terms below.
-Further license information can be found in LICENSE files located in 
-sub-directories.
-Copyright 2014, the V8 project authors. All rights reserved.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
+    assembler-x64.cc, assembler-x64.h, assembler.cc and assembler.h 这些文件的基础。
+    此代码的版权归 Sun Microsystems Inc. 所有，
+    并根据有 3 个条款的 BSD 许可发布。
+  - Valgrind 客户端 API 标头，位于src/third_party/valgrind/valgrind.h
+    是在 BSD 许可证下发布的。
+  - Wasm C/C++ API 标头，位于 third_party/wasm-api/wasm.{h,hh}
+    这是在 Apache 许可下发布的。 API的上游原型
+    也构成了 src/wasm/c-api.cc 中
+    V8 实现的基础。
+这些库有自己的许可证；我们建议您阅读它们，
+因为它们的条款可能与以下的条款不同。
+更多的许可证信息可以在 
+子目录中的 LICENSE 文件中找到。
+版权 2014，V8 项目作者。 版权所有。
+如果满足以下条件，则允许以源代码和二进制形式重新分发和使用，无论是否修改：
+    * 源代码的重新分发必须保留上述版权声明，
+      此条件列表和以下免责声明。
     * Redistributions in binary form must reproduce the above
       copyright notice, this list of conditions and the following
       disclaimer in the documentation and/or other materials provided
