@@ -101,11 +101,11 @@ select min_k(speed_kmh,3,cid,_tp_time) from car_live_data
 
 ## Top-N By Group
 
-No matter top_k, max_k, or min_k, you can also combine them with `partition by` to get the top-N value in a specify group.
+无论是 top_k、max_k 还是 min_k，您也可以将它们与 `partition by` 组合起来，以获得指定组中的 top-N 值。
 
-Say if there is a `model` attribute for each car data.
+假设每辆车的数据具有 `model` 属性。
 
-This query can get the fastest 3 cars in each model
+这个查询可以得到每款车型中最快的 3 辆车
 
 ```sql
 select max_k(speed_kmh,3,cid,_tp_time,model) over(partition by model) from car_live_data
