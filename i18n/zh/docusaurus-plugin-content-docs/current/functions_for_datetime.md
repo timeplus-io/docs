@@ -1,18 +1,18 @@
 # 处理日期和时间
 
-### year
+### 年
 
 使用 `year(date)` 来获取当前年份，例如 `year(today())` 将是 `2022`。
 
-### quarter
+### 季度
 
 使用 `quarter(date)` 获取当前季度，例如 `quarter(today())` 将是 `1`，如果现在是Q1的话。
 
-### month
+### 月
 
 使用 `month(date)` 获取月份，例如 `month(today())` 将会是 `2`，如果现在是二月的话。
 
-### day
+### 天
 
 使用 `day(date)` 来获取当月的日期。
 
@@ -24,19 +24,19 @@
 
 使用 `day_of_year(date)` 来获取这一天在该年中的天数 (1-366)。
 
-### hour
+### 小时
 
 `hour(datetime)`
 
 获取日期时间的小时数。
 
-### minute
+### 分钟
 
 `minute(datetime)`
 
 获取日期时间的分钟数。
 
-### second
+### 秒
 
 `second(datetime)`
 
@@ -94,11 +94,11 @@
 
 ### to_date
 
-`to_date(字符串)` 将日期字符串转换为日期类型，例如 `to_date('1953-11-02')`
+`to_date(string)` 将日期字符串转换为日期类型，例如 `to_date('1953-11-02')`
 
 ### to_datetime
 
-`to_datetime(值)` 将值转换为日期时间类型，例如 `to_datetime(1655265661)` 或 `to_datetime(todayy(today))`
+`to_datetime(value)` 将值转换为日期时间类型，例如 `to_datetime(1655265661)` 或 `to_datetime(today())`
 
 ### today
 
@@ -147,7 +147,7 @@ SELECT
 
 ### format_datetime
 
-`格式_datetime(时间,格式,时区)`
+`format_datetime(time,format,timezone)`
 
 将日期时间格式化为字符串。 第三个参数是可选的。 支持以下占位符
 
@@ -170,39 +170,39 @@ SELECT
 
 `date_diff(unit,begin,end)`
 
-计算 `begin` 和 `end` 的差值并在 `unit` 中产生一个数字。例如： `date_diff('second',window_start,window_end)</0> 例如： <code>date_diff('second',window_start,window_end)</0> 例如： <code>date_diff('second',window_start,window_end)`
+计算 `begin` 和 `end` 的差值并在 `unit` 中产生一个数字。 例如： `date_diff('second',window_start,window_end)`
 
 ### date_diff_within
 
 `date_diff_within(timegap,time1,time2)`
 
-返回 true 或 false。  此函数只能在 [流到流加入](query-syntax#stream_stream_join) 时使用。 检查 `time1` and `time2` 之间的差距是否在特定范围内。 例如， `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
+返回 true 或 false。  此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
 
 ### date_trunc
 
 `date_trunc(funit), value[, timezone])`将日期和时间数据截断到日期的指定部分。 例如， `date_trunc('month',now())` 获取当前月初的日期时间。 可能的单位值为：
 
-* year
-* quarter
-* month
-* day
-* hour
-* minute
-* second
+* 年
+* 季度
+* 月
+* 天
+* 小时
+* 分钟
+* 秒
 
 ### date_add
 
-它支持 `date_add(单位, 值, 日期)` 和快捷解决 `data_add(date,timeExpression)`
+它支持 `date_add(unit, value, date)` 和快捷解决 `data_add(date,timeExpression)`
 
-*  `date_add(HOUR, 2, now())` 将在 2 小时内获得一个新的日期时间。 `date_add(HOUR, -2, now())` 将得到一个新的日期时间2 小时后退。
-*  `date_add(now)、2h)` 和 `date_add(now)、2h)` 也工作
+*  `date_add(HOUR, 2, now())` 将在 2 小时内获得一个新的日期时间。 `date_add(HOUR, -2, now())` 将得到一个新的日期时间 2 小时后退。
+*  `date_add(now(),2h)` 和 `date_add(now(),-2h)` 也工作
 
 ### date_sub
 
-它支持 `date_sub(单位, 值, 日期)` 和快捷解决 `data_sub(date,timeExpression)`
+它支持 `date_sub(unit, value, date)` 和快捷解决 `data_sub(date,timeExpression)`
 
 *  `date_sub(HOUR, 2, now())` 将获得一个新的日期时间 2 小时
-*  `date_sub(now)2h)`  也工作
+*  `date_sub(now(),2h)`  也工作
 
 ### earliest_timestamp
 
@@ -210,4 +210,4 @@ SELECT
 
 ### earliest_ts
 
-`earliest_ts()` 是 `earliest_timestamp()`的简写方式
+`earliest_ts()` 是 `earliest_timestamp()` 的简写方式
