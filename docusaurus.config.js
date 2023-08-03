@@ -107,9 +107,20 @@ const config = {
           },
           */
           {
-            type: 'localeDropdown',
+            type: 'search',
             position: 'right',
           },
+          {
+            href: 'https://timeplus.com/slack',
+            label: ' ',
+            position: 'right',
+            className: 'header-slack-link',
+            'aria-label': 'Slack community',
+          },
+          // {
+          //   type: 'localeDropdown',
+          //   position: 'right',
+          // },
         ],
       },
       footer: {
@@ -173,7 +184,7 @@ const config = {
       },
       colorMode:{
         defaultMode:'dark',
-        disableSwitch: false,
+        disableSwitch: true,
       },
     }),
   i18n: {
