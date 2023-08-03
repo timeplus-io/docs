@@ -2,7 +2,7 @@
 
 ### point_in_polygon
 
-检查点是否属于多边形。 `point_in_polygon((x,y),[(a,b),(c,d)...)` 例如： `SELECT point_in_polygon(3,3)。 , [(6, 0), (0), (8, 4), (5, 8), (0, 2)]) AS` 返回 `` 自点起(3, )是在定义的多边形中。
+检查点是否属于多边形。 `point_in_polygon((x,y),[(a,b),(c,d)...)` 例如：`SELECT point_in_polygon((3., 3.), [(6, 0), (8, 4), (5, 8), (0, 2)]) AS res` 返回 `1` 因为点(3,3)在定义的多边形中。
 
 
 
