@@ -1,5 +1,11 @@
 # Streaming processing
 
+The following functions are supported in streaming query, but not all of them support historical query. Please check the tag like this.
+
+✅ streaming query
+
+🚫 historical query
+
 ### table
 
 `table(stream)` turns the unbounded data stream as a bounded table, and query its historical data. For example, you may load the clickstream data from a Kafka topic into the `clicks` stream in Timeplus. By default, if you run `SELECT .. FROM clicks ..` This is a streaming query with unbounded data. The query will keep sending you new results whenever it's available. If you only need to analyze the past data, you can put the stream into the `table` function. Taking a `count` as an example:
@@ -17,10 +23,18 @@ Learn more about [Non-streaming queries](history).
 
 Create a tumble window view for the data stream, for example `tumble(iot,5s)` will create windows for every 5 seconds for the data stream `iot` . The SQL must end with `group by ` with either `window_start` or `window_end` or both.
 
+✅ streaming query
+
+✅ historical query
+
 ### hop
 
 `hop(stream [,timeCol], step, windowSize)`
 Create a hopping window view for the data stream, for example `hop(iot,1s,5s)` will create windows for every 5 seconds for the data stream `iot` and move the windows forward every second. The SQL must end with `group by ` with either `window_start` or `window_end` or both.
+
+✅ streaming query
+
+🚫 historical query
 
 ### session
 
@@ -42,6 +56,10 @@ For example, if the car keeps sending data when it's moving and stops sending da
 * `session(car_live_data, 1m, [speed>50,speed<50)) partition by cid` create session windows to detect when the car is speeding. The first event with speed over 50 will be included, and the last event with speed lower than 50 will not be included in the session window.
 * `session(access_log, 5m, [action='login',action='logout']) partition by uid` create session windows when the user logins the system and logout. If there is no activity within 5 minutes, the window will be closed automatically.
 
+✅ streaming query
+
+🚫 historical query
+
 ### dedup
 
 `dedup(stream, column1 [,otherColumns..] [liveInSecond,limit])`
@@ -52,25 +70,43 @@ The last parameter `limit` is optional which is `100000` by default. It limits t
 
 You can cascade this table function like `tumble(dedup(table(....` and so far the wrapping order must in this sequence : tumble/hop/session -> dedup -> table.
 
+✅ streaming query
+
+✅ historical query
+
 ### lag
 
 `lag(<column_name> [, <offset=1>][, <default_value>])`: Work for both streaming query and historical query. If you omit the `offset` the last row will be compared. E.g.
 
 `lag(total)` to get the value of `total` from the last row. `lag(total, 12)` to get the value from 12 rows ago. `lag(total, 12, 0)` to use 0 as the default value if the specified row is not available.
 
+✅ streaming query
 
+🚫 historical query
 
 ### lags
 
 `lags(<column_name>, begin_offset, end_offset [, <default_value>])` similar to `lag` function but can get a list of values. e.g. `lags(total,1,3)` will return an array for the last 1, last 2 and last 3 values.
 
+✅ streaming query
+
+🚫 historical query
+
 ### latest
 
 `latest(<column_name>)` gets the latest value for a specific column, working with streaming aggregation with group by.
 
+✅ streaming query
+
+🚫 historical query
+
 ### earliest
 
 `earliest(<column_name>)` gets the earliest value for a specific column, working with streaming aggregation with group by.
+
+✅ streaming query
+
+🚫 historical query
 
 ### now
 
@@ -80,15 +116,27 @@ Show the current date time, such as 2022-01-28 05:08:16
 
 If the now() is used in a streaming query, no matter `SELECT` or `WHERE` or `tumble/hop` window, it will reflect the current time when the row is projected.
 
+✅ streaming query
+
+✅ historical query
+
 ### now64
 
 Similar to `now()` but with extra millisecond information, such as 2022-01-28 05:08:22.680
 
 It can be also used in streaming queries to show the latest datetime with milliseconds.
 
+✅ streaming query
+
+✅ historical query
+
 ### emit_version
 
 `emit_version()` to show an auto-increasing number for each emit of streaming query result. It only works with streaming aggregation, not tail or filter. 
 
 For example, if you run `select emit_version(),count(*) from car_live_data` the query will emit results every 2 seconds and the first result will be with emit_version=0, the second result with emit_version=1. This function is particularly helpful when there are multiple rows in each emit result. For example, you can run a tumble window aggregation with a group by. All results from the same aggregation window will be in the same emit_version. You can then show a chart with all rows in the same aggregation window.
+
+✅ streaming query
+
+🚫 historical query
 
