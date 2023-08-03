@@ -1,5 +1,11 @@
 # 流处理
 
+The following functions are supported in streaming query, but not all of them support historical query. Please check the tag like this.
+
+✅ streaming query
+
+🚫 historical query
+
 ### table
 
 `table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic 中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT FROM clicks</0> 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 <code>table` 函数中。 使用 `count` 作为示例：
@@ -17,9 +23,17 @@
 
 为数据流创建一个tumble窗口视图，例如 `tumble(iot,5s)` 将创建每5秒数据流 `iot` 的窗口。 SQL 必须以 `group by` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
 
+✅ streaming query
+
+✅ historical query
+
 ### hop
 
 `hop(stream [,timeCol], step, windowSize)` 为数据流创建一个滑窗视图, 例如 `hop(iot,1s,5s)` 将创建每5秒数据流的窗口 `iot` 并每秒移动窗口转发一次。 SQL 必须以 `group by` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
+
+✅ streaming query
+
+🚫 historical query
 
 ### session
 
@@ -41,6 +55,10 @@
 * `session(car_live_data, 1m, [speed>50,speed<50)) partition by cid` 创建会话窗口以检测汽车正在加速的情况。 将包括速度超过50的第一次活动。 和速度小于50的最后一个事件将不会被包含在会话窗口中。
 * `session(access_log, 5m, [action='login',action='logout']) partition by uid` 创建会话窗口时用户登录系统并退出登录。 如果在5分钟内没有活动，窗口将自动关闭。
 
+✅ streaming query
+
+🚫 historical query
+
 ### dedup
 
 `dedup(stream, column1 [,otherColumns..] [liveInSecond,limit]) [liveInSecond,limit]) [liveInSecond,limit])`
@@ -51,25 +69,43 @@
 
 您可以将此表函数级，例如 `tumble(table...)` 并且到目前为止，包装顺序必须在这个序列中：tumble/hop/session -> dep-> 表。
 
+✅ streaming query
+
+✅ historical query
+
 ### lag
 
 `lag(<column_name> [, <offset=1>] [, <default_value>])`: 同时用于流式查询和历史查询。 如果您省略了 `offset` ，最后一行将被比较。 。
 
 `lag(总计)` 以获得最后一行的 `总计` 的值。 `lag(总计, 12)` 以获得12行前的值。 `lag(total, 0)` 如果指定行不可用则使用0作为默认值。
 
+✅ streaming query
 
+🚫 historical query
 
 ### lags
 
 `lags(<column_name>, begin_offset, end_offset [, <default_value>])` 与 `lags` 函数相似，但可以获得一个数值列表。 例如: `lags(total,1,3)` 将返回一个数组，最后1，最后2和最后3个值。
 
+✅ streaming query
+
+🚫 historical query
+
 ### latest
 
 `latest(<column_name>)` 获取特定列的最新值，用于与群组的串流聚合。
 
+✅ streaming query
+
+🚫 historical query
+
 ### earliest
 
 `earliest(<column_name>)` 获得特定列的最早值，与分组的串流聚合一起工作。
+
+✅ streaming query
+
+🚫 historical query
 
 ### now
 
@@ -79,15 +115,27 @@
 
 当now()用在流式SQL,无论是 `SELECT` 或 `WHERE` 或 `tumble/hop` 窗口, 他想反应运行时的时间。
 
+✅ streaming query
+
+✅ historical query
+
 ### now64
 
 类似于 `now ()` 但有额外毫秒信息，例如2022-01-28 05:08:22.680
 
 它也可以用于流查询以显示最新的日期时间和毫秒。
 
+✅ streaming query
+
+✅ historical query
+
 ### emit_version
 
 `emit_version()` 以显示流查询结果的每个发射的自动增加数字。 它只适用于流聚合，而不是尾部或过滤器。
 
 例如，如果运行 `select emit_version(),count(*) from car_live_data` 查询将每2秒发布结果，而第一个结果将是emit_version=0。 emit_version=1的第二个结果。 当每个发射结果中有多行时，此函数特别有用。 例如，您可以运行一个tumble窗口聚集时加group by。 相同聚合窗口的所有结果将在相同的 emit_version。 然后您可以在同一聚合窗口中显示所有行的图表。
+
+✅ streaming query
+
+🚫 historical query
 
