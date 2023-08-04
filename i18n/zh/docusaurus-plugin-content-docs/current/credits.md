@@ -4,11 +4,11 @@
 
 Timeplus 产品的部分功能基于开源项目。 特别感谢：
 
-* 数据源和数据下游的基于 [Benthos](https://www.benthos.dev/)构建, MIT 授权
-* 嵌入式的持久化状态存储基于 [RocksDB](https://github.com/facebook/rocksdb), Apache 2.0 许可协议
-* JavaScript UDF 基于 BSD许可证下的 [V8](https://v8.dev/)
+* 数据源和数据下游的基于 [Benthos](https://www.benthos.dev/) 构建，MIT License
+* 嵌入式的持久化状态存储基于 [RocksDB](https://github.com/facebook/rocksdb)，Apache License 2.0
+* JavaScript UDF 基于 [V8](https://v8.dev/)，BSD License
 
-## Benthos MIT 许可证
+## Benthos MIT License
 
 ```
 Copyright (c) 2020 Ashley Jeffs
@@ -32,7 +32,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
-## Apache 许可证 2.0
+## Apache License 2.0
 
 ```
  Apache License
@@ -238,7 +238,7 @@ THE SOFTWARE.
    limitations under the License.
 ```
 
-## V8 BSD许可证
+## V8 BSD-style License
 
 ```
 This license applies to all parts of V8 that are not externally

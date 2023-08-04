@@ -1,6 +1,6 @@
 # 变更日志流
 
-当您使用 `更新日志_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 数据可以更新或删除。 您可以在左侧或右侧的JOIN中使用更新日志流。 Timeplus 将自动选择最新版本。
+当您使用 `changelog_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 数据可以更新或删除。 您可以在左侧或右侧的 JOIN 中使用更新日志流。 Timeplus 将自动选择最新版本。
 
 以下是一些例子：
 
@@ -8,12 +8,12 @@
 
 在此示例中，您在 `changelog_kv` 模式中创建了一个带有以下列的流 `dim_products`：
 
-| 列名          | 数据类型                | 描述                                         |
-| ----------- | ------------------- | ------------------------------------------ |
-| _tp_time  | datetime64(3,'UTC') | 它是自动为所有在 Timeplus 中的流创建的，具有毫秒精度和UTC时区的事件时间 |
-| _tp_delta | 整数                  | 特殊列，1表示新数据，-1表示已删除的数据                      |
-| 产品名称        | 字符串                 | 产品的唯一 ID，作为主键                              |
-| 价格          | 浮点数                 | 当前价格                                       |
+| 列名          | 数据类型                | 描述                                           |
+| ----------- | ------------------- | -------------------------------------------- |
+| _tp_time  | datetime64(3,'UTC') | 它是为所有在 Timeplus 中的流自动创建的，并且具有毫秒精度和UTC时区的事件时间 |
+| _tp_delta | 整数                  | 一个特殊列，1 表示新数据，-1 表示已删除的数据                    |
+| 产品名称        | 字符串                 | 产品的唯一 ID，作为主键                                |
+| 价格          | 浮点数                 | 当前价格                                         |
 
 ## 查询单个流
 
@@ -21,7 +21,7 @@
 
 ### 添加数据
 
-保持查询运行并将更多的行添加到流中 (通过 REST API 或创建新的浏览器标签页并直接将行添加到流)。
+保持查询运行并将更多的行添加到流中（通过 REST API 或创建新的浏览器标签页并直接将行添加到流）。
 
 | _tp_delta | 产品名称          | 价格  |
 | ----------- | ------------- | --- |
@@ -32,13 +32,13 @@
 
 ### 删除数据
 
-如果您不想再列出iPhone14_Plus。 您需要添加一行为 `_tp_delta=-1`：
+如果您不想再列出 iPhone14_Plus。 您需要添加一行为 `_tp_delta=-1`：
 
 | _tp_delta | 产品名称          | 价格  |
 | ----------- | ------------- | --- |
 | -1          | iPhone14_Plus | 899 |
 
-然后取消查询并再次运行它，您只会得到1行，而不是3行。 原因是第二行和第三行具有相同的主要ID，但有相反的 _tp_delta，所以 TimePlus 会将它们合并。 这一过程被称为“压缩”。
+然后取消查询并再次运行它，您只会得到 1 行，而不是 3 行。 原因是第 2 行和第 3 行具有相同的主要 ID，但有相反的 _tp_delta，所以 TimePlus 会将它们合并。 这一过程被称为“压缩”。
 
 | _tp_delta | 产品名称     | 价格  |
 | ----------- | -------- | --- |
@@ -46,20 +46,20 @@
 
 ### 更新数据
 
-现在，如果您想要更改iPhone14的价格，您需要添加两行：
+现在，如果您想要更改 iPhone14 的价格，您需要添加两行：
 
 | _tp_delta | 产品名称     | 价格  |
 | ----------- | -------- | --- |
 | -1          | iPhone14 | 799 |
 | 1           | iPhone14 | 800 |
 
-取消查询 `SELECT * FROM dim_products` 并再次运行，您将只会在产品列表中获得1行：
+取消查询 `SELECT * FROM dim_products` 并再次运行，您将只会在产品列表中获得 1 行：
 
 | _tp_delta | 产品名称     | 价格  |
 | ----------- | -------- | --- |
 | 1           | iPhone14 | 800 |
 
-您可以想象，您可以继续添加新的行。 如果 _tp_delta 是1并且主键是新的，那么您将在查询结果中获得一个新的行。 如果 _tp_delta 是-1并且主键已经存在，那么前一行将被删除。 您可以通过添加带有主键的新行来更新该值。
+正如您想象的，您可以继续添加新的行。 如果 _tp_delta 是 1 并且主键是新的，那么您将在查询结果中获得一个新的行。 如果 _tp_delta 是 -1 并且主键已经存在，那么前一行将被删除。 您可以通过添加带有主键的新行来更新该值。
 
 :::info
 
@@ -69,19 +69,19 @@
 
 ### 显示聚合结果
 
-如果您运行 `select count(1), sum(price) from dim_products` 这样的查询，此串流 SQL 将始终给您提供最新的结果：
+如果您运行 `select count(1), sum(price) from dim_products` 这样的查询，此流式 SQL 将始终给您提供最新的结果：
 
-| 计数(1) | 总和（价格） |                     |
+| 计数（1） | 总和（价格） |                     |
 | ----- | ------ | ------------------- |
-| 1     | 800    | 当只有1行时：iPhone14     |
+| 1     | 800    | 当只有 1 行时：iPhone14   |
 | 2     | 1699   | 当 iPhone14_Plus 被添加 |
 | 1     | 800    | 当 iPhone14_Plus 被移除 |
 
-## 在 JOIN 中使用更新日志流作为查询
+## 在 JOIN 中使用变更日志流作为查询
 
 在上述示例中，您总是获得具有相同主键的事件的最新版本。 当这样的流充当 JOIN 的“查询表”时，这非常有用。
 
-想象您有 `订单` 的一个附加流：
+想象您有一个 `订单` 附加流：
 
 | _tp_time | 订单编号 | 产品名称 | 数量 |
 | ---------- | ---- | ---- | -- |
@@ -94,7 +94,7 @@
 | 1           | iPhone14      | 799 |
 | 1           | iPhone14_Plus | 899 |
 
-现在运行流式SQL：
+现在运行流式 SQL：
 
 ```sql
 SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS amount
@@ -115,20 +115,20 @@ FROM orders JOIN dim_products USING(product_id)
 | 2023-04-20T10:00:00.000Z | 1    | iPhone14      | 1  | 799 |
 | 2023-04-20T10:01:00.000Z | 2    | iPhone14_Plus | 1  | 899 |
 
-然后，您可以通过在 `dim_products` 中添加两个新的行来更改 iPhone14 的价格至800
+然后，您可以通过在 `dim_products` 中添加新的两行将 iPhone14 的价格更改至 800。
 
 | _tp_delta | 产品名称     | 价格  |
 | ----------- | -------- | --- |
 | -1          | iPhone14 | 799 |
 | 1           | iPhone14 | 800 |
 
-也在 `订单` 中添加新的行
+也在 `订单` 中添加新的行。
 
 | _tp_time               | 订单编号 | 产品名称     | 数量 |
 | ------------------------ | ---- | -------- | -- |
 | 2023-04-20T11:00:00.000Z | 3    | iPhone14 | 1  |
 
-您将在前一个流的 SQL 中获得第三行：
+您将在前一个流式 SQL 中获得第三行：
 
 | _tp_time               | 订单编号 | 产品名称          | 数量 | 金额  |
 | ------------------------ | ---- | ------------- | -- | --- |
@@ -140,9 +140,9 @@ FROM orders JOIN dim_products USING(product_id)
 
 ## 在 JOIN 中使用更新日志流作为左表
 
-您也可以在 JOIN 左侧使用更新日志流。
+您也可以在 JOIN 左侧使用变更日志流。
 
-让我们在更新日志流模式下创建一个新流 `订单2`
+让我们在变更日志流模式下创建一个新流 `订单2`：
 
 | _tp_time | _tp_delta | 订单编号 | 产品名称 | 数量 |
 | ---------- | ----------- | ---- | ---- | -- |
@@ -166,11 +166,11 @@ FROM orders2 JOIN dim_products USING(product_id)
 
 每当订单被添加、更新或删除时，您将获得正确的数字。
 
-## 使用更新日志流设置 CDC
+## 使用变更日志流设置 CDC
 
 CDC（更改数据捕获），是现代数据存储的一个关键部分。 大多数现代数据库都支持 CDC 实时同步数据变化到其他系统。 一个受欢迎的开源解决方案是 [Debezium](https://debezium.io/)。
 
-Timeplus 的变更日志流可以与 Debezium 或其他 CDC 解决方案配合使用。 如果您的应用程序可以使用适当的 _tp_delta 标志生成事件（1表示添加数据，-1表示删除数据），那么没有它们也可以正常运行。
+Timeplus 的变更日志流可以与 Debezium 或其他 CDC 解决方案配合使用。 如果您的应用程序可以使用适当的 _tp_delta 标志生成事件（1 表示添加数据，-1 表示删除数据），那么没有它们也可以正常运行。
 
 例如，您在 PostgreSQL 14 中创建了两个表格：
 
@@ -198,7 +198,7 @@ ALTER TABLE orders REPLICA IDENTITY FULL;
 
 ### 设置 Debezium
 
-现在以您喜欢的方式开始使用Kafka Connect的Debezium 。 您还需要本地或远程的 Kafka/Redpanda 作为消息代理来接收 CDC 数据。
+现在以您喜欢的方式开始使用 Kafka Connect 的 Debezium 。 您还需要本地或远程的 Kafka/Redpanda 作为消息代理来接收 CDC 数据。
 
 在此示例中，我们将使用 Redpanda Cloud 作为消息代理，并使用内置 Debezium 的 Kafka Connect 的本地 docker 镜像。 docker-compose 文件：
 
@@ -286,13 +286,13 @@ localhost:8083/connectors \
 -d '{"name":"pg-connector","config":{"connector.class": "io.debezium.connector.postgresql.PostgresConnector","publication.autocreate.mode": "filtered",  "database.dbname": "defaultdb",  "database.user": "avnadmin",  "schema.include.list": "public",  "database.port": "28851",  "plugin.name": "pgoutput",  "database.sslmode": "require",  "topic.prefix": "doc",  "database.hostname": "xyz.aivencloud.com",  "database.password": "***",  "table.include.list": "public.dim_products,public.orders"}}'
 ```
 
-这将添加一个名为 `pg-connector` 的新连接器，并连接到远程服务器上的 PostgreSQL 数据库（在这种情况下，Aiven Cloud）。 配置项目的一些注意事项：
+这将添加一个名为 `pg-connector` 的新连接器，并连接到远程服务器上的 PostgreSQL 数据库（在这里是 Aiven Cloud）。 配置项目的一些注意事项：
 
-* `publication.autocreate.mode` 是 `过滤后的`， `table.include.list` 是您想要应用 CDC 的一系列列表。 有时，您没有权限为所有表启用发布。 因此，建议使用 `过滤后的` 。
+* `publication.autocreate.mode` 是 `筛选后的`， `table.include.list` 是您想要应用 CDC 的一系列列表。 有时，您没有权限为所有表启用发布。 因此，建议使用 `筛选后的` 。
 * `plugin.name` 是 `pgoutput`。 这与新版本的 PostgreSQL（10+）配合使用效果很好。 默认值为 `decoderbufs`，它需要单独安装。
-* `topic.prefix` 已设置为 `doc`。 顾名思义，它将成为 Kafka 主题的前缀。 由于架构是 `公开的`，将使用的主题将是 `doc.public.dim_products` 和 `doc.public.orders`
+* `topic.prefix` 已设置为 `doc`。 顾名思义，它将成为 Kafka 主题的前缀。 由于架构是 `公开的`，使用的主题将是 `doc.public.dim_products` 和 `doc.public.orders`
 
-确保你在 Kafka/Redpanda 中创建了这两个主题。 然后在几秒钟内，主题中应该有新的消息。
+确保您在 Kafka/Redpanda 中创建了这两个主题。 然后在几秒钟内，主题中应该有新的消息。
 
 您可以在 PostgreSQL 中尝试 插入/更新/删除 数据并检查生成的 JSON 消息。
 
@@ -303,7 +303,7 @@ localhost:8083/connectors \
 SQL：
 
 ```sql
-在 dim_products（“product_id”、“price”）中插入值（'iPhone14'，799）
+INSERT INTO dim_products ("product_id", "price") VALUES ('iPhone14', 799)
 ```
 
 CDC 数据：
@@ -328,7 +328,7 @@ CDC 数据：
 SQL：
 
 ```sql
-更新 dim_products 设置价格=800 其中 product_id='iPhone14'
+UPDATE dim_products set price=800 WHERE product_id='iPhone14'
 ```
 
 CDC 数据：
@@ -356,7 +356,7 @@ CDC 数据：
 SQL：
 
 ```sql
-从 dim_products 中删除
+DELETE FROM dim_products
 ```
 
 CDC 数据：
@@ -378,7 +378,7 @@ CDC 数据：
 
 #### 对于已经存在的行
 
-Debezium 也会读取所有现有的行并生成这样的消息
+Debezium 也会读取所有现有的行并生成这样的消息。
 
 ```json
 {
@@ -416,7 +416,7 @@ union
 select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'      
 ```
 
-点击 **作为下游发送** 按钮，并选择 Timeplus 类型，将结果发送到现有的流 `dim_products`。
+点击 **作为数据下游发送** 按钮，并选择 Timeplus 类型，将结果发送到现有的流 `dim_products`。
 
 :::info
 

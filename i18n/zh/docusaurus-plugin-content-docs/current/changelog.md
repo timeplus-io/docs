@@ -1,8 +1,10 @@
 # 发布说明
 
-目前处于公开测试版的第二阶段。 请查看 [相关发行说明](public-beta-2)。
+Timeplus is ready for production. Please check [the latest release notes](release-notes).
 
 ## 以往的版本
+
+[Public Beta 2](public-beta-2) (Jan 19, 2023 to Aug 3, 2023)
 
 [公开测试版 1](public-beta-1) （2022 年 10 月 3 日至 2023 年 1 月 18 日）
 

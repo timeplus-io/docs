@@ -111,12 +111,12 @@ Timeplus 中支持以下数据类型作为远程 UDF 参数：
 | Timeplus 数据类型           | Payload in UDF HTTP Request                                              |
 | ----------------------- | ------------------------------------------------------------------------ |
 | array(TYPE)             | {"argument_name":[array1,arrary2]}                                       |
-| bool                    | {"argument_name":[true,false]}                                           |
-| date                    | {"argument_name":["2023-07-27","2023-07-28"]}                            |
-| datetime                | {"argument_name":["2023-07-27 04:00:00","2023-07-28  04:00:00"]}         |
-| datetime64              | {"argument_name":["2023-07-27 04:00:00.000","2023-07-28  04:00:00.000"]} |
+| 布尔值                     | {"argument_name":[true,false]}                                           |
+| 日期                      | {"argument_name":["2023-07-27","2023-07-28"]}                            |
+| 日期时间                    | {"argument_name":["2023-07-27 04:00:00","2023-07-28  04:00:00"]}         |
+| 日期时间64                  | {"argument_name":["2023-07-27 04:00:00.000","2023-07-28  04:00:00.000"]} |
 | float, float64, integer | {"argument_name":[number1,number2]}                                      |
-| string                  | {"argument_name":[string1,string2]}                                      |
+| 字符串                     | {"argument_name":[string1,string2]}                                      |
 
 
 
@@ -135,11 +135,11 @@ Timeplus 将获取结果数组的每个元素并转换回 Timeplus 数据类型�
 | UDF HTTP Response                    | Timeplus 数据类型              |
 | ------------------------------------ | -------------------------- |
 | {"result":[array1,arrary2]}          | array(TYPE)                |
-| {"result":[true,false]}              | bool                       |
+| {"result":[true,false]}              | 布尔值                        |
 | {"result":[dateString1,dateString2]} | date, datetime, datetime64 |
 | {"result":[number1,number2]}         | float, float64, integer    |
-| {"result":[string1,string2]}         | string                     |
-| {"result":[json1,json2]}             | tuple                      |
+| {"result":[string1,string2]}         | 字符串                        |
+| {"result":[json1,json2]}             | 元组                         |
 
 
 
