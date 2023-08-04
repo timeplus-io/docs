@@ -1,18 +1,18 @@
 # 处理日期和时间
 
-### 年
+### year
 
 使用 `year(date)` 来获取当前年份，例如 `year(today())` 将是 `2022`。
 
-### 季度
+### quarter
 
 使用 `quarter(date)` 获取当前季度，例如 `quarter(today())` 将是 `1`，如果现在是Q1的话。
 
-### 月
+### month
 
 使用 `month(date)` 获取月份，例如 `month(today())` 将会是 `2`，如果现在是二月的话。
 
-### 天
+### day
 
 使用 `day(date)` 来获取当月的日期。
 
@@ -24,19 +24,19 @@
 
 使用 `day_of_year(date)` 来获取这一天在该年中的天数 (1-366)。
 
-### 小时
+### hour
 
 `hour(datetime)`
 
 获取日期时间的小时数。
 
-### 分钟
+### minute
 
 `minute(datetime)`
 
 获取日期时间的分钟数。
 
-### 秒
+### second
 
 `second(datetime)`
 
