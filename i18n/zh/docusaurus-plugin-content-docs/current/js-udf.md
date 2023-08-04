@@ -27,8 +27,8 @@
 | Timeplus 数据类型                            | JavaScript 数据类型 |
 | ---------------------------------------- | --------------- |
 | int8/16/32/64, uint8/16/32/64,float32/64 | number          |
-| bool                                     | boolean         |
-| fixed_string/string                      | string          |
+| 布尔值                                      | boolean         |
+| fixed_string/string                      | 字符串             |
 | date/date32/datetime/datetime64          | Date  (毫秒为精度)   |
 | array(Type)                              | Array           |
 
@@ -39,11 +39,11 @@ JavaScript UDF 可以返回以下数据类型，它们将被转换回指定的 T
 | JavaScript 数据类型 | Timeplus 数据类型                            |
 | --------------- | ---------------------------------------- |
 | number          | int8/16/32/64, uint8/16/32/64,float32/64 |
-| boolean         | bool                                     |
-| string          | fixed_string/string                      |
+| boolean         | 布尔值                                      |
+| 字符串             | fixed_string/string                      |
 | Date  (毫秒为精度)   | date/date32/datetime/datetime64          |
 | Array           | array(Type)                              |
-| object          | tuple                                    |
+| object          | 元组                                       |
 
 ## 开发标量函数 {#udf}
 
