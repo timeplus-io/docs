@@ -39,12 +39,20 @@ const config = {
     ],
   ],
 
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
+
   themeConfig:
     /** @type 
      * {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       hubspot: {
         accountId: 23123537,
+      },
+      mermaid:{
+        theme: {light: 'neutral', dark: 'dark'},
       },
       docs:{
         sidebar:{
