@@ -7,7 +7,7 @@ This page summarizes changes in each major update in Timeplus, including new fea
 Soft launch for the Cloud GA (version 1.3.x).
 
 **Database**
-  * (Experimental) Convert append-only or [Versioned Streams](versioned-stream) to [Changelog Streams](changelog-stream) with the new [changelog](functions_for_streaming#changelog) function. This is designed for advanced use cases, such as per-key late event processing.
+  * (Experimental) You can now convert append-only or [versioned streams](versioned-stream) to [changelog streams](changelog-stream) with the new [changelog](functions_for_streaming#changelog) function. This is designed for advanced use cases, such as per-key late event processing.
   * Added new functions for URL handling – check them out [here](functions_for_url).
   * Block [hop](functions_for_streaming#hop)/[session](functions_for_streaming#session) functions for historical queries (ie. with the [table](functions_for_streaming#table) function).
   * JavaScript user-defined functions (UDFs) are now publicly available – learn more [here](js-udf).
