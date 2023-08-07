@@ -4,14 +4,17 @@ This page summarizes changes in each major update in Timeplus, including new fea
 
 ## Aug 8, 2023
 
+Soft launch for the Cloud GA (version 1.3.x).
+
 **Database**
+  * (Experimental) Convert append-only or [Versioned Streams](versioned-stream) to [Changelog Streams](changelog-stream) with the new [changelog](functions_for_streaming#changelog) function. This is designed for advanced use cases, such as per-key late event processing.
   * Added new functions for URL handling – check them out [here](functions_for_url).
-  * Hop/session functions are no longer supported in historical queries (ie. table).
-  * JavaScript user-defined functions (UDFs) are now available – learn more [here](js-udf).
+  * Block [hop](functions_for_streaming#hop)/[session](functions_for_streaming#session) functions for historical queries (ie. with the [table](functions_for_streaming#table) function).
+  * JavaScript user-defined functions (UDFs) are now publicly available – learn more [here](js-udf).
 
 **Sources/Sinkse**
   * Empty messages in an Apache Kafka or Redpanda topic are now skipped.
-  * We now restrict you from deleting a stream if a source is sending data to it.
+  * We now restrict you from deleting a stream if a source is sending data to it. Please delete the source first.
 
 **Console UI**
   * In the Query page, for a streaming query, the scanned rows, bytes, and EPS are now shown.
