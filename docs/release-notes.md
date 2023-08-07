@@ -12,7 +12,7 @@ Soft launch for the Cloud GA (version 1.3.x).
   * Block [hop](functions_for_streaming#hop)/[session](functions_for_streaming#session) functions for historical queries (ie. with the [table](functions_for_streaming#table) function).
   * JavaScript user-defined functions (UDFs) are now publicly available – learn more [here](js-udf).
 
-**Sources/Sinkse**
+**Sources/Sinks**
   * Empty messages in an Apache Kafka or Redpanda topic are now skipped.
   * We now restrict you from deleting a stream if a source is sending data to it. Please delete the source first.
 
