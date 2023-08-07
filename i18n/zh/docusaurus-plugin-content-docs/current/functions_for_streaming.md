@@ -139,3 +139,20 @@ The following functions are supported in streaming query, but not all of them su
 
 🚫 historical query
 
+### changelog
+
+`changelog(stream[, [key_col1[,key_col2,[..]],version_column], drop_late_rows])` to convert a stream (no matter append-only stream or versioned stream) to a changelog stream with given primary keys.
+
+* If the source stream is a regular stream, i.e. append-only stream, you can choose one or more columns as the primary key columns. `changelog(append_stream, key_col1)`  For example, the [car_live_data](usecases#car_live_data) stream contains `cid` as car id, `speed_kmh` as the recently reported speed. Run the following SQL to create a changelog stream for each car to track the speed change `select * from changelog(car_live_data,cid)` A new column `_tp_delta` is included in the streaming query result. `-1` indicates that the row is redacted(removed). _tp_delta=1 with the new value.
+* If the source stream is a [Versioned Stream](versioned-stream), since the primary key(s) are specified in the versioned stream, the `changelog` function can be as simple as `changelog(versioned_kv)`
+* By default, `drop_late_rows` is false. But if you do want to drop late events for the same primary key, then you need to set drop_late_rows as true, and specify the version_column. The bigger the version_column value is, the more recent version it implies. In most case, you can set the event time(_tp_time) as the version_column. An example to drop the late event for car_live_data:
+
+```sql
+select _tp_time,cid,speed_kmh, _tp_delta from changelog(car_live_data, cid, _tp_time, true)
+```
+
+
+
+✅ streaming query
+
+🚫 historical query
