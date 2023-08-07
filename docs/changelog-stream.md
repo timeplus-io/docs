@@ -2,6 +2,12 @@
 
 When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. Data can be updated or deleted. You can use Changelog Stream in JOIN either on the left or on the right. Timeplus will automatically choose the latest version.
 
+:::info
+
+We recently introduced a new table function [changelog](functions_for_streaming#changelog) to dynamically create a changelog stream based on an append-only stream by specifying the primary key column(s) and the version column, or create a changelog stream based on an [versioned stream](versioned-stream). This is designed for advanced use cases, such as per-key late event processing. Please check the documentation of [changelog](functions_for_streaming#changelog) for details. 
+
+:::
+
 Here are some examples:
 
 ## Create the Stream

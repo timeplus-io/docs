@@ -170,7 +170,16 @@ Format the datetime as a string. The 3rd argument is optional. The following pla
 
 `date_diff(unit,begin,end)`
 
-Calculate the difference between `begin` and `end` and produce a number in `unit`. For example `date_diff('second',window_start,window_end)`
+Calculate the difference between `begin` and `end` and produce a number in `unit`. For example `date_diff('second',window_start,window_end)` 
+
+Supported unit:
+
+* us: for microseconds. 1 second = 1,000,000 us
+* ms: for milliseconds. 1 second = 1,000 ms
+* s: for seconds
+* m: for minutes
+* h: for hours
+* d: for days
 
 ### date_diff_within
 
