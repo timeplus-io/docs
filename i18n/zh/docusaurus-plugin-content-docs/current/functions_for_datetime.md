@@ -172,6 +172,15 @@ SELECT
 
 计算 `begin` 和 `end` 的差值并在 `unit` 中产生一个数字。 例如： `date_diff('second',window_start,window_end)`
 
+Supported unit:
+
+* us: for microseconds. 1 second = 1,000,000 us
+* ms: for milliseconds. 1 second = 1,000 ms
+* s: for seconds
+* m: for minutes
+* h: for hours
+* d: for days
+
 ### date_diff_within
 
 `date_diff_within(timegap,time1,time2)`
