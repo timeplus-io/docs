@@ -1,6 +1,6 @@
 # 流处理
 
-The following functions are supported in streaming query, but not all of them support historical query. Please check the tag like this.
+流式查询支持以下函数，但并非所有函数都支持历史查询。 请检查像这样的标签。
 
 ✅ streaming query
 
@@ -139,3 +139,21 @@ The following functions are supported in streaming query, but not all of them su
 
 🚫 historical query
 
+### changelog
+
+`changelog（stream [，[key_col1 [，key_column，[..]]，version_column]，drop_late_rows]）` 用于将流（无论是仅限附加的流还是版本控制的流）转换为具有给定主键的变更日志流。
+
+* 如果数据源流是常规流，即仅附加流，则可以选择一个或多个列作为主键列。 `changelog(append_stream, key_col1)`  比如[car_live_data](usecases#car_live_data) 流包含 `cid` 列作为车辆 ID, `speed_kmh` 作为最新上报的时速。 运行下面的 SQL 来为每辆车创建一个更新日志流以跟踪速度变化 `select * from changelog(car_live_data,cid)` 。一个新列 `_tp_delta` 包含在流查询结果中。 `-1` 表示行已被重新编辑(移除)。 _tp_delta=1，使用新值。
+* 如果源流是 [版本流](versioned-stream)，因为在版本流中已经指定了主键和版本列， `changelog` 函数可以直接这样使用 `changelog(versioned_kv)`
+* 默认情况下， `drop_late_rows` 为 false。 但是，如果你确实想删除同一个主键的延迟事件，那么你需要将 drop_late_rows 设置为 true，并指定 version_column。 版本_列值越大，它意味着的最新版本。 在大多数情况下，您可以将事件时间 (_tp_time) 设置为 version_column。 删除 car_live_data 的迟到事件的示例：
+
+```sql
+select _tp_time,cid,speed_kmh, _tp_delta 
+from changelog(car_live_data, cid, _tp_time, true)
+```
+
+
+
+✅ streaming query
+
+🚫 historical query
