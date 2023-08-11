@@ -2,133 +2,105 @@
 
 ### year
 
-使用 `year(date)` 来获取当前年份，例如 `year(today())` 将是 `2022`。
+`year(date)` returns the year, for example `year(today())` will return the current year.
 
 ### quarter
 
-使用 `quarter(date)` 获取当前季度，例如 `quarter(today())` 将是 `1`，如果现在是Q1的话。
+`quarter(date)` returns the quarter, for example `quarter(today())` will be `1` if it's currently in Q1.
 
 ### month
 
-使用 `month(date)` 获取月份，例如 `month(today())` 将会是 `2`，如果现在是二月的话。
+`month(date)` returns the month, for example `month(today())` will be `2` if it's currently Feb.
 
 ### day
 
-使用 `day(date)` 来获取当月的日期。
+`day(date)` returns the day in the month.
 
 ### weekday
 
-使用 `weekday(date)` 来获取周中的某一天。 星期一是1。 星期日是7。
+`weekday(date)` returns the day of the week. eg. Monday is 1, Sunday is 7.
 
 ### day_of_year
 
-使用 `day_of_year(date)` 来获取这一天在该年中的天数 (1-366)。
+`day_of_year(date)` returns the number of the day of the year (1-365, or 1-366 in a leap year).
 
 ### hour
 
-`hour(datetime)`
-
-获取日期时间的小时数。
+`hour(datetime)` returns the hour of the datetime.
 
 ### minute
 
-`minute(datetime)`
-
-获取日期时间的分钟数。
+`minute(datetime)` returns the minute of the datetime.
 
 ### second
 
-`second(datetime)`
-
-获取日期时间的秒数。
+`second(datetime)` returns the second of the datetime.
 
 ### to_unix_timestamp
 
-获取日期时间的 UNIX 时间戳。 在 `uint32` 中返回一个数字
+Returns the UNIX timestamp of the datetime, a number in `uint32`
 
-例如， `to_unix_timestamp(now())` 获得 `1644272032`
+For example `to_unix_timestamp(now())` returns `1644272032`
 
 ### to_start_of_year
 
-`to_start_of_year(date)`
-
-将日期或带有时间的日期舍入到一年中的第一天。 返回日期。
+`to_start_of_year(date)` rounds down a date or date with time to the first day of the year. 返回日期。
 
 ### to_start_of_quarter
 
-`to_start_of_quarter(date)`
-
-将日期或带有时间的日期舍入到一年中的第一季度。 返回日期。
+`to_start_of_quarter(date)` rounds down a date or date with time to the first day of the quarter. 返回日期。
 
 ### to_start_of_month
 
-`to_start_of_month(date)`
-
-将日期或带有时间的日期舍入到一年中的第一个月。 返回日期。
+`to_start_of_month(date)` rounds down a date or date with time to the first day of the month. 返回日期。
 
 ### to_start_of_day
 
-`to_start_of_day(date)`
-
-将日期舍入到一天开始的时间。
+`to_start_of_day(date)` rounds down a date with time to the start of the day.
 
 ### to_start_of_hour
 
-`to_start_of_hour(datetime)`
-
-将日期或带时间的日期舍入到最开始的小时。
+`to_start_of_hour(datetime)` rounds down a date or date with time to the start of the hour.
 
 ### to_start_of_minute
 
-`to_start_of_minute(datetime)`
-
-将日期或带时间的日期舍入到最开始的分钟。
+`to_start_of_minute(datetime)` rounds down a date or date with time to the start of the minute.
 
 ### to_start_of_second
 
-`to_start_of_second(datetime64)`
-
-将日期或带时间的日期舍入到最开始的秒。
+`to_start_of_second(datetime64)` rounds down a date or date with time to the start of the second.
 
 不同于其他 `to_start_of_` 函数，这个函数需要一个有毫秒的日期时间，例如 `to_start_of_second(now64())`
 
 ### to_date
 
-`to_date(string)` 将日期字符串转换为日期类型，例如 `to_date('1953-11-02')`
+`to_date(string)` converts a date string to a date type, e.g. `to_date('1953-11-02')`
 
 ### to_datetime
 
-`to_datetime(value)` 将值转换为日期时间类型，例如 `to_datetime(1655265661)` 或 `to_datetime(today())`
+`to_datetime(value)` converts the value to a datetime type, e.g. `to_datetime(1655265661)` or `to_datetime(today())`
 
 ### today
 
-`today()`
-
-返回当前日期。
+`today()` returns the current date.
 
 ### to_YYYYMM
 
-`to_YYYYMM(date)`
-
-获取一个数字。 例如， `to_YYYYMM(today))` 将获得数字 `20202`
+`to_YYYYMM(date)` returns a number. For example `to_YYYYMM(today())` will return the number `202202`
 
 ### to_YYYYMMDD
 
-`to_YYYYMMDD(date)`
-
-获取一个数字。
+`to_YYYYMMDD(date)` returns a number.
 
 ### to_YYYMMDDhmmss
 
-`to_YYYMMDDhmss(date)`
-
-获取一个数字。
+`to_YYYYMMDDhhmmss(date)` returns a number.
 
 ### to_timezone
 
-`to_timezone(datectime_in_a_timezone,target_timezone)` 将日期时间从一个时区转换到另一个时区。
+`to_timezone(datetime_in_a_timezone,target_timezone)` converts the datetime from one timezone to the other.
 
-对于可能的时区的完整列表，请检查 [维基百科页面](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) 中的“TZ 数据库名称”栏。 对于常见的时区，请检查 [to _time](#to_time)
+For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For the most common timezones, please check [to_time](#to_time)
 
 例如，
 
@@ -147,9 +119,7 @@ SELECT
 
 ### format_datetime
 
-`format_datetime(time,format,timezone)`
-
-将日期时间格式化为字符串。 第三个参数是可选的。 支持以下占位符
+`format_datetime(time,format,timezone)` formats the datetime as a string. 第三个参数是可选的。 支持以下占位符
 
 | 占位符 | 描述                            | 输出字符串      |
 | --- | ----------------------------- | ---------- |
@@ -168,9 +138,7 @@ SELECT
 
 ### date_diff
 
-`date_diff(unit,begin,end)`
-
-计算 `begin` 和 `end` 的差值并在 `unit` 中产生一个数字。 例如： `date_diff('second',window_start,window_end)`
+`date_diff(unit,begin,end)` calculates the difference between `begin` and `end` and produce a number in `unit`. 例如： `date_diff('second',window_start,window_end)`
 
 Supported unit:
 
@@ -183,13 +151,11 @@ Supported unit:
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1,time2)`
-
-返回 true 或 false。  此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
+`date_diff_within(timegap,time1, time2)` returns true or false.  此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
 
 ### date_trunc
 
-`date_trunc(funit), value[, timezone])`将日期和时间数据截断到日期的指定部分。 例如， `date_trunc('month',now())` 获取当前月初的日期时间。 可能的单位值为：
+`date_trunc(unit, value[, timezone])` truncates date and time data to the specified part of date. For example, `date_trunc('month',now())` returns the datetime at the beginning of the current month. 可能的单位值为：
 
 * 年
 * 季度
@@ -219,4 +185,4 @@ Supported unit:
 
 ### earliest_ts
 
-`earliest_ts()` 是 `earliest_timestamp()` 的简写方式
+`earliest_ts()` is a shortcut for `earliest_timestamp()`
