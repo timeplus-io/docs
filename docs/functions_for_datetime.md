@@ -2,133 +2,105 @@
 
 ### year
 
-`year(date)` Get the year, for example `year(today())` will be `2022`.
+`year(date)` returns the year, for example `year(today())` will return the current year.
 
 ### quarter
 
-`quarter(date)` Get the quarter, for example `quarter(today())` will be `1` if it's in Q1.
+`quarter(date)` returns the quarter, for example `quarter(today())` will be `1` if it's currently in Q1.
 
 ### month
 
-`month(date)` Get the month, for example `month(today())` will be `2` if it's Feb.
+`month(date)` returns the month, for example `month(today())` will be `2` if it's currently Feb.
 
 ### day
 
-`day(date)` Get the day in the month.
+`day(date)` returns the day in the month.
 
 ### weekday
 
-`weekday(date)` Get the day of the week. Monday is 1. Sunday is 7.
+`weekday(date)` returns the day of the week. eg. Monday is 1, Sunday is 7.
 
 ### day_of_year
 
-`day_of_year(date)` Get the number of the day of the year (1-366).
+`day_of_year(date)` returns the number of the day of the year (1-365, or 1-366 in a leap year).
 
 ### hour
 
-`hour(datetime)`
-
-Get the hour of the datetime.
+`hour(datetime)` returns the hour of the datetime.
 
 ### minute
 
-`minute(datetime)`
-
-Get the minute of the datetime.
+`minute(datetime)` returns the minute of the datetime.
 
 ### second
 
-`second(datetime)`
-
-Get the second of the datetime.
+`second(datetime)` returns the second of the datetime.
 
 ### to_unix_timestamp
 
-Get the UNIX timestamp of the datetime. Returns a number in `uint32`
+Returns the UNIX timestamp of the datetime, a number in `uint32`
 
-For example `to_unix_timestamp(now())` gets `1644272032`
+For example `to_unix_timestamp(now())` returns `1644272032`
 
 ### to_start_of_year
 
-`to_start_of_year(date)`
-
-Rounds down a date or date with time to the first day of the year. Returns the date.
+`to_start_of_year(date)` rounds down a date or date with time to the first day of the year. Returns the date.
 
 ### to_start_of_quarter
 
-`to_start_of_quarter(date)`
-
-Rounds down a date or date with time to the first day of the quarter. Returns the date.
+`to_start_of_quarter(date)` rounds down a date or date with time to the first day of the quarter. Returns the date.
 
 ### to_start_of_month
 
-`to_start_of_month(date)`
-
-Rounds down a date or date with time to the first day of the month. Returns the date.
+`to_start_of_month(date)` rounds down a date or date with time to the first day of the month. Returns the date.
 
 ### to_start_of_day
 
-`to_start_of_day(date)`
-
-Rounds down a date with time to the start of the day.
+`to_start_of_day(date)` rounds down a date with time to the start of the day.
 
 ### to_start_of_hour
 
-`to_start_of_hour(datetime)`
-
-Rounds down a date or date with time to the start of the hour.
+`to_start_of_hour(datetime)` rounds down a date or date with time to the start of the hour.
 
 ### to_start_of_minute
 
-`to_start_of_minute(datetime)`
-
-Rounds down a date or date with time to the start of the minute.
+`to_start_of_minute(datetime)` rounds down a date or date with time to the start of the minute.
 
 ### to_start_of_second
 
-`to_start_of_second(datetime64)`
-
-Rounds down a date or date with time to the start of the second.
+`to_start_of_second(datetime64)` rounds down a date or date with time to the start of the second.
 
 Unlike other `to_start_of_` functions, this function expects a datetime with millisecond, such as `to_start_of_second(now64())`
 
 ### to_date
 
-`to_date(string)` convert a date string to a date type, e.g. `to_date('1953-11-02')`
+`to_date(string)` converts a date string to a date type, e.g. `to_date('1953-11-02')`
 
 ### to_datetime
 
-`to_datetime(value)` convert the value to a datetime type, e.g. `to_datetime(1655265661)` or `to_datetime(today())`
+`to_datetime(value)` converts the value to a datetime type, e.g. `to_datetime(1655265661)` or `to_datetime(today())`
 
 ### today
 
-`today()`
-
-Returns the current date.
+`today()` returns the current date.
 
 ### to_YYYYMM
 
-`to_YYYYMM(date)`
-
-Get a number. For example `to_YYYYMM(today())` will get the number `202202`
+`to_YYYYMM(date)` returns a number. For example `to_YYYYMM(today())` will return the number `202202`
 
 ### to_YYYYMMDD
 
-`to_YYYYMMDD(date)`
-
-Get a number.
+`to_YYYYMMDD(date)` returns a number.
 
 ### to_YYYYMMDDhhmmss
 
-`to_YYYYMMDDhhmmss(date)`
-
-Get a number.
+`to_YYYYMMDDhhmmss(date)` returns a number.
 
 ### to_timezone
 
-`to_timezone(datetime_in_a_timezone,target_timezone)` Convert the datetime from one timezone to the other.
+`to_timezone(datetime_in_a_timezone,target_timezone)` converts the datetime from one timezone to the other.
 
-For the full list of possible time zones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For the common time zones, pls check [to_time](#to_time)
+For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For the most common timezones, please check [to_time](#to_time)
 
 For example, 
 
@@ -147,9 +119,7 @@ Output:
 
 ### format_datetime
 
-`format_datetime(time,format,timezone)`
-
-Format the datetime as a string. The 3rd argument is optional. The following placeholders are supported
+`format_datetime(time,format,timezone)` formats the datetime as a string. The 3rd argument is optional. The following placeholders are supported
 
 | Placeholder | Description                                        | Output String |
 | ----------- | -------------------------------------------------- | ------------- |
@@ -168,9 +138,7 @@ Format the datetime as a string. The 3rd argument is optional. The following pla
 
 ### date_diff
 
-`date_diff(unit,begin,end)`
-
-Calculate the difference between `begin` and `end` and produce a number in `unit`. For example `date_diff('second',window_start,window_end)` 
+`date_diff(unit,begin,end)` calculates the difference between `begin` and `end` and produce a number in `unit`. For example `date_diff('second',window_start,window_end)` 
 
 Supported unit:
 
@@ -183,13 +151,11 @@ Supported unit:
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1, time2)`
-
-Return true or false.  This function only works in [stream-to-stream join](query-syntax#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
+`date_diff_within(timegap,time1, time2)` returns true or false.  This function only works in [stream-to-stream join](query-syntax#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
 
 ### date_trunc
 
-`date_trunc(unit, value[, timezone])`Truncates date and time data to the specified part of date. For example, `date_trunc('month',now())` to get the datetime at the beginning of the current month. Possible unit values are:
+`date_trunc(unit, value[, timezone])` truncates date and time data to the specified part of date. For example, `date_trunc('month',now())` returns the datetime at the beginning of the current month. Possible unit values are:
 
 * year
 * quarter
@@ -219,4 +185,4 @@ It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub
 
 ### earliest_ts
 
-`earliest_ts()` shortcut for `earliest_timestamp()`
+`earliest_ts()` is a shortcut for `earliest_timestamp()`
