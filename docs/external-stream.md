@@ -2,7 +2,9 @@
 
 # External Stream
 
-You can also create **external streams** in Timeplus to query data in the external systems without loading the data into Timeplus. The main benefit for doing so is to keep a single source of truth in the external systems (e.g. Kafka), without duplicating them. You can run streaming analytics with the external streams in the similar way as other streams, with some limitations. 
+You can also create **external streams** in Timeplus to query data in the external systems without loading the data into Timeplus. The main benefit for doing so is to keep a single source of truth in the external systems (e.g. Kafka), without duplicating them. In many cases, this can also achieve even lower latency to process Kafka data, because the data is read by Timeplus database, without other components.
+
+You can run streaming analytics with the external streams in the similar way as other streams, with some limitations. 
 
 ## supported external systems
 
@@ -11,11 +13,11 @@ The supported external systems are:
 * Open source Apache Kafka or Redpanda, without authentication. 
 * Confluent Cloud with SASL Plain authentication.
 
-The topics should contain messages in plain-text or JSON format.
+The topics should contain messages in plain-text or JSON format. A single `raw` column will be created in the stream to capture the value of the messages in Kafka.
 
 ## create an external stream
 
-To create an external stream, go to the **STREAMS** page, then click the button on the right side and change it to **Create an external stream**. Set the stream name, Kafka broker(s) and topic name. Choose the right authentication method and click **Create**.
+To create an external stream, go to the **Data Ingestion** page, then click the **Add Data** button on the right side and choose **External Streams** in the popup dialog. Set the stream name, Kafka broker(s) and topic name. Choose the right authentication method and click **Create**. You cannot customize the stream schema. A single `raw` column will be created in the stream to capture the value of the messages in Kafka.
 
 ## query external streams
 

@@ -102,7 +102,7 @@ const sidebars = {
               { type: 'category', label: 'Query Patterns', link: { type: 'doc', id: 'usecases' }, items: ['sql-pattern-topn'] }, 
               'query-api']
     },
-    'transformation',
+    //'transformation',
     'viz',
     'faq',
     'issues',
