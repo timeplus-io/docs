@@ -58,6 +58,7 @@ const sidebars = {
         label: 'with ingest API'
       }]
     },
+    'showcases',
     {
       type: 'category',
       label: 'Concepts',
