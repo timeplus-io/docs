@@ -2,7 +2,9 @@
 
 # 外部流
 
-您也可以在 Timeplus 中创建 **外部流** 来查询外部系统中的数据，而不需要将数据加载到 Timeplus 中。 这样做的主要好处是在外部系统（例如Kafka）中保持一个单一的事实来源，而不是复制它们。 您可以以与其他流类似的方式对外部流运行流分析，但有一些限制。
+您也可以在 Timeplus 中创建 **外部流** 来查询外部系统中的数据，而不需要将数据加载到 Timeplus 中。 这样做的主要好处是在外部系统（例如Kafka）中保持一个单一的事实来源，而不是复制它们。 In many cases, this can also achieve even lower latency to process Kafka data, because the data is read by Timeplus database, without other components.
+
+您可以以与其他流类似的方式对外部流运行流分析，但有一些限制。
 
 ## 支持的外部系统
 
@@ -11,11 +13,11 @@
 * 开源 Apache Kafka 或 Redpanda，无需身份验证。
 * Confluent Cloud 与SASL Plain 认证。
 
-主题应包含纯文本或 JSON 格式的消息。
+主题应包含纯文本或 JSON 格式的消息。 A single `raw` column will be created in the stream to capture the value of the messages in Kafka.
 
 ## 创建外部流
 
-要创建外部流，请转到 **STREAMS** 页， 然后点击右侧的按钮，将其更改为 **创建外部流**。 设置流名称，Kafka 经纪人和主题名称。 选择正确的身份验证方法，然后点击 **创建**。
+To create an external stream, go to the **Data Ingestion** page, then click the **Add Data** button on the right side and choose **External Streams** in the popup dialog. 设置流名称，Kafka 经纪人和主题名称。 选择正确的身份验证方法，然后点击 **创建**。 You cannot customize the stream schema. A single `raw` column will be created in the stream to capture the value of the messages in Kafka.
 
 ## 查询外部流
 
