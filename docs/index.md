@@ -1,6 +1,6 @@
-# Timeplus documentation
+# Introduction
 
-Timeplus is a fast and powerful real-time analytics platform.
+Timeplus is a streaming-first data analytics platform. It provides powerful end-to-end capabilities to help teams process streaming and historical data quickly and intuitively, accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock streaming data value using SQL. The Timeplus console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud, Redpanda, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to other systems or individuals, and create dashboards and visualizations.
 
 ![overview](/img/overview.png)
 
@@ -16,5 +16,5 @@ Timeplus has a high performance streaming SQL engine, leveraging vectorized data
 
 Timeplus is not only a streaming SQL database, it provides end to end analytic functionalities.  Timeplus supports various data source connections such as Apache Kafka, Amazon S3 and Amazon Kinesis.  Timeplus provides a web client where the user can interactively do data analysis in real-time.  Real time visualization and dashboards are provided.  The user can also use API to interact with the data or send the analytic result to downstream data systems such as Apache Kafka, Databases , Data warehouse or Data lakes.  Alerts are provided so that the users can make real time actions based on the anomaly detected by the streaming analytic result.
 
-Please check the [Demo Scenario](usecases) for a comprehensive list of our key capabilities.
+Please check the [Showcases](showcases) page for a comprehensive list of our key use cases and capabilities.
 

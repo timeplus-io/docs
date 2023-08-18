@@ -130,6 +130,10 @@ It can be also used in streaming queries to show the latest datetime with millis
 
 ✅ historical query
 
+### date_diff_within
+
+`date_diff_within(timegap,time1, time2)` returns true or false.  This function only works in [stream-to-stream join](query-syntax#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
+
 ### emit_version
 
 `emit_version()` to show an auto-increasing number for each emit of streaming query result. It only works with streaming aggregation, not tail or filter. 
