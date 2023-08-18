@@ -1,6 +1,6 @@
-# Timeplus文档
+# Introduction
 
-Timeplus是一个快速和强大的实时分析平台。
+Timeplus is a streaming-first data analytics platform. It provides powerful end-to-end capabilities to help teams process streaming and historical data quickly and intuitively, accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock streaming data value using SQL. The Timeplus console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud, Redpanda, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to other systems or individuals, and create dashboards and visualizations.
 
 ![概览](/img/overview.png)
 
@@ -16,5 +16,5 @@ Timeplus具有高性能流式SQL引擎，带动矢量化数据计算能力。 �
 
 Timeplus不仅仅是流式SQL数据库，它提供了端到端分析能力。  Timeplus支持各种数据源连接，如Apache Kafka、Amazon S3和Amazon Kinesis。  Timeplus提供了一个用户能够实时交互进行数据分析的网页。  提供实时可视化和仪表板。  用户也可以使用 API 与数据交互或将分析结果发送到下游数据系统，例如Apache Kafka、数据库、数据仓或数据湖。  提供警报，以便用户能够根据流式分析结果检测到的异常进行实时操作。
 
-请检查 [演示场景](usecases) 查看我们的关键功能的完整列表。
+Please check the [Showcases](showcases) page for a comprehensive list of our key use cases and capabilities.
 
