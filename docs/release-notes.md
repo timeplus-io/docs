@@ -2,6 +2,17 @@
 
 This page summarizes changes in each major update in Timeplus, including new features and important bug fixes.
 
+## Aug 21, 2023
+
+**Query and Results**
+  * On the Query page, we've enhanced the SQL editor to support multiline SQL. The editor will now auto-expand as you type.
+  * When viewing row details in the results table, press the `up` or `down` arrows on your keyboard to see details for the previous or next row.
+
+**Console UI**
+  * On the Data Ingestion page, the Add Data pop-up now shows sources directly (such as Apache Kafka, Confluent Cloud, Redpanda etc.).
+  * On the Data Lineages page, if you move the tiles around, we will remember their new positions the next time you visit this page.
+  * When you delete an API key, we will now show a pop-up to confirm the deletion. 
+
 ## Aug 8, 2023
 
 Soft launch for the Cloud GA (version 1.3.x).
