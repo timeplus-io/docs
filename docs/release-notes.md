@@ -10,7 +10,7 @@ This page summarizes changes in each major update in Timeplus, including new fea
 
 **Console UI**
   * On the Data Ingestion page, the Add Data pop-up now shows sources directly (such as Apache Kafka, Confluent Cloud, Redpanda etc.).
-  * On the Data Lineages page, if you move the tiles around, we will remember their new positions the next time you visit this page.
+  * On the Data Lineages page, if you move the tiles around, we will remember their new positions the next time you visit this page. To return to default positions, click the Reset Layout button in the top right corner. 
   * When you delete an API key, we will now show a pop-up to confirm the deletion. 
 
 ## Aug 8, 2023
