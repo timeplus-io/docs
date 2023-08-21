@@ -5,7 +5,7 @@ This page summarizes changes in each major update in Timeplus, including new fea
 ## Aug 21, 2023
 
 **Query and Results**
-  * On the Query page, we've enhanced the SQL editor to support multiline SQL. The editor will now auto-expand as you type.
+  * On the Query page, we've enhanced the SQL editor to support multiline SQL. The editor will now auto-expand as you type. Click the small arrows icon below the editor to toggle auto-expand. 
   * When viewing row details in the results table, press the `up` or `down` arrows on your keyboard to see details for the previous or next row.
 
 **Console UI**
