@@ -4,7 +4,7 @@
 
 :::info
 
-We recently introduced a new table function [changelog](functions_for_streaming#changelog) to dynamically create a changelog stream based on an append-only stream by specifying the primary key column(s) and the version column, or create a changelog stream based on an [versioned stream](versioned-stream). 它专为高级用例而设计，例如按主键处理迟到事件。 Please check the documentation of [changelog](functions_for_streaming#changelog) for details.
+我们最近引入了一个新的表函数 [changelog](functions_for_streaming#changelog) 通过指定主键列和版本列，动态地创建基于仅追加流的变更日志流，或者基于 [多版本流](versioned-stream)创建变更日志流。 它专为高级用例而设计，例如按主键处理迟到事件。 详细信息请检查 [更新日志](functions_for_streaming#changelog) 的文档。
 
 :::
 
@@ -85,7 +85,7 @@ We recently introduced a new table function [changelog](functions_for_streaming#
 
 ## 在 JOIN 中使用变更日志流作为查询
 
-在上述示例中，您总是获得具有相同主键的事件的最新版本。 This is very useful when such streams acts as the "lookup-table" for the JOIN.
+在上述示例中，您总是获得具有相同主键的事件的最新版本。 当这样的流充当 JOIN 的“查询表”时，这非常有用。
 
 想象您有一个 `订单` 附加流：
 
@@ -247,7 +247,7 @@ SASL_JAAS_CONFIG=org.apache.kafka.common.security.scram.ScramLoginModule require
 SECURITY_PROTOCOL=SASL_SSL
 ```
 
-或者，您可以在 docker 撰写文件中添加 Redpanda 控制台。 It provides a nice UI for you to add/review topics and manage connectors.
+或者，您可以在 docker 撰写文件中添加 Redpanda 控制台。 它为您添加/查看主题和管理连接器提供了很好的用户界面。
 
 ```yaml
   console:
