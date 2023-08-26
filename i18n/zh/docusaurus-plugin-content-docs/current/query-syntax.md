@@ -48,7 +48,7 @@ FROM devices_utils
 WHERE cpu_usage >= 99
 ```
 
-上面的示例持续评估表 `device_utils` 中新事件的过滤器表达式，过滤事件 `cpu_usage` 小于99。 最后的事件将会流向客户端。
+The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events which have `cpu_usage` less than 99. 最后的事件将会流向客户端。
 
 ### 全局流聚合 {#global}
 
