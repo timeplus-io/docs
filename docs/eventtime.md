@@ -8,6 +8,8 @@ Event time is used to identify when the event is generated, like a birthday to a
 
 By default, the `_tp_time` column is in `datetime64(3, 'UTC')` type with millisecond precision. You can also create it it in `datetime` type with second precision. 
 
+When you are about to create a new stream, please choose the right column as the event time. If no column is specified, then Timeplus will use the current timestamp as the value of `_tp_time` It's not recommended to rename a column as _tp_time at the query time, since it will lead to unexpected behaviour, specially for [Time Travel](usecases#s-time-travel).
+
 ## Why event time is treated differently
 
 Event time is used almost everywhere in Timeplus data processing and analysis workflow:

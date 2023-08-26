@@ -42,7 +42,7 @@ FROM devices_utils
 WHERE cpu_usage >= 99
 ```
 
-The above example continuously evaluates the filter expression on the new events in the table `device_utils` to filter out events
+The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events
 which have `cpu_usage` less than 99. The final events will be streamed to clients.
 
 ### Global Streaming Aggregation {#global}
