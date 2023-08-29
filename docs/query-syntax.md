@@ -2,7 +2,7 @@
 
 ## Streaming SQL Syntax{#select-syntax}
 
-Timeplus introduces several SQL extensions to support streaming processing. The overall syntax looks like
+Timeplus introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
 
 ```sql
 SELECT <expr, columns, aggr>
@@ -13,18 +13,20 @@ EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-Overall a streaming query in Timeplus establishes a long HTTP/TCP connection to clients and continuously evaluates the query and streams back the results according to the `EMIT` policy until end clients
-abort the query or there is some exception happening.
-Timeplus supports some internal `SETTINGS` to fine tune the streaming query processing behaviors. Here is an exhaustive list of them. We will come back to them in sections below.
+Overall, a streaming query in Timeplus establishes a long HTTP/TCP connection to clients and continuously evaluates the query. It will continue to return results according to the `EMIT` policy until the query is stopped, by the user, end client, or exceptional event. 
 
-1. `query_mode=<table|streaming>`. A general setting which decides if the overall query is historical data processing or streaming data processing. By default, it is `streaming`.
-2. `seek_to=<timestamp|earliest|latest>`. A setting which tells Timeplus to seek old data in streaming storage by a timestamp. It can be a relative timestamp or an absolute timestamp. By default, it is `latest` which means don't seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'` 
+Timeplus supports some internal `SETTINGS` to fine tune the streaming query processing behaviors, listed below:
+
+1. `query_mode=<table|streaming>`. A general setting which decides if the overall query is streaming data processing or shistorical data processing. By default, it is `streaming`.
+2. `seek_to=<timestamp|earliest|latest>`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. It can be a relative timestamp or an absolute timestamp. By default, it is `latest`, which tells Timeplus to not seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'` 
 
 :::info
 
-Please note, since Jan 2023, `SETTINGS seek_to=..` is no longer recommended to use. Please use `WHERE _tp_time>='2023-01-01'` or something similar. `_tp_time` is the special timestamp column in each raw stream to represent the event time. You can use `>`, `<`, `BETWEEN .. AND` operations to filter the data in Timeplus stream storage.
+Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`. Please use `WHERE _tp_time>='2023-01-01'` or similar. `_tp_time` is the special timestamp column in each raw stream to represent the event time. You can use `>`, `<`, `BETWEEN .. AND` operations to filter the data in Timeplus stream storage.
 
 :::
+
+\ 
 
 ### Streaming Tailing
 
@@ -44,6 +46,8 @@ WHERE cpu_usage >= 99
 
 The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events
 which have `cpu_usage` less than 99. The final events will be streamed to clients.
+
+\
 
 ### Global Streaming Aggregation {#global}
 
@@ -72,6 +76,8 @@ EMIT PERIODIC 5s
 Like in [Streaming Tail](#streaming-tailing), Timeplus continuously monitors new events in the stream `device_utils`, does the filtering and then
 continuously does **incremental** count aggregation. Whenever the specified delay interval is up, project the current aggregation result
 to clients.
+
+\
 
 ### Tumble Streaming Window Aggregation {#tumble}
 
@@ -157,6 +163,8 @@ FROM tumble(devices, now64(3, 'UTC'), 5s)
 GROUP BY device, window_end
 EMIT AFTER WATERMARK DELAY 2s;
 ```
+
+\
 
 ### Hop Streaming Window Aggregation {#hop}
 
