@@ -24,7 +24,7 @@ Timeplus supports some internal `SETTINGS` to fine tune the streaming query proc
 
 Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`. Please use `WHERE _tp_time>='2023-01-01'` or similar. `_tp_time` is the special timestamp column in each raw stream to represent the event time. You can use `>`, `<`, `BETWEEN .. AND` operations to filter the data in Timeplus stream storage.
 
-:::  
+:::
 
 ### Streaming Tailing
 
@@ -43,8 +43,7 @@ WHERE cpu_usage >= 99
 ```
 
 The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events
-which have `cpu_usage` less than 99. The final events will be streamed to clients.  
-
+which have `cpu_usage` less than 99. The final events will be streamed to clients.
 
 ### Global Streaming Aggregation {#global}
 
@@ -72,7 +71,7 @@ EMIT PERIODIC 5s
 
 Like in [Streaming Tail](#streaming-tailing), Timeplus continuously monitors new events in the stream `device_utils`, does the filtering and then
 continuously does **incremental** count aggregation. Whenever the specified delay interval is up, project the current aggregation result
-to clients.  
+to clients.
 
 
 ### Tumble Streaming Window Aggregation {#tumble}
@@ -158,8 +157,7 @@ SELECT device, max(cpu_usage)
 FROM tumble(devices, now64(3, 'UTC'), 5s)
 GROUP BY device, window_end
 EMIT AFTER WATERMARK DELAY 2s;
-```  
-
+```
 
 ### Hop Streaming Window Aggregation {#hop}
 
