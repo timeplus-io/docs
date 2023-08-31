@@ -2,7 +2,7 @@
 
 ## 串流SQL 语法{#select-syntax}
 
-Timeplus引入了几个SQL扩展来支持流式处理。 总的语法看起来像的
+Timeplus引入了几个SQL扩展来支持流式处理。 The overall syntax looks like this:
 
 ```sql
 SELECT <expr, columns, aggr>
@@ -21,14 +21,16 @@ EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-总体来说，Timeplus中的流式查询建立了一个与客户端的长长HTTP/TCP连接，并且根据 `EMIT` 策略持续评估查询和流返回结果，直到结束客户端 中止查询或出现一些异常。 时间插件支持一些内部 `设置` 来微调流式查询处理行为。 以下是一份详尽无遗的清单。 我们将在下面的章节中再谈这些问题。
+Overall, a streaming query in Timeplus establishes a long HTTP/TCP connection to clients and continuously evaluates the query. It will continue to return results according to the `EMIT` policy until the query is stopped, by the user, end client, or exceptional event.
 
-1. `query_mode=<table|streaming>` 总体查询是否为历史数据处理或流数据处理的常规设置。 默认情况下，是 `串流`。
-2. `seek_to=<timestamp|earliest|latest>`. 设置告诉 Timeplus 通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
+Timeplus supports some internal `SETTINGS` to fine tune the streaming query processing behaviors, listed below:
+
+1. `query_mode=<table|streaming>` A general setting which decides if the overall query is streaming data processing or shistorical data processing. 默认情况下，是 `串流`。
+2. `seek_to=<timestamp|earliest|latest>`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. 它可以是相对的时间戳或绝对的时间戳。 By default, it is `latest`, which tells Timeplus to not seek old data. 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
 :::info
 
-请注意，自2023年1月起， `SETTINGS seek_to=..` 不再被推荐使用。 请使用 `WHERE _tp_time>='2023-01-01'` 或类似的WHERE条件。 `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
+Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`. Please use `WHERE _tp_time>='2023-01-01'` or similar. `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
 
 :::
 
@@ -73,6 +75,7 @@ EMIT PERIODIC 5s
 ```
 
 正如 [流式扫描](#streaming-tailing), Timeplus持续监控数据流`device_utils`, 不断过滤和 **增量**计数 每当指定的延迟间隔为上，项目当前的聚合结果 到客户端。 每当指定的延迟间隔为上，项目当前的聚合结果 到客户端。
+
 
 ### 简易流窗口聚合 {#tumble}
 
