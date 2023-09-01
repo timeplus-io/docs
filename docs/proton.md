@@ -6,7 +6,7 @@ Proton is a unified streaming and historical data processing engine built on top
 - [Architecture](#architecture)
 - [Key Streaming Functionalities](#key-streaming-functionalities)
 - [Docs](#docs)
-- [Staring with Timeplus Cloud](#starting-with-timeplus-cloud)
+- [Starting with Timeplus Cloud](#starting-with-timeplus-cloud)
 - [Starting with Proton in Container](#starting-with-proton-in-docker-container)
 - [License](#license)
 - `[Contributing](#contributing)`
@@ -49,9 +49,9 @@ Interested users can refer [How Timeplus Unifies Streaming and Historical Data P
 8. JavaScript UDF / UDAF
 9. Materialize View
 
-## Docs
+## Documentations
 
-For more streaming query functionalities, SQL syntax, functions, aggregation functions etc, see our [User Documentation](https://docs.timeplus.com/)
+For more streaming query functionalities, SQL syntax, functions, aggregation functions etc, see our [Documentation](https://docs.timeplus.com/)
 
 ## Starting with Timeplus Cloud
 
