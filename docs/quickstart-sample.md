@@ -7,18 +7,21 @@ Timeplus provides a built-in sample data source to generate streaming data for s
 1. Login to your Timeplus workspace, and let's start by creating a sample [source](glossary#source). In the left side navigation menu, click **Data Ingestion**, then click the **Add Data** button in the top right corner.
 
 <img width="1460" alt="Creating a sample data source." src="https://github.com/timeplus-io/docs/assets/107260595/efea5e5a-a1ac-4166-9943-20a027f707da">
-<br>
+
+
 2. In this pop-up, click the **Sample Dataset** link.
 
 <img width="1458" alt="sample-source-2" src="https://github.com/timeplus-io/docs/assets/107260595/2cde4ca7-91b4-4d1d-9e2f-95cbc29d2275">
-<br>
+
+
 3. Choose from one of 3 templates:
    1. **IoT**: Data for 3 devices
    2. **User logins**: Data for 2 users and 2 cities
    3. **DevOps**: Data for 3 hosts and 3 regions
       
 <img width="1459" alt="sample-source-3" src="https://github.com/timeplus-io/docs/assets/107260595/a2a86bee-d5c0-4262-aff7-f32a4bb86829">
-<br>
+
+
 4. Preview your data and create a new [stream](glossary#stream) to load your data into. For the stream name, it can contain only letters, numbers, or underscores, and must start with a letter, for example `iot_data`. You can also give it an optional description.
 
 <img width="1457" alt="sample-source-4" src="https://github.com/timeplus-io/docs/assets/107260595/11acbc4b-f000-4aa1-8966-b81e138763ea">
