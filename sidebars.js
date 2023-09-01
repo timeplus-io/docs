@@ -114,6 +114,15 @@ const sidebars = {
       },
       items: ['apikey','terraform']
     },
+    {
+      type: 'category',
+      label: 'Open Source Proton',
+      link: {
+        type: 'doc',
+        id: 'proton'
+      },
+      items: ['apikey','terraform']
+    },
     'faq',
     'issues',
     {
