@@ -23,21 +23,15 @@ select raw:key1 as k1, raw:key2::int as k2 from foo
 ```
 
 
-
 ## Step 2: Create an API Key
-
-
 
 You need to create an API key to access Timeplus REST API. To do so:
 
-1. Click the user icon on the top-right corner.
-2. Choose **Personal Settings**
-3. Choose the 2nd tab **API Key Management**
-4. Click the **Create API Key** button
-5. Set a readable name and choose an expiration date
-6. Save the API key securely in your computer. You are not going to retrieve the plain text key again in the console.
-
-
+1. Click on your **avatar** in the top right corner.
+2. In the dropdown, click **Personal Settings**.
+3. In the API Keys section, click the **Create API Key** button.
+4. Enter an optional description for the key, choose an expiration date if needed, and click **Create**.
+5. The API key will only be shown to you once - make sure you securely save it right away. You won’t be able to retrieve the key again later in the console. 
 
 ## Step 3: Send data to Timeplus with the API key
 
