@@ -92,7 +92,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Query Guide',
-      collapsed: false,
+      collapsed: true,
       link: {
         type: 'doc',
         id: 'query-guide'
@@ -106,6 +106,14 @@ const sidebars = {
     },
     //'transformation',
     'viz',
+    {
+      type: 'category',
+      label: 'Manage',
+      link: {
+        type: 'generated-index',
+      },
+      items: ['apikey','terraform']
+    },
     'faq',
     'issues',
     {
