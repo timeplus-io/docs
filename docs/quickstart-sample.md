@@ -29,7 +29,7 @@ Timeplus provides a built-in sample data source to generate streaming data for s
 5. Finally, you can give this sample Source a name, such as `iot_data`. By default, we will populate the source name field with the same name as the stream you've just created. You can also review the source configuration, and click **Create the Source**. Your new sample data will sstart loading into the new stream immediately. 
 
 <img width="1459" alt="sample-source-5" src="https://github.com/timeplus-io/docs/assets/107260595/2ef78f93-d2f8-44eb-be7d-86d3818328ed">
-<br>  
+
 ## Explore the Streaming Data
 
 6. To check out the data in your newly created stream, you can either:
@@ -37,6 +37,7 @@ Timeplus provides a built-in sample data source to generate streaming data for s
 
 <img width="1460" alt="streams-list" src="https://github.com/timeplus-io/docs/assets/107260595/0d3f2b53-691b-4fd9-a9df-dba11fadb661">
 <br>  
+
    2. Go to the Query page, and click on the **name of the stream**, `iot_data` in the SQL helper below the SQL editor.
 
 <img width="1460" alt="stream_name-in-list" src="https://github.com/timeplus-io/docs/assets/107260595/d174796d-2da1-4852-809a-a719145341b0">
