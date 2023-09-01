@@ -25,12 +25,13 @@ Line charts work best with time series data.
   * Show/hide legend
   * Show/hide data points
 
+<img width="1293" alt="line-chart" src="https://github.com/timeplus-io/docs/assets/107260595/eb453536-7242-41be-8b72-f8c8e62b8e4e">
 
 ### Area chart
 
 Shows a stacked area chart, with the same format settings as **Line Chart**.
 
-
+<img width="1292" alt="area-chart" src="https://github.com/timeplus-io/docs/assets/107260595/817f8458-f036-4b08-b17c-e8c20159c07c">
 
 ### Column chart
 
@@ -43,10 +44,13 @@ Shows a stacked area chart, with the same format settings as **Line Chart**.
 * Format settings:
   * X-axis title, Y-axis title, column color, show/hide data label (with decimal and prefix/suffix unit), show/hide grid lines, show/hide legend
 
+<img width="1291" alt="column-chart" src="https://github.com/timeplus-io/docs/assets/107260595/b424c62f-4c0a-4c84-b1c0-99a129660639">
 
 ### Bar chart
 
 Similar to the Column chart, with data points shown as horizontal bars instead of vertical columns. Best fit for show top-N values.
+
+<img width="1294" alt="bar-chart" src="https://github.com/timeplus-io/docs/assets/107260595/37851d48-9e72-4e49-86d7-fa7f08f31896">
 
 ### Single value chart
 
@@ -59,6 +63,8 @@ Similar to the Column chart, with data points shown as horizontal bars instead o
   * Unit as suffix or prefix
   * Show/hide sparkline
   * Show/hide delta for last value vs. the current value
+
+<img width="1292" alt="single-value-chart" src="https://github.com/timeplus-io/docs/assets/107260595/3ac01886-7ece-4d7a-9514-48ee79a5ee74">
 
 ### Map chart
 
