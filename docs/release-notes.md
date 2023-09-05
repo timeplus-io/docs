@@ -2,6 +2,27 @@
 
 This page summarizes changes in each major update in Timeplus, including new features and important bug fixes.
 
+## Sep 5, 2023
+
+The Terraform Provider for Timeplus is now published - [check it out](https://registry.terraform.io/providers/timeplus-io/timeplus/latest). 
+
+**Query**
+  * You can now edit a query without canceling it, and then run the new query, or open it in a new tab.
+  * When the SQL editor is empty, the `Format` button is now disabled.
+
+**Dashboards and Charts**
+  * We improved our color scheme selector in charts, letting you choose from a set of pre-made color schemes, in addition to using multiple shades of a single color.
+  * While viewing a dashboard, you can view or edit JSON definitions.
+
+**Data Ingestions**
+  * When you upload a CSV file, the historical store retention policy of the newly created stream will by default be set as "Don't remove older data" (previously 30 days). This can work better when you use the CSV for lookup table or quick tests with historical data.
+
+**Workspace Settings**
+  * Workspace owners can now opt in or out of anonymous page view tracking, in the new Privacy tab in Workspace Settings. Please see our [Privacy Policy](https://www.timeplus.com/privacy-policy) for more details on how your workspace data is tracked and used.
+
+**Other Enhancement**
+  * We've added a banner to inform you when a new version of Timeplus is deployed, and prompt you to refresh your browser to get the latest version. We also show a similar banner if we detect network issues.
+
 ## Aug 21, 2023
 
 **Infrastructure as Code**
