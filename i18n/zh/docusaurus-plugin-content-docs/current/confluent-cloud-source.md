@@ -6,7 +6,7 @@ We are pleased to partner with Confluent Cloud, allowing you to easily connect y
 
 1. From the left side navigation menu, click **Data Ingestion**, then click the **Add Data** button in the top right corner.
 2. In this pop-up, you’ll see the sources you can connect and other methods to add your data. Click **Confluent Cloud**.
-3. Enter the bootstrap UR for your Confluent Cloud cluster, and set the cloud API key and secret. 点击 **下一个**。
+3. Enter the bootstrap UR for your Confluent Cloud cluster, and set the Kafka API key and secret. 点击 **下一个**。
 4. Enter the name of the Kafka topic, and specify the ‘read as’ data format. We currently support JSON, Avro, Protobuf, Text and other formats.
     1. If the data in the Kafka topic is in JSON format, but the schema may change over time, we recommend you choose Text. This way, the entire JSON document will be saved as a string, and you can apply JSON related functions to extract value, even if the schema changes.
     2. If you choose Avro, there is an option for 'Auto Extraction'. By default, this is toggled off, meaning the entire message will be saved as a string. If you toggle it on, then the top level attribute in the AVRO message will be put into different columns. 这对您更方便查询，但不支持模式进化。 When Avro is selected, you also need to specify the address, API key, and secret key for the schema registry.
