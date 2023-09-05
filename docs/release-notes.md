@@ -2,6 +2,11 @@
 
 This page summarizes changes in each major update in Timeplus, including new features and important bug fixes.
 
+## Sep 5, 2023
+
+  * **Chart color schemes:** We improved our color scheme selector in charts, letting you choose from a set of pre-made color schemes, in addition to using multiple shades from a single color.
+  * **Queries:** You can now edit a query without cancelling it, and then run the new query, or open it in a new tab. 
+
 ## Aug 21, 2023
 
 **Infrastructure as Code**
