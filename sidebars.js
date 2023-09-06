@@ -116,12 +116,12 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Open Source Proton',
+      label: 'Timeplus Open Core',
       link: {
         type: 'doc',
         id: 'proton'
       },
-      items: ['apikey','terraform']
+      items: ['proton-architecture','proton-ddl']
     },
     'faq',
     'issues',
