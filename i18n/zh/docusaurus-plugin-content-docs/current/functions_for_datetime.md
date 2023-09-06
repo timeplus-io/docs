@@ -52,19 +52,25 @@
 
 `to_start_of_year(date)`
 
-将日期或带有时间的日期舍入到一年中的第一天。 返回日期。
+将日期或带有时间的日期舍入到这个年的第一天。 返回日期。
 
 ### to_start_of_quarter
 
 `to_start_of_quarter(date)`
 
-将日期或带有时间的日期舍入到一年中的第一季度。 返回日期。
+将日期或带有时间的日期舍入到这个季度的第一天。 返回日期。
 
 ### to_start_of_month
 
 `to_start_of_month(date)`
 
-将日期或带有时间的日期舍入到一年中的第一个月。 返回日期。
+将日期或带有时间的日期舍入到这个月的第一天。 返回日期。
+
+### to_start_of_week
+
+`to_start_of_week(date)`
+
+将日期或带有时间的日期舍入到这个周的第一天。 返回日期。
 
 ### to_start_of_day
 
