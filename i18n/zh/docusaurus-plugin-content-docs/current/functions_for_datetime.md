@@ -54,6 +54,10 @@
 
 `to_start_of_month(date)` 将日期或带有时间的日期返回到该月的第一天。 返回日期。
 
+### to_start_of_week
+
+`to_start_of_week(date)` rounds down a date or date with time to the first day of the week. 返回日期。
+
 ### to_start_of_day
 
 `to_start_of_day(date)` 将日期或带时间的日期倒退到该天的开始。
