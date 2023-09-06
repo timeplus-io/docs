@@ -54,6 +54,10 @@ For example `to_unix_timestamp(now())` returns `1644272032`
 
 `to_start_of_month(date)` rounds down a date or date with time to the first day of the month. Returns the date.
 
+### to_start_of_week
+
+`to_start_of_week(date)` rounds down a date or date with time to the first day of the week. Returns the date.
+
 ### to_start_of_day
 
 `to_start_of_day(date)` rounds down a date with time to the start of the day.
