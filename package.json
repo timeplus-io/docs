@@ -12,6 +12,7 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
+    "rest-doc": "redocly bundle external@latest --output external.yaml && redocly build-docs ./external.yaml -o static/rest.html && rm ./external.yaml",
     "crowdin": "crowdin",
     "write-heading-ids": "docusaurus write-heading-ids"
   },
