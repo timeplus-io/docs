@@ -1,0 +1,26 @@
+apis:
+  external@latest:
+    root: ../neutron/docs/swagger.yaml
+    decorators:
+      remove-x-internal: on
+
+theme:
+  openapi:
+    theme:
+      colors:
+        primary:
+          main: "#D53C97"
+          light: rgba(246, 20, 63, 0.42)
+      typography:
+        fontFamily: Inter, Fira Sans, Roboto, sans-serif
+        links:
+          color: "#D53C97"
+          visited: "#D53C97"
+          hover: "##961F68"
+      sidebar:
+        width: 300px
+        textColor: "#8A8A8A"
+        backgroundColor: "#2C2C2C"
+      rightPanel:
+        backgroundColor: "#2C2C2C"
+        textColor: "#ffffff"
