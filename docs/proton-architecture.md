@@ -25,7 +25,7 @@ In background, there is a separate thread tailing the delta data from NativeLog 
 
 ## External Stream
 
-In quite lots of scenarios, data is already in Kafka / Redpanda or other streaming data hubs, users can create external streams to point to the streaming data hub and do streaming query processing directly and then either materialize them in Proton or send the query results to external systems.
+In quite lots of scenarios, data is already in Kafka / Redpanda or other streaming data hubs, users can create [external streams](external-stream) to point to the streaming data hub and do streaming query processing directly and then either materialize them in Proton or send the query results to external systems.
 
 
 
