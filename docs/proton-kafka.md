@@ -77,3 +77,78 @@ INTO ext_stream
 AS SELECT _tp_time, car_id, speed FROM car_live_data WHERE car_type in (1,2,3)
 ```
 
+## Tutorial with Docker Compose {#tutorial}
+
+A docker-compose file is created to bundle proton image with Redpanda (as lightweight server with Kafka API), Redpanda Console, and [owl-shop](https://github.com/cloudhut/owl-shop) as sample live data.
+
+1. Download the docker-compose.yaml and put into a new folder.
+2. Open a terminal and run `docker compose up` in this folder.
+3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data.
+4. Use `proton-client` to run SQL to query such Kafka data: `docker exec -it <folder>-proton-1 proton-client` You can get the container name via `docker ps`
+5. Create an external stream to connect to a topic in the Kafka/Redpanda server and run SQL to filter or aggregate data. 
+
+### Create an external stream
+
+```sql
+CREATE EXTERNAL STREAM frontend_events(raw string)
+SETTINGS type='kafka', 
+         brokers='redpanda:9092',
+         topic='owlshop-frontend-events'
+```
+
+### Explore the data in Kafka
+
+Then you can scan incoming events via
+
+```sql
+select * from frontend_events
+```
+
+There are about 10 rows in each second. Only one column `raw` with sample data as following:
+
+```json
+{
+  "version": 0,
+  "requestedUrl": "http://www.internationalinteractive.name/end-to-end",
+  "method": "PUT",
+  "correlationId": "0c7e970a-f65d-429a-9acf-6a136ce0a6ae",
+  "ipAddress": "186.58.241.7",
+  "requestDuration": 678,
+  "response": { "size": 2232, "statusCode": 200 },
+  "headers": {
+    "accept": "*/*",
+    "accept-encoding": "gzip",
+    "cache-control": "max-age=0",
+    "origin": "http://www.humanenvisioneer.com/engage/transparent/evolve/target",
+    "referrer": "http://www.centralharness.org/bandwidth/paradigms/target/whiteboard",
+    "user-agent": "Opera/10.41 (Macintosh; U; Intel Mac OS X 10_9_8; en-US) Presto/2.10.292 Version/13.00"
+  }
+}
+```
+
+Cancel the query by pressing Ctrl+C.
+
+### Get live count
+
+```sql
+select count() from frontend_events
+```
+
+This query will show latest count every 2 seconds, without rescanning older data. This is a good example of incremental computation in Proton.
+
+### Filter events by JSON attributes
+
+```sql
+select _tp_time, raw:ipAddress, raw:requestedUrl from frontend_events where raw:method='POST'
+```
+
+Once you start the query, any new event with method value as POST will be selected. `raw:key` is a shortcut to extract string value from the JSON document. It also supports nested structure, such as `raw:headers.accept`
+
+### Aggregate data every second
+
+```sql
+select window_start, raw:method, count() from tumble(frontend_events,now(),1s)
+group by window_start, raw:method
+```
+
+Every second, it will show the aggregation result for number of events per HTTP method.
