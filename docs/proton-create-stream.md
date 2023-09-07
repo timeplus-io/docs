@@ -25,6 +25,12 @@ CREATE STREAM [IF NOT EXISTS] [db.]<stream_name>
 SETTINGS <event_time_column>='<col>', <key1>=<value1>, <key2>=<value2>, ...
 ```
 
+:::info
+
+Stream creation is an async process.
+
+:::
+
 If you omit the database name, `default` will be used. Stream name can be any utf-8 characters and needs backtick quoted if there are spaces in between. Column name can be any utf-8 characters and needs backtick quoted if there are spaces in between.
 
 #### Data types
@@ -54,9 +60,20 @@ SETTINGS event_time_column='my_datetime_col'
 
  It can be any sql expression which results in datetime64 type.
 
-#### Retention Policy
+#### Retention Policies
 
-TODO
+Proton supports retention policies to automatically remove out-of-date data from the streams.
+
+##### For Historical Storage
+
+Proton leverages Clickhouse TTL expression for the retention policy of historical data. When you create the stream, you can add ` TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period. 
+
+##### For Streaming Storage
+
+Today it's not exposed in SQL to control the retention policies for streaming storage. In Timeplus Cloud, you can set them via
+
+* logstore_retention_bytes
+* logstore_retention_ms
 
 ### Versioned Stream
 
@@ -84,4 +101,23 @@ The default `version_column` is `_tp_time`. For the data with same primary key(s
 
 ## CREATE RANDOM STREAM
 
+You may use this special stream to generate random data for tests. For example:
+
+```sql
+CREATE RANDOM STREAM devices(device string default 'device'||to_string(rand()%4), location string default 'city'||to_string(rand()%10), temperature float default rand()%1000/10);
+```
+
+The following functions are available to use:
+
+1. rand
+2. rand32
+3. rand64
+4. random_printable_ascii
+5. random_string
+6. random_fixed_string
+
+Data is kept in memory.
+
 ## CREATE EXTERNAL STREAM
+
+Please check [Read/Write Kafka with External Stream](proton-kafka).

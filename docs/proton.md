@@ -18,19 +18,19 @@ SQL is the main interface for Proton. Users can run streaming queries and histor
 
 ## Key Streaming Functionalities
 
-1. Streaming Transformation
-2. Streaming Join (stream to stream, stream to table join)
-3. Streaming Aggregation
-4. Streaming Window Processing (tumble / top / session)
-5. Substream
-6. Data Revision Processing
-7. Federated Streaming Query
-8. JavaScript UDF / UDAF
-9. Materialize View
+1. [Streaming Transformation](usecases#data)
+2. [Streaming Join (stream to stream, stream to table join)](joins)
+3. [Streaming Aggregation](functions_for_agg)
+4. Streaming Window Processing ([tumble](functions_for_streaming#tumble) / [hop](functions_for_streaming#hop) / [session](functions_for_streaming#session))
+5. [Substream](substream)
+6. [Data Revision Processing](changelog-stream)
+7. [Federated Streaming Query with Materialized View](external-stream)
+8. [JavaScript UDF / UDAF](js-udf)
+9. [Materialize View](view#m_view)
 
 ## Get started
 
-### Launch Proton Server and Client with Docker
+### Launch with Docker
 
 After [install Docker engine](https://docs.docker.com/engine/install/) in your OS, pull and run the latest Proton docker image by running:
 
@@ -47,7 +47,7 @@ Run the `proton-client` tool in the docker container to connect to the local pro
 docker exec -it proton proton-client
 ```
 
-### Create Stream, Ingest Data and Query
+### Query on a test stream
 
 In Proton client, run the following SQL to create test stream with random data,
 
@@ -68,7 +68,9 @@ You will get streaming results like this:
 | device3 | 56680741 | 0.3              | 99.9             |
 | Device2 | 56699430 | 0.2              | 99.8             |
 
+### Kafka demo with Docker Compose
 
+TBD
 
 ## Documentation
 
