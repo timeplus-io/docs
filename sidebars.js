@@ -121,7 +121,7 @@ const sidebars = {
         type: 'doc',
         id: 'proton'
       },
-      items: ['proton-architecture','proton-ddl']
+      items: ['proton-architecture','proton-create-stream','proton-alter-stream','proton-drop-stream','proton-create-view','proton-drop-view']
     },
     'faq',
     'issues',
