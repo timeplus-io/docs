@@ -47,6 +47,14 @@ Run the `proton-client` tool in the docker container to connect to the local pro
 docker exec -it proton proton-client
 ```
 
+If you stop the container and want to start it again, you can run
+
+```bash
+docker start -a proton 
+```
+
+
+
 ### Query on a test stream
 
 In Proton client, run the following SQL to create test stream with random data,
