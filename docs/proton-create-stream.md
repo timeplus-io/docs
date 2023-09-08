@@ -104,7 +104,10 @@ The default `version_column` is `_tp_time`. For the data with same primary key(s
 You may use this special stream to generate random data for tests. For example:
 
 ```sql
-CREATE RANDOM STREAM devices(device string default 'device'||to_string(rand()%4), location string default 'city'||to_string(rand()%10), temperature float default rand()%1000/10);
+CREATE RANDOM STREAM devices(
+  device string default 'device'||to_string(rand()%4), 
+  location string default random_from(['SF','Vancouver','Toronto']),
+  temperature float default rand()%1000/10);
 ```
 
 The following functions are available to use:
@@ -115,8 +118,9 @@ The following functions are available to use:
 4. random_printable_ascii
 5. random_string
 6. random_fixed_string
+7. random_from
 
-Data is kept in memory.
+The data of random stream is kept in memory.
 
 ## CREATE EXTERNAL STREAM
 
