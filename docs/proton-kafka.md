@@ -151,4 +151,65 @@ select window_start, raw:method, count() from tumble(frontend_events,now(),1s)
 group by window_start, raw:method
 ```
 
-Every second, it will show the aggregation result for number of events per HTTP method.
+Every second, it will show the aggregation result for the number of events per HTTP method.
+
+### Show a live ASCII bar chart
+
+Combining the interesting [bar](https://clickhouse.com/docs/en/sql-reference/functions/other-functions#bar) function from Clickhouse, you can use the following streaming SQL to visualize the top 5 HTTP methods per your clickstream.
+
+```sql
+select raw:method, count() as cnt, bar(cnt, 0, 40,5) as bar from frontend_events
+group by raw:method order by cnt desc limit 5 by emit_version()
+```
+
+```
+┌─raw:method─┬─cnt─┬─bar───┐
+│ DELETE     │  35 │ ████▍ │
+│ POST       │  29 │ ███▋  │
+│ GET        │  27 │ ███▍  │
+│ HEAD       │  25 │ ███   │
+│ PUT        │  22 │ ██▋   │
+└────────────┴─────┴───────┘
+```
+
+Note:
+
+* This is a global aggregation, emitting results every 2 seconds (configurable).
+* [emit_version()](functions_for_streaming#emit_version) function to show an auto-increasing number for each emit of streaming query result
+* `limit 5 by emit_version()` to get the first 5 rows with the same emit_version(). This is a special syntax in Proton. The regular `limit 5` will cancel the entire SQL once 5 results are returned. But in this streaming SQL, we'd like to show 5 rows for each emit interval.
+
+### Create a materialized view to save notable events in Proton
+
+With External Stream, you can query data in Kafka without saving the data in Proton. You can create a materialized view to selectively save some events, so that even the data in Kafka is removed, they remain available in Timeplus.
+
+For example, the following SQL will create a materialized view to save those broken links with parsed attributes from JSON, such as URL, method, referrer.
+
+```sql
+create materialized view mv_broken_links as
+select raw:requestedUrl as url,raw:method as method, raw:ipAddress as ip, 
+       raw:response.statusCode as statusCode, domain(raw:headers.referrer) as referrer
+from frontend_events where raw:response.statusCode<>'200';
+```
+
+Later on you can directly query on the materialized view:
+
+```sql
+-- streaming query
+select * from mv_broken_links;
+
+-- historical query
+select method, count() as cnt, bar(cnt,0,40,5) as bar from table(mv_broken_links) 
+group by method order by cnt desc;
+```
+
+```
+┌─method─┬─cnt─┬─bar─┐
+│ GET    │  25 │ ███ │
+│ DELETE │  20 │ ██▌ │
+│ HEAD   │  17 │ ██  │
+│ POST   │  17 │ ██  │
+│ PUT    │  17 │ ██  │
+│ PATCH  │  17 │ ██  │
+└────────┴─────┴─────┘
+```
+

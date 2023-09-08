@@ -36,8 +36,6 @@ After [install Docker engine](https://docs.docker.com/engine/install/) in your O
 
 ```bash
 docker run --name proton ghcr.io/timeplus-io/proton:develop
-# above doesn't work, run below as workaround
-docker run --name proton timeplus/proton:develop
 ```
 
 
@@ -78,23 +76,23 @@ You will get streaming results like this:
 
 ### Kafka demo with Docker Compose
 
-A [docker-compose file](https://github.com/timeplus-io/proton/blob/develop/docker-compose.yml) is created to bundle proton image with Redpanda (as lightweight server with Kafka API), Redpanda Console, and [owl-shop](https://github.com/cloudhut/owl-shop) as sample live data.
+A [docker-compose file](https://github.com/timeplus-io/proton/blob/develop/docker-compose.yml) is created to bundle proton image with Redpanda (as a lightweight server with Kafka API), Redpanda Console, and [owl-shop](https://github.com/cloudhut/owl-shop) to generate sample live data.
 
 1. Download the [docker-compose.yml](https://github.com/timeplus-io/proton/blob/develop/docker-compose.yml) and put into a new folder.
 2. Open a terminal and run `docker compose up` in this folder.
 3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data.
-4. Use `proton-client` to run SQL to query such Kafka data: `docker exec -it <folder>-proton-1 proton-client` You can get the container name via `docker ps`
-5. Create an external stream to connect to a topic in the Kafka/Redpanda server and run SQL to filter or aggregate data. Check the [docs](proton-kafka) for details.
+4. Use `proton-client` to run SQL to query such Kafka data: `docker exec -it <folder>-proton-1 proton-client` (You can get the container name via `docker ps`)
+5. Create an external stream to connect to a topic in the Kafka/Redpanda server and run SQL to filter or aggregate data. Check the [tutorial](proton-kafka#tutorial) for details.
 
 ## Documentation
 
 (This will be in README not in doc)
 
-For detailed tutorials and SQL syntax and functions, see our [Documentation](https://docs.timeplus.com/proton)
+For detailed tutorials and SQL syntax and functions, check our [Documentation](https://docs.timeplus.com/proton).
 
 ## Get more with Timeplus Cloud
 
-To get more features, such as sources, sinks, dashboards, alerts, data lineage, you can try the [live demo](https://demo.timeplus.cloud), or create a workspace at [Timeplus Cloud](https://us.timeplus.cloud).
+To access more features, such as sources, sinks, dashboards, alerts, data lineage, you can create a workspace at [Timeplus Cloud](https://us.timeplus.cloud) or try the [live demo](https://demo.timeplus.cloud) with pre-built live data and dashboards.
 
 ## License
 
@@ -106,10 +104,13 @@ We welcome your contributions! If you are looking for issues to work on, try loo
 
 Please see [the wiki](https://github.com/timeplus-io/proton/wiki/Contributing) for more details and see BUILD.md for how to compile Proton in different platforms.
 
-We also encourage users to join [Timeplus Community Slack](https://timeplus.com/slack) and join the dedicated #contributors channel to ask questions.
+We also encourage users to join [Timeplus Community Slack](https://timeplus.com/slack) and join the dedicated #contributing channel to ask questions.
 
 ## Need Help?
 
-- [Timeplus Community Slack](https://timeplus.com/slack) - Join our community slack to connect with our engineers and other users running Proton in #proton channel.
-- For filing bugs, suggesting improvements or requesting new features, help us out by [opening an issue](https://github.com/timeplus-io/proton/issues).
+- [Timeplus Community Slack](https://timeplus.com/slack) - Join our community slack to connect with our engineers and other users
+  - #proton channel for questions about how to use Proton
+  - #contributing channel if you are considering contributing to Proton project
+
+- For filing bugs, suggesting improvements or requesting new features, please [open issues](https://github.com/timeplus-io/proton/issues) on Github.
 
