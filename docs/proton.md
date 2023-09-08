@@ -58,10 +58,10 @@ docker start -a proton
 In Proton client, run the following SQL to create test stream with random data,
 
 ```sql
--- Create stream
-CREATE RANDOM STREAM devices(device string default 'device'||to_string(rand()%4), location string default 'city'||to_string(rand()%10), temperature float default rand()%1000/10);
+-- Create a stream with random data
+CREATE RANDOM STREAM devices(device string default 'device'||to_string(rand()%4), location string default random_from(['SF','Vancouver','Toronto']), temperature float default rand()%1000/10);
 
--- Run the stream query and it is always long running waiting for new data
+-- Run the stream query and it is always long running
 SELECT device, count(*), min(temperature), max(temperature) FROM devices GROUP BY device;
 ```
 
@@ -83,12 +83,6 @@ A [docker-compose file](https://github.com/timeplus-io/proton/blob/develop/docke
 3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data.
 4. Use `proton-client` to run SQL to query such Kafka data: `docker exec -it <folder>-proton-1 proton-client` (You can get the container name via `docker ps`)
 5. Create an external stream to connect to a topic in the Kafka/Redpanda server and run SQL to filter or aggregate data. Check the [tutorial](proton-kafka#tutorial) for details.
-
-## Documentation
-
-(This will be in README not in doc)
-
-For detailed tutorials and SQL syntax and functions, check our [Documentation](https://docs.timeplus.com/proton).
 
 ## Get more with Timeplus Cloud
 
