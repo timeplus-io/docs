@@ -213,6 +213,7 @@ group by method order by cnt desc;
 └────────┴─────┴─────┘
 ```
 
+<<<<<<< HEAD
 ### Streaming JOIN
 
 In the `owlshop-customers` topic, there are a list of customers with the following metadata
@@ -236,12 +237,25 @@ CREATE EXTERNAL STREAM customers(raw string)
 SETTINGS type='kafka', 
          brokers='redpanda:9092',
          topic='owlshop-customers';
+         
 CREATE EXTERNAL STREAM addresses(raw string)
 SETTINGS type='kafka', 
          brokers='redpanda:9092',
-         topic='owlshop-addresses';     
-SELECT * FROM customers JOIN addresses ON customers.raw:id=addresses:raw.customer.id;
+         topic='owlshop-addresses';   
+
+WITH parsed_customer AS (SELECT raw:id as id, raw:firstName||' '||raw:lastName as name, 
+raw:gender as gender FROM customers SETTINGS seek_to='earliest'),
+parsed_addr AS (SELECT raw:customer.id as id, raw:street||' '||raw:city as addr, 
+raw:firstName||' '||raw:lastName as name FROM addresses SETTINGS seek_to='earliest')
+SELECT * FROM parsed_customer JOIN parsed_addr USING(id)
 ```
+
+Note:
+
+* Two CTE are defined to parse the JSON attribute as columns
+* `SETTINGS seek_to='earliest'` is the special settings to fetch earliest data from the Kafka topic
+* `USING(id)` is same as `ON left.id=right.id`
+* Check [JOIN](joins) for more options to join dynamic and static data
 
 :::info
 
