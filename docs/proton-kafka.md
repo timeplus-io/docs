@@ -247,7 +247,7 @@ WITH parsed_customer AS (SELECT raw:id as id, raw:firstName||' '||raw:lastName a
 raw:gender as gender FROM customers SETTINGS seek_to='earliest'),
 parsed_addr AS (SELECT raw:customer.id as id, raw:street||' '||raw:city as addr, 
 raw:firstName||' '||raw:lastName as name FROM addresses SETTINGS seek_to='earliest')
-SELECT * FROM parsed_customer JOIN parsed_addr USING(id)
+SELECT * FROM parsed_customer JOIN parsed_addr USING(id);
 ```
 
 Note:

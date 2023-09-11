@@ -119,7 +119,15 @@ The following functions are available to use:
 5. [random_fixed_string](functions_for_random#random_fixed_string) to generate string in fixed length
 7. [unique_random](functions_for_random#unique_random) to generate value with max value and custom logic
 
-The data of random stream is kept in memory.
+The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
+
+By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `random_storages_rate_limitor` setting. For example, the following SQL generates 1 event every 0.1 second (i.e. 10 events per second):
+
+```sql
+CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS random_storages_rate_limitor=1
+```
+
+Please note, the data generation rate is not accurate, to balance the performance and flow control.
 
 ## CREATE EXTERNAL STREAM
 
