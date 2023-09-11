@@ -213,3 +213,38 @@ group by method order by cnt desc;
 └────────┴─────┴─────┘
 ```
 
+### Streaming JOIN
+
+In the `owlshop-customers` topic, there are a list of customers with the following metadata
+
+* id
+* firstName
+* lastName
+* gender
+* email
+
+In the `owlshop-addresses` topic, it contains the detailed address for each customer 
+
+* customer.id
+* street, state, city, zip
+* firstName, lastName
+
+You can create a streaming JOIN to validate the data in these 2 topics matches to each other.
+
+```sql
+CREATE EXTERNAL STREAM customers(raw string)
+SETTINGS type='kafka', 
+         brokers='redpanda:9092',
+         topic='owlshop-customers';
+CREATE EXTERNAL STREAM addresses(raw string)
+SETTINGS type='kafka', 
+         brokers='redpanda:9092',
+         topic='owlshop-addresses';     
+SELECT * FROM customers JOIN addresses ON customers.raw:id=addresses:raw.customer.id;
+```
+
+:::info
+
+By default, proton-client is started in single line and single query mode. To run multiple query statements together, start with the `-n` parameters, i.e. `docker exec -it proton-container-name proton-client -n`
+
+:::

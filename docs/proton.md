@@ -59,7 +59,7 @@ In Proton client, run the following SQL to create test stream with random data,
 
 ```sql
 -- Create a stream with random data
-CREATE RANDOM STREAM devices(device string default 'device'||to_string(rand()%4), location string default random_from(['SF','Vancouver','Toronto']), temperature float default rand()%1000/10);
+CREATE RANDOM STREAM devices(device string default 'device'||to_string(rand()%4), location string default 'city'||to_string(rand()%10), temperature float default rand()%1000/10);
 
 -- Run the stream query and it is always long running
 SELECT device, count(*), min(temperature), max(temperature) FROM devices GROUP BY device;

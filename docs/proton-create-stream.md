@@ -106,19 +106,18 @@ You may use this special stream to generate random data for tests. For example:
 ```sql
 CREATE RANDOM STREAM devices(
   device string default 'device'||to_string(rand()%4), 
-  location string default random_from(['SF','Vancouver','Toronto']),
+  location string default 'city'||to_string(rand()%10),
   temperature float default rand()%1000/10);
 ```
 
 The following functions are available to use:
 
-1. rand
-2. rand32
-3. rand64
-4. random_printable_ascii
-5. random_string
-6. random_fixed_string
-7. random_from
+1. [rand](functions_for_random#rand) to generate a number in uint32
+2. [rand64](functions_for_random#rand64) to generate a number in uint64
+3. [random_printable_ascii](functions_for_random#random_printable_ascii) to generate printable characters
+4. [random_string](functions_for_random#random_string) to generate a string
+5. [random_fixed_string](functions_for_random#random_fixed_string) to generate string in fixed length
+7. [unique_random](functions_for_random#unique_random) to generate value with max value and custom logic
 
 The data of random stream is kept in memory.
 
