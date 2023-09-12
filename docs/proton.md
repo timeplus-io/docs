@@ -6,7 +6,7 @@ Proton is a unified streaming and historical data processing engine, built on to
 
 ## What is Proton?
 
-Proton is a unified streaming and historical data processing engine which powers the Timeplus streaming analytic platform. It is built on top of a trimmed single instance [ClickHouse](https://github.com/clickhouse/clickhouse) code base, with major goals: 
+Proton is a single binary for unified streaming and historical data processing, which powers the Timeplus streaming analytic platform. It is built on top of a trimmed single instance [ClickHouse](https://github.com/clickhouse/clickhouse) code base, with major goals: 
 
 * efficient with good performance in both streaming and historical query processing
 
@@ -16,7 +16,7 @@ SQL is the main interface for Proton. Users can run streaming queries and histor
 
 
 
-## Key Streaming Functionalities
+## Key streaming functionalities
 
 1. [Streaming Transformation](usecases#data)
 2. [Streaming Join (stream to stream, stream to table join)](joins)
@@ -27,6 +27,10 @@ SQL is the main interface for Proton. Users can run streaming queries and histor
 7. [Federated Streaming Query with Materialized View](external-stream)
 8. [JavaScript UDF / UDAF](js-udf)
 9. [Materialize View](view#m_view)
+
+## How it works
+
+[Architecture](proton-architecture)
 
 ## Get started
 
@@ -42,16 +46,10 @@ docker run --name proton ghcr.io/timeplus-io/proton:develop
 Run the `proton-client` tool in the docker container to connect to the local proton server:
 
 ```bash
-docker exec -it proton proton-client
+docker exec -it proton proton-client -n
 ```
 
-If you stop the container and want to start it again, you can run
-
-```bash
-docker start -a proton 
-```
-
-
+If you stop the container and want to start it again, you can run `docker start -a proton`
 
 ### Query on a test stream
 
@@ -81,7 +79,7 @@ A [docker-compose file](https://github.com/timeplus-io/proton/blob/develop/docke
 1. Download the [docker-compose.yml](https://github.com/timeplus-io/proton/blob/develop/docker-compose.yml) and put into a new folder.
 2. Open a terminal and run `docker compose up` in this folder.
 3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data.
-4. Use `proton-client` to run SQL to query such Kafka data: `docker exec -it <folder>-proton-1 proton-client` (You can get the container name via `docker ps`)
+4. Use `proton-client` to run SQL to query such Kafka data: `docker exec -it proton-demo-proton-1 proton-client -n` (You can get the container name via `docker ps`)
 5. Create an external stream to connect to a topic in the Kafka/Redpanda server and run SQL to filter or aggregate data. Check the [tutorial](proton-kafka#tutorial) for details.
 
 ## Get more with Timeplus Cloud
@@ -90,7 +88,7 @@ To access more features, such as sources, sinks, dashboards, alerts, data lineag
 
 ## License
 
-Source code of the single node Proton is released under Apache v2 license.
+Apache v2 license.
 
 ## Contributing
 
