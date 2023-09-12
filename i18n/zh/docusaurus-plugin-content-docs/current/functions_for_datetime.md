@@ -16,13 +16,13 @@
 
 使用 `day(date)` 来获取当月的日期。
 
-### weekday
-
-使用 `weekday(date)` 来获取周中的某一天。 例如： 星期一是 1，星期日是 7。
-
 ### day_of_year
 
 使用 `day_of_year(date)` 来获取这一天在该年中的天数（1-365，或闰年的1-366）。
+
+### day_of_week
+
+`day_of_week(date)` returns the day of the week. 例如： 星期一是 1，星期日是 7。
 
 ### hour
 
