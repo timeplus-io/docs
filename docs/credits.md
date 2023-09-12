@@ -5,7 +5,6 @@
 Parts of the Timeplus product are based on open source projects. Particular thanks to :
 
 * Sources and sinks are based on [Benthos](https://www.benthos.dev/), under MIT License
-* Embeddable, persistent state store is based on [RocksDB](https://github.com/facebook/rocksdb), under Apache License 2.0
 * JavaScript UDF is based on [V8](https://v8.dev/), under BSD License
 
 ## Benthos MIT License
