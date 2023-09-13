@@ -83,22 +83,22 @@ resource "timeplus_source" "kafka_example" {
 在开始之前，请确保您具备以下条件：
 
 1. Timeplus云账户。 如果您还没有Timeplus云账户，现在可以[免费创建一个](https://timeplus.com)。
-2. Terraform (1.0+) [installed](https://learn.hashicorp.com/tutorials/terraform/install-cli).
-3. Golang (1.20.0+) [installed](https://golang.org/doc/install).
+2. Terraform（1.0+）[已安装](https://learn.hashicorp.com/tutorials/terraform/install-cli)。
+3. Golang（1.20.0+）[已安装](https://golang.org/doc/install)。
 
-### Create an API Key
+### 创建API密钥
 
-You need to create an API key to manage Timeplus resources without UI. 为此，请执行以下操作：
+您需要创建一个API密钥来管理没有UI的Timeplus资源。 创建API密钥步骤如下：
 
 1. 单击右上角用户图标。
-2. Choose Personal Settings
-3. Click the Create API Key button
-4. Set a description and choose an expiration date
+2. 在下拉菜单中选择“个人设置”。
+3. 单击“创建API密钥”按钮。
+4. 设置可选的描述并选择截止日期。
 5. 将 API 密钥安全地保存在您的计算机中。 您不会在控制台中再次检索纯文本密钥。
 
-### Set up Terraform configuration
+### 设置Terraform配置
 
-To use the provider, simply add it to your terraform file, for example:
+要使用这个provider，只需将其添加到你的Terraform文件中，例如：
 
 ```hcl
 terraform {
@@ -118,7 +118,7 @@ provider "timeplus" {
 }
 ```
 
-Then you can start provisioning Timeplus resources, and below is an example of stream:
+然后，可以开始提供Timeplus资源。下面是一个流的例子：
 
 ```hcl
 resource "timeplus_stream" "example" {
@@ -135,8 +135,8 @@ resource "timeplus_stream" "example" {
 }
 ```
 
-Follow the [Terraform documentations](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) to build, change and destroy resources, e.g.
+遵循[Terraform文档](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)来构建、更改和删除资源，例如：
 
-- `terraform init` to download the plugin
-- `terraform apply` to review and approve the changes
-- `terraform destroy` to delete the resources
+- `terraform init`来下载插件
+- `terraform apply`来审查和批准更改
+- `terraform destroy`来删除资源
