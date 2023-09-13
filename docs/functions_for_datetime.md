@@ -16,13 +16,13 @@
 
 `day(date)` returns the day in the month.
 
-### weekday
-
-`weekday(date)` returns the day of the week. eg. Monday is 1, Sunday is 7.
-
 ### day_of_year
 
 `day_of_year(date)` returns the number of the day of the year (1-365, or 1-366 in a leap year).
+
+### day_of_week
+
+`day_of_week(date)` returns the day of the week. eg. Monday is 1, Sunday is 7.
 
 ### hour
 
