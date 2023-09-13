@@ -76,13 +76,13 @@ resource "timeplus_source" "kafka_example" {
 
 ## 入门开始
 
-现在你已经了解了Timeplus Terraform provider，让我们开始并将其投入使用。
+现在您已经了解了Timeplus Terraform provider，让我们开始并将其投入使用。
 
 ### 先决条件
 
-You’ll need these prerequisites to follow along:
+在开始之前，请确保您具备以下条件：
 
-1. A Timeplus Cloud account. If you don’t have a Timeplus Cloud account, [create one now](https://timeplus.com).
+1. Timeplus云账户。 如果您还没有Timeplus云账户，现在可以[免费创建一个](https://timeplus.com)。
 2. Terraform (1.0+) [installed](https://learn.hashicorp.com/tutorials/terraform/install-cli).
 3. Golang (1.20.0+) [installed](https://golang.org/doc/install).
 
