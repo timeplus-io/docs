@@ -42,6 +42,16 @@ We all love GitHub. But do you know what’s trending on Github right now? We bu
 
 At Timeplus, we collect various logs, metrics and usage data and send them to our own Timeplus workspace for continuously infrastructure monitoring, alerts and integration with our choice of usage-based pricing vendor ([Paigo](https://paigo.tech/)).
 
+Please check the [blog](https://www.timeplus.com/post/unlocking-cloud-observability-with-confluent-and-timeplus-cloud) for details.
+
+![](https://static.wixstatic.com/media/2d747e_a66d09ceedcd4e66b3254490898153b5~mv2.png/v1/fill/w_1480,h_470,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/2d747e_a66d09ceedcd4e66b3254490898153b5~mv2.png)
+
+![](https://static.wixstatic.com/media/2d747e_d513fedaff0546629c5fa2c295d7b24f~mv2.png/v1/fill/w_1480,h_838,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/2d747e_d513fedaff0546629c5fa2c295d7b24f~mv2.png)
+
+![](https://static.wixstatic.com/media/2d747e_5d536b2b6e7549139195ccbb267c49e0~mv2.png/v1/fill/w_1480,h_568,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/2d747e_5d536b2b6e7549139195ccbb267c49e0~mv2.png)
+
+![](https://static.wixstatic.com/media/2d747e_ca3b5307ffcc4ab29cb8b57c1cc572d7~mv2.png/v1/fill/w_1480,h_574,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/2d747e_ca3b5307ffcc4ab29cb8b57c1cc572d7~mv2.png)
+
 Stay tuned for new blogs with more details.
 
 
