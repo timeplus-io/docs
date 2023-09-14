@@ -121,7 +121,7 @@ We're currently building out resources where you can learn about Proton's archit
 - [High-level architecture](https://docs.timeplus.com/proton-architecture)
 - [Wiki](https://github.com/timeplus-io/proton/wiki/Contributing)
 
-We also discuss our journey to releasing Proton in open source in our ***[announcement post](#)***.
+We also discuss our journey to releasing Proton in open source in our ***[announcement post](#)***. (TBD)
 
 ## How can I get started?
 
