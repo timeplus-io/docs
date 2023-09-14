@@ -4,24 +4,24 @@ On September 21, 2023, Timeplus announced the release of its [open source Proton
 
 ## What is Proton?
 
-Proton is the core engine powering the [Timeplus platform](https://www.timeplus.com/product), a unified streaming and historical data processing engine designed for efficiency and strong performance. Proton has no external service dependencies, which allows you to deploy it on bare metal, edge devices, within containers, or as part of an orchestrated cloud environment.
+Proton is the core engine powering the [Timeplus platform](https://www.timeplus.com), a unified streaming and historical data processing engine designed for efficiency and strong performance. Proton has no external service dependencies, which allows you to deploy it on bare metal, edge devices, within containers, or as part of an orchestrated cloud environment.
 
 Proton builds on top of the popular open source [ClickHouse project](https://github.com/ClickHouse/ClickHouse) for its historical data, storage, computing functionality, and a portion of its query engine.
 
 By leveraging the proven technologies of ClickHouse, Proton brings more mature online analytical processing (OLAP) capabilities to the open source community with lots of new development to unify the streaming and processing engines. You can use Proton alongside your existing ClickHouse deployment to enable additional functionality or replace your existing deployment with Proton or Timeplus.
 
-Timeplus maintains two versions of Proton: an open source edition licensed under [Apache License 2.0](#how-is-proton-licensed), and the enterprise edition for the Timeplus platform.
+Timeplus maintains two versions of Proton: an open source edition licensed under [Apache License 2.0](#license), and the enterprise edition for the Timeplus platform.
 
 - The **open source edition** powers unified streaming and data processing on a single database node.
 - The **enterprise edition** powers Timeplus Cloud and Timeplus Enterprise by layering advanced deployment strategies and additional features.
 
-Learn more about the differences in features [below](#what-features-are-available-with-the-open-source-proton-project-versus-timeplus-cloud).
+Learn more about the differences in features [below](#compare).
 
-## How is Proton licensed?
+## How is Proton licensed? {#license}
 
 The open source, single-node edition of Proton follows the ClickHouse licensing model with [Apache License 2.0](https://github.com/timeplus-io/proton/blob/develop/LICENSE), which is also used by popular open source projects like [Kubernetes](https://github.com/kubernetes/kubernetes) and [Apache Flink](https://github.com/apache/flink).
 
-Apache License 2.0 is a [permissive license](https://fossa.com/blog/open-source-licenses-101-apache-license-2-0/) that allows for most uses without restriction. We'll talk more about how you can use Proton in the [following section](https://docs.google.com/document/d/1jMCrqt0-fZjyT2Sd_HZndPCKkF6so3JJbK3Me7vWqT0/edit#heading=h.6uzpuievj8ln).
+Apache License 2.0 is a [permissive license](https://fossa.com/blog/open-source-licenses-101-apache-license-2-0/) that allows for most uses without restriction. We'll talk more about how you can use Proton in the [following section](#use).
 
 We chose this license for a few important reasons:
 
@@ -33,7 +33,7 @@ We chose this license for a few important reasons:
   
 - **We're building a new community around unified streaming and data processing**. ClickHouse paved the way for processing, but we have much to experiment and discover together around streaming. We can't wait to get feedback from developers and users within organizations of all sizes and degrees of streaming maturity.
 
-## What uses, commercial and beyond, are allowed with the open source Proton project?
+## What uses, commercial and beyond, are allowed with the open source Proton project? {#use}
 
 Under Apache License 2.0, you are allowed to modify, distribute, and sublicense the open source edition of Proton as it's available on GitHub.
 
@@ -41,7 +41,7 @@ You can also include Proton in proprietary software that you then sell to custom
 
 Apache License 2.0 also prevents any contributor to Proton—a member of the Timeplus team or an outside contributor—from being held liable by end users, whether they are individual developers or commercial organizations.
 
-## What features are available with the open source Proton project versus Timeplus Cloud?
+## What features are available with the open source Proton project versus Timeplus Cloud? {#compare}
 
 As described above, the primary difference between the open source edition of Proton and its commercial counterpart is the deployment strategy and inclusion of enterprise-ready features, but there are some other differences we would like to clarify.
 
@@ -66,9 +66,9 @@ We publish a biweekly newsletter on [LinkedIn](https://www.linkedin.com/company/
 
 We designed Proton's usage to be similar to ClickHouse, with a few key differences:
 
-- Timeplus' default SQL query mode is **streaming**, which means it is long-running and continuously tracks and evaluates changed data and pushes results to users or target systems. To create a [historical data query](https://docs.timeplus.com/functions_for_streaming#table), wrap your SQL in `table(stream)`.
-- We renamed data types and functions to remove camelcase. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Proton. Our [functions](https://docs.timeplus.com/functions) docs have additional details.
-- In Proton, [JOINs](https://docs.timeplus.com/joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
+- Timeplus' default SQL query mode is **streaming**, which means it is long-running and continuously tracks and evaluates changed data and pushes results to users or target systems. To create a [historical data query](functions_for_streaming#table), wrap your SQL in `table(stream)`.
+- We renamed data types and functions to remove camelcase. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Proton. Our [functions](functions) docs have additional details.
+- In Proton, [JOINs](joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
 - Not all ClickHouse functions are currently enabled in Proton or work in a streaming query. If we should add or enhance the functions available in Proton, let us know in the [GitHub issues](https://github.com/timeplus-io/proton/issues) for Proton.
 
 See the documentation for full usage details.
@@ -125,6 +125,6 @@ We also discuss our journey to releasing Proton in open source in our ***[announ
 
 ## How can I get started?
 
-Learn how to pull and run the Proton image and query a test stream in our [documentation](https://docs.timeplus.com/proton#get-started). To see a more complete use case in action, using Proton, Redpanda, and sample live data, check out our [tutorial](https://docs.timeplus.com/proton-kafka#tutorial) that leverages Docker Compose.
+Learn how to pull and run the Proton image and query a test stream in our [documentation](proton#get-started). To see a more complete use case in action, using Proton, Redpanda, and sample live data, check out our [tutorial](proton-kafka#tutorial) that leverages Docker Compose.
 
 If you need advanced deployment strategies or features, with Proton running behind the scenes, create your first workspace with [Timeplus Cloud](https://us.timeplus.cloud/).
