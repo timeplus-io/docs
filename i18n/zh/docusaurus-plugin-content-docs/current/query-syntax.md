@@ -2,7 +2,7 @@
 
 ## 串流SQL 语法{#select-syntax}
 
-Timeplus引入了几个SQL扩展来支持流式处理。 总的语法看起来像的
+Timeplus引入了几个SQL扩展来支持流式处理。 The overall syntax looks like this:
 
 ```sql
 SELECT <expr, columns, aggr>
@@ -21,14 +21,16 @@ EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-总体来说，Timeplus中的流式查询建立了一个与客户端的长长HTTP/TCP连接，并且根据 `EMIT` 策略持续评估查询和流返回结果，直到结束客户端 中止查询或出现一些异常。 时间插件支持一些内部 `设置` 来微调流式查询处理行为。 以下是一份详尽无遗的清单。 我们将在下面的章节中再谈这些问题。
+Overall, a streaming query in Timeplus establishes a long HTTP/TCP connection to clients and continuously evaluates the query. It will continue to return results according to the `EMIT` policy until the query is stopped, by the user, end client, or exceptional event.
 
-1. `query_mode=<table|streaming>` 总体查询是否为历史数据处理或流数据处理的常规设置。 默认情况下，是 `串流`。
-2. `seek_to=<timestamp|earliest|latest>`. 设置告诉 Timeplus 通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下， `是最新` 表示不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
+Timeplus supports some internal `SETTINGS` to fine tune the streaming query processing behaviors, listed below:
+
+1. `query_mode=<table|streaming>` A general setting which decides if the overall query is streaming data processing or shistorical data processing. 默认情况下，是 `串流`。
+2. `seek_to=<timestamp|earliest|latest>`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. 它可以是相对的时间戳或绝对的时间戳。 By default, it is `latest`, which tells Timeplus to not seek old data. 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
 :::info
 
-请注意，自2023年1月起， `SETTINGS seek_to=..` 不再被推荐使用。 请使用 `WHERE _tp_time>='2023-01-01'` 或类似的WHERE条件。 `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
+Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`. Please use `WHERE _tp_time>='2023-01-01'` or similar. `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
 
 :::
 
@@ -48,7 +50,7 @@ FROM devices_utils
 WHERE cpu_usage >= 99
 ```
 
-上面的示例持续评估表 `device_utils` 中新事件的过滤器表达式，过滤事件 `cpu_usage` 小于99。 最后的事件将会流向客户端。
+The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events which have `cpu_usage` less than 99. 最后的事件将会流向客户端。
 
 ### 全局流聚合 {#global}
 
@@ -73,6 +75,7 @@ EMIT PERIODIC 5s
 ```
 
 正如 [流式扫描](#streaming-tailing), Timeplus持续监控数据流`device_utils`, 不断过滤和 **增量**计数 每当指定的延迟间隔为上，项目当前的聚合结果 到客户端。 每当指定的延迟间隔为上，项目当前的聚合结果 到客户端。
+
 
 ### 简易流窗口聚合 {#tumble}
 
@@ -395,87 +398,6 @@ FROM
 ) AS avg_5_second;
 ```
 
-### 流表和维度表联查{#stream_table_join}
+### JOINs
 
-在 Timeplus 中，所有数据都生活在流中，默认查询模式正在流中。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 要查询流的历史数据，可以使用 `table()` 函数。
-
-有些典型的情况是，无约束的数据流需要通过连接到相对静态尺寸表来丰富。 Timeplus可以在一个引擎中通过流式到维度表加入来存储流式数据和尺寸表。
-
-示例：
-
-```sql
-SELECT device, vendor, cpu_usage, timeestamp
-FROM device_utils
-INNER JOIN table(device_products_info)
-on device_utils.product_id = device_products_info.id
-WHERE device_products_info._tp_time > '2020-01-01T01:01';
-```
-
-在上述例子中， 来自 `device_utils` 的数据是一个流，而来自 `device_products_info` 的数据是历史数据，因为它已经被标记 `table()` 函数。 对于来自 `device_utils`的每 (新) 行 它持续不断地加入了维度表 `device_products_info` 中的行，并用产品供应商信息丰富流数据。
-
-串流到尺寸表的加入有一些限制
-
-1. 加入中的左侧对象需要是一个串流。
-2. 只支持INNER / LEFT 加入，用户只能做到这一点。
-   1. `流` INNER JOIN `单个或多个维度表`
-   2. `流` LEFT [OUTER] JOIN `单个或多个维度表`
-
-### 流到流联查 {#stream_stream_join}
-
-在某些情况下，实时数据流向多个数据流。 例如，当广告展示给最终用户时，当用户点击广告时。 Timeplus允许您对多个数据流进行关联搜索。 当用户点击广告后，您可以检查平均时间。
-
-```sql
-选择... 选择... FROM stream1
-INNER JOIN stream2
-ON stream1.id=stream2.id AND date_diff_within(1m)
-WHERE ..
-```
-
-您也可以加入一个流到自己。 一个典型的使用情况是检查同一流中数据是否有某种模式，例如： 是否在两分钟内购买相同的信用卡。 小规模购买后有大宗购买。 这可能是一种欺诈模式。
-
-```sql
-选择... 选择... FROM stream1
-INNER JOIN stream1 AS stream2
-ON stream1.id=stream2.id AND date_diff_within(1m)
-WHERE ..
-```
-
-Timeplus 支持多种类型的JOIN：
-
-* 常见是 `INNER JOIN`, `LEFT JOIN`, `Right JOIN`, `FULL JOIN`.
-* 一种特殊的 `CROSS JOIN`，它在不考虑连接键的情况下生成两个流的完整笛卡尔乘积。 左侧流中的每一行与右侧流的每一行合并在一起。
-* 特殊的 `ASOF JOIN` 提供非精确匹配功能。 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
-* 特别的 `LATEST JOIN`.  对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
-
-
-
-更多细节：
-
-#### LATEST JOIN {#latest-join}
-
-例如，您创建了 2 个仅限追加的流（Timeplus 中的默认流类型）
-
-* 流 `left`，有两列：id（整数）、name（字符串）
-* 流 `right`，有两列：id（整数）、amount（整数）
-
-然后你运行流式SQL
-
-```sql
-SELECT *, _tp_delta FROM left LATEST JOIN right USING(id)
-```
-
-备注：
-
-1.  `using (id)` 是 `on left.id=right.id`的快捷语法
-2. _tp_delta 是仅在变更日志流中可用的特殊列。
-
-然后，您可以向两个流中添加一些事件。
-
-| 添加数据                               | SQL 结果                                                                                                                         |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 添加一行到 `left` (id=100, name=apple)  | 没有结果                                                                                                                           |
-| 添加一行到 `right` (id=100, amount=100) | 1. id=100, name=apple, amount=100, _tp_delta=1                                                                               |
-| 添加一行到 `right` (id=100, amount=200) | （新增2 行）<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
-| 添加一行到 `left` (id=100, name=apple)  | （新增2 行）<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1  |
-
-如果您运行一个聚合函数，使用这种LATEST JOIN, 比如 `count(*)` 结果将永远是1，无论同一键值有多少次变化。
+Please check [Joins](joins).

@@ -2,8 +2,6 @@
 
 Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了解模式/趋势。 您还可以将 Timeplus 与外部 BI 系统集成（如 Redash、Metabase、Grafana 等）。
 
-
-
 ## 图表
 
 在您运行查询后，您可以切换到 **Visualization** 标签，将结果转换为图表。 我们为您的需要提供不同的图表类型：
@@ -25,12 +23,13 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
   * 显示/隐藏图例
   * 显示/隐藏数据点
 
+![Line chart with a single line](/img/line-chart-single.png)
 
 ### 面积图
 
 显示堆叠面积图，其格式设置与 **折线图** 相同。
 
-
+![面积图](/img/area-chart.png)
 
 ### 柱状图
 
@@ -43,10 +42,13 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
 * 格式设置
   * X 轴标题、Y 轴标题、列颜色、显示/隐藏数据标签（使用十进制和前缀/后缀单位）、显示/隐藏网格线、显示/隐藏图例
 
+![柱状图](/img/column-chart.png)
 
 ### 条形图
 
 与柱状图类似，数据点显示为水平条而不是垂直列。 最适合显示前 n 个值。
+
+![条形图](/img/bar-chart.png)
 
 ### 单值图
 
@@ -60,18 +62,21 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
   * 显示/隐藏迷你图
   * 显示/隐藏最后一个值与当前值的差值
 
+![单值图](/img/single-value-chart.png)
+
 ### 地图
 
-目前仅在 https://us.timeplus.cloud 上作为预览功能提供。
+Currently available on https://us.timeplus.cloud as a preview feature.
 
 * 数据设置：
-  * 选择经度和纬度列。
-  * 颜色：是在堆栈模式还是减淡模式下显示分组数据。
+  * Set columns for longitude and latitude.
+  * Color: show grouped data in stack mode or dodge mode.
   * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
 
 * 格式设置
-  * 地图大小（待更新）
+  * Map dots: color scheme, opacity, and size (fixed size, or set a min. and max size)
 
+![地图](/img/map-chart.png)
 
 ### 表格
 
@@ -88,6 +93,7 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
   * 对于每列，您可以选择显示或隐藏它，或者为数值列设置列宽和十进制。
   * 条件格式：如果值满足您设置的特定条件，则突出显示单元格或整行
 
+![Table chart](/img/table-chart.png)
 
 可以点击右边的 **添加到仪表板** 按钮将图表添加到仪表板中。
 
@@ -102,7 +108,6 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
 * 小：占用1/4的页面宽度
 * 中: 占用页面宽度的1/2
 * 大：占用整个页面宽度
-
 
 
 ## 仪表板筛选器和查询变量 {#filter}

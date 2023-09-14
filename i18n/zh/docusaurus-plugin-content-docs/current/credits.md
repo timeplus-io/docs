@@ -5,7 +5,6 @@
 Timeplus 产品的部分功能基于开源项目。 特别感谢：
 
 * 数据源和数据下游的基于 [Benthos](https://www.benthos.dev/) 构建，MIT License
-* 嵌入式的持久化状态存储基于 [RocksDB](https://github.com/facebook/rocksdb)，Apache License 2.0
 * JavaScript UDF 基于 [V8](https://v8.dev/)，BSD License
 
 ## Benthos MIT License

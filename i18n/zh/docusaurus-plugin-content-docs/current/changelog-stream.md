@@ -2,6 +2,12 @@
 
 当您使用 `changelog_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 数据可以更新或删除。 您可以在左侧或右侧的 JOIN 中使用更新日志流。 Timeplus 将自动选择最新版本。
 
+:::info
+
+我们最近引入了一个新的表函数 [changelog](functions_for_streaming#changelog) 通过指定主键列和版本列，动态地创建基于仅追加流的变更日志流，或者基于 [多版本流](versioned-stream)创建变更日志流。 它专为高级用例而设计，例如按主键处理迟到事件。 详细信息请检查 [更新日志](functions_for_streaming#changelog) 的文档。
+
+:::
+
 以下是一些例子：
 
 ## 创建流

@@ -1,43 +1,43 @@
 # 内置示例数据快速开始
 
-Timeplus提供了一个内置的数据源，用于为一些典型的使用情况生成流量数据。
+Timeplus provides a built-in data source to generate streaming data for some typical use cases. To start, log in to [Timeplus Cloud](https://us.timeplus.cloud/).
 
-## 创建数据源
+## Create a Sample Source
 
-登录 TimePlus 云。 如果您有超过1个工作区，请选择工作区。 转到 **SOURCES** 页面并单击 **尝试我们的样本数据集** 右上角的按钮。 您将创建第一个 [来源](glossary#source)。
+1. Let's create the first [source](glossary#source) in your workspace. From the left side navigation menu, click **Data Ingestion**, then click the **Add Data** button in the top right corner.
 
-![尝试示例数据集](/img/sampledata.png)
+![Data Ingestion page](/img/sample-source-button-1.png)
 
-默认情况下， **iot_data** 模板将被使用。 您可以选择一个源名称，例如 `iot`。 **源描述** 是可选的。 向下滚动。 离开 **默认启用名称** 创建一个流，并指定 [流](glossary#stream) 名称，例如 `iot`
+2. In this pop-up, click the **Sample Dataset** link.
 
-![IOT 示例数据集配置](/img/sampledata_cfg.png)
+![Add Data dialog](/img/sample-source-dialog-2.png)
 
-点击 **下一个**。 您将预览样本数据。 请随时点击 **下一个** 按钮。 可选，您可以点击TIME列附近的图像按钮并启用 **设置为 TIMESTAMP COLUMN** 选项。 ([为什么你需要设置一个时间戳列？ ](glossary#timestamp-column))
+3. Choose from one of 3 templates: a. IoT: Data for 3 devices b. User logins: Data for 2 users and 2 cities c. DevOps: Data for 3 hosts and 3 regions
 
-![IOT 示例数据集配置](/img/sampledata_ts.png)
+![Sample dataset templates](/img/sample-source-template-3.png)
 
-点击 **下一个** 按钮。 您将检查源配置。 点击 **创建源按钮**
+Preview your data and create a new stream to load your data into. For the stream name, it can contain only letters, numbers, or underscores, and must start with a letter. You can also give it an optional description.
 
-![IOT 示例数据集确认](/img/sampledata_confirm.png)
+![IoT sample data, preview step](/img/sample-source-preview-4.png)
 
-消息将显示成功创建。
+ Finally, you can give this sample Source a name, such as `iot`, and review the JSON configuration.
 
-![IOT 示例数据集确认](/img/sampledata_ok.png)
+![IoT sample data, configuration step](/img/sample-source-configuration-5.png)
 
-## 探索流数据 {#step4}
+## Explore the Streaming Data
 
-打开 QUERY 页面。 您将在查询编辑器下看到新创建的流。 点击名称(例如 `iot`)
+1. To check out the data in your newly created stream, you can either: a. Go to the Streams page, and click on the Explore icon.
 
-![单击iot流](/img/sampledata_click_iot.png)
+  ![IoT sample data, preview step](/img/streams-list.png)
 
-查询将自动生成： `SELECT* FROM iot` 单击 RUN QUERY 按钮（或按 Ctrl+Enter）运行查询。
+  b. Or, go to the Query page, and click on the name of the stream in the SQL helper below the SQL editor.
 
-![运行查询](/img/sampledata_click_run_bn.png)
+  ![IoT sample data, preview step](/img/stream_name-in-list.png)
 
-串流 SQL 将不断在UI 中显示最新结果。
+2. We will generate a basic query for you: SELECT * FROM iot. You can also type your own query into the editor. Click the **Run Query** button (or press `Ctrl+Enter` on PC, `Cmd + Enter` on Mac) to run the query.
 
-![运行查询](/img/sampledata_click_query_live.png)
+![Run Query in Query page](/img/run-query.png)
 
-您可以切换到VISUALIZATION 选项卡来查看数据的流式图。
+The streaming results table will now appear below the editor. To create charts, click on the **Visualization** tab. [Learn more about Dashboards and Charts](viz)
 
-![运行查询](/img/sampledata_click_viz.png)
+![Example of visualization for sample dataset](/img/viz-sample-iot.png)
