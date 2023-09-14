@@ -89,7 +89,7 @@ For more advanced scenarios, you can add delay to the trigger policy, such as ad
 ```sql
 select window_start, window_end, count(*) as count, max(c1) as max_c1
 from tumble(my_stream,order_time, 5s) group by window_start, window_end
-emit after watermark delay 2s
+emit after watermark and delay 2s
 ```
 
 ### Global aggregation
