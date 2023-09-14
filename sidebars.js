@@ -36,6 +36,7 @@ const sidebars = {
      },collapsed: false,items:[
        */
     'index',
+    'showcases',
     {
       type: 'category',
       label: 'Quickstart',
@@ -86,24 +87,33 @@ const sidebars = {
         type: 'doc',
         id: 'ingestion'
       },
-      items: ['kafka-source', 'kafka-connect', 'pulsar-source', 'ingest-api', 'datapm']
+      items: ['kafka-source', 'confluent-cloud-source', 'kafka-connect', 'pulsar-source', 'ingest-api', 'datapm']
     },
     {
       type: 'category',
       label: 'Query Guide',
-      collapsed: false,
+      collapsed: true,
       link: {
         type: 'doc',
         id: 'query-guide'
       },
       items: ['datatypes', 'query-syntax', 
-              { type: 'category', label: 'Functions', collapsed: true, link: { type: 'doc', id: 'functions' }, items: ['functions_for_type', 'functions_for_comp', 'functions_for_datetime', 'functions_for_url', 'functions_for_json', 'functions_for_text', 'functions_for_hash', 'functions_for_agg', 'functions_for_logic', 'functions_for_math', 'functions_for_fin', 'functions_for_geo', 'functions_for_streaming'] }, 
+              { type: 'category', label: 'Functions', collapsed: true, link: { type: 'doc', id: 'functions' }, items: ['functions_for_type', 'functions_for_comp', 'functions_for_datetime', 'functions_for_url', 'functions_for_json', 'functions_for_text', 'functions_for_hash','functions_for_random', 'functions_for_agg', 'functions_for_logic', 'functions_for_math', 'functions_for_fin', 'functions_for_geo', 'functions_for_streaming'] }, 
               { type: 'category', label: 'UDF', link: { type: 'doc', id: 'udf' }, items: ['remote-udf', 'js-udf'] }, 
+              'joins',
               { type: 'category', label: 'Query Patterns', link: { type: 'doc', id: 'usecases' }, items: ['sql-pattern-topn'] }, 
               'query-api']
     },
-    'transformation',
+    //'transformation',
     'viz',
+    {
+      type: 'category',
+      label: 'Manage',
+      link: {
+        type: 'generated-index',
+      },
+      items: ['apikey','terraform']
+    },
     'faq',
     'issues',
     {

@@ -2,7 +2,7 @@
 
 ## Streaming SQL Syntax{#select-syntax}
 
-Timeplus introduces several SQL extensions to support streaming processing. The overall syntax looks like
+Timeplus introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
 
 ```sql
 SELECT <expr, columns, aggr>
@@ -13,16 +13,16 @@ EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-Overall a streaming query in Timeplus establishes a long HTTP/TCP connection to clients and continuously evaluates the query and streams back the results according to the `EMIT` policy until end clients
-abort the query or there is some exception happening.
-Timeplus supports some internal `SETTINGS` to fine tune the streaming query processing behaviors. Here is an exhaustive list of them. We will come back to them in sections below.
+Overall, a streaming query in Timeplus establishes a long HTTP/TCP connection to clients and continuously evaluates the query. It will continue to return results according to the `EMIT` policy until the query is stopped, by the user, end client, or exceptional event. 
 
-1. `query_mode=<table|streaming>`. A general setting which decides if the overall query is historical data processing or streaming data processing. By default, it is `streaming`.
-2. `seek_to=<timestamp|earliest|latest>`. A setting which tells Timeplus to seek old data in streaming storage by a timestamp. It can be a relative timestamp or an absolute timestamp. By default, it is `latest` which means don't seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'` 
+Timeplus supports some internal `SETTINGS` to fine tune the streaming query processing behaviors, listed below:
+
+1. `query_mode=<table|streaming>`. A general setting which decides if the overall query is streaming data processing or shistorical data processing. By default, it is `streaming`.
+2. `seek_to=<timestamp|earliest|latest>`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. It can be a relative timestamp or an absolute timestamp. By default, it is `latest`, which tells Timeplus to not seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'` 
 
 :::info
 
-Please note, since Jan 2023, `SETTINGS seek_to=..` is no longer recommended to use. Please use `WHERE _tp_time>='2023-01-01'` or something similar. `_tp_time` is the special timestamp column in each raw stream to represent the event time. You can use `>`, `<`, `BETWEEN .. AND` operations to filter the data in Timeplus stream storage.
+Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`. Please use `WHERE _tp_time>='2023-01-01'` or similar. `_tp_time` is the special timestamp column in each raw stream to represent the event time. You can use `>`, `<`, `BETWEEN .. AND` operations to filter the data in Timeplus stream storage.
 
 :::
 
@@ -42,7 +42,7 @@ FROM devices_utils
 WHERE cpu_usage >= 99
 ```
 
-The above example continuously evaluates the filter expression on the new events in the table `device_utils` to filter out events
+The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events
 which have `cpu_usage` less than 99. The final events will be streamed to clients.
 
 ### Global Streaming Aggregation {#global}
@@ -72,6 +72,7 @@ EMIT PERIODIC 5s
 Like in [Streaming Tail](#streaming-tailing), Timeplus continuously monitors new events in the stream `device_utils`, does the filtering and then
 continuously does **incremental** count aggregation. Whenever the specified delay interval is up, project the current aggregation result
 to clients.
+
 
 ### Tumble Streaming Window Aggregation {#tumble}
 
@@ -371,87 +372,6 @@ FROM
 ) AS avg_5_second;
 ```
 
-### Streaming and Dimension Table Join{#stream_table_join}
+### JOINs
 
-In Timeplus, all data live in streams and the default query mode is streaming. Streaming mode focuses on the latest real-time tail data which is suitable for streaming processing. On the other hand, historical focuses on the old indexed data in the past and optimized for big batch processing like terabytes large scans. Streaming is the by default mode when a query is running against it. To query the historical data of a stream, `table()` function can be used.
-
-There are typical cases that an unbounded data stream needs enrichment by connecting to a relative static dimension table. Timeplus can do this in one single engine by storing streaming data and dimension tables in it via a streaming to dimension table join.
-
-Examples
-
-```sql
-SELECT device, vendor, cpu_usage, timestamp
-FROM device_utils
-INNER JOIN table(device_products_info)
-ON device_utils.product_id = device_products_info.id
-WHERE device_products_info._tp_time > '2020-01-01T01:01:01';
-```
-
-In the above example, data from `device_utils` is a stream and data from `device_products_info` is historical data since it is tagged with `table()` function. For every (new) row from `device_utils`, it is continuously (hashed) joined with rows from dimension table `device_products_info` and enriches the streaming data with product vendor information.
-
-Streaming to dimension table join has some limitations
-
-1. The left side object in the join needs to be a stream.
-2. Only INNER / LEFT join are supported which means, users can only do
-   1. `stream` INNER JOIN `single or multiple dimension tables`
-   2. `stream` LEFT [OUTER] JOIN `single or multiple dimension tables`
-
-### Stream to Stream  Join {#stream_stream_join}
-
-In some cases, the real-time data flows to multiple data streams. For example, when the ads are presented to the end users, and when the users click the ads. Timeplus allows you to do correlated searches for multiple data streams, for example, you can check the average time when the user clicks the ad after it is presented.
-
-```sql
-SELECT .. FROM stream1
-INNER JOIN stream2
-ON stream1.id=stream2.id AND date_diff_within(1m)
-WHERE ..
-```
-
-You can also join a stream to itself. A typical use case is to check whether there is a certain pattern for the data in the same stream, for example, whether for the same credit card, within 2 minutes, there is a big purchase after a small purchase. This could be a pattern for fraud.
-
-```sql
-SELECT .. FROM stream1
-INNER JOIN stream1 AS stream2
-ON stream1.id=stream2.id AND date_diff_within(1m)
-WHERE ..
-```
-
-There are many types of JOIN supported in Timeplus:
-
-* The common ones are `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`.
-* A special `CROSS JOIN`, which produces the full cartesian product of the two streams without considering join keys. Each row from the left stream is combined with each row from the right stream. 
-* A special `ASOF JOIN` provides non-exact matching capabilities. This can work well if two streams have the same id, but not with exactly the same timestamps.
-* A special `LATEST JOIN`.  For two append-only streams, if you use `a INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either stream, the previous join result will be canceled and a new result will be added.
-
-
-
-More details:
-
-#### LATEST JOIN {#latest-join}
-
-For example, you have created 2 append-only streams (the default stream type in Timeplus)
-
-* stream `left`, with two columns: id(integer), name(string)
-* stream `right`, with two columns: id(integer), amount(integer)
-
-Then you start a streaming SQL
-
-```sql
-SELECT *, _tp_delta FROM left LATEST JOIN right USING(id)
-```
-
-Note:
-
-1.  `using(id)` is a shortcut syntax for `on left.id=right.id`
-2. _tp_delta is a special column only available in changelog stream.
-
-Then you can add some events to both streams.
-
-| Add Data                                      | SQL Result                                                   |
-| --------------------------------------------- | ------------------------------------------------------------ |
-| Add one event to `left` (id=100, name=apple)  | (no result)                                                  |
-| Add one event to `right` (id=100, amount=100) | 1. id=100, name=apple, amount=100, _tp_delta=1               |
-| Add one event to `right` (id=100, amount=200) | (2 more rows)<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
-| Add one event to `left` (id=100, name=appl)   | (2 more rows)<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1 |
-
-If you run an aggregation function, say `count(*)` with such INNER LATEST JOIN, the result will always be 1, no matter how many times the value with the same key is changed.
+Please check [Joins](joins).

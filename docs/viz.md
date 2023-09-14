@@ -2,8 +2,6 @@
 
 Timeplus provides out-of-box streaming charts and dashboards to visualize the real-time data and understand the pattern/trend. You can also integrate Timeplus with your external BI systems, such as Redash, Metabase, Grafana, etc.
 
-
-
 ## Chart
 
 After you run a query, you can switch to the **Visualization** tab to turn the results into a chart. We offer different chart types for your use cases:
@@ -25,12 +23,13 @@ Line charts work best with time series data.
   * Show/hide legend
   * Show/hide data points
 
+![Line chart with a single line](/img/line-chart-single.png)
 
 ### Area chart
 
 Shows a stacked area chart, with the same format settings as **Line Chart**.
 
-
+![Area chart](/img/area-chart.png)
 
 ### Column chart
 
@@ -43,10 +42,13 @@ Shows a stacked area chart, with the same format settings as **Line Chart**.
 * Format settings:
   * X-axis title, Y-axis title, column color, show/hide data label (with decimal and prefix/suffix unit), show/hide grid lines, show/hide legend
 
+![Column chart](/img/column-chart.png)
 
 ### Bar chart
 
 Similar to the Column chart, with data points shown as horizontal bars instead of vertical columns. Best fit for show top-N values.
+
+![Bar chart](/img/bar-chart.png)
 
 ### Single value chart
 
@@ -60,18 +62,21 @@ Similar to the Column chart, with data points shown as horizontal bars instead o
   * Show/hide sparkline
   * Show/hide delta for last value vs. the current value
 
+![Single value chart](/img/single-value-chart.png)
+
 ### Map chart
 
-Currently only available on https://us.timeplus.cloud as a preview feature.
+Currently available on https://us.timeplus.cloud as a preview feature.
 
 * Data settings:
-  * choose the column for longitude and latitude.
-  * color: whether to show grouped data in either stack mode or dodge mode.
-  * update mode: append only, or show data points from the last timestamp, or choose a key column to show the latest data value for each key value.
+  * Set columns for longitude and latitude.
+  * Color: show grouped data in stack mode or dodge mode.
+  * Update mode: append only, or show data points from the last timestamp, or choose a key column to show the latest data value for each key value.
 
 * Format settings:
-  * Map size (TO BE UPDATED)
+  * Map dots: color scheme, opacity, and size (fixed size, or set a min. and max size) 
 
+![Map chart](/img/map-chart.png)
 
 ### Table
 
@@ -88,6 +93,7 @@ Shows the data as a list table.
   * For each column, you can choose to show or hide it, or set column width and decimal for numeric columns.
   * Conditional formatting: highlight a cell or an entire row if the value meets a certain condition you've set
 
+![Table chart](/img/table-chart.png)
 
 Charts can be added to the dashboard by clicking the **Add to dashboard** button on the right.
 
@@ -102,8 +108,7 @@ One or more charts can be added to the dashboard, with 3 size options:
 * Small: takes up 1/4 of the page width
 * Medium: takes up 1/2 of the page width
 * Large: takes up entire page width
-
-
+  
 
 ## Dashboard filters and query variables {#filter}
 

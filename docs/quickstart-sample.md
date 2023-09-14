@@ -1,43 +1,47 @@
 # Quickstart with built-in sample data
 
-Timeplus provides a built-in data source to generate streaming data for some typical use cases.
+Timeplus provides a built-in data source to generate streaming data for some typical use cases. To start, log in to [Timeplus Cloud](https://us.timeplus.cloud/).
 
-## Create the data source
+## Create a Sample Source
 
-Login the Timeplus Cloud. Choose the workspace if you have access to more than 1 workspace. Go to the **SOURCES** page and click the **Try our sample dataset** button on the top-right corner. You will create the first [source](glossary#source).
+1. Let's create the first [source](glossary#source) in your workspace. From the left side navigation menu, click **Data Ingestion**, then click the **Add Data** button in the top right corner.
 
-![Try the sample dataset](/img/sampledata.png)
+![Data Ingestion page](/img/sample-source-button-1.png)
 
-By default, the **iot_data** template will be used. You can choose a Source Name, e.g. `iot`. The **Source Description** is optional. Scroll down. Leave the **Create a stream with the name** enabled as default, and specify a [stream](glossary#stream) name, e.g. `iot`
+2. In this pop-up, click the **Sample Dataset** link.
 
-![IOT sample dataset config](/img/sampledata_cfg.png)
+![Add Data dialog](/img/sample-source-dialog-2.png)
+  
+3. Choose from one of 3 templates:
+  a. IoT: Data for 3 devices
+  b. User logins: Data for 2 users and 2 cities
+  c. DevOps: Data for 3 hosts and 3 regions  
 
-Click **Next**. You will preview the sample data. Feel free to click **Next** button again. Optionally, you can click the image button near the TIME column and enable the **SET AS TIMESTAMP COLUMN** option. ([Why you need to set a timestamp column?](glossary#timestamp-column))
+![Sample dataset templates](/img/sample-source-template-3.png)
 
-![IOT sample dataset config](/img/sampledata_ts.png)
+Preview your data and create a new stream to load your data into. For the stream name, it can contain only letters, numbers, or underscores, and must start with a letter. You can also give it an optional description. 
 
-Click **Next** button. You will review the source configuration. Click **Create the source button**
+![IoT sample data, preview step](/img/sample-source-preview-4.png)
 
-![IOT sample dataset confirm](/img/sampledata_confirm.png)
+ Finally, you can give this sample Source a name, such as `iot`, and review the JSON configuration. 
 
-A message will be shown if the source is created successfully.
+![IoT sample data, configuration step](/img/sample-source-configuration-5.png)
 
-![IOT sample dataset confirm](/img/sampledata_ok.png)
+## Explore the Streaming Data 
 
-## Explore the streaming data {#step4}
+1. To check out the data in your newly created stream, you can either:
+  a. Go to the Streams page, and click on the Explore icon.
 
-Open the QUERY page. You will see the newly created stream under the query editor. Click on the name(e.g. `iot`)
+  ![IoT sample data, preview step](/img/streams-list.png)
 
-![Click iot stream](/img/sampledata_click_iot.png)
+  b. Or, go to the Query page, and click on the name of the stream in the SQL helper below the SQL editor. 
 
-The query will be generated automatically: `SELECT * FROM iot` Click the RUN QUERY button (or press Ctrl+Enter) to run the query.
+  ![IoT sample data, preview step](/img/stream_name-in-list.png)
+  
+2. We will generate a basic query for you: SELECT * FROM iot. You can also type your own query into the editor. Click the **Run Query** button (or press `Ctrl+Enter` on PC, `Cmd + Enter` on Mac) to run the query.
 
-![Run query](/img/sampledata_click_run_bn.png)
+![Run Query in Query page](/img/run-query.png)
 
-The streaming SQL will keep showing the latest results in the UI.
+The streaming results table will now appear below the editor. To create charts, click on the **Visualization** tab. [Learn more about Dashboards and Charts](viz)
 
-![Run query](/img/sampledata_click_query_live.png)
-
-You can switch to the VISUALIZATION tab to view the streaming chart of the data.
-
-![Run query](/img/sampledata_click_viz.png)
+![Example of visualization for sample dataset](/img/viz-sample-iot.png)

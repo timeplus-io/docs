@@ -39,3 +39,10 @@ $ GIT_USER=<Your GitHub username> yarn deploy
 ```
 
 If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+
+### Update Neutron REST API doc
+
+1. Make sure your Neutron is up-to-date
+2. Go to your Neutron folder, `make gen_api_doc` to generate `docs/swagger.yaml`
+3. Go back to this folder and modify the `root` inside the `.redocly.yaml`, make sure the path is correct
+4. `yarn rest-doc`
