@@ -155,7 +155,7 @@ Every second, it will show the aggregation result for the number of events per H
 
 ### Show a live ASCII bar chart
 
-Combining the interesting [bar](https://clickhouse.com/docs/en/sql-reference/functions/other-functions#bar) function from Clickhouse, you can use the following streaming SQL to visualize the top 5 HTTP methods per your clickstream.
+Combining the interesting [bar](https://clickhouse.com/docs/en/sql-reference/functions/other-functions#bar) function from ClickHouse, you can use the following streaming SQL to visualize the top 5 HTTP methods per your clickstream.
 
 ```sql
 select raw:method, count() as cnt, bar(cnt, 0, 40,5) as bar from frontend_events

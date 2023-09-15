@@ -66,7 +66,7 @@ Proton supports retention policies to automatically remove out-of-date data from
 
 ##### For Historical Storage
 
-Proton leverages Clickhouse TTL expression for the retention policy of historical data. When you create the stream, you can add ` TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period. 
+Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add ` TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period. 
 
 ##### For Streaming Storage
 
