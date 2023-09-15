@@ -354,14 +354,14 @@ WITH cte1 AS (SELECT ..),
 
 ```sql
 -- tumble over tumble
-WITH (
-    SELECT device, avg(cpu_usage) AS avg_usage, any(window_start) AS window_start -- tumble subquery
+WITH avg_5_second AS (
+    SELECT device, avg(cpu_usage) AS avg_usage, any(window_start) AS start -- tumble subquery
     FROM
       tumble(device_utils, 5s)
     GROUP BY device, window_start
-) AS avg_5_second
+)
 SELECT device, max(avg_usage), window_end -- outer tumble aggregation query
-FROM tumble(avg_5_second, window_start, 10s)
+FROM tumble(avg_5_second, start, 10s)
 GROUP BY device, window_end;
 ```
 
@@ -389,7 +389,7 @@ GROUP BY device;
 示例：
 
 ```sql
-SELECT device, maxK(5)(avg_usage) -- outer global aggregation query
+SELECT device, max_k(avg_usage,5) -- outer global aggregation query
 FROM
 (
     SELECT device, avg(cpu_usage) AS avg_usage -- global aggregation subquery
