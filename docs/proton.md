@@ -1,4 +1,4 @@
-# Timeplus Open Core
+# Proton
 
 Since September 2023, the core engine of Timeplus is open-sourced at [github.com/timeplus-io/proton](https://github.com/timeplus-io/proton), under Apache License 2.0.
 

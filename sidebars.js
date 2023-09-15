@@ -116,7 +116,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Timeplus Open Core',
+      label: 'Proton',
       link: {
         type: 'doc',
         id: 'proton'
