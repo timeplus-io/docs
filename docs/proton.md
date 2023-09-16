@@ -51,7 +51,7 @@ From `proton-client`, run the following SQL to create a stream of random data:
 
 ```sql
 -- Create a stream with random data.
-CREATE RANDOM STREAM devices(device string default 'device'||to_string(rand()%4), location string default 'city'||to_string(rand()%10), temperature float default rand()%1000/10);
+CREATE RANDOM STREAM devices(device string default 'device'||to_string(rand()%4), temperature float default rand()%1000/10);
 
 -- Run the long-running stream query.
 SELECT device, count(*), min(temperature), max(temperature) FROM devices GROUP BY device;
