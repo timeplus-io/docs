@@ -64,7 +64,7 @@ For example, if the car keeps sending data when it's moving and stops sending da
 
 `dedup(stream, column1 [,otherColumns..] [liveInSecond,limit])`
 
-Apply the deduplication at the given data stream with the specified column(s). `liveInSecond` specifies how long the keys will be kept in the memory/state. By default forever. But if you only want to avoid duplicating within a certain time period, say 2 minutes, you can set `120s`, e.g. `dedup(subquery,myId,120s)`
+Apply the deduplication at the given data stream with the specified column(s). Rows with same column value will only show once (only the first row is selected and others are omitted.) `liveInSecond` specifies how long the keys will be kept in the memory/state. By default forever. But if you only want to avoid duplicating within a certain time period, say 2 minutes, you can set `120s`, e.g. `dedup(subquery,myId,120s)`
 
 The last parameter `limit` is optional which is `100000` by default. It limits the max unique keys maintained in the query engine. If the limit reaches, the system will recycle the earliest keys to maintain this limit.
 
@@ -73,6 +73,15 @@ You can cascade this table function like `tumble(dedup(table(....` and so far th
 ✅ streaming query
 
 ✅ historical query
+
+When you use `dedup` function together with `table()` function to get the latest status for events with same ID, you can consider order the data by _tp_time in the reverse way. So that the latest event is shown. e.g.
+
+```sql
+WITH latest_to_earliest AS (SEELCT * FROM table(my_stream) ORDER by _tp_time DESC)
+SELECT * FROM dedup(latest_to_earliest, id)
+```
+
+Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earlier event with same ID will be processed first, ignoring the rest of the updated status. In many cases, this is not what you expect.
 
 ### lag
 
