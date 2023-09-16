@@ -2,10 +2,9 @@
 
 ## Introduction
 
-Proton is a single binary unified for streaming and historical data processing engine. It helps developers, engineers,
-and data analysts solve complex real-time analytics use cases, and powers the [Timeplus](https://www.timeplus.com/) streaming analytics platform.
+Proton is a single binary unified for streaming and historical data processing engine. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus Cloud](https://www.timeplus.com/) streaming analytics platform.
 
-Proton builds on top of the popular open source [ClickHouse project](https://github.com/clickhouse/clickhouse) for its historical data, storage, computing functionality, and a portion of its query engine, delivering more mature online analytical processing (OLAP) capabilities and new development to unify the streaming and processing engines.
+Proton builds on top of the popular open source [ClickHouse project](https://github.com/clickhouse/clickhouse) for its historical data, storage, computing functionality. Proton's query engine unifies the streaming and OLAP data processing.
 
 Why use Proton?
 
