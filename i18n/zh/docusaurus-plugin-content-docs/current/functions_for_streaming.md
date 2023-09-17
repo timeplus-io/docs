@@ -73,14 +73,20 @@
 
 ✅ historical query
 
-When you use `dedup` function together with `table()` function to get the latest status for events with same ID, you can consider order the data by _tp_time in the reverse way. So that the latest event is shown. 例如
+:::info tips
+
+When you use `dedup` function together with `table()` function to get the latest status for events with same ID, you can consider ordering the data by _tp_time in the reverse way, so that the latest event for same ID is kept. 例如
 
 ```sql
 WITH latest_to_earliest AS (SEELCT * FROM table(my_stream) ORDER by _tp_time DESC)
 SELECT * FROM dedup(latest_to_earliest, id)
 ```
 
-Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earlier event with same ID will be processed first, ignoring the rest of the updated status. In many cases, this is not what you expect.
+Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earliest event with same ID will be processed first, ignoring the rest of the updated status. In many cases, this is not what you expect.
+
+:::
+
+
 
 ### lag
 
