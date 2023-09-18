@@ -1,4 +1,4 @@
-# API Key
+# API 密钥
 
 You need to create an API key to access the Timeplus REST API. Here’s how to create one:
 
