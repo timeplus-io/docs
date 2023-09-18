@@ -9,7 +9,7 @@
 
 **数据摄取**
  * During the Preview step of adding a new source, we now show you the time remaining for previewing data. If no event comes in after 30 seconds, you can go back to previous steps, check your configuration, then try again.
- * For CSV file uploads, you can select an [event time column](eventtime) when you set up the stream.
+ * For "Sample dataset", you can select an [event time column](eventtime) when you set up the stream. CSV file uploads will be enhanced soon.
  * All sources now have data retention options when you create a new stream.
 
 **Sinks**
