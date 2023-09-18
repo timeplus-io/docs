@@ -92,3 +92,102 @@ The Timeplus source plugin for Airbyte is in the early stage. Please contact us 
 ## Trigger Actions via webhook{#webhook}
 
 You can also add automations to trigger other systems to take actions when Timeplus finds any real-time insights. Simply choose the **Webhook** as the action type and optionally set a message body (by default, the entire row will be encoded as a JSON document and sent to the webhook). You can use this approach to perform rule-based automation without human interaction, such as swapping a overheated equipment, scaling up to scaling down the server farm, or reminder users on slack, etc. Please check [this blog](https://www.timeplus.com/post/build-a-real-time-security-app-in-3-easy-steps) for real-world examples.
+
+
+## Sink API
+In case calling API to create a sink, here are the reference
+
+### kafka
+
+refet to [https://kafka.apache.org/](https://kafka.apache.org/)
+
+| Property                | Required    | Description                                               | Default |
+|-------------------------|---------|-----------------------------------------------------------|---------|
+| brokers                   | yes | Specifies the list of broker addresses. This is a comma-separated string. such as `kafka1:9092,kafka2:9092,kafka3:9092`| | |
+| topic                     | yes | Specifies the Kafka topic to send data to.              | |
+| batch_count               | no  | Specifies the Kafka offset configuration.    support `latest,earliest`            |`1000`|
+| data_type                 | yes | Specifies the data type to use for creating the stream.   support `json`,` `,`protobuf` | | 
+| sasl                      | no  | Specifies the Simple Authentication and Security Layer (SASL) mechanism for authentication. support `none`,`plain`,`scram-sha-256`,`scram-sha-512` | `none` | |
+| username                  | no  | Specifies the username for authentication.               ||
+| password                  | no  | Specifies the password for authentication.               ||
+| tls.disable               | no  | If set to `true`, disables TLS encryption.               |`false`|
+| tls.skip_verify_server    | no  | If set to `true`, skips server certificate verification when using TLS. |`false`|
+| protobuf_schema           | no  | Specifies the Protobuf schema.                          |
+| protobuf_message          | no  | Specifies the Protobuf message type.                     |
+
+
+### http
+
+| Property                | Required    | Description                                               | Default |
+|-------------------------|---------|-----------------------------------------------------------|---------|
+| url                      | yes  | Specifies the url of http                      |        | 
+| content_type             | no   | Specifies the content type.                    |        |
+| http_method              | no   | Specifies the password for authentication.     | `POST` |
+| payload_field            | no   | If set to `true`, disables TLS encryption.     |        |
+| http_header              | no   | http header object                             | `{}`   |
+| oauth2                   | no   | Specifies oauth2 configuration. refer to `oauth2`               |
+| paralism                 | no   | Specifies the paralism number schema.          | `1`     | 
+| retries                  | no   | Specifies the retries number.                  | `0`     |
+| retry_interval           | no   | Specifies the interval between retries         |`10s`    |
+| timeout                  | no   | http timeput interval.                         | `10s`   | 
+
+
+#### oauth2
+
+| Property                | Required| Description                                               | Default |
+|-------------------------|---------|-----------------------------------------------------------|---------|
+| enabled                 | no     | wether to enable oauth2                    |  `false`      | 
+| client_key              | no     | client key                                 |        | 
+| client_secret           | no     | client secret                              |        | 
+| TokenURL                | no     | token url                                  |        | 
+| scopes                  | no     | scopes, list of strings                    |        | 
+
+
+### slack
+
+refer to [https://slack.com/](https://slack.com/)
+
+| Property                | Required| Description                                               | Default |
+|-------------------------|---------|-----------------------------------------------------------|---------|
+| url                    | yes     | the webhook url of the slack channel                    |   | 
+| template               | no     | the template used to send query result to slack, use `{{ .field_name }}` to replace the field of query result you want to reference                              |        | 
+| header                 | no     | the http header                             |   `{}`   | 
+
+
+### timeplus
+
+send query result to another timeplus stream
+
+| Property                | Required| Description                                               | Default |
+|-------------------------|---------|-----------------------------------------------------------|---------|
+| urlstream_name          | yes     | the name of the target stream |   | 
+    
+
+### clickhouse
+
+refer to [https://clickhouse.com/](https://clickhouse.com/)
+
+| Property          | Required       | Description                                               | Default |
+|-------------------|----------------|-----------------------------------------------------------|---------|
+| table_name        | yes            | Specifies the name of the target ClickHouse table. |
+| dsn               | yes            | Specifies the ClickHouse Data Source Name (DSN). When specified, `hosts`, `username`, `password`, and `database` will be ignored. |
+| hosts             | yes*             | Specifies the list of ClickHouse server hosts.            |
+| username          | yes*             | Specifies the username for authentication.               |
+| password          | yes*            | Specifies the password for authentication.               |
+| database          | yes*             | Specifies the ClickHouse database to use.                |
+| engine            | yes*            | Specifies the ClickHouse table engine to use.                  |
+| suffix            | yes*         | Specifies a suffix to be added to the create table script.        |
+| init_sql          | yes         | Specifies initial SQL to create the table. When specified, it ignores `engine` and `suffix`. |
+| batch_count       | no            | Specifies the batch count for data ingestion.            | `128`|
+| batch_duration    | no  | Specifies the batch duration for data ingestion.         | `100ms`|
+
+### pulsar
+
+refer to [https://pulsar.apache.org/](https://pulsar.apache.org/)
+
+| Property                | Required    | Description                                               | Default |
+|-------------------------|---------|-----------------------------------------------------------|---------|
+| topic    | yes      | Specifies the topic of the pulsar to connect to.            |
+| broker_url    | yes      | Specifies the URL of the broker to connect to.            |
+| auth_type     | yes    | Specifies the authentication type to use.  support ` `,`oauth2`,`token`           |
+| auth_params   | no | Specifies authentication parameters as key-value pairs.  | `{}` |
