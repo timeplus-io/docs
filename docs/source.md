@@ -18,7 +18,7 @@ refet to [https://kafka.apache.org/](https://kafka.apache.org/)
 | topic                     | yes  | Specifies the Kafka topic to connect.              | |
 | offset                    | yes  | Specifies the Kafka offset configuration.    support `latest,earliest`            ||
 | data_type                 | yes| Specifies the data type to use for creating the stream.   support `json`,`text`,`avro`,`protobuf`,`debezium-json`,`debezium-json-upsert`     | | |
-| group                     | no  | Specifies the Kafka consumer group.                      | | 
+| group                     | no  | Specifies the Kafka consumer group. use the source uuid with prefix `timeplus-source-` as the default value if user does not specify it                     | `timeplus-source-<uuid>`| 
 | sasl                      | no  | Specifies the Simple Authentication and Security Layer (SASL) mechanism for authentication. support `none`,`plain`,`scram-sha-256`,`scram-sha-512` | `none` | |
 | username                  | no  | Specifies the username for authentication.               ||
 | password                  | no  | Specifies the password for authentication.               ||
