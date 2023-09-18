@@ -2,6 +2,22 @@
 
 This page summarizes changes in each major update in Timeplus, including new features and important bug fixes.
 
+## Sep 18, 2023
+
+**Database**
+  * New functions to generate random data – check them out [here](functions_for_random).
+
+**Data Ingestion**
+ * During the Preview step of adding a new source, we now show you the time remaining for previewing data. If no event comes in after 30 seconds, you can go back to previous steps, check your configuration, then try again.
+ * For CSV file uploads, you can select an [event time column](eventtime) when you set up the stream. 
+ * All sources now have data retention options when you create a new stream.
+
+**Sinks**
+ * We've added a sink for Confluent Cloud. This is similar to the Apache Kafka sink, with mandatory authentication. 
+
+**Console UI** 
+ * In resource lists such as Views, Materialized Views, Sinks, and Query History, the SQL is now shown in one line without breaks. 
+
 ## Sep 5, 2023
 
 The Terraform Provider for Timeplus is now published - [check it out](https://registry.terraform.io/providers/timeplus-io/timeplus/latest). 
