@@ -24,7 +24,8 @@ The difference between a materialized view and a regular view is that the materi
 To create a materialized view:
 
 ```sql
-CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name> AS <SELECT ...>
+CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name> 
+AS <SELECT ...>
 ```
 
 Once the materialized view is created, Timeplus will run the query in the background continuously and incrementally emit the calculated results according to the semantics of its underlying streaming select.  There is a timestamp version `__tp_version` to every row. 
@@ -47,6 +48,7 @@ You can also use materialized views to write data to Apache Kafka with an extern
 To create a materialized view with the target stream:
 
 ```sql
-CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name> INTO <target_stream> AS <SELECT ...>
+CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name>
+INTO <target_stream> AS <SELECT ...>
 ```
 

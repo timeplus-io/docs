@@ -61,8 +61,9 @@ We designed Proton's usage to be similar to ClickHouse, with a few key differenc
 
 - Timeplus' default SQL query mode is **streaming**, which means it is long-running and continuously tracks and evaluates changed data and pushes results to users or target systems. To create a [historical data query](functions_for_streaming#table), wrap your SQL in `table(stream)`.
 - We renamed data types and functions to remove camelcase. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Proton. Our [functions](functions) docs have additional details.
-- In Proton, [JOINs](joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
 - Not all ClickHouse functions are currently enabled in Proton or work in a streaming query. If we should add or enhance the functions available in Proton, let us know in the [GitHub issues](https://github.com/timeplus-io/proton/issues) for Proton.
+- Materialized Views in ClickHouse works for one source table, and data is processed at the index time. In Proton, you can define a [Materialized View](proton-create-view#m_view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Proton continuously runs the query and sends the results to the internal stream or the target stream.
+- In Proton, [JOINs](joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
 
 See the documentation for full usage details.
 
