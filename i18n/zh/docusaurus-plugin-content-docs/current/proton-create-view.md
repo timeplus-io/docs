@@ -24,7 +24,8 @@ CREATE VIEW [IF NOT EXISTS] <view_name> AS <SELECT ...>
 To create a materialized view:
 
 ```sql
-CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name> AS <SELECT ...>
+CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name> 
+AS <SELECT ...>
 ```
 
 创建物化视图后， Timeplus 在后台持续运行查询，并增量的计算结果写入存储。  每行都有一个 `__tp_version` 的时间戳版本。
@@ -47,6 +48,7 @@ You can also use materialized views to write data to Apache Kafka with an extern
 To create a materialized view with the target stream:
 
 ```sql
-CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name> INTO <target_stream> AS <SELECT ...>
+CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name>
+INTO <target_stream> AS <SELECT ...>
 ```
 
