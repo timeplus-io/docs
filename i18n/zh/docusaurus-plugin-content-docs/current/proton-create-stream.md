@@ -8,7 +8,7 @@ In Timeplus Cloud or Private Cloud deployments, we recommend you to create strea
 
 ## CREATE STREAM
 
-[Stream](working-with-streams) is a key [concept](concepts) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Proton.
+[Stream](working-with-streams) is a key [concept](category/concepts) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Proton.
 
 ### Append-only Stream
 
