@@ -50,14 +50,11 @@
 
 `to_start_of_quarter(date)` 将日期或带有时间的日期倒退到季度的第一天。 返回日期。
 
-`to_start_of_quarter(date)`
-
-将日期或带有时间的日期舍入到这个季度的第一天。 返回日期。
-
 ### to_start_of_month
 
 `to_start_of_month(date)` 将日期或带有时间的日期返回到该月的第一天。 返回日期。
 
+### to_start_of_week
 
 `to_start_of_week(date)` rounds down a date or date with time to the first day of the week. 返回日期。
 
