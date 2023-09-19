@@ -15,7 +15,7 @@ const config = {
   favicon: 'img/favicon.ico',
   organizationName: 'timeplus-io', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
-  scripts:['/heap.js','/hotjar.js','/ai.js','https://data.timeplus.com/p.js'],
+  scripts:['/hotjar.js','/ai.js','https://data.timeplus.com/p.js'],
   plugins: ['docusaurus-plugin-hubspot'],
 
   presets: [
@@ -107,16 +107,16 @@ const config = {
             position: 'left',
             label: 'REST API',
           },
-          /*
-          {
-            href: 'https://github.com/timeplus-io/',
-            label: 'GitHub',
-            position: 'right',
-          },
-          */
           {
             type: 'search',
             position: 'right',
+          },
+          {
+            href: 'https://github.com/timeplus-io/proton',
+            label: ' ',
+            position: 'right',
+            className: 'header-github-link',
+            'aria-label': 'GitHub repository',
           },
           {
             href: 'https://timeplus.com/slack',
@@ -164,7 +164,7 @@ const config = {
               },
               {
                 label: 'Github',
-                href: 'https://github.com/timeplus-io/',
+                href: 'https://github.com/timeplus-io/proton',
               },
             ],
           },

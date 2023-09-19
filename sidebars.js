@@ -71,7 +71,7 @@ const sidebars = {
             type: 'doc',
             id: 'working-with-streams'
           },
-          items: ['changelog-stream', 'versioned-stream', 'external-stream']
+          items: ['changelog-stream', 'versioned-stream', 'external-stream','substream']
         },
         'eventtime', 'stream-query', 'history', 'view', 'source', 'destination', 'alert']
     },
@@ -109,6 +109,15 @@ const sidebars = {
         type: 'generated-index',
       },
       items: ['apikey','terraform']
+    },
+    {
+      type: 'category',
+      label: 'Proton',
+      link: {
+        type: 'doc',
+        id: 'proton'
+      },
+      items: ['proton-architecture','proton-kafka','proton-create-stream','proton-alter-stream','proton-drop-stream','proton-create-view','proton-drop-view','proton-faq']
     },
     'faq',
     'issues',
