@@ -1,25 +1,18 @@
-# FAQ For Open Source Proton
+# Proton FAQ
 
-On September 21, 2023, Timeplus announced the release of its [open source Proton](https://github.com/timeplus-io/proton/) streaming and historical data processing engine. We're using this FAQ as the primary reference for learning about what Proton is, how we licensed the code open source, how you can use Proton today, and more.
+On September 21, 2023, Timeplus announced the open-source project: [Proton](https://github.com/timeplus-io/proton/). We're using this FAQ as the primary reference for learning about what Proton is, how we licensed the code open source, how you can use Proton today, and more.
 
 ## What is Proton?
 
-Proton is the core engine powering the [Timeplus platform](https://www.timeplus.com), a unified streaming and historical data processing engine designed for efficiency and strong performance. Proton has no external service dependencies, which allows you to deploy it on bare metal, edge devices, within containers, or as part of an orchestrated cloud environment.
+Proton is the core engine powering the [Timeplus](https://www.timeplus.com), a unified streaming and historical data processing engine designed for efficiency and strong performance. Proton has no external service dependencies, which allows you to deploy it on bare metal, edge devices, within containers, or as part of an orchestrated cloud environment.
 
 Proton builds on top of the popular open source [ClickHouse project](https://github.com/ClickHouse/ClickHouse) for its historical data, storage, computing functionality, and a portion of its query engine.
 
 By leveraging the proven technologies of ClickHouse, Proton brings more mature online analytical processing (OLAP) capabilities to the open source community with lots of new development to unify the streaming and processing engines. You can use Proton alongside your existing ClickHouse deployment to enable additional functionality or replace your existing deployment with Proton or Timeplus.
 
-Timeplus maintains two versions of Proton: an open source edition licensed under [Apache License 2.0](#license), and the enterprise edition for the Timeplus platform.
-
-- The **open source edition** powers unified streaming and data processing on a single database node.
-- The **enterprise edition** powers Timeplus Cloud and Timeplus Enterprise by layering advanced deployment strategies and additional features.
-
-Learn more about the differences in features [below](#compare).
-
 ## How is Proton licensed? {#license}
 
-The open source, single-node edition of Proton follows the ClickHouse licensing model with [Apache License 2.0](https://github.com/timeplus-io/proton/blob/develop/LICENSE), which is also used by popular open source projects like [Kubernetes](https://github.com/kubernetes/kubernetes) and [Apache Flink](https://github.com/apache/flink).
+Proton follows the ClickHouse licensing model with [Apache License 2.0](https://github.com/timeplus-io/proton/blob/develop/LICENSE), which is also used by popular open source projects like [Kubernetes](https://github.com/kubernetes/kubernetes) and [Apache Flink](https://github.com/apache/flink).
 
 Apache License 2.0 is a [permissive license](https://fossa.com/blog/open-source-licenses-101-apache-license-2-0/) that allows for most uses without restriction. We'll talk more about how you can use Proton in the [following section](#use).
 
@@ -33,26 +26,26 @@ We chose this license for a few important reasons:
   
 - **We're building a new community around unified streaming and data processing**. ClickHouse paved the way for processing, but we have much to experiment and discover together around streaming. We can't wait to get feedback from developers and users within organizations of all sizes and degrees of streaming maturity.
 
-## What uses, commercial and beyond, are allowed with the open source Proton project? {#use}
+## What uses, commercial and beyond, are allowed with the Proton project? {#use}
 
-Under Apache License 2.0, you are allowed to modify, distribute, and sublicense the open source edition of Proton as it's available on GitHub.
+Under Apache License 2.0, you are allowed to modify, distribute, and sublicense Proton as it's available on GitHub.
 
 You can also include Proton in proprietary software that you then sell to customers, but that does not grant you any rights to use Proton or Timeplus trademarks or imply a commercial relationship or partnership between your organization and Proton or Timeplus.
 
 Apache License 2.0 also prevents any contributor to Proton—a member of the Timeplus team or an outside contributor—from being held liable by end users, whether they are individual developers or commercial organizations.
 
-## What features are available with the open source Proton project versus Timeplus Cloud? {#compare}
+## What features are available with Proton versus Timeplus? {#compare}
 
-As described above, the primary difference between the open source edition of Proton and its commercial counterpart is the deployment strategy and inclusion of enterprise-ready features, but there are some other differences we would like to clarify.
+Proton powers unified streaming and data processing on a single database node. Its commercial counterpart supports advanced deployment strategy and includes enterprise-ready features. There are some other differences we would like to clarify.
 
-|                               | **Proton open source**                                                         | **Timeplus Cloud**                                                                                               |
-| ----------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| **Deployment**                | <ul><li>Single-node Docker image</li></ul>                                      | <ul><li>Single node</li><li>Cluster</li><li>Kubernetes-based “bring your own cloud” (BYOC)</li><li>Fully-managed cloud service with SOC2</li></ul> |
-| **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li></ul>  | <ul><li>Everything in OSS Proton</li><li>Apache Pulsar</li><li>Ably</li><li>CSV upload</li><li>treaming ingestion via REST API</li></ul>                |
-| **Data destinations (sinks)** | <ul><li>External streams to Apache Kafka, Confluent Cloud, Redpand (coming soon)</li></ul>      | <ul><li>Everything in OSS Proton</li><li>Apache Pulsar</li><li>Slack</li><li>Webhook</li><li>Timeplus stream</li></ul>                                   |
-| **Support**                   | <ul><li>Community support from GitHub and Slack</li></ul>                                       | <ul><li>Enterprise support via email, Slack, and Zoom, with a SLA</li></ul>                                                      |
+|                               | **Proton**                                                   | **Timeplus**                                                 |
+| ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Deployment**                | <ul><li>Single-node Docker image</li></ul>                   | <ul><li>Single node</li><li>Cluster</li><li>Kubernetes-based “bring your own cloud” (BYOC)</li><li>Fully-managed cloud service with SOC2</li></ul> |
+| **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li></ul> | <ul><li>Everything in OSS Proton</li><li>Apache Pulsar</li><li>Ably</li><li>CSV upload</li><li>treaming ingestion via REST API</li></ul> |
+| **Data destinations (sinks)** | <ul><li>External streams to Apache Kafka, Confluent Cloud, Redpand (coming soon)</li></ul> | <ul><li>Everything in OSS Proton</li><li>Apache Pulsar</li><li>Slack</li><li>Webhook</li><li>Timeplus stream</li></ul> |
+| **Support**                   | <ul><li>Community support from GitHub and Slack</li></ul>    | <ul><li>Enterprise support via email, Slack, and Zoom, with a SLA</li></ul> |
 
-These details are subject to change, but we'll do our best to make sure they accurately represent the latest roadmaps for Proton and Timeplus Cloud.
+These details are subject to change, but we'll do our best to make sure they accurately represent the latest roadmaps for Proton and Timeplus.
 
 ## My organization already uses ClickHouse—are there plans to integrate Proton with the open source ClickHouse project?
 
