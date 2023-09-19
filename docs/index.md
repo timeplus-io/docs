@@ -2,49 +2,11 @@
 title: Introduction
 ---
 
-<!-- export const styles = {
-  GridClass: {
-    backgroundColor: "rgb(184, 50, 128)",
-    color: "white",
-    gridColumn: "span 6",
-    padding: "1.4rem 2rem",
-    borderRadius: "var(--ifm-pagination-nav-border-radius)",
-    textDecoration: "none",
-    '&:hover': {
-      backgroundColor: 'blue',
-    },
-    '& p': {
-      marginBottom: '0',
-    }
-  }
-}
-
-export const Grid = ({children}) => (
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(12,1fr)",
-      gap: "2rem",
-  }}>
-    {children}
-  </div>
-)
-
-export const GridItem = ({children, href}) => (
-  <a
-    href={href}
-    style={styles.GridClass}>
-    {children}
-  </a>
-) -->
-
 import Grid, { GridItem } from '@site/src/components/Grid'
 
 Timeplus is a streaming-first data analytics platform. It provides powerful end-to-end capabilities to help teams process streaming and historical data quickly and intuitively, accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock streaming data value using SQL. 
 
 The Timeplus console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud, Redpanda, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to other systems or individuals, and create dashboards and visualizations.
-
-![overview](/img/overview.png)
 
 ## Get started with Timeplus
 

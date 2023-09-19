@@ -9,19 +9,26 @@
 .button {
   position: relative;
   grid-column: span 6;
-  background: rgba(184, 50, 128, 1);
+  background:  #291d24;
+  border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-pagination-nav-border-radius);
   padding: 1.8rem 1.4rem;
+  transition: 0.3s all ease-in-out;
 }
 
 .button:hover {
   text-decoration: none;
-  background: rgba(184, 50, 128, 0.8);
+  border: 1px solid rgba(184, 50, 128, 1);
+}
+
+.button:hover h3 {
+  color: rgba(184, 50, 128, 1);
 }
 
 .button h3 {
   font-size: 1.25rem;
   color: white;
+  transition: 0.3s all ease-in-out;
 }
 
 .button p {
