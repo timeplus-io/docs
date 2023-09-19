@@ -41,8 +41,8 @@ Proton powers unified streaming and data processing on a single database node. I
 |                               | **Proton**                                                   | **Timeplus**                                                 |
 | ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **Deployment**                | <ul><li>Single-node Docker image</li></ul>                   | <ul><li>Single node</li><li>Cluster</li><li>Kubernetes-based “bring your own cloud” (BYOC)</li><li>Fully-managed cloud service with SOC2</li></ul> |
-| **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li></ul> | <ul><li>Everything in OSS Proton</li><li>Apache Pulsar</li><li>Ably</li><li>CSV upload</li><li>treaming ingestion via REST API</li></ul> |
-| **Data destinations (sinks)** | <ul><li>External streams to Apache Kafka, Confluent Cloud, Redpand (coming soon)</li></ul> | <ul><li>Everything in OSS Proton</li><li>Apache Pulsar</li><li>Slack</li><li>Webhook</li><li>Timeplus stream</li></ul> |
+| **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li></ul> | <ul><li>Everything in Proton</li><li>Apache Pulsar</li><li>Ably</li><li>CSV upload</li><li>treaming ingestion via REST API</li></ul> |
+| **Data destinations (sinks)** | <ul><li>External streams to Apache Kafka, Confluent Cloud, Redpand (coming soon)</li></ul> | <ul><li>Everything in Proton</li><li>Apache Pulsar</li><li>Slack</li><li>Webhook</li><li>Timeplus stream</li></ul> |
 | **Support**                   | <ul><li>Community support from GitHub and Slack</li></ul>    | <ul><li>Enterprise support via email, Slack, and Zoom, with a SLA</li></ul> |
 
 These details are subject to change, but we'll do our best to make sure they accurately represent the latest roadmaps for Proton and Timeplus.
