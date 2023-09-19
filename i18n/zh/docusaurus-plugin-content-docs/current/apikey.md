@@ -1,19 +1,19 @@
 # API 密钥
 
-You need to create an API key to access the Timeplus REST API. Here’s how to create one:
+您需要创建 API 密钥才能访问 Timeplus REST API。 以下是如何创建的步骤：
 
-1. Click on your **avatar** in the top right corner. In the dropdown, click **Personal Settings**.
+1. 点击右上角的 **头像**。 在下拉列表中，单击 **个人设置**。
 
-![User avatar and Personal Settings](/img/api-key-avatar-1.png)
+![用户头像和个人设置](/img/api-key-avatar-1.png)
 
-2. In the API Keys section, click the **Create API Key** button.
+2. 在 API 密钥部分，单击 **创建 API 密钥** 按钮。
 
-![Create API Key](/img/api-key-settings-2.png)
+![创建 API 密钥](/img/api-key-settings-2.png)
 
-3. Enter an optional description for the key, choose an expiration date if needed, and click **Create**.
+3. 输入密钥的可选描述，根据需要选择到期日期，然后单击 **创建**。
 
-![API Key dialog](/img/api-key-dialog-3.png)
+![API 密钥对话框](/img/api-key-dialog-3.png)
 
-4. The API key will only be shown to you once - make sure you securely save it right away. You won’t be able to retrieve the key again later in the console.
+4. API密钥只会向您显示一次——请确保您安全且及时地将它保存好。 您之后将无法在控制台再次检索该密钥。
 
-![Copy API key](/img/api-key-copy-4.png)
+![复制 API 密钥](/img/api-key-copy-4.png)
