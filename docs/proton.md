@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Proton is a unified streaming and historical data processing engine in a single binary. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus Cloud](https://timeplus.com) streaming analytics platform.
+Proton is a unified streaming and historical data processing engine in a single binary. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus](https://timeplus.com) streaming analytics platform.
 
 Proton extends the historical data, storage, and computing functionality of the popular [ClickHouse project](https://github.com/clickhouse/clickhouse) with streaming and OLAP data processing.
 
@@ -69,17 +69,13 @@ You should see data like the following:
 
 ### What's next?
 
-Now that you're running Proton and have created your first stream, query, and view, you can explore [reading and writing
-data from Apache Kafka](proton-kafka#tutorial) with External Streams, or view the the subpages to explore additional capabilities.
+Now that you're running Proton and have created your first stream, query, and view, you can explore [reading and writing data from Apache Kafka](proton-kafka#tutorial) with External Streams, or view the the subpages to explore additional capabilities.
 
-To see how such a deployment of Proton works as a demo, using `owl-shop` sample live data, check out our [tutorial with
-Docker Compose](proton-kafka#tutorial).
+To see how such a deployment of Proton works as a demo, using `owl-shop` sample live data, check out our [tutorial with Docker Compose](proton-kafka#tutorial).
 
-## Get more with Timeplus Cloud
+## Get more with Timeplus
 
-To access more features, such as sources, sinks, dashboards, alerts, data lineage, create a workspace at [Timeplus
-Cloud](https://us.timeplus.cloud) or try the [live demo](https://demo.timeplus.cloud) with pre-built live data and
-dashboards.
+To access more features, such as sources, sinks, dashboards, alerts, data lineage, create a workspace at [Timeplus Cloud](https://us.timeplus.cloud) or try the [live demo](https://demo.timeplus.cloud) with pre-built live data and dashboards.
 
 ## Contributing
 
@@ -91,8 +87,7 @@ We also encourage you to join the `#contributing` channel in the [Timeplus Commu
 
 ## Need help?
 
-Join the [Timeplus Community Slack](https://timeplus.com/slack) to connect with Timeplus engineers and other Proton
-users.
+Join the [Timeplus Community Slack](https://timeplus.com/slack) to connect with Timeplus engineers and other Proton users.
 
 - Use the `#proton` channel to ask questions about installing, using, or deploying Proton.
 - Join the `#contributing` channel to connect with other contributors to Proton.
