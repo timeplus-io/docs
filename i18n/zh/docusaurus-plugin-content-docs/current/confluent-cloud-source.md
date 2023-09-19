@@ -12,5 +12,5 @@
     2. 如果您选择Avro，则有一个“自动提取”选项。 默认情况下，此选项处于关闭状态，这意味着整条消息将另存为字符串。 如果您将其打开，则 AVRO 消息中的顶级属性将被放入不同的列中。 这对您而言更方便查询，但不支持架构进化。 当选择 Avro 时，您还需要指定架构注册表的地址、API 密钥和密码提示。
     3. 如果您选择 Protobuf，请将整个 Protobuf 定义粘贴到其中，然后指定根消息名称。
 5. 在接下来的“预览”步骤中，我们将从您指定的 Confluent Cloud 数据源中向您展示至少一个事件。
-6. 默认情况下，您的新数据源将在 Timeplus 中创建一个新流。 Give this new stream a name and verify the columns information (column name and data type). You can also set a column as the event time column. If you don’t, we will use the ingestion time as the event time. Alternatively, you can select an existing stream from the dropdown.
-7. After previewing your data, you can give the source a name and an optional description, and review the configuration. Once you click Finish, your streaming data will be available in the specified stream immediately. 
+6. 默认情况下，您的新数据源将在 Timeplus 中创建一个新流。 给这个新流命名并验证列信息（列名和数据类型）。 您也可以将一列设置为事件时间列。 如果您不这样做，我们将使用摄取时间作为事件时间。 或者，您可以从下拉列表中选择一个现有的流。
+7. 在预览您的数据后，您可以给源提供一个名称和一个可选的描述，并审查配置。 单击“完成”后，您的流数据将立即在指定的流中可用。 
