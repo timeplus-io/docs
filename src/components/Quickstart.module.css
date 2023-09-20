@@ -1,0 +1,53 @@
+.quickstart {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background:  #291d24;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-pagination-nav-border-radius);
+  padding: 1.8rem 1.4rem;
+  transition: 0.3s all ease-in-out;
+  text-decoration: none;
+}
+
+.quickstart:hover {
+  text-decoration: none;
+  border: 1px solid rgba(184, 50, 128, 1);
+}
+
+.quickstart:hover h3 {
+  color: rgba(184, 50, 128, 1);
+}
+
+.quickstart h3 {
+  font-size: 1.4rem;
+  color: white;
+  transition: 0.3s all ease-in-out;
+}
+
+.quickstart p {
+  color: white;
+}
+
+.text {
+  width: 50%;
+  margin-right: 0.5rem;
+}
+
+.cta {
+  display: inline-block;
+  color: white;
+  background: var(--ifm-color-primary);
+  border-radius: 20px;
+  transition: 0.3s all ease-in-out;
+  padding: 0.5rem 3rem;
+}
+
+.quickstart:hover .cta {
+  background: var(--ifm-color-primary-dark);
+}
+
+.gif {
+  flex-basis: 50%;
+  margin-left: 0.5rem;
+}

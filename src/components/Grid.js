@@ -1,7 +1,5 @@
 import React from 'react'
 import Link from '@docusaurus/Link';
-import isInternalUrl from '@docusaurus/isInternalUrl';
-import ExternalLink from '@theme/Icon/ExternalLink';
 import styles from './Grid.module.css';
 
 export default function Grid ({ children }) {

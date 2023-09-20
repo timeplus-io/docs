@@ -2,13 +2,13 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto;
-  gap: 2rem;
+  gap: 1rem;
   margin: 2rem 0;
 }
 
 .button {
   position: relative;
-  grid-column: span 6;
+  grid-column: span 4;
   background:  #291d24;
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-pagination-nav-border-radius);
