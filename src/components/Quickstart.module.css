@@ -1,6 +1,7 @@
 .quickstart {
   display: flex;
   align-items: center;
+  flex-flow: row wrap;
   position: relative;
   background:  #291d24;
   border: 1px solid var(--ifm-color-emphasis-300);
@@ -31,7 +32,7 @@
 
 .text {
   width: 50%;
-  margin-right: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .cta {
@@ -48,6 +49,17 @@
 }
 
 .gif {
-  flex-basis: 50%;
-  margin-left: 0.5rem;
+  width: 50%;
+  padding-left: 0.5rem;
+}
+
+@media screen and (max-width: 996px) {
+  .text, .gif {
+    width: 100%;
+    margin: 0;
+  }
+
+  .text {
+    margin-bottom: 2rem;
+  }
 }
