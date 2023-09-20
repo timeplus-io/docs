@@ -98,7 +98,13 @@ Gain real-time visibility into fleet operations using only SQL. Based on real-wo
 
 You can access the live demo at https://demo.timeplus.cloud
 
+### Real-time sensor data from your phone {#phone}
 
+[Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger#live-data-streaming) is a free, easy-to-use, cross-platform data logger that logs readings from common motion-related sensors on smartphones. It can push data to Timeplus via the [Ingest API](ingest-api). Then you can build real-time dashboards:
+
+![Jove's demo](https://user-images.githubusercontent.com/30114997/224557365-dfe593f5-e84f-4fcf-9900-9bcfd31c5e44.png)
+
+https://www.youtube.com/watch?v=iWA8FHjyatE
 
 ## Customer 360
 
