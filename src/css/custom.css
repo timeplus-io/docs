@@ -19,7 +19,6 @@ html[data-theme='dark'] {
 }
 */
 @import url('https://fonts.googleapis.com/css?family=Inter');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;1,400&display=swap');
 
 html[data-theme='dark'] {
   --ifm-color-primary: #D53C97;
@@ -31,7 +30,7 @@ html[data-theme='dark'] {
   --ifm-color-primary-lightest: #EDB0CF;
   --ifm-code-font-size: 95%;
   --ifm-background-color: #2c2c2c;
-  --ifm-font-family-base: 'Poppins', 'Inter';
+  --ifm-font-family-base: 'Inter';
 }
 
 .docusaurus-highlight-code-line {
