@@ -3,7 +3,7 @@
   align-items: center;
   flex-flow: row wrap;
   position: relative;
-  background:  #291d24;
+  background:  var(--ifm-navbar-background-color);
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-pagination-nav-border-radius);
   padding: 1.8rem 1.4rem;
