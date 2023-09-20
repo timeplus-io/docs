@@ -12,9 +12,13 @@ For Free Trial accounts, the total storage for each workspace is 20GB by default
 
 Yes, the workspace owner can invite team members to access the workspace. Go to the "Settings" and "Members" tab. An email will be sent to the members and once they login, they will have the access to all objects in the workspace. More team collaboration features and fine-grained access control are in the product roadmap.
 
+## What's relationship for Timeplus and Proton? {#compare}
+
+Proton is the core engine of Timeplus and open-sourced on September 2023. Please check the [Proton FAQ](proton-faq) for details.
+
 ## What's the SLA and can I run production load? {#sla}
 
-We don't recommend the beta users to run production workload during the beta. Stay tuned for our official product releases.
+Timeplus Cloud went GA on August 2023, ready for production workload. There is no SLA for free trial. For Professional tier, it's 99.5%. For Enterprise tier, it's 99.9% or above. Please check https://timeplus.com/pricing for more details and FAQ.
 
 ## What is the IP address for Timeplus Cloud so that I can allow Timeplus to access my Kafka/Redpanda/Pulsar servers {#ip}
 
