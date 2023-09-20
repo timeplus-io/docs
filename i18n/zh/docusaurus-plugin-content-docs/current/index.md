@@ -1,20 +1,45 @@
-# Introduction
+- - -
+title: Overview
+- - -
 
-Timeplus is a streaming-first data analytics platform. It provides powerful end-to-end capabilities to help teams process streaming and historical data quickly and intuitively, accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock streaming data value using SQL. The Timeplus console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud, Redpanda, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to other systems or individuals, and create dashboards and visualizations.
+import Quickstart from '@site/src/components/Quickstart'
+import Grid, { GridItem } from '@site/src/components/Grid'
 
-![概览](/img/overview.png)
+Timeplus is a streaming-first data analytics platform. It provides powerful end-to-end capabilities, leveraging the open source streaming database [Proton](proton), to help teams process streaming and historical data quickly and intuitively, accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock streaming data value using SQL.
 
-## 高性能存储 {#fast}
+The Timeplus console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud, Redpanda, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to other systems or individuals, and create dashboards and visualizations.
 
-Timeplus 设计了一种基于列的数据格式，称为 **Timeplus数据格式(TDF)**，它支持极快的序列化和反序列化。 由于数据为列式存储，数据可以通过向量化进行高性能分析计算。  为了充分利用TDF的能力，Timeplus还设计了一个叫做Timeplus **原生日志 NativeLog** 的流存储。 加上TDF, Timeplus NativeLog 提供了高性能数据摄取， 它可以在磁盘上快速扫描数据并过滤流数据处理中不需要的内容。  Timeplus NativeLog也支持基于时间戳的快速寻找和针对时间序列数据分析的优化。
+Still curious about [why to use Timeplus](why-timeplus)? Check out the [showcases](showcases) to see how Timeplus customers use our unified streaming and historical processing platform.
 
-## 强大的分析引擎 {#powerful}
+## Get started with Timeplus
 
-Timeplus具有高性能流式SQL引擎，带动矢量化数据计算能力。 利用现代并行处理技术指令/多数据（SIMD），以超高效率处理流量数据。 Timeplus为分析实时数据和历史数据提供了独特的解决办法。 正如我们的公司名称所暗示的那样，我们专门处理实时数据。 Timeplus中的每个查询都可以检测到延迟的事件，您可以选择丢弃或等待它们。 支持常用时间窗口，如固定窗口tubmle、滑动窗口hop、会话窗口session。 您可以联合查询多个流（JOIN），或者通过CSV、S3或数据库来对数据添加上下问（Enrichment）。
+<Quickstart href="/quickstart">
+  <h3>快速入门</h3>
+  <p>Follow along with step-by-step instructions for creating a Timeplus Cloud account and loading sample IoT, user login, or DevOps data.</p>
+</Quickstart>
 
-## 端到端分析平台 {#intuitive}
+## Jump into stream processing and analytics
 
-Timeplus不仅仅是流式SQL数据库，它提供了端到端分析能力。  Timeplus支持各种数据源连接，如Apache Kafka、Amazon S3和Amazon Kinesis。  Timeplus提供了一个用户能够实时交互进行数据分析的网页。  提供实时可视化和仪表板。  用户也可以使用 API 与数据交互或将分析结果发送到下游数据系统，例如Apache Kafka、数据库、数据仓或数据湖。  提供警报，以便用户能够根据流式分析结果检测到的异常进行实时操作。
+<Grid> <GridItem href="/ingestion">
+### Ingest data &rarr;
 
-Please check the [Showcases](showcases) page for a comprehensive list of our key use cases and capabilities.
+Connect Timeplus Cloud to Apache Kafka, Apache Pulsar, Kinesis, Confluent Cloud, or push with a REST API, SDKs, and beyond.</GridItem> <GridItem href="/query-syntax">
+### Write SQL queries &rarr;
 
+Create long-running queries using functions like transformations, joins, aggregation, windowed processing, substreams, and more.</GridItem> <GridItem href="/viz">
+### Visualize data &rarr;
+
+View real-time results for any query, create custom dashboards to tell stories about your data, or integrate with external BI systems.</GridItem> </Grid>
+
+## Core concepts and functions
+
+<Grid> <GridItem href="/working-with-streams">
+### Streams &rarr;
+
+An append-only (by default), unbounded, constantly changing events group with changelog, versioned, and external options.</GridItem> <GridItem href="/destination">
+### Sinks &rarr;
+
+Send real-time insights to other systems, either to notify individuals or power downstream applications.</GridItem> <GridItem href="/proton">
+### Proton &rarr;
+
+The open source, unified streaming and historical data processing engine powering the Timeplus streaming analytics platform.</GridItem> </Grid>
