@@ -1,20 +1,59 @@
-# Introduction
+---
+title: Overview
+---
 
-Timeplus is a streaming-first data analytics platform. It provides powerful end-to-end capabilities to help teams process streaming and historical data quickly and intuitively, accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock streaming data value using SQL. The Timeplus console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud, Redpanda, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to other systems or individuals, and create dashboards and visualizations.
+import Quickstart from '@site/src/components/Quickstart'
+import Grid, { GridItem } from '@site/src/components/Grid'
 
-![overview](/img/overview.png)
+Timeplus is a streaming-first data analytics platform. It provides powerful end-to-end capabilities, leveraging the open
+source streaming database [Proton](proton), to help teams process streaming and historical data quickly and intuitively,
+accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock
+streaming data value using SQL. 
 
-## High performance storage {#fast}
+The Timeplus console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud,
+Redpanda, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to
+other systems or individuals, and create dashboards and visualizations.
 
-Timeplus has designed a column based data format called **Timeplus Data Format (TDF)**, which supports blazing fast serialization and deserialization. Since it is in column format, data can be vectorized for high performance analytic computation.  To fully leverage the capability of TDF, Timeplus also designed a stream storage called Timeplus **Native Log**. Combined with TDF, Timeplus Native Log provides high performance data ingestion, it can quickly prune data on disk and filter out data which is not required for streaming processing.  Timeplus Native log also supports timestamp based seek and optimized time series data analytics scenarios.
+Still curious about [why to use Timeplus](why-timeplus)? Check out the [showcases](showcases) to see how Timeplus
+customers use our unified streaming and historical processing platform.
 
-## Powerful analytic engine {#powerful}
+## Get started with Timeplus
 
-Timeplus has a high performance streaming SQL engine, leveraging vectorized data computing capability, streaming data is processed in super high efficiency with the modern parallel processing technology Instruction/Multiple Data (SIMD). Timeplus provides unique solutions to analyze both real-time data and historical data. As our company name implies, we are specialized to process real-time data. Each query in Timeplus can detect late events, and you can choose to drop or wait for them. Common streaming windows are supported such as tumble, hopping, session. You can join a stream with other streams, or enrich them with data from CSV, S3 or databases. 
+<Quickstart href="/quickstart">
+  <h3>Quickstart</h3>
+  <p>Follow along with step-by-step instructions for creating a Timeplus Cloud account and loading sample IoT, user login, or DevOps data.</p>
+</Quickstart>
 
-## End to end analytic platform {#intuitive}
+## Jump into stream processing and analytics
 
-Timeplus is not only a streaming SQL database, it provides end to end analytic functionalities.  Timeplus supports various data source connections such as Apache Kafka, Amazon S3 and Amazon Kinesis.  Timeplus provides a web client where the user can interactively do data analysis in real-time.  Real time visualization and dashboards are provided.  The user can also use API to interact with the data or send the analytic result to downstream data systems such as Apache Kafka, Databases , Data warehouse or Data lakes.  Alerts are provided so that the users can make real time actions based on the anomaly detected by the streaming analytic result.
+<Grid>
+  <GridItem href="/ingestion">
+    <h3>Ingest data &rarr;</h3>
+    <p>Connect Timeplus Cloud to Apache Kafka, Apache Pulsar, Kinesis, Confluent Cloud, or push with a REST API, SDKs, and beyond.</p>
+  </GridItem>
+  <GridItem href="/query-syntax">
+    <h3>Write SQL queries &rarr;</h3>
+    <p>Create long-running queries using functions like transformations, joins, aggregation, windowed processing, substreams, and more.</p>
+  </GridItem>
+  <GridItem href="/viz">
+    <h3>Visualize data &rarr;</h3>
+    <p>View real-time results for any query, create custom dashboards to tell stories about your data, or integrate with external BI systems.</p>
+  </GridItem>
+</Grid>
 
-Please check the [Showcases](showcases) page for a comprehensive list of our key use cases and capabilities.
+## Core concepts and functions
 
+<Grid>
+  <GridItem href="/working-with-streams">
+    <h3>Streams &rarr;</h3>
+    <p>An append-only (by default), unbounded, constantly changing events group with changelog, versioned, and external options.</p>
+  </GridItem>
+  <GridItem href="/destination">
+    <h3>Sinks &rarr;</h3>
+    <p>Send real-time insights to other systems, either to notify individuals or power downstream applications.</p>
+  </GridItem>
+  <GridItem href="/proton">
+    <h3>Proton &rarr;</h3>
+    <p>The open source, unified streaming and historical data processing engine powering the Timeplus streaming analytics platform.</p>
+  </GridItem>
+</Grid>

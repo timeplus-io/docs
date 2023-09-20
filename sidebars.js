@@ -36,7 +36,7 @@ const sidebars = {
      },collapsed: false,items:[
        */
     'index',
-    'showcases',
+    
     {
       type: 'category',
       label: 'Quickstart',
@@ -53,6 +53,18 @@ const sidebars = {
         type: 'doc',
         id: 'quickstart-ingest-api',
         label: 'with ingest API'
+      }]
+    },
+    {
+      type: 'category',
+      label: 'Why Timeplus?',
+      link: {
+        type: 'doc',
+        id: 'why-timeplus'
+      },
+      items: [{
+        type: 'doc',
+        id: 'showcases',
       }]
     },
     {
