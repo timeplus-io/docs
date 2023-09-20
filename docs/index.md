@@ -5,12 +5,17 @@ title: Overview
 import Quickstart from '@site/src/components/Quickstart'
 import Grid, { GridItem } from '@site/src/components/Grid'
 
-Timeplus is a streaming-first data analytics platform. It provides powerful end-to-end capabilities, leveraging the [Proton engine](proton), to help teams process streaming and historical data quickly and intuitively, accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock streaming data value using SQL. 
+Timeplus is a streaming-first data analytics platform. It provides powerful end-to-end capabilities, leveraging the open
+source streaming database [Proton](proton), to help teams process streaming and historical data quickly and intuitively,
+accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock
+streaming data value using SQL. 
 
-The Timeplus console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud, Redpanda, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to other systems or individuals, and create dashboards and visualizations.
+The Timeplus console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud,
+Redpanda, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to
+other systems or individuals, and create dashboards and visualizations.
 
-Still curious about [why to use Timeplus](why-timeplus)? Check out our [showcase](showcases) for use cases, sourced from
-Timeplus customers, of our unified streaming and historical processing platform.
+Still curious about [why to use Timeplus](why-timeplus)? Check out the [showcases](showcases) to see how Timeplus
+customers use our unified streaming and historical processing platform.
 
 ## Get started with Timeplus
 
@@ -36,7 +41,7 @@ Timeplus customers, of our unified streaming and historical processing platform.
   </GridItem>
 </Grid>
 
-## Core concept and functions
+## Core concepts and functions
 
 <Grid>
   <GridItem href="/working-with-streams">
