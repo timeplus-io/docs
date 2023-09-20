@@ -1236,9 +1236,9 @@
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
 "@crowdin/cli@^3.13.0":
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-3.13.0.tgz#47c9223a017885e480f95d723791870dc28d3e05"
-  integrity sha512-4YY1XSJyFdIADMX3U11WtkhL9wVWU/KCBEB6N360ybZVOWKE6G2/ERmWmYs8N1kXO6eoM2UUOp4qb8LmJ9UGTg==
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-3.14.0.tgz#6009d4852addd1ab92ae52e13ed792af9d2e6ea9"
+  integrity sha512-8MnJvGPkrLprrpLT+jPgBn7aKdv/8eyxLXMN929qYadDy7ZjZiB2CzlTvdGh4DUBoMOr/anoYWDhn9kxP0fn/Q==
   dependencies:
     command-exists-promise "^2.0.2"
     node-fetch "2.6.7"
@@ -5974,15 +5974,10 @@ minimatch@3.1.2, minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.1:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@^1.2.0, minimist@^1.2.5:
+minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
-
-minimist@^1.2.6:
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.7.tgz#daa1c4d91f507390437c6a8bc01078e7000c4d18"
-  integrity sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==
 
 minipass@^2.6.0, minipass@^2.9.0:
   version "2.9.0"
