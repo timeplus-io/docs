@@ -13,21 +13,19 @@ Timeplus Cloud提供以下主要功能：
 
 ## 步骤 1：注册一个Timeplus账户 {#step1}
 
-Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 目前，支持谷歌或微软单一登录 (SSO)。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 获取账户设置并创建第一个 [工作区](glossary#workspace) 通常需要不到2分钟。
+Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 目前，支持谷歌或微软单一登录 (SSO)。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 It usually takes less than 2 minutes to get the account set up and have the first [workspace](glossary#workspace) created.
 
 ![注册](/img/signup_screen.png)
 
-## 第 2 步：创建您的第一个工作区 {#step2}
+## Step 2: Set up your account and workspace {#step2}
 
-工作区是您运行流数据收集和分析的独立存储和计算单位。 通常，一个组织中的用户组加入了相同的工作区，以建立一个或多个流式分析解决方案。 每个用户最多可以创建 1 个免费工作空间并加入多个工作区。
+Tell us a bit about yourself by completing a quick account setup:
 
-要创建工作区：
+![Onboarding Survey](/img/onboarding-survey.png)
 
-1. Sign in to [Timeplus Cloud](https://us.timeplus.cloud/)
-2. Click **Create a Workspace** on the landing page
-3. The workspace ID is automatically created. Create a readable name, such as the legal name for the organization or team name.
+The final step of the setup is for naming your new workspace, the isolated storage and computing unit for you to run streaming data collection and analysis. Give it a name:
 
-![选择工作区名称](/img/workspace_name.png)
+![选择工作区名称](/img/workspace-name-setup.png)
 
 ## Step 3: Load your streaming data {#step3}
 
