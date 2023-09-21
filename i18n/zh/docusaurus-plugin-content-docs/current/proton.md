@@ -9,7 +9,7 @@ Proton extends the historical data, storage, and computing functionality of the 
 Why use Proton?
 
 - **A unified, lightweight engine** to connect streaming and historical data processing tasks with efficiency and robust performance.
-- **Smooth developer experience** with powerful streaming and analytical functionality.
+- **A smooth developer experience** with powerful streaming and analytical functionality.
 - **Flexible deployments** with Proton's single binary and no external service dependencies.
 - **Low total cost of ownership** compared to other analytical frameworks.
 
