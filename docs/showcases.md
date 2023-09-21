@@ -26,21 +26,9 @@ As one of the first case studies, we published a [blog](https://www.timeplus.com
 
 ## DevOps
 
-### Real-time GitHub insights
+### Real-time observability
 
-We all love GitHub. But do you know what’s trending on Github right now? We built a real-time app with Timeplus API and GitHub API.
-
-* [Blog](https://www.timeplus.com/post/github-real-time-app)
-* Demo ([Timeplus Cloud](https://demo.timeplus.cloud), [Streamlit](https://timeplus.streamlit.app/github_dashboard))
-* [Github repo](https://github.com/timeplus-io/streamlit_apps)
-
-![screenshot](https://static.wixstatic.com/media/b32125_10d7aa79909c48549e45f09df54ca93d~mv2.png/v1/fill/w_1480,h_642,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/b32125_10d7aa79909c48549e45f09df54ca93d~mv2.png)
-
-
-
-### Real-time o11y and usage based pricing
-
-At Timeplus, we collect various logs, metrics and usage data and send them to our own Timeplus workspace for continuously infrastructure monitoring, alerts and integration with our choice of usage-based pricing vendor ([Paigo](https://paigo.tech/)).
+At Timeplus, we collect various logs, metrics and usage data and send them to our own Timeplus workspace for continuously infrastructure monitoring and alerts.
 
 Please check the [blog](https://www.timeplus.com/post/unlocking-cloud-observability-with-confluent-and-timeplus-cloud) for details.
 
@@ -52,7 +40,23 @@ Please check the [blog](https://www.timeplus.com/post/unlocking-cloud-observabil
 
 ![](https://static.wixstatic.com/media/2d747e_ca3b5307ffcc4ab29cb8b57c1cc572d7~mv2.png/v1/fill/w_1480,h_574,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/2d747e_ca3b5307ffcc4ab29cb8b57c1cc572d7~mv2.png)
 
-Stay tuned for new blogs with more details.
+### Metering for usage-based pricing
+
+By leveraging the streaming SQL, [Versioned Stream](versioned-stream), [HTTP ingestion](ingest-api), [HTTP sink](destination#http) and many other features, we collect real-time infrastructure usage per tenants, apply lookup and aggregation, and send data to our choice of usage-based pricing vendor ([Paigo](https://paigo.tech/)).
+
+Please check the [blog](https://www.timeplus.com/post/usage-based-pricing-with-timeplus-and-paigo) for details.
+
+![Solution overview](https://static.wixstatic.com/media/b32125_5723162765cc4b50be5be68243c84e97~mv2.png/v1/fill/w_1480,h_798,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/b32125_5723162765cc4b50be5be68243c84e97~mv2.png)
+
+### Real-time GitHub insights
+
+We all love GitHub. But do you know what’s trending on Github right now? We built a real-time app with Timeplus API and GitHub API.
+
+* [Blog](https://www.timeplus.com/post/github-real-time-app)
+* Demo ([Timeplus Cloud](https://demo.timeplus.cloud), [Streamlit](https://timeplus.streamlit.app/github_dashboard))
+* [Github repo](https://github.com/timeplus-io/streamlit_apps)
+
+![screenshot](https://static.wixstatic.com/media/b32125_10d7aa79909c48549e45f09df54ca93d~mv2.png/v1/fill/w_1480,h_642,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/b32125_10d7aa79909c48549e45f09df54ca93d~mv2.png)
 
 
 
