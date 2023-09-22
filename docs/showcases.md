@@ -2,7 +2,7 @@
 
 At Timeplus, we drink our own champagne and apply our technologies in many different use cases. Many our customers also contribute creative ways to build real-time solutions with Timeplus. This document lists known use cases in different categories. Hopefully this can inspire you to gain more insights from real-time data with low cost and effort.
 
-If you have an interesting use case you'd like to share, please join [Timeplus Community](https://timeplus.com/slack) on Slack.
+If you have an interesting use case you'd like to share, please join the [Timeplus Community](https://timeplus.com/slack) on Slack.
 
 ## FinTech
 
