@@ -62,7 +62,7 @@ We all love GitHub. But do you know what’s trending on Github right now? We bu
 
 ### SOC2 compliance dashboards&alerts {#soc2}
 
-Timeplus has achieved SOC2 Type 1 compliance [since April 2023](https://www.timeplus.com/post/soc2-type1)). We chose [Drata](https://drata.com/) to help us automates the compliance journey. We setup a process to call [Drata Open API](https://drata.com/product/api), and send the compliance findings to Timeplus as a JSON document. We then set up dashboards and a Slack sink to help us monitor the compliance to-do items.
+Timeplus has achieved SOC2 Type 1 compliance [since April 2023](https://www.timeplus.com/post/soc2-type1). We chose [Drata](https://drata.com/) to help us automates the compliance journey. We setup a process to call [Drata Open API](https://drata.com/product/api), and send the compliance findings to Timeplus as a JSON document. We then set up dashboards and a Slack sink to help us monitor the compliance to-do items.
 
 ### Container vulnerability monitoring {#container}
 
