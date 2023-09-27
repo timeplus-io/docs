@@ -33,7 +33,7 @@ See our [architecture](proton-architecture) doc for technical details and the [F
 With [Docker engine](https://docs.docker.com/engine/install/) installed on your local machine, pull and run the latest version of the Proton Docker image.
 
 ```bash
-docker run -d --pull always --name proton ghcr.io/timeplus-io/proton:develop
+docker run -d --pull always --name proton ghcr.io/timeplus-io/proton:latest
 ```
 
 Connect to your `proton` container and run the `proton-client` tool to connect to the local Proton server:
