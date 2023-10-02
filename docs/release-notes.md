@@ -8,7 +8,7 @@ Timeplus is now open source! Introducing **Proton**, a unified, lightweight stre
 
 *New in Proton:*
   * External stream now supports checkpoints. Whether you stop and rerun the query, or the server restarts, it will read from where it stopped.
-  * Python driver and Go driver are published.
+  * [Python driver](https://github.com/timeplus-io/proton-python-driver) and [Go driver](https://github.com/timeplus-io/proton-go-driver) are published.
 
 *New in Timeplus Cloud:*
 
