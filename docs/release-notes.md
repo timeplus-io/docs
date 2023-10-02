@@ -7,7 +7,7 @@ This page summarizes changes in each major update in Timeplus, including new fea
 Timeplus is now open source! Introducing **Proton**, a unified, lightweight streaming and historical data processing engine in a single binary, powering the Timeplus Cloud streaming analytics platform. [Try Proton with Docker](https://github.com/timeplus-io/proton)
 
 *New in Proton:*
-  * External stream now supports checkpoints. Whether you stop and rerun the query, or the server restarts, it will read from where it it stopped.
+  * External stream now supports checkpoints. Whether you stop and rerun the query, or the server restarts, it will read from where it stopped.
   * Python driver and Go driver are published.
 
 *New in Timeplus Cloud:*
