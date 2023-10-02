@@ -2,6 +2,23 @@
 
 This page summarizes changes in each major update in Timeplus, including new features and important bug fixes.
 
+## Oct 2, 2023
+
+Timeplus is now open source! Introducing **Proton**, a unified, lightweight streaming and historical data processing engine in a single binary, powering the Timeplus Cloud streaming analytics platform. [Try Proton with Docker](https://github.com/timeplus-io/proton)
+
+*New in Proton:*
+  * External stream now supports checkpoints. Whether you stop and rerun the query, or the server restarts, it will read from where it stopped.
+  * [Python driver](https://github.com/timeplus-io/proton-python-driver) and [Go driver](https://github.com/timeplus-io/proton-go-driver) are published.
+
+*New in Timeplus Cloud:*
+
+**Sinks**
+  * We've added a ClickHouse sink, as a preview feature. You can find this option when you expand "Show more outputs".
+  * We've also made it easier for you to create new sinks, by adding a "Create New Sink" button to the Sinks list page. On the Query page, while waiting for results to come in, you can now also create a sink.
+
+**Console UI**
+  * Our onboarding experience has a new look. After [creating a new account](https://us.timeplus.cloud), answer a couple of quick questions so we can get to know you better, and then give your workspace a name. 
+
 ## Sep 18, 2023
 
 **Database**
