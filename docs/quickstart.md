@@ -15,7 +15,7 @@ The following section contains step-by-step instructions on how to easily get st
 
 Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. Please choose a work email or Google/Microsoft account to sign up. It usually takes less than 2 minutes to get the account set up and have the first [workspace](glossary#workspace) created.
 
-![Signup](/img/signup_screen.png)
+![Sign up for an account](/img/sign-up-page.png)
 
 ## Step 2: Set up your account and workspace {#step2}
 
