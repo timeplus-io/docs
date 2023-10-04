@@ -15,7 +15,7 @@ Timeplus Cloud提供以下主要功能：
 
 Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 目前，支持谷歌或微软单一登录 (SSO)。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 It usually takes less than 2 minutes to get the account set up and have the first [workspace](glossary#workspace) created.
 
-![注册](/img/signup_screen.png)
+![Sign up for an account](/img/sign-up-page.png)
 
 ## Step 2: Set up your account and workspace {#step2}
 
