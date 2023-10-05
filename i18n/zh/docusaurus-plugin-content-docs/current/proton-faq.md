@@ -81,7 +81,7 @@ Yes. We have enabled telemetry in the following areas to understand how the comm
 
   No user data, schemas, SQL statements, or personally identifiable information (PII) is ever sent by Proton to this public endpoint.
 
-  You can disable telemetry in Proton via the environment variable `TELEMETRY_ENABLED`, such as `docker run --name proton ghcr.io/timeplus-io/proton:develop --env TELEMETRY_ENABLED=false` or update the configuration with the following steps:
+  You can disable telemetry in Proton via the environment variable `TELEMETRY_ENABLED`, such as `docker run --env TELEMETRY_ENABLED=false --name proton ghcr.io/timeplus-io/proton:latest` or update the configuration with the following steps:
 
   1. Start the Proton Docker image
   2. Connect to the running container with `docker exec -it proton bin/sh`
