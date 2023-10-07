@@ -12,9 +12,13 @@
 
 是的，工作空间所有者可以邀请团队成员访问工作空间。 进入“设置”和“成员”选项卡。 将向成员发送一封电子邮件，一旦他们登录，他们就可以访问工作区中的所有对象。 更多的团队协作特性和精细访问控制请查看产品路线图。
 
+## What's relationship for Timeplus and Proton? {#compare}
+
+Proton is the core engine of Timeplus and open-sourced on September 2023. Please check the [Proton FAQ](proton-faq) for details.
+
 ## SLA是怎么样的，我可以运行生产负载吗？ {#sla}
 
-我们不推荐测试版用户在测试阶段运行生产负荷。 请关注我们，获得更多产品信息。
+Timeplus Cloud went GA on August 2023, ready for production workload. There is no SLA for free trial. For Professional tier, it's 99.5%. For Enterprise tier, it's 99.9% or above. Please check https://timeplus.com/pricing for more details and FAQ.
 
 ## Timeplus Cloud 的 IP 地址是多少，以便我可以允许 Timeplus 访问我的 Kafka/Redpanda/Pulsar 服务器 {#ip}
 

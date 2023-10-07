@@ -23,14 +23,17 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 
 Overall, a streaming query in Timeplus establishes a long HTTP/TCP connection to clients and continuously evaluates the query. It will continue to return results according to the `EMIT` policy until the query is stopped, by the user, end client, or exceptional event.
 
-Timeplus supports some internal `SETTINGS` to fine tune the streaming query processing behaviors, listed below:
+Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors, listed below:
 
-1. `query_mode=<table|streaming>` A general setting which decides if the overall query is streaming data processing or shistorical data processing. 默认情况下，是 `串流`。
-2. `seek_to=<timestamp|earliest|latest>`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. 它可以是相对的时间戳或绝对的时间戳。 By default, it is `latest`, which tells Timeplus to not seek old data. 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
+1. `enable_backfill_from_historical_store=1`. By default, if it's omitted, it's `0`
+   * When it's 0, the query engine either loads data from streaming storage, or from historical storage.
+   * When it's 1, the query engine evaluates whether it's necessary to load data from historical storage(such as the time range is outside of the streaming storage), or it'll be more efficient to get data from historical storage(for example, count/min/max is pre-computed in historical storage, faster than scanning data in streaming storage).
+2. `query_mode=<table|streaming>` By default, if it's omitted, it's `streaming`. A general setting which decides if the overall query is streaming data processing or historical data processing.
+3. `seek_to=<timestamp|earliest|latest>`. By default, if it's omitted, it's `latest`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. 它可以是相对的时间戳或绝对的时间戳。 By default, it is `latest`, which tells Timeplus to not seek old data. 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
 :::info
 
-Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`. Please use `WHERE _tp_time>='2023-01-01'` or similar. `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。
+Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`. Please use `WHERE _tp_time>='2023-01-01'` or similar. `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。 The only exception is [External Stream](external-stream). If you need to scan all existing data in the Kafka topic, you have to run the SQL with seek_to, e.g. `select raw from my_ext_stream settings seek_to='earliest'`
 
 :::
 
@@ -354,14 +357,14 @@ WITH cte1 AS (SELECT ..),
 
 ```sql
 -- tumble over tumble
-WITH (
-    SELECT device, avg(cpu_usage) AS avg_usage, any(window_start) AS window_start -- tumble subquery
+WITH avg_5_second AS (
+    SELECT device, avg(cpu_usage) AS avg_usage, any(window_start) AS start -- tumble subquery
     FROM
       tumble(device_utils, 5s)
     GROUP BY device, window_start
-) AS avg_5_second
+)
 SELECT device, max(avg_usage), window_end -- outer tumble aggregation query
-FROM tumble(avg_5_second, window_start, 10s)
+FROM tumble(avg_5_second, start, 10s)
 GROUP BY device, window_end;
 ```
 
@@ -389,7 +392,7 @@ GROUP BY device;
 示例：
 
 ```sql
-SELECT device, maxK(5)(avg_usage) -- outer global aggregation query
+SELECT device, max_k(avg_usage,5) -- outer global aggregation query
 FROM
 (
     SELECT device, avg(cpu_usage) AS avg_usage -- global aggregation subquery

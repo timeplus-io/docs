@@ -2,25 +2,37 @@
 
 # 处理 JSON
 
+Various functions are provided to extract values from JSON documents. You can also use the shortcut `<json>::<path>` to extract the string value for specified JSON path, e.g. `raw::b.c` to get value "1" from `{"a":true,"b":{"c":1}}`. Then you can convert it to other data types using `to_int()` or `::int` shortcut.
+
 ### json_extract
 
-`json_extract_int(json, key)` 获取指定的 JSON 文档和密钥的整数值。 例如， `json_extract_int('{"a":10,"b":3.13}','a')` 将获得数字 `10`
+`json_extract_int(json, key)` 获取指定的 JSON 文档和密钥的整数值。 For example `json_extract_int('{"a":10,"b":3.13}','a')` will get the number `10`.
+
+You can also use the shortcut `col:a::int`.
 
 ### json_extract_float
 
-`json_extract _float(json, key)` 获取指定的 JSON 文档和密钥的浮点值。 例如， `json_extract_int('{"a":10,"b":3.13}','b')` 将获得浮点数 `3.13`
+`json_extract _float(json, key)` 获取指定的 JSON 文档和密钥的浮点值。 For example `json_extract_int('{"a":10,"b":3.13}','b')` will get the float value `3.13`.
+
+You can also use the shortcut `col:a::float`.
 
 ### json_extract_bool
 
-`json_extract_bool(json, key)` 从指定的 JSON 文档和密钥中获取布尔值。 例如， `json_extract_bool('{"a":true}','a')` 将获得布尔值 `true` 或 `1`
+`json_extract_bool(json, key)` 从指定的 JSON 文档和密钥中获取布尔值。 For example `json_extract_bool('{"a":true}','a')` will get the boolean value `true` or `1`.
+
+You can also use the shortcut `col:a::bool`.
 
 ### json_extract_string
 
 `json_extract_string(json, key)`获取指定的 JSON 文档和密钥的字符串值。 例如， `json_extract_string('{"a":true,"b":{"c":1}}','b')` 将获得字符串值 `{"c":1}` 并且您可以继续使用 JSON 函数来提取值。
 
+You can also use the shortcut `col:b` to get the string value, or `col:b.c::int` to get the nested value.
+
 ### json_extract_array
 
-`json_has(json, key)` 来检查是否在 JSON 文档中存在指定的密钥。 例如 `json_has('{"a":10,"b":20}','c')`返回 0(false)。
+`json_has(json, key)` 来检查是否在 JSON 文档中存在指定的密钥。 For example `json_extract_array('{"a": "hello", "b": [-100, 200.0, "hello"]}', 'b')` will get the array value `['-100','200','"hello"']` If the entire JSON document is an array, the 2nd parameter `key` can be omitted to turn the json string as an array, e.g. `json_extract_array(arrayString)`.
+
+You can also use the shortcut `col:b[*]`.
 
 ### json_extract_keys
 

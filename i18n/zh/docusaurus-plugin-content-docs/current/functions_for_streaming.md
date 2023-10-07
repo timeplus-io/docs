@@ -63,7 +63,7 @@
 
 `dedup(stream, column1 [,otherColumns..] [liveInSecond,limit]) [liveInSecond,limit]) [liveInSecond,limit])`
 
-在给定的数据流中使用指定的列 (s) 应用反复性。 `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但是，如果您只想在特定时间段内避免重复，例如2分钟，则可以设置 `120s` 例如 `dedup(subquery,myId,120s)`
+在给定的数据流中使用指定的列 (s) 应用反复性。 Rows with same column value will only show once (only the first row is selected and others are omitted.) `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但是，如果您只想在特定时间段内避免重复，例如2分钟，则可以设置 `120s` 例如 `dedup(subquery,myId,120s)`
 
 最后一个参数 `限制` 是可选的，默认是 `100 000`。 它限制在查询引擎中最大唯一密钥。 如果达到限制，系统将回收最早的密钥以保持这一限制。
 
@@ -72,6 +72,21 @@
 ✅ streaming query
 
 ✅ historical query
+
+:::info tips
+
+When you use `dedup` function together with `table()` function to get the latest status for events with same ID, you can consider ordering the data by _tp_time in the reverse way, so that the latest event for same ID is kept. 例如
+
+```sql
+WITH latest_to_earliest AS (SEELCT * FROM table(my_stream) ORDER by _tp_time DESC)
+SELECT * FROM dedup(latest_to_earliest, id)
+```
+
+Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earliest event with same ID will be processed first, ignoring the rest of the updated status. In many cases, this is not what you expect.
+
+:::
+
+
 
 ### lag
 

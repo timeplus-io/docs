@@ -2,6 +2,39 @@
 
 本页总结了 Timeplus 中每个主要更新的变化，包括新功能和重要的错误修复。
 
+## Oct 2, 2023
+
+Timeplus is now open source! Introducing **Proton**, a unified, lightweight streaming and historical data processing engine in a single binary, powering the Timeplus Cloud streaming analytics platform. [Try Proton with Docker](https://github.com/timeplus-io/proton)
+
+*New in Proton:*
+  * External stream now supports checkpoints. Whether you stop and rerun the query, or the server restarts, it will read from where it stopped.
+  * [Python driver](https://github.com/timeplus-io/proton-python-driver) and [Go driver](https://github.com/timeplus-io/proton-go-driver) are published.
+
+*New in Timeplus Cloud:*
+
+**Sinks**
+  * We've added a ClickHouse sink, as a preview feature. You can find this option when you expand "Show more outputs".
+  * We've also made it easier for you to create new sinks, by adding a "Create New Sink" button to the Sinks list page. On the Query page, while waiting for results to come in, you can now also create a sink.
+
+**控制台用户界面**
+  * Our onboarding experience has a new look. After [creating a new account](https://us.timeplus.cloud), answer a couple of quick questions so we can get to know you better, and then give your workspace a name. 
+
+## Sep 18, 2023
+
+**数据库**
+  * New functions to generate random data – check them out [here](functions_for_random).
+
+**数据摄取**
+ * During the Preview step of adding a new source, we now show you the time remaining for previewing data. If no event comes in after 30 seconds, you can go back to previous steps, check your configuration, then try again.
+ * For "Sample dataset", you can select an [event time column](eventtime) when you set up the stream. CSV file uploads will be enhanced soon.
+ * All sources now have data retention options when you create a new stream.
+
+**Sinks**
+ * We've added a sink for Confluent Cloud. This is similar to the Apache Kafka sink, with mandatory authentication.
+
+**控制台用户界面**
+ * In resource lists such as Views, Materialized Views, Sinks, and Query History, the SQL is now shown in one line without breaks.
+
 ## Sep 5, 2023
 
 The Terraform Provider for Timeplus is now published - [check it out](https://registry.terraform.io/providers/timeplus-io/timeplus/latest).
