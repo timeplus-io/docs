@@ -121,10 +121,16 @@ The following functions are available to use:
 
 The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
 
-By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 event every second:
+By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second:
 
 ```sql
 CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=10
+```
+
+You can further customize the rate of data generation via the `interval_time` setting. For example, you want to generate 1000 events each second, but don't want all 1000 events are generated at once, you can use the following sample SQL to generate events every 200 ms. Default interval is 100ms.
+
+```sql
+CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=1000, interval_time=200
 ```
 
 Please note, the data generation rate is not accurate, to balance the performance and flow control.
