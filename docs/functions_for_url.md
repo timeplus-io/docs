@@ -74,7 +74,7 @@ Alias of `ipv4_string_to_num`
 
 `ipv4_num_to_string_class_c(ip)`. Similar to ipv4_num_to_string(ip), but using xxx instead of the last octet.
 
-For example. `select ipv4_num_to_string(1823216871)` returns ` '108.172.20.xxx'`
+For example. `select ipv4_num_to_string_class_c(1823216871)` returns ` '108.172.20.xxx'`
 
 :::warning
 
