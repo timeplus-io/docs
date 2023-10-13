@@ -135,3 +135,118 @@ For example: `select ipv6_cidr_to_range(to_ipv6('2001:0db8:0000:85a3:0000:0000:a
 `is_ip_address_in_range(address, prefix)` Determines if an IP address is contained in a network represented in the [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation. Returns true or false.
 
 For example, `select is_ip_address_in_range('127.0.0.1', '127.0.0.0/8')` returns `true`. `select is_ip_address_in_range('127.0.0.1', 'ffff::/16')` returns `false`
+
+### geohash_encode
+
+`geohash_encode(longitude, latitude, [precision])`  Encodes latitude and longitude as a geohash string.
+
+**Input values**
+
+- longitude - longitude part of the coordinate you want to encode. Floating in range`[-180°, 180°]`
+- latitude - latitude part of the coordinate you want to encode. Floating in range `[-90°, 90°]`
+- precision - Optional, length of the resulting encoded string, defaults to `12`. Integer in range `[1, 12]`. Any value less than `1` or greater than `12` is silently converted to `12`.
+
+**Returned values**
+
+- alphanumeric `String` of encoded coordinate (modified version of the base32-encoding alphabet is used).
+
+**示例**
+
+```sql
+SELECT geohash_encode(-5.60302734375, 42.593994140625, 0) AS res;
+```
+
+**结果**
+
+```text
+┌─res──────────┐
+│ ezs42d000000 │
+└──────────────┘
+```
+
+### geohash_decode
+
+Decodes any geohash-encoded string into longitude and latitude.
+
+**Input values**
+
+- encoded string - geohash-encoded string.
+
+**Returned values**
+
+- (longitude, latitude) - 2-tuple of `float64` values of longitude and latitude.
+
+**示例**
+
+```sql
+SELECT geohash_decode('ezs42d000000') AS res;
+```
+
+**结果**
+
+```text
+┌─res────────────────────────────────────┐
+│ (-5.603027176111937,42.59399422444403) │
+└────────────────────────────────────────┘
+```
+
+
+
+### geohashes_in_box
+
+Returns an array of geohash-encoded strings of given precision that fall inside and intersect boundaries of given box, basically a 2D grid flattened into array.
+
+**Syntax**
+
+```sql
+geohashes_in_box(longitude_min, latitude_min, longitude_max, latitude_max, precision)
+```
+
+
+
+**参数**
+
+- `longitude_min` — Minimum longitude. Range: `[-180°, 180°]`. Type: float.
+- `latitude_min` — Minimum latitude. Range: `[-90°, 90°]`. Type: float.
+- `longitude_max` — Maximum longitude. Range: `[-180°, 180°]`. Type: float.
+- `latitude_max` — Maximum latitude. Range: `[-90°, 90°]`. Type: float.
+- `precision` — Geohash precision. Range: `[1, 12]`. Type: uint8.
+
+
+
+:::info note
+
+All coordinate parameters must be of the same type: either `float32` or `float64`.
+
+:::info
+
+**Returned values**
+
+- Array of precision-long strings of geohash-boxes covering provided area, you should not rely on order of items.
+- `[]` - Empty array if minimum latitude and longitude values aren’t less than corresponding maximum values.
+
+Type: [Array](https://clickhouse.com/docs/en/sql-reference/data-types/array)([String](https://clickhouse.com/docs/en/sql-reference/data-types/string)).
+
+
+
+:::info note
+
+Function throws an exception if resulting array is over 10’000’000 items long.
+
+:::
+
+**示例**
+
+Query:
+
+```sql
+SELECT geohashes_in_box(24.48, 40.56, 24.785, 40.81, 4) AS thasos;
+```
+
+**Result**:
+
+```text
+┌─thasos──────────────────────────────────────┐
+│ ['sx1q','sx1r','sx32','sx1w','sx1x','sx38'] │
+└─────────────────────────────────────────────┘
+```
