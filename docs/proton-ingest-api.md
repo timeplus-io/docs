@@ -1,0 +1,186 @@
+# Ingest REST API
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+You can run `INSERT INTO [stream](column1, column2) VALUES (..)` SQL to insert data to Proton. You can also call the ingestion REST API to push data to Proton, with any preferred languages. This may work better for integration Proton with other systems or live data source (such as IoT sensors).
+
+## Prerequisites
+
+### Expose port 3218 from Proton container
+
+The Proton ingest REST API is on port 3218 by default. Please start the proton container with the 3218 port exposed. For example:
+
+```shell
+docker run -d -p 3218:3218 --pull always --name proton ghcr.io/timeplus-io/proton:latest 
+```
+
+
+
+### Create a stream in Proton
+
+You need to create a stream in Timeplus via [CREATE STREAM](proton-create-stream). Columns with proper names and types should be set.
+
+First run the SQL client
+
+```shell
+docker exec -it proton proton-client
+```
+
+Then run the following SQL to create the stream.
+
+```sql
+CREATE STREAM foo(id int, name string)
+```
+
+## Push data to Timeplus
+
+The endpoint for real-time data ingestion is `http://localhost:3218/proton/v1/ingest/streams/{stream_name}`. HTTP method is `POST`.
+
+**Request samples:**
+<Tabs defaultValue="curl">
+<TabItem value="js" label="Node.js" default>
+
+```js
+const http = require("http");
+const options = {
+  hostname: "localhost",
+  path: "/proton/v1/ingest/streams/foo",
+  method: "POST"
+};
+
+const data = `
+{
+  "columns": ["id","name"],
+  "data": [
+    [1,"hello"],
+    [2,"world"]
+  ]
+}
+`;
+const request = http.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
+```
+
+  </TabItem>
+  <TabItem value="curl" label="curl">
+
+```bash
+curl -s -X POST http://localhost:3218/proton/v1/ingest/streams/foo \
+-d '{
+  "columns": ["id","name"],
+  "data": [
+    [1,"hello"],
+    [2,"world"]
+  ]
+}
+'
+```
+
+  </TabItem>
+  <TabItem value="py" label="Python">
+
+```python
+import requests
+
+url = "http://localhost:3218/proton/v1/ingest/streams/foo"
+headers = {
+    "Content-Type": "application/json"
+}
+data = '''
+{
+  "columns": ["id","name"],
+  "data": [
+    [1,"hello"],
+    [2,"world"]
+  ]
+}
+'''
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
+```
+
+  </TabItem>
+  <TabItem value="java" label="Java">
+
+```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "http://localhost:3218/proton/v1/ingest/streams/foo";
+        MediaType mediaType = MediaType.parse("application/json");
+        String data = """
+{
+  "columns": ["id","name"],
+  "data": [
+    [1,"hello"],
+    [2,"world"]
+  ]
+}
+          """;
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+The above method should work very well for most system integrations. However, the column names will be repeatedly mentioned in the requested body.
+
+We also provide a more performant solution to only list the column names once.
+
+The request body is this format:
+
+```json
+{
+  "columns": [..],
+  "data": [
+    [..],
+    [..]
+  ]
+}
+```
+
+Note:
+
+- the `columns` is an array of string, with the column names
+- the `data` is an array of arrays. Each nested array represents a row of data. The value order must match the exact same order in the `columns`.
+
+For example:
+
+```json
+{
+  "columns": ["key1", "key2"],
+  "data": [
+    ["value11", "value12"],
+    ["value21", "value22"]
+  ]
+}
+```
+
+You can also use one of our SDKs to ingest data without handling the low level details of REST API.
