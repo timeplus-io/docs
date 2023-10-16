@@ -8,7 +8,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
   * New data types now supported: ipv4 and ipv6, as well as related (functions)[functions_for_url].
   * [Python Driver](https://github.com/timeplus-io/proton-python-driver) 0.2.9 now supports Python 3.11 and 3.12.
   * [Go Driver](https://github.com/timeplus-io/proton-go-driver) is now open source.
-  * * Our [Grafana data source plugin](https://github.com/timeplus-io/proton-grafana-source), to connect to Proton and visualize streaming or batch queries, is now open source. Stay tuned for our upcoming blog and demo! 
+  * Our [Grafana data source plugin](https://github.com/timeplus-io/proton-grafana-source), to connect to Proton and visualize streaming or batch queries, is now open source. Stay tuned for our upcoming blog and demo! 
 
 *Timeplus Cloud:*
   * You can now search by keyword(s) in the Dashboards list.
