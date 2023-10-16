@@ -1,6 +1,18 @@
 # GA Releases
 
-This page summarizes changes in each major update in Timeplus, including new features and important bug fixes.
+This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
+
+## Oct 16, 2023
+
+*Proton:*
+  * New data types now supported: ipv4 and ipv6, as well as related (functions)[functions_for_url].
+  * [Python Driver](https://github.com/timeplus-io/proton-python-driver) 0.2.9 now supports Python 3.11 and 3.12.
+  * [Go Driver](https://github.com/timeplus-io/proton-go-driver) is now open source.
+  * * Our [Grafana data source plugin](https://github.com/timeplus-io/proton-grafana-source), to connect to Proton and visualize streaming or batch queries, is now open source. Stay tuned for our upcoming blog and demo! 
+
+*Timeplus Cloud:*
+  * You can now search by keyword(s) in the Dashboards list.
+  * In the Query page, we've removed Recent Queries from the SQL Helper side panel. You can still see your Recent Queries by opening a new query tab, or on your Homepage. 
 
 ## Oct 2, 2023
 
