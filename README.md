@@ -1,17 +1,24 @@
-# Website
+# Timeplus Documentation
 
 This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
 
 ### Installation
 
+If you are new to Docusaurus/NodeJS, please install yarn, nvm and node first. Example:
+
+```shell
+brew install yarn
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+#start a new terminal window
+nvm install node
 ```
-$ yarn
-```
+
+Then run `yarn` to install the dependency libs.
 
 ### Local Development
 
 ```
-$ yarn start
+yarn start
 ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
@@ -19,26 +26,14 @@ This command starts a local development server and opens up a browser window. Mo
 ### Build
 
 ```
-$ yarn build
+yarn build
 ```
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
 ### Deployment
 
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+It has been configured to deploy new changes to docs.timeplus.com via Netlify.
 
 ### Update Neutron REST API doc
 
