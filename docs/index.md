@@ -1,6 +1,4 @@
----
-title: Overview
----
+# Overview
 
 import Quickstart from '@site/src/components/Quickstart'
 import Grid, { GridItem } from '@site/src/components/Grid'
@@ -20,13 +18,17 @@ customers use our unified streaming and historical processing platform.
 ## Get started with Timeplus
 
 <Quickstart href="/quickstart">
+
   <h3>Quickstart</h3>
+
   <p>Follow along with step-by-step instructions for creating a Timeplus Cloud account and loading sample IoT, user login, or DevOps data.</p>
+
 </Quickstart>
 
 ## Jump into stream processing and analytics
 
 <Grid>
+
   <GridItem href="/ingestion">
     <h3>Ingest data &rarr;</h3>
     <p>Connect Timeplus Cloud to Apache Kafka, Apache Pulsar, Kinesis, Confluent Cloud, or push with a REST API, SDKs, and beyond.</p>
@@ -47,13 +49,16 @@ customers use our unified streaming and historical processing platform.
   <GridItem href="/working-with-streams">
     <h3>Streams &rarr;</h3>
     <p>An append-only (by default), unbounded, constantly changing events group with changelog, versioned, and external options.</p>
+
   </GridItem>
   <GridItem href="/destination">
     <h3>Sinks &rarr;</h3>
     <p>Send real-time insights to other systems, either to notify individuals or power downstream applications.</p>
+
   </GridItem>
   <GridItem href="/proton">
     <h3>Proton &rarr;</h3>
     <p>The open source, unified streaming and historical data processing engine powering the Timeplus streaming analytics platform.</p>
+
   </GridItem>
 </Grid>

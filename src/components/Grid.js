@@ -10,17 +10,13 @@ export default function Grid ({ children }) {
   );
 }
 
-export function GridItem ({ children, style = {}, href, title, cta }) {
+export function GridItem ({ children, href }) {
   return (
-    <>
-      <Link 
-        className={styles.button} 
-        style={style}
-        href={href}
-      >
-        {title && <h3>{title}</h3>}
-        {children && <p>{children}</p>}
-      </Link>
-    </>
+    <Link 
+      className={styles.button} 
+      href={href}
+    >
+      {children}
+    </Link>
   );
 }
