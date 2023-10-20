@@ -1,6 +1,6 @@
----
+- - -
 title: Overview
----
+- - -
 
 import Quickstart from '@site/src/components/Quickstart'
 import Grid, { GridItem } from '@site/src/components/Grid'
@@ -18,7 +18,6 @@ Still curious about [why to use Timeplus](why-timeplus)? Check out the [showcase
   <p>Follow along with step-by-step instructions for creating a Timeplus Cloud account and loading sample IoT, user login, or DevOps data.</p>
 </Quickstart>
 
-## Jump into stream processing and analytics
 ## Jump into stream processing and analytics
 
 <Grid>

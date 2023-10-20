@@ -9,7 +9,7 @@
 截至今天，Timeplus 支持两种开发/注册 UDF 的方法。
 
 * [远程 UDF](remote-udf). 将 webhook 注册为 UDF。 将 webhook 注册为 UDF。 你可以使用任何编程语言/框架来开发/部署 webhook。 一个不错的起点是使用 AWS Lambda。
-* [JavaScript 的本地 UDF](js-udf). 最近，我们还增加了对基于 JavaScript 的本地 UDF 的支持。 最近，我们还增加了对基于 JavaScript 的本地 UDF 的支持。 您可以使用现代 JavaScript（由 V8提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。 如果您想试用此功能，请联系我们，因为它默认处于禁用状态。
+* [JavaScript 的本地 UDF](js-udf). 最近，我们还增加了对基于 JavaScript 的本地 UDF 的支持。 We also added the support of JavaScript-based local UDF. 您可以使用现代 JavaScript（由 V8提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
 
 

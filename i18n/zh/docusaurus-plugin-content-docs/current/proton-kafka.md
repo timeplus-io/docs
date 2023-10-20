@@ -213,7 +213,6 @@ group by method order by cnt desc;
 └────────┴─────┴─────┘
 ```
 
-<<<<<<< HEAD
 ### Streaming JOIN
 
 In the `owlshop-customers` topic, there are a list of customers with the following metadata
