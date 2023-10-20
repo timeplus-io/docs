@@ -1,6 +1,4 @@
-- - -
-title: Overview
-- - -
+# 概览
 
 import Quickstart from '@site/src/components/Quickstart'
 import Grid, { GridItem } from '@site/src/components/Grid'
@@ -14,13 +12,17 @@ Still curious about [why to use Timeplus](why-timeplus)? Check out the [showcase
 ## Get started with Timeplus
 
 <Quickstart href="/quickstart">
+
   <h3>快速入门</h3>
+
   <p>Follow along with step-by-step instructions for creating a Timeplus Cloud account and loading sample IoT, user login, or DevOps data.</p>
+
 </Quickstart>
 
 ## Jump into stream processing and analytics
 
-<Grid> <GridItem href="/ingestion">
+<Grid>
+<GridItem href="/ingestion">
 ### Ingest data &rarr;
 
 Connect Timeplus Cloud to Apache Kafka, Apache Pulsar, Kinesis, Confluent Cloud, or push with a REST API, SDKs, and beyond.</GridItem> <GridItem href="/query-syntax">
