@@ -57,7 +57,7 @@ The above example continuously evaluates the filter expression on the new events
 
 ### 全局流聚合 {#global}
 
-在 Timeplus 中，我们将全局聚合定义为一个聚合查询，而不使用诸如tumble、hop等流式窗口。 不同于串流窗口聚合，全局流式聚合并不分割 根据时间戳将未绑定的流式数据放入窗口， 相反，它作为一个巨大的全球窗口处理无界流数据。 由于这个属性，Timeplus现在不能 根据时间戳为全局聚合回收的内存聚合状态/结果。
+在 Timeplus 中，我们将全局聚合定义为一个聚合查询，而不使用诸如tumble、hop等流式窗口。 不同于流式窗口聚合，全局流式聚合并不分割根据时间戳将未绑定的流式数据放入窗口， 相反，它作为一个巨大的全局窗口处理无界流数据。 由于这个属性，Timeplus现在不能根据时间戳为全局聚合回收的内存聚合状态/结果。
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
