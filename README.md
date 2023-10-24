@@ -36,7 +36,7 @@ This command generates static content into the `build` directory and can be serv
 It has been configured to deploy new changes to docs.timeplus.com via Netlify.
 
 ### Localization
-Currently English is the only offical language for the documentation and we are working on other languages, starting from Chinese.
+Currently English is the only official language for the documentation and we are working on other languages, starting from Simplified Chinese.
 [![Crowdin](https://badges.crowdin.net/timeplus-docs/localized.svg)](https://crowdin.com/project/timeplus-docs) It's managed by Crowdin and welcome any contribution.
 
 ### Update Neutron REST API doc
