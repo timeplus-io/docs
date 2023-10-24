@@ -25,7 +25,7 @@ Still curious about [why to use Timeplus](why-timeplus)? Check out the [showcase
 <GridItem href="/ingestion">
 ### Ingest data &rarr;
 
-Connect Timeplus Cloud to Apache Kafka, Apache Pulsar, Kinesis, Confluent Cloud, or push with a REST API, SDKs, and beyond.</GridItem> <GridItem href="/query-syntax">
+将 Timeplus Cloud 连接到 Apache Kafka、Apache Pulsar、Kinesis、Confluent Cloud，或者使用 REST API、SDK 等进行推送。 <br/> </GridItem> <GridItem href="/query-syntax">
 ### Write SQL queries &rarr;
 
 Create long-running queries using functions like transformations, joins, aggregation, windowed processing, substreams, and more.</GridItem> <GridItem href="/viz">
