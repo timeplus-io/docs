@@ -1,6 +1,6 @@
 # Timeplus Documentation
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator. 
 
 ### Installation
 
@@ -34,6 +34,10 @@ This command generates static content into the `build` directory and can be serv
 ### Deployment
 
 It has been configured to deploy new changes to docs.timeplus.com via Netlify.
+
+### Localization
+Currently English is the only offical language for the documentation and we are working on other languages, starting from Chinese.
+[![Crowdin](https://badges.crowdin.net/timeplus-docs/localized.svg)](https://crowdin.com/project/timeplus-docs) It's managed by Crowdin and welcome any contribution.
 
 ### Update Neutron REST API doc
 
