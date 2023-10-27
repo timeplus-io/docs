@@ -10,7 +10,7 @@ To create an external stream in Proton:
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
-SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..'',username='..',password='..'
+SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..'
 ```
 
 The supported values for `security_protocol` are:
