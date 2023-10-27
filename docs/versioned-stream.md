@@ -14,6 +14,12 @@ In this example, you create a stream `dim_products` in `versioned_kv` mode with 
 | product_id  | string              | unique id for the product, as the primary key                |
 | price       | float               | current price                                                |
 
+:::info
+
+The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](proton-create-stream#versioned-stream)
+
+:::
+
 If you don't add any data, query `SELECT * FROM dim_products` will return no results and keep waiting for the new results.
 
 Now cancel this query, and add a few more rows to the stream.
