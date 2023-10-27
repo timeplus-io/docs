@@ -21,6 +21,12 @@
 | 产品名称        | 字符串                 | 产品的唯一 ID，作为主键                                |
 | 价格          | 浮点数                 | 当前价格                                         |
 
+:::info
+
+The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](proton-create-stream#changelog-stream)
+
+:::
+
 ## 查询单个流
 
 如果您没有添加任何数据，查询 `SELECT * FROM dim_products` 将不返回任何结果并继续等待新的结果。
@@ -306,13 +312,13 @@ localhost:8083/connectors \
 
 #### 插入
 
-SQL：
+SQL:
 
 ```sql
 INSERT INTO dim_products ("product_id", "price") VALUES ('iPhone14', 799)
 ```
 
-CDC 数据：
+CDC Data:
 
 ```json
 {
@@ -331,13 +337,13 @@ CDC 数据：
 
 #### 更新
 
-SQL：
+SQL:
 
 ```sql
 UPDATE dim_products set price=800 WHERE product_id='iPhone14'
 ```
 
-CDC 数据：
+CDC Data:
 
 ```json
 {
@@ -359,13 +365,13 @@ CDC 数据：
 
 #### 删除
 
-SQL：
+SQL:
 
 ```sql
 DELETE FROM dim_products
 ```
 
-CDC 数据：
+CDC Data:
 
 ```json
 {
