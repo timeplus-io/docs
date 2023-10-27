@@ -14,6 +14,12 @@
 | 产品名称       | 字符串                 | 产品的唯一 ID，作为主键                                |
 | 价格         | 浮点数                 | 当前价格                                         |
 
+:::info
+
+The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](proton-create-stream#versioned-stream)
+
+:::
+
 如果您没有添加任何数据，查询 `SELECT * FROM dim_products` 将不返回任何结果并继续等待新的结果。
 
 现在取消此查询，再向流中添加几行。
