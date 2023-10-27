@@ -19,7 +19,11 @@ Timeplus 支持多种类型的流：
 
 在大多数情况下，您不需要在 Timeplus 中明确创建一个流。 当您从 Kafka 或文件来源 [摄取数据](ingestion) 到 Timeplus 中，可以自动创建数据流以匹配数据模式。
 
+:::info
 
+The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](proton-create-stream)
+
+:::
 
 ## 查询流
 
