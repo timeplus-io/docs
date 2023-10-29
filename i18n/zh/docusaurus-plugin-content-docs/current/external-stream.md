@@ -2,11 +2,17 @@
 
 # 外部流
 
-您也可以在 Timeplus 中创建 **外部流** 来查询外部系统中的数据，而不需要将数据加载到 Timeplus 中。 这样做的主要好处是在外部系统（例如Kafka）中保持一个单一的事实来源，而不是复制它们。 在许多情况下，这还可以实现更低的处理 Kafka 数据的延迟，因为数据是由 Timeplus 数据库读取的，无需其他组件。
+您也可以在 Timeplus 中创建 **外部流** 来查询外部系统中的数据，而不需要将数据加载到 Timeplus 中。 The main benefit for doing so is to keep a single source of truth in the external systems (e.g. Apache Kafka), without duplicating them. In many cases, this can also achieve even lower latency to process Kafka data, because the data is read by Timeplus database (Proton), without other components.
+
+:::info
+
+Starting from Proton 1.3.17, you can also write data to Apache Kafka via the external streams and materialized views. [Learn More](proton-kafka#write-to-kafka-with-sql)
+
+:::
 
 您可以以与其他流类似的方式对外部流运行流分析，但有一些限制。
 
-## 支持的外部系统
+## Supported external systems
 
 支助的外部系统有：
 
@@ -15,15 +21,21 @@
 
 主题应包含纯文本或 JSON 格式的消息。 将在流中创建一个 `raw` 列，用于捕获 Kafka 中消息的值。
 
-## 创建外部流
+## Create an external stream
+
+:::info
+
+The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](proton-create-stream#create-external-stream)
+
+:::
 
 要创建外部流，请转到 **数据摄取** 页面，然后单击右侧的 **添加数据** 按钮，然后在弹出对话框中选择 **外部流** 。 设置流名称，Kafka 经纪人和主题名称。 选择正确的身份验证方法，然后点击 **创建**。 您无法自定义流架构。 将在流中创建一个 `raw` 列，用于捕获 Kafka 中消息的值。
 
-## 查询外部流
+## Query external streams
 
 要查询外部系统中的数据，请以类似的方式运行流式 SQL，比如： `SELECT count(*) FROM my_external_stream` 您也可以根据外部流创建 [视图](view) 或 [实际化视图](view#materialized-view)。
 
-## 限制
+## Limitations
 
 基于 Kafka 的外部流有一些限制，因为 TimePlus 不控制外部流的储存或数据格式。
 
