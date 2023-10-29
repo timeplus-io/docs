@@ -50,7 +50,7 @@ SETTINGS type='kafka',
 
 #### Single column to read from Kafka
 
-To read data via Kafka API, currently we only support plain text format. You should create the external stream with only a `raw` coulmn in `string` type. In the next few releases, we will be support other data format, such as CSV and JSON.
+To read data via Kafka API, currently we only support plain text format. You should create the external stream with only a `raw` column in `string` type. In the next few releases, we will be support other data format, such as CSV and JSON.
 
 #### Multiple columns to write to Kafka
 
@@ -58,7 +58,7 @@ To write data via Kafka API (only available to Proton v1.3.17+), you can choose 
 
 ##### JSONEachRow
 
-You can use `data_format='JSONEachRow'`  to inform Proton to write each event as a JSON document. The columns of the external steram will be converted to keys in the JSON documents. 例如：
+You can use `data_format='JSONEachRow'`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. 例如：
 
 ```sql
 CREATE EXTERNAL STREAM target(
@@ -84,7 +84,7 @@ The messages will be generated in the specific topic as
 
 ##### CSV
 
-You can use `data_format='CSV'`  to inform Proton to write each event as a JSON document. The columns of the external steram will be converted to keys in the JSON documents. 例如：
+You can use `data_format='CSV'`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. 例如：
 
 ```sql
 CREATE EXTERNAL STREAM target(
@@ -121,6 +121,30 @@ You can run streaming SQL on the external stream, e.g.
 ```sql
 SELECT raw:timestamp, raw:car_id, raw:event FROM ext_stream WHERE raw:car_type in (1,2,3);
 SELECT window_start, count() FROM tumble(ext_stream,to_datetime(raw:timestamp)) GROUP BY window_start;
+```
+
+### Read existing messages
+
+When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in the topics, not the existing ones. If you need to read all existing messages, you can use the following settings:
+
+```sql
+SELECT raw FROM ext_stream SETTINGS seek_to='earliest'
+```
+
+
+
+### Read specified partitions
+
+Starting from Proton 1.3.17, you can also read in specified Kafka partitions. By default, all partitions will be read. But you can also read from a single partition via the `shards` setting, e.g.
+
+```sql
+SELECT raw FROM ext_stream SETTINGS shards='0'
+```
+
+Or you can specify a set of partition ID, separated by comma, e.g.
+
+```sql
+SELECT raw FROM ext_stream SETTINGS shards='0,2'
 ```
 
 
