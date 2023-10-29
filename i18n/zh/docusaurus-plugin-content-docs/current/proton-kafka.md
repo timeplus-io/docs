@@ -46,6 +46,64 @@ SETTINGS type='kafka',
          password=".."
 ```
 
+### Define columns
+
+#### Single column to read from Kafka
+
+To read data via Kafka API, currently we only support plain text format. You should create the external stream with only a `raw` coulmn in `string` type. In the next few releases, we will be support other data format, such as CSV and JSON.
+
+#### Multiple columns to write to Kafka
+
+To write data via Kafka API (only available to Proton v1.3.17+), you can choose different data formats:
+
+##### JSONEachRow
+
+You can use `data_format='JSONEachRow'`  to inform Proton to write each event as a JSON document. The columns of the external steram will be converted to keys in the JSON documents. 例如：
+
+```sql
+CREATE EXTERNAL STREAM target(
+    _tp_time datetime64(3), 
+    url string, 
+    method string, 
+    ip string) 
+    SETTINGS type='kafka', 
+             brokers='redpanda:9092', 
+             topic='masked-fe-event', 
+             data_format='JSONEachRow';
+```
+
+The messages will be generated in the specific topic as
+```json
+{
+"_tp_time":"2023-10-29 05:36:21.957"
+"url":"https://www.nationalweb-enabled.io/methodologies/killer/web-readiness"
+"method":"POST"
+"ip":"c4ecf59a9ec27b50af9cc3bb8289e16c"
+}
+```
+
+##### CSV
+
+You can use `data_format='CSV'`  to inform Proton to write each event as a JSON document. The columns of the external steram will be converted to keys in the JSON documents. 例如：
+
+```sql
+CREATE EXTERNAL STREAM target(
+    _tp_time datetime64(3), 
+    url string, 
+    method string, 
+    ip string) 
+    SETTINGS type='kafka', 
+             brokers='redpanda:9092', 
+             topic='masked-fe-event', 
+             data_format='CSV';
+```
+
+The messages will be generated in the specific topic as
+
+```csv
+"2023-10-29 05:35:54.176","https://www.nationalwhiteboard.info/sticky/recontextualize/robust/incentivize","PUT","3eaf6372e909e033fcfc2d6a3bc04ace"
+```
+
 
 
 ## DROP EXTERNAL STREAM
@@ -72,9 +130,30 @@ SELECT window_start, count() FROM tumble(ext_stream,to_datetime(raw:timestamp)) 
 You can use materialized views to write data to Kafka as an external stream, e.g.
 
 ```sql
-CREATE MATERIALIZED VIEW mv1 
-INTO ext_stream 
-AS SELECT _tp_time, car_id, speed FROM car_live_data WHERE car_type in (1,2,3)
+-- read the topic via an external stream
+CREATE EXTERNAL STREAM frontend_events(raw string)
+                SETTINGS type='kafka',
+                         brokers='redpanda:9092',
+                         topic='owlshop-frontend-events';
+
+-- create the other external stream to write data to the other topic
+CREATE EXTERNAL STREAM target(
+    _tp_time datetime64(3), 
+    url string, 
+    method string, 
+    ip string) 
+    SETTINGS type='kafka', 
+             brokers='redpanda:9092', 
+             topic='masked-fe-event', 
+             data_format='JSONEachRow';
+
+-- setup the ETL pipeline via a materialized view
+CREATE MATERIALIZED VIEW mv INTO target AS 
+    SELECT now64() AS _tp_time, 
+           raw:requestedUrl AS url, 
+           raw:method AS method, 
+           lower(hex(md5(raw:ipAddress))) AS ip 
+    FROM frontend_events;
 ```
 
 ## Tutorial with Docker Compose {#tutorial}
@@ -261,3 +340,43 @@ SELECT * FROM parsed_customer JOIN parsed_addr USING(id);
 By default, proton-client is started in single line and single query mode. To run multiple query statements together, start with the `-n` parameters, i.e. `docker exec -it proton-container-name proton-client -n`
 
 :::
+
+
+
+### Streaming ETL
+
+If you don't want your data analysts to see the raw IP addresses for each requests, you can setup a streaming ETL process to mask the IP address, to protect such PII data (Personal Identifiable Information).
+
+:::info
+
+Require Proton 1.3.17 or above.
+
+:::
+
+```sql
+-- read the topic via an external stream
+CREATE EXTERNAL STREAM frontend_events(raw string)
+                SETTINGS type='kafka',
+                         brokers='redpanda:9092',
+                         topic='owlshop-frontend-events';
+
+-- create the other external stream to write data to the other topic
+CREATE EXTERNAL STREAM target(
+    _tp_time datetime64(3), 
+    url string, 
+    method string, 
+    ip string) 
+    SETTINGS type='kafka', 
+             brokers='redpanda:9092', 
+             topic='masked-fe-event', 
+             data_format='JSONEachRow';
+
+-- setup the ETL pipeline via a materialized view
+CREATE MATERIALIZED VIEW mv INTO target AS 
+    SELECT now64() AS _tp_time, 
+           raw:requestedUrl AS url, 
+           raw:method AS method, 
+           lower(hex(md5(raw:ipAddress))) AS ip 
+    FROM frontend_events;
+```
+
