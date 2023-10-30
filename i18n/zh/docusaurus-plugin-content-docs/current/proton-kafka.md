@@ -54,7 +54,7 @@ To read data via Kafka API, currently we only support plain text format. You sho
 
 #### Multiple columns to write to Kafka
 
-To write data via Kafka API (only available to Proton v1.3.17+), you can choose different data formats:
+To write data via Kafka API (only available to Proton v1.3.18+), you can choose different data formats:
 
 ##### JSONEachRow
 
@@ -135,7 +135,7 @@ SELECT raw FROM ext_stream SETTINGS seek_to='earliest'
 
 ### Read specified partitions
 
-Starting from Proton 1.3.17, you can also read in specified Kafka partitions. By default, all partitions will be read. But you can also read from a single partition via the `shards` setting, e.g.
+Starting from Proton 1.3.18, you can also read in specified Kafka partitions. By default, all partitions will be read. But you can also read from a single partition via the `shards` setting, e.g.
 
 ```sql
 SELECT raw FROM ext_stream SETTINGS shards='0'
@@ -373,7 +373,7 @@ If you don't want your data analysts to see the raw IP addresses for each reques
 
 :::info
 
-Require Proton 1.3.17 or above.
+Require Proton 1.3.18 or above.
 
 :::
 
