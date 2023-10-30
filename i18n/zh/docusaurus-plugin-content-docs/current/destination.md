@@ -10,12 +10,12 @@
 
 您需要创建一个 Slack 传入的 webhook，以便 Timeplus 能够在特定群组中为每个结果发送一个消息。 请按照 [Slack文档](https://api.slack.com/messaging/webhooks) 了解说明。
 
-一旦您得到 SlackWebhook URL，您可以在对话框中指定它并设置一个消息主体。 You can refer to the column name via the `{{.column}}` expression. 例如，假设查询的输出为
+一旦您得到 SlackWebhook URL，您可以在对话框中指定它并设置一个消息主体。 您可以通过 `{{.column}}` 表达式提及列名称。 例如，假设查询的输出为
 
-| time                    | number | 备注  |
-| ----------------------- | ------ | --- |
-| 2022-01-23 10:00:00.123 | 50     | foo |
-| 2022-01-23 10:05:00.123 | 95     | Bar |
+| 时间                      | 数量 | 备注  |
+| ----------------------- | -- | --- |
+| 2022-01-23 10:00:00.123 | 50 | foo |
+| 2022-01-23 10:05:00.123 | 95 | Bar |
 
 您可以设置消息主体为 `传感器数据为 {{.time}} {{.number}}，并备注: {{.note}}`
 
@@ -45,7 +45,7 @@
 
 您可以在 Timeplus 中应用流式分析，然后将结果发送到 Snowflake 。 有几种不同的方式来实现这一目标：
 
-1. 您可以将流式结果发送到 Confluent Cloud 或 Kafka。 然后通过利用 [Confluent Cloud 中的 Snowflake 数据下游](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html) 移动数据到 Snowflake。 这种方法可以实现更低的延迟。 Please note the Confluent Cloud Kafka cluster needs to reside in the same cloud vendor and region, for example, both of them in us-west-1 of AWS. 默认情况下，Snowflake 中的表格将以 Kafka 主题相同的名称创建，JSON 文档保存在一个 TEXT 列 `RECORD_CONT` 中。
+1. 您可以将流式结果发送到 Confluent Cloud 或 Kafka。 然后通过利用 [Confluent Cloud 中的 Snowflake 数据下游](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html) 移动数据到 Snowflake。 这种方法可以实现更低的延迟。 请注意 Confluent Cloud Kafka 集群必须位于同一个云供应商和地区，例如，它们都位于 AWS 的 us-west-1。 默认情况下，Snowflake 中的表格将以 Kafka 主题相同的名称创建，JSON 文档保存在一个 TEXT 列 `RECORD_CONT` 中。
 
 ```mermaid
 flowchart LR
@@ -64,7 +64,7 @@ from tumble(car_live_data,2s) group by cid, window_end
 
 然后创建一个 Kafka 数据下游来发送这种数据到主题：snowflake。
 
-After setting up the sink connector in Confluent Cloud, a `snowflake` table will be created with the specified database and schema in your snowflake environment.  然后，您可以创建一个视图来平面化 JSON 文档，例如
+在 Confluent Cloud 中设置数据下游连接器后， 一个`snowflake`表格将在您的 snowflake 环境中创建指定的数据库和架构。  然后，您可以创建一个视图来平面化 JSON 文档，例如
 
 ```sql
 create view downsampled as select RECORD_CONTENT:time::timestamp_tz as time,
