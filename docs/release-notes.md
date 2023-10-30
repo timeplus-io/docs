@@ -2,6 +2,22 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
 
+## Oct 30, 2023
+
+*Proton:*
+  * You can now install single native binary for Mac or Linux - check out our installation guide [here](https://github.com/timeplus-io/proton/wiki/Install-single-binary-Proton).
+  * External streams support writing. [(Learn more)](proton-kafka#write-to-kafka-with-sql)
+  * External streams also support reading from specific Kafka partition(s). [(Learn more)](proton-kafka#read-specified-partitions) 
+
+*Timeplus Cloud:*
+  * Per customer feedback, we added a new capability to allow users to monitor the infra usages for their workspace, such as cpu/memory/disk/network. Check out an example dashboard [here](https://demo.timeplus.cloud/default/console/dashboard/eac7a4ab-5a55-45c2-bc66-98c39ebe0a90), and please contact us if you want to enable this experimental feature in your workspace. 
+  * When creating an Apache Kafka, Confluent Cloud, or Redpanda source, we now display available topics in a dropdown. You can also enter a topic manually.
+  * The CSV upload process is refined - we will auto-generate a column name if there is no header row available in your file.
+  * Search by keyword in resource list pages is no longer case sensitive.
+  * When formatting a single value chart, you can now add a blank space in the unit field (eg. if you want to have a space to separate the value and the unit).
+  * Dashboard query variables dropdowns have a new UI: when searching, instead of highlighting matching items, we will now only show matching items in the dropdown.
+  * When deleting a query bookmark, a confirmation dialog will be shown.
+
 ## Oct 16, 2023
 
 *Proton:*
