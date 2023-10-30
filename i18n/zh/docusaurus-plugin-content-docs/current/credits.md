@@ -2,11 +2,11 @@
 
 
 
-Parts of the Timeplus product are powered by open source projects.
-* Core engine ([Proton](proton), Apache License 2.0) integrates with [ClickHouse](https://clickhouse.com) (Apache License 2.0) as the historical storage
-* Sources and sinks are powered by [Benthos](https://www.benthos.dev/) (MIT License)
-* JavaScript UDF is powered by [V8](https://v8.dev/) (BSD License)
-* [Other third-party libraries](https://clickhouse.com/docs/en/development/contrib) introduced by [ClickHouse](https://clickhouse.com), which can be obtained by the following query:
+Timeplus 产品的部分功能基于开源项目。
+* 核心引擎（[Proton](proton)，Apache License 2.0）与[ClickHouse](https://clickhouse.com)（Apache License  2.0）集成用于历史存储
+* 数据源和数据下游的基于[Benthos](https://www.benthos.dev/)构建（MIT License）
+* JavaScript UDF 基于[V8](https://v8.dev/)（BSD License)
+* [由[ClickHouse](https://clickhouse.com)推出的其他第三方库](https://clickhouse.com/docs/en/development/contrib)，可以通过以下查询获取：
 
 ```sql
 SELECT library_name, license_type, license_path FROM system.licenses ORDER BY library_name
