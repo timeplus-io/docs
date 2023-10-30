@@ -6,7 +6,7 @@ You can also create **external streams** in Timeplus to query data in the extern
 
 :::info
 
-Starting from Proton 1.3.17, you can also write data to Apache Kafka via the external streams and materialized views. [Learn More](proton-kafka#write-to-kafka-with-sql)
+Starting from Proton 1.3.18, you can also write data to Apache Kafka via the external streams and materialized views. [Learn More](proton-kafka#write-to-kafka-with-sql)
 
 :::
 
