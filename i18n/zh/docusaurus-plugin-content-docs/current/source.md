@@ -12,21 +12,21 @@ If you need to call an API to create a source, here are the references.
 
 请参考 [https://kafka.apache.org/](https://kafka.apache.org/)
 
-| 属性                           | 必填项 | 描述                                                                                                                                                 | 默认值                            |
-| ---------------------------- | --- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| brokers                      | yes | 指定broker地址列表。 这是一个以逗号分隔的字符串。 例如`kafka1:9092,kafka2:9092,kafka3:9092`                                                                               | |                              |
-| 主题                           | yes | Specifies the Kafka topic to connect                                                                                                               |                                |
-| offset                       | yes | Specifies the Kafka offset configuration.    support `latest,earliest`                                                                             |                                |
-| 数据类型                         | yes | 指定用于创建流的数据类型。   support `json`,`text`,`avro`,`debezium-json`,`debezium-json-upsert`                                                                | |                              |
-| group                        | no  | Specifies the Kafka consumer group. use the source uuid with prefix `timeplus-source-` as the default value if user does not specify it            | `timeplus-source-<uuid>` |
-| sasl                         | no  | Specifies the Simple Authentication and Security Layer (SASL) mechanism for authentication. support `none`,`plain`,`scram-sha-256`,`scram-sha-512` | `none` |                       |
-| username                     | no  | Specifies the username for authentication                                                                                                          |                                |
-| password                     | no  | Specifies the password for authentication                                                                                                          |                                |
-| tls.disable                  | no  | If set to `true`, disables TLS encryption                                                                                                          | `false`                        |
-| tls.skip_verify_server     | no  | If set to `true`, skips server certificate verification when using TLS                                                                             | `false`                        |
-| schema_registry_address    | no  | Specifies the URL of the Schema Registry for Kafka, only applies when the data_type is `avro`                                                      |                                |
-| schema_registry_api_key    | no  | Specifies the API key for Schema Registry authentication                                                                                           |                                |
-| schema_registry_api_secret | no  | Specifies the API secret for Schema Registry authentication                                                                                        |                                |
+| 属性                           | 必填项 | 描述                                                                                                                                      | 默认值                            |
+| ---------------------------- | --- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| brokers                      | yes | 指定broker地址列表。 这是一个以逗号分隔的字符串。 例如`kafka1:9092,kafka2:9092,kafka3:9092`                                                                    | |                              |
+| 主题                           | yes | Specifies the Kafka topic to connect                                                                                                    |                                |
+| offset                       | yes | Specifies the Kafka offset configuration.    support `latest,earliest`                                                                  |                                |
+| 数据类型                         | yes | 指定用于创建流的数据类型。   support `json`,`text`,`avro`,`debezium-json`,`debezium-json-upsert`                                                     | |                              |
+| group                        | no  | Specifies the Kafka consumer group. use the source uuid with prefix `timeplus-source-` as the default value if user does not specify it | `timeplus-source-<uuid>` |
+| sasl                         | no  | 指定用于简单身份验证和安全层（SASL）的认证机制。 支持`none`，`plain`，`scram-sha-256`，`scram-sha-512`                                                             | `none` |                       |
+| 用户名                          | no  | 指定用于身份验证的用户名                                                                                                                            |                                |
+| 密码                           | no  | 指定用于身份验证的密码                                                                                                                             |                                |
+| tls.disable                  | no  | 如果设置为`true`，则禁用 TLS 加密                                                                                                                  | `false`                        |
+| tls.skip_verify_server     | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                                                                                        | `false`                        |
+| schema_registry_address    | no  | Specifies the URL of the Schema Registry for Kafka, only applies when the data_type is `avro`                                           |                                |
+| schema_registry_api_key    | no  | Specifies the API key for Schema Registry authentication                                                                                |                                |
+| schema_registry_api_secret | no  | Specifies the API secret for Schema Registry authentication                                                                             |                                |
 
 
 ### stream_generator
