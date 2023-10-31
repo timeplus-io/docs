@@ -66,15 +66,15 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
 
 ### 地图
 
-Currently available on https://us.timeplus.cloud as a preview feature.
+目前可在 https://us.timeplus.cloud 上作为预览功能提供。
 
 * 数据设置：
-  * Set columns for longitude and latitude.
-  * Color: show grouped data in stack mode or dodge mode.
+  * 设置经度和纬度列。
+  * 颜色：在堆栈模式或减淡模式下显示分组数据。
   * 更新模式：仅追加，或显示上次时间戳的数据点，或者选择一个键列作为显示每个键值的最新数据值。
 
 * 格式设置
-  * Map dots: color scheme, opacity, and size (fixed size, or set a min. and max size)
+  * 地图上的点：配色方案、不透明度和大小（固定大小，或设置最小和最大尺寸）
 
 ![地图](/img/map-chart.png)
 
