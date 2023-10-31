@@ -23,7 +23,7 @@
 
 :::info
 
-The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](proton-create-stream#changelog-stream)
+此页面的其余部分均假设您正在使用 TimePlus 控制台。 如果您使用的是 Proton，则可以使用 DDL 创建流。 [点击此处，了解更多](proton-create-stream#changelog-stream)
 
 :::
 
@@ -312,13 +312,13 @@ localhost:8083/connectors \
 
 #### 插入
 
-SQL:
+SQL：
 
 ```sql
 INSERT INTO dim_products ("product_id", "price") VALUES ('iPhone14', 799)
 ```
 
-CDC Data:
+CDC Data：
 
 ```json
 {
@@ -337,13 +337,13 @@ CDC Data:
 
 #### 更新
 
-SQL:
+SQL：
 
 ```sql
 UPDATE dim_products set price=800 WHERE product_id='iPhone14'
 ```
 
-CDC Data:
+CDC Data：
 
 ```json
 {
@@ -365,13 +365,13 @@ CDC Data:
 
 #### 删除
 
-SQL:
+SQL：
 
 ```sql
 DELETE FROM dim_products
 ```
 
-CDC Data:
+CDC Data：
 
 ```json
 {
