@@ -8,7 +8,7 @@
 
 默认情况下， `_tp_time` 列在 `datetime64(3, 'UTC')` 类型以毫秒为精度。 您也可以在 `日期时间` 类型下创建它，并以秒为精度。
 
-When you are about to create a new stream, please choose the right column as the event time. If no column is specified, then Timeplus will use the current timestamp as the value of `_tp_time` It's not recommended to rename a column as _tp_time at the query time, since it will lead to unexpected behaviour, specially for [Time Travel](usecases#s-time-travel).
+当您要创建一个新的流时，请选择正确的列作为事件时间。 如果未指定任何列，则 Timeplus 将使用当前时间戳作为 `_tp_time` 的值。我们不建议在查询时将列重命名为 _tp_time，因为这会导致一些意外情况发生，特别是对于[Time Travel](usecases#s-time-travel)而言。
 
 ## 为什么事件时间受到不同的处理
 
