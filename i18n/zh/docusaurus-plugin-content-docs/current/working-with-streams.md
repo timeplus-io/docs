@@ -21,7 +21,7 @@ Timeplus 支持多种类型的流：
 
 :::info
 
-此页面的其余部分均假设您正在使用 TimePlus 控制台。 如果您使用的是 Proton，则可以使用 DDL 创建流。 [Learn more](proton-create-stream)
+此页面的其余部分均假设您正在使用 TimePlus 控制台。 如果您使用的是 Proton，则可以使用 DDL 创建流。 [点击此处，了解更多](proton-create-stream)
 
 :::
 
