@@ -25,17 +25,17 @@ Starting from Proton 1.3.18, you can also write data to Apache Kafka via the ext
 
 :::info
 
-The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](proton-create-stream#create-external-stream)
+此页面的其余部分均假设您正在使用 TimePlus 控制台。 如果您使用的是 Proton，则可以使用 DDL 创建流。 [点击此处，了解更多](proton-create-stream#create-external-stream)
 
 :::
 
 要创建外部流，请转到 **数据摄取** 页面，然后单击右侧的 **添加数据** 按钮，然后在弹出对话框中选择 **外部流** 。 设置流名称，Kafka 经纪人和主题名称。 选择正确的身份验证方法，然后点击 **创建**。 您无法自定义流架构。 将在流中创建一个 `raw` 列，用于捕获 Kafka 中消息的值。
 
-## Query external streams
+## 查询外部流
 
 要查询外部系统中的数据，请以类似的方式运行流式 SQL，比如： `SELECT count(*) FROM my_external_stream` 您也可以根据外部流创建 [视图](view) 或 [实际化视图](view#materialized-view)。
 
-## Limitations
+## 限制
 
 基于 Kafka 的外部流有一些限制，因为 TimePlus 不控制外部流的储存或数据格式。
 
