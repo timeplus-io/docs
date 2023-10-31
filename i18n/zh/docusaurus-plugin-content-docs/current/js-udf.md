@@ -1,65 +1,65 @@
-# 本地JavaScript自定义函数
+# Local UDF in JavaScript
 
-除了 [远程 UDF](remote-udf)之外，Timeplus 还支持在数据库引擎中运行基于 JavaScript 的 UDF。 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
+In addition to [Remote UDF](remote-udf), Timeplus also supports JavaScript-based UDF running in the database engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
 
 :::info
 
-基于 JavaScript 的 UDF 可以在 Timeplus Cloud 和本地部署中运行。 它在数据库引擎中“本地”运行。 这并不意味着此功能仅适用于本地部署。
+The JavaScript-based UDF can run in both Timeplus Cloud and the on-prem deployments. It runs "locally" in the database engine. It doesn't mean this feature is only available for local deployment.
 
 :::
 
-## 注册 JS UDF {#register}
+## Register a JS UDF {#register}
 
-1. 从左侧导航菜单中打开 “UDF”，然后单击 “注册新功能” 按钮。
-2. 指定函数名称，例如 `second_max`。 确保名称不会与内置函数或其他 UDF 冲突。 描述（可选）
-3. 为输入参数和返回值选择数据类型。
-4. 选择“JavaScript”作为 UDF 类型。
-5. 指定该函数是否用于聚合。
-6. 输入 UDF 的 JavaScript 代码。 （我们将进一步解释如何编写代码。）
-7. 单击 **创建** 按钮注册该函数。
+1. Open "UDFs" from the navigation menu on the left, and click the 'Register New Function' button. 
+2. Specify a function name, such as `second_max`. Make sure the name won't conflict with built-in functions or other UDF. Description is optional.
+3. Choose the data type for input parameters and return value.
+4. Choose "JavaScript" as the UDF type.
+5. Specify whether the function is for aggregation or not.
+6. Enter the JavaScript source for the UDF. (We will explain more how to write the code.)
+7. Click **Create** button to register the function.
 
-### 参数
+### Arguments
 
-与远程 UDF 不同，注册 JS UDF 时参数名称无关紧要。 请确保您的参数列表与您的 JavaScript 函数中的输入参数列表匹配。
+Unlike Remote UDF, the argument names don't matter when you register a JS UDF. Make sure you the list of arguments matches the input parameter lists in your JavaScript function.
 
-输入数据采用 Timeplus 数据类型。 它们将被转换为 JavaScript 数据类型。
+The input data are in Timeplus data type. They will be converted to JavaScript data type.
 
-| Timeplus 数据类型                            | JavaScript 数据类型 |
-| ---------------------------------------- | --------------- |
-| int8/16/32/64, uint8/16/32/64,float32/64 | number          |
-| 布尔值                                      | boolean         |
-| fixed_string/string                      | 字符串             |
-| date/date32/datetime/datetime64          | Date  (毫秒为精度)   |
-| array(Type)                              | Array           |
+| Timeplus Data Types                      | JavaScript Data Types   |
+| ---------------------------------------- | ----------------------- |
+| int8/16/32/64, uint8/16/32/64,float32/64 | number                  |
+| bool                                     | boolean                 |
+| fixed_string/string                      | string                  |
+| date/date32/datetime/datetime64          | Date  (in milliseconds) |
+| array(Type)                              | Array                   |
 
-### 返回值
+### Returned value
 
-JavaScript UDF 可以返回以下数据类型，它们将被转换回指定的 Timeplus 数据类型。 支持的返回类型与参数类型类似。 唯一的区别是，如果您以 `object` 的形式返回一个复杂的数据结构，它将在 Timeplus 中被转换为一个命名的 `tuple`。
+The JavaScript UDF can return the following data types and they will be converted back to the specified Timeplus data types. The supported return type are similar to argument types. The only difference is that if you return a complex data structure as an `object`, it will be converted to a named `tuple` in Timeplus.
 
-| JavaScript 数据类型 | Timeplus 数据类型                            |
-| --------------- | ---------------------------------------- |
-| number          | int8/16/32/64, uint8/16/32/64,float32/64 |
-| boolean         | 布尔值                                      |
-| 字符串             | fixed_string/string                      |
-| Date  (毫秒为精度)   | date/date32/datetime/datetime64          |
-| Array           | array(Type)                              |
-| object          | 元组                                       |
+| JavaScript Data Types   | Timeplus Data Types                      |
+| ----------------------- | ---------------------------------------- |
+| number                  | int8/16/32/64, uint8/16/32/64,float32/64 |
+| boolean                 | bool                                     |
+| string                  | fixed_string/string                      |
+| Date  (in milliseconds) | date/date32/datetime/datetime64          |
+| Array                   | array(Type)                              |
+| object                  | tuple                                    |
 
-## 开发标量函数 {#udf}
+## Develop a scalar function {#udf}
 
-标量函数是每次调用返回一个值的函数；在大多数情况下，您可以将其视为每行返回一个值。 这与 [聚合函数](#udaf) 不同，它返回每行组的一个值。
+A scalar function is a function that returns one value per invocation; in most cases, you can think of this as returning one value per row. This contrasts with [Aggregate Functions](#udaf), which returns one value per group of rows.
 
 
 
-### 带有 1 个参数的标量函数 {#scalar1}
+### Scalar function with 1 argument {#scalar1}
 
-例如，您想检查用户是否在其个人资料中设置了工作电子邮件。 虽然这在普通 SQL 中是可以实现的，但如果你能创建 UDF 来提高 SQL 的可读性，那就更好了，例如
+For example, you would like to check whether the user sets a work email in their profile. Although this could be doable with plain SQL but it'll be nice if you can create a UDF to make the SQL more readable, e.g.
 
 ```SQL
 SELECT * FROM user_clicks where is_work_email(email)
 ```
 
-您可以使用以下代码定义一个新函数 `is_work_email` ，其中一个输入类型 `string` 并返回 `bool`。
+You can use the following code to define a new function `is_work_email` with one input type `string` and return `bool`.
 
 ```javascript
 function is_work_email(values){
@@ -67,24 +67,24 @@ function is_work_email(values){
 }
 ```
 
-备注：
+Notes:
 
-1. 第一行定义了一个与 UDF 名称完全相同的函数。 参数的数量应与您在 UDF 表单中指定的数量相匹配。
-2. 请注意，输入实际上是一个 JavaScript 列表。 为了提高性能，Timeplus 将通过将参数组合在一起来减少函数调用的次数。 你需要返回一个与输入长度完全相同的列表。
-3. `values.map(..)` 创建一个新的数组，其结果是在调用数组中的每个元素上调用一个提供的函数([doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map))。
-4. `email=>email.endSwith (” @gmail .com”)` 是通过检查电子邮件是否以 “@gmail .com” 结尾来返回 `bool` 的快捷方式。 你可以添加更复杂的逻辑，也可以写入多行并以 `return ..`返回结果。
+1. The first line defines a function with the exact same name as the UDF. The number of arguments should match what you specify in the UDF form.
+2. Please note the input is actually a JavaScript list. For the sake of high performance, Timeplus will reduce the number of function calls by combining the arguments together. You need to return a list with the exact same length of the input.
+3. `values.map(..)` creates a new array populated with the results of calling a provided function on every element in the calling array ([doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)).
+4. `email=>email.endsWith("@gmail.com")` is the shortcut to return a `bool` by checking whether the email ends with "@gmail.com". You can add more complex logic, or write in multiple lines and end with `return ..`.
 
-### 带有 2 个参数的标量函数 {#scalar2}
+### Scalar function with 2 or more arguments {#scalar2}
 
-让我们通过定义一个不被视为与工作相关的电子邮件域名列表来增强前面的示例。 例如
+Let's enhance the previous example, by defining a list of email domains which won't be considered as work-related. e.g.
 
 ```sql
 SELECT * FROM user_clicks where email_not_in(email,'gmail.com,icloud.com,live.com')
 ```
 
-与上一个教程类似，您创建了一个名为 `email_not_in`的新函数。 这次你指定两个 `string`类型的参数。 注意：目前 JS UDF 不支持复杂的数据类型，例如 `array(string)`。
+Similar to the last tutorial, you create a new function called `email_not_in`. This time you specify two arguments in `string`. Note: currently JS UDF doesn't support complex data types, such as `array(string)`.
 
-以下代码实现了这个新函数：
+The following code implements this new function:
 
 ```javascript
 function email_not_in(emails,lists){
@@ -99,15 +99,15 @@ function email_not_in(emails,lists){
 }
 ```
 
-### 没有参数的标量函数 {#scalar0}
+### Scalar function with no argument {#scalar0}
 
-目前，我们不支持没有参数的 JS UDF。 作为一种解决方法，你可以定义一个参数，例如
+Currently we don't support JS UDF without arguments. As a workaround, you can define a single argument, e.g.
 
 ```SQL
 SELECT *, magic_number(1) FROM user_clicks
 ```
 
-`magic_number` 需要一个 `int` 参数。
+The `magic_number` takes an `int` argument as a workaround.
 
 ```javascript
 function magic_number(values){
@@ -115,86 +115,86 @@ function magic_number(values){
 }
 ```
 
-在这种情况下，无论指定什么参数，该函数都将返回 `42` 。
+In this case, the function will return `42` no matter what parameter is specified. 
 
-## 定义一个新的聚集函数 {#udaf}
+## Develop an aggregate function {#udaf}
 
-聚合函数为每组行返回一个值。 注册 UDF 时，请务必打开该选项以表明这是聚合函数。 与标量函数相比，生命周期要复杂一些。
+An aggregate function returns one value per group of rows. When you register the UDF, make sure you turn on the option to indicate this is an aggregation function. Compared to scalar functions, the life cycle is a bit more complex.
 
-### 3 个必需的和 3 个可选的函数
+### 3 required and 3 optional functions
 
-比如我们希望获得一组数据中的第二个最大值。
+Let's take an example of a function to get the second maximum values from the group.
 
-| 顺序 | 函数               | 是否必需？ | 描述                                           | 示例                                                                                                                                  |
-| -- | ---------------- | ----- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| 1  | merge(str)       | 是     | 初始化状态。                                       | function(){<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />}                                                    |
-| 2  | process(args..)  | 是     | 该函数的主要逻辑                                     | function(values){<br />values.map(..)<br />}                                                                            |
-| 3  | finalize()       | 是     | 返回最终的聚合结果                                    | function(){<br />return this.sec_max<br />}                                                                             |
-| 4  | serialize()      | 否     | 将 JS 内部状态序列化为字符串，这样 Timeplus 就可以持续进行故障转移/恢复。 | function(){<br />return JSON.stringify({'max':this.max,'sec_max':this.sec_max})<br />}                                |
-| 5  | deserialize(str) | 否     | 与serialize()相反。 读取字符串并转换回 JS 内部状态。           | function(str){<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
-| 6  | merge(str)       | 否     | 将两个状态合并为一个。 用于多分片处理。                         | function(str){<br />let s=JSON.parse(str);<br />if..else..}                                                             |
+| Order | Function         | Required? | Description                                                  | Example                                                      |
+| ----- | ---------------- | --------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 1     | initialize()     | Yes       | Initialize the states.                                       | function()\{<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />} |
+| 2     | process(args..)  | Yes       | Main logic for the function                                  | function(values)\{<br />values.map(..)<br />}                 |
+| 3     | finalize()       | Yes       | Return the final aggregation result                          | function()\{<br />return this.sec_max<br />}                  |
+| 4     | serialize()      | No        | Serialize JS internal state to a string, so that Timeplus can persist for failover/recovery. | function()\{<br />return JSON.stringify(\{'max':this.max,'sec_max':this.sec_max})<br />} |
+| 5     | deserialize(str) | No        | Opposite to serialize(). Read the string and convert back to JS internal state. | function(str)\{<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
+| 6     | merge(str)       | No        | Merges two states into one. Used for multiple shards processing. | function(str)\{<br />let s=JSON.parse(str);<br />if..else..}  |
 
 
 
-### 示例：获取第二大数
+### Example: get second largest number
 
-此 JS UDAF 的完整源代码是
+The full source code for this JS UDAF is
 
 ```javascript
 {
-    initialize: function() {
-        this.max = -1.0;
-        this.sec_max = -1.0;
-    },
+	initialize: function() {
+		this.max = -1.0;
+		this.sec_max = -1.0;
+	},
 
-    process: function(values) {
-        for (let i = 0; i < values.length; i++) {
-            this._update(values[i]);
-        }
-    },
+	process: function(values) {
+		for (let i = 0; i < values.length; i++) {
+			this._update(values[i]);
+		}
+	},
 
-    _update: function(value) {
-        if (value > this.max) {
-            this.sec_max = this.max;
-            this.max = value;
-        } else if (value > this.sec_max) {
-            this.sec_max = value;
-        }
-    },
+	_update: function(value) {
+		if (value > this.max) {
+			this.sec_max = this.max;
+			this.max = value;
+		} else if (value > this.sec_max) {
+			this.sec_max = value;
+		}
+	},
 
-    finalize: function() {
-        return this.sec_max
-    },
+	finalize: function() {
+		return this.sec_max
+	},
 
-    serialize: function() {
-        return JSON.stringify({
-            'max': this.max,
-            'sec_max': this.sec_max
-        });
-    },
+	serialize: function() {
+		return JSON.stringify({
+			'max': this.max,
+			'sec_max': this.sec_max
+		});
+	},
 
-    deserialize: function(state_str) {
-        let s = JSON.parse(state_str);
-        this.max = s['max'];
-        this.sec_max = s['sec_max']
-    },
+	deserialize: function(state_str) {
+		let s = JSON.parse(state_str);
+		this.max = s['max'];
+		this.sec_max = s['sec_max']
+	},
 
-    merge: function(state_str) {
-        let s = JSON.parse(state_str);
-        this._update(s['max']);
-        this._update(s['sec_max']);
-    }
+	merge: function(state_str) {
+		let s = JSON.parse(state_str);
+		this._update(s['max']);
+		this._update(s['sec_max']);
+	}
 };
 ```
 
-要注册此函数，请选择 JavaScript 作为 UDF 类型，确保打开 “是聚合”。 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 在 `float` 类型中添加一个参数，并将返回类型也设置为 `float` 。
+To register this function, choose JavaScript as UDF type, make sure to turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too.
 
-请注意，与 JS 标量函数不同，您需要将所有函数放在对象 `{}`下。 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。
+Please note, unlike JS scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
 
 
 
-## 备注
+## Notes
 
-* 将来我们将提供更好的测试工具。
-* 自定义 JavaScript 代码在装有 V8 引擎的沙箱中运行。 它不会影响其他工作空间。
+* We will provide better testing tools in the future.
+* The custom JavaScript code is running in a sandbox with V8 engine. It won't impact other workspaces.
 

@@ -80,7 +80,7 @@ The code is straightforward. A few notes:
 1. You can call the UDF for more than 1 row, such as `select my_udf(col) from my_stream`. To improve the efficiency, Timeplus will send batch requests to the remote UDF, e.g. `my_udf([input1, input2, input3])`and the return value is an array too `[return1, return2, return3]`
 2. The input data is wrapped in a JSON document `{"ip":["ip1","ip2","ip3"]}`
 3. We simply call the REST API of [ipinfo.io](https://ipinfo.io) with the API token from the Lambda environment variable
-4. The response from ipinfo.io REST API will be put into a JSON document {“result”:[..]} and sent out as the Lambda output
+4. The response from ipinfo.io REST API will be put into a JSON document \{“result”:[..]} and sent out as the Lambda output
 5. Since the Lambda function is running outside Timeplus servers, there are no restrictions for 3rd party libraries. In this example, we are using the built-in node.js “https” library. For more complex data processing, feel free to include more sophisticated libraries, such as machine learning.
 
 Once you have deployed the Lambda function, you can generate a publicly accessible URL, then register the function in Timeplus Web Console.
@@ -111,13 +111,13 @@ The following data types in Timeplus are supported as Remote UDF arguments:
 
 | Timeplus Data Types     | Payload in UDF HTTP Request                                  |
 | ----------------------- | ------------------------------------------------------------ |
-| array(TYPE)             | {"argument_name":[array1,arrary2]}                           |
-| bool                    | {"argument_name":[true,false]}                               |
-| date                    | {"argument_name":["2023-07-27","2023-07-28"]}                |
-| datetime                | {"argument_name":["2023-07-27 04:00:00","2023-07-28  04:00:00"]} |
-| datetime64              | {"argument_name":["2023-07-27 04:00:00.000","2023-07-28  04:00:00.000"]} |
-| float, float64, integer | {"argument_name":[number1,number2]}                          |
-| string                  | {"argument_name":[string1,string2]}                          |
+| array(TYPE)             | \{"argument_name":[array1,arrary2]}                           |
+| bool                    | \{"argument_name":[true,false]}                               |
+| date                    | \{"argument_name":["2023-07-27","2023-07-28"]}                |
+| datetime                | \{"argument_name":["2023-07-27 04:00:00","2023-07-28  04:00:00"]} |
+| datetime64              | \{"argument_name":["2023-07-27 04:00:00.000","2023-07-28  04:00:00.000"]} |
+| float, float64, integer | \{"argument_name":[number1,number2]}                          |
+| string                  | \{"argument_name":[string1,string2]}                          |
 
 
 
@@ -135,12 +135,12 @@ Timeplus will take each element of the result array and convert back to Timeplus
 
 | UDF HTTP Response                    | Timeplus Data Types        |
 | ------------------------------------ | -------------------------- |
-| {"result":[array1,arrary2]}          | array(TYPE)                |
-| {"result":[true,false]}              | bool                       |
-| {"result":[dateString1,dateString2]} | date, datetime, datetime64 |
-| {"result":[number1,number2]}         | float, float64, integer    |
-| {"result":[string1,string2]}         | string                     |
-| {"result":[json1,json2]}             | tuple                      |
+| \{"result":[array1,arrary2]}          | array(TYPE)                |
+| \{"result":[true,false]}              | bool                       |
+| \{"result":[dateString1,dateString2]} | date, datetime, datetime64 |
+| \{"result":[number1,number2]}         | float, float64, integer    |
+| \{"result":[string1,string2]}         | string                     |
+| \{"result":[json1,json2]}             | tuple                      |
 
 
 

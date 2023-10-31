@@ -127,12 +127,12 @@ Let's take an example of a function to get the second maximum values from the gr
 
 | Order | Function         | Required? | Description                                                  | Example                                                      |
 | ----- | ---------------- | --------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 1     | initialize()     | Yes       | Initialize the states.                                       | function(){<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />} |
-| 2     | process(args..)  | Yes       | Main logic for the function                                  | function(values){<br />values.map(..)<br />}                 |
-| 3     | finalize()       | Yes       | Return the final aggregation result                          | function(){<br />return this.sec_max<br />}                  |
-| 4     | serialize()      | No        | Serialize JS internal state to a string, so that Timeplus can persist for failover/recovery. | function(){<br />return JSON.stringify({'max':this.max,'sec_max':this.sec_max})<br />} |
-| 5     | deserialize(str) | No        | Opposite to serialize(). Read the string and convert back to JS internal state. | function(str){<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
-| 6     | merge(str)       | No        | Merges two states into one. Used for multiple shards processing. | function(str){<br />let s=JSON.parse(str);<br />if..else..}  |
+| 1     | initialize()     | Yes       | Initialize the states.                                       | function()\{<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />} |
+| 2     | process(args..)  | Yes       | Main logic for the function                                  | function(values)\{<br />values.map(..)<br />}                 |
+| 3     | finalize()       | Yes       | Return the final aggregation result                          | function()\{<br />return this.sec_max<br />}                  |
+| 4     | serialize()      | No        | Serialize JS internal state to a string, so that Timeplus can persist for failover/recovery. | function()\{<br />return JSON.stringify(\{'max':this.max,'sec_max':this.sec_max})<br />} |
+| 5     | deserialize(str) | No        | Opposite to serialize(). Read the string and convert back to JS internal state. | function(str)\{<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
+| 6     | merge(str)       | No        | Merges two states into one. Used for multiple shards processing. | function(str)\{<br />let s=JSON.parse(str);<br />if..else..}  |
 
 
 
