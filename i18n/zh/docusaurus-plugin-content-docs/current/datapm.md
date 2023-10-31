@@ -48,7 +48,7 @@ Data Package Manager（datapm）是一个 [开源](https://github.com/big-armor/
 ❯   Fetch data
     Search for data
     Create new package and publish
-    Pubish existing package
+    Publish existing package
     Update a package's stats
     Edit a package's descriptions
     Log into a registry
@@ -96,7 +96,7 @@ Finding Stream Sets
 
 输入本地文件的文件路径（例如CSV或zip）。 您也可以将文件拖动到终端窗口。
 
-datapm 将从本地文件系统或远程系统加载内容，并询问您是更改列名还是删除某些列。
+Datapm will load the content from a local file system or remote system and ask you whether to change the column names or remove some columns.
 
 #### 向 Timeplus 发送数据
 配置数据源后，选择数据下游：
@@ -146,10 +146,10 @@ Timeplus Credentials
 ? API Key? › API Key? › 
 ```
 
-您需要设置 API 密钥。 您可以从 Web 控制台获取一个。 （访问 {baseURL}/console/settings/apiKey，或者选择左上角的 “个人设置”，然后切换到“API 密钥管理”并单击“创建 API 密钥”按钮）。
+您需要设置 API 密钥。 您可以从 Web 控制台获取一个。 (by visiting BASE_URL/console/settings/apiKey, or choose "Personal Settings" on the top-left corner, then switch to the "API Key Management" and click "Create API Key" button).
 
 ::: info
-datapm 将保存配置，包括 Timeplus baseUrl 和 API 密钥。 下次，您可以选择那些缓存的存储库和密钥。
+datapm 将保存配置，包括 Timeplus baseUrl 和 API 密钥。 Next time, you can choose those cached repositories and secrets.
 :::
 
 ```
