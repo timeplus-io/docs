@@ -2,9 +2,9 @@
 
 流式查询支持以下函数，但并非所有函数都支持历史查询。 请检查像这样的标签。
 
-✅ streaming query
+✅ 流查询
 
-🚫 historical query
+🚫 历史查询
 
 ### table
 
@@ -23,17 +23,17 @@
 
 为数据流创建一个tumble窗口视图，例如 `tumble(iot,5s)` 将创建每5秒数据流 `iot` 的窗口。 SQL 必须以 `group by` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
 
-✅ streaming query
+✅ 流查询
 
-✅ historical query
+✅ 历史查询
 
 ### hop
 
 `hop(stream [,timeCol], step, windowSize)` 为数据流创建一个滑窗视图, 例如 `hop(iot,1s,5s)` 将创建每5秒数据流的窗口 `iot` 并每秒移动窗口转发一次。 SQL 必须以 `group by` 结尾，然后使用 `window_start` 或 `window_end` 或两者兼有。
 
-✅ streaming query
+✅ 流查询
 
-🚫 historical query
+🚫 历史查询
 
 ### session
 
@@ -55,34 +55,34 @@
 * `session(car_live_data, 1m, [speed>50,speed<50)) partition by cid` 创建会话窗口以检测汽车正在加速的情况。 将包括速度超过50的第一次活动。 和速度小于50的最后一个事件将不会被包含在会话窗口中。
 * `session(access_log, 5m, [action='login',action='logout']) partition by uid` 创建会话窗口时用户登录系统并退出登录。 如果在5分钟内没有活动，窗口将自动关闭。
 
-✅ streaming query
+✅ 流查询
 
-🚫 historical query
+🚫 历史查询
 
 ### dedup
 
 `dedup(stream, column1 [,otherColumns..] [liveInSecond,limit]) [liveInSecond,limit]) [liveInSecond,limit])`
 
-在给定的数据流中使用指定的列 (s) 应用反复性。 Rows with same column value will only show once (only the first row is selected and others are omitted.) `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但是，如果您只想在特定时间段内避免重复，例如2分钟，则可以设置 `120s` 例如 `dedup(subquery,myId,120s)`
+在给定的数据流中使用指定的列 (s) 应用反复性。 具有相同列值的行将仅显示一次（仅选择第一行，而忽略其他行。） `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但是，如果您只想在特定时间段内避免重复，例如2分钟，则可以设置 `120s` 例如 `dedup(subquery,myId,120s)`
 
 最后一个参数 `限制` 是可选的，默认是 `100 000`。 它限制在查询引擎中最大唯一密钥。 如果达到限制，系统将回收最早的密钥以保持这一限制。
 
 您可以将此表函数级，例如 `tumble(table...)` 并且到目前为止，包装顺序必须在这个序列中：tumble/hop/session -> dep-> 表。
 
-✅ streaming query
+✅ 流查询
 
-✅ historical query
+✅ 历史查询
 
 :::info tips
 
-When you use `dedup` function together with `table()` function to get the latest status for events with same ID, you can consider ordering the data by _tp_time in the reverse way, so that the latest event for same ID is kept. 例如
+当您将`dedup`函数与`table()`函数一起使用来获取具有相同ID的事件的最新状态时，可以考虑以相反的方式按_tp_time对数据进行排序，以便保留相同ID的最新事件。 例如
 
 ```sql
 WITH latest_to_earliest AS (SEELCT * FROM table(my_stream) ORDER by _tp_time DESC)
 SELECT * FROM dedup(latest_to_earliest, id)
 ```
 
-Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earliest event with same ID will be processed first, ignoring the rest of the updated status. In many cases, this is not what you expect.
+否则，如果您使用`dedup(table(my_stream),id)` 运行查询，则将首先处理具有相同ID的最早事件，而忽略其余更新状态。 在许多情况下，这不是你所期望的。
 
 :::
 
@@ -94,33 +94,33 @@ Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earliest ev
 
 `lag(总计)` 以获得最后一行的 `总计` 的值。 `lag(总计, 12)` 以获得12行前的值。 `lag(total, 0)` 如果指定行不可用则使用0作为默认值。
 
-✅ streaming query
+✅ 流查询
 
-🚫 historical query
+🚫 历史查询
 
 ### lags
 
 `lags(<column_name>, begin_offset, end_offset [, <default_value>])` 与 `lags` 函数相似，但可以获得一个数值列表。 例如: `lags(total,1,3)` 将返回一个数组，最后1，最后2和最后3个值。
 
-✅ streaming query
+✅ 流查询
 
-🚫 historical query
+🚫 历史查询
 
 ### latest
 
 `latest(<column_name>)` 获取特定列的最新值，用于与群组的串流聚合。
 
-✅ streaming query
+✅ 流查询
 
-🚫 historical query
+🚫 历史查询
 
 ### earliest
 
 `earliest(<column_name>)` 获得特定列的最早值，与分组的串流聚合一起工作。
 
-✅ streaming query
+✅ 流查询
 
-🚫 historical query
+🚫 历史查询
 
 ### now
 
@@ -130,9 +130,9 @@ Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earliest ev
 
 当now()用在流式SQL,无论是 `SELECT` 或 `WHERE` 或 `tumble/hop` 窗口, 他想反应运行时的时间。
 
-✅ streaming query
+✅ 流查询
 
-✅ historical query
+✅ 历史查询
 
 ### now64
 
@@ -140,9 +140,9 @@ Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earliest ev
 
 它也可以用于流查询以显示最新的日期时间和毫秒。
 
-✅ streaming query
+✅ 流查询
 
-✅ historical query
+✅ 历史查询
 
 ### date_diff_within
 
@@ -154,11 +154,11 @@ Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earliest ev
 
 例如，如果运行 `select emit_version(),count(*) from car_live_data` 查询将每2秒发布结果，而第一个结果将是emit_version=0。 emit_version=1的第二个结果。 当每个发射结果中有多行时，此函数特别有用。 例如，您可以运行一个tumble窗口聚集时加group by。 相同聚合窗口的所有结果将在相同的 emit_version。 然后您可以在同一聚合窗口中显示所有行的图表。
 
-✅ streaming query
+✅ 流查询
 
-🚫 historical query
+🚫 历史查询
 
-### changelog
+### 变更日志
 
 `changelog（stream [，[key_col1 [，key_column，[..]]，version_column]，drop_late_rows]）` 用于将流（无论是仅限附加的流还是版本控制的流）转换为具有给定主键的变更日志流。
 
@@ -173,6 +173,6 @@ from changelog(car_live_data, cid, _tp_time, true)
 
 
 
-✅ streaming query
+✅ 流查询
 
-🚫 historical query
+🚫 历史查询
