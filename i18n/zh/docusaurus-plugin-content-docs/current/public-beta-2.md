@@ -160,7 +160,7 @@
 **查询**
 
   * 简化了 `LATEST JOIN` 语法。 无须写 `INNER LATEST JOIN`。 [点击此处，了解更多](query-syntax#latest-join).
-  * 对于使用 tumble window 聚合的历史查询，如果窗口中没有事件，则该窗口将不会出现在结果中。 若要显示具有默认值的空窗口（数字类型为 0，字符串为空字符串），可以使用带 fill step 的order by window_start 来插入空窗口。 <window_size> .
+  * For historical queries with tumble window aggregation, if there is no event in a window, such window won't be in the results. To show an empty window with default value(0 for numeric types and empty string for string), you can add order by window_start with fill step \<window_size\> .
   * 自动清理最近的查询日志：如果超过 500 个，则删除较旧的查询。
 
 **仪表板**
