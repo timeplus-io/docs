@@ -2,7 +2,7 @@
 
 # 邀请制测试版 2
 
-我们很高兴地启动第二个邀请制测试版的TimePlus Cloud。 与 [邀请制测试版1](private-beta-1)相比，大多数后端和前端更改都是递增增强， 主要差别是入口点从 [https://{tenant}.beta.timeplus.com](https://tenant.beta.timeplus.com) 改为 [https://beta.timeplus.cloud/{tenant}](https://beta.timeplus.cloud/tenant)
+我们很高兴地启动第二个邀请制测试版的TimePlus Cloud。 Comparing to the [Private Beta 1](private-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from [https://TENANT.beta.timeplus.com](https://tenant.beta.timeplus.com) to [https://beta.timeplus.cloud/TENANT](https://beta.timeplus.cloud/tenant)
 
 我们将不时更新测试版，并在此页面列出关键的增强措施。
 
