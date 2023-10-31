@@ -125,14 +125,14 @@ function magic_number(values){
 
 比如我们希望获得一组数据中的第二个最大值。
 
-| 顺序 | 函数               | 是否必需？ | 描述                                           | 示例                                                                                                                                  |
-| -- | ---------------- | ----- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| 1  | merge(str)       | 是     | 初始化状态。                                       | function(){<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />}                                                    |
-| 2  | process(args..)  | 是     | 该函数的主要逻辑                                     | function(values){<br />values.map(..)<br />}                                                                            |
-| 3  | finalize()       | 是     | 返回最终的聚合结果                                    | function(){<br />return this.sec_max<br />}                                                                             |
-| 4  | serialize()      | 否     | 将 JS 内部状态序列化为字符串，这样 Timeplus 就可以持续进行故障转移/恢复。 | function(){<br />return JSON.stringify({'max':this.max,'sec_max':this.sec_max})<br />}                                |
-| 5  | deserialize(str) | 否     | 与serialize()相反。 读取字符串并转换回 JS 内部状态。           | function(str){<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
-| 6  | merge(str)       | 否     | 将两个状态合并为一个。 用于多分片处理。                         | function(str){<br />let s=JSON.parse(str);<br />if..else..}                                                             |
+| 顺序 | 函数               | 是否必需？ | 描述                                           | 示例                                                                                                                                    |
+| -- | ---------------- | ----- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| 1  | merge(str)       | 是     | 初始化状态。                                       | function()\{<br />this.max=-1.0;<br />this.sec_max=-1.0;<br />}                                                    |
+| 2  | process(args..)  | 是     | 该函数的主要逻辑                                     | function(values)\{<br />values.map(..)<br />}                                                                            |
+| 3  | finalize()       | 是     | 返回最终的聚合结果                                    | function()\{<br />return this.sec_max<br />}                                                                             |
+| 4  | serialize()      | 否     | 将 JS 内部状态序列化为字符串，这样 Timeplus 就可以持续进行故障转移/恢复。 | function()\{<br />return JSON.stringify(\{'max':this.max,'sec_max':this.sec_max})<br />}                              |
+| 5  | deserialize(str) | 否     | 与serialize()相反。 读取字符串并转换回 JS 内部状态。           | function(str)\{<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
+| 6  | merge(str)       | 否     | 将两个状态合并为一个。 用于多分片处理。                         | function(str)\{<br />let s=JSON.parse(str);<br />if..else..}                                                             |
 
 
 
