@@ -17,7 +17,7 @@ If you need to call an API to create a source, here are the references.
 | brokers                      | yes | 指定broker地址列表。 这是一个以逗号分隔的字符串。 例如`kafka1:9092,kafka2:9092,kafka3:9092`                                                                    | |                              |
 | 主题                           | yes | Specifies the Kafka topic to connect                                                                                                    |                                |
 | offset                       | yes | Specifies the Kafka offset configuration.    support `latest,earliest`                                                                  |                                |
-| 数据类型                         | yes | 指定用于创建流的数据类型。   support `json`,`text`,`avro`,`debezium-json`,`debezium-json-upsert`                                                     | |                              |
+| data_type                    | yes | 指定用于创建流的数据类型。   support `json`,`text`,`avro`,`debezium-json`,`debezium-json-upsert`                                                     | |                              |
 | group                        | no  | Specifies the Kafka consumer group. use the source uuid with prefix `timeplus-source-` as the default value if user does not specify it | `timeplus-source-<uuid>` |
 | sasl                         | no  | 指定用于简单身份验证和安全层（SASL）的认证机制。 支持`none`，`plain`，`scram-sha-256`，`scram-sha-512`                                                             | `none` |                       |
 | 用户名                          | no  | 指定用于身份验证的用户名                                                                                                                            |                                |
@@ -41,25 +41,25 @@ a source that generates randome data for test
 
 ### pulsar
 
-refer to [https://pulsar.apache.org/](https://pulsar.apache.org/)
+请参考[https://pulsar.apache.org/](https://pulsar.apache.org/)
 
-| 属性          | 必填项 | 描述                                                                     | 默认值  |
-| ----------- | --- | ---------------------------------------------------------------------- | ---- |
-| 主题          | yes | Specifies the topic of the pulsar to connect to                        |      |
-| 经纪网址        | yes | Specifies the URL of the broker to connect to                          |      |
-| auth_type   | yes | Specifies the authentication type to use.  support ``,`oauth2`,`token` |      |
-| auth_params | no  | Specifies authentication parameters as key-value pairs                 | `{}` |
+| 属性          | 必填项 | 描述                                   | 默认值  |
+| ----------- | --- | ------------------------------------ | ---- |
+| 主题          | yes | 指定要连接的pulsar的主题                      |      |
+| 经纪网址        | yes | 指定要连接的broker URL                     |      |
+| auth_type   | yes | 指定要使用的身份验证类型。  支持``，`oauth2`，`token` |      |
+| auth_params | no  | 将身份验证参数指定为键值对                        | `{}` |
 
 
 ### livepeer
 
 refer to [https://livepeer.org/](https://livepeer.org/)
 
-| 属性      | 必填项 | 描述                                                                 | 默认值 |
-| ------- | --- | ------------------------------------------------------------------ | --- |
-| 间隔      | yes | Specifies the pulling interval to livepeer api. for example `300s` |     |
-| api_key | yes | Specifies the API key of livepeer                                  |     |
-| 数据类型    | yes | 指定用于创建流的数据类型。   support `json`,`text`                              |     |
+| 属性        | 必填项 | 描述                                                                 | 默认值 |
+| --------- | --- | ------------------------------------------------------------------ | --- |
+| 间隔        | yes | Specifies the pulling interval to livepeer api. for example `300s` |     |
+| api_key   | yes | Specifies the API key of livepeer                                  |     |
+| data_type | yes | 指定用于创建流的数据类型。   support `json`,`text`                              |     |
 
 
 
