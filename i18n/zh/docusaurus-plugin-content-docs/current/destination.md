@@ -101,17 +101,17 @@ Airbyte 的 Timeplus 源插件处于早期阶段。 请联系我们来安排整�
 
 请参考 [https://kafka.apache.org/](https://kafka.apache.org/)
 
-| 属性                       | 必填项 | 描述                                                                                                                                                 | 默认值      |
-| ------------------------ | --- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| brokers                  | yes | 指定broker地址列表。 这是一个以逗号分隔的字符串。 例如`kafka1:9092,kafka2:9092,kafka3:9092`                                                                               | |        |
-| 主题                       | yes | 指定要向其发送数据的 Kafka 主题                                                                                                                                |          |
-| batch_count              | no  | 指定每批事件的数量                                                                                                                                          | `1000`   |
-| 数据类型                     | no  | 指定用于创建流的数据类型。   支持`json`                                                                                                                           |          |
-| sasl                     | no  | Specifies the Simple Authentication and Security Layer (SASL) mechanism for authentication. support `none`,`plain`,`scram-sha-256`,`scram-sha-512` | `none` | |
-| username                 | no  | Specifies the username for authentication                                                                                                          |          |
-| password                 | no  | Specifies the password for authentication                                                                                                          |          |
-| tls.disable              | no  | If set to `true`, disables TLS encryption                                                                                                          | `false`  |
-| tls.skip_verify_server | no  | If set to `true`, skips server certificate verification when using TLS                                                                             | `false`  |
+| 属性                       | 必填项 | 描述                                                                          | 默认值      |
+| ------------------------ | --- | --------------------------------------------------------------------------- | -------- |
+| brokers                  | yes | 指定broker地址列表。 这是一个以逗号分隔的字符串。 例如`kafka1:9092,kafka2:9092,kafka3:9092`        | |        |
+| 主题                       | yes | 指定要向其发送数据的 Kafka 主题                                                         |          |
+| batch_count              | no  | 指定每批事件的数量                                                                   | `1000`   |
+| 数据类型                     | no  | 指定用于创建流的数据类型。   支持`json`                                                    |          |
+| sasl                     | no  | 指定用于简单身份验证和安全层（SASL）的认证机制。 支持`none`，`plain`，`scram-sha-256`，`scram-sha-512` | `none` | |
+| 用户名                      | no  | 指定用于身份验证的用户名                                                                |          |
+| 密码                       | no  | 指定用于身份验证的密码                                                                 |          |
+| tls.disable              | no  | 如果设置为`true`，则禁用 TLS 加密                                                      | `false`  |
+| tls.skip_verify_server | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                            | `false`  |
 
 
 ### http
@@ -120,7 +120,7 @@ Airbyte 的 Timeplus 源插件处于早期阶段。 请联系我们来安排整�
 | -------------- | --- | ------------------------------------------------- | ------ |
 | url            | yes | Specifies the URL of http                         |        |
 | content_type   | no  | Specifies the content type                        |        |
-| http_method    | no  | Specifies the password for authentication         | `POST` |
+| http_method    | no  | 指定用于身份验证的密码                                       | `POST` |
 | payload_field  | no  | The payload of the http request                   |        |
 | http_header    | no  | http header object                                | `{}`   |
 | oauth2         | no  | Specifies oauth2 configuration. refer to `oauth2` |        |
@@ -170,8 +170,8 @@ refer to [https://clickhouse.com/](https://clickhouse.com/)
 | table_name     | yes  | Specifies the name of the target ClickHouse table                                                                                |         |
 | dsn            | yes  | Specifies the ClickHouse Data Source Name (DSN). When specified, `hosts`, `username`, `password`, and `database` will be ignored |         |
 | hosts          | yes* | Specifies the list of ClickHouse server hosts                                                                                    |         |
-| username       | yes* | Specifies the username for authentication                                                                                        |         |
-| password       | yes* | Specifies the password for authentication                                                                                        |         |
+| 用户名            | yes* | 指定用于身份验证的用户名                                                                                                                     |         |
+| 密码             | yes* | 指定用于身份验证的密码                                                                                                                      |         |
 | database       | yes* | Specifies the ClickHouse database to use                                                                                         |         |
 | engine         | yes* | Specifies the ClickHouse table engine to use                                                                                     |         |
 | suffix         | yes* | Specifies a suffix to be added to the create table script                                                                        |         |
