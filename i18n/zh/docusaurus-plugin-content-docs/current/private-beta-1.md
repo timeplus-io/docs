@@ -6,7 +6,7 @@
 
 ### 8/1 周
 
-最后一周发布在 Private Beta 1。 从8月8日开始，我们正在过渡到Private Beta 2。 客户将被批量迁移到新的环境批次。 访问测试版租户的URL已从 [https://://{tenant}.beta.timeplus.com](https://tenant.beta.timeplus.com) 更改为 [https://beta.timeplus.cloud/{tenant}](https://beta.timeplus.cloud/tenant)
+最后一周发布在 Private Beta 1。 从8月8日开始，我们正在过渡到Private Beta 2。 客户将被批量迁移到新的环境批次。 URLs to access beta tenants are changed from [https://TENANT.beta.timeplus.com](https://tenant.beta.timeplus.com) to [https://beta.timeplus.cloud/TENANT](https://beta.timeplus.cloud/tenant)
 
 * 流引擎
   * 添加了2个与地理位置相关的函数： [point_in_polygon](functions#point_in_polygon) and [geo_distance](functions#geo_distance)。
