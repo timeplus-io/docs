@@ -1,4 +1,4 @@
-# Why Timeplus?
+# 为什么选择 Timeplus？
 
 ![概览](/img/overview.png)
 
