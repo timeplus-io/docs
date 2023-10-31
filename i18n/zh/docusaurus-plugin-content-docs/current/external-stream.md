@@ -2,17 +2,17 @@
 
 # 外部流
 
-您也可以在 Timeplus 中创建 **外部流** 来查询外部系统中的数据，而不需要将数据加载到 Timeplus 中。 The main benefit for doing so is to keep a single source of truth in the external systems (e.g. Apache Kafka), without duplicating them. In many cases, this can also achieve even lower latency to process Kafka data, because the data is read by Timeplus database (Proton), without other components.
+您也可以在 Timeplus 中创建 **外部流** 来查询外部系统中的数据，而不需要将数据加载到 Timeplus 中。 这样做的主要好处是在外部系统（例如：Apache Kafka）中保持一个单一的事实来源，而不是复制它们。 在许多情况下，这还可以实现更低的处理 Kafka 数据的延迟，因为数据是由 Timeplus 数据库（Proton）读取的，无需其他组件。
 
 :::info
 
-Starting from Proton 1.3.18, you can also write data to Apache Kafka via the external streams and materialized views. [Learn More](proton-kafka#write-to-kafka-with-sql)
+从 Proton 1.3.18 开始，你还可以通过外部流和物化视图向 Apache Kafka 写入数据。 [点击此处，了解更多](proton-kafka#write-to-kafka-with-sql)
 
 :::
 
 您可以以与其他流类似的方式对外部流运行流分析，但有一些限制。
 
-## Supported external systems
+## 支持的外部系统
 
 支助的外部系统有：
 
@@ -21,7 +21,7 @@ Starting from Proton 1.3.18, you can also write data to Apache Kafka via the ext
 
 主题应包含纯文本或 JSON 格式的消息。 将在流中创建一个 `raw` 列，用于捕获 Kafka 中消息的值。
 
-## Create an external stream
+## 创建外部流
 
 :::info
 
