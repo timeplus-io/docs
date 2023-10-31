@@ -2,7 +2,7 @@
 
 ## 串流SQL 语法{#select-syntax}
 
-Timeplus引入了几个SQL扩展来支持流式处理。 The overall syntax looks like this:
+Timeplus引入了几个SQL扩展来支持流式处理。 总的语法如下：
 
 ```sql
 SELECT <expr, columns, aggr>
@@ -53,7 +53,7 @@ FROM devices_utils
 WHERE cpu_usage >= 99
 ```
 
-The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events which have `cpu_usage` less than 99. 最后的事件将会流向客户端。
+上面的示例持续评估表`device_utils`中新事件的过滤器表达式，过滤事件`cpu_usage`小于99。 最后的事件将会流向客户端。
 
 ### 全局流聚合 {#global}
 
@@ -403,4 +403,4 @@ FROM
 
 ### JOINs
 
-Please check [Joins](joins).
+请查看[Joins](joins)。
