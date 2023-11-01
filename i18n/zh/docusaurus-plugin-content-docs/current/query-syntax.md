@@ -2,7 +2,7 @@
 
 ## 串流SQL 语法{#select-syntax}
 
-Timeplus引入了几个SQL扩展来支持流式处理。 The overall syntax looks like this:
+Timeplus引入了几个SQL扩展来支持流式处理。 总的语法如下：
 
 ```sql
 SELECT <expr, columns, aggr>
@@ -53,11 +53,11 @@ FROM devices_utils
 WHERE cpu_usage >= 99
 ```
 
-The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events which have `cpu_usage` less than 99. 最后的事件将会流向客户端。
+上面的示例持续评估表`device_utils`中新事件的过滤器表达式，过滤事件`cpu_usage`小于99。 最后的事件将会流向客户端。
 
 ### 全局流聚合 {#global}
 
-在 Timeplus 中，我们将全球聚合定义为一个聚合查询，而不使用诸如tumble、跳跃等流式窗口。 不同于串流窗口聚合，全局流式聚合并不分割 根据时间戳将未绑定的流式数据放入窗口， 相反，它作为一个巨大的全球窗口处理无界流数据。 由于这个属性，Timeplus现在不能 根据时间戳为全局聚合回收的内存聚合状态/结果。
+在 Timeplus 中，我们将全局聚合定义为一个聚合查询，而不使用诸如tumble、hop等流式窗口。 不同于流式窗口聚合，全局流式聚合并不分割根据时间戳将未绑定的流式数据放入窗口， 相反，它作为一个巨大的全局窗口处理无界流数据。 由于这个属性，Timeplus现在不能根据时间戳为全局聚合回收的内存聚合状态/结果。
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -179,7 +179,7 @@ EMIT <window_emit_policy>
 设置 <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-滑动窗口与tumble窗口相比是一个更加普遍化的窗口。 滑动窗口有一个额外的 参数，名为 `<hop_slide_size>` ，这意味着每次都要进这个幻灯片尺寸。 共有3起案件：
+滑动窗口与tumble窗口相比是一个更加普遍化的窗口。 滑动窗口有一个额外的参数，名为 `<hop_slide_size>` ，指明滑动窗口的大小。 共有3起案件：
 
 1. `<hop_slide_size>` 等于 `<hop_window_size>`。 衰落到tumble窗口。
 2. `<hop_slide_size>` 小于 `<hop_window_size>`. Hop窗口有重叠，意味着事件可能会进入几个节点窗口。 衰落到tumble窗口。
@@ -187,7 +187,7 @@ EMIT <window_emit_policy>
 
 请注意此点。 您需要在 `<hop_slide_size>` 和 `<hop_window_size>`中使用相同的时间单位 例如 `hop(device_utils, 1s, 60s)` 代替 `hop(device_utils, 1s, 1m)`
 
-这是一个 hop窗口示例，它有2秒的幻灯片和5秒的跳跃窗口。
+这是一个滑动窗口示例，它是 5 秒作为窗口大小，每 2 秒滑动一次。
 
 ```
 ["2020-01-01:00:00:00:00:00", "2020-01-01:00:00:00:00:00:00:00:05"
@@ -403,4 +403,4 @@ FROM
 
 ### JOINs
 
-Please check [Joins](joins).
+请查看[Joins](joins)。

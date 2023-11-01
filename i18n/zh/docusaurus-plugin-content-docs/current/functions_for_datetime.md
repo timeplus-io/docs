@@ -22,7 +22,7 @@
 
 ### day_of_week
 
-`day_of_week(date)` returns the day of the week. 例如： 星期一是 1，星期日是 7。
+使用`day_of_week(date)`来获取周中的某一天。 例如： 星期一是 1，星期日是 7。
 
 ### hour
 
@@ -56,7 +56,7 @@
 
 ### to_start_of_week
 
-`to_start_of_week(date)` rounds down a date or date with time to the first day of the week. 返回日期。
+`to_start_of_week(date)`将日期或带时间的日期倒退到一周的第一天。 返回日期。
 
 ### to_start_of_day
 

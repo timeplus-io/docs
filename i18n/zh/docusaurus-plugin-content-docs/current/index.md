@@ -1,6 +1,4 @@
-- - -
-title: Overview
-- - -
+# 概览
 
 import Quickstart from '@site/src/components/Quickstart'
 import Grid, { GridItem } from '@site/src/components/Grid'
@@ -14,40 +12,56 @@ Still curious about [why to use Timeplus](why-timeplus)? Check out the [showcase
 ## Get started with Timeplus
 
 <Quickstart href="/quickstart">
+
   <h3>快速入门</h3>
+
   <p>Follow along with step-by-step instructions for creating a Timeplus Cloud account and loading sample IoT, user login, or DevOps data.</p>
+
 </Quickstart>
 
 ## Jump into stream processing and analytics
 
 <Grid>
-  <GridItem href="/ingestion">
-    <h3>Ingest data &rarr;</h3>
-    <p>Connect Timeplus Cloud to Apache Kafka, Apache Pulsar, Kinesis, Confluent Cloud, or push with a REST API, SDKs, and beyond.</p>
-  </GridItem>
-  <GridItem href="/query-syntax">
-    <h3>Write SQL queries &rarr;</h3>
-    <p>Create long-running queries using functions like transformations, joins, aggregation, windowed processing, substreams, and more.</p>
-  </GridItem>
-  <GridItem href="/viz">
-    <h3>Visualize data &rarr;</h3>
-    <p>View real-time results for any query, create custom dashboards to tell stories about your data, or integrate with external BI systems.</p>
-  </GridItem>
+<GridItem href="/ingestion">
+### Ingest data &rarr;
+
+Connect Timeplus Cloud to Apache Kafka, Apache Pulsar, Kinesis, Confluent Cloud, or push with a REST API, SDKs, and beyond. 
+
+</GridItem> 
+
+<GridItem href="/query-syntax">
+### Write SQL queries &rarr;
+
+Create long-running queries using functions like transformations, joins, aggregation, windowed processing, substreams, and more. 
+
+</GridItem> 
+<GridItem href="/viz">
+### Visualize data &rarr;
+
+View real-time results for any query, create custom dashboards to tell stories about your data, or integrate with external BI systems. 
+
+</GridItem> 
 </Grid>
 
 ## Core concepts and functions
 
-<Grid>
-  <GridItem href="/working-with-streams">
-    <h3>Streams &rarr;</h3>
-    <p>An append-only (by default), unbounded, constantly changing events group with changelog, versioned, and external options.</p>
-  </GridItem>
-  <GridItem href="/destination">
-    <h3>Sinks &rarr;</h3>
-    <p>Send real-time insights to other systems, either to notify individuals or power downstream applications.</p>
-  </GridItem>
-  <GridItem href="/proton">
-    <h3>Proton &rarr;</h3>
-    <p>The open source, unified streaming and historical data processing engine powering the Timeplus streaming analytics platform.</p>
-  </GridItem>
+<Grid> <GridItem href="/working-with-streams">
+### Streams &rarr;
+
+An append-only (by default), unbounded, constantly changing events group with changelog, versioned, and external options. 
+
+</GridItem> 
+<GridItem href="/destination">
+### Sinks &rarr;
+
+Send real-time insights to other systems, either to notify individuals or power downstream applications. 
+
+</GridItem> 
+<GridItem href="/proton">
+### Proton &rarr;
+
+The open source, unified streaming and historical data processing engine powering the Timeplus streaming analytics platform. 
+
+</GridItem> 
+
 </Grid>

@@ -12,7 +12,7 @@
 
 是的，工作空间所有者可以邀请团队成员访问工作空间。 进入“设置”和“成员”选项卡。 将向成员发送一封电子邮件，一旦他们登录，他们就可以访问工作区中的所有对象。 更多的团队协作特性和精细访问控制请查看产品路线图。
 
-## What's relationship for Timeplus and Proton? {#compare}
+## Timeplus和Proton的关系是什么？ {#compare}
 
 Proton is the core engine of Timeplus and open-sourced on September 2023. Please check the [Proton FAQ](proton-faq) for details.
 

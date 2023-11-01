@@ -77,11 +77,11 @@ exports.handler = async (event) => {
 
 The code is straightforward. A few notes:
 
-1. You can call the UDF for more than 1 row, such as `select my_udf(col) from my_stream`. To improve the efficiency, Timeplus will send batch requests to the remote UDF, e.g. `my_udf([input1, input2, input3])`and the return value is an array too `[return1, return2, return3]`
-2. The input data is wrapped in a JSON document `{"ip":["ip1","ip2","ip3"]}`
-3. We simply call the REST API of [ipinfo.io](https://ipinfo.io) with the API token from the Lambda environment variable
-4. The response from ipinfo.io REST API will be put into a JSON document \{“result”:[..]} and sent out as the Lambda output
-5. Since the Lambda function is running outside Timeplus servers, there are no restrictions for 3rd party libraries. In this example, we are using the built-in node.js “https” library. For more complex data processing, feel free to include more sophisticated libraries, such as machine learning.
+1. 您可以调用UDF多于 1 行，如 `select my_udf(col) from my_stream`。 为了提高效率，Timeplus 会向远程 UDF 发送批量请求，例如 `my_udf([input1, input2, input3])` 返回值也是一个数组 `[return1, return2, return3]`
+2. 输入的数据被包装在 JSON 文档 `{"ip":["ip1","ip2","ip3"]}`
+3. 我们直接调用了 [ipinfo.io](https://ipinfo.io) 的REST API，用的是在Lambda环境变量里定义的API token
+4. 来自 ipinfo.io REST API 的响应将会放入一个 JSON 文档\{“结果”：[..]} 作为Lambda输出发送
+5. 由于Lambda函数在Timeplus服务器之外运行，对第三方函数库没有任何限制。 在此示例中，我们正在使用内置的 node.js “https” 库。 为了更加复杂的数据处理，人们可以自由地包括更复杂的图书馆，如机器学习。
 
 Once you have deployed the Lambda function, you can generate a publicly accessible URL, then register the function in Timeplus Web Console.
 
@@ -109,15 +109,15 @@ The data transferring between Timeplus and Remote UDF endpoint is `JSONColumns` 
 
 The following data types in Timeplus are supported as Remote UDF arguments:
 
-| Timeplus Data Types     | Payload in UDF HTTP Request                                  |
-| ----------------------- | ------------------------------------------------------------ |
-| array(TYPE)             | \{"argument_name":[array1,arrary2]}                           |
-| bool                    | \{"argument_name":[true,false]}                               |
-| date                    | \{"argument_name":["2023-07-27","2023-07-28"]}                |
-| datetime                | \{"argument_name":["2023-07-27 04:00:00","2023-07-28  04:00:00"]} |
-| datetime64              | \{"argument_name":["2023-07-27 04:00:00.000","2023-07-28  04:00:00.000"]} |
-| float, float64, integer | \{"argument_name":[number1,number2]}                          |
-| string                  | \{"argument_name":[string1,string2]}                          |
+| Timeplus 数据类型           | Payload in UDF HTTP Request                                                |
+| ----------------------- | -------------------------------------------------------------------------- |
+| array(TYPE)             | \{"argument_name":[array1,arrary2]}                                       |
+| 布尔值                     | \{"argument_name":[true,false]}                                           |
+| 日期                      | \{"argument_name":["2023-07-27","2023-07-28"]}                            |
+| 日期时间                    | \{"argument_name":["2023-07-27 04:00:00","2023-07-28  04:00:00"]}         |
+| 日期时间64                  | \{"argument_name":["2023-07-27 04:00:00.000","2023-07-28  04:00:00.000"]} |
+| float, float64, integer | \{"argument_name":[number1,number2]}                                      |
+| 字符串                     | \{"argument_name":[string1,string2]}                                      |
 
 
 
@@ -133,14 +133,14 @@ The remote UDF endpoint should return the text representation of a JSON document
 
 Timeplus will take each element of the result array and convert back to Timeplus data type. The supported return type are similar to argument types. The only difference is that if you return a complex data structure as a JSON, it will be converted to a `tuple` in Timeplus.
 
-| UDF HTTP Response                    | Timeplus Data Types        |
-| ------------------------------------ | -------------------------- |
+| UDF HTTP Response                      | Timeplus 数据类型              |
+| -------------------------------------- | -------------------------- |
 | \{"result":[array1,arrary2]}          | array(TYPE)                |
-| \{"result":[true,false]}              | bool                       |
+| \{"result":[true,false]}              | 布尔值                        |
 | \{"result":[dateString1,dateString2]} | date, datetime, datetime64 |
 | \{"result":[number1,number2]}         | float, float64, integer    |
-| \{"result":[string1,string2]}         | string                     |
-| \{"result":[json1,json2]}             | tuple                      |
+| \{"result":[string1,string2]}         | 字符串                        |
+| \{"result":[json1,json2]}             | 元组                         |
 
 
 

@@ -21,6 +21,12 @@
 | 产品名称        | 字符串                 | 产品的唯一 ID，作为主键                                |
 | 价格          | 浮点数                 | 当前价格                                         |
 
+:::info
+
+此页面的其余部分均假设您正在使用 TimePlus 控制台。 如果您使用的是 Proton，则可以使用 DDL 创建流。 [点击此处，了解更多](proton-create-stream#changelog-stream)
+
+:::
+
 ## 查询单个流
 
 如果您没有添加任何数据，查询 `SELECT * FROM dim_products` 将不返回任何结果并继续等待新的结果。
@@ -312,7 +318,7 @@ SQL：
 INSERT INTO dim_products ("product_id", "price") VALUES ('iPhone14', 799)
 ```
 
-CDC 数据：
+CDC Data：
 
 ```json
 {
@@ -337,7 +343,7 @@ SQL：
 UPDATE dim_products set price=800 WHERE product_id='iPhone14'
 ```
 
-CDC 数据：
+CDC Data：
 
 ```json
 {
@@ -365,7 +371,7 @@ SQL：
 DELETE FROM dim_products
 ```
 
-CDC 数据：
+CDC Data：
 
 ```json
 {

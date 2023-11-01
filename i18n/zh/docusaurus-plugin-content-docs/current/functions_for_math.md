@@ -2,7 +2,7 @@
 
 ### abs
 
-`abs(value)` returns the absolute value of the number. If the a is negative, then return -a.
+`abs(value)` 返回数字的绝对值。 如果 a 为负数，则返回-a。
 
 
 
@@ -10,9 +10,9 @@
 
 `round(x [,N])` Rounds a value to a specified number of decimal places.
 
-* If `N` is omitted, we consider N as 0 and the function rounds the value to the near integer, e.g. `round(3.14)`as 3
-* If `N` >0, the function rounds the value to the right of the decimal point, e.g. `round(3.14,1)` as 3.1
-* If `N` \<0, the function rounds the value to the left of the decimal point. e.g. `round(314.15,-2)` as 300 
+* 如果遗漏了 `N` ，我们认为 N 为 0，该函数将值舍入到近整数，例如： `round(3.14)` 是 3
+* 如果 `N`>0，则函数将值舍入到小数点右边，例如： `round(3.14-1)` 转为 3.1
+* 如果为 `N` \<0，则该函数将值四舍五入到小数点的左边。 例如： `round(314.15-2)` 转为 300
 
 ### e
 
@@ -123,7 +123,7 @@
 
 ### sign
 
-`sign(x)` returns the sign of the number `x`. If x\<0, return -1. If x\>0, return 1. Otherwise, return 0.
+`sign(x)` 返回数字 `x` 的符号。 如果 x\<0，则返回 -1。 如果 x\>0，则返回 1。 否则，返回0。
 
 
 

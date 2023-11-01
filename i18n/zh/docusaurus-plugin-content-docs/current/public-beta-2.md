@@ -165,12 +165,9 @@ Enhancements:
   * Simplified the `LATEST JOIN` syntax. No need to write `INNER LATEST JOIN`. [Learn more](query-syntax#latest-join).
   * For historical queries with tumble window aggregation, if there is no event in a window, such window won't be in the results. To show an empty window with default value(0 for numeric types and empty string for string), you can add order by window_start with fill step \<window_size\> .
   * Auto-cleanup recent query logs: if there are more than 500, older queries are removed. 
-
-**Dashboard**
-  * Show recent dashboards and their number of charts on the Homepage.
-  * Dashboard drop-down filter supports static options.
-  * Dashboard descriptions now support Markdown (bold, italics, etc., and hyperlinks). 
-  * Continuously enhanced the charting options and styles. For example, for bar charts, the labels on y-axis are no longer rotated to improve readability.
+  * 简化了 `LATEST JOIN` 语法。 无须写 `INNER LATEST JOIN`。 [点击此处，了解更多](query-syntax#latest-join).
+  * 对于使用 tumble window 聚合的历史查询，如果窗口中没有事件，则该窗口将不会出现在结果中。 显示一个缺省值的窗口(0表示数字类型，空字符串表示), 您可以通过 window_start 添加排序，填充步骤 \<window _size\>。
+  * 自动清理最近的查询日志：如果超过 500 个，则删除较旧的查询。
 
 **Sink**
   * Refined the sink dialog when sending query results to sink, separating the productional sinks and preview-stage sinks.

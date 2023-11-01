@@ -41,12 +41,12 @@ Depending on your use cases, there are many options to push data to Timeplus via
 
 Here are a list of different use cases to push data to Timeplus:
 
-| Use Cases                                                                     | Sample POST body                                                                                                         | Content-Type           | URL                                  | Columns in the target stream      |
-| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------- | ------------------------------------ | --------------------------------- |
-| 1) Push JSON objects. Each JSON is an event.                                  | \{"key1": "value11", "key2": "value12", ...}<br/>\{"key1": "value21", "key2": "value22", ...}                              | `application/x-ndjson` | ingest?format=streaming              | multiple columns, e.g. key1, key2 |
-| 2) Push a single JSON or a long text. Single event.                           | \{"key1": "value11", "key2": "value12", ...}                                                                              | `text/plain`           | ingest?format=raw                    | single column, named `raw`        |
-| 3) Push a batch of events. Each line is an event.                             | event1<br/>event2                                                                                                        | `text/plain`           | ingest?format=lines                  | single column, named `raw`        |
-| 4) Push a special JSON with multiple events, without repeating the column name | \{ <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `application/json`     | ingest?format=compact or just ingest | multiple columns, e.g. key1, key2 |
+| 应用场景                        | 样本POST请求内容                                                                                                                                                     | Content-Type           | URL                                   | 目标流中的列          |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------- | --------------- |
+| 1）推送JSON对象。 每个JSON都是一个事件。   | \{"key1": "value11", "key2": "value12", ...}<br/>\{"key1": "value21", "key2": "value22", ...}                                                          | `application/x-ndjson` | ingest?format=streaming               | 多列，例如：key1，key2 |
+| 2）推送单个JSON或长文本。 单个事件。       | \{"key1": "value11", "key2": "value12", ...}                                                                                                                  | `text/plain`           | ingest?format=raw                     | 单列，命名为`raw`     |
+| 3）推出一批事件。 每行都是一个事件。         | event1<br/>event2                                                                                                                                        | `text/plain`           | ingest?format=lines                   | 单列，命名为`raw`     |
+| 4）推送一个带有多个事件的特殊JSON，而无需重复列名 | \{ <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `application/json`     | ingest?format=compact 或者直接用无参数的ingest | 多列，例如：key1，key2 |
 
 #### 1) Push JSON objects directly {#option1}
 

@@ -42,7 +42,7 @@ select top_k(action,3,false) from bookings where _tp_time > now()-1d
 | [ "add", "service", "cancel" ] |
 | [ "add", "service", "cancel" ] |
 
-请注意，这个示例查询是一个 [全球聚合](query-syntax#global)，它每两秒计算并发出结果。 您也可以使用不同的时间窗口来运行聚合，例如：
+请注意，这个示例查询是一个 [全局聚合](query-syntax#global)，它每两秒计算并发出结果。 您也可以使用不同的时间窗口来运行聚合，例如：
 
 ```sql
 select window_start, top_k(action,3) 

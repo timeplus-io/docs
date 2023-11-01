@@ -6,7 +6,7 @@ We are thrilled to launch the first private beta of Timeplus cloud release. A lo
 
 ###  Week of 8/1
 
-Last weekly release in Private Beta 1. Starting from August 8, we are transiting to Private Beta 2. Customers will be migrated to the new environments batch by batch. URLs to access beta tenants are changed from [https://TENANT.beta.timeplus.com](https://tenant.beta.timeplus.com) to [https://beta.timeplus.cloud/TENANT](https://beta.timeplus.cloud/tenant)
+最后一周发布在 Private Beta 1。 从8月8日开始，我们正在过渡到Private Beta 2。 客户将被批量迁移到新的环境批次。 访问测试版租户的网址已从 [https://TENANT.beta.timeplus.com 更改](https://tenant.beta.timeplus.com) 为 [https://beta.timeplus.cloud/TENANT](https://beta.timeplus.cloud/tenant)
 
 * Streaming engine
   * Added 2 geo related functions: [point_in_polygon](functions#point_in_polygon) and [geo_distance](functions#geo_distance). 
