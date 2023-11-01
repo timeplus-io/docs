@@ -2,7 +2,7 @@
 
 ### abs
 
-`abs(value)` returns the absolute value of the number. If the a<0, then return -a.
+`abs(value)` returns the absolute value of the number. If the a is negative, then return -a.
 
 
 
@@ -11,8 +11,8 @@
 `round(x [,N])` Rounds a value to a specified number of decimal places.
 
 * If `N` is omitted, we consider N as 0 and the function rounds the value to the near integer, e.g. `round(3.14)`as 3
-* If `N`>0, the function rounds the value to the right of the decimal point, e.g. `round(3.14,1)` as 3.1
-* If `N` <0, the function rounds the value to the left of the decimal point. e.g. `round(314.15,-2)` as 300 
+* If `N` >0, the function rounds the value to the right of the decimal point, e.g. `round(3.14,1)` as 3.1
+* If `N` \<0, the function rounds the value to the left of the decimal point. e.g. `round(314.15,-2)` as 300 
 
 ### e
 
@@ -123,7 +123,7 @@
 
 ### sign
 
-`sign(x)` returns the sign of the number `x`. If x<0, return -1. If x>0, return 1. Otherwise, return 0.
+`sign(x)` returns the sign of the number `x`. If x\<0, return -1. If x\>0, return 1. Otherwise, return 0.
 
 
 

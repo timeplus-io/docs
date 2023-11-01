@@ -134,7 +134,7 @@ Timeplus Credentials
 ? API Key? › 
 ```
 
-You need to set the API key. You can get one from the web console. (by visiting {baseURL}/console/settings/apiKey, or choose "Personal Settings" on the top-left corner, then switch to the "API Key Management" and click "Create API Key" button).
+You need to set the API key. You can get one from the web console. (by visiting BASE_URL/console/settings/apiKey, or choose "Personal Settings" on the top-left corner, then switch to the "API Key Management" and click "Create API Key" button).
 
 :::info
 datapm will save the configuration, including the Timeplus baseURL and the API key. Next time, you can choose those cached repositories and secrets.

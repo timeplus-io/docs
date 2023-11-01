@@ -163,7 +163,7 @@ Enhancements:
 **Query**
 
   * Simplified the `LATEST JOIN` syntax. No need to write `INNER LATEST JOIN`. [Learn more](query-syntax#latest-join).
-  * For historical queries with tumble window aggregation, if there is no event in a window, such window won't be in the results. To show an empty window with default value(0 for numeric types and empty string for string), you can add order by window_start with fill step <window_size> .
+  * For historical queries with tumble window aggregation, if there is no event in a window, such window won't be in the results. To show an empty window with default value(0 for numeric types and empty string for string), you can add order by window_start with fill step \<window_size\> .
   * Auto-cleanup recent query logs: if there are more than 500, older queries are removed. 
 
 **Dashboard**

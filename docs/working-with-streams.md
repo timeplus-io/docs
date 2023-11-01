@@ -19,7 +19,11 @@ Timeplus supports multiple types of streams:
 
 In most cases, you don't need to explicitly create a stream in Timeplus. When you [ingest data](ingestion) into Timeplus from Kafka or file sources, streams can be created automatically to match the schema of the data.
 
+:::info
 
+The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](proton-create-stream)
+
+:::
 
 ## Query a stream
 
