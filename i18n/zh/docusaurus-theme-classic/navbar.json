@@ -26,5 +26,9 @@
   "logo.alt": {
     "message": "Timeplus",
     "description": "导航栏徽标的替代文本"
+  },
+  "item.label. ": {
+    "message": " ",
+    "description": "Navbar item with label  "
   }
 }
