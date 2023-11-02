@@ -21,19 +21,19 @@ EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-Overall, a streaming query in Timeplus establishes a long HTTP/TCP connection to clients and continuously evaluates the query. It will continue to return results according to the `EMIT` policy until the query is stopped, by the user, end client, or exceptional event.
+总体而言，Timeplus中的流式查询会与客户端建立长的HTTP/TCP连接，并持续评估查询。 它将继续根据`EMIT`策略返回结果，直到查询被用户、终端客户端或异常事件停止。
 
-Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors, listed below:
+时间插件支持一些高级`设置`来微调下列流式查询处理行为：
 
-1. `enable_backfill_from_historical_store=1`. By default, if it's omitted, it's `0`
-   * When it's 0, the query engine either loads data from streaming storage, or from historical storage.
-   * When it's 1, the query engine evaluates whether it's necessary to load data from historical storage(such as the time range is outside of the streaming storage), or it'll be more efficient to get data from historical storage(for example, count/min/max is pre-computed in historical storage, faster than scanning data in streaming storage).
-2. `query_mode=<table|streaming>` By default, if it's omitted, it's `streaming`. A general setting which decides if the overall query is streaming data processing or historical data processing.
-3. `seek_to=<timestamp|earliest|latest>`. By default, if it's omitted, it's `latest`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. 它可以是相对的时间戳或绝对的时间戳。 By default, it is `latest`, which tells Timeplus to not seek old data. 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
+1. `enable_backfill_from_historical_store=1`。 默认情况下，如果省略，则为`0`
+   * 当它为0时，查询引擎要么从流存储中加载数据，要么从历史存储中加载数据。
+   * 当它为1时，查询引擎会评估是否需要从历史存储中加载数据（例如时间范围在流式存储空间之外），或者从历史存储中获取数据的效率会更高（例如，count/min/max 是在历史存储中预先计算的，比在流式存储中扫描数据更快）。
+2. `query_mode=<table|streaming>` 默认情况下，如果省略，则为`streaming`。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。
+3. `seek_to=<timestamp|earliest|latest>`. 默认情况下，如果省略，则为`latest`。 设置告诉Timeplus通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下，是`latest`，表示了Timeplus不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
 :::info
 
-Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`. Please use `WHERE _tp_time>='2023-01-01'` or similar. `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。 The only exception is [External Stream](external-stream). If you need to scan all existing data in the Kafka topic, you have to run the SQL with seek_to, e.g. `select raw from my_ext_stream settings seek_to='earliest'`
+请注意，从2023 年1月起，我们不再建议你使用 `SETTINGS seek_to=..`。 请使用`WHERE _tp_time>='2023-01-01'`或其他类似的。 `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。 唯一的例外是[外部流](external-stream)。 如果你需要扫描Kafka主题中的所有现有数据，你必须使用 seek_to 运行 SQL，例如：`select raw from my_ext_stream settings seek_to='earliest'`
 
 :::
 
