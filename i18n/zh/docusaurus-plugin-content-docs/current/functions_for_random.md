@@ -1,40 +1,40 @@
-# Random Data Generation
+# 随机数据生成
 
-You can use the following functions to generate random data in Timeplus.
+你可以使用以下函数在Timeplus中生成随机数据。
 
-## Numbers
+## 数字
 
 ### rand
 
-`rand()` or `rand32()`
+`rand()`或`rand32()`
 
-Generates a random uint32 number.
+生成一个随机的uint32数字。
 
 ### rand64
 
 `rand64()`
 
-Generates a random uint64 number.
+生成一个随机的uint64数字。
 
-## Strings
+## 字符串
 
 ### random_printable_ascii
 
 `random_printable_ascii(length)`
 
-Generates a string with a random set of ASCII characters. All characters are printable.
+生成包含一组ASCII随机字符的字符串。 所有字符均可打印。
 
 ### random_string
 
 `random_string(length)`
 
-Generates a string of the specified length filled with random bytes (including zero bytes). Not all characters may be printable.
+生成填充随机字节（包括零字节）指定长度的字符串。 不是所有字符都能打印。
 
 ### random_fixed_string
 
 `random_fixed_string(length)`
 
-Generates a binary string of the specified length filled with random bytes (including zero bytes). Not all characters may be printable.
+生成填充随机字节（包括零字节）指定长度的二进制字符串。 不是所有字符都能打印。
 
 ## Any date type, any logic
 
