@@ -44,6 +44,8 @@ docker exec -it proton proton-client -n
 
 If you stop the container and want to start it again, run `docker start proton`.
 
+If you are using Mac and [homebrew](https://brew.sh/), you can also check [homebrew-timeplus](https://github.com/timeplus-io/homebrew-timeplus) to easily install/upgrade proton.
+
 ### Query a test stream
 
 From `proton-client`, run the following SQL to create a stream of random data:
@@ -72,6 +74,18 @@ You should see data like the following:
 Now that you're running Proton and have created your first stream, query, and view, you can explore [reading and writing data from Apache Kafka](proton-kafka#tutorial) with External Streams, or view the the subpages to explore additional capabilities.
 
 To see how such a deployment of Proton works as a demo, using `owl-shop` sample live data, check out our [tutorial with Docker Compose](proton-kafka#tutorial).
+
+The following drivers are available:
+
+* https://github.com/timeplus-io/proton-java-driver JDBC and other Java clients
+* https://github.com/timeplus-io/proton-go-driver
+* https://github.com/timeplus-io/proton-python-driver
+
+Integrations with other systems:
+
+* https://github.com/timeplus-io/proton-grafana-source
+* https://github.com/timeplus-io/homebrew-timeplus
+* https://github.com/timeplus-io/dbt-proton
 
 ## Get more with Timeplus
 
