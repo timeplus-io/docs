@@ -26,5 +26,9 @@
   "logo.alt": {
     "message": "Timeplus",
     "description": "The alt text of navbar logo"
+  },
+  "item.label. ": {
+    "message": " ",
+    "description": "Navbar item with label  "
   }
 }
