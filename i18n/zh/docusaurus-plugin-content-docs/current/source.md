@@ -12,31 +12,31 @@ Timeplus与各种系统相结合，作为数据来源，例如Apache Kafka。
 
 请参考 [https://kafka.apache.org/](https://kafka.apache.org/)
 
-| 属性                           | 必填项 | 描述                                                                                                                                      | 默认值                            |
-| ---------------------------- | --- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| brokers                      | yes | 指定broker地址列表。 这是一个以逗号分隔的字符串。 例如`kafka1:9092,kafka2:9092,kafka3:9092`                                                                    | |                              |
-| 主题                           | yes | Specifies the Kafka topic to connect                                                                                                    |                                |
-| offset                       | yes | Specifies the Kafka offset configuration.    support `latest,earliest`                                                                  |                                |
-| data_type                    | yes | 指定用于创建流的数据类型。   support `json`,`text`,`avro`,`debezium-json`,`debezium-json-upsert`                                                     | |                              |
-| group                        | no  | Specifies the Kafka consumer group. use the source uuid with prefix `timeplus-source-` as the default value if user does not specify it | `timeplus-source-<uuid>` |
-| sasl                         | no  | 指定用于简单身份验证和安全层（SASL）的认证机制。 支持`none`，`plain`，`scram-sha-256`，`scram-sha-512`                                                             | `none` |                       |
-| 用户名                          | no  | 指定用于身份验证的用户名                                                                                                                            |                                |
-| 密码                           | no  | 指定用于身份验证的密码                                                                                                                             |                                |
-| tls.disable                  | no  | 如果设置为`true`，则禁用 TLS 加密                                                                                                                  | `false`                        |
-| tls.skip_verify_server     | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                                                                                        | `false`                        |
-| schema_registry_address    | no  | Specifies the URL of the Schema Registry for Kafka, only applies when the data_type is `avro`                                           |                                |
-| schema_registry_api_key    | no  | Specifies the API key for Schema Registry authentication                                                                                |                                |
-| schema_registry_api_secret | no  | Specifies the API secret for Schema Registry authentication                                                                             |                                |
+| 属性                           | 必填项 | 描述                                                                            | 默认值                            |
+| ---------------------------- | --- | ----------------------------------------------------------------------------- | ------------------------------ |
+| brokers                      | yes | 指定broker地址列表。 这是一个以逗号分隔的字符串。 例如`kafka1:9092,kafka2:9092,kafka3:9092`          | |                              |
+| 主题                           | yes | 指定要连接的Kafka主题                                                                 |                                |
+| offset                       | yes | 指定Kafka offset配置。    支持`latest,earliest`                                      |                                |
+| data_type                    | yes | 指定用于创建流的数据类型。   支持`json`，`text`，`avro`，`debezium-json`，`debezium-json-upsert` | |                              |
+| group                        | no  | 指定Kafka消费者组。 如果用户未指定，则使用带有`timeplus-source`前缀的源uuid作为默认值                      | `timeplus-source-<uuid>` |
+| sasl                         | no  | 指定用于简单身份验证和安全层（SASL）的认证机制。 支持`none`，`plain`，`scram-sha-256`，`scram-sha-512`   | `none` |                       |
+| 用户名                          | no  | 指定用于身份验证的用户名                                                                  |                                |
+| 密码                           | no  | 指定用于身份验证的密码                                                                   |                                |
+| tls.disable                  | no  | 如果设置为`true`，则禁用 TLS 加密                                                        | `false`                        |
+| tls.skip_verify_server     | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                              | `false`                        |
+| schema_registry_address    | no  | 为Kafka指定架构注册表的URL，仅在data_type为`avro`时适用                                       |                                |
+| schema_registry_api_key    | no  | 为架构注册表身份验证指定API密钥                                                             |                                |
+| schema_registry_api_secret | no  | 为架构注册表身份验证指定API密钥                                                             |                                |
 
 
 ### stream_generator
 
-a source that generates randome data for test
+生成随机数据以供测试的数据源
 
-| 属性       | 必填项 | 描述                                                                                 | 默认值     |
-| -------- | --- | ---------------------------------------------------------------------------------- | ------- |
-| template | yes | Specifies the template used to generate data, support `iot`,`user_logins`,`devops` |         |
-| 间隔       | no  | Specifies the event interval. for example `200ms`                                  | `200ms` |
+| 属性       | 必填项 | 描述                                         | 默认值     |
+| -------- | --- | ------------------------------------------ | ------- |
+| template | yes | 指定用于生成数据的模板，支持`iot`，`user_logins`，`devops` |         |
+| 间隔       | no  | 指定事件间隔。 例如：`200ms`                         | `200ms` |
 
 
 ### pulsar
