@@ -53,21 +53,21 @@ Timeplus与各种系统相结合，作为数据来源，例如Apache Kafka。
 
 ### livepeer
 
-refer to [https://livepeer.org/](https://livepeer.org/)
+参考[https://livepeer.org/](https://livepeer.org/)
 
-| 属性        | 必填项 | 描述                                                                 | 默认值 |
-| --------- | --- | ------------------------------------------------------------------ | --- |
-| 间隔        | yes | Specifies the pulling interval to livepeer api. for example `300s` |     |
-| api_key   | yes | Specifies the API key of livepeer                                  |     |
-| data_type | yes | 指定用于创建流的数据类型。   support `json`,`text`                              |     |
+| 属性        | 必填项 | 描述                              | 默认值 |
+| --------- | --- | ------------------------------- | --- |
+| 间隔        | yes | 指定livepeer api的拉取间隔。 例如：`300s`  |     |
+| api_key   | yes | 指定livepeer的API 密钥               |     |
+| data_type | yes | 指定用于创建流的数据类型。   支持`json`，`text` |     |
 
 
 
 ### ably
 
-refer to [https://ably.com/](https://ably.com/)
+参考[https://ably.com/](https://ably.com/)
 
-| 属性      | 必填项 | 描述                                                                                                                                                                                                                                                                       | 默认值 |
-| ------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --- |
-| api_key | yes | The `api_key` property is a string used to authenticate and authorize access to the Ably service. It represents the API key associated with the Ably account, which is required for making authenticated requests to Ably's services                                     |     |
-| channel | yes | The `channel` property specifies the name of the channel to which messages will be sent or from which messages will be received. Channels in Ably are used to group and categorize messages. This property allows you to select the target channel for your interactions |     |
+| 属性      | 必填项 | 描述                                                                                    | 默认值 |
+| ------- | --- | ------------------------------------------------------------------------------------- | --- |
+| api_key | yes | `api_key`的属性是一个字符串，用于对Ably服务进行身份验证和授权。 它代表与Ably账户关联的API密钥，是向Ably的服务发出经过身份验证的请求所需要的    |     |
+| channel | yes | `channel`的属性制定了向其发送消息或从中接收消息的channel的名称。 Ably中的channels用于对消息进行分组和分类。 这个属性允许你为互动选择目标渠道 |     |
