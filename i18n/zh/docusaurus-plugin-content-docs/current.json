@@ -56,7 +56,7 @@
     "description": "The label for category Why Timeplus? in sidebar docSidebar"
   },
   "sidebar.docSidebar.category.Manage": {
-    "message": "Manage",
+    "message": "管理",
     "description": "The label for category Manage in sidebar docSidebar"
   },
   "sidebar.docSidebar.category.Proton": {
