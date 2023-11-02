@@ -1,4 +1,4 @@
-# Math
+# 数学
 
 ### abs
 
@@ -8,7 +8,7 @@
 
 ### round
 
-`round(x [,N])` Rounds a value to a specified number of decimal places.
+`round(x [,N])` 向一定数量的小数位点投射一个值。
 
 * 如果遗漏了 `N` ，我们认为 N 为 0，该函数将值舍入到近整数，例如： `round(3.14)` 是 3
 * 如果 `N`>0，则函数将值舍入到小数点右边，例如： `round(3.14-1)` 转为 3.1
@@ -16,108 +16,108 @@
 
 ### e
 
-`e()` returns a `float` number that is close to the number `e`
+`e()` 返回一个接近数字 `e` 的 `float` 数字。
 
 
 
 ### pi
 
-`pi()` returns a `float` number that is close to the number `π`
+`pi()` 返回一个接近数字 `π` 的 `float` 数字。
 
 
 
 ### exp
 
-`exp(x)` returns a `float` number that is close to the exponent of the argument `x`.
+`exp(x)` 返回一个接近参数 `x` 的指数的 `float` 数字。
 
 ### exp2
 
-`exp2(x)` returns a `float` number that is close to 2 to the power of `x`.
+`exp2(x)` 返回一个接近 2 的 `x` 次方的 `float` 数字。
 
 ### exp10
 
-`exp10(x)` returns a `float` number that is close to 10 to the power of `x`.
+`exp10(x)` 返回一个接近10的 `x` 次方的 `float` 数字。
 
 
 
 ### log
 
-`log(x)`  returns a `float` number that is close to the natural logarithm of the argument `x`.
+`log(x)`  返回一个接近于 `x` 的自然对数的 `float` 数字。
 
 ### log2
 
-`log2(x)` returns a `float` number that is close to the binary logarithm of the argument `x`.
+`log2(x)` 返回一个接近于参数 `x` 的二进制对数的 `float` 数字。
 
 ### log10
 
-`log10(x)` returns a `float` number that is close to the decimal logarithm of the argument `x`.
+`log10(x)` 返回一个接近于参数 `x` 的十进制对数的 `float` 数字。
 
 
 
 ### sqrt
 
-`sqrt(x) `returns a `float` number that is close to the square root of the argument `x`.
+`sqrt(x)` 返回一个接近参数 `x` 的平方根的 `float` 数字。
 
 
 
 ### cbrt
 
-`cbrt(x)` returns a `float` number that is close to the cubic root of the argument `x`.
+`cbrt(x)` 返回一个接近参数 `x` 的立方根的 `float` 数字。
 
 
 ### lgamma
 
-`lgamma(x)` the logarithm of the gamma function.
+`lgamma(x)` 伽玛函数的对数。
 
 
 
 ### tgamma
 
-`tgamma(x)`the gamma function
+`tgamma(x)` 伽玛函数。
 
 
 ### sin
 
-`sin(x)` the sine
+`sin(x)` 正弦值。
 
 
 ### cos
 
-`cos(x)` the cosine
+`cos (x)` 余弦值。
 
 
 
 ### tan
 
-`tan(x)` the tangent
+`tan (x)` 切线。
 
 
 
 ### asin
 
-`asin(x)` the arc sine
+`asin(x)` 反正弦。
 
 
 
 ### acos
 
-`acos(x)` the arc cosine
+`acos(x)` 反余弦。
 
 ### atan
 
-`atan(x)` the arc tangent
+`atan(x)` 弧切点。
 
 
 
 ### pow
 
-`pow(x,y)` returns a `float` number that is close to  `x` to the power of `y`
+`pow(x,y)` 返回一个接近 `x` 的 `y` 次方的 `float` 数字。
 
 
 
 ### power
 
-`power(x,y)`  returns a `float` number that is close to  `x` to the power of `y`
+`power(x,y)` 返回一个接近 `x` 的 `y` 次方的 `float` 数字。
 
 
 
@@ -129,20 +129,20 @@
 
 ### degrees
 
-`degrees(x)` converts the input value in radians to degrees. E.g. `degress(3.14)` returns 180.
+`degrees(x)` 将以弧度为单位的输入值转换为度。 例如： `degress(3.14)` 返回 180。
 
 ### radians
 
-`radians(x)` converts the input value in degrees to radians . E.g. `radians(180)` returns 3.14.
+`radians(x)` 将以度为单位的输入值转换为弧度。 例如： `radians(180)` 返回 3.14。
 
 ### is_finite
 
-`is_finite(x)` return 1 when the value `x` is not infinite and not a NaN, otherwise return 0.
+`is_finite(x)` 返回 1 当值 `x` 不是无限的，也不是NaN，否则返回 0。
 
 ### is_infinite
 
-`is_infinite(x)` to return 1 when the value `x` is infinite, otherwise return 0.
+`is _infinite(x)` 返回 1 当值 `x` 是无限的，否则返回 0。
 
-### is_nan
+### nan
 
-`is_nan(x)` to return 1 if the `x` is Not-a-Number(NaN), otherwise return 0.
+`is_nan(x)` 返回 1 当值 `x` 是 Not-a-Number(NaN)，否则返回 0。
