@@ -33,6 +33,6 @@
   },
   "link.item.label.Github": {
     "message": "Github",
-    "description": "带有 label=Github 的页脚链接标签链接到 https://github.com/timeplus-io/"
+    "description": "The label of footer link with label=Github linking to https://github.com/timeplus-io/proton"
   }
 }
