@@ -118,7 +118,7 @@ For example: `select ipv4_cidr_to_range(to_ipv4('192.168.0.1'),16)` returns `('1
 
 ### ipv6_cidr_to_range
 
-`ipv6_cidr_to_range(ipv4,number)`Accepts an IPv6 and an uint128 value containing the [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing). Return a tuple with two IPv6 containing the lower range and the higher range of the subnet.
+`ipv6_cidr_to_range(ipv6,number)`Accepts an IPv6 and an uint128 value containing the [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing). Return a tuple with two IPv6 containing the lower range and the higher range of the subnet.
 
 For example: `select ipv6_cidr_to_range(to_ipv6('2001:0db8:0000:85a3:0000:0000:ac1f:8001'),32)` returns `('2001:db8::','2001:db8:ffff:ffff:ffff:ffff:ffff:ffff')`
 
