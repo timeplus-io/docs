@@ -1,100 +1,100 @@
 
 
-# Process URL and IP
+# URL和IP处理
 
 ### 协议
 
-`protocol(url)` 从 URL 中提取协议。
+`protocol(url)`从URL中提取协议。
 
-例如 `protocol('https://docs.timeplus.com/functions')` 将返回字符串 `https`
+例如`protocol('https://docs.timeplus.com/functions')`将返回字符串`https`
 
 ### 域名
 
-`domain(url)` 从 URL 中提取域。
+`domain(url)`从URL中提取域。
 
-例如 `domain('https://docs.timeplus.com/functions')` 将返回字符串 `docs.timeplus.com`
+例如`domain('https://docs.timeplus.com/functions')`将返回字符串 `docs.timeplus.com`
 
 ### 端口
 
-`port(url)` 从 URL 中提取端口。 如果 URL 中缺少端口，则返回 0。
+`port(url)`从URL中提取端口。 如果URL中缺少端口，则返回 0。
 
-例如 `port('https://docs.timeplus.com/functions')` 将返回整数 0
+例如`port('https://docs.timeplus.com/functions')`将返回整数 0
 
 ### 路径
 
-`path (url)` 从 URL 中提取路径，不含查询字符串或片段。
+`path(url)`从URL中提取路径，不含查询字符串或片段。
 
-例如 `path('https://docs.timeplus.com/functions')` 将返回字符串 `/functions`
+例如`path('https://docs.timeplus.com/functions')`将返回字符串`/functions`
 
 ### 所有路径
 
-`path_all (url)` 从 URL 中提取路径，包括查询字符串或片段。
+`path_all(url)`从URL中提取路径，包括查询字符串或片段。
 
-例如 `path_full('https://docs.timeplus.com/functions_for_logic#if')` 将返回字符串 `/functions_for_logic#if`
+例如`path_full('https://docs.timeplus.com/functions_for_logic#if')`将返回字符串`/functions_for_logic#if`
 
 ### 片段
 
-`fragment(url)` 从 URL 中提取片段。 如果没有片段，则返回一个空字符串。
+`fragment(url)`从URL中提取片段。 如果没有片段，则返回一个空字符串。
 
-例如 `fragment('https://docs.timeplus.com/functions_for_logic#if')` 将返回字符串 `if`
+例如`fragment('https://docs.timeplus.com/functions_for_logic#if')`将返回字符串`if`
 
 ### 查询字符串
 
-`query_string (url)` 从 URL 中提取查询字符串。 如果没有查询字符串，则返回一个空字符串。
+`query_string(url)`从URL中提取查询字符串。 如果没有查询字符串，则返回一个空字符串。
 
-例如 `query_string('https://a.com?k=v&key=value')` 将返回字符串 `k=v&key=value`
+例如`query_string('https://a.com?k=v&key=value')`将返回字符串`k=v&key=value`
 
 ### decode_url_component
 
-`decode_url_component(url)` 返回解码的 URL。
+`decode_url_component(url)`返回解码的URL。
 
 ### encode_url_component
 
-`encode_url_component(url)` 返回编码的 URL。
+`encode_url_component(url)`返回编码的URL。
 
 
 
 ### ipv4_num_to_string
 
-`ipv4_num_to_string(ip)` takes a `ipv4` or `uint32` value and returns a string containing the corresponding IPv4 address in the format A.B.C.d (dot-separated numbers in decimal form).
+`ipv4_num_to_string(ip)`采用`ipv4`或`uint32`的值并返回一个包含相应IPv4地址的字符串，格式为 A.B.C.d（十进制形式的点分隔数字）。
 
-For example. `select ipv4_num_to_string(1823216871)` returns `'108.172.20.231'`
+例如： `select ipv4_num_to_string(1823216871)`返回`'108.172.20.231'`
 
 ### ipv4_string_to_num
 
-`ipv4_string_to_num(string)` takes a `string` value and returns a `uint32` value. If the IPv4 address has an invalid format, it throws exception.
+`ipv4_string_to_num(string)`采用`string`的值并返回一个`uint32`的值。 如果IPv4地址的格式无效，则会引发异常。
 
-For example. `select ipv4_string_to_num('108.172.20.231')` returns `1823216871`
+例如： `select ipv4_string_to_num('108.172.20.231')`返回`1823216871`
 
 ### to_ipv4
 
-Alias of `ipv4_string_to_num`
+`ipv4_string_to_num`的另一种表达方式
 
 ### ipv4_num_to_string_class_c
 
-`ipv4_num_to_string_class_c(ip)`. Similar to ipv4_num_to_string(ip), but using xxx instead of the last octet.
+`ipv4_num_to_string_class_c(ip)`。 与ipv4_num_to_string(ip)相似，但使用xxx代替最后一个八位字节。
 
-For example. `select ipv4_num_to_string_class_c(1823216871)` returns `'108.172.20.xxx'`
+例如： `select ipv4_num_to_string_class_c(1823216871)`返回`'108.172.20.xxx'`
 
 :::warning
 
-Since using ‘xxx’ is highly unusual, this may be changed in the future. We recommend that you do not rely on the exact format of this fragment.
+由于使用“xxx”是非常不寻常的，因此这在将来可能会发生改变。 我们建议您不要依赖这一片段的确切格式。
 
 :::
 
 ### ipv6_num_to_string
 
-`ipv6_num_to_string(ip)` takes a `fixed_string(16)` containing the IPv6 address in binary format. Returns a string containing this address in text format. IPv6-mapped IPv4 addresses are output in the format ::ffff:111.222.33.44.
+`ipv6_num_to_string(ip)`采用一个包含二进制格式的IPv6地址的`fixed_string(16)` 以文本格式返回包含此地址的字符串。 IPv6-mapped IPv4地址的输出格式为::ffff:111.222.33.44。
 
-For example. `select ipv6_num_to_string(to_fixed_string(unhex('2A0206B8000000000000000000000011'),16))` returns `'2a02:6b8::11'`
+例如： `select ipv6_num_to_string(to_fixed_string(unhex('2A0206B8000000000000000000000011'),16))`返回`'2a02:6b8::11'`
 
 ### ipv6_string_to_num
 
-`ipv6_string_to_num(string)` takes a `string` value and returns a `uint128` value. If the IPv6 address has an invalid format, it throws exception.
+`ipv6_string_to_num(string)`采用一个`string`的值并返回一个`uint128`的值。 If the IPv6 address has an invalid format, it throws exception.
 
 If the input string contains a valid IPv4 address, returns its IPv6 equivalent. HEX can be uppercase or lowercase.
 
-For example. `select hex(ipv6_string_to_num('2a02:2168:aaa:bbbb::2'))` returns `2A0221680AAABBBB0000000000000002`
+例如： `select hex(ipv6_string_to_num('2a02:2168:aaa:bbbb::2'))` returns `2A0221680AAABBBB0000000000000002`
 
 `select hex(ipv6_string_to_num('108.172.20.231'))` returns `00000000000000000000FFFF6CAC14E7`
 
