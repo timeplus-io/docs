@@ -53,14 +53,14 @@
   },
   "sidebar.docSidebar.category.Why Timeplus?": {
     "message": "为什么选择 Timeplus？",
-    "description": "The label for category Why Timeplus? in sidebar docSidebar"
+    "description": "侧边栏 docSidebar 中的“为什么选择Timeplus“标签"
   },
   "sidebar.docSidebar.category.Manage": {
     "message": "管理",
-    "description": "The label for category Manage in sidebar docSidebar"
+    "description": "侧边栏 docSidebar 中的“管理”标签"
   },
   "sidebar.docSidebar.category.Proton": {
     "message": "Proton",
-    "description": "The label for category Proton in sidebar docSidebar"
+    "description": "侧边栏 docSidebar 中的“Proton”标签"
   }
 }
