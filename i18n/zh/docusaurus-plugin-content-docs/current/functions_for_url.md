@@ -128,27 +128,27 @@
 
 ### is_ipv6_string
 
-`is_ipv6_string(string)` returns 1 if it's a ipv6 string, otherwise 0.
+如果是一个ipv6字符串，则`is_ipv6_string(string)`返回1，否则返回0。
 
 ### is_ip_address_in_range
 
-`is_ip_address_in_range(address, prefix)` Determines if an IP address is contained in a network represented in the [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation. Returns true or false.
+`is_ip_address_in_range(address, prefix)`确定IP地址是否包含在[CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)表示法表示的网络中。 返回true或false。
 
-For example, `select is_ip_address_in_range('127.0.0.1', '127.0.0.0/8')` returns `true`. `select is_ip_address_in_range('127.0.0.1', 'ffff::/16')` returns `false`
+例如，`select is_ip_address_in_range('127.0.0.1', '127.0.0.0/8')`返回`true`。 `select is_ip_address_in_range('127.0.0.1', 'ffff::/16')`返回`false`
 
 ### geohash_encode
 
-`geohash_encode(longitude, latitude, [precision])`  Encodes latitude and longitude as a geohash string.
+`geohash_encode(longitude, latitude, [precision])`将经度和纬度编码为geohash字符串。
 
 **输入值**
 
-- longitude - longitude part of the coordinate you want to encode. Floating in range`[-180°, 180°]`
-- latitude - latitude part of the coordinate you want to encode. Floating in range `[-90°, 90°]`
-- precision - Optional, length of the resulting encoded string, defaults to `12`. Integer in range `[1, 12]`. Any value less than `1` or greater than `12` is silently converted to `12`.
+- longitude——你想编码的坐标的经度。 浮动范围`[-180°, 180°]`
+- latitude——你想编码的坐标的纬度。 浮动范围`[-90°, 90°]`
+- precision——可选的，生成的编码字符串的长度，默认为`12`。 整数范围`[1, 12]`。 任何小于`1`或大于`12`的值都会被静默转换为`12`。
 
 **返回值**
 
-- alphanumeric `String` of encoded coordinate (modified version of the base32-encoding alphabet is used).
+- 字母数字编码坐标`字符串`（使用base32编码字母表的修改版本）。
 
 **示例**
 
@@ -166,15 +166,15 @@ SELECT geohash_encode(-5.60302734375, 42.593994140625, 0) AS res;
 
 ### geohash_decode
 
-Decodes any geohash-encoded string into longitude and latitude.
+将任何geohash编码的字符串解码为经度和纬度。
 
 **输入值**
 
-- encoded string - geohash-encoded string.
+- 编码字符串——geohash编码的字符串。
 
 **返回值**
 
-- (longitude, latitude) - 2-tuple of `float64` values of longitude and latitude.
+- （经度、纬度）——由经度和纬度的`float64`值组成的两个元组。
 
 **示例**
 
@@ -194,9 +194,9 @@ SELECT geohash_decode('ezs42d000000') AS res;
 
 ### geohashes_in_box
 
-Returns an array of geohash-encoded strings of given precision that fall inside and intersect boundaries of given box, basically a 2D grid flattened into array.
+返回具有给定精度的geohash编码字符串数组，这些字符串位于给定框的边界内并与边界相交，基本上是一个扁平成数组的二维网格。
 
-**Syntax**
+**语法**
 
 ```sql
 geohashes_in_box(longitude_min, latitude_min, longitude_max, latitude_max, precision)
@@ -216,14 +216,14 @@ geohashes_in_box(longitude_min, latitude_min, longitude_max, latitude_max, preci
 
 :::info note
 
-All coordinate parameters must be of the same type: either `float32` or `float64`.
+所有坐标参数的类型必须相同： `float32`或`float64`。
 
 :::info
 
 **返回值**
 
-- Array of precision-long strings of geohash-boxes covering provided area, you should not rely on order of items.
-- `[]` - Empty array if minimum latitude and longitude values aren’t less than corresponding maximum values.
+- 覆盖所提供区域的精度长的geohash-boxes字符串数组，你不应该依赖项目的顺序。
+- `[]`——如果最小纬度和经度值不小于相应的最大值，则为空数组。
 
 类型：[数组](https://clickhouse.com/docs/en/sql-reference/data-types/array)（[字符串](https://clickhouse.com/docs/en/sql-reference/data-types/string)）。
 
