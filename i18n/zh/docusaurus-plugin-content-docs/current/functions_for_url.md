@@ -90,41 +90,41 @@
 
 ### ipv6_string_to_num
 
-`ipv6_string_to_num(string)`采用一个`string`的值并返回一个`uint128`的值。 If the IPv6 address has an invalid format, it throws exception.
+`ipv6_string_to_num(string)`采用一个`string`的值并返回一个`uint128`的值。 如果IPv6地址的格式无效，则会引发异常。
 
-If the input string contains a valid IPv4 address, returns its IPv6 equivalent. HEX can be uppercase or lowercase.
+如果输入字符串包含有效的IPv4地址，则返回其IPv6的等效地址。 HEX可以大写也可以小写。
 
-例如： `select hex(ipv6_string_to_num('2a02:2168:aaa:bbbb::2'))` returns `2A0221680AAABBBB0000000000000002`
+例如： `select hex(ipv6_string_to_num('2a02:2168:aaa:bbbb::2'))`返回`2A0221680AAABBBB0000000000000002`
 
-`select hex(ipv6_string_to_num('108.172.20.231'))` returns `00000000000000000000FFFF6CAC14E7`
+`select hex(ipv6_string_to_num('108.172.20.231'))`返回`00000000000000000000FFFF6CAC14E7`
 
 ### to_ipv6
 
-Alias of `ipv6_string_to_num`
+`ipv6_string_to_num`的另一种表达方式
 
 ### ipv4_to_ipv6
 
-`ipv4_to_ipv6(ip)` Convert the `ipv4` value to `ipv6`
+`ipv4_to_ipv6(ip)`将`ipv4`的值转换成`ipv6`
 
-For example: `select ipv6_num_to_string(ipv4_to_ipv6(ipv4_string_to_num('192.168.0.1')))` returns `'::ffff:192.168.0.1'`
+例如：`select ipv6_num_to_string(ipv4_to_ipv6(ipv4_string_to_num('192.168.0.1')))`返回`'::ffff:192.168.0.1'`
 
 
 
 ### ipv4_cidr_to_range
 
-`ipv4_cidr_to_range(ipv4,number)`Accepts an IPv4 and an uint8 value containing the [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing). Return a tuple with two IPv4 containing the lower range and the higher range of the subnet.
+`ipv4_cidr_to_range(ipv4,number)`接受IPv4和包含[CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)的uint8的值。 返回一个包含两个IPv4的元组，其中包含子网的较低范围和较高范围。
 
-For example: `select ipv4_cidr_to_range(to_ipv4('192.168.0.1'),16)` returns `('192.168.0.0','192.168.255.255')`
+例如：`select ipv4_cidr_to_range(to_ipv4('192.168.0.1'),16)`返回`('192.168.0.0','192.168.255.255')`
 
 ### ipv6_cidr_to_range
 
-`ipv6_cidr_to_range(ipv6,number)`Accepts an IPv6 and an uint128 value containing the [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing). Return a tuple with two IPv6 containing the lower range and the higher range of the subnet.
+`ipv6_cidr_to_range(ipv6,number)`接受IPv6和包含[CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)的uint128的值。 返回一个包含两个IPv6的元组，其中包含子网的较低范围和较高范围。
 
-For example: `select ipv6_cidr_to_range(to_ipv6('2001:0db8:0000:85a3:0000:0000:ac1f:8001'),32)` returns `('2001:db8::','2001:db8:ffff:ffff:ffff:ffff:ffff:ffff')`
+例如：`select ipv6_cidr_to_range(to_ipv6('2001:0db8:0000:85a3:0000:0000:ac1f:8001'),32)`返回`('2001:db8::','2001:db8:ffff:ffff:ffff:ffff:ffff:ffff')`
 
 ### is_ipv4_string
 
-`is_ipv4_string(string)` returns 1 if it's a ipv4 string, otherwise 0.
+如果是一个ipv4字符串，则`is_ipv4_string(string)`返回1，否则返回0。
 
 ### is_ipv6_string
 
@@ -140,13 +140,13 @@ For example, `select is_ip_address_in_range('127.0.0.1', '127.0.0.0/8')` returns
 
 `geohash_encode(longitude, latitude, [precision])`  Encodes latitude and longitude as a geohash string.
 
-**Input values**
+**输入值**
 
 - longitude - longitude part of the coordinate you want to encode. Floating in range`[-180°, 180°]`
 - latitude - latitude part of the coordinate you want to encode. Floating in range `[-90°, 90°]`
 - precision - Optional, length of the resulting encoded string, defaults to `12`. Integer in range `[1, 12]`. Any value less than `1` or greater than `12` is silently converted to `12`.
 
-**Returned values**
+**返回值**
 
 - alphanumeric `String` of encoded coordinate (modified version of the base32-encoding alphabet is used).
 
@@ -168,11 +168,11 @@ SELECT geohash_encode(-5.60302734375, 42.593994140625, 0) AS res;
 
 Decodes any geohash-encoded string into longitude and latitude.
 
-**Input values**
+**输入值**
 
 - encoded string - geohash-encoded string.
 
-**Returned values**
+**返回值**
 
 - (longitude, latitude) - 2-tuple of `float64` values of longitude and latitude.
 
@@ -206,11 +206,11 @@ geohashes_in_box(longitude_min, latitude_min, longitude_max, latitude_max, preci
 
 **参数**
 
-- `longitude_min` — Minimum longitude. Range: `[-180°, 180°]`. Type: float.
-- `latitude_min` — Minimum latitude. Range: `[-90°, 90°]`. Type: float.
-- `longitude_max` — Maximum longitude. Range: `[-180°, 180°]`. Type: float.
-- `latitude_max` — Maximum latitude. Range: `[-90°, 90°]`. Type: float.
-- `precision` — Geohash precision. Range: `[1, 12]`. Type: uint8.
+- `longitude_min`——经度最小值。 范围：`[-180°, 180°]`。 类型：浮点型。
+- `latitude_min`——纬度最小值。 范围：`[-90°, 90°]`。 类型：浮点型。
+- `longitude_max`——经度最大值。 范围：`[-180°, 180°]`。 类型：浮点型。
+- `latitude_max`——纬度最大值。 范围：`[-90°, 90°]`。 类型：浮点型。
+- `precision`——Geohash精度。 范围：`[1, 12]`。 类型：unit8.
 
 
 
@@ -220,30 +220,30 @@ All coordinate parameters must be of the same type: either `float32` or `float64
 
 :::info
 
-**Returned values**
+**返回值**
 
 - Array of precision-long strings of geohash-boxes covering provided area, you should not rely on order of items.
 - `[]` - Empty array if minimum latitude and longitude values aren’t less than corresponding maximum values.
 
-Type: [Array](https://clickhouse.com/docs/en/sql-reference/data-types/array)([String](https://clickhouse.com/docs/en/sql-reference/data-types/string)).
+类型：[数组](https://clickhouse.com/docs/en/sql-reference/data-types/array)（[字符串](https://clickhouse.com/docs/en/sql-reference/data-types/string)）。
 
 
 
 :::info note
 
-Function throws an exception if resulting array is over 10’000’000 items long.
+如果生成的数组长超过10’000’000项目时，函数会显示异常。
 
 :::
 
 **示例**
 
-Query:
+查询：
 
 ```sql
 SELECT geohashes_in_box(24.48, 40.56, 24.785, 40.81, 4) AS thasos;
 ```
 
-**Result**:
+**结果**：
 
 ```text
 ┌─thasos──────────────────────────────────────┐
