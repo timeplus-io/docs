@@ -220,7 +220,7 @@ ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
 SETTINGS keep_versions = 3
 ```
 
-#### append LEFT ASOF JOIN versioned {#append-asof-versioned}
+#### append LEFT ASOF JOIN versioned {#append-left-asof-versioned}
 
 Similar to the above, but not INNER.
 
