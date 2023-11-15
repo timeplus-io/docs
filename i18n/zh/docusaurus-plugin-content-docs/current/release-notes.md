@@ -1,13 +1,13 @@
 # GA 版本
 
-This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
+本页总结了Timeplus中每个重要更新内容，包括新功能和重要的错误修复。
 
-## Nov 13, 2023
+## 2023年11月13日
 
-*Proton:*
-  * [JDBC driver](https://github.com/timeplus-io/proton-java-driver) for Proton is now available. Check out our [example](https://github.com/timeplus-io/proton/tree/develop/examples/jdbc) for how to connect to Proton with DBeaver. We also submitted a PR to [Pulse UI](https://github.com/timestored/pulseui/pull/139).
-  * An experimental [ODBC driver](https://github.com/timeplus-io/proton-odbc) for accessing Proton as a data source is also available.
-  * An experimental `shuffle by` clause has been added. Currently, it only works for historical queries, and it will support streaming queries soon. The key use case for `shuffle by` is to support high cardinality `group by` (such as 10 millions of unique keys). To learn more about this advanced feature, join the discussion in our [Slack community](https://timeplus.com/slack).
+*Proton：*
+  * Proton的[JDBC driver](https://github.com/timeplus-io/proton-java-driver)现已开源。 请查看我们有关如何链接DBeaver到Proton的[演示示例](https://github.com/timeplus-io/proton/tree/develop/examples/jdbc)。 以及如何在[Pulse UI](https://github.com/timestored/pulseui/pull/139)中使用Proton。
+  * 此外，我们还提供了一个实验性[ODBC driver](https://github.com/timeplus-io/proton-odbc)，用于从PowerBI等工具访问Proton
+  * Proton中还新增了一个实验性的`shuffle by`子句。 Currently, it only works for historical queries, and it will support streaming queries soon. The key use case for `shuffle by` is to support high cardinality `group by` (such as 10 millions of unique keys). To learn more about this advanced feature, join the discussion in our [Slack community](https://timeplus.com/slack).
   * Since version 1.3.19, by default, the backfill from historical store for time travel/rewind is enabled. For example `select * from stream where _tp_time>now()-14d` will load data from historical store for last 14 days, even for data not available in streaming storage. If you prefer the previous behavior, you can add `settings enable_backfill_from_historical_store=false` to the streaming SQL.
 
 *Timeplus Cloud:*
@@ -21,7 +21,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 
 ## Oct 30, 2023
 
-*Proton:*
+*Proton：*
   * You can now install single native binary for Mac or Linux - check out our installation guide [here](https://github.com/timeplus-io/proton/wiki/Install-single-binary-Proton).
   * External streams support writing. [(Learn more)](proton-kafka#write-to-kafka-with-sql)
   * External streams also support reading from specific Kafka partition(s). [(Learn more)](proton-kafka#read-specified-partitions)
@@ -37,7 +37,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 
 ## Oct 16, 2023
 
-*Proton:*
+*Proton：*
   * New data types now supported: ipv4 and ipv6, as well as related [functions](functions_for_url).
   * [Python Driver](https://github.com/timeplus-io/proton-python-driver) 0.2.10 now supports Python 3.11 and 3.12.
   * [Go Driver](https://github.com/timeplus-io/proton-go-driver) is now open source.
