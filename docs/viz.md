@@ -148,11 +148,9 @@ After you save the dashboard, in the dashboard view mode, you can change the val
 
 ## Integration with External BI
 
-You can call Timeplus SDK to load the data and render the chart with 3rd party charting libraries.  We also built experimental plugins to work with redash, metabase, Grafana, etc.
+You can call Timeplus SDK to load the data and render the chart with 3rd party charting libraries.  
 
-:::info
+For Proton users, you can also try https://github.com/timeplus-io/proton-grafana-source It has been submitted to Grafana Inc and waiting for approval to list on its marketplace.
 
-The Timeplus datasource plugin for Grafana is in the early stages. Please contact us to arrange the integration. 
-
-:::
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=TzVpULg-B0b0T5GE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
