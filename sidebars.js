@@ -95,7 +95,7 @@ const sidebars = {
         type: 'doc',
         id: 'ingestion'
       },
-      items: ['kafka-source', 'confluent-cloud-source', 'kafka-connect', 'pulsar-source', 'ingest-api', 'datapm']
+      items: ['kafka-source', 'confluent-cloud-source', 'kafka-connect', 'pulsar-source', 'ingest-api', 'automq-kafka-source','datapm']
     },
     {
       type: 'category',
