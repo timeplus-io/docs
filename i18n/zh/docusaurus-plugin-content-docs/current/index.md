@@ -1,5 +1,8 @@
 # 概览
 
+import Quickstart from '@site/src/components/Quickstart'
+import Grid, { GridItem } from '@site/src/components/Grid'
+
 Timeplus是一个以流式数据为先的数据分析平台。 它提供强大的端到端的能力，通过已经开源的流式数据库[Proton](proton)帮助各种规模和行业的组织快速和直观地处理实时流式数据和历史数据。 它使数据工程师和平台工程师能够使用SQL解锁流式数据的价值。
 
 Timeplus的控制台可以轻松连接到多种数据源（如Apache Kafka、Confluent Cloud、Redpanda、CSV文件上传等），通过SQL查询向 其他系统或个人发送实时洞察报告和告警来探索流式模式，并且可以创建仪表板和可视化内容。
