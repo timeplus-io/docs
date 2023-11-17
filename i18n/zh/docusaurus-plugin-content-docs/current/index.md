@@ -26,19 +26,16 @@ Timeplus的控制台可以轻松连接到多种数据源（如Apache Kafka、Con
 ### 摄取数据&rarr;
 
 将Timeplus Cloud连接到Apache Kafka、Apache Pulsar、Kinesis、Confluent Cloud，或者使用REST API、SDK等进行推送。 
-
 </GridItem> 
 <GridItem href="/query-syntax">
 ### 编写SQL查询&rarr;
 
 使用transformations、joins、aggregation、windowed processing、substreams等函数创建长时间运行的查询。 
-
 </GridItem> 
 <GridItem href="/viz">
 ### 可视化数据&rarr;
 
 查看任何查询的实时结果；创建自定义仪表板来讲述有关您的数据的故事；或者与外部BI系统集成。 
-
 </GridItem> 
 </Grid>
 
