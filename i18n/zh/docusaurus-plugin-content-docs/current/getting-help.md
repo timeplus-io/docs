@@ -4,4 +4,4 @@
 
 ## 社区Slack
 
-Join [the community Slack](https://timeplus.com/slack) to chat with Timeplus team and other users.
+加入 [社区Slack组](https://timeplus.com/slack) 来与 Timeplus 团队和其他用户交流。

@@ -1,25 +1,24 @@
-# Remote UDF
+# 远程 UDF
 
-Register a webhook as the UDF. You may use any programming language/framework to develop/deploy the webhook. A good starting point is using AWS Lambda. 
+将 webhook 注册为 UDF。 您可以使用任何编程语言/框架来开发/部署 webhook。 一个不错的起点是使用 AWS Lambda。
 
-## IP Lookup Example
+## IP 查找示例
 
-Let’s start with an example. It’s a common use case for IT admin or business analysts to turn a client IP address into a city or country, then get the total number of visitors per city or country. 
+让我们从一个例子开始。 这是信息技术管理员或商业分析员将客户端IP地址转换为城市或国家的常见用例。 然后获得每个城市或国家的游客总数。
 
-This might be roughly doable with pure SQL, with a lot of regular expressions or case/when branches. Even so, the city/country won’t be very accurate, since there could be some edge cases that won’t be well-covered in such a static analysis.
+这可以用纯的 SQL 大致可行，带有大量正则表达式或案例/分支。 即使如此，城市/国家也不会十分准确，因为在这种静态分析中可能会有一些边缘情况没有得到很好的考虑。
 
-Luckily, there are many online services (e.g. [ipinfo.io](https://ipinfo.io)) to turn IP addresses into cities/countries, even with enriched details such as addresses or internet providers.
-Here is an example of an UDF(ip_lookup) in Timeplus:
+幸运的是，有许多在线服务（例如 [ipinfo.io](https://ipinfo.io)）将IP地址变成城市/国家，即使有丰富的详细信息，例如地址或互联网提供者。 下面是 Timeplus 中 UDF(ip_lookup) 的示例：
 
 ```sql
 select ip_lookup(ip) as data, data:country, data:timezone from test_udf
 ```
 
-## Build the UDF with AWS Lambda
+## 使用 AWS Lambda 构建UDF
 
-In this example, the `ip_lookup` function is built as a “Remote UDF”, actually powered by a AWS Lambda function. I chose Node.js but you can also build it with other supported languages such as Python, Ruby, Go, Java, etc. 
+在这个示例中， `ip_searchup` 函数被构建为“远程 UDF”，实际上是由 AWS Lambda 函数驱动的。 我选择 Node.js，但你也可以使用其他支持的语言，如Python、Ruby、Go、Java等构建它。
 
-Here is the full source code for the Lambda function:
+这里是 Lambda 函数的完整源代码：
 
 ```javascript
 const https = require('https');
@@ -30,7 +29,7 @@ exports.handler = async (event) => {
     }
     let body = JSON.parse(event.body)
     let ip=body.ip||body.arg0 //ip is an array of string
-    
+
     const promise = new Promise(function(resolve, reject) {
         const dataString = JSON.stringify(ip);
         const options = {
@@ -75,7 +74,7 @@ exports.handler = async (event) => {
 };
 ```
 
-The code is straightforward. A few notes:
+代码是直截了当的。 以下几个说明：
 
 1. 您可以调用UDF多于 1 行，如 `select my_udf(col) from my_stream`。 为了提高效率，Timeplus 会向远程 UDF 发送批量请求，例如 `my_udf([input1, input2, input3])` 返回值也是一个数组 `[return1, return2, return3]`
 2. 输入的数据被包装在 JSON 文档 `{"ip":["ip1","ip2","ip3"]}`
@@ -83,17 +82,17 @@ The code is straightforward. A few notes:
 4. 来自 ipinfo.io REST API 的响应将会放入一个 JSON 文档\{“结果”：[..]} 作为Lambda输出发送
 5. 由于Lambda函数在Timeplus服务器之外运行，对第三方函数库没有任何限制。 在此示例中，我们正在使用内置的 node.js “https” 库。 为了更加复杂的数据处理，人们可以自由地包括更复杂的图书馆，如机器学习。
 
-Once you have deployed the Lambda function, you can generate a publicly accessible URL, then register the function in Timeplus Web Console.
+一旦你部署了 Lambda 函数，你可以生成一个可公开访问的 URL，然后在 Timeplus Web 控制台注册该函数。
 
-## Register the UDF
+## 注册UDF
 
-Only Timeplus workspace administrators can register new UDF. Open "UDFs" from the navigation menu on the left, and click the 'Register New Function' button. Choose "Remote" as the UDF type.
+只有Timeplus工作区管理员才能注册新的UDF。 从左侧导航菜单中打开 “UDF”，然后单击 “注册新功能” 按钮。 选择 “远程” 作为 UDF 类型。
 
-Set a name for the function and specify the arguments and return data type. Set the webhook URL(e.g. Lambda URL) in the form. You can choose to enable extra authentication key/value in the HTTP header, securing the endpoint to avoid unauthorized access.
+设置函数名称并指定参数和返回数据类型。 设置表单中的 webhook URL（例如 Lambda URL）。 您可以选择在 HTTP 头中启用额外的验证密钥/值，保护端点以避免未经授权的访问。
 
-### Arguments
+### 参数
 
-The data transferring between Timeplus and Remote UDF endpoint is `JSONColumns` format. For example, if a remote UDF has two arguments, one `feature` argument is of type `array(float32)` and the other `model` argument is of type `string`, below is the data transferring to UDF endpoint in `JSONColumns` format:
+Timeplus 和远程 UDF 端点之间的数据传输为 `JSONColums` 格式。 例如，如果远程 UDF 有两个参数， 一个 `功能` 参数是 `array(float32)` 类型，另一个 `模型` 参数是 `字符串` 类型，下面是以 `JSONColums` 格式传输到 UDF 端点的数据：
 
 ```json
 {
@@ -107,7 +106,7 @@ The data transferring between Timeplus and Remote UDF endpoint is `JSONColumns` 
 }
 ```
 
-The following data types in Timeplus are supported as Remote UDF arguments:
+Timeplus 中支持以下数据类型作为远程 UDF 参数：
 
 | Timeplus 数据类型           | Payload in UDF HTTP Request                                                |
 | ----------------------- | -------------------------------------------------------------------------- |
@@ -121,9 +120,9 @@ The following data types in Timeplus are supported as Remote UDF arguments:
 
 
 
-### Returned value
+### 返回值
 
-The remote UDF endpoint should return the text representation of a JSON document:
+远程 UDF 端点应返回 JSON 文档的文本表示形式：
 
 ```json
 {
@@ -131,7 +130,7 @@ The remote UDF endpoint should return the text representation of a JSON document
 }
 ```
 
-Timeplus will take each element of the result array and convert back to Timeplus data type. The supported return type are similar to argument types. The only difference is that if you return a complex data structure as a JSON, it will be converted to a `tuple` in Timeplus.
+Timeplus 将获取结果数组的每个元素并转换回 Timeplus 数据类型。 支持的返回类型与参数类型类似。 唯一的区别是，如果您以 JSON 形式返回一个复杂的数据结构，它将在 Timeplus 中被转换为 `tuple`。
 
 | UDF HTTP Response                      | Timeplus 数据类型              |
 | -------------------------------------- | -------------------------- |
@@ -144,25 +143,22 @@ Timeplus will take each element of the result array and convert back to Timeplus
 
 
 
-## Other ways to build UDF
+## 构建UDF的其他方式
 
-You can also build the remote UDF with your own microservices or long-running application services to gain better control of the hardware resources, or gain even better performance or low latency.
-“Remote UDF” is the recommended solution for our Timeplus customers to extend the capabilities of built-in functionality, without introducing potential security risks for our cloud services. For our large customers with strong on-prem deployment needs, we also built a “Local UDF” mode which allows Timeplus to call local programs to process data. 
-
+您还可以使用您自己的微服务或长期运行的应用程序服务来构建远程UDF，以便更好地控制硬件资源。 或获得更好的性能或低延迟 “远程UDF”是我们的Timeplus客户扩展内置功能能力的推荐解决方案。 不给我们的云服务带来潜在的安全风险。 对于在部署前有很强需要的大型客户。 我们还建立了一个“本地UDF”模式，它允许TimePlus调用本地程序来处理数据。
 
 
-## Best Practices for UDF
 
-User-defined functions open the door for new possibilities to process and analyze the data with full programming capabilities within Timeplus. There are some additional factors to consider when building and using User-Defined Functions:
+## UDF 的最佳实践
 
-1. For Timeplus Cloud customers, it’s highly recommended to enable Authentication for the UDF. For example, when you register the function, you can set the key as ‘passcode’ and the value as a random word. Timeplus will set this in the HTTP header while making requests to the remote UDF endpoints. In your endpoint code, be sure to check whether the key/value pairs in the HTTP header matches the setting in Timeplus. If not, return an error code to deny the UDF request.
-2. Calling a single UDF may only take 100ms or less, however, if you call a UDF for millions of rows, this could slow down the entire query. It’s recommended to aggregate the data first, then call the UDF with a lesser number of requests. E.g. `SELECT ip_lookup(ip):city as city, sum(cnt) FROM (SELECT ip, count(*) as cnt FROM access_log GROUP BY ip) GROUP BY city` 
-   instead of 
-   `SELECT ip_lookup(ip):city, count(*) as cnt FROM access_log GROUP BY city`
-3. The Remote UDF in Timeplus is not designed for aggregation. Please turn to [JavaScript based local UDF](js-udf) for User-Defined Aggregate Functions (UDAF).
-4. To improve performance, Timeplus automatically sends batched requests to the UDF endpoints. For example, if there are 1000 requests to the UDF in a single SQL execution, the framework may send 10 requests with 100 each for the input. That’s why in the sample code, I will process the `ip` as an array and also return the value in the other array. Please make sure the returned value matches the inputs.
-5. Properly adding logs to your UDF code can greatly help troubleshoot/tune the function code.
-6. Only the Timeplus workspace administrators can register new User-Defined Functions, while all members in the workspace can use the UDFs.
-7. Make sure the UDF name doesn’t conflict with the [built-in functions](functions) or other UDFs in the same workspace.
+用户定义的函数打开了在Timeplus内用完整的编程能力处理和分析数据的新可能性。 在构建和使用用户定义函数时还有一些其他因素需要考虑：
+
+1. 对于Timeplus Cloud客户，它强烈建议为UDF启用身份验证。 例如，当您注册函数时，您可以将密钥设置为“密码”，并将其设置为随机字值。 在向远程的 UDF 端点提出请求时，Timplus将在HTTP 头中设置它。 在您的端点代码中，请务必检查HTTP头中的键值对是否匹配Timeplus中的设置。 如果没有，返回错误代码以拒绝UDF 请求。
+2. 但是，呼叫单个UDF可能只需要100毫秒或更少。 如果你调用一个百万行的 UDF ，这可能会减慢整个查询速度。 它建议先汇总数据，然后用较少的请求来调用 UDF 。 。 `SELECT ip_lookup(ip):city as city, sum(cnt) FROM (SELECT ip, count(*) as cnt FROM access_log GROUP BY ip) GROUP BY city` 而不是 `SELECT ip_lookup(ip):city, count(*) as cnt FROM access_log GROUP BY city`
+3. 目前UDF Timeplus系统不是为了汇总而设计的。 对于用户定义的聚合函数 (UDAF)，请使用基于 [的 JavaScript 的本地 UDF](js-udf) 。
+4. 为了提高性能，Timeplus自动向UDF 端点发送批量请求。 例如，如果在一次SQL执行中有1000个请求给UDF 框架可发送10项请求，每项100项请求供投入。 这就是为什么在示例代码中，我会将 `ip` 作为一个数组处理，并且返回另一个数组的值。 请确保返回的值匹配输入。
+5. 正确添加日志到您的 UDF 代码会极大地帮助疑难解答/调整函数代码。
+6. 只有Timeplus工作区管理员可以注册新的用户定义功能，而工作区的所有成员都可以使用UDF。
+7. 请确保UDF 名称与同一工作区的 [内置函数](functions) 或其他UDF 不冲突。
 
 

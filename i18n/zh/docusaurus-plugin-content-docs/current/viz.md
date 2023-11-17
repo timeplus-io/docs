@@ -148,11 +148,9 @@ select * from car_live_data where cid='{{car_id}}'
 
 ## 与外部BI集成
 
-您可以调用 TimePlus SDK 来加载数据并通过第三方制图库渲染图表。  我们还开发了实验性插件来处理 redash、metabase、Grafana 等。
+You can call Timeplus SDK to load the data and render the chart with 3rd party charting libraries.
 
-:::info
+For Proton users, you can also try https://github.com/timeplus-io/proton-grafana-source It has been submitted to Grafana Inc and waiting for approval to list on its marketplace.
 
-Grafana 的 Timeplus 数据源插件正处于初级阶段。 请联系我们来安排整合。
-
-:::
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=TzVpULg-B0b0T5GE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

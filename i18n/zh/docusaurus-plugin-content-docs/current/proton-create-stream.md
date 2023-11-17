@@ -14,7 +14,7 @@ In Timeplus Cloud or Private Cloud deployments, we recommend you to create strea
 
 By default, the streams are append-only and immutable. You can create a stream, then use `INSERT INTO` to add data.
 
-Syntax:
+语法：
 
 ```sql
 CREATE STREAM [IF NOT EXISTS] [db.]<stream_name>

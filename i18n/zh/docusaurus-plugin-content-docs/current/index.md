@@ -3,65 +3,60 @@
 import Quickstart from '@site/src/components/Quickstart'
 import Grid, { GridItem } from '@site/src/components/Grid'
 
-Timeplus is a streaming-first data analytics platform. It provides powerful end-to-end capabilities, leveraging the open source streaming database [Proton](proton), to help teams process streaming and historical data quickly and intuitively, accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock streaming data value using SQL.
+Timeplus是一个以流式数据为先的数据分析平台。 它提供强大的端到端的能力，通过已经开源的流式数据库[Proton](proton)帮助各种规模和行业的组织快速和直观地处理实时流式数据和历史数据。 它使数据工程师和平台工程师能够使用SQL解锁流式数据的价值。
 
-The Timeplus console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud, Redpanda, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to other systems or individuals, and create dashboards and visualizations.
+Timeplus的控制台可以轻松连接到多种数据源（如Apache Kafka、Confluent Cloud、Redpanda、CSV文件上传等），通过SQL查询向 其他系统或个人发送实时洞察报告和告警来探索流式模式，并且可以创建仪表板和可视化内容。
 
-Still curious about [why to use Timeplus](why-timeplus)? Check out the [showcases](showcases) to see how Timeplus customers use our unified streaming and historical processing platform.
+仍然对[为什么要使用Timeplus](why-timeplus)有疑惑？ 查看[示例](showcases)了解Timeplus的用户们是如何使用Timeplus这个流式数据和历史数据统一的处理平台的。
 
-## Get started with Timeplus
+## 开始使用Timeplus
 
 <Quickstart href="/quickstart">
 
   <h3>快速入门</h3>
 
-  <p>Follow along with step-by-step instructions for creating a Timeplus Cloud account and loading sample IoT, user login, or DevOps data.</p>
+  <p>按照步骤说明创建Timeplus Cloud账户并加载示例IoT、用户登录或DevOps数据。</p>
 
 </Quickstart>
 
-## Jump into stream processing and analytics
+## 进入流式处理和分析
 
 <Grid>
 <GridItem href="/ingestion">
-### Ingest data &rarr;
+### 摄取数据&rarr;
 
-Connect Timeplus Cloud to Apache Kafka, Apache Pulsar, Kinesis, Confluent Cloud, or push with a REST API, SDKs, and beyond. 
+将Timeplus Cloud连接到Apache Kafka、Apache Pulsar、Kinesis、Confluent Cloud，或者使用REST API、SDK等进行推送。 
 
 </GridItem> 
-
 <GridItem href="/query-syntax">
-### Write SQL queries &rarr;
+### 编写SQL查询&rarr;
 
-Create long-running queries using functions like transformations, joins, aggregation, windowed processing, substreams, and more. 
+使用transformations、joins、aggregation、windowed processing、substreams等函数创建长时间运行的查询。 
 
 </GridItem> 
 <GridItem href="/viz">
-### Visualize data &rarr;
+### 可视化数据&rarr;
 
-View real-time results for any query, create custom dashboards to tell stories about your data, or integrate with external BI systems. 
+查看任何查询的实时结果；创建自定义仪表板来讲述有关您的数据的故事；或者与外部BI系统集成。 
 
 </GridItem> 
 </Grid>
 
-## Core concepts and functions
+## 核心概念和函数
 
 <Grid> <GridItem href="/working-with-streams">
-### Streams &rarr;
+### 数据流&rarr;
 
-An append-only (by default), unbounded, constantly changing events group with changelog, versioned, and external options. 
-
+一个仅限追加（默认情况下）、无界限、不断变化的事件组，包含变更日志、版本控制和外部选项。 
 </GridItem> 
 <GridItem href="/destination">
-### Sinks &rarr;
+### 数据下游&rarr;
 
-Send real-time insights to other systems, either to notify individuals or power downstream applications. 
-
+您可以向其他系统发送实时分析的洞察报告或警报，或通知个人，又或者启动后续自动化处理程序。 
 </GridItem> 
 <GridItem href="/proton">
-### Proton &rarr;
+### Proton&rarr;
 
-The open source, unified streaming and historical data processing engine powering the Timeplus streaming analytics platform. 
-
+（已开源）为Timeplus的流式分析平台提供统一的流式和历史数据处理的引擎。 
 </GridItem> 
-
 </Grid>

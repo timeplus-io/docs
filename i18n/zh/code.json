@@ -400,5 +400,25 @@
   "theme.docs.sidebar.navAriaLabel": {
     "message": "文档侧边栏",
     "description": "侧边栏导航的 ARIA 标签"
+  },
+  "theme.admonition.warning": {
+    "message": "告警",
+    "description": "用于Warning告警的默认标签（:::warning）"
+  },
+  "theme.DocSidebarItem.expandCategoryAriaLabel": {
+    "message": "展开侧边栏分类 '{label}'",
+    "description": "用于展开侧边栏类别的 ARIA 标签"
+  },
+  "theme.DocSidebarItem.collapseCategoryAriaLabel": {
+    "message": "折叠侧边栏分类 '{label}'",
+    "description": "用于折叠侧边栏类别的 ARIA 标签"
+  },
+  "theme.unlistedContent.title": {
+    "message": "未列出页面",
+    "description": "未列出内容的横幅标题"
+  },
+  "theme.unlistedContent.message": {
+    "message": "该页面未列出。搜索引擎不会对其进行索引，只有拥有直接链接的用户才能访问。",
+    "description": "未列出内容的横幅消息"
   }
 }

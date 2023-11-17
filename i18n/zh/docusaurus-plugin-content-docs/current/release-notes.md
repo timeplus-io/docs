@@ -1,10 +1,27 @@
 # GA 版本
 
-This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
+本页总结了Timeplus中每个重要更新内容，包括新功能和重要的错误修复。
+
+## 2023年11月13日
+
+*Proton：*
+  * Proton的[JDBC driver](https://github.com/timeplus-io/proton-java-driver)现已开源。 请查看我们有关如何链接DBeaver到Proton的[演示示例](https://github.com/timeplus-io/proton/tree/develop/examples/jdbc)。 以及如何在[Pulse UI](https://github.com/timestored/pulseui/pull/139)中使用Proton。
+  * 此外，我们还提供了一个实验性[ODBC driver](https://github.com/timeplus-io/proton-odbc)，用于从PowerBI等工具访问Proton
+  * Proton中还新增了一个实验性的`shuffle by`子句。 Currently, it only works for historical queries, and it will support streaming queries soon. The key use case for `shuffle by` is to support high cardinality `group by` (such as 10 millions of unique keys). To learn more about this advanced feature, join the discussion in our [Slack community](https://timeplus.com/slack).
+  * Since version 1.3.19, by default, the backfill from historical store for time travel/rewind is enabled. For example `select * from stream where _tp_time>now()-14d` will load data from historical store for last 14 days, even for data not available in streaming storage. If you prefer the previous behavior, you can add `settings enable_backfill_from_historical_store=false` to the streaming SQL.
+
+*Timeplus Cloud:*
+  * In Data lineage, when you click on a resource tile, the path of related tiles is highlighted and the rest is grayed out.
+  * For map charts, the size of the dot is now correlated to the width of the dot in pixels.
+  * When creating a source, if you choose Protobuf as the Read As data type, the Protobuf message and definition are now mandatory to proceed.
+  * You can copy your workspace ID by clicking on your workspace name in the top header and hovering on the ID. This is useful if you need to speak to us for support about your workspace.
+
+*Timeplus Platform:*
+  * For on-prem deployment of Timeplus Platform, we now provide two observability options: using Timeplus or using Grafana/Loki.
 
 ## Oct 30, 2023
 
-*Proton:*
+*Proton：*
   * You can now install single native binary for Mac or Linux - check out our installation guide [here](https://github.com/timeplus-io/proton/wiki/Install-single-binary-Proton).
   * External streams support writing. [(Learn more)](proton-kafka#write-to-kafka-with-sql)
   * External streams also support reading from specific Kafka partition(s). [(Learn more)](proton-kafka#read-specified-partitions)
@@ -20,7 +37,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 
 ## Oct 16, 2023
 
-*Proton:*
+*Proton：*
   * New data types now supported: ipv4 and ipv6, as well as related [functions](functions_for_url).
   * [Python Driver](https://github.com/timeplus-io/proton-python-driver) 0.2.10 now supports Python 3.11 and 3.12.
   * [Go Driver](https://github.com/timeplus-io/proton-go-driver) is now open source.
