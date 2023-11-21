@@ -194,3 +194,51 @@
 ### tuple_cast
 
 `tuple_cast (item1, item2)` 生成一个包含这 2 个元素的元组。 您也可以使用快捷语法：`(item1, item2)` 直接创建元组。
+
+### untuple
+
+`untuple(a_tuple)` show elements in the tuple.
+
+The names of the result columns are implementation-specific and subject to change. Do not assume specific column names after `untuple`.
+
+
+
+### tuple_element
+
+`tuple_element(a_tuple, index, [, default_value])` or `tuple_element(a_tuple, name, [, default_value])`
+
+A function that allows getting a column from a tuple.
+
+If the second argument is a number `index`, it is the column index, starting from 1. If the second argument is a string `name`, it represents the name of the element. Besides, we can provide the third optional argument, such that when index out of bounds or no element exist for the name, the default value returned instead of throwing an exception. The second and third arguments, if provided, must be constants. There is no cost to execute the function.
+
+The function implements operators `x.index` and `x.name`.
+
+### dict_get
+
+`dict_get('dict_name', attr_names, id_expr)`
+
+Retrieves values from a dictionary.
+
+### dict_get_or_default
+
+`dict_get_or_default('dict_name', attr_names, id_expr,default_value)`
+
+Retrieves values from a dictionary. If not found, return the default value.
+
+### columns
+
+Not really for arrays, maps, or tuples.
+
+`columns(regexp)` Dynamic column selection (also known as a COLUMNS expression) allows you to match some columns in a result with a [re2](https://en.wikipedia.org/wiki/RE2_(software)) regular expression
+
+[了解更多。](https://clickhouse.com/docs/en/sql-reference/statements/select#dynamic-column-selection)
+
+### apply
+
+Not really for arrays, maps, or tuples.
+
+`select <expr> apply( <func> )` Allows you to invoke some function for each row returned by an outer table expression of a query.
+
+For example, `select * apply(sum) ..`
+
+[了解更多。](https://clickhouse.com/docs/en/sql-reference/statements/select#apply)
