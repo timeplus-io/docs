@@ -75,6 +75,8 @@ Now that you're running Proton and have created your first stream, query, and vi
 
 To see how such a deployment of Proton works as a demo, using `owl-shop` sample live data, check out our [tutorial with Docker Compose](proton-kafka#tutorial).
 
+To see more examples of using Proton, check out the [examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder.
+
 The following drivers are available:
 
 * https://github.com/timeplus-io/proton-java-driver JDBC and other Java clients
@@ -83,9 +85,11 @@ The following drivers are available:
 
 Integrations with other systems:
 
-* https://github.com/timeplus-io/proton-grafana-source
-* https://github.com/timeplus-io/homebrew-timeplus
-* https://github.com/timeplus-io/dbt-proton
+* Grafana https://github.com/timeplus-io/proton-grafana-source
+* Metabase  https://github.com/timeplus-io/metabase-proton-driver
+* Pulse UI https://github.com/timeplus-io/pulseui/tree/proton
+* Homebrew https://github.com/timeplus-io/homebrew-timeplus
+* dbt https://github.com/timeplus-io/dbt-proton
 
 ## Get more with Timeplus
 
@@ -97,14 +101,11 @@ We welcome your contributions! If you are looking for issues to work on, try loo
 
 Please see the [wiki](https://github.com/timeplus-io/proton/wiki/Contributing) for more details, and [BUILD.md](https://github.com/timeplus-io/proton/blob/develop/BUILD.md) to compile Proton in different platforms.
 
-We also encourage you to join the `#contributing` channel in the [Timeplus Community Slack](https://timeplus.com/slack) to ask questions and meet other active contributors from Timeplus and beyond.
+We also encourage you to join the [Timeplus Community Slack](https://timeplus.com/slack) to ask questions and meet other active contributors from Timeplus and beyond.
 
 ## Need help?
 
 Join the [Timeplus Community Slack](https://timeplus.com/slack) to connect with Timeplus engineers and other Proton users.
-
-- Use the `#proton` channel to ask questions about installing, using, or deploying Proton.
-- Join the `#contributing` channel to connect with other contributors to Proton.
 
 For filing bugs, suggesting improvements, or requesting new features, see the [open issues](https://github.com/timeplus-io/proton/issues) here on GitHub.
 
