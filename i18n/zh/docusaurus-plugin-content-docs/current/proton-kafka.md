@@ -26,11 +26,8 @@ The supported values for `security_protocol` are:
 CREATE EXTERNAL STREAM ext_github_events(raw string)
 SETTINGS type='kafka', 
          brokers='localhost:9092',
-         topic='github_events',
-         security_protocol='PLAINTEXT'
+         topic='github_events'
 ```
-
-
 
 ### Connect to Confluent Cloud
 
@@ -48,11 +45,46 @@ SETTINGS type='kafka',
 
 ### Define columns
 
-#### Single column to read from Kafka
+#### Single column to read from Kafka {#single_col_read}
 
-To read data via Kafka API, currently we only support plain text format. You should create the external stream with only a `raw` column in `string` type. In the next few releases, we will be support other data format, such as CSV and JSON.
+If the message in Kafka topic is in plain text format or JSON, you can create an external stream with only a `raw` column in `string` type.
 
-#### Multiple columns to write to Kafka
+示例：
+
+```sql
+CREATE EXTERNAL STREAM ext_github_events
+         (raw string)
+SETTINGS type='kafka', 
+         brokers='localhost:9092',
+         topic='github_events'
+```
+
+Then use query time [JSON extraction functions](functions_for_json) or shortcut to access the values, e.g. `raw:id`.
+
+#### Multiple columns to read from Kafka{#multi_col_read}
+
+If the keys in the JSON message never change, you can also create the external stream with multiple columns (only available to Proton v1.3.24+). You need to make sure all keys in the JSON are defined as columns, with proper data types. If there are more key/value pairs in the JSON message than what're defined in the external stream, the query won't show any result. We are enhancing this so that you can selectively define some key/value from the JSON messages in Kafka topic.
+
+示例：
+
+```sql
+CREATE EXTERNAL STREAM ext_github_events
+         (actor string,
+          created_at string,
+          id string,
+          payload string,
+          repo string,
+          type string
+         )
+SETTINGS type='kafka', 
+         brokers='localhost:9092',
+         topic='github_events',
+         data_format='JSONEachRow';
+```
+
+If there are nested complex JSON in the message, you can define the column as a string type.
+
+#### Multiple columns to write to Kafka{#multi_col_write}
 
 To write data via Kafka API (only available to Proton v1.3.18+), you can choose different data formats:
 
@@ -123,7 +155,7 @@ SELECT raw:timestamp, raw:car_id, raw:event FROM ext_stream WHERE raw:car_type i
 SELECT window_start, count() FROM tumble(ext_stream,to_datetime(raw:timestamp)) GROUP BY window_start;
 ```
 
-### Read existing messages
+### Read existing messages {#rewind}
 
 When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in the topics, not the existing ones. If you need to read all existing messages, you can use the following settings:
 
@@ -198,6 +230,31 @@ SETTINGS type='kafka',
          brokers='redpanda:9092',
          topic='owlshop-frontend-events'
 ```
+
+:::info
+
+Since Proton 1.3.24, you can also define multiple columns.
+
+```sql
+CREATE EXTERNAL STREAM frontend_events_json(
+    version int,
+    requestedUrl string,
+    method string,
+    correlationId string,
+    ipAddress string,
+    requestDuration int,
+    response string,
+    headers string
+)   
+SETTINGS type='kafka', 
+         brokers='redpanda:9092',
+         topic='owlshop-frontend-events',
+         data_format='JSONEachRow';
+```
+
+Then select the columns directly, without JSON parsing, e.g. `select method from frontend_events_json` For nested data, you can `select headers:referrer from frontend_events_json`
+
+:::
 
 ### Explore the data in Kafka
 
