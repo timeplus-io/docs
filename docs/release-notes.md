@@ -9,7 +9,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
   * Proton JDBC driver is now available via [Maven](https://central.sonatype.com/artifact/com.timeplus/proton-jdbc).
   * You can now connect Proton to [Pulse](https://www.timestored.com/pulse/) for OHLC charts.
   * New functions added: [untuple](functions_for_comp#untuple), [tuple_element](functions_for_comp#tuple_element), [dict_get](functions_for_comp#dict_get), [dict_get_or_default](functions_for_comp#dict_get_or_default), [columns](functions_for_comp#columns), [apply](functions_for_comp#apply), [any](functions_for_agg#any), and [last_value](functions_for_agg#last_value).
-  * You can now create an external stream with multiple columns while reading Kafka. [Learn more](https://docs.timeplus.com/proton-kafka#multi_col_read)
+  * You can now create an external stream with multiple columns while reading Kafka. [Learn more](proton-kafka#multi_col_read)
 
 *Timeplus Cloud:*
   * An unlimited number of columns are now supported in the column chart (previously retricted to recent 30 results).
