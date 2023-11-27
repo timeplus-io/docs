@@ -54,6 +54,10 @@ When there is only one parameter specific, it generates a random value in that t
 * `random_in_type('uint')` returns a random uint(unsigned integer, positive number)
 * `random_in_type('string')` returns a random string
 * `random_in_type('date')` returns a random date
+* `random_in_type('decimal32(3)')` returns a random decimal
+* `random_in_type('uuid')` returns a random uuid
+* `random_in_type('ipv4')` returns a random ipv4
+* `random_in_type('ipv6')` returns a random ipv6
 
 You can set the 2nd parameter as the max value, as large as UINT64_MAX. Then the function will generate a random value in that type, smaller than the 2nd parameter, such as
 
