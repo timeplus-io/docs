@@ -2,6 +2,19 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
 
+## Nov 27, 2023
+
+*Proton:*
+  * [Metabase driver](https://github.com/timeplus-io/metabase-proton-driver) for Proton is now open source.
+  * Proton JDBC driver is now available via [Maven](https://central.sonatype.com/artifact/com.timeplus/proton-jdbc).
+  * You can now connect Proton to [Pulse](https://www.timestored.com/pulse/) for OHLC charts.
+  * [New functions](functions_for_comp#columns) added: `apply` and `columns`.
+
+*Timeplus Cloud:*
+  * An unlimited number of columns are now supported in the column chart (previously retricted to recent 30 results).
+  * The Pulsar sink is enhanced to support batch, to improve writing performance.
+  * (Experimental) We've added the open-high-low-close (OHLC) chart type common in the finance industry, to visualize the movement of prices over time. Additional format settings include choosing a time range. Please contact us if you'd like to try this new chart type.
+
 ## Nov 13, 2023
 
 *Proton:*
