@@ -54,6 +54,10 @@ Timeplus还提供了`random_in_type`函数，用于使用任何自定义逻辑�
 * `random_in_type ('uint')`返回一个随机的uint（无符号整数，正数）。
 * `random_in_type('string')`返回一个随机的字符串。
 * `random_in_type('date')`返回一个随机日期。
+* `random_in_type('decimal32(3)')` returns a random decimal
+* `random_in_type('uuid')` returns a random uuid
+* `random_in_type('ipv4')` returns a random ipv4
+* `random_in_type('ipv6')` returns a random ipv6
 
 你可以将第二个参数设置为最大值，可以和UINT64_MAX一样大。 然后，该函数将生成该类型的随机值，该值小于第二个参数，例如：
 
