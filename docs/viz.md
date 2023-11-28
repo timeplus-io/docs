@@ -78,6 +78,22 @@ Currently available on https://us.timeplus.cloud as a preview feature.
 
 ![Map chart](/img/map-chart.png)
 
+
+
+### OHLC chart
+
+This is a new chart type, currently in technical preview. The open-high-low-close (OHLC) chart is common in the finance industry, to visualize the movement of prices over time. Please contact us if you'd like to try this preview feature.
+
+Please make sure there are 5 columns with names: time, open, close, high, low, e.g.
+
+```sql
+SELECT window_start, earliest(price) AS open, latest(price) AS close, 
+       max(price) AS high, min(price) AS low 
+FROM tumble(prices, 1s) GROUP BY window_start
+```
+
+
+
 ### Table
 
 Shows the data as a list table.

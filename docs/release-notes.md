@@ -15,7 +15,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
   * An unlimited number of columns are now supported in the column chart (previously retricted to recent 30 results).
   * The Pulsar sink is enhanced to support batch, to improve writing performance.
   * "External Streams" is now shown in the left-side navigation menu, where you can see all external streams and create a new one. 
-  * (Experimental) We've added the open-high-low-close (OHLC) chart type common in the finance industry, to visualize the movement of prices over time. Additional format settings include choosing a time range. Please contact us if you'd like to try this new chart type.
+  * (Preview) We've added the open-high-low-close ([OHLC](viz#ohlc-chart)) chart type common in the finance industry, to visualize the movement of prices over time. Additional format settings include choosing a time range. Please contact us if you'd like to try this new chart type.
 
 ## Nov 13, 2023
 
@@ -31,6 +31,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
   * When creating a source, if you choose Protobuf as the Read As data type, the Protobuf message and definition are now mandatory to proceed.
   * You can copy your workspace ID by clicking on your workspace name in the top header and hovering on the ID. This is useful if you need to speak to us for support about your workspace. 
     
+
 *Timeplus Platform:*
   * For on-prem deployment of Timeplus Platform, we now provide two observability options: using Timeplus or using Grafana/Loki.
 

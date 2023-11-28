@@ -2,7 +2,7 @@
 
 Substream is a not physical stream and only available at query time. 
 
-You can create substreams together with [tumble](functions_for_streaming#tumble)/[hop](functions_for_streaming#hop)/[session](functions_for_streaming#session) windows for a particular primary key, to maintain separate watermarks and streaming windows. 
+You can create substreams for a stream, or together with [tumble](functions_for_streaming#tumble)/[hop](functions_for_streaming#hop)/[session](functions_for_streaming#session) windows for a particular primary key, to maintain separate watermarks and streaming windows. 
 
 For example:
 
