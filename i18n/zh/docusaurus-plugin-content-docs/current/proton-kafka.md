@@ -114,6 +114,22 @@ The messages will be generated in the specific topic as
 }
 ```
 
+:::info
+
+Please note, since 1.3.25, by default multiple JSON documents will be inserted to the same Kafka message. One JSON document each row/line. Such default behavior aims to get the maximum writing performance to Kafka/Redpanda. But you need to make sure the downstream applications are able to properly split the JSON documents per Kafka message.
+
+If you need a valid JSON per each Kafka message, instead of a JSONL, please set one_message_per_row=true  e.g.
+
+```sql
+CREATE EXTERNAL STREAM target(_tp_time datetime64(3), url string, ip string) 
+SETTINGS type='kafka', brokers='redpanda:9092', topic='masked-fe-event',
+         data_format='JSONEachRow',one_message_per_row=true
+```
+
+The default value of one_message_per_row, if not specified, is false.
+
+:::
+
 ##### CSV
 
 You can use `data_format='CSV'`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. 例如：
