@@ -472,7 +472,7 @@ CREATE EXTERNAL STREAM ext_github_events(raw string)
 SETTINGS type='kafka', 
          brokers='localhost:9092',
          topic='github_events',
-         properties='client.id=my-client-id;group.id=my-group-id'
+         properties='message.max.bytes=1000000;message.timeout.ms=6000'
 ```
 
 Please note, not all properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.
