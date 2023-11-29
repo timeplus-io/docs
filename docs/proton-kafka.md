@@ -461,3 +461,37 @@ CREATE MATERIALIZED VIEW mv INTO target AS
     FROM frontend_events;
 ```
 
+## Properties for Kafka client {#properties}
+
+For more advanced use cases, you can specify customized properties while creating the external streams. Those properties will be passed to the underlying Kafka client, which is [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md). 
+
+For example:
+
+```sql
+CREATE EXTERNAL STREAM ext_github_events(raw string)
+SETTINGS type='kafka', 
+         brokers='localhost:9092',
+         topic='github_events',
+         properties='client.id=my-client-id;group.id=my-group-id'
+```
+
+Please note, not all properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.
+
+| key                                | default | description                                                  |
+| ---------------------------------- | ------- | ------------------------------------------------------------ |
+| enable.idempotence                 | true    | When set to `true`, the producer will ensure that messages are successfully produced exactly once and in the original produce order. |
+| message.timeout.ms                 | 0       | Local message timeout.                                       |
+| queue.buffering.max.messages       |         | Maximum number of messages allowed on the producer queue.    |
+| queue.buffering.max.kbytes         |         | Maximum total message size sum allowed on the producer queue. |
+| queue.buffering.max.ms             |         | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers. |
+| message.max.bytes                  |         | Maximum Kafka protocol request message size.                 |
+| message.send.max.retries           |         | How many times to retry sending a failing Message.           |
+| retries                            |         | Alias for `message.send.max.retries`: How many times to retry sending a failing Message. |
+| retry.backoff.ms                   |         | The backoff time in milliseconds before retrying a protocol reques |
+| retry.backoff.max.ms               |         | The max backoff time in milliseconds before retrying a protocol request, |
+| batch.num.messages                 |         | Maximum number of messages batched in one MessageSet.        |
+| batch.size                         |         | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead. |
+| compression.codec                  |         | Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration. |
+| compression.type                   |         | Alias for `compression.codec`: compression codec to use for compressing message sets. |
+| compression.level                  |         | Compression level parameter for algorithm selected by configuration property `compression.codec`. |
+| topic.metadata.refresh.interval.ms |         | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
