@@ -493,21 +493,21 @@ SETTINGS type='kafka',
 
 Please note, not all properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.
 
-| key                                | default | description                                                  |
-| ---------------------------------- | ------- | ------------------------------------------------------------ |
-| enable.idempotence                 | true    | When set to `true`, the producer will ensure that messages are successfully produced exactly once and in the original produce order. |
-| message.timeout.ms                 | 0       | Local message timeout.                                       |
-| queue.buffering.max.messages       |         | Maximum number of messages allowed on the producer queue.    |
-| queue.buffering.max.kbytes         |         | Maximum total message size sum allowed on the producer queue. |
-| queue.buffering.max.ms             |         | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers. |
-| message.max.bytes                  |         | Maximum Kafka protocol request message size.                 |
-| message.send.max.retries           |         | How many times to retry sending a failing Message.           |
-| retries                            |         | Alias for `message.send.max.retries`: How many times to retry sending a failing Message. |
-| retry.backoff.ms                   |         | The backoff time in milliseconds before retrying a protocol reques |
-| retry.backoff.max.ms               |         | The max backoff time in milliseconds before retrying a protocol request, |
-| batch.num.messages                 |         | Maximum number of messages batched in one MessageSet.        |
-| batch.size                         |         | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead. |
-| compression.codec                  |         | Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration. |
-| compression.type                   |         | Alias for `compression.codec`: compression codec to use for compressing message sets. |
-| compression.level                  |         | Compression level parameter for algorithm selected by configuration property `compression.codec`. |
-| topic.metadata.refresh.interval.ms |         | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
+| key                                | range                                  | default | description                                                  |
+| ---------------------------------- | -------------------------------------- | ------- | ------------------------------------------------------------ |
+| enable.idempotence                 | true, false                            | true    | When set to `true`, the producer will ensure that messages are successfully produced exactly once and in the original produce order. |
+| message.timeout.ms                 | 0 .. 2147483647                        | 0       | Local message timeout.                                       |
+| queue.buffering.max.messages       | 0 .. 2147483647                        |         | Maximum number of messages allowed on the producer queue.    |
+| queue.buffering.max.kbytes         | 1 .. 2147483647                        |         | Maximum total message size sum allowed on the producer queue. |
+| queue.buffering.max.ms             | 0 .. 900000                            |         | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers. |
+| message.max.bytes                  | 1000 .. 1000000000                     |         | Maximum Kafka protocol request message size.                 |
+| message.send.max.retries           | 0 .. 2147483647                        |         | How many times to retry sending a failing Message.           |
+| retries                            | 0 .. 2147483647                        |         | Alias for `message.send.max.retries`: How many times to retry sending a failing Message. |
+| retry.backoff.ms                   | 1 .. 300000                            |         | The backoff time in milliseconds before retrying a protocol reques |
+| retry.backoff.max.ms               | 1 .. 300000                            |         | The max backoff time in milliseconds before retrying a protocol request, |
+| batch.num.messages                 | 1 .. 1000000                           |         | Maximum number of messages batched in one MessageSet.        |
+| batch.size                         | 1 .. 2147483647                        |         | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead. |
+| compression.codec                  | none, gzip, snappy, lz4, zstd, inherit |         | Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration. |
+| compression.type                   | none, gzip, snappy, lz4, zstd          |         | Alias for `compression.codec`: compression codec to use for compressing message sets. |
+| compression.level                  | -1 .. 12                               |         | Compression level parameter for algorithm selected by configuration property `compression.codec`. |
+| topic.metadata.refresh.interval.ms | -1 .. 3600000                          |         | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
