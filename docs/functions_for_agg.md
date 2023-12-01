@@ -102,6 +102,10 @@ Read more on [Top-N Query Pattern](sql-pattern-topn) page.
 
 `group_array(<column_name>)` to combine the values of the specific column as an array. For example, if there are 3 rows and the values for these columns are "a","b","c". This function will generate a single row and single column with value `['a','b','c']`
 
+### group_uniq_array
+
+`group_uniq_array(<column_name>)` to combine the values of the specific column as an array, making sure only unique values in it. For example, if there are 3 rows and the values for these columns are "a","a","c". This function will generate a single row and single column with value `['a','c']`
+
 ### moving_sum
 
 `moving_sum(column)` returns an array with the moving sum of the specified column. For example, `select moving_sum(a) from(select 1 as a union select 2 as a union select 3 as a)` will return [1,3,6]
