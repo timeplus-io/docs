@@ -102,6 +102,10 @@
 
 `group_array(<column_name>)` 来合并特定列作为数组的值。 例如，如果有三行，并且这些列的值是“a”，“b”，“c”。 此函数将生成单行和单列，值 `['a','b','c']`
 
+### group_uniq_array
+
+`group_uniq_array(<column_name>)` to combine the values of the specific column as an array, making sure only unique values in it. For example, if there are 3 rows and the values for these columns are "a","a","c". This function will generate a single row and single column with value `['a','c']`
+
 ### moving_sum
 
 `moving_sum(column)` 返回一个数组与指定列的移动和和。 例如， `select moving_sum(a) from(select 1 as a union select 2 as a union select 3 as a)` 将返回[1,3,6]
