@@ -106,6 +106,31 @@ SELECT * FROM dedup(latest_to_earliest, id)
 
 🚫 历史查询
 
+### date_diff_within
+
+`date_diff_within(timegap,time1, time2)` 返回 true 或 false。  此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
+
+✅ 流查询
+
+🚫 历史查询
+
+### lag_behind
+
+`lag_behind(offset)` or `lag_behind(offset,<column1_name>, <column2_name>)` It is designed for `ASOF JOIN` , as a special case of [date_diff_within](#date_diff_within) but expects the time column in left stream is behind the time column in the right stream.
+
+If you don't specify the column names, then it will use the [_tp_time](eventtime) on the left stream and right stream to compare the timestamp difference.
+
+示例：
+
+```sql
+SELECT * FROM stream1 ASOF JOIN stream2 
+ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms)
+```
+
+✅ 流查询
+
+🚫 历史查询
+
 ### latest
 
 `latest(<column_name>)` 获取特定列的最新值，用于与群组的串流聚合。
@@ -143,10 +168,6 @@ SELECT * FROM dedup(latest_to_earliest, id)
 ✅ 流查询
 
 ✅ 历史查询
-
-### date_diff_within
-
-`date_diff_within(timegap,time1, time2)` 返回 true 或 false。  此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
 
 ### emit_version
 
