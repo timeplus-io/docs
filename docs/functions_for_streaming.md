@@ -107,6 +107,31 @@ Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earliest ev
 
 🚫 historical query
 
+### date_diff_within
+
+`date_diff_within(timegap,time1, time2)` returns true or false.  This function only works in [stream-to-stream join](query-syntax#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
+
+✅ streaming query
+
+🚫 historical query
+
+### lag_behind
+
+`lag_behind(offset)` or `lag_behind(offset,<column1_name>, <column2_name>)` It is designed for `ASOF JOIN` , as a special case of [date_diff_within](#date_diff_within) but expects the time column in left stream is behind the time column in the right stream.
+
+If you don't specify the column names, then it will use the [_tp_time](eventtime) on the left stream and right stream to compare the timestamp difference.
+
+Example:
+
+```sql
+SELECT * FROM stream1 ASOF JOIN stream2 
+ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms)
+```
+
+✅ streaming query
+
+🚫 historical query
+
 ### latest
 
 `latest(<column_name>)` gets the latest value for a specific column, working with streaming aggregation with group by.
@@ -144,10 +169,6 @@ It can be also used in streaming queries to show the latest datetime with millis
 ✅ streaming query
 
 ✅ historical query
-
-### date_diff_within
-
-`date_diff_within(timegap,time1, time2)` returns true or false.  This function only works in [stream-to-stream join](query-syntax#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
 
 ### emit_version
 
