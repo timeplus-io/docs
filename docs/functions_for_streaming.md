@@ -1,4 +1,4 @@
-# Streaming processing
+# Streaming Processing
 
 The following functions are supported in streaming query, but not all of them support historical query. Please check the tag like this.
 
