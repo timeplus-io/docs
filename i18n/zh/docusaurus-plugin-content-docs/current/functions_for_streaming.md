@@ -116,15 +116,13 @@ SELECT * FROM dedup(latest_to_earliest, id)
 
 ### lag_behind
 
-`lag_behind(offset)` or `lag_behind(offset,<column1_name>, <column2_name>)` It is designed for `ASOF JOIN` , as a special case of [date_diff_within](#date_diff_within) but expects the time column in left stream is behind the time column in the right stream.
-
-If you don't specify the column names, then it will use the [_tp_time](eventtime) on the left stream and right stream to compare the timestamp difference.
+`lag_behind(offset)` or `lag_behind(offset,<column1_name>, <column2_name>)` It is designed for streaming JOIN. If you don't specify the column names, then it will use the processing time on the left stream and right stream to compare the timestamp difference.
 
 示例：
 
 ```sql
 SELECT * FROM stream1 ASOF JOIN stream2 
-ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms)
+ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms, stream1.ts1, stream2.ts2)
 ```
 
 ✅ 流查询
@@ -133,7 +131,7 @@ ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms)
 
 ### latest
 
-`latest(<column_name>)` 获取特定列的最新值，用于与群组的串流聚合。
+`latest(<column_name>)` gets the latest value for a specific column, working with streaming aggregation with group by.
 
 ✅ 流查询
 
@@ -141,7 +139,7 @@ ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms)
 
 ### earliest
 
-`earliest(<column_name>)` 获得特定列的最早值，与分组的串流聚合一起工作。
+`earliest(<column_name>)` gets the earliest value for a specific column, working with streaming aggregation with group by.
 
 ✅ 流查询
 
@@ -151,9 +149,9 @@ ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms)
 
 `now()`
 
-显示当前日期时间，例如2022-01-28 05:08:16
+Show the current date time, such as 2022-01-28 05:08:16
 
-当now()用在流式SQL,无论是 `SELECT` 或 `WHERE` 或 `tumble/hop` 窗口, 他想反应运行时的时间。
+If the now() is used in a streaming query, no matter `SELECT` or `WHERE` or `tumble/hop` window, it will reflect the current time when the row is projected.
 
 ✅ 流查询
 
@@ -161,9 +159,9 @@ ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms)
 
 ### now64
 
-类似于 `now ()` 但有额外毫秒信息，例如2022-01-28 05:08:22.680
+Similar to `now()` but with extra millisecond information, such as 2022-01-28 05:08:22.680
 
-它也可以用于流查询以显示最新的日期时间和毫秒。
+It can be also used in streaming queries to show the latest datetime with milliseconds.
 
 ✅ 流查询
 
@@ -171,9 +169,9 @@ ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms)
 
 ### emit_version
 
-`emit_version()` 以显示流查询结果的每个发射的自动增加数字。 它只适用于流聚合，而不是尾部或过滤器。
+`emit_version()` to show an auto-increasing number for each emit of streaming query result. It only works with streaming aggregation, not tail or filter.
 
-例如，如果运行 `select emit_version(),count(*) from car_live_data` 查询将每2秒发布结果，而第一个结果将是emit_version=0。 emit_version=1的第二个结果。 当每个发射结果中有多行时，此函数特别有用。 例如，您可以运行一个tumble窗口聚集时加group by。 相同聚合窗口的所有结果将在相同的 emit_version。 然后您可以在同一聚合窗口中显示所有行的图表。
+For example, if you run `select emit_version(),count(*) from car_live_data` the query will emit results every 2 seconds and the first result will be with emit_version=0, the second result with emit_version=1. This function is particularly helpful when there are multiple rows in each emit result. For example, you can run a tumble window aggregation with a group by. All results from the same aggregation window will be in the same emit_version. You can then show a chart with all rows in the same aggregation window.
 
 ✅ 流查询
 
@@ -181,7 +179,7 @@ ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms)
 
 ### 变更日志
 
-`changelog（stream [，[key_col1 [，key_column，[..]]，version_column]，drop_late_rows]）` 用于将流（无论是仅限附加的流还是版本控制的流）转换为具有给定主键的变更日志流。
+`changelog(stream[, [key_col1[,key_col2,[..]],version_column], drop_late_rows])` to convert a stream (no matter append-only stream or versioned stream) to a changelog stream with given primary keys.
 
 * 如果数据源流是常规流，即仅附加流，则可以选择一个或多个列作为主键列。 `changelog(append_stream, key_col1)`  比如[car_live_data](usecases#car_live_data) 流包含 `cid` 列作为车辆 ID, `speed_kmh` 作为最新上报的时速。 运行下面的 SQL 来为每辆车创建一个更新日志流以跟踪速度变化 `select * from changelog(car_live_data,cid)` 。一个新列 `_tp_delta` 包含在流查询结果中。 `-1` 表示行已被重新编辑(移除)。 _tp_delta=1，使用新值。
 * 如果源流是 [版本流](versioned-stream)，因为在版本流中已经指定了主键和版本列， `changelog` 函数可以直接这样使用 `changelog(versioned_kv)`
