@@ -117,15 +117,13 @@ Otherwise, if you run queries with `dedup(table(my_stream),id)`  the earliest ev
 
 ### lag_behind
 
-`lag_behind(offset)` or `lag_behind(offset,<column1_name>, <column2_name>)` It is designed for `ASOF JOIN` , as a special case of [date_diff_within](#date_diff_within) but expects the time column in left stream is behind the time column in the right stream.
-
-If you don't specify the column names, then it will use the [_tp_time](eventtime) on the left stream and right stream to compare the timestamp difference.
+`lag_behind(offset)` or `lag_behind(offset,<column1_name>, <column2_name>)` It is designed for streaming JOIN. If you don't specify the column names, then it will use the processing time on the left stream and right stream to compare the timestamp difference.
 
 Example:
 
 ```sql
 SELECT * FROM stream1 ASOF JOIN stream2 
-ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms)
+ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms, stream1.ts1, stream2.ts2)
 ```
 
 ✅ streaming query
