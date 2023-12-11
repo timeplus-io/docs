@@ -5,17 +5,17 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 ## Dec 11, 2023
 
 *Proton:*
-  * (Preview Feature) New datasources: NATS and NATS JetStream. The configuration UI will be available soon in Timeplus Cloud. Contact us if you'd like to try this feature.
   * A new version (v0.6.0) of the [Proton JDBC driver](https://github.com/timeplus-io/proton-java-driver) is available: able to list tables and columns in DBeaver and Metabase.
   * A new version (v0.0.2) of the [Proton Metabase driver](https://github.com/timeplus-io/metabase-proton-driver) is available: able to list tables and columns.
   * New function: [lag_behind](functions_for_streaming#lag_behind), designed for streaming JOIN. If you don't specify the column names, the query will use the processing time on the left and right streams to compare the timestamp difference.
 
 *Timeplus Cloud:*
-  * New datasource: Connect Timeplus with WebSocket by entering the URL and data type (JSON or text). 
+  * New WebSocket datasource: Connect Timeplus with WebSocket by entering the URL and data type (JSON or text). 
   * Create external streams by directly entering SQL.
   * Upload CSV data to an existing stream.
   * In the Query page's Stream Catalog, you can search by stream, column, or both. 
-  * In dashboard charts, we now show the "Last Updated" time for all chart types, on mouseover. 
+  * In dashboard charts, we now show the "Last Updated" time for all chart types, on mouseover.
+  * (Preview Feature) Introducing new datasources: NATS and NATS JetStream. The configuration UI will be available soon in Timeplus Cloud. Contact us if you'd like to try this feature.
 
 ## Nov 27, 2023
 
