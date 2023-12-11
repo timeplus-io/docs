@@ -36,103 +36,113 @@ const sidebars = {
      },collapsed: false,items:[
        */
     'index',
-    
     {
       type: 'category',
-      label: 'Quickstart',
+      label: 'Timeplus Cloud',
       //collapsed: false,
       link: {
         type: 'doc',
-        id: 'quickstart'
-      },
-      items: [{
-        type: 'doc',
-        id: 'quickstart-confluent',
-        label: 'with Confluent Cloud'
-      }, {
-        type: 'doc',
-        id: 'quickstart-ingest-api',
-        label: 'with ingest API'
-      }]
-    },
-    {
-      type: 'category',
-      label: 'Why Timeplus?',
-      link: {
-        type: 'doc',
-        id: 'why-timeplus'
-      },
-      items: [{
-        type: 'doc',
-        id: 'showcases',
-      }]
-    },
-    {
-      type: 'category',
-      label: 'Concepts',
-      //collapsed: false,
-      link: {
-        type: 'generated-index',
+        id: 'timeplus-cloud'
       },
       items: [
         {
           type: 'category',
-          label: 'Stream',
+          label: 'Quickstart',
           //collapsed: false,
           link: {
             type: 'doc',
-            id: 'working-with-streams'
+            id: 'quickstart'
           },
-          items: ['changelog-stream', 'versioned-stream', 'external-stream','substream']
+          items: [{
+            type: 'doc',
+            id: 'quickstart-confluent',
+            label: 'with Confluent Cloud'
+          }, {
+            type: 'doc',
+            id: 'quickstart-ingest-api',
+            label: 'with ingest API'
+          }]
         },
-        'eventtime', 'stream-query', 'history', 'view', 'source', 'destination', 'alert']
+        'why-timeplus', 'showcases',
+        {
+          type: 'category',
+          label: 'Key Concepts',
+          //collapsed: false,
+          link: {
+            type: 'generated-index',
+          },
+          items: [
+            {
+              type: 'category',
+              label: 'Stream',
+              //collapsed: false,
+              link: {
+                type: 'doc',
+                id: 'working-with-streams'
+              },
+              items: ['changelog-stream', 'versioned-stream', 'external-stream', 'substream']
+            },
+            'eventtime', 'stream-query', 'history', 'view', 'source', 'destination', 'alert']
+        },
+        {
+          type: 'category',
+          label: 'Data Ingestion',
+          //collapsed: false,
+          link: {
+            type: 'doc',
+            id: 'ingestion'
+          },
+          items: ['kafka-source', 'confluent-cloud-source', 'kafka-connect', 'pulsar-source', 'ingest-api', 'automq-kafka-source', 'datapm']
+        },
+        {
+          type: 'category',
+          label: 'Query Guide',
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'query-guide'
+          },
+          items: ['datatypes', 'query-syntax',
+            { type: 'category', label: 'Functions', collapsed: true, link: { type: 'doc', id: 'functions' }, items: ['functions_for_type', 'functions_for_comp', 'functions_for_datetime', 'functions_for_url', 'functions_for_json', 'functions_for_text', 'functions_for_hash', 'functions_for_random', 'functions_for_agg', 'functions_for_logic', 'functions_for_math', 'functions_for_fin', 'functions_for_geo', 'functions_for_streaming'] },
+            { type: 'category', label: 'UDF', link: { type: 'doc', id: 'udf' }, items: ['remote-udf', 'js-udf'] },
+            'joins',
+            { type: 'category', label: 'Query Patterns', link: { type: 'doc', id: 'usecases' }, items: ['sql-pattern-topn'] },
+            'query-api']
+        }, 'viz',
+        {
+          type: 'category',
+          label: 'Manage',
+          link: {
+            type: 'generated-index',
+          },
+          items: ['apikey', 'terraform']
+        }, 'glossary', 'faq', 'issues']
     },
+    'timeplus-platform',
     {
       type: 'category',
-      label: 'Data Ingestion',
-      //collapsed: false,
-      link: {
-        type: 'doc',
-        id: 'ingestion'
-      },
-      items: ['kafka-source', 'confluent-cloud-source', 'kafka-connect', 'pulsar-source', 'ingest-api', 'automq-kafka-source','datapm']
-    },
-    {
-      type: 'category',
-      label: 'Query Guide',
-      collapsed: true,
-      link: {
-        type: 'doc',
-        id: 'query-guide'
-      },
-      items: ['datatypes', 'query-syntax', 
-              { type: 'category', label: 'Functions', collapsed: true, link: { type: 'doc', id: 'functions' }, items: ['functions_for_type', 'functions_for_comp', 'functions_for_datetime', 'functions_for_url', 'functions_for_json', 'functions_for_text', 'functions_for_hash','functions_for_random', 'functions_for_agg', 'functions_for_logic', 'functions_for_math', 'functions_for_fin', 'functions_for_geo', 'functions_for_streaming'] }, 
-              { type: 'category', label: 'UDF', link: { type: 'doc', id: 'udf' }, items: ['remote-udf', 'js-udf'] }, 
-              'joins',
-              { type: 'category', label: 'Query Patterns', link: { type: 'doc', id: 'usecases' }, items: ['sql-pattern-topn'] }, 
-              'query-api']
-    },
-    //'transformation',
-    'viz',
-    {
-      type: 'category',
-      label: 'Manage',
-      link: {
-        type: 'generated-index',
-      },
-      items: ['apikey','terraform']
-    },
-    {
-      type: 'category',
-      label: '⭐ Proton',
+      label: 'Open-Source Proton',
       link: {
         type: 'doc',
         id: 'proton'
       },
-      items: ['proton-architecture','proton-kafka','proton-faq','proton-create-stream','proton-alter-stream','proton-drop-stream','proton-create-view','proton-create-udf','proton-ingest-api','proton-ports']
+      items: ['proton-architecture',
+        {
+          type: 'category',
+          label: 'Query Guide',
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'query-guide'
+          },
+          items: ['datatypes', 'query-syntax',
+            { type: 'category', label: 'Functions', collapsed: true, link: { type: 'doc', id: 'functions' }, items: ['functions_for_type', 'functions_for_comp', 'functions_for_datetime', 'functions_for_url', 'functions_for_json', 'functions_for_text', 'functions_for_hash', 'functions_for_random', 'functions_for_agg', 'functions_for_logic', 'functions_for_math', 'functions_for_fin', 'functions_for_geo', 'functions_for_streaming'] },
+            { type: 'category', label: 'UDF', link: { type: 'doc', id: 'udf' }, items: ['remote-udf', 'js-udf'] },
+            'joins',
+            { type: 'category', label: 'Query Patterns', link: { type: 'doc', id: 'usecases' }, items: ['sql-pattern-topn'] }]
+        },
+        'proton-kafka', 'proton-create-stream', 'proton-alter-stream', 'proton-drop-stream', 'proton-create-view', 'proton-create-udf', 'proton-ingest-api', 'proton-ports', 'proton-faq',]
     },
-    'faq',
-    'issues',
     {
       type: 'category',
       label: 'Release Notes',
@@ -141,10 +151,9 @@ const sidebars = {
         type: 'doc',
         id: 'changelog'
       },
-      items: ['release-notes','public-beta-2', 'public-beta-1', 'private-beta-2', 'private-beta-1']
+      items: ['release-notes', 'public-beta-2', 'public-beta-1', 'private-beta-2', 'private-beta-1']
     },
     'getting-help',
-    'glossary',
     'credits',
     /*
    ],
