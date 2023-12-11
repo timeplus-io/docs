@@ -116,7 +116,18 @@ const sidebars = {
             type: 'generated-index',
           },
           items: ['apikey', 'terraform']
-        }, 'glossary', 'faq', 'issues']
+        }, 'glossary', 'faq', 'issues',
+        {
+          type: 'category',
+          label: 'Release Notes',
+          //collapsed: false,
+          link: {
+            type: 'doc',
+            id: 'changelog'
+          },
+          items: ['release-notes', 'public-beta-2', 'public-beta-1', 'private-beta-2', 'private-beta-1']
+        },
+      ]
     },
     'timeplus-platform',
     {
@@ -142,16 +153,6 @@ const sidebars = {
             { type: 'category', label: 'Query Patterns', link: { type: 'doc', id: 'usecases' }, items: ['sql-pattern-topn'] }]
         },
         'proton-kafka', 'proton-create-stream', 'proton-alter-stream', 'proton-drop-stream', 'proton-create-view', 'proton-create-udf', 'proton-ingest-api', 'proton-ports', 'proton-faq',]
-    },
-    {
-      type: 'category',
-      label: 'Release Notes',
-      //collapsed: false,
-      link: {
-        type: 'doc',
-        id: 'changelog'
-      },
-      items: ['release-notes', 'public-beta-2', 'public-beta-1', 'private-beta-2', 'private-beta-1']
     },
     'getting-help',
     'credits',
