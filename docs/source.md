@@ -62,9 +62,8 @@ refer to [https://docs.nats.io/nats-concepts/what-is-nats](https://docs.nats.io/
 | nak_delay   | no | An optional delay duration on redelivering a message when negatively acknowledged.  |  |
 | prefetch_count | no | The maximum number of messages to pull at a time.  | `524288` |
 | data_type      | yes| Specifies the data type to use for creating the stream.   support `json`,`text`,
-| tls.enabled             | no    | If set to `false`, disables TLS encryption               |`false`|
-| tls.skip_cert_verify    | no    | If set to `true`, skips server certificate verification when using TLS |`false`|
-
+| tls.disable               | no    | If set to `true`, disables TLS encryption               |`false`|
+| tls.skip_verify_server    | no    | If set to `true`, skips server certificate verification when using TLS |`false`|
 
 ### nats_jetstream
 
@@ -82,9 +81,8 @@ refer to [https://docs.nats.io/nats-concepts/jetstream](https://docs.nats.io/nat
 | ack_wait   | no | The maximum amount of time NATS server should wait for an ack from consumer.  | `30s` |
 | max_ack_pending   | no | The maximum number of outstanding acks to be allowed before consuming is halted.  | `1024` |
 | data_type      | yes| Specifies the data type to use for creating the stream.   support `json`,`text`,
-| tls.enabled             | no    | If set to `false`, disables TLS encryption               |`false`|
-| tls.skip_cert_verify    | no    | If set to `true`, skips server certificate verification when using TLS |`false`|
-
+| tls.disable               | no    | If set to `true`, disables TLS encryption               |`false`|
+| tls.skip_verify_server    | no    | If set to `true`, skips server certificate verification when using TLS |`false`|
 
 ### pulsar
 
