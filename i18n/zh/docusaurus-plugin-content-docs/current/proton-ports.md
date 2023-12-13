@@ -1,4 +1,4 @@
-# Proton Ports
+# Server Ports
 
 As a database, Proton serves on many ports for different purposes. Only few of them are exposed in sample Docker Compose files.
 
