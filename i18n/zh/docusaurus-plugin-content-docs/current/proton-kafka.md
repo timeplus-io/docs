@@ -70,7 +70,12 @@ Then use query time [JSON extraction functions](functions_for_json) or shortcut 
 
 #### Multiple columns to read from Kafka{#multi_col_read}
 
-If the keys in the JSON message never change, you can also create the external stream with multiple columns (only available to Proton v1.3.24+). You need to make sure all keys in the JSON are defined as columns, with proper data types. If there are more key/value pairs in the JSON message than what're defined in the external stream, the query won't show any result. We are enhancing this so that you can selectively define some key/value from the JSON messages in Kafka topic.
+If the keys in the JSON message never change, you can also create the external stream with multiple columns (only available to Proton v1.3.24+).
+
+You can either:
+
+* make sure **all** keys in the JSON are defined as columns, with proper data types. Otherwise, if there are more key/value pairs in the JSON message than what're defined in the external stream, the query won't show any result.
+* or only define some keys as columns and append this to your query: `SETTINGS input_format_skip_unknown_fields=true`
 
 示例：
 
