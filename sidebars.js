@@ -132,19 +132,28 @@ const sidebars = {
     'timeplus-platform',
     {
       type: 'category',
-      label: 'Open-Source Proton',
+      label: 'Proton',
       link: {
         type: 'doc',
         id: 'proton'
       },
-      items: ['proton-architecture',
+      items: ['proton-architecture', 'proton-create-stream',
+        {
+          type: 'category',
+          label: 'External Stream',
+          //collapsed: false,
+          link: {
+            type: 'generated-index',
+          },
+          items: ['proton-kafka', 'proton-log']
+        },
+        'proton-alter-stream', 'proton-drop-stream', 'proton-create-view', 'proton-create-udf',
         {
           type: 'category',
           label: 'Query Guide',
           collapsed: true,
           link: {
-            type: 'doc',
-            id: 'query-guide'
+            id: 'generated-index',
           },
           items: ['datatypes', 'query-syntax',
             { type: 'category', label: 'Functions', collapsed: true, link: { type: 'doc', id: 'functions' }, items: ['functions_for_type', 'functions_for_comp', 'functions_for_datetime', 'functions_for_url', 'functions_for_json', 'functions_for_text', 'functions_for_hash', 'functions_for_random', 'functions_for_agg', 'functions_for_logic', 'functions_for_math', 'functions_for_fin', 'functions_for_geo', 'functions_for_streaming'] },
@@ -152,7 +161,7 @@ const sidebars = {
             'joins',
             { type: 'category', label: 'Query Patterns', link: { type: 'doc', id: 'usecases' }, items: ['sql-pattern-topn'] }]
         },
-        'proton-kafka', 'proton-create-stream', 'proton-alter-stream', 'proton-drop-stream', 'proton-create-view', 'proton-create-udf', 'proton-ingest-api', 'proton-ports', 'proton-faq',]
+        'proton-ingest-api', 'proton-ports', 'proton-faq']
     },
     'getting-help',
     'credits',

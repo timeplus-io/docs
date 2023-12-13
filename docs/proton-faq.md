@@ -1,4 +1,4 @@
-# Proton FAQ
+# Frequently Asked Questions
 
 On September 21, 2023, Timeplus announced the open-source project: [Proton](https://github.com/timeplus-io/proton/). We're using this FAQ as the primary reference for learning about what Proton is, how we licensed the code open source, how you can use Proton today, and more.
 
