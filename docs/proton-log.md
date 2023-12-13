@@ -2,6 +2,12 @@
 
 You can use Proton as a lightweight and high-performance tool for log analysis. Please check [the blog](https://www.timeplus.com/post/log-stream-analysis) for more details.
 
+:::info
+
+Please note this feature is in Technical Preview. More settings to be added/tuned.
+
+:::
+
 ```sql
 CREATE EXTERNAL STREAM proton_log(
   raw string
