@@ -10,13 +10,20 @@ To create an external stream in Proton:
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
-SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..'
+SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanisms='..'
 ```
 
 The supported values for `security_protocol` are:
 
 * PLAINTEXT: when this option is omitted, this is also the default value.
-* SASL_SSL: when this value is set, username and password should be specified.
+* SASL_SSL: when this value is set, username and password should be specified. 
+
+The supported values for `sasl_mechanisms` are the followings. You can list multiple ones, such as " GSSAPI,PLAIN"
+
+* PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanisms.
+* SCRAM-SHA-256
+* SCRAM-SHA-512
+* GSSAPI
 
 ### Connect to local Kafka or Redpanda
 
@@ -39,8 +46,8 @@ SETTINGS type='kafka',
          brokers='pkc-1234.us-west-2.aws.confluent.cloud:9092',
          topic='github_events',
          security_protocol='SASL_SSL', 
-         username="..", 
-         password=".."
+         username='..', 
+         password='..'
 ```
 
 ### Define columns
