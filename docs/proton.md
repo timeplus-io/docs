@@ -1,6 +1,6 @@
 # Proton
 
-Proton is a unified streaming and historical data processing engine in a single binary. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus](https://timeplus.com) streaming analytics platform.
+Proton is a unified streaming and historical data analytics database in a single binary. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus](https://timeplus.com) streaming analytics platform.
 
 Proton extends the historical data, storage, and computing functionality of the popular [ClickHouse project](https://github.com/clickhouse/clickhouse) with streaming and OLAP data processing.
 
@@ -27,6 +27,50 @@ Plus built-in support for powerful streaming and analytical functionality:
 See our [architecture](proton-architecture) doc for technical details and the [FAQ](proton-faq) for more information on the various editions of Proton, how it's related to ClickHouse, and why we chose Apache License 2.0.
 
 ## Get started
+### Single Binary
+
+If you’re an Apache Kafka or Redpanda user, you can install Proton as a single binary via:
+
+```shell
+curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.sh | sh
+```
+
+This will install the Proton binary in the current folder, then you can start the server via `proton server start` and start a new terminal window with `proton client` to start the SQL shell.
+
+For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
+
+```shell
+brew tap timeplus-io/timeplus
+brew install proton
+```
+
+Next, create an external stream in Proton with SQL to consume data from your Kafka or Redpanda. Follow this [tutorial](proton-kafka#tutorial) for SQL snippets.
+
+### Docker Compose
+
+If you don’t want to setup Kafka or Redpanda, you can use [the docker-compose.yml file](https://github.com/timeplus-io/proton/blob/develop/examples/carsharing/docker-compose.yml). Download the file to a local folder. Make sure you have Docker Engine and Desktop installed. Use `docker compose up` to start the demonstration stack.
+
+Next, you can open the shell of the Proton container and run your first streaming SQL. To print out the new data being generated, you can run the following sample SQL:
+
+```sql
+select * from car_live_data
+```
+
+To get the total number of events in the historical store, you can run the following SQL:
+
+```sql
+select count() from table(car_live_data)
+```
+
+To show the number of event events, at certain intervals (2 seconds, by default), you can run: 
+
+```sql
+select count() from car_live_data
+```
+
+Congratulations! You have successfully installed Proton and run queries for both historical and streaming analytics.
+
+### Docker
 
 With [Docker engine](https://docs.docker.com/engine/install/) installed on your local machine, pull and run the latest version of the Proton Docker image.
 
