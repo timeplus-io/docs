@@ -5,17 +5,17 @@
 ## Dec 11, 2023
 
 *Proton：*
-  * A new version (v0.6.0) of the [Proton JDBC driver](https://github.com/timeplus-io/proton-java-driver) is available: able to list tables and columns in DBeaver and Metabase.
-  * A new version (v0.0.2) of the [Proton Metabase driver](https://github.com/timeplus-io/metabase-proton-driver) is available: able to list tables and columns.
-  * New function: [lag_behind](functions_for_streaming#lag_behind), designed for streaming JOIN. If you don't specify the column names, the query will use the processing time on the left and right streams to compare the timestamp difference.
+  * [Proton JDBC 驱动程序](https://github.com/timeplus-io/proton-java-driver) 的新版本 (v0.6.0) 已上线：能够列出 DBeaver 和 Metabase 中的表和列。
+  * [Proton Metabase驱动](https://github.com/timeplus-io/metabase-proton-driver) 的新版本 (v0.0.2) 已推出：能够列出表和列。
+  * 新增函数： [lag_behind](functions_for_streaming#lag_behind)，专为流 JOIN 而设计。 如果您未指定列名，则查询将使用左右流的处理时间来比较时间戳差异。
 
 *Timeplus Cloud:*
-  * New WebSocket datasource: Connect Timeplus with WebSocket by entering the URL and data type (JSON or text).
-  * Create external streams by directly entering SQL.
-  * Upload CSV data to an existing stream.
-  * In the Query page's Stream Catalog, you can search by stream, column, or both.
-  * In dashboard charts, we now show the "Last Updated" time for all chart types, on mouseover.
-  * (Preview Feature) Introducing new datasources: NATS and NATS JetStream. The configuration UI will be available soon in Timeplus Cloud. Contact us if you'd like to try this feature.
+  * 新的 WebSocket 数据源：通过输入 URL 和数据类型（JSON 或文本）将 Timeplus 与 WebSocket 连接。
+  * 直接输入 SQL 创建外部流。
+  * 将 CSV 数据上传到现有流。
+  * 在查询页面的流目录中，您可以通过流、列或两者进行搜索。
+  * 在仪表板图表中，我们现在在鼠标悬停时显示所有图表类型的 “上次更新” 时间。
+  * （预览功能）推出新的数据源：NATS 和 NATS JetStream。 配置用户界面将很快在 Timeplus Cloud 中推出。 如果您想试用此功能，请联系我们。
 
 ## Nov 27, 2023
 
