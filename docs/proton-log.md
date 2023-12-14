@@ -8,6 +8,10 @@ Please note this feature is in Technical Preview. More settings to be added/tune
 
 :::
 
+## Syntax
+
+Create an external stream with the log type to monitor log files, e.g.
+
 ```sql
 CREATE EXTERNAL STREAM proton_log(
   raw string
@@ -19,4 +23,13 @@ type='log',
    timestamp_regex='^(\d{4}\.\d{2}\.\d{2} \d{2}:\d{2}:\d{2}\.\d+)',
    row_delimiter='(\d{4}\.\d{2}\.\d{2} \d{2}:\d{2}:\d{2}\.\d+) \[ \d+ \] \{'
 ```
+
+The required settings:
+
+* log_files
+* log_dir
+* timestamp_regex
+* row_delimiter. Only 1 capturing group is expected in the regex.
+
+
 
