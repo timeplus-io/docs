@@ -54,37 +54,35 @@ refer to [https://developer.mozilla.org/en-US/docs/Web/API/WebSocket](https://de
 
 refer to [https://docs.nats.io/nats-concepts/what-is-nats](https://docs.nats.io/nats-concepts/what-is-nats)
 
-| 属性                     | 必填项 | 描述                                                                                 | 默认值      |
-| ---------------------- | --- | ---------------------------------------------------------------------------------- | -------- |
-| url                    | yes | A list of URLs to connect to. for example `[nats://127.0.0.1:4222]`                |          |
-| subject                | yes | A subject to consume from. Supports wildcards for consuming multiple subjects.     |          |
-| queue                  | no  | An optional queue group to consume as.                                             |          |
-| nak_delay              | no  | An optional delay duration on redelivering a message when negatively acknowledged. |          |
-| prefetch_count         | no  | The maximum number of messages to pull at a time.                                  | `524288` |
-| data_type              | yes | 指定用于创建流的数据类型。   support `json`,`text`,                                             |          |
-| tls.enabled            | no  | If set to `false`, disables TLS encryption                                         | `false`  |
-| tls.skip_cert_verify | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                                   | `false`  |
-
+| 属性                       | 必填项 | 描述                                                                                 | 默认值      |
+| ------------------------ | --- | ---------------------------------------------------------------------------------- | -------- |
+| url                      | yes | A list of URLs to connect to. for example `[nats://127.0.0.1:4222]`                |          |
+| subject                  | yes | A subject to consume from. Supports wildcards for consuming multiple subjects.     |          |
+| queue                    | no  | An optional queue group to consume as.                                             |          |
+| nak_delay                | no  | An optional delay duration on redelivering a message when negatively acknowledged. |          |
+| prefetch_count           | no  | The maximum number of messages to pull at a time.                                  | `524288` |
+| data_type                | yes | 指定用于创建流的数据类型。   support `json`,`text`,                                             |          |
+| tls.disable              | no  | 如果设置为`true`，则禁用 TLS 加密                                                             | `false`  |
+| tls.skip_verify_server | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                                   | `false`  |
 
 ### nats_jetstream
 
 refer to [https://docs.nats.io/nats-concepts/jetstream](https://docs.nats.io/nats-concepts/jetstream)
 
-| 属性                     | 必填项 | 描述                                                                                                     | 默认值     |
-| ---------------------- | --- | ------------------------------------------------------------------------------------------------------ | ------- |
-| url                    | yes | A list of URLs to connect to. for example `[nats://127.0.0.1:4222]`                                    |         |
-| subject                | yes | A subject to consume from. Supports wildcards for consuming multiple subjects.                         |         |
-| queue                  | no  | An optional queue group to consume as.                                                                 |         |
-| durable                | no  | Preserve the state of your consumer under a durable name.                                              |         |
-| 流 Stream               | no  | A stream to consume from. Either a subject or stream must be specified..                               |         |
-| deliver                | no  | Determines which messages to deliver when consuming without a durable subscriber. support `all` `last` | `all`   |
-| bind                   | no  | An bool indicates that the subscription should use an existing consumer.                               |         |
-| ack_wait               | no  | The maximum amount of time NATS server should wait for an ack from consumer.                           | `30s`   |
-| max_ack_pending      | no  | The maximum number of outstanding acks to be allowed before consuming is halted.                       | `1024`  |
-| data_type              | yes | 指定用于创建流的数据类型。   support `json`,`text`,                                                                 |         |
-| tls.enabled            | no  | If set to `false`, disables TLS encryption                                                             | `false` |
-| tls.skip_cert_verify | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                                                       | `false` |
-
+| 属性                       | 必填项 | 描述                                                                                                     | 默认值     |
+| ------------------------ | --- | ------------------------------------------------------------------------------------------------------ | ------- |
+| url                      | yes | A list of URLs to connect to. for example `[nats://127.0.0.1:4222]`                                    |         |
+| subject                  | yes | A subject to consume from. Supports wildcards for consuming multiple subjects.                         |         |
+| queue                    | no  | An optional queue group to consume as.                                                                 |         |
+| durable                  | no  | Preserve the state of your consumer under a durable name.                                              |         |
+| 流 Stream                 | no  | A stream to consume from. Either a subject or stream must be specified..                               |         |
+| deliver                  | no  | Determines which messages to deliver when consuming without a durable subscriber. support `all` `last` | `all`   |
+| bind                     | no  | An bool indicates that the subscription should use an existing consumer.                               |         |
+| ack_wait                 | no  | The maximum amount of time NATS server should wait for an ack from consumer.                           | `30s`   |
+| max_ack_pending        | no  | The maximum number of outstanding acks to be allowed before consuming is halted.                       | `1024`  |
+| data_type                | yes | 指定用于创建流的数据类型。   support `json`,`text`,                                                                 |         |
+| tls.disable              | no  | 如果设置为`true`，则禁用 TLS 加密                                                                                 | `false` |
+| tls.skip_verify_server | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                                                       | `false` |
 
 ### pulsar
 
