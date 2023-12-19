@@ -25,7 +25,7 @@ The supported values for `sasl_mechanisms` are the followings. You can list mult
 * SCRAM-SHA-512
 * GSSAPI
 
-### Connect to local Kafka or Redpanda
+### Connect to local Kafka or Redpanda {#connect-kafka}
 
 示例：
 
@@ -36,7 +36,7 @@ SETTINGS type='kafka',
          topic='github_events'
 ```
 
-### Connect to Confluent Cloud
+### Connect to Confluent Cloud{#connect-confluent}
 
 示例：
 
@@ -45,6 +45,20 @@ CREATE EXTERNAL STREAM ext_github_events(raw string)
 SETTINGS type='kafka', 
          brokers='pkc-1234.us-west-2.aws.confluent.cloud:9092',
          topic='github_events',
+         security_protocol='SASL_SSL', 
+         username='..', 
+         password='..'
+```
+
+### Connect to WarpStream Serverless Cloud{#connect-warp}
+
+示例：
+
+```sql
+CREATE EXTERNAL STREAM ext_stream(raw string)
+SETTINGS type='kafka', 
+         brokers='serverless.prod-z.us-east-1.warpstream.com:9092',
+         topic='topic',
          security_protocol='SASL_SSL', 
          username='..', 
          password='..'
