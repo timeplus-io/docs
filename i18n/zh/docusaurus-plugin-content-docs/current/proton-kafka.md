@@ -50,7 +50,9 @@ SETTINGS type='kafka',
          password='..'
 ```
 
-### Connect to WarpStream Serverless Cloud{#connect-warp}
+### Connect to WarpStream{#connect-warp}
+
+You can connect Proton with local deployment of WarpStream or WarpStream Serverless Cloud.
 
 示例：
 
