@@ -121,7 +121,7 @@ function magic_number(values){
 
 聚合函数为每组行返回一个值。 注册 UDF 时，请务必打开该选项以表明这是聚合函数。 与标量函数相比，生命周期要复杂一些。
 
-### 3 个必需的和 3 个可选的函数
+### 3 required and 3 optional functions {#udaf-lifecycle}
 
 比如我们希望获得一组数据中的第二个最大值。
 
@@ -136,7 +136,7 @@ function magic_number(values){
 
 
 
-### 示例：获取第二大数
+### Example: get second largest number {#udaf-example}
 
 此 JS UDAF 的完整源代码是
 
@@ -192,7 +192,7 @@ To register this function, steps are different in Timeplus Cloud and Proton:
 * With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 在 `float` 类型中添加一个参数，并将返回类型也设置为 `float` 。 Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。
 * With SQL in Proton Client: check the example at [here](proton-create-udf#create-aggregate-function).
 
-### Advanced Example for Complex Event Processing
+### Advanced Example for Complex Event Processing {#adv_udaf}
 
 User-Defined Aggregation Function can be used for Complex Event Processing (CEP). Here is an example to count the number of failed login attempts for the same user. If there are more than 5 failed logins, create an alert message. If there is a successful login, reset the counter. Assuming the stream name is `logins` , with timestamp, user, login_status_code, this SQL can continuously monitor the login attempts:
 
