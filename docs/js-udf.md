@@ -4,7 +4,7 @@ In addition to [Remote UDF](remote-udf), Timeplus also supports JavaScript-based
 
 :::info
 
-The JavaScript-based UDF can run in both Timeplus Cloud and the on-prem deployments. It runs "locally" in the database engine. It doesn't mean this feature is only available for local deployment.
+The JavaScript-based UDF can run in both Timeplus and Proton local deployments. It runs "locally" in the database engine. It doesn't mean this feature is only available for local deployment.
 
 :::
 
@@ -187,9 +187,88 @@ The full source code for this JS UDAF is
 };
 ```
 
-To register this function, choose JavaScript as UDF type, make sure to turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too.
+To register this function, steps are different in Timeplus Cloud and Proton:
 
-Please note, unlike JS scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
+* With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too. Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
+* With SQL in Proton Client: check the example at [here](proton-create-udf#create-aggregate-function).
+
+### Advanced Example for Complex Event Processing
+
+User-Defined Aggregation Function can be used for Complex Event Processing (CEP). Here is an example to count the number of failed login attempts for the same user. If there are more than 5 failed logins, create an alert message. If there is a successful login, reset the counter. Assuming the stream name is `logins` , with timestamp, user, login_status_code, this SQL can continuously monitor the login attempts:
+
+```sql
+SELECT window_start, user, login_fail_event(login_status_code) 
+FROM hop(logins, 1m, 1h) GROUP BY window_start, user
+```
+
+The UDAF is registered in this way:
+
+```sql
+CREATE AGGREGATE FUNCTION login_fail_event(msg string) 
+RETURNS string LANGUAGE JAVASCRIPT AS $$
+{
+  has_customized_emit: true,
+
+  initialize: function() {
+      this.failed = 0; //internal state, number of login failures
+      this.result = [];
+  },
+
+  process: function (events) {
+      for (let i = 0; i < events.length; i++) {
+          if (events[i]=="failed") {
+              this.failed = this.failed + 1;
+          }
+          else if (events[i]=="ok") {
+              this.failed = 0; //reset to 0 if there is login_ok before 5 login_fail
+          }
+
+          if (this.failed >= 5) {
+              this.result.push("alert"); //we can also attach a timestamp
+              this.failed = 0; //reset to 0 there are 5 login_fail
+          }
+      }
+      return this.result.length; //show the number of alerts for the users
+  },
+
+  finalize: function () {
+      var old_result = this.result;
+      this.initialize();
+      return old_result;
+  },
+
+  serialize: function() {
+      let s = {
+          'failed': this.failed
+      };
+      return JSON.stringify(s);
+  },
+
+  deserialize: function (state_str) {
+      let s = JSON.parse(state_str);
+      this.failed = s['failed'];
+  },
+
+  merge: function(state_str) {
+      let s = JSON.parse(state_str);
+      this.failed = this.failed + s['failed'];
+  }
+}
+$$;
+```
+
+There is an advanced setting `has_customized_emit`. When this is set to `true`:
+
+* `initialize()` is called to prepare a clean state for each function invocation.
+* Proton partitions the data according to `group by` keys and feeds the partitioned data to the JavaScript UDAF. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit.
+
+Caveats:
+
+1. One streaming SQL supports up to 1 UDAF with `has_customized_emit=true` 
+2. If there are 1 million unique key, there will be 1 million UDAF invocations and each of them handles its own partitioned data.
+3. If one key has aggregation results to emit, but other keys don't have, then Proton only emit results for that key.
+
+This is an advanced feature. Please contact us or discuss your use case in [Community Slack](https://timeplus.com/slack) with us.
 
 
 
