@@ -121,7 +121,7 @@ In this case, the function will return `42` no matter what parameter is specifie
 
 An aggregate function returns one value per group of rows. When you register the UDF, make sure you turn on the option to indicate this is an aggregation function. Compared to scalar functions, the life cycle is a bit more complex.
 
-### 3 required and 3 optional functions
+### 3 required and 3 optional functions {#udaf-lifecycle}
 
 Let's take an example of a function to get the second maximum values from the group.
 
@@ -136,7 +136,7 @@ Let's take an example of a function to get the second maximum values from the gr
 
 
 
-### Example: get second largest number
+### Example: get second largest number {#udaf-example}
 
 The full source code for this JS UDAF is
 
@@ -192,7 +192,7 @@ To register this function, steps are different in Timeplus Cloud and Proton:
 * With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too. Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
 * With SQL in Proton Client: check the example at [here](proton-create-udf#create-aggregate-function).
 
-### Advanced Example for Complex Event Processing
+### Advanced Example for Complex Event Processing {#adv_udaf}
 
 User-Defined Aggregation Function can be used for Complex Event Processing (CEP). Here is an example to count the number of failed login attempts for the same user. If there are more than 5 failed logins, create an alert message. If there is a successful login, reset the counter. Assuming the stream name is `logins` , with timestamp, user, login_status_code, this SQL can continuously monitor the login attempts:
 
