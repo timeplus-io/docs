@@ -19,6 +19,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
   * The chart type selector is now a dropdown, with hints for required columns when a type is disabled.
   * In the Query page's Stream Catalog, you can search by either stream or column.
   * In chart format settings, single color palettes are expanded to include 10 shades of a color (previously 3).
+  * Tooltips are available on mouseover for charts in fullscreen mode. 
 
 ## Dec 11, 2023
 
