@@ -127,7 +127,7 @@ By default, Proton tries to generate as many data as possible. If you want to (r
 CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=10
 ```
 
-You can further customize the rate of data generation via the `interval_time` setting. For example, you want to generate 1000 events each second, but don't want all 1000 events are generated at once, you can use the following sample SQL to generate events every 200 ms. Default interval is 100ms.
+You can further customize the rate of data generation via the `interval_time` setting. For example, you want to generate 1000 events each second, but don't want all 1000 events are generated at once, you can use the following sample SQL to generate events every 200 ms. The default interval is 5ms (in Proton 1.3.27 or the earlier versions, the default value is 100ms)
 
 ```sql
 CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=1000, interval_time=200
