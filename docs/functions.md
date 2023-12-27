@@ -1,10 +1,10 @@
 # Functions
 
-Timeplus supports ANSI-SQL standard syntax. The following functions are provided for various use cases. Please contact us if you need more functions.
+Timeplus Proton supports ANSI-SQL standard syntax. The following functions are provided for various use cases. Most of the [functions in ClickHouse](https://clickhouse.com/docs/en/sql-reference/functions) are available in Proton, with different naming conventions (for example [array_join](functions_for_comp#array_join) instead of [arrayJoin](https://clickhouse.com/docs/en/sql-reference/functions/array-join)). [New functions are added](functions_for_streaming) for streaming processing. Please contact us if you need more functions.
 
 :::info
 
-Please note, functions in Timeplus are case-sensitive and always in lower-case. For example, you can run `SELECT count(*) FROM car_live_data` but not `SELECT COUNT(*) FROM car_live_data` Keywords such as `SELECT` or `FROM` are case-insensitive.
+Please note, in Proton 1.3.27 or the earlier versions, SQL functions were case-sensitive and always in lower-case. Since 1.3.28, function names are case-insensitive. For example `count`, `COUNT` and `Count` work in the same way. SQL Keywords such as `SELECT` or `FROM` are case-insensitive too. In the rest of the documentation, we use function names in lower case for demonstration. 
 
 :::
 
