@@ -2,6 +2,25 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
 
+## Dec 27, 2023
+
+*Proton:*
+  * Check out new examples in the [proton/examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder: [CDC](https://github.com/timeplus-io/proton/tree/develop/examples/cdc), [awesome-sensor-logger](https://github.com/timeplus-io/proton/tree/develop/examples/awesome-sensor-logger), and [fraud detection](https://github.com/timeplus-io/proton/tree/develop/examples/fraud_detection)
+  * (v1.3.29) Introduced new SQL commands for managing format schemas (for now, only Protobuf schemas are supported).
+  * (v1.3.28) For `create random stream`, the default interval_time is now 5 milliseconds, instead of 100 milliseconds. This new default value will generate random data more evenly.
+  * (v1.3.28) Function names are no longer case sensitive. You can use count(), COUNT(), or Count(). This improves the compatibility for Proton with 3rd party tools if they generate SQL statements in uppercase.
+  * (v1.3.27) Random stream supports ipv4 and ipv6 data type.
+  * [Proton Metabase Driver (v0.0.3)](https://github.com/timeplus-io/metabase-proton-driver) is released to improve compatibility for Proton with case insensitive SQL functions.
+  * The [Grafana plugin for Proton](https://grafana.com/grafana/plugins/timeplus-proton-datasource) has been enhanced and published on Grafana Catalog. You can install it via admin pages without downloading the file manually. Please make sure both 8463 and 3218 ports from Proton are accessible from Grafana, since the new version will call Proton query analyzer API (on 3218) to determine whether it is a streaming query or not, then render results differently. With this plugin, you can build charts and dashboards with data in Proton, as well as other data sources configured in your Grafana. Give it a try and let us know what you think!
+
+*Timeplus Cloud:*
+  * New Core NATS/JetStream datasource is now available. We welcome any feedback!
+  * WebSocket source now supports multiple open messages. 
+  * The chart type selector is now a dropdown, with hints for required columns when a type is disabled.
+  * In the Query page's Stream Catalog, you can search by either stream or column.
+  * In chart format settings, single color palettes are expanded to include 10 shades of a color (previously 3).
+  * Tooltips are available on mouseover for charts in fullscreen mode. 
+
 ## Dec 11, 2023
 
 *Proton:*
