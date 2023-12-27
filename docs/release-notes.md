@@ -2,6 +2,20 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
 
+## Dec 27, 2023
+
+*Proton:*
+  * Read metrics of external streams are now exposed to the current Prometheus endpoint.
+  * Introduced new SQL commands for managing format schemas (for now, only Protobuf schemas are supported).
+  * Proton sink implemented for generator.
+  * Function names are now case sensitive.
+
+*Timeplus Cloud:*
+  * New Core NATS/JetStream datasource is now available.
+  * Updated chart type selector as a dropdown, with hints for required columns when a type is disabled.
+  * In Dashboards, we will now remove the variable value after you delete its dropdown or input.
+  * In the Query page's Stream Catalog, you can search by either stream or column.  
+
 ## Dec 11, 2023
 
 *Proton:*
