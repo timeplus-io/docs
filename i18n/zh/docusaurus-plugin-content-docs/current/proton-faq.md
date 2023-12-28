@@ -41,7 +41,7 @@ Proton powers unified streaming and data processing on a single database node. I
 |                               | **Proton**                | **Timeplus**              |
 | ----------------------------- | ------------------------- | ------------------------- |
 | **Deployment**                | <ul><li>Single-node Docker image</li><li>Single binary on Mac/Linux</li></ul> | <ul><li>Single node</li><li>Cluster</li><li>Kubernetes-based “bring your own cloud” (BYOC)</li><li>Fully-managed cloud service with SOC2</li></ul> |
-| **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li><li>Streaming ingestion via REST API</li></ul> | <ul><li>Everything in Proton</li><li>Apache Pulsar</li><li>Ably</li><li>CSV upload</li><li>Streaming ingestion via REST API</li></ul> |
+| **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li><li>[Streaming ingestion via REST API (compact mode only)](proton-ingest-api)</li></ul> | <ul><li>Everything in Proton</li><li>Apache Pulsar</li><li>Ably</li><li>CSV upload</li><li>[Streaming ingestion via REST API (with API key and flexible modes)](ingest-api)</li></ul> |
 | **Data destinations (sinks)** | <ul><li>External streams to Apache Kafka, Confluent Cloud, Redpand</li></ul> | <ul><li>Everything in Proton</li><li>Apache Pulsar</li><li>Slack</li><li>Webhook</li><li>Timeplus stream</li></ul> |
 | **Support**                   | <ul><li>Community support from GitHub and Slack</li></ul> | <ul><li>Enterprise support via email, Slack, and Zoom, with a SLA</li></ul> |
 
@@ -95,11 +95,11 @@ See our [privacy policy](https://www.timeplus.com/privacy-policy) for complete d
 
 ## Does Proton provide a JDBC/ODBC driver?
 
-JDBC driver is available at https://github.com/timeplus-io/proton-java-driver, and the ODBC driver is being tested internally and will be published soon.
+JDBC driver is available at https://github.com/timeplus-io/proton-java-driver, and the ODBC driver is available at https://github.com/timeplus-io/proton-odbc.
 
 In the meanwhile, you can send the processed data to Kafka topics via External Stream, use the [proton-go-driver](https://github.com/timeplus-io/proton-go-driver), or [benthos](https://www.benthos.dev/) to send the data to other systems.
 
-If you are on Timeplus Cloud, you can use the REST API or SDK to run queries or manage resources in Timeplus, via the API server, which is not part of Proton.
+If you are on Timeplus Cloud, you can use the REST API or [SDK](https://github.com/timeplus-io/gluon) to run queries or manage resources in Timeplus, via the API server, which is not part of Proton.
 
 ## Can I contribute to Proton?
 
@@ -114,7 +114,7 @@ We're currently building out resources where you can learn about Proton's archit
 - [GitHub](https://github.com/timeplus-io/proton/)
 - [Documentation](https://docs.timeplus.com/proton)
 - [High-level architecture](https://docs.timeplus.com/proton-architecture)
-- [Wiki](https://github.com/timeplus-io/proton/wiki/Contributing)
+- [Wiki](https://github.com/timeplus-io/proton/wiki)
 
 We also discuss our journey to releasing Proton in open source in our [announcement post](https://www.timeplus.com/post/timeplus-journey-to-open-source).
 
