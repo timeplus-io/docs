@@ -112,6 +112,12 @@ SETTINGS type='kafka',
 
 If there are nested complex JSON in the message, you can define the column as a string type.
 
+:::info
+
+Since Proton v1.3.29, Protobuf messages can be read with all or partial columns. Please check [this page](proton-format-schema). 
+
+:::
+
 #### Multiple columns to write to Kafka{#multi_col_write}
 
 To write data via Kafka API (only available to Proton v1.3.18+), you can choose different data formats:
@@ -180,7 +186,9 @@ The messages will be generated in the specific topic as
 "2023-10-29 05:35:54.176","https://www.nationalwhiteboard.info/sticky/recontextualize/robust/incentivize","PUT","3eaf6372e909e033fcfc2d6a3bc04ace"
 ```
 
+##### ProtobufSingle
 
+Please check [this page](proton-format-schema).
 
 ## DROP EXTERNAL STREAM
 
