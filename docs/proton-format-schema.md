@@ -154,7 +154,16 @@ message StockRecord {
 }
 ```
 
-You can use the array type in Proton, e.g.
+If there is only 1 package in the Protobuf definition type, you don't have to include the package name. For example:
+
+```sql
+CREATE EXTERNAL STREAM ..(
+  ..
+) 
+SETTINGS .. format_schema="schema_name:StockRecord"
+```
+
+If there are multiple packages, you can use the fully qualified name with package, e.g.
 
 ```sql
 CREATE EXTERNAL STREAM ..(
