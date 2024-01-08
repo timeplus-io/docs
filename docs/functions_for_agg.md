@@ -117,3 +117,18 @@ Read more on [Top-N Query Pattern](sql-pattern-topn) page.
 ### last_value
 
 `last_value(column)` Selects the last encountered value.
+
+
+
+### stochastic_linear_regression_state
+
+`stochastic_linear_regression_state(num, target, param1, param2)`
+
+This function implements stochastic linear regression. It supports custom parameters for learning rate, L2 regularization coefficient, mini-batch size and has few methods for updating weights ([Adam](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam) (used by default), [simple SGD](https://en.wikipedia.org/wiki/Stochastic_gradient_descent), [Momentum](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum), [Nesterov](https://mipt.ru/upload/medialibrary/d7e/41-91.pdf)). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlinearregression).
+
+### stochastic_logistic_regression
+
+`stochastic_logistic_regression(num, num, num, string)`
+
+This function implements stochastic logistic regression. It can be used for binary classification problem, supports the same custom parameters as stochasticLinearRegression and works the same way. Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression).
+

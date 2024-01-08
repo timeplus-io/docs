@@ -39,8 +39,7 @@ To query the data in the external systems, run the streaming SQL in the similar 
 
 There are some limitations for the Kafka-based external streams, because Timeplus doesn’t control the storage or the data format for the external stream.
 
-1. Authentication is either None or SASL Plain. SASL Scram 256 or 512 is not supported yet.
-2. Data format in JSON or TEXT format. AVRO or schema registry service is not supported yet. The entire message will be put in a `raw` string column.
-3. Since the raw data is not stored in Timeplus, we cannot attach event time or index time for each event at ingestion time. You can specify the event time with an expression in the query, such as `tumble(ext_stream,to_time(raw:order_time),1m)`
-4. Unlike normal streams, there is no historical storage for the external streams. Hence you cannot run `table(my_ext_stream)`or `settings query_mode='table'` To access data even before you create the external stream, you can use `WHERE _tp_time >'2023-01-15'` to travel to a specific timestamp in the past.
-5. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Kafka/Confluent/Redpanda. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
+1. Data format in JSON, TEXT, or Protobuf format. AVRO or schema registry service is not supported yet. The entire message will be put in a `raw` string column.
+2. `_tp_time` is available in the external streams (since Proton 1.3.30). `_tp_append_time` is set only when message timestamp is an append time.
+3. Unlike normal streams, there is no historical storage for the external streams. Hence you cannot run `table(my_ext_stream)`or `settings query_mode='table'` To access data even before you create the external stream, you can use `WHERE _tp_time >'2023-01-15'` to travel to a specific timestamp in the past.
+4. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Kafka/Confluent/Redpanda. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
