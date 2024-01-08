@@ -12,6 +12,7 @@ const config = {
   url: 'https://docs.timeplus.com/',
   baseUrl: '/',
   onBrokenLinks: 'warn', // SHOULD BE throw
+  onBrokenAnchors: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'timeplus-io', // Usually your GitHub org/user name.
