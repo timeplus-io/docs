@@ -2,6 +2,17 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
 
+## Jan 8, 2023
+
+*Proton:*
+  * We've added a new example in the [proton/examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder for [Coinbase](https://github.com/timeplus-io/proton/tree/develop/examples/coinbase).
+  * (v1.3.30) Kafka external streams now support SCRAM-SHA-256/512.
+
+*Timeplus Cloud:*
+  * In dashboard charts, you can now switch the chart into a table view.
+  * Also in dashboard charts: additional options in View and Edit modes, such as Go Fullscreen, are shown in a dropdown. The chart size selector in Edit mode show an example of the size. 
+  * When creating a stream, the streaming data retention dropdown is no longer shown. By default, this is set to 1 day. 
+
 ## Dec 27, 2023
 
 *Proton:*
