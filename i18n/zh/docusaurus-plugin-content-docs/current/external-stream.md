@@ -39,8 +39,7 @@
 
 基于 Kafka 的外部流有一些限制，因为 TimePlus 不控制外部流的储存或数据格式。
 
-1. 身份验证不是无，也不是 SASL Plain。 暂不支持 SASL Scram 256 或 512 。
-2. 使用 JSON 或 TEXT 格式的数据格式。 尚不支持 AVRO 或架构注册服务。 整个消息将放入 `原始的` 字符串列。
-3. 由于原始数据没有保存在 Timeplus 中，我们不能为每个事件在摄取时间附加事件时间或索引时间。 您可以在查询中指定表达式的事件时间，例如 `tumble(ext_stream,to_time(raw:order_time),1m)`。
-4. 与正常流不同的是，外部流没有历史存储。 因此您不能运行 `table(my_ext_stream)` 或 `settings query_mode='table'` 来查询历史数据。为了查询在您创建外部流之前的数据，您可以使用 `WHERE _tp_time >'2023-01-15'` 来查询留在 Kafka 上的过去的数据。
-5. 在 Timeplus 中没有关于外部流的保留政策。 您需要在 Kafka/Confluent/Redpanda 配置保留政策。 如果外部系统不再提供数据，则不能在 Timeplus 搜索。
+1. Data format in JSON, TEXT, or Protobuf format. 尚不支持 AVRO 或架构注册服务。 整个消息将放入 `原始的` 字符串列。
+2. `_tp_time` is available in the external streams (since Proton 1.3.30). `_tp_append_time` is set only when message timestamp is an append time.
+3. 与正常流不同的是，外部流没有历史存储。 因此您不能运行 `table(my_ext_stream)` 或 `settings query_mode='table'` 来查询历史数据。为了查询在您创建外部流之前的数据，您可以使用 `WHERE _tp_time >'2023-01-15'` 来查询留在 Kafka 上的过去的数据。
+4. 在 Timeplus 中没有关于外部流的保留政策。 您需要在 Kafka/Confluent/Redpanda 配置保留政策。 如果外部系统不再提供数据，则不能在 Timeplus 搜索。
