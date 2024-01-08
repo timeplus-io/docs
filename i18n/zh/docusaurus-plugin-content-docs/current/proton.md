@@ -1,8 +1,8 @@
 # Proton
 
-Proton is a unified streaming and historical data analytics database in a single binary. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus](https://timeplus.com) streaming analytics platform.
+Proton is a unified streaming SQL processing engine which can connect to historical data processing in one single binary. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus](https://timeplus.com) streaming analytics platform.
 
-Proton extends the historical data, storage, and computing functionality of the popular [ClickHouse project](https://github.com/clickhouse/clickhouse) with streaming and OLAP data processing.
+Proton extends the historical data, storage, and computing functionality of the popular [ClickHouse project](https://github.com/clickhouse/clickhouse) with streaming data processing.
 
 Why use Proton?
 
@@ -27,7 +27,7 @@ Plus built-in support for powerful streaming and analytical functionality:
 See our [architecture](proton-architecture) doc for technical details and the [FAQ](proton-faq) for more information on the various editions of Proton, how it's related to ClickHouse, and why we chose Apache License 2.0.
 
 ## Get started
-### Single Binary
+### Option 1: Single Binary
 
 If you’re an Apache Kafka or Redpanda user, you can install Proton as a single binary via:
 
@@ -46,7 +46,7 @@ brew install proton
 
 Next, create an external stream in Proton with SQL to consume data from your Kafka or Redpanda. Follow this [tutorial](proton-kafka#tutorial) for SQL snippets.
 
-### Docker Compose
+### Option 2: Docker Compose
 
 If you don’t want to setup Kafka or Redpanda, you can use [the docker-compose.yml file](https://github.com/timeplus-io/proton/blob/develop/examples/carsharing/docker-compose.yml). Download the file to a local folder. Make sure you have Docker Engine and Desktop installed. Use `docker compose up` to start the demonstration stack.
 
@@ -70,7 +70,7 @@ select count() from car_live_data
 
 Congratulations! You have successfully installed Proton and run queries for both historical and streaming analytics.
 
-### Docker
+### Option 3: Docker Container
 
 With [Docker engine](https://docs.docker.com/engine/install/) installed on your local machine, pull and run the latest version of the Proton Docker image.
 
