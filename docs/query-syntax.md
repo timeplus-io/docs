@@ -18,11 +18,18 @@ Overall, a streaming query in Timeplus establishes a long HTTP/TCP connection to
 
 Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors, listed below:
 
-1. `enable_backfill_from_historical_store=0|1`. By default, if it's omitted, it's `1`
+1. `enable_backfill_from_historical_store=0|1`. By default, if it's omitted, it's `1`.
    * When it's 0, the query engine either loads data from streaming storage, or from historical storage.
    * When it's 1, the query engine evaluates whether it's necessary to load data from historical storage(such as the time range is outside of the streaming storage), or it'll be more efficient to get data from historical storage(for example, count/min/max is pre-computed in historical storage, faster than scanning data in streaming storage).
-2. `query_mode=<table|streaming>`. By default, if it's omitted, it's `streaming`. A general setting which decides if the overall query is streaming data processing or historical data processing. This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical.
-3. `seek_to=<timestamp|earliest|latest>`. By default, if it's omitted, it's `latest`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. It can be a relative timestamp or an absolute timestamp. By default, it is `latest`, which tells Timeplus to not seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'` 
+2. `force_backfill_in_order=0|1`. By default, if it's omitted, it's `0`.
+   1. When it's 0, the data from the historical storage are turned without extra sorting. This would improve the performance.
+   2. When it's 1, the data from the historical storage are turned with extra sorting. This would decrease the performance. So turn on this flag carefully. 
+
+3. `emit_aggregated_during_backfill=0|1`. By default, if it's omitted, it's `0`.
+   1. When it's 0, the query engine won't emit intermediate aggregation results during the historical data backfill.
+   2. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. As long as there are aggregation functions and time window functions(e.g. tumble/hop/session) in the streaming SQL, when the `emit_aggregated_during_backfill` is on, `force_backfill_in_order` will be applied to 1 automatically. 
+4. `query_mode=<table|streaming>`. By default, if it's omitted, it's `streaming`. A general setting which decides if the overall query is streaming data processing or historical data processing. This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical.
+5. `seek_to=<timestamp|earliest|latest>`. By default, if it's omitted, it's `latest`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. It can be a relative timestamp or an absolute timestamp. By default, it is `latest`, which tells Timeplus to not seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'` 
 
 :::info
 

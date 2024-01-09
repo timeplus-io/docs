@@ -2,7 +2,7 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
 
-## Jan 8, 2023
+## Jan 8, 2024
 
 *Proton:*
   * We've added a new example in the [proton/examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder for [Coinbase](https://github.com/timeplus-io/proton/tree/develop/examples/coinbase).
