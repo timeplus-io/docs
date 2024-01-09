@@ -20,7 +20,7 @@ The supported values for `security_protocol` are:
 
 The supported values for `sasl_mechanism` are:
 
-* PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanisms.
+* PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
 * SCRAM-SHA-256
 * SCRAM-SHA-512
 
@@ -99,6 +99,20 @@ SETTINGS type='kafka',
 ```
 
 Then use query time [JSON extraction functions](functions_for_json) or shortcut to access the values, e.g. `raw:id`.
+
+#### Write to Kafka in Plain Text {#single_col_write}
+
+You can write plain text messages to Kafka topics with an external stream with a single column.
+
+```sql
+CREATE EXTERNAL STREAM ext_github_events
+         (raw string)
+SETTINGS type='kafka', 
+         brokers='localhost:9092',
+         topic='github_events'
+```
+
+Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted.
 
 #### Multiple columns to read from Kafka{#multi_col_read}
 
@@ -205,6 +219,30 @@ The messages will be generated in the specific topic as
 ##### ProtobufSingle
 
 Please check [this page](proton-format-schema).
+
+
+
+### Read/Write Kafka Message Key {#messagekey}
+
+As an advanced feature, since Proton v1.3.31, you can read or write the message key for Kafka messages. This is done by adding a new external stream setting `message_key` which is an expression that returns a string value, the values return by the expression will be used as the message key for each row.
+
+Examples:
+
+```sql
+-- use a column
+CREATE EXTERNAL STREAM example_one (
+  one string,
+  two int32
+) SETTINGS type='kafka',...,message_key='one';
+
+-- use a complex expression
+CREATE EXTERNAL STREAM example_two (
+  one string,
+  two int32
+) SETTINGS type='kafka',...,message_key='split_by_string(\',\', one)[1]';
+```
+
+`message_key` can be used together with `sharding_expr`(which specify the target partition number in the Kafka topic), and `sharding_expr` will take higher priority.
 
 ## DROP EXTERNAL STREAM
 
