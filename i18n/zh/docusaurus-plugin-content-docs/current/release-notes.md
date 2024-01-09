@@ -2,7 +2,7 @@
 
 本页总结了Timeplus中每个重要更新内容，包括新功能和重要的错误修复。
 
-## Jan 8, 2023
+## Jan 8, 2024
 
 *Proton：*
   * We've added a new example in the [proton/examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder for [Coinbase](https://github.com/timeplus-io/proton/tree/develop/examples/coinbase).
