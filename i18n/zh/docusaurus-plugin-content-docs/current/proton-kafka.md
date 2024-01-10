@@ -82,6 +82,8 @@ SETTINGS type='kafka',
          password='..'
 ```
 
+More detailed instructions are available on [Upstash Docs](https://upstash.com/docs/kafka/integrations/proton).
+
 ### Define columns
 
 #### Single column to read from Kafka {#single_col_read}
