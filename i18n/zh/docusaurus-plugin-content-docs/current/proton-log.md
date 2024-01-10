@@ -26,7 +26,7 @@ type='log',
 
 The required settings:
 
-- log\_files
-- log\_dir
-- timestamp\_regex
-- row\_delimiter. Only 1 capturing group is expected in the regex.
+- log_files
+- log_dir
+- timestamp_regex
+- row_delimiter. Only 1 capturing group is expected in the regex.
