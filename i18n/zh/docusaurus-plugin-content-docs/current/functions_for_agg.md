@@ -102,7 +102,33 @@
 
 `group_array(<column_name>)` 来合并特定列作为数组的值。 例如，如果有三行，并且这些列的值是“a”，“b”，“c”。 此函数将生成单行和单列，值 `['a','b','c']`
 
+### group_uniq_array
+
+`group_uniq_array(<column_name>)` to combine the values of the specific column as an array, making sure only unique values in it. For example, if there are 3 rows and the values for these columns are "a","a","c". This function will generate a single row and single column with value `['a','c']`
+
 ### moving_sum
 
 `moving_sum(column)` 返回一个数组与指定列的移动和和。 例如， `select moving_sum(a) from(select 1 as a union select 2 as a union select 3 as a)` 将返回[1,3,6]
+
+### any
+
+`any(column)` Selects the first encountered (non-NULL) value, unless all rows have NULL values in that column. The query can be executed in any order and even in a different order each time, so the result of this function is indeterminate. To get a determinate result, you can use the `min` or `max` function instead of `any`.
+
+### last_value
+
+`last_value(column)` Selects the last encountered value.
+
+
+
+### stochastic_linear_regression_state
+
+`stochastic_linear_regression_state(num, target, param1, param2)`
+
+This function implements stochastic linear regression. It supports custom parameters for learning rate, L2 regularization coefficient, mini-batch size and has few methods for updating weights ([Adam](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam) (used by default), [simple SGD](https://en.wikipedia.org/wiki/Stochastic_gradient_descent), [Momentum](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum), [Nesterov](https://mipt.ru/upload/medialibrary/d7e/41-91.pdf)). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlinearregression).
+
+### stochastic_logistic_regression
+
+`stochastic_logistic_regression(num, num, num, string)`
+
+This function implements stochastic logistic regression. It can be used for binary classification problem, supports the same custom parameters as stochasticLinearRegression and works the same way. Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression).
 

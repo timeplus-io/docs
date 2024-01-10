@@ -118,7 +118,7 @@ SELECT
 
 `grok(string,pattern)`
 
-在不使用正则表达式的情况下从计划文本中提取值。 例如：`SELECT grok('我的名字是杰克。 我今年 23 岁。','我的名字是 %{DATA:name}。 我是 %{INT:age} 岁。） 因为m`将得到 `{"name":"Jack","age":"23"}` 作为 `m`
+在不使用正则表达式的情况下从计划文本中提取值。 例如：`SELECT grok('我的名字是杰克。 我今年 23 岁。','我的名字是 %{DATA:name}。 I am %{INT:age} years old.') 因为m`将得到 `{"name":"Jack","age":"23"}` 作为 `m`
 
 请注意返回 map 中的所有密钥和值都是字符串类型。 您可以将它们转换为其他类型，例如 `(m['age'])：int`
 
@@ -133,3 +133,27 @@ SELECT
 ### uuid
 
 `uuid ()` 或 `uuid (x)` 生成通用唯一标识符 (UUID)，这是一个用于识别记录的 16 字节数字。 为了在一行中生成多个UUID, 在每个函数调用中传递一个参数, 例如 `SELECT uuid(1) as a, uuid(2) 为 b` ，否则如果在调用多个 `uuid 时没有参数` 函数在一个 SQL 语句中 将返回相同的 UUID 值。
+
+### base64_encode
+
+`base64_encode(string)` Encodes a string or fixed_string as base64.
+
+For example `base64_encode('hello')` returns `aGVsbG8=`
+
+### base64_decode
+
+`base64_decode(string)` Decode a base64 string to a string.
+
+For example `base64_decode('aGVsbG8=')` returns `hello`
+
+### base58_encode
+
+`base58_encode(string)` Encodes a string or fixed_string as [base58](https://tools.ietf.org/id/draft-msporny-base58-01.html) in the "Bitcoin" alphabet.
+
+For example `base58_encode('hello')` returns `Cn8eVZg`
+
+### base58_decode
+
+`base58_decode(string)` Decode a [base58](https://tools.ietf.org/id/draft-msporny-base58-01.html) string to a string.
+
+For example `base58_decode('Cn8eVZg')` returns `hello`

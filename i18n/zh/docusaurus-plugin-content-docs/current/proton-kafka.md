@@ -10,7 +10,7 @@ To create an external stream in Proton:
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
-SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..'
+SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanism='..'
 ```
 
 The supported values for `security_protocol` are:
@@ -18,7 +18,13 @@ The supported values for `security_protocol` are:
 * PLAINTEXT: when this option is omitted, this is also the default value.
 * SASL_SSL: when this value is set, username and password should be specified.
 
-### Connect to local Kafka or Redpanda
+The supported values for `sasl_mechanism` are:
+
+* PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
+* SCRAM-SHA-256
+* SCRAM-SHA-512
+
+### Connect to local Kafka or Redpanda {#connect-kafka}
 
 示例：
 
@@ -26,13 +32,10 @@ The supported values for `security_protocol` are:
 CREATE EXTERNAL STREAM ext_github_events(raw string)
 SETTINGS type='kafka', 
          brokers='localhost:9092',
-         topic='github_events',
-         security_protocol='PLAINTEXT'
+         topic='github_events'
 ```
 
-
-
-### Connect to Confluent Cloud
+### Connect to Confluent Cloud{#connect-confluent}
 
 示例：
 
@@ -42,17 +45,112 @@ SETTINGS type='kafka',
          brokers='pkc-1234.us-west-2.aws.confluent.cloud:9092',
          topic='github_events',
          security_protocol='SASL_SSL', 
-         username="..", 
-         password=".."
+         username='..', 
+         password='..'
 ```
+
+### Connect to WarpStream{#connect-warp}
+
+You can connect Proton with local deployment of WarpStream or WarpStream Serverless Cloud.
+
+示例：
+
+```sql
+CREATE EXTERNAL STREAM ext_stream(raw string)
+SETTINGS type='kafka', 
+         brokers='serverless.prod-z.us-east-1.warpstream.com:9092',
+         topic='topic',
+         security_protocol='SASL_SSL', 
+         username='..', 
+         password='..'
+```
+
+### Connect to Upstash{#connect-upstash}
+
+You can connect Proton with Upstash Serverless Kafka.
+
+示例：
+
+```sql
+CREATE EXTERNAL STREAM ext_stream(raw string)
+SETTINGS type='kafka', 
+         brokers='grizzly-1234-us1-kafka.upstash.io:9092',
+         topic='topic',
+         security_protocol='SASL_SSL', 
+         sasl_mechanism='SCRAM-SHA-256',
+         username='..', 
+         password='..'
+```
+
+More detailed instructions are available on [Upstash Docs](https://upstash.com/docs/kafka/integrations/proton).
 
 ### Define columns
 
-#### Single column to read from Kafka
+#### Single column to read from Kafka {#single_col_read}
 
-To read data via Kafka API, currently we only support plain text format. You should create the external stream with only a `raw` column in `string` type. In the next few releases, we will be support other data format, such as CSV and JSON.
+If the message in Kafka topic is in plain text format or JSON, you can create an external stream with only a `raw` column in `string` type.
 
-#### Multiple columns to write to Kafka
+示例：
+
+```sql
+CREATE EXTERNAL STREAM ext_github_events
+         (raw string)
+SETTINGS type='kafka', 
+         brokers='localhost:9092',
+         topic='github_events'
+```
+
+Then use query time [JSON extraction functions](functions_for_json) or shortcut to access the values, e.g. `raw:id`.
+
+#### Write to Kafka in Plain Text {#single_col_write}
+
+You can write plain text messages to Kafka topics with an external stream with a single column.
+
+```sql
+CREATE EXTERNAL STREAM ext_github_events
+         (raw string)
+SETTINGS type='kafka', 
+         brokers='localhost:9092',
+         topic='github_events'
+```
+
+Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted.
+
+#### Multiple columns to read from Kafka{#multi_col_read}
+
+If the keys in the JSON message never change, you can also create the external stream with multiple columns (only available to Proton v1.3.24+).
+
+You can either:
+
+* make sure **all** keys in the JSON are defined as columns, with proper data types. Otherwise, if there are more key/value pairs in the JSON message than what're defined in the external stream, the query won't show any result.
+* or only define some keys as columns and append this to your query: `SETTINGS input_format_skip_unknown_fields=true`
+
+示例：
+
+```sql
+CREATE EXTERNAL STREAM ext_github_events
+         (actor string,
+          created_at string,
+          id string,
+          payload string,
+          repo string,
+          type string
+         )
+SETTINGS type='kafka', 
+         brokers='localhost:9092',
+         topic='github_events',
+         data_format='JSONEachRow';
+```
+
+If there are nested complex JSON in the message, you can define the column as a string type.
+
+:::info
+
+Since Proton v1.3.29, Protobuf messages can be read with all or partial columns. Please check [this page](proton-format-schema).
+
+:::
+
+#### Multiple columns to write to Kafka{#multi_col_write}
 
 To write data via Kafka API (only available to Proton v1.3.18+), you can choose different data formats:
 
@@ -82,6 +180,22 @@ The messages will be generated in the specific topic as
 }
 ```
 
+:::info
+
+Please note, since 1.3.25, by default multiple JSON documents will be inserted to the same Kafka message. One JSON document each row/line. Such default behavior aims to get the maximum writing performance to Kafka/Redpanda. But you need to make sure the downstream applications are able to properly split the JSON documents per Kafka message.
+
+If you need a valid JSON per each Kafka message, instead of a JSONL, please set one_message_per_row=true  e.g.
+
+```sql
+CREATE EXTERNAL STREAM target(_tp_time datetime64(3), url string, ip string) 
+SETTINGS type='kafka', brokers='redpanda:9092', topic='masked-fe-event',
+         data_format='JSONEachRow',one_message_per_row=true
+```
+
+The default value of one_message_per_row, if not specified, is false.
+
+:::
+
 ##### CSV
 
 You can use `data_format='CSV'`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. 例如：
@@ -104,7 +218,33 @@ The messages will be generated in the specific topic as
 "2023-10-29 05:35:54.176","https://www.nationalwhiteboard.info/sticky/recontextualize/robust/incentivize","PUT","3eaf6372e909e033fcfc2d6a3bc04ace"
 ```
 
+##### ProtobufSingle
 
+Please check [this page](proton-format-schema).
+
+
+
+### Read/Write Kafka Message Key {#messagekey}
+
+As an advanced feature, since Proton v1.3.31, you can read or write the message key for Kafka messages. This is done by adding a new external stream setting `message_key` which is an expression that returns a string value, the values return by the expression will be used as the message key for each row.
+
+Examples:
+
+```sql
+-- use a column
+CREATE EXTERNAL STREAM example_one (
+  one string,
+  two int32
+) SETTINGS type='kafka',...,message_key='one';
+
+-- use a complex expression
+CREATE EXTERNAL STREAM example_two (
+  one string,
+  two int32
+) SETTINGS type='kafka',...,message_key='split_by_string(\',\', one)[1]';
+```
+
+`message_key` can be used together with `sharding_expr`(which specify the target partition number in the Kafka topic), and `sharding_expr` will take higher priority.
 
 ## DROP EXTERNAL STREAM
 
@@ -123,7 +263,7 @@ SELECT raw:timestamp, raw:car_id, raw:event FROM ext_stream WHERE raw:car_type i
 SELECT window_start, count() FROM tumble(ext_stream,to_datetime(raw:timestamp)) GROUP BY window_start;
 ```
 
-### Read existing messages
+### Read existing messages {#rewind}
 
 When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in the topics, not the existing ones. If you need to read all existing messages, you can use the following settings:
 
@@ -198,6 +338,31 @@ SETTINGS type='kafka',
          brokers='redpanda:9092',
          topic='owlshop-frontend-events'
 ```
+
+:::info
+
+Since Proton 1.3.24, you can also define multiple columns.
+
+```sql
+CREATE EXTERNAL STREAM frontend_events_json(
+    version int,
+    requestedUrl string,
+    method string,
+    correlationId string,
+    ipAddress string,
+    requestDuration int,
+    response string,
+    headers string
+)   
+SETTINGS type='kafka', 
+         brokers='redpanda:9092',
+         topic='owlshop-frontend-events',
+         data_format='JSONEachRow';
+```
+
+Then select the columns directly, without JSON parsing, e.g. `select method from frontend_events_json` For nested data, you can `select headers:referrer from frontend_events_json`
+
+:::
 
 ### Explore the data in Kafka
 
@@ -404,3 +569,37 @@ CREATE MATERIALIZED VIEW mv INTO target AS
     FROM frontend_events;
 ```
 
+## Properties for Kafka client {#properties}
+
+For more advanced use cases, you can specify customized properties while creating the external streams. Those properties will be passed to the underlying Kafka client, which is [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
+
+例如：
+
+```sql
+CREATE EXTERNAL STREAM ext_github_events(raw string)
+SETTINGS type='kafka', 
+         brokers='localhost:9092',
+         topic='github_events',
+         properties='message.max.bytes=1000000;message.timeout.ms=6000'
+```
+
+Please note, not all properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.
+
+| key                                | range                                  | 默认   | 描述                                                                                                                                                                               |
+| ---------------------------------- | -------------------------------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| enable.idempotence                 | true, false                            | true | When set to `true`, the producer will ensure that messages are successfully produced exactly once and in the original produce order.                                             |
+| message.timeout.ms                 | 0 .. 2147483647                        | 0    | Local message timeout.                                                                                                                                                           |
+| queue.buffering.max.messages       | 0 .. 2147483647                        |      | Maximum number of messages allowed on the producer queue.                                                                                                                        |
+| queue.buffering.max.kbytes         | 1 .. 2147483647                        |      | Maximum total message size sum allowed on the producer queue.                                                                                                                    |
+| queue.buffering.max.ms             | 0 .. 900000                            |      | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers.                         |
+| message.max.bytes                  | 1000 .. 1000000000                     |      | Maximum Kafka protocol request message size.                                                                                                                                     |
+| message.send.max.retries           | 0 .. 2147483647                        |      | How many times to retry sending a failing Message.                                                                                                                               |
+| retries                            | 0 .. 2147483647                        |      | Alias for `message.send.max.retries`: How many times to retry sending a failing Message.                                                                                         |
+| retry.backoff.ms                   | 1 .. 300000                            |      | The backoff time in milliseconds before retrying a protocol reques                                                                                                               |
+| retry.backoff.max.ms               | 1 .. 300000                            |      | The max backoff time in milliseconds before retrying a protocol request,                                                                                                         |
+| batch.num.messages                 | 1 .. 1000000                           |      | Maximum number of messages batched in one MessageSet.                                                                                                                            |
+| batch.size                         | 1 .. 2147483647                        |      | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead.                                                                          |
+| compression.codec                  | none, gzip, snappy, lz4, zstd, inherit |      | Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration.                                                                 |
+| compression.type                   | none, gzip, snappy, lz4, zstd          |      | Alias for `compression.codec`: compression codec to use for compressing message sets.                                                                                            |
+| compression.level                  | -1 .. 12                               |      | Compression level parameter for algorithm selected by configuration property `compression.codec`.                                                                                |
+| topic.metadata.refresh.interval.ms | -1 .. 3600000                          |      | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |

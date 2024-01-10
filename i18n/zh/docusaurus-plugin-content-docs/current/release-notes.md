@@ -2,6 +2,67 @@
 
 本页总结了Timeplus中每个重要更新内容，包括新功能和重要的错误修复。
 
+## Jan 8, 2024
+
+*Proton：*
+  * We've added a new example in the [proton/examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder for [Coinbase](https://github.com/timeplus-io/proton/tree/develop/examples/coinbase).
+  * (v1.3.30) New functions for aggregation: [stochastic_linear_regression_state](functions_for_agg#stochastic_linear_regression_state) and [stochastic_linear_regression](functions_for_agg#stochastic_linear_regression).
+  * (v1.3.30) New functions for processing text: [base64_encode](functions_for_text#base64_encode), [base64_decode](functions_for_text#base64_decode), [base58_encode](functions_for_text#base58_encode), and [base58_decode](functions_for_text#base58_decode),
+  * (v1.3.30) When creating an external stream, you can set sasl_mechanism to SCRAM-SHA-512, SCRAM-SHA-256, or PLAIN (default value). Learn more with [examples](proton-kafka#create-external-stream) in our docs.
+
+*Timeplus Cloud:*
+  * In dashboard charts, you can now switch the chart into a table view.
+  * Also in dashboard charts: additional options in View and Edit modes, such as Go Fullscreen, are shown in a dropdown. The chart size selector in Edit mode show an example of the size.
+
+## Dec 27, 2023
+
+*Proton：*
+  * Check out new examples in the [proton/examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder: [CDC](https://github.com/timeplus-io/proton/tree/develop/examples/cdc), [awesome-sensor-logger](https://github.com/timeplus-io/proton/tree/develop/examples/awesome-sensor-logger), and [fraud detection](https://github.com/timeplus-io/proton/tree/develop/examples/fraud_detection)
+  * (v1.3.29) Introduced new SQL commands for [managing format schemas](proton-format-schema) (for now, only Protobuf schemas are supported).
+  * (v1.3.28) For `create random stream`, the default interval_time is now 5 milliseconds, instead of 100 milliseconds. This new default value will generate random data more evenly.
+  * (v1.3.28) Function names are no longer case sensitive. You can use count(), COUNT(), or Count(). This improves the compatibility for Proton with 3rd party tools if they generate SQL statements in uppercase.
+  * (v1.3.27) Random stream supports ipv4 and ipv6 data type.
+  * [Proton Metabase Driver (v0.0.3)](https://github.com/timeplus-io/metabase-proton-driver) is released to improve compatibility for Proton with case insensitive SQL functions.
+  * The [Grafana plugin for Proton](https://grafana.com/grafana/plugins/timeplus-proton-datasource) has been enhanced and published on Grafana Catalog. You can install it via admin pages without downloading the file manually. Please make sure both 8463 and 3218 ports from Proton are accessible from Grafana, since the new version will call Proton query analyzer API (on 3218) to determine whether it is a streaming query or not, then render results differently. With this plugin, you can build charts and dashboards with data in Proton, as well as other data sources configured in your Grafana. Give it a try and let us know what you think!
+
+*Timeplus Cloud:*
+  * New Core NATS/JetStream datasource is now available. We welcome any feedback!
+  * WebSocket source now supports multiple open messages.
+  * The chart type selector is now a dropdown, with hints for required columns when a type is disabled.
+  * In the Query page's Stream Catalog, you can search by either stream or column.
+  * In chart format settings, single color palettes are expanded to include 10 shades of a color (previously 3).
+  * Tooltips are available on mouseover for charts in fullscreen mode.
+
+## Dec 11, 2023
+
+*Proton：*
+  * [Proton JDBC 驱动程序](https://github.com/timeplus-io/proton-java-driver) 的新版本 (v0.6.0) 已上线：能够列出 DBeaver 和 Metabase 中的表和列。
+  * [Proton Metabase驱动](https://github.com/timeplus-io/metabase-proton-driver) 的新版本 (v0.0.2) 已推出：能够列出表和列。
+  * 新增函数： [lag_behind](functions_for_streaming#lag_behind)，专为流 JOIN 而设计。 如果您未指定列名，则查询将使用左右流的处理时间来比较时间戳差异。
+
+*Timeplus Cloud:*
+  * 新的 WebSocket 数据源：通过输入 URL 和数据类型（JSON 或文本）将 Timeplus 与 WebSocket 连接。
+  * 直接输入 SQL 创建外部流。
+  * 将 CSV 数据上传到现有流。
+  * 在查询页面的流目录中，您可以通过流、列或两者进行搜索。
+  * 在仪表板图表中，我们现在在鼠标悬停时显示所有图表类型的 “上次更新” 时间。
+  * （预览功能）推出新的数据源：NATS 和 NATS JetStream。 配置用户界面将很快在 Timeplus Cloud 中推出。 如果您想试用此功能，请联系我们。
+
+## Nov 27, 2023
+
+*Proton：*
+  * [Metabase driver](https://github.com/timeplus-io/metabase-proton-driver) for Proton is now open source.
+  * Proton JDBC driver is now available via [Maven](https://central.sonatype.com/artifact/com.timeplus/proton-jdbc).
+  * You can now connect Proton to [Pulse](https://www.timestored.com/pulse/) for OHLC charts.
+  * New functions added: [untuple](functions_for_comp#untuple), [tuple_element](functions_for_comp#tuple_element), [dict_get](functions_for_comp#dict_get), [dict_get_or_default](functions_for_comp#dict_get_or_default), [columns](functions_for_comp#columns), [apply](functions_for_comp#apply), [any](functions_for_agg#any), and [last_value](functions_for_agg#last_value).
+  * You can now create an external stream with multiple columns while reading Kafka. [Learn more](proton-kafka#multi_col_read)
+
+*Timeplus Cloud:*
+  * An unlimited number of columns are now supported in the column chart (previously retricted to recent 30 results).
+  * The Pulsar sink is enhanced to support batch, to improve writing performance.
+  * "External Streams" is now shown in the left-side navigation menu, where you can see all external streams and create a new one.
+  * (Preview) We've added the open-high-low-close ([OHLC](viz#ohlc-chart)) chart type common in the finance industry, to visualize the movement of prices over time. Additional format settings include choosing a time range. Please contact us if you'd like to try this new chart type.
+
 ## 2023年11月13日
 
 *Proton：*
@@ -15,6 +76,7 @@
   * For map charts, the size of the dot is now correlated to the width of the dot in pixels.
   * When creating a source, if you choose Protobuf as the Read As data type, the Protobuf message and definition are now mandatory to proceed.
   * You can copy your workspace ID by clicking on your workspace name in the top header and hovering on the ID. This is useful if you need to speak to us for support about your workspace.
+
 
 *Timeplus Platform:*
   * For on-prem deployment of Timeplus Platform, we now provide two observability options: using Timeplus or using Grafana/Loki.

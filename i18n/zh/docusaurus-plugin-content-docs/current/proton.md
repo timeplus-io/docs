@@ -1,10 +1,8 @@
 # Proton
 
-## Introduction
+Proton is a unified streaming SQL processing engine which can connect to historical data processing in one single binary. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus](https://timeplus.com) streaming analytics platform.
 
-Proton is a unified streaming and historical data processing engine in a single binary. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus](https://timeplus.com) streaming analytics platform.
-
-Proton extends the historical data, storage, and computing functionality of the popular [ClickHouse project](https://github.com/clickhouse/clickhouse) with streaming and OLAP data processing.
+Proton extends the historical data, storage, and computing functionality of the popular [ClickHouse project](https://github.com/clickhouse/clickhouse) with streaming data processing.
 
 Why use Proton?
 
@@ -29,6 +27,50 @@ Plus built-in support for powerful streaming and analytical functionality:
 See our [architecture](proton-architecture) doc for technical details and the [FAQ](proton-faq) for more information on the various editions of Proton, how it's related to ClickHouse, and why we chose Apache License 2.0.
 
 ## Get started
+### Option 1: Single Binary
+
+If you’re an Apache Kafka or Redpanda user, you can install Proton as a single binary via:
+
+```shell
+curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.sh | sh
+```
+
+This will install the Proton binary in the current folder, then you can start the server via `proton server start` and start a new terminal window with `proton client` to start the SQL shell.
+
+For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
+
+```shell
+brew tap timeplus-io/timeplus
+brew install proton
+```
+
+Next, create an external stream in Proton with SQL to consume data from your Kafka or Redpanda. Follow this [tutorial](proton-kafka#tutorial) for SQL snippets.
+
+### Option 2: Docker Compose
+
+If you don’t want to setup Kafka or Redpanda, you can use [the docker-compose.yml file](https://github.com/timeplus-io/proton/blob/develop/examples/carsharing/docker-compose.yml). Download the file to a local folder. Make sure you have Docker Engine and Desktop installed. Use `docker compose up` to start the demonstration stack.
+
+Next, you can open the shell of the Proton container and run your first streaming SQL. To print out the new data being generated, you can run the following sample SQL:
+
+```sql
+select * from car_live_data
+```
+
+To get the total number of events in the historical store, you can run the following SQL:
+
+```sql
+select count() from table(car_live_data)
+```
+
+To show the number of event events, at certain intervals (2 seconds, by default), you can run:
+
+```sql
+select count() from car_live_data
+```
+
+Congratulations! You have successfully installed Proton and run queries for both historical and streaming analytics.
+
+### Option 3: Docker Container
 
 With [Docker engine](https://docs.docker.com/engine/install/) installed on your local machine, pull and run the latest version of the Proton Docker image.
 
@@ -75,6 +117,8 @@ Now that you're running Proton and have created your first stream, query, and vi
 
 To see how such a deployment of Proton works as a demo, using `owl-shop` sample live data, check out our [tutorial with Docker Compose](proton-kafka#tutorial).
 
+To see more examples of using Proton, check out the [examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder.
+
 The following drivers are available:
 
 * https://github.com/timeplus-io/proton-java-driver JDBC and other Java clients
@@ -83,9 +127,11 @@ The following drivers are available:
 
 Integrations with other systems:
 
-* https://github.com/timeplus-io/proton-grafana-source
-* https://github.com/timeplus-io/homebrew-timeplus
-* https://github.com/timeplus-io/dbt-proton
+* Grafana https://github.com/timeplus-io/proton-grafana-source
+* Metabase  https://github.com/timeplus-io/metabase-proton-driver
+* Pulse UI https://github.com/timeplus-io/pulseui/tree/proton
+* Homebrew https://github.com/timeplus-io/homebrew-timeplus
+* dbt https://github.com/timeplus-io/dbt-proton
 
 ## Get more with Timeplus
 
@@ -97,14 +143,11 @@ We welcome your contributions! If you are looking for issues to work on, try loo
 
 Please see the [wiki](https://github.com/timeplus-io/proton/wiki/Contributing) for more details, and [BUILD.md](https://github.com/timeplus-io/proton/blob/develop/BUILD.md) to compile Proton in different platforms.
 
-We also encourage you to join the `#contributing` channel in the [Timeplus Community Slack](https://timeplus.com/slack) to ask questions and meet other active contributors from Timeplus and beyond.
+We also encourage you to join the [Timeplus Community Slack](https://timeplus.com/slack) to ask questions and meet other active contributors from Timeplus and beyond.
 
 ## Need help?
 
 Join the [Timeplus Community Slack](https://timeplus.com/slack) to connect with Timeplus engineers and other Proton users.
-
-- Use the `#proton` channel to ask questions about installing, using, or deploying Proton.
-- Join the `#contributing` channel to connect with other contributors to Proton.
 
 For filing bugs, suggesting improvements, or requesting new features, see the [open issues](https://github.com/timeplus-io/proton/issues) here on GitHub.
 

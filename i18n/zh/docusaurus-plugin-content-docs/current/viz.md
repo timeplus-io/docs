@@ -78,6 +78,22 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
 
 ![地图](/img/map-chart.png)
 
+
+
+### OHLC chart
+
+This is a new chart type, currently in technical preview. The open-high-low-close (OHLC) chart is common in the finance industry, to visualize the movement of prices over time. Please contact us if you'd like to try this preview feature.
+
+Please make sure there are 5 columns with names: time, open, close, high, low, e.g.
+
+```sql
+SELECT window_start, earliest(price) AS open, latest(price) AS close, 
+       max(price) AS high, min(price) AS low 
+FROM tumble(prices, 1s) GROUP BY window_start
+```
+
+
+
 ### 表格
 
 将数据显示为列表表。

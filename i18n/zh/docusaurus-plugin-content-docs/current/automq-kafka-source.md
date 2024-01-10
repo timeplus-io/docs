@@ -10,10 +10,9 @@
 
 > 如果您保持 IP 白名单，则需要将我们的静态 IP 列入白名单：
 >
-> 44.232.236.191 对于 us.timeplus.cloud
-> 52.83.159.13 对于 cloud.timeplus.com.cn
+> 44.232.236.191 对于 us.timeplus.cloud52.83.159.13 对于 cloud.timeplus.com.cn
 
-在AutoMQ Kafka中快速创建一个名为 example\_topic 的主题并向其中写入一条测试JSON数据，可以通过以下步骤实现：
+在AutoMQ Kafka中快速创建一个名为 example_topic 的主题并向其中写入一条测试JSON数据，可以通过以下步骤实现：
 
 #### 创建Topic
 
@@ -33,7 +32,7 @@
 
 #### 写入测试数据
 
-使用 Kafka 的命令行工具或编程方法将测试数据写入 example\_topic。 以下是使用命令行工具的示例：
+使用 Kafka 的命令行工具或编程方法将测试数据写入 example_topic。 以下是使用命令行工具的示例：
 
 ```shell
 echo '{"id": 1, "name": "test user", "timestamp": "2023-11-10T12:00:00", "status": "active"}' | sh kafka-console-producer.sh --broker-list 10.0.96.4:9092 --topic example_topic

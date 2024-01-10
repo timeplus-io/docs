@@ -1,7 +1,5 @@
 # 查询语法
 
-## 串流SQL 语法{#select-syntax}
-
 Timeplus引入了几个SQL扩展来支持流式处理。 总的语法如下：
 
 ```sql
@@ -17,27 +15,43 @@ EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 [WHERE clause]
 [GROUP BY clause]
+[PARTITION BY clause]
 EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
 总体而言，Timeplus中的流式查询会与客户端建立长的HTTP/TCP连接，并持续评估查询。 它将继续根据`EMIT`策略返回结果，直到查询被用户、终端客户端或异常事件停止。
 
+## Query Settings
+
 时间插件支持一些高级`设置`来微调下列流式查询处理行为：
 
-1. `enable_backfill_from_historical_store=1`。 默认情况下，如果省略，则为`0`
+1. `enable_backfill_from_historical_store=0|1`. By default, if it's omitted, it's `1`.
    * 当它为0时，查询引擎要么从流存储中加载数据，要么从历史存储中加载数据。
    * 当它为1时，查询引擎会评估是否需要从历史存储中加载数据（例如时间范围在流式存储空间之外），或者从历史存储中获取数据的效率会更高（例如，count/min/max 是在历史存储中预先计算的，比在流式存储中扫描数据更快）。
-2. `query_mode=<table|streaming>` 默认情况下，如果省略，则为`streaming`。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。
-3. `seek_to=<timestamp|earliest|latest>`. 默认情况下，如果省略，则为`latest`。 设置告诉Timeplus通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下，是`latest`，表示了Timeplus不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
+2. `force_backfill_in_order=0|1`. By default, if it's omitted, it's `0`.
+   1. When it's 0, the data from the historical storage are turned without extra sorting. This would improve the performance.
+   2. When it's 1, the data from the historical storage are turned with extra sorting. This would decrease the performance. So turn on this flag carefully.
+
+3. `emit_aggregated_during_backfill=0|1`. By default, if it's omitted, it's `0`.
+   1. When it's 0, the query engine won't emit intermediate aggregation results during the historical data backfill.
+   2. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. As long as there are aggregation functions and time window functions(e.g. tumble/hop/session) in the streaming SQL, when the `emit_aggregated_during_backfill` is on, `force_backfill_in_order` will be applied to 1 automatically.
+4. `query_mode=<table|streaming>` 默认情况下，如果省略，则为`streaming`。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。 This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical.
+5. `seek_to=<timestamp|earliest|latest>`. 默认情况下，如果省略，则为`latest`。 设置告诉Timeplus通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下，是`latest`，表示了Timeplus不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
 :::info
 
-请注意，从2023 年1月起，我们不再建议你使用 `SETTINGS seek_to=..`。 请使用`WHERE _tp_time>='2023-01-01'`或其他类似的。 `_tp_time` 是每个原始流中的特殊时间戳列，用于表示事件时间。 您可以使用 `>`, `<`, `BETWEEN... 您可以使用 <code>>`, `<`, `BETWEEN... AND` 操作用于筛选 Timeplus 流存储中的数据。 唯一的例外是[外部流](external-stream)。 如果你需要扫描Kafka主题中的所有现有数据，你必须使用 seek_to 运行 SQL，例如：`select raw from my_ext_stream settings seek_to='earliest'`
+Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`(except for [External Stream](external-stream)). 请使用`WHERE _tp_time>='2023-01-01'`或其他类似的。 `_tp_time` is the special timestamp column in each raw stream to represent the [event time](eventtime). 您可以使用 `>`, `<`, `BETWEEN... AND` operations to filter the data in Timeplus storage. 唯一的例外是[外部流](external-stream)。 If you need to scan all existing data in the Kafka topic, you need to run the SQL with seek_to, e.g. `select raw from my_ext_stream settings seek_to='earliest'`
 
 :::
 
-### 流式扫描
+
+
+## PARTITION BY
+
+`PARTITION BY` in Streaming SQL is to create [substreams](substream).
+
+## 流式扫描
 
 ```sql
 SELECT <expr>, <columns>
@@ -53,9 +67,9 @@ FROM devices_utils
 WHERE cpu_usage >= 99
 ```
 
-上面的示例持续评估表`device_utils`中新事件的过滤器表达式，过滤事件`cpu_usage`小于99。 最后的事件将会流向客户端。
+The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events which have `cpu_usage` less than 99. 最后的事件将会流向客户端。
 
-### 全局流聚合 {#global}
+## 全局流聚合 {#global}
 
 在 Timeplus 中，我们将全局聚合定义为一个聚合查询，而不使用诸如tumble、hop等流式窗口。 不同于流式窗口聚合，全局流式聚合并不分割根据时间戳将未绑定的流式数据放入窗口， 相反，它作为一个巨大的全局窗口处理无界流数据。 由于这个属性，Timeplus现在不能根据时间戳为全局聚合回收的内存聚合状态/结果。
 
@@ -77,12 +91,11 @@ WHERE cpu_usage > 99
 EMIT PERIODIC 5s
 ```
 
-正如 [流式扫描](#streaming-tailing), Timeplus持续监控数据流`device_utils`, 不断过滤和 **增量**计数 每当指定的延迟间隔为上，项目当前的聚合结果 到客户端。 每当指定的延迟间隔为上，项目当前的聚合结果 到客户端。
+Like in [Streaming Tail](#streaming-tailing), Timeplus continuously monitors new events in the stream `device_utils`, does the filtering and then continuously does **incremental** count aggregation. Whenever the specified delay interval is up, project the current aggregation result to clients.
 
+## 简易流窗口聚合 {#tumble}
 
-### 简易流窗口聚合 {#tumble}
-
-将无边界数据根据其参数混合成不同的窗户。 在内部，Timeplus观察数据流，并自动决定何时 关闭一个分割窗口并释放该窗口的最终结果。
+将无边界数据根据其参数混合成不同的窗户。 Internally, Timeplus observes the data streaming and automatically decides when to close a sliced window and emit the final results for that window.
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -106,9 +119,9 @@ EMIT <window_emit_policy>
 ...
 ```
 
-Timeplus中的`tumble` 窗口左闭右开 `[)` meaning it includes all events which have timestamps **greater or equal** to the **lower bound** of the window, but **less** than the **upper bound** of the window.
+`tumble` window in Timeplus is left closed and right open `[)` meaning it includes all events which have timestamps **greater or equal** to the **lower bound** of the window, but **less** than the **upper bound** of the window.
 
-`上述SQL spec中的tumble` 是一个表函数, 其核心责任是在 流式方式中为每个事件分配tumble窗口。 `tumble` 表函数将生成2个新列： `window_start, wind_end` 对应于低和高 圆形窗口的界限。
+`tumble` in the above SQL spec is a table function whose core responsibility is assigning tumble window to each event in a streaming way. The `tumble` table function will generate 2 new columns: `window_start, window_end` which correspond to the low and high bounds of a tumble window.
 
 `tumble` 表格函数接受4个参数： `<timestamp_column>` 和 `<time-zone>` 是可选的，其他函数是强制性的。
 
@@ -133,7 +146,7 @@ FROM tumble(device_utils, 5s)
 GROUP BY device, window_end
 ```
 
-上面的示例 SQL 持续聚合每个设备每个tumble窗口最大的 cpu 使用量，用于表 `设备 _utils`。 每次关闭窗口 时，Timeplus号发布聚合结果。
+上面的示例 SQL 持续聚合每个设备每个tumble窗口最大的 cpu 使用量，用于表 `设备 _utils`。 每次关闭一个窗口，Timeplus号发布聚合结果。
 
 ```sql
 SELECT device, max(cpu_usage)
@@ -142,7 +155,7 @@ GROUP BY device, widnow_end
 EMIT AFTER WATERMARK DELAY 2s;
 ```
 
-上面的示例 SQL 持续聚合每个设备对表 `设备 _utils` 的最大cpu 使用量。 每当窗口 被关闭时，Timeplus等着2秒，然后发布聚合结果。
+上面的示例 SQL 持续聚合每个设备对表 `设备 _utils` 的最大cpu 使用量。 Every time a window is closed, Timeplus waits for another 2 seconds and then emits the aggregation results.
 
 ```sql
 SELECT device, max(cpu_usage)
@@ -162,7 +175,7 @@ GROUP BY device, window_end
 EMIT AFTER WATERMARK DELAY 2s;
 ```
 
-### 滑动窗口聚合 {#hop}
+## 滑动窗口聚合 {#hop}
 
 像 [Tumble](#tumble)一样，Hop也将无限流流量数据切片放入较小的窗口，它还有一个附加的滑动步骤。
 
@@ -208,13 +221,13 @@ EMIT AFTER WATERMARK;
 
 上面的示例 SQL 持续聚合每个设备在表 `设备 _utils` 中的最大cpu 使用量。 每次关闭一个窗口，Timeplus号发布聚合结果。
 
-### 最近若干时间处理
+## 最近若干时间处理
 
 在流处理中，有一个典型的查询正在处理过去 X 秒/分钟/小时的数据。 例如，在过去 1 小时内显示每台设备的 cpu 使用量。 我们称这种类型的处理 `最后X 流处理` Timeplus和Timeplus提供专门的 SQL 扩展以便于使用： `EMIT LAST <n><UNIT>` 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。
 
 **现在请注意** 最后的 X 串流处理是默认的处理时间处理，Timeplus 将寻找流式存储器以在最后的 X 时间范围内回填数据，它正在使用墙时钟时间进行寻找。 基于事件时间的最后X处理仍在开发中。 当基于事件的最后X处理准备就绪时，默认的最后X处理将被更改为事件时间。
 
-#### 最近若干时间数据扫描
+### 最近若干时间数据扫描
 
 正在修改事件时间戳处于最后X范围内的事件。
 
@@ -243,7 +256,7 @@ EMIT LAST 5m
 
 上面的示例过滤器事件在 `device_utils` 表中，其中 `cpu_usage` 大于80%，事件在过去 5 分钟内被添加。 在内部，Timeplus寻求流式存储回到5分钟(从现在起全时时间)并从那里压缩数据。
 
-#### 最近若干时间全局聚合
+### 最近若干时间全局聚合
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -269,7 +282,7 @@ EMIT LAST 1h AND PERIODIC 5s
 SETTINGS max_keep_windows=720;
 ```
 
-#### 最近若干时间窗口聚合
+### 最近若干时间窗口聚合
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -307,9 +320,9 @@ SETTTINGS max_keep_windows=720;
 
 同样，我们可以在跳跃窗口上应用最后X。
 
-### 子查询
+## 子查询
 
-#### 普通子查询
+### 普通子查询
 
 原版子查询没有任何聚合(这是一个递归定义)，但可以任意数目的过滤预测、转换函数。 一些系统调用这个 `平坦地图`。
 
@@ -345,7 +358,7 @@ WITH cte1 AS (SELECT ..),
 
 不支持带列别名的 CTE。
 
-#### 流式窗口聚合子查询
+### 流式窗口聚合子查询
 
 窗口合计子查询包含窗口聚合物。 有一些限制用户可以处理这类子查询。
 
@@ -381,7 +394,7 @@ FROM
 GROUP BY device;
 ```
 
-#### 全局聚合子查询
+### 全局聚合子查询
 
 全球综合子查询包括全球汇总。 有一些限制用户可以处理全局总合子查询：
 
@@ -401,6 +414,6 @@ FROM
 ) AS avg_5_second;
 ```
 
-### JOINs
+## JOINs
 
 请查看[Joins](joins)。

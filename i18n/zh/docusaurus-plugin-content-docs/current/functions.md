@@ -1,10 +1,10 @@
 # 函数
 
-Timeplus 支持 ANSI-SQL 标准语法。 以下功能适用于各种使用案例。 如果您需要更多功能，请联系我们。
+Timeplus Proton supports ANSI-SQL standard syntax. 以下功能适用于各种使用案例。 Most of the [functions in ClickHouse](https://clickhouse.com/docs/en/sql-reference/functions) are available in Proton, with different naming conventions (for example [array_join](functions_for_comp#array_join) instead of [arrayJoin](https://clickhouse.com/docs/en/sql-reference/functions/array-join)). [New functions are added](functions_for_streaming) for streaming processing. 如果您需要更多功能，请联系我们。
 
 :::info
 
-请注意，Timeplus 中的函数区分大小写且始终为小写。 例如， 您可以运行 `SELECT count(*) FROM car_live_data` 而不是 `SELECT COUNT(*) FROM car_live_data` 一些关键词，例如 `SELECT` 或 `FROM` 是不区分大小写的。
+Please note, in Proton 1.3.27 or the earlier versions, SQL functions were case-sensitive and always in lower-case. Since 1.3.28, function names are case-insensitive. For example `count`, `COUNT` and `Count` work in the same way. SQL Keywords such as `SELECT` or `FROM` are case-insensitive too. In the rest of the documentation, we use function names in lower case for demonstration.
 
 :::
 
