@@ -1,10 +1,35 @@
 # Proton
 
-Proton is a unified streaming SQL processing engine which can connect to historical data processing in one single binary. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus](https://timeplus.com) streaming analytics platform.
+<p align="center">
+  <img alt="Proton – open source, unified streaming and data processing engine for real-time analytics" src="/img/proton-logo-white-bg.png"/> <br/>
+  <b> A streaming SQL engine, fast and lightweight </b> <br/><br/>
+  📄 <a href="https://docs.timeplus.com/proton" target="_blank">Documentation</a>&nbsp;
+  🚀 <a href="https://demo.timeplus.cloud/" target="_blank">Live Demo</a>
+  🌎 <a href="https://timeplus.com/" target="_blank">Timeplus</a> <br/><br/>
+  <a href="https://github.com/timeplus-io/proton/"><img src="https://img.shields.io/github/stars/timeplus-io/proton?logo=github" /></a>&nbsp;
+  <a href="https://github.com/timeplus-io/proton/pkgs/container/proton"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fuwkp37dgeb6d2oc5fxu6oles2i0eevmm.lambda-url.us-west-2.on.aws%2F" /></a>&nbsp; 
+  <a href="https://www.youtube.com/@timeplusdata"><img src="https://img.shields.io/youtube/channel/views/UCRQCOw9wOiqHZkm7ftAMdTQ" alt="YouTube" /></a>&nbsp;
+  <a href="https://timeplus.com/slack"><img src="https://img.shields.io/badge/Join%20Slack-blue?logo=slack" alt="Slack" /></a>&nbsp;
+  <a href="https://linkedin.com/company/timeplusinc"><img src="https://img.shields.io/badge/timeplusinc-0077B5?style=social&logo=linkedin" alt="follow on LinkedIn"/></a>&nbsp;
+  <a href="https://twitter.com/intent/follow?screen_name=timeplusdata"><img src="https://img.shields.io/twitter/follow/timeplusdata?label=" alt="Twitter(X)" /></a>&nbsp;
+  <a href="https://github.com/timeplus-io/proton/blob/develop/LICENSE"><img src="https://img.shields.io/github/license/timeplus-io/proton?label=license&logo=github&color=blue" alt="License" /></a>&nbsp;
+</p>
 
-Proton extends the historical data, storage, and computing functionality of the popular [ClickHouse project](https://github.com/clickhouse/clickhouse) with streaming data processing.
+<p align="center">
+  <a href="#why-use-proton"><strong>Why Use Proton</strong></a> ·
+  <a href="#architecture"><strong>Architecture</strong></a> ·
+  <a href="#get-started"><strong>Get Started</strong></a> ·
+  <a href="#whats-next"><strong>What's next</strong></a> ·
+  <a href="#documentation"><strong>Documentation</strong></a> ·
+  <a href="#contributing"><strong>Contributing</strong></a> ·
+  <a href="#need-help"><strong>Need help?</strong></a>
+</p>
 
-Why use Proton?
+Proton is a streaming SQL engine, a fast and lightweight alternative to Apache Flink, 🚀 powered by ClickHouse.
+
+Proton extends the historical data, storage, and computing functionality of the popular [ClickHouse project](https://github.com/clickhouse/clickhouse) with stream processing. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus](https://timeplus.com) streaming analytics platform.
+
+## Why use Proton? {#why-use-proton}
 
 - **A unified, lightweight engine** to connect streaming and historical data processing tasks with efficiency and robust performance.
 - **A smooth developer experience** with powerful streaming and analytical functionality.
