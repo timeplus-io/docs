@@ -8,49 +8,37 @@
   🌎 <a href="https://timeplus.com/" target="_blank">Timeplus</a> <br/><br/>
   <a href="https://github.com/timeplus-io/proton/"><img src="https://img.shields.io/github/stars/timeplus-io/proton?logo=github" /></a>&nbsp;
   <a href="https://github.com/timeplus-io/proton/pkgs/container/proton"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fuwkp37dgeb6d2oc5fxu6oles2i0eevmm.lambda-url.us-west-2.on.aws%2F" /></a>&nbsp; 
+  <a href="https://github.com/timeplus-io/proton/blob/develop/LICENSE"><img src="https://img.shields.io/github/v/release/timeplus-io/proton" alt="Release" /></a>&nbsp;
   <a href="https://www.youtube.com/@timeplusdata"><img src="https://img.shields.io/youtube/channel/views/UCRQCOw9wOiqHZkm7ftAMdTQ" alt="YouTube" /></a>&nbsp;
   <a href="https://timeplus.com/slack"><img src="https://img.shields.io/badge/Join%20Slack-blue?logo=slack" alt="Slack" /></a>&nbsp;
   <a href="https://linkedin.com/company/timeplusinc"><img src="https://img.shields.io/badge/timeplusinc-0077B5?style=social&logo=linkedin" alt="follow on LinkedIn"/></a>&nbsp;
   <a href="https://twitter.com/intent/follow?screen_name=timeplusdata"><img src="https://img.shields.io/twitter/follow/timeplusdata?label=" alt="Twitter(X)" /></a>&nbsp;
-  <a href="https://github.com/timeplus-io/proton/blob/develop/LICENSE"><img src="https://img.shields.io/github/license/timeplus-io/proton?label=license&logo=github&color=blue" alt="License" /></a>&nbsp;
+  <a href="https://github.com/timeplus-io/proton/blob/develop/LICENSE"><img src="https://img.shields.io/github/license/timeplus-io/proton?label=license&logo=github&color=blue" alt="License" /></a>&nbsp;  
 </p>
 
 <p align="center">
   <a href="#why-use-proton"><strong>Why Use Proton</strong></a> ·
-  <a href="#architecture"><strong>Architecture</strong></a> ·
+  <a href="#demo-video"><strong>Demo Video</strong></a> ·
   <a href="#get-started"><strong>Get Started</strong></a> ·
-  <a href="#whats-next"><strong>What's next</strong></a> ·
-  <a href="#documentation"><strong>Documentation</strong></a> ·
+  <a href="#whats-next"><strong>What's Next</strong></a> ·
   <a href="#contributing"><strong>Contributing</strong></a> ·
   <a href="#need-help"><strong>Need help?</strong></a>
 </p>
 
-Proton is a streaming SQL engine, a fast and lightweight alternative to Apache Flink, 🚀 powered by ClickHouse.
-
-Proton extends the historical data, storage, and computing functionality of the popular [ClickHouse project](https://github.com/clickhouse/clickhouse) with stream processing. It helps data engineers and platform engineers solve complex real-time analytics use cases, and powers the [Timeplus](https://timeplus.com) streaming analytics platform.
+Proton is a streaming SQL engine, a fast and lightweight alternative to Apache Flink, 🚀 powered by ClickHouse. It helps data engineers and platform engineers solve real-time data pipelines and stream processing use cases, also powers the [Timeplus Cloud](https://timeplus.com) streaming analytics platform.
 
 ## Why use Proton? {#why-use-proton}
 
-- **A unified, lightweight engine** to connect streaming and historical data processing tasks with efficiency and robust performance.
-- **A smooth developer experience** with powerful streaming and analytical functionality.
-- **Flexible deployments** with Proton's single binary and no external service dependencies.
-- **Low total cost of ownership** compared to other analytical frameworks.
+1. **[Apache Flink](https://github.com/apache/flink) or [ksqlDB](https://github.com/confluentinc/ksql) alternative.** Proton provides powerful streaming SQL functionality, such as streaming ETL, tumble/hop/session windows, watermarks, materialized views, CDC and data revision processing, etc.
+2. **Fast.** Proton is written in C++, with optimized performance through SIMD. [For example](https://www.timeplus.com/post/scary-fast), on an Apple MacBookPro with M2 Max, Proton can deliver 90 million EPS, 4 millisecond end-to-end latency, and high cardinality aggregation with 1 million unique keys.
+3. **Lightweight.** Proton is a single binary (\<500MB). No JVM or any other dependencies. You can also run it with Docker, or on AWS t2.nano instance (1 vCPU and 0.5 GiB memory).
+4. **Powered by [ClickHouse](https://github.com/clickhouse/clickhouse).** Proton extends the historical data, storage, and computing functionality of ClickHouse with stream processing. More than 1200 [SQL functions](https://docs.timeplus.com/functions) are available. Query billions of historical data in milliseconds.
+5. **Best SQL engine for [Kafka](https://kafka.apache.org/)/[Redpanda](https://redpanda.com/)/[Confluent](https://www.confluent.io/).** Query the live data in Kafka or other compatiable streaming data platforms, with [external streams](https://docs.timeplus.com/proton-kafka).
 
-Plus built-in support for powerful streaming and analytical functionality:
+See our [architecture](proton-architecture) doc for technical details and the [FAQ](proton-faq) for more information.
 
-| Functionality             | 描述                                                                                                              |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| <b>[Data transformation](usecases#data)</b> | Scrub sensitive fields, derive new columns from raw data, or convert identifiers to human-readable information. |
-| <b>[Joining streams](joins)</b> | Combine data from different sources to add freshness to the resulting stream.                                   |
-| <b>[Aggregating streams](functions_for_agg)</b> | Developer-friendly functions to derive insights from streaming and historical data.                             |
-| <b>Windowed stream processing ([tumble](functions_for_streaming#tumble) / [hop](functions_for_streaming#hop) / [session](functions_for_streaming#session))</b> | Collect insightful snapshots of streaming data.                                                                 |
-| <b>[Substreams](substream)</b> | Maintain separate watermarks and streaming windows.                                                             |
-| <b>[Data revision processing (changelog)](changelog-stream)</b> | Create and manage non-append streams with primary keys and change data capture (CDC) semantics.                 |
-| <b>[Federated streaming queries](external-stream)</b> | Query streaming data in external systems (e.g. Kafka) without duplicating them.                                 |
-| <b>[Materialized views](view#m_view)</b> | Create long-running and internally-stored queries.                                                              |
-
-See our [architecture](proton-architecture) doc for technical details and the [FAQ](proton-faq) for more information on the various editions of Proton, how it's related to ClickHouse, and why we chose Apache License 2.0.
-
+## 🎬 Demo Video
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vi4Yl6L4_Dw?si=1Ina4LHf9CP6PqO3&amp;start=283" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ## Get started
 ### Option 1: Single Binary
 
