@@ -1,10 +1,10 @@
 # 常见问题
 
-On September 21, 2023, Timeplus announced the open-source project: [Proton](https://github.com/timeplus-io/proton/). We're using this FAQ as the primary reference for learning about what Proton is, how we licensed the code open source, how you can use Proton today, and more.
+On September 21, 2023, Timeplus announced the open source project: [Proton](https://github.com/timeplus-io/proton/). We're using this FAQ as the primary reference for learning about what Proton is, how we licensed the code open source, how you can use Proton today, and more.
 
 ## What is Proton?
 
-Proton is the core engine powering the [Timeplus](https://www.timeplus.com), a unified streaming and historical data processing engine designed for efficiency and strong performance. Proton has no external service dependencies, which allows you to deploy it on bare metal, edge devices, within containers, or as part of an orchestrated cloud environment.
+Proton is the core engine powering [Timeplus](https://www.timeplus.com), a unified streaming and historical data processing engine designed for efficiency and strong performance. Proton has no external service dependencies, which allows you to deploy it on bare metal, edge devices, within containers, or as part of an orchestrated cloud environment.
 
 Proton builds on top of the popular open source [ClickHouse project](https://github.com/ClickHouse/ClickHouse) for its historical data, storage, computing functionality, and a portion of its query engine.
 
@@ -20,7 +20,7 @@ We chose this license for a few important reasons:
 
 - **We're following the path ClickHouse first paved**. Because Proton leverages many excellent ClickHouse technologies, we hope to see our communities grow together and the two open source projects become more deeply integrated over time.
 
-- **We want to see Proton push the limits of streaming and data processing in unique and exotic environments**. While Proton already powers the enterprise-ready Timeplus Cloud, developers or other end users can download and deploy Proton or modify the code locally for use in a private cloud infrastructure. Using Proton does not require you adopt Timeplus Cloud or talk with our sales team.
+- **We want to see Proton push the limits of streaming and data processing in unique and exotic environments**. While Proton already powers the enterprise-ready Timeplus Cloud, developers or other end users can download and deploy Proton or modify the code locally for use in a private cloud infrastructure. Using Proton does not require you adopt Timeplus Cloud or meet with our sales team.
 
 - **We're eager to see what value a _free_ streaming and historical data processing engine delivers**. By releasing the single-node edition of Proton to the open source community, we're giving developers, hobbyists, enthusiasts, and anyone who wants to try new technologies a new path that's entirely free.
 
@@ -53,7 +53,7 @@ We would love to!
 
 We are in conversation with the folks at ClickHouse, Inc., and the ClickHouse open source project at large, to scope the possibility of deep integration between the projects. We are working closely with the ClickHouse team to explore various options for integrating or re-using your existing ClickHouse deployment alongside Proton.
 
-We publish a biweekly newsletter on [LinkedIn](https://www.linkedin.com/company/timeplusinc)—subscribe there to be the first to know of updates to this developing partnership.
+We publish a biweekly newsletter on [LinkedIn](https://www.linkedin.com/company/timeplusinc)—subscribe to be the first to know of updates to this developing partnership.
 
 ## If I'm familiar with ClickHouse, how easy is it for me to use Proton?
 
@@ -105,7 +105,7 @@ If you are on Timeplus Cloud, you can use the REST API or [SDK](https://github.c
 
 Yes!
 
-The best way to get started is to check out the [existing issues](https://github.com/timeplus-io/proton/issues) in the Proton repository on GitHub. We're also actively discussing future versions of Proton in the `#proton` and `#contributing` channels on the [Timeplus Community Slack](https://timeplus.com/slack).
+The best way to get started is to check out the [existing issues](https://github.com/timeplus-io/proton/issues) in the Proton repository on GitHub. We're also actively discussing future versions of Proton in the `#proton` and `#contributing` channels in our [Timeplus Community Slack](https://timeplus.com/slack).
 
 ## Where can I learn more about Proton?
 
