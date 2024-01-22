@@ -21,7 +21,11 @@ Some of the common time zones are:
 
 For the full list of possible time zones, please check the "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
-You can also convert the time between time zones via [to_timezone](#to_timezone)
+You can also convert the time between time zones via [to_timezone](functions_for_datetime#to_timezone)
+
+It can parse string `2023-09-19 05:31:34` or `2023-09-19T05:31:34Z`.
+
+This function is the alias to `parse_datetime_best_effort`.
 
 ### to_int
 

@@ -80,9 +80,17 @@ Unlike other `to_start_of_` functions, this function expects a datetime with mil
 
 `to_date(string)` converts a date string to a date type, e.g. `to_date('1953-11-02')`
 
+It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
+
 ### to_datetime
 
 `to_datetime(value)` converts the value to a datetime type, e.g. `to_datetime(1655265661)` or `to_datetime(today())`
+
+It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
+
+### to_time
+
+Please refer to [to_time](functions_for_type#to_time)
 
 ### today
 
