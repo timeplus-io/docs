@@ -2,6 +2,21 @@
 
 本页总结了Timeplus中每个重要更新内容，包括新功能和重要的错误修复。
 
+## Jan 22, 2024
+
+*Proton：*
+  * Proton v1.4.1 is now released. Please note: you cannot use an older version of Proton client to connect to the new v1.4 Proton server — be sure to update your Proton client. All existing JDBC, ODBC, Go, and Python drivers will still work as usual.
+  * (v1.3.31) We've added a new external stream setting `message_key`, an expression that returns a string value used as the message key for each row. `message_key` can be used together with `sharding_expr` (which specifies the target partition number in the Kafka topic), with `sharding_expr` taking higher priority. [Learn more](https://docs.timeplus.com/proton-kafka#messagekey)
+  * (v1.3.31) Write to Kafka in plain text: you can now [produce raw format data](proton-kafka#single_col_write) to a Kafka external stream with a single column.
+  * (v1.3.31) By default, we disable sort for historical backfill. [Learn more](query-syntax#query-settings) in our query guide, including how to enable.
+  * Introducing our integration with Upstash: create a Kafka cluster and topics using Upstash, then create a data source or sink in Timeplus. Available for both [Timeplus Cloud](https://upstash.com/docs/kafka/integrations/timeplus) and [Proton](https://upstash.com/docs/kafka/integrations/proton).
+
+*Timeplus Cloud:*
+  * In Data Lineage, external streams are now shown in a different color for better distinction.
+  * Also in Data Lineage, you can search by keyword.
+  * In chart format settings, you can set the maximum numbers of characters to show for a label on the x- or y-axis.
+  * We now auto-select a chart type based on your data. If you have a datetime column and numeric columns, we will default to a line chart. If you have only numeric columns: single value chart. And if no numeric columns: table chart.
+
 ## Jan 8, 2024
 
 *Proton：*
