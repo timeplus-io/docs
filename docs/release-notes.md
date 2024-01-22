@@ -6,8 +6,9 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 
 *Proton:*
   * Proton v1.4.1 is now released. Please note: you cannot use an older version of Proton client to connect to the new v1.4 Proton server — be sure to update your Proton client. All existing JDBC, ODBC, Go, and Python drivers will still work as usual. 
-  * Check out our enhanced [demo](https://github.com/timeplus-io/proton/tree/develop/examples/hackernews) for calling the Hacker News HTTP API with Bytewax and send latest news to Proton for SQL-based analysis. Simply run `docker compose up` in the folder to start, and you’ll see a live feed from Hackernews, along with historical data. Stay tuned for a joint blog from us and Bytewax!
   * (v1.3.31) We've added a new external stream setting `message_key`, an expression that returns a string value used as the message key for each row. `message_key` can be used together with `sharding_expr` (which specifies the target partition number in the Kafka topic), with `sharding_expr` taking higher priority. [Learn more](https://docs.timeplus.com/proton-kafka#messagekey)
+  * (v1.3.31) Write to Kafka in plain text: you can now [produce raw format data](proton-kafka#single_col_write) to a Kafka external stream with a single column.
+  * (v1.3.31) By default, we disable sort for historical backfill. [Learn more](query-syntax#query-settings) in our query guide, including how to enable. 
   * Introducing our integration with Upstash: create a Kafka cluster and topics using Upstash, then create a data source or sink in Timeplus. Available for both [Timeplus Cloud](https://upstash.com/docs/kafka/integrations/timeplus) and [Proton](https://upstash.com/docs/kafka/integrations/proton). 
 
 *Timeplus Cloud:*
