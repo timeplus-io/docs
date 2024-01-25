@@ -41,9 +41,12 @@ AS <SELECT ...>
 
 By default, when you create a materialized view, an internal stream will be created automatically as the data storage. Querying on the materialized view will result in querying the underlying internal stream.
 
-In some cases, you may want to build multiple materialized views to write data to the same stream. In this case, each materialized view serves as a real-time data pipeline.
+Use cases for specifying a target stream:
 
-You can also use materialized views to write data to Apache Kafka with an external stream.
+1. In some cases, you may want to build multiple materialized views to write data to the same stream. In this case, each materialized view serves as a real-time data pipeline.
+2. Or you may need to use [Changelog Stream](proton-create-stream#changelog-stream) or [Versioned Stream](proton-create-stream#versioned-stream) to build lookups.
+3. Or you may want to set the retention policy for the materialized view.
+4. You can also use materialized views to write data to Apache Kafka with an external stream.
 
 To create a materialized view with the target stream:
 
