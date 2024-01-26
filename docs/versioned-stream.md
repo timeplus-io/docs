@@ -1,6 +1,6 @@
 # Versioned Stream
 
-When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a JOIN with other streams, Timeplus will automatically choose the closest version.
+When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus Proton will automatically choose the closest version.
 
 Here are some examples:
 
@@ -13,12 +13,6 @@ In this example, you create a stream `dim_products` in `versioned_kv` mode with 
 | _tp_time    | datetime64(3,'UTC') | this is automatically created for all streams in Timeplus, with the event time at millisecond precision and UTC timezone |
 | product_id  | string              | unique id for the product, as the primary key                |
 | price       | float               | current price                                                |
-
-:::info
-
-The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](proton-create-stream#versioned-stream)
-
-:::
 
 If you don't add any data, query `SELECT * FROM dim_products` will return no results and keep waiting for the new results.
 
@@ -51,6 +45,8 @@ As you can imagine, you can keep adding new rows. If the primary key is new, the
 In fact, you can assign an expression as the primary key. For example you can use `first_name||' '||last_name` to use the combined full name as the primary key, instead of using a single column.
 
 :::
+
+You can also query the stream in the table mode, i.e. `select * from table(dim_products)`
 
 ## Use Versioned Stream in INNER JOIN
 
@@ -131,3 +127,15 @@ But if you add an order with _tp_time before the price change, you will get the 
 If you are not familiar with `ASOF JOIN`, this special JOIN provides non-exact matching capabilities. This can work well if two streams have the same id, but not exactly the same timestamps.
 
 :::
+
+
+
+## The advanced keep_versions setting:
+
+In the above example, you can add `settings keep_versions=3` at the end of the query. This will inform the query engine to read the base version from the historical storage for the versioned_kv stream, then read the new events in the streaming storage and based on the ASOF time condition to pick up 3 versions in the memory, and finally join events from left append_stream with the right 3 versions, and find the best candidate to join together.
+
+## Retention Policy
+
+You should not set the TTL(Time-To-Live) for the historical storage of versioned_kv stream. Because only the last version of the same primary key is kept in the historical storage (via an auto-compact background process). Mannually set a TTL may remove those events who haven't been updated recently.
+
+You may set a time-based or size-based retention policy for the streaming storage for the versioned_kv stream. But this is optional. By default a 4GB segment file is used for the streaming storage.
