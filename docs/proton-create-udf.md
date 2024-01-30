@@ -1,4 +1,4 @@
-# UDF Management
+# User-Defined Function
 
 At Timeplus, we leverage SQL to make powerful streaming analytics more accessible to a broad range of users. Without SQL, you have to learn and call low-level programming API, then compile/package/deploy them to get analytics results. This is a repetitive and tedious process, even for small changes. 
 

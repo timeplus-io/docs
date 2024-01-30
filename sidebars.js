@@ -140,7 +140,7 @@ const sidebars = {
       items: ['proton-architecture',
         {
           type: 'category',
-          label: 'Stream Management',
+          label: 'Stream & External Stream',
           //collapsed: false,
           link: {
             type: 'generated-index',

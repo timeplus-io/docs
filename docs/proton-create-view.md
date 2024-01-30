@@ -1,4 +1,4 @@
-# View Management
+# View & Materialized View
 
 There are two types of views in Timeplus: logical view (or just view ) and materialized view.
 
