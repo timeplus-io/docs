@@ -137,7 +137,7 @@ const sidebars = {
         type: 'doc',
         id: 'proton'
       },
-      items: ['proton-architecture',
+      items: ['proton-howto','proton-architecture',
         {
           type: 'category',
           label: 'Stream & External Stream',
