@@ -46,7 +46,7 @@ For PostgreSQL, MySQL or other OLTP databases, you can apply the CDC (Change Dat
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j6FpXg5cfsA?si=Mo5UrviidxqkkXSb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-If you have data in local ClickHouse or ClickHouse Cloud, you can also use External Table to read data (upcoming new feature).
+If you have data in local ClickHouse or ClickHouse Cloud, you can also use [External Table](proton-clickhouse-external-table) to read data.
 
 ## How to read/write ClickHouse {#clickhouse}
 

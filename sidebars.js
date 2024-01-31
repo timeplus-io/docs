@@ -157,7 +157,7 @@ const sidebars = {
             },
             'proton-alter-stream', 'proton-drop-stream']
         },
-        'proton-create-view', 'proton-create-udf', 'proton-format-schema',
+        'proton-create-view', 'proton-clickhouse-external-table', 'proton-create-udf', 'proton-format-schema',
         {
           type: 'category',
           label: 'Query Guide',
