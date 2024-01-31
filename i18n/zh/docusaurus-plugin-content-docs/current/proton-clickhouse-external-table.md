@@ -6,7 +6,7 @@ Since Proton v1.4.2(not released yet), it added the support to read or write Cli
 - Enrich the live data with the static or slow-changing data in ClickHouse. Apply streaming JOIN.
 - Use Proton to query historical or recent data in ClickHouse
 
-This integration is done by introducing a new concept in Proton: "External Table". Similar to [External Stream](external-stream), there is no data persistent in Proton. However, since by nature, the data in ClickHouse is in the form of table, not data stream, so we call this as the first type of External Table. In the roadmap, we will support more integrations by introducing other types of External Table.
+This integration is done by introducing a new concept in Proton: "External Table". Similar to [External Stream](external-stream), there is no data persisted in Proton. However, since the data in ClickHouse is in the form of table, not data stream, so we call this as External Table. In the roadmap, we will support more integrations by introducing other types of External Table.
 
 ## CREATE EXTERNAL TABLE
 
