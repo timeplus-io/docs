@@ -25,13 +25,25 @@ SETTINGS type='clickhouse',
 
 The required settings are type and address. For other settings, the default values are
 
-* "default" for `user` 
-* "" for `password` 
-* "default" for `database` 
-* "false" for `secure`
-* if you omit the table name, it will use the name of the external table
+* 'default' for `user` 
+* '' (empty string) for `password` 
+* 'default' for `database` 
+* 'false' for `secure`
+* If you omit the table name, it will use the name of the external table
 
 You don't need to specify the columns, since the table schema will be fetched from the ClickHouse server.
+
+Once the external table is created succesfully, you can run the following SQL to list the columns:
+
+```sql
+DESCRIBE EXTERNAL TABLE name
+```
+
+:::info
+
+The data types in the output will be Proton data types, such as `uint8`, instead of ClickHouse type `UInt8`. Proton maintains a mapping for those types. [Learn more.](#datatype)
+
+:::
 
 You can define the external table and use it to read data from the ClickHouse table, or write to it.
 
@@ -80,9 +92,11 @@ Once the external table is created successfully, it means Proton can connect to 
 
 You can query it via the regular `select .. from table_name`. 
 
-:::info
+:::warning
 
 Please note, in the current implementation, all rows will be fetched from ClickHouse to Proton, with the selected columns. Then Proton applies the SQL functions and `LIMIT n` locally. It's not recommended to run `SELECT *` for a large ClickHouse table.
+
+Also note, use the Proton function names when you query the external table, such as [to_int](functions_for_type#to_int), instead of ClickHouse's naming converstion, e.g. [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256). In current implementation, the SQL functions are applied in Proton engine. We plan to support some function push-down to ClickHouse in future versions.
 
 :::
 
