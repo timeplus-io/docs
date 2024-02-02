@@ -121,12 +121,19 @@ Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](pro
 
 #### Multiple columns to read from Kafka{#multi_col_read}
 
-If the keys in the JSON message never change, you can also create the external stream with multiple columns (only available to Proton v1.3.24+).
+If the keys in the JSON message never change, or you don't care about the new columns, you can also create the external stream with multiple columns (only available to Proton v1.3.24+).
 
-You can either:
+You can pick up some top level keys in the JSON as columns, or all possible keys as columns.
 
-* make sure **all** keys in the JSON are defined as columns, with proper data types. Otherwise, if there are more key/value pairs in the JSON message than what're defined in the external stream, the query won't show any result.
-* or only define some keys as columns and set `input_format_skip_unknown_fields=true` in the DDL settings (before 1.4.2, you have to set this setting in every query, not in `CREATE STREAM` DDL)
+Please note the behaviors are changed in recent versions, based on user feedbacks:
+
+
+
+| Version         | Default Behavior                                                                                                                                                                                                                                                                           | How to overwrite                                                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| 1.4.2 or above  | Say there are 5 top level key/value pairs in JSON, you can define 5 or less than 5 columns in the external stream. Data will be read properly.                                                                                                                                             | If you don't want to read new events with unexpected columns, set `input_format_skip_unknown_fields=false` in the `CREATE` DDL. |
+| 1.3.24 to 1.4.1 | Say there are 5 top level key/value pairs in JSON, you can need to define 5 columns to read them all. Or define less than 5 columns in the DDL, and make sure to add `input_format_skip_unknown_fields=true` in each `SELECT` query settings, otherwise no search result will be returned. | In each `SELECT` query, you can specify the setting `input_format_skip_unknown_fields=true\|false`.                            |
+| 1.3.23 or older | You have to define a single `string` column for the entire JSON document and apply query time JSON parsing to extract fields.                                                                                                                                                              | N/A                                                                                                                             |
 
 示例：
 
@@ -142,11 +149,10 @@ CREATE EXTERNAL STREAM ext_github_events
 SETTINGS type='kafka', 
          brokers='localhost:9092',
          topic='github_events',
-         data_format='JSONEachRow',
-         input_format_skip_unknown_fields=true;
+         data_format='JSONEachRow'
 ```
 
-If there are nested complex JSON in the message, you can define the column as a string type.
+If there are nested complex JSON in the message, you can define the column as a string type. Actually any JSON value can be saved in a string column.
 
 :::info
 
