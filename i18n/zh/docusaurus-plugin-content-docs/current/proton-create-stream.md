@@ -135,6 +135,12 @@ CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=1000, inte
 
 Please note, the data generation rate is not accurate, to balance the performance and flow control.
 
+:::info
+
+New in Proton v1.4.2, you can set eps less than 1. Such as `eps=0.5` will generate 1 event every 2 seconds. `eps` less than 0.00001 will be treated as 0.
+
+:::
+
 ## CREATE EXTERNAL STREAM
 
 Please check [Read/Write Kafka with External Stream](proton-kafka).
