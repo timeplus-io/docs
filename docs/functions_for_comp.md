@@ -191,6 +191,8 @@ You can easily access any element in the map, just using mapName[keyName], such 
 
 Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
+Since Proton v1.4.2, a new [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
+
 ### tuple_cast
 
 `tuple_cast(item1,item2)` to generate a tuple with these 2 elements. You can also use the shortcut syntax: `(item1,item2)` to create the tuple directly.
