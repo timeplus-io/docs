@@ -126,7 +126,7 @@ If the keys in the JSON message never change, you can also create the external s
 You can either:
 
 * make sure **all** keys in the JSON are defined as columns, with proper data types. Otherwise, if there are more key/value pairs in the JSON message than what're defined in the external stream, the query won't show any result. 
-* or only define some keys as columns and append this to your query: `SETTINGS input_format_skip_unknown_fields=true` 
+* or only define some keys as columns and set `input_format_skip_unknown_fields=true` in the DDL settings (before 1.4.2, you have to set this setting in every query, not in `CREATE STREAM` DDL)
 
 Example:
 
@@ -142,7 +142,8 @@ CREATE EXTERNAL STREAM ext_github_events
 SETTINGS type='kafka', 
          brokers='localhost:9092',
          topic='github_events',
-         data_format='JSONEachRow';
+         data_format='JSONEachRow',
+         input_format_skip_unknown_fields=true;
 ```
 
 If there are nested complex JSON in the message, you can define the column as a string type.
