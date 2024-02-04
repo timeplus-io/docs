@@ -1,12 +1,18 @@
 # ClickHouse External Table
 
-Since Proton v1.4.2(not released yet), it added the support to read or write ClickHouse tables. This unlocks a set of new use cases, such as
+Since Proton v1.4.2, it added the support to read or write ClickHouse tables. This unlocks a set of new use cases, such as
 
 * Use Proton to efficiently process real-time data in Kafka/Redpanda, apply flat transformation or stateful aggregation, then write the data to the local or remote ClickHouse for further analysis or visualization.
 * Enrich the live data with the static or slow-changing data in ClickHouse. Apply streaming JOIN.
 * Use Proton to query historical or recent data in ClickHouse
 
 This integration is done by introducing a new concept in Proton: "External Table". Similar to [External Stream](external-stream), there is no data persisted in Proton. However, since the data in ClickHouse is in the form of table, not data stream, so we call this as External Table. In the roadmap, we will support more integrations by introducing other types of External Table.
+
+## Demo Video {#demo}
+
+This video demonstrates how to read live data from Redpanda, apply stream processing and send results to ClickHouse.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ga_DmCujEpw?si=ja2tmlcCbqa6HhwT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## CREATE EXTERNAL TABLE
 
