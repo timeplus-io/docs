@@ -36,7 +36,7 @@ You don't need to specify the columns, since the table schema will be fetched fr
 Once the external table is created succesfully, you can run the following SQL to list the columns:
 
 ```sql
-DESCRIBE EXTERNAL TABLE name
+DESCRIBE name
 ```
 
 :::info
