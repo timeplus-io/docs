@@ -2,32 +2,32 @@
 
 本页总结了Timeplus中每个重要更新内容，包括新功能和重要的错误修复。
 
-## Feb 5, 2024
+## 2024 年 2 月 5 日
 
-*Proton (Current version: v1.4.2):*
-  * Since Proton v1.4.2, we’ve added support to read or write ClickHouse tables. To do this, we’ve introduced a new concept in Proton: "External Table". Similar to [External Stream](external-stream), no data is persisted in Proton. In the future, we will support more integrations by introducing other types of External Table. [See our docs](proton-clickhouse-external-table) for use cases and more details.
-  * Based on user feedback, we’ve simplified the process of reading key/value pairs in the JSON document in a Kafka topic. You don’t need to define all keys as columns, and no need to set `input_format_skip_unknown_fields` in DDL or SQL. [Learn more](proton-kafka#multi_col_read)
-  * For random streams, you can now define the EPS (event per second) as a number between 0 to 1. For example, eps=0.5 means generating an event every 2 seconds.
-  * A new [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
-  * We’ve refined the anonymous telemetry configuration. Regardless if it’s a single binary or Docker deployment, you can set a `TELEMETRY_ENABLED` environment variable. The reporting interval is adjusted from 2 minutes to 5 minutes.
-  * Enhancements to our docs: re-organized Proton docs, added a [“Proton How To“ page](proton-howto), and updated details on using certifications for [Kafka external stream](proton-kafka#create-external-stream).
+**Proton（当前版本：v1.4.2）：**
+  * 自 Proton v1.4.2 以来，我们增加了对读取或写入 ClickHouse 表格的支持。 为此，我们在 Proton 中引入了一个新概念：“外部表”。 与 [External Stream](external-stream)类似，Proton 中不保留任何数据。 将来，我们将通过引入其他类型的外部表来支持更多的集成。 [有关用例和更多详细信息，请参阅我们的文档](proton-clickhouse-external-table) 。
+  * 根据用户反馈，我们简化了读取 Kafka 主题中 JSON 文档中键/值对的过程。 你不需要将所有键定义为列，也无需在 DDL 或 SQL 中设置 `input_format_skip_unknown_fields`。 [了解更多](proton-kafka#multi_col_read)
+  * 对于随机流，您现在可以将 EPS（每秒事件数）定义为 0 到 1 之间的数字。 例如，eps=0.5 表示每 2 秒生成一个事件。
+  * 添加了一个新的 [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) 函数，用于将键值对从字符串提取到哈希字典。
+  * 我们改进了若干关于产品用量匿名上报的配置。 无论是单一二进制部署还是 Docker 部署，你都可以设置一个 `TELEMETRY_ENABLED` 环境变量。 报告间隔从 2 分钟更改为 5 分钟。
+  * 对我们文档的改进：重新组织了 Proton 文档，添加了 [“Proton How To” 页面](proton-howto)，并更新了有关为 [Kafka 外部流](proton-kafka#create-external-stream)使用认证的详细信息。
 
 *Timeplus Cloud:*
-  * Introducing a new data source: HTTP Stream. Enter your URL, method, and optional headers and payload.
-  * Authentication is now added for NATS sources.
-  * For External stream, we've added more information when viewing details in the side panel, such as Kafka brokers, topic, and stream schema.
-  * In Query History, if a query failed, you can now copy the error message from the tooltip.
+  * 引入一个新的数据源：HTTP 流。 输入URL、方法以及可选标头和有效负载。
+  * 现在已为 NATS 源添加了身份验证。
+  * 对于外部流，我们在侧面板中查看详细信息时添加了更多信息，例如 Kafka 代理、主题和数据结构。
+  * 在查询历史记录中，如果查询失败，您现在可以从工具提示中复制错误消息。
 
-## Jan 22, 2024
+## 2024 年 1 月 22 日
 
 *Proton：*
-  * Proton v1.4.1 is now released. Please note: you cannot use an older version of Proton client to connect to the new v1.4 Proton server — be sure to update your Proton client. All existing JDBC, ODBC, Go, and Python drivers will still work as usual.
-  * (v1.3.31) We've added a new external stream setting `message_key`, an expression that returns a string value used as the message key for each row. `message_key` can be used together with `sharding_expr` (which specifies the target partition number in the Kafka topic), with `sharding_expr` taking higher priority. [Learn more](proton-kafka#messagekey)
-  * (v1.3.31) Write to Kafka in plain text: you can now [produce raw format data](proton-kafka#single_col_write) to a Kafka external stream with a single column.
-  * (v1.3.31) By default, we disable sort for historical backfill. [Learn more](query-syntax#query-settings) in our query guide, including how to enable.
-  * Introducing our integration with Upstash: create a Kafka cluster and topics using Upstash, then create a data source or sink in Timeplus. Available for both [Timeplus Cloud](https://upstash.com/docs/kafka/integrations/timeplus) and [Proton](https://upstash.com/docs/kafka/integrations/proton).
+  * Proton v1.4.1 现已发布。 请注意：您不能使用旧版本的 Proton 客户端连接到新的 v1.4 Proton 服务器——请务必更新您的 Proton 客户端。 所有现有的 JDBC、ODBC、Go 和 Python 驱动程序仍将照常运行。
+  * (v1.3.31) 我们添加了新的外部流设置 `message_key`，该表达式返回用作每行的消息密钥的字符串值。 `message_key`可以与 `sharding_expr`（它在 Kafka 主题中指定目标分区号）一起使用，而 “sharding_expr” 的优先级更高。 [了解更多](proton-kafka#messagekey)
+  * (v1.3.31) 以纯文本写入 Kafka：你现在可以 [生成原始格式的数据](proton-kafka#single_col_write) 到包含单列的 Kafka 外部流。
+  * (v1.3.31) 默认情况下，我们禁用历史回填排序。 [在我们的查询指南中了解更多](query-syntax#query-settings) ，包括如何启用。
+  * Proton与Upstash的集成：使用Upstash创建Kafka集群和主题，作为数据源或数据下游。 适用于 [Timeplus Cloud](https://upstash.com/docs/kafka/integrations/timeplus) 和 [Proton](https://upstash.com/docs/kafka/integrations/proton)。
 
-*Timeplus Cloud:*
+*Timeplus 云服务:*
   * In Data Lineage, external streams are now shown in a different color for better distinction.
   * Also in Data Lineage, you can search by keyword.
   * In chart format settings, you can set the maximum numbers of characters to show for a label on the x- or y-axis.
@@ -86,7 +86,7 @@
   * Proton JDBC driver is now available via [Maven](https://central.sonatype.com/artifact/com.timeplus/proton-jdbc).
   * You can now connect Proton to [Pulse](https://www.timestored.com/pulse/) for OHLC charts.
   * New functions added: [untuple](functions_for_comp#untuple), [tuple_element](functions_for_comp#tuple_element), [dict_get](functions_for_comp#dict_get), [dict_get_or_default](functions_for_comp#dict_get_or_default), [columns](functions_for_comp#columns), [apply](functions_for_comp#apply), [any](functions_for_agg#any), and [last_value](functions_for_agg#last_value).
-  * You can now create an external stream with multiple columns while reading Kafka. [Learn more](proton-kafka#multi_col_read)
+  * You can now create an external stream with multiple columns while reading Kafka. [了解更多](proton-kafka#multi_col_read)
 
 *Timeplus Cloud:*
   * An unlimited number of columns are now supported in the column chart (previously retricted to recent 30 results).
