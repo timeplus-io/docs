@@ -1,6 +1,6 @@
 # 查询语法
 
-Timeplus引入了几个SQL扩展来支持流式处理。 总的语法如下：
+Timeplus Proton introduces several SQL extensions to support streaming processing. 总的语法如下：
 
 ```sql
 SELECT <expr, columns, aggr>
@@ -20,7 +20,12 @@ EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-总体而言，Timeplus中的流式查询会与客户端建立长的HTTP/TCP连接，并持续评估查询。 它将继续根据`EMIT`策略返回结果，直到查询被用户、终端客户端或异常事件停止。
+## Streaming First Query Behavior
+
+Before we look into the details of the query syntax, we'd like to highlight the default query behavior in Timeplus Proton is in the streaming mode, i.e.
+
+* `SELECT .. FROM stream`  will query the future events. Once you run the query, it will process new events. For example, if there are 1,000 events in the stream already, running `SELECT count() FROM stream` could return 0, if there is more new events.
+* `SELECT .. FROM table(stream)` will query the historical data, just like many of other databases. In the above sample stream, if you run `SELECT count() FROM table(stream)`, you will get 1000 as the result and the query completed.
 
 ## Query Settings
 
