@@ -1,6 +1,6 @@
 #  Query Syntax
 
-Timeplus introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
+Timeplus Proton introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
 
 ```sql
 SELECT <expr, columns, aggr>
@@ -12,7 +12,12 @@ EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
-Overall, a streaming query in Timeplus establishes a long HTTP/TCP connection to clients and continuously evaluates the query. It will continue to return results according to the `EMIT` policy until the query is stopped, by the user, end client, or exceptional event. 
+## Streaming First Query Behavior
+
+Before we look into the details of the query syntax, we'd like to highlight the default query behavior in Timeplus Proton is in the streaming mode, i.e.
+
+* `SELECT .. FROM stream`  will query the future events. Once you run the query, it will process new events. For example, if there are 1,000 events in the stream already, running `SELECT count() FROM stream` could return 0, if there is more new events.
+* `SELECT .. FROM table(stream)` will query the historical data, just like many of other databases. In the above sample stream, if you run `SELECT count() FROM table(stream)`, you will get 1000 as the result and the query completed.
 
 ## Query Settings
 
