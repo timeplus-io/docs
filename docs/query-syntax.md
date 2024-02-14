@@ -152,7 +152,7 @@ GROUP BY
 EMIT ON UPDATE
 ```
 
-During the 5 second tumble window, even the window is not closed, as long as the aggregation value(`cnt`) for the same `cid` is different , the resutls will be emitted.
+During the 5 second tumble window, even the window is not closed, as long as the aggregation value(`cnt`) for the same `cid` is different , the results will be emitted.
 
 ### EMIT PERIODIC .. ON UPDATE {#emit_periodic_on_update}
 
@@ -162,7 +162,7 @@ This is a new emit policy added in Proton 1.5.
 
 :::
 
-You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Proton will check the intermedia aggregation result at the specified interval and emit rows if the result is changed.
+You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Proton will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
 
 ### EMIT TIMEOUT{#emit_timeout}
 
