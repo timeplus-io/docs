@@ -64,7 +64,7 @@ EMIT
  [PERIODIC <interval>]
  [ON UPDATE]
   - [[ AND ]TIMEOUT <interval>]
-  - [[ AND ]LAST <interval>]
+  - [[ AND ]LAST <interval> [ON PROCTIME]]
 ```
 
 Please note some policies are added in Proton 1.5 and incompatible with 1.4 or earlier version.
@@ -187,7 +187,11 @@ Even you add `EMIT TIMEOUT` in the SQL, it won't trigger timeout, because the qu
 
 在流处理中，有一个典型的查询正在处理过去 X 秒/分钟/小时的数据。 例如，在过去 1 小时内显示每台设备的 cpu 使用量。 我们称这种类型的处理 `最后X 流处理` Timeplus和Timeplus提供专门的 SQL 扩展以便于使用： `EMIT LAST <n><UNIT>` 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。
 
-**Note** For now, last X streaming processing is process time processing by default and Timeplus Proton will seek both streaming storage and historical to backfill data in last X time range and it is using wall clock time to do the seek. 基于事件时间的最后X处理仍在开发中。 当基于事件的最后X处理准备就绪时，默认的最后X处理将被更改为事件时间。
+:::info
+
+By default, `EMIT LAST` uses the event time. Timeplus Proton will seek both streaming storage and historical to backfill data in last X time range. `EMIT LAST .. ON PROCTIME` uses the wall clock time to do the seek.
+
+:::
 
 #### EMIT LAST for Streaming Tail
 
