@@ -64,7 +64,7 @@ EMIT
  [PERIODIC <interval>]
  [ON UPDATE]
   - [[ AND ]TIMEOUT <interval>]
-  - [[ AND ]LAST <interval>]
+  - [[ AND ]LAST <interval> [ON PROCTIME]]
 ```
 
 Please note some policies are added in Proton 1.5 and incompatible with 1.4 or earlier version.
@@ -187,7 +187,11 @@ Even you add `EMIT TIMEOUT` in the SQL, it won't trigger timeout, because the qu
 
 In streaming processing, there is one typical query which is processing the last X seconds / minutes / hours of data. For example, show me the cpu usage per device in the last 1 hour. We call this type of processing `Last X Streaming Processing` in Timeplus and Timeplus provides a specialized SQL extension for ease of use: `EMIT LAST <n><UNIT>`. As in other parts of streaming queries, users can use interval shortcuts here.
 
-**Note** For now, last X streaming processing is process time processing by default and Timeplus Proton will seek both streaming storage and historical to backfill data in last X time range and it is using wall clock time to do the seek. Event time based on last X processing is still under development. When event based last X processing is ready, the by default last X processing will be changed to event time.
+:::info
+
+By default, `EMIT LAST` uses the event time. Timeplus Proton will seek both streaming storage and historical to backfill data in last X time range. `EMIT LAST .. ON PROCTIME` uses the wall clock time to do the seek.
+
+:::
 
 #### EMIT LAST for Streaming Tail
 
