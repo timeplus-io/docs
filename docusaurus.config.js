@@ -28,6 +28,10 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
+        gtag: {
+          trackingID: 'G-8HHYCJFNRD',
+          anonymizeIP: true,
+        }, 
         docs: {
           path: 'docs',
           routeBasePath: '/', // Serve the docs at the site's root
@@ -55,7 +59,7 @@ const config = {
     ({
       hubspot: {
         accountId: 23123537,
-      },
+      },     
       mermaid:{
         theme: {light: 'neutral', dark: 'dark'},
       },

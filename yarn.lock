@@ -10,20 +10,20 @@
     "@algolia/autocomplete-plugin-algolia-insights" "1.9.3"
     "@algolia/autocomplete-shared" "1.9.3"
 
-"@algolia/autocomplete-core@^1.16.0":
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.16.0.tgz#fd3ce639af64ee835c39714315d3db13ca36df42"
-  integrity sha512-3tb1TPVNWxBwS8h9ezqLF2iSCFaw3lvh9k9A9kCIZjgABAluyhH2dveAa4Sc9OhJSHbxE1QaCq6t8mmUwN0UtA==
+"@algolia/autocomplete-core@^1.17.0":
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.17.0.tgz#b9e62d9677dc0ee818bb59d917ff58908356a9a0"
+  integrity sha512-6E4sVb5+fGtSQs9mULlxUH84OWFUVZPMapa5dMCtUc7KyDRLY6+X/dA8xbDA8CX5phdBn1plLUET1B6NZnrZuw==
   dependencies:
-    "@algolia/autocomplete-plugin-algolia-insights" "1.16.0"
-    "@algolia/autocomplete-shared" "1.16.0"
+    "@algolia/autocomplete-plugin-algolia-insights" "1.17.0"
+    "@algolia/autocomplete-shared" "1.17.0"
 
-"@algolia/autocomplete-plugin-algolia-insights@1.16.0":
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.16.0.tgz#6479dc1ab358ff219bc0d5998c2c02511a172a68"
-  integrity sha512-8Di68heyMeRJ5jJTONe4HQ2YMQ5bGlnSVIsJi7XEJW6tRI5m/lQSqpTdd0HOzhBruUpg4dKYK5ylpxD28WPTqg==
+"@algolia/autocomplete-plugin-algolia-insights@1.17.0":
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.17.0.tgz#dcec9b03a47375860a9f927816a1275d885ebdff"
+  integrity sha512-zbWImu+VxBDzUQONEhQXq3OzlipHLEtWbL4Nf/VOb1p1qHG/f96jCegOzzEZVPiQvZpRJnmhCUmsYNHlIBxKWw==
   dependencies:
-    "@algolia/autocomplete-shared" "1.16.0"
+    "@algolia/autocomplete-shared" "1.17.0"
 
 "@algolia/autocomplete-plugin-algolia-insights@1.9.3":
   version "1.9.3"
@@ -39,10 +39,10 @@
   dependencies:
     "@algolia/autocomplete-shared" "1.9.3"
 
-"@algolia/autocomplete-shared@1.16.0":
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.16.0.tgz#7535d411938841695b3ab9b63f4fc17180f973bb"
-  integrity sha512-h6ZJBJ1erx3D3RLLolOUdt+cEcUEraqxqm/dw9lm8nNeyGkVyrhjchJUMo5SkFeac/Gdp/wom7zAjC0yxB4NBA==
+"@algolia/autocomplete-shared@1.17.0":
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.17.0.tgz#7d0a8e504fe555c48df7ae6854d3d6633b0b32f5"
+  integrity sha512-7su4KH/2q2Fhud2VujUNhCMbIh7yp6wqWR3UuVje5P3kDRhTotPRmg3iRQi48YRYkk9o+airsrLl+rxJ/9FWng==
 
 "@algolia/autocomplete-shared@1.9.3":
   version "1.9.3"
@@ -1799,7 +1799,7 @@
     "@docusaurus/utils-validation" "3.1.1"
     tslib "^2.6.0"
 
-"@docusaurus/plugin-google-gtag@3.1.1":
+"@docusaurus/plugin-google-gtag@3.1.1", "@docusaurus/plugin-google-gtag@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@docusaurus/plugin-google-gtag/-/plugin-google-gtag-3.1.1.tgz#7e8b5aa6847a12461c104a65a335f4a45dae2f28"
   integrity sha512-0mMPiBBlQ5LFHTtjxuvt/6yzh8v7OxLi3CbeEsxXZpUzcKO/GC7UA1VOWUoBeQzQL508J12HTAlR3IBU9OofSw==
@@ -2127,6 +2127,13 @@
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-3.0.0.tgz#eaccaa8d6a7736b19080aff5a70448a7ba692271"
   integrity sha512-nDctevR9KyYFyV+m+/+S4cpzCWHqj+iHDHq3QrsWezcC+B17uZdIWgCguESUkwFhM3n/56KxWVE3V6EokrmONQ==
+  dependencies:
+    "@types/mdx" "^2.0.0"
+
+"@mdx-js/react@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-3.0.1.tgz#997a19b3a5b783d936c75ae7c47cfe62f967f746"
+  integrity sha512-9ZrPIU4MGf6et1m1ov3zKf+q9+deetI51zprKB1D/z3NOb+rUxxtEl3mCjW5wTGh6VhRdwPueh1oRzi6ezkA8A==
   dependencies:
     "@types/mdx" "^2.0.0"
 
@@ -2637,10 +2644,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^18.2.55":
-  version "18.2.55"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.55.tgz#38141821b7084404b5013742bc4ae08e44da7a67"
-  integrity sha512-Y2Tz5P4yz23brwm2d7jNon39qoAtMMmalOQv6+fEFt1mT+FcM3D841wDpoUvFXhaYenuROCy3FZYqdTjM7qVyA==
+"@types/react@^18.2.56":
+  version "18.2.56"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.56.tgz#2d3e9021a0b6eb5bfc227761cc61b1c6dc6e0cd8"
+  integrity sha512-NpwHDMkS/EFZF2dONFQHgkPRwhvgq/OAvIaGQzxGSBmaeR++kTg6njr15Vatz0/2VcCEwJQFi6Jf4Q0qBu0rLA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
