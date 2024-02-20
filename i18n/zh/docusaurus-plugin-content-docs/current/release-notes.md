@@ -2,6 +2,19 @@
 
 本页总结了Timeplus中每个重要更新内容，包括新功能和重要的错误修复。
 
+## Feb 20, 2024
+
+*Proton：*
+  * In Proton v1.5.1, we introduced more streaming result emit polices, based on feedback from ksqlDB users. Most notably, when you run tumble/hop/session window aggregations, before the window closes, the intermediate aggregation results can be emitted at a certain interval or when the value changes. [Learn more in our docs](query-syntax#emit)
+  * You can now install Proton as a single binary via `curl https://install.timeplus.com | sh`.
+  * Besides GitHub Container Registry (GHCR), you can also pull Proton Docker via `docker pull public.ecr.aws/timeplus/proton`.
+  * A first version of the Rust Client for Proton is now available at https://crates.io/crates/proton_client, contributed by Marvin Hansen (Director of Emet-Labs).
+
+*Timeplus Cloud:*
+  * For NATS data source, we’ve added the option in the UI to choose either JWT or NKey file content for authentication.
+  * When you add a Confluent Cloud data source with Avro Schema Registry, the UI will suggest a set of column names for the new stream, but you’ll need to choose the proper data types. In the future, we will enhance it to load the data types from the schema registry.
+  * In an upcoming release, you will be able to run any SQL in Timeplus Cloud, including `CREATE EXTERNAL TABLE` and other Data Definition Language (DDL). Contact us for early access to this new feature.
+
 ## 2024 年 2 月 5 日
 
 **Proton（当前版本：v1.4.2）：**
@@ -12,7 +25,7 @@
   * 我们改进了若干关于产品用量匿名上报的配置。 无论是单一二进制部署还是 Docker 部署，你都可以设置一个 `TELEMETRY_ENABLED` 环境变量。 报告间隔从 2 分钟更改为 5 分钟。
   * 对我们文档的改进：重新组织了 Proton 文档，添加了 [“Proton How To” 页面](proton-howto)，并更新了有关为 [Kafka 外部流](proton-kafka#create-external-stream)使用认证的详细信息。
 
-*Timeplus Cloud:*
+*Timeplus 云服务:*
   * 引入一个新的数据源：HTTP 流。 输入URL、方法以及可选标头和有效负载。
   * 现在已为 NATS 源添加了身份验证。
   * 对于外部流，我们在侧面板中查看详细信息时添加了更多信息，例如 Kafka 代理、主题和数据结构。
@@ -27,7 +40,7 @@
   * (v1.3.31) 默认情况下，我们禁用历史回填排序。 [在我们的查询指南中了解更多](query-syntax#query-settings) ，包括如何启用。
   * Proton与Upstash的集成：使用Upstash创建Kafka集群和主题，作为数据源或数据下游。 适用于 [Timeplus Cloud](https://upstash.com/docs/kafka/integrations/timeplus) 和 [Proton](https://upstash.com/docs/kafka/integrations/proton)。
 
-*Timeplus 云服务:*
+*Timeplus Cloud:*
   * In Data Lineage, external streams are now shown in a different color for better distinction.
   * Also in Data Lineage, you can search by keyword.
   * In chart format settings, you can set the maximum numbers of characters to show for a label on the x- or y-axis.
