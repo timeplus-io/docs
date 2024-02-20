@@ -8,7 +8,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
   * In Proton v1.5.1, we introduced more streaming result emit polices, based on feedback from ksqlDB users. Most notably, when you run tumble/hop/session window aggregations, before the window closes, the intermediate aggregation results can be emitted at a certain interval or when the value changes. [Learn more in our docs](query-syntax#emit)
   * You can now install Proton as a single binary via `curl https://install.timeplus.com | sh`.
   * Besides GitHub Container Registry (GHCR), you can also pull Proton Docker via `docker pull public.ecr.aws/timeplus/proton`.
-  * A first version of the Rust Client for Proton is now available, contributed by Marvin Hansen (Director of Emet-Labs). See [examples](https://github.com/marvin-hansen/proton-rust-client/tree/main/examples) and [download the package/docs](https://crates.io/crates/proton_client).
+  * A first version of the Rust Client for Proton is now available at https://crates.io/crates/proton_client, contributed by Marvin Hansen (Director of Emet-Labs). 
 
 *Timeplus Cloud:*
   * For NATS data source, we’ve added the option in the UI to choose either JWT or NKey file content for authentication.
