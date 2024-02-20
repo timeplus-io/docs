@@ -4,15 +4,16 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 
 ## Feb 20, 2024
 
-*Proton (Current version: v1.5.1):*
+*Proton:*
   * In Proton v1.5.1, we introduced more streaming result emit polices, based on feedback from ksqlDB users. Most notably, when you run tumble/hop/session window aggregations, before the window closes, the intermediate aggregation results can be emitted at a certain interval or when the value changes. [Learn more in our docs](query-syntax#emit)
   * You can now install Proton as a single binary via `curl https://install.timeplus.com | sh`.
-  * Besides GitHub Container Registry (GHCR), you can also pull Proton Docker via `docker pull public.ecr.aws/timeplus/proton`. Read more about how we choose various Docker registries in [this blog article](https://blog.devops.dev/docker-hub-or-ghcr-or-ecr-lazy-mans-guide-4da1d943d26e). 
+  * Besides GitHub Container Registry (GHCR), you can also pull Proton Docker via `docker pull public.ecr.aws/timeplus/proton`.
+  * A first version of the Rust Client for Proton is now available, contributed by Marvin Hansen (Director of Emet-Labs). See [examples](https://github.com/marvin-hansen/proton-rust-client/tree/main/examples) and [docs](https://docs.rs/proton_client/latest/proton_client/struct.ProtonClient.html).
 
 *Timeplus Cloud:*
   * For NATS data source, we’ve added the option in the UI to choose either JWT or NKey file content for authentication.
-  * When you add a Confluent Cloud data source with Avro Schema Registry, the UI will suggest a set of column names for the new stream, but you’ll need to choose the proper data types. In an upcoming release, we will enhance it to load the data types from the schema registry.
-  * Upcoming feature: In an upcoming release, you will be able to run any SQL in Timeplus Cloud, including `CREATE EXTERNAL TABLE` and other Data Definition Language (DDL). Contact us for early access to this new feature.
+  * When you add a Confluent Cloud data source with Avro Schema Registry, the UI will suggest a set of column names for the new stream, but you’ll need to choose the proper data types. In the future, we will enhance it to load the data types from the schema registry.
+  * In an upcoming release, you will be able to run any SQL in Timeplus Cloud, including `CREATE EXTERNAL TABLE` and other Data Definition Language (DDL). Contact us for early access to this new feature.
 
 ## Feb 5, 2024
 
