@@ -52,7 +52,7 @@ Timeplus使您能够将实时的洞察力发送到其他系统，以通知个人
 
 一个源是Timeplus中的后台作业，将数据加载到 [流](#stream) 中。 Timeplus与各种系统相结合，作为数据来源，例如Apache Kafka。
 
-了解更多： [数据接收](http://localhost:3030/docs/ingestion)
+Learn more: [Data Ingestion](ingestion)
 
 ## 流 Stream {#stream}
 
