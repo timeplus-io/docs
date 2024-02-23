@@ -52,7 +52,7 @@ Learn more: [Destination](destination).
 
 A source is a background job in Timeplus to load data into a [stream](#stream). Timeplus integrates with a wide range of systems as data sources, such as Apache Kafka.
 
-Learn more: [Data Ingestion](http://localhost:3030/docs/ingestion) 
+Learn more: [Data Ingestion](ingestion) 
 
 ## stream {#stream}
 

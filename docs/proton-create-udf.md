@@ -8,14 +8,6 @@ That's why we add User-Defined Functions (UDF) support in Proton. This enables u
 
 Proton supports [Local UDF in JavaScript](js-udf). You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported. 
 
-
-
-:::info
-
-Require Proton 1.3.15 or above to manage UDF.
-
-:::
-
 ## CREATE OR REPLACE FUNCTION
 
 You can create or replace a JavaScript UDF, by specifying the function name, input and output data types. Please check the mapping of data types for [input](js-udf#arguments) and [output](js-udf#returned-value).
@@ -26,11 +18,11 @@ The following example defines a new function `test_add_five_5`:
 CREATE OR REPLACE FUNCTION test_add_five_5(value float32) 
 RETURNS float32 
 LANGUAGE JAVASCRIPT AS $$
-  function test_add_five_5(value) {
-    for(let i=0;i<value.length;i++) {
-      value[i]=value[i]+5;
+  function test_add_five_5(values) {
+    for(let i=0;i<values.length;i++) {
+      values[i]=values[i]+5;
     }
-    return value;
+    return values;
   }
 $$;
 ```
@@ -39,9 +31,9 @@ Note:
 
 * Line 1: the function is to be created with name `test_add_five_5`, taking a single `float32` parameter.
 * Line 2: the function is to return a `float32`
-* Line 4: the same function name is defined in the code block. To improve performance, multiple UDF calls will be batched. The `value` is actually an array of `float`
+* Line 4: the same function name is defined in the code block. To improve performance, multiple UDF calls will be batched. The `values` is an array of `float`
 * Line 5 and 6: iterating the input array and add 5 to each value
-* Line 8: return an array of new values as return type
+* Line 8: return an array of new values
 * Line 10: close the code block.
 
 ## CREATE AGGREGATE FUNCTION

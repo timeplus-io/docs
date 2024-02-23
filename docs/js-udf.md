@@ -1,6 +1,6 @@
 # Local UDF in JavaScript
 
-In addition to [Remote UDF](remote-udf), Timeplus also supports JavaScript-based UDF running in the database engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
+In addition to [Remote UDF](remote-udf), Timeplus Proton also supports JavaScript-based UDF running in the sql engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
 
 :::info
 
