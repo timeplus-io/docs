@@ -2,10 +2,10 @@
 
 本页总结了Timeplus中每个重要更新内容，包括新功能和重要的错误修复。
 
-## Feb 20, 2024
+## 2024 年 2 月 20 日
 
 *Proton：*
-  * In Proton v1.5.1, we introduced more streaming result emit polices, based on feedback from ksqlDB users. Most notably, when you run tumble/hop/session window aggregations, before the window closes, the intermediate aggregation results can be emitted at a certain interval or when the value changes. [Learn more in our docs](query-syntax#emit)
+  * 在 Proton v1.5.1 中，我们根据 ksqlDB 用户的反馈推出了更多的流式结果的发布政策。 Most notably, when you run tumble/hop/session window aggregations, before the window closes, the intermediate aggregation results can be emitted at a certain interval or when the value changes. [Learn more in our docs](query-syntax#emit)
   * You can now install Proton as a single binary via `curl https://install.timeplus.com | sh`.
   * Besides GitHub Container Registry (GHCR), you can also pull Proton Docker via `docker pull public.ecr.aws/timeplus/proton`.
   * A first version of the Rust Client for Proton is now available at https://crates.io/crates/proton_client, contributed by Marvin Hansen (Director of Emet-Labs).
