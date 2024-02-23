@@ -69,7 +69,7 @@ In case you cannot access ghcr, you can pull the image from `public.ecr.aws/time
 
 The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
 
-### Timeplus Cloud:
+### Timeplus Cloud：
 
 One step to try Proton in [Timeplus Cloud](https://us.timeplus.cloud/)
 
