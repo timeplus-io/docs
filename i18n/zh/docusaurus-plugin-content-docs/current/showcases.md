@@ -20,7 +20,7 @@ Based on real-world customer scenarios for post-trade capital markets, we turn r
 
 As one of our first case studies, check out how leading fintech player Alpha Stream deployed Timeplus to quickly upgrade its real-time analytics capabilities.
 
-> "We are able to simply plug the sources into Timeplus and start writing queries over the streaming data to get the results. No need to compile and deploy a code. This makes prototyping to deploy applications really fast." *-Hamilton Araujo, Managing Director, Alpha Stream*
+> "We are able to simply plug the sources into Timeplus and start writing queries over the streaming data to get the results. No need to compile and deploy a code. This makes prototyping to deploy applications really fast." *-Hamilton Araujo, Managing Director, Alpha Stream* No need to compile and deploy a code. This makes prototyping to deploy applications really fast." *-Hamilton Araujo, Managing Director, Alpha Stream*
 
 [Read case study](https://www.timeplus.com/post/real-time-pricing-made-easy)
 
@@ -52,7 +52,7 @@ By leveraging streaming SQL, [Versioned Stream](versioned-stream), [HTTP ingesti
 
 ### Real-time GitHub insights
 
-We all love GitHub. But do you know what’s trending on Github right now? We built a real-time app with Timeplus API and GitHub API.
+We all love GitHub. But do you know what’s trending on Github right now? We all love GitHub. But do you know what’s trending on Github right now? We built a real-time app with Timeplus API and GitHub API.
 
 [Read case study](https://www.timeplus.com/post/github-real-time-app) | Demo: [Timeplus Cloud](https://demo.timeplus.cloud), [Streamlit](https://timeplus.streamlit.app/github_dashboard) | [Github repo](https://github.com/timeplus-io/streamlit_apps)
 
@@ -62,13 +62,13 @@ We all love GitHub. But do you know what’s trending on Github right now? We bu
 
 ### SOC2 compliance dashboards&alerts {#soc2}
 
-Timeplus has achieved SOC2 Type 1 compliance [since April 2023](https://www.timeplus.com/post/soc2-type1). We chose [Drata](https://drata.com/) to help us automates the compliance journey. We setup a process to call [Drata Open API](https://drata.com/product/api), and send the compliance findings to Timeplus as a JSON document. We then set up dashboards and a Slack sink to help us monitor the compliance to-do items.
+Timeplus has achieved SOC2 Type 1 compliance [since April 2023](https://www.timeplus.com/post/soc2-type1). We chose [Drata](https://drata.com/) to help us automates the compliance journey. We setup a process to call [Drata Open API](https://drata.com/product/api), and send the compliance findings to Timeplus as a JSON document. We then set up dashboards and a Slack sink to help us monitor the compliance to-do items. We chose [Drata](https://drata.com/) to help us automates the compliance journey. We setup a process to call [Drata Open API](https://drata.com/product/api), and send the compliance findings to Timeplus as a JSON document. We then set up dashboards and a Slack sink to help us monitor the compliance to-do items.
 
 ### Container vulnerability monitoring {#container}
 
-Build real-time monitoring systems for container vulnerabilities with Timeplus. Eric Guo, DevOps Director of Aurora Health Science & Technology Co., shares how his team set up a system to provide actionable insights to keep their system secure at all times.
+Build real-time monitoring systems for container vulnerabilities with Timeplus. Eric Guo, DevOps Director of Aurora Health Science & Technology Co., shares how his team set up a system to provide actionable insights to keep their system secure at all times. Eric Guo, DevOps Director of Aurora Health Science & Technology Co., shares how his team set up a system to provide actionable insights to keep their system secure at all times.
 
-> "We are delighted to have integrated Timeplus into our data infrastructure at Aurora, replacing our previous Flink clusters while utilizing just a fraction of the hardware resources, a reduction of nearly 80%. With Timeplus, we have significantly improved the analytical capabilities of AuroraPrime, reducing the turnaround time for user-facing reports and dashboards." *– Eric Guo, DevOps Director, Aurora*
+> "We are delighted to have integrated Timeplus into our data infrastructure at Aurora, replacing our previous Flink clusters while utilizing just a fraction of the hardware resources, a reduction of nearly 80%. With Timeplus, we have significantly improved the analytical capabilities of AuroraPrime, reducing the turnaround time for user-facing reports and dashboards." *– Eric Guo, DevOps Director, Aurora* With Timeplus, we have significantly improved the analytical capabilities of AuroraPrime, reducing the turnaround time for user-facing reports and dashboards." *– Eric Guo, DevOps Director, Aurora*
 
 [Read case study](https://www.timeplus.com/post/real-time-container-vulnerabilities-monitoring)
 
@@ -76,7 +76,7 @@ Build real-time monitoring systems for container vulnerabilities with Timeplus. 
 
 ### Monitor Superblocks user activities
 
-At Timeplus, we built a few internal tools with [Superblocks](http://superblocks.com/). To track how our internal tools are being used, we configured Superblocks to send audit logs and user activities to Confluent Cloud, then load them into Timeplus. Next, we built dashboards and alerts in our own platform to understand the usage or capture any potential issues.
+At Timeplus, we built a few internal tools with [Superblocks](http://superblocks.com/). At Timeplus, we built a few internal tools with [Superblocks](http://superblocks.com/). To track how our internal tools are being used, we configured Superblocks to send audit logs and user activities to Confluent Cloud, then load them into Timeplus. Next, we built dashboards and alerts in our own platform to understand the usage or capture any potential issues. Next, we built dashboards and alerts in our own platform to understand the usage or capture any potential issues.
 
 ![Superblocks dashboard screenshot](https://static.wixstatic.com/media/b32125_f955e16bbdb84ca4866df92a37849243~mv2.png/v1/fill/w_1480,h_572,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/b32125_f955e16bbdb84ca4866df92a37849243~mv2.png)
 
@@ -84,7 +84,7 @@ At Timeplus, we built a few internal tools with [Superblocks](http://superblocks
 
 ### Protect sensitive information in Slack {#slack}
 
-Many organizations rely on [Slack](https://slack.com/about) to connect people, tools, customers, and partners in a digital HQ. We built a showcase app to demonstrate how to process messages in real-time and trigger actions via the Timeplus platform, for example, removing messages that contain sensitive keywords.
+Many organizations rely on [Slack](https://slack.com/about) to connect people, tools, customers, and partners in a digital HQ. Many organizations rely on [Slack](https://slack.com/about) to connect people, tools, customers, and partners in a digital HQ. We built a showcase app to demonstrate how to process messages in real-time and trigger actions via the Timeplus platform, for example, removing messages that contain sensitive keywords.
 
 [Read case study](https://www.timeplus.com/post/build-a-real-time-security-app-in-3-easy-steps)
 
@@ -94,9 +94,9 @@ Many organizations rely on [Slack](https://slack.com/about) to connect people, t
 
 ### Real-time fleet monitoring {#fleet}
 
-Gain real-time visibility into fleet operations using only SQL. Based on real-world customer scenarios, here's how to monitor the entire truck fleet’s status in real-time to detect speeding and fatigued drivers, and to conduct geofencing related checks.
+Gain real-time visibility into fleet operations using only SQL. Gain real-time visibility into fleet operations using only SQL. Based on real-world customer scenarios, here's how to monitor the entire truck fleet’s status in real-time to detect speeding and fatigued drivers, and to conduct geofencing related checks.
 
-> "We are thrilled to partner with Timeplus and gain real-time visibility to our 2000+ trucks, with much lower latency, smarter alerts and shorter Time-To-Value, compared to our previous solutions." *- Minfeng Xie, Chief Technology Officer, Duckbill*
+> "We are thrilled to partner with Timeplus and gain real-time visibility to our 2000+ trucks, with much lower latency, smarter alerts and shorter Time-To-Value, compared to our previous solutions." *- Minfeng Xie, Chief Technology Officer, Duckbill* *- Minfeng Xie, Chief Technology Officer, Duckbill*
 
 [Read case study](https://www.timeplus.com/post/case-study-real-time-fleet-monitoring-with-timeplus) | [See live demo](https://demo.timeplus.cloud/)
 
@@ -104,7 +104,7 @@ Gain real-time visibility into fleet operations using only SQL. Based on real-wo
 
 ### Real-time sensor data from your phone {#phone}
 
-[Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger#live-data-streaming) is a free, easy-to-use, cross-platform data logger that logs readings from common motion-related sensors on smartphones. It can push data to Timeplus via the [Ingest API](ingest-api), allowing you to build real-time dashboards.
+[Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger#live-data-streaming) is a free, easy-to-use, cross-platform data logger that logs readings from common motion-related sensors on smartphones. It can push data to Timeplus via the [Ingest API](ingest-api), allowing you to build real-time dashboards. It can push data to Timeplus via the [Ingest API](ingest-api), allowing you to build real-time dashboards.
 
 [Watch demo video](https://www.youtube.com/watch?v=iWA8FHjyatE)
 
@@ -116,7 +116,7 @@ Gain real-time visibility into fleet operations using only SQL. Based on real-wo
 
 Video engagement metrics are important to video creators, which serve as valuable indicators of content quality, help users manage their time effectively, facilitate interaction with content creators and other viewers, and contribute to the overall user experience on video-sharing platforms.
 
-In May 2023, Livepeer released their version of these  [engagement metrics](https://docs.livepeer.org/guides/developing/viewer-engagement) offering detailed information on viewer behavior and playback quality on your platform. The API includes engagement metrics such as view counts and watch time, as well as performance metrics such as error rate, time to first frame, rebuffer ratio, and exit-before-starts across a variety of dimensions.
+In May 2023, Livepeer released their version of these  [engagement metrics](https://docs.livepeer.org/guides/developing/viewer-engagement) offering detailed information on viewer behavior and playback quality on your platform. The API includes engagement metrics such as view counts and watch time, as well as performance metrics such as error rate, time to first frame, rebuffer ratio, and exit-before-starts across a variety of dimensions. The API includes engagement metrics such as view counts and watch time, as well as performance metrics such as error rate, time to first frame, rebuffer ratio, and exit-before-starts across a variety of dimensions.
 
 In [this blog](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engagement-metrics-with-timeplus), we showed you how Timeplus can be used to create analytic solutions for Livepeer’s engagement metrics with a few commands.
 
@@ -126,19 +126,19 @@ In [this blog](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engag
 
 ### Auth0 notifications for new signups {#signup}
 
-Like many other companies, we chose [Auth0](https://auth0.com/) as the authentication and authorization platform for our cloud offering. With our powerful [Ingestion API](ingest-api), we can easily route all Auth0 new user signup events to Timeplus with webhook, then build real-time slack notifications to one private channels for Product Manager to engage with new users at real-time.
+Like many other companies, we chose [Auth0](https://auth0.com/) as the authentication and authorization platform for our cloud offering. Like many other companies, we chose [Auth0](https://auth0.com/) as the authentication and authorization platform for our cloud offering. With our powerful [Ingestion API](ingest-api), we can easily route all Auth0 new user signup events to Timeplus with webhook, then build real-time slack notifications to one private channels for Product Manager to engage with new users at real-time.
 
 ### HubSpot custom dashboards/alerts {#hubspot}
 
-We use [HubSpot](https://hubspot.com/) as our CRM system. We have built sink connectors for both [AirByte](https://github.com/airbytehq/airbyte/pull/21226) and [Meltano](https://github.com/timeplus-io/target-timeplus) Batch jobs are configured to use the HubSpot source connector to send data to Timeplus workspace. This kind of basic customer information can be used to build custom dashboards, alerts and lookups to enrich other data.
+We use [HubSpot](https://hubspot.com/) as our CRM system. We use [HubSpot](https://hubspot.com/) as our CRM system. We have built sink connectors for both [AirByte](https://github.com/airbytehq/airbyte/pull/21226) and [Meltano](https://github.com/timeplus-io/target-timeplus) Batch jobs are configured to use the HubSpot source connector to send data to Timeplus workspace. This kind of basic customer information can be used to build custom dashboards, alerts and lookups to enrich other data. This kind of basic customer information can be used to build custom dashboards, alerts and lookups to enrich other data.
 
 ### Jitsu clickstream analysis
 
-We use the open source [Jitsu](https://jitsu.com/) platform to collect event data from every source - web, email, chatbot, CRM - into our choice of data stack: Timeplus. The free version of Jitsu Cloud allows you to send events out via a webhook. With our powerful [Ingestion API](ingest-api), those page view data arrive in Timeplus workspace in real-time and help us to understand the usage pattern, from past 0.6 second to past 6 months.
+We use the open source [Jitsu](https://jitsu.com/) platform to collect event data from every source - web, email, chatbot, CRM - into our choice of data stack: Timeplus. The free version of Jitsu Cloud allows you to send events out via a webhook. With our powerful [Ingestion API](ingest-api), those page view data arrive in Timeplus workspace in real-time and help us to understand the usage pattern, from past 0.6 second to past 6 months. The free version of Jitsu Cloud allows you to send events out via a webhook. With our powerful [Ingestion API](ingest-api), those page view data arrive in Timeplus workspace in real-time and help us to understand the usage pattern, from past 0.6 second to past 6 months.
 
 ### Real-time Twitter marketing {#twitter}
 
-Twitter(X) is all about what is happening and what people are talking about right now. We partner with [datapm](https://datapm.io/) and published a [blog](https://www.timeplus.com/post/real-time-twitter-marketing)  to share how Timeplus and DataPM can help you develop a real-time Twitter marketing app within a few minutes, without a single line of code. This makes it super easy to create real-time social listening apps to understand how customers are talking about your company or products, and plan your next social marketing campaign with trending hot topics.
+Twitter(X) is all about what is happening and what people are talking about right now. Twitter(X) is all about what is happening and what people are talking about right now. We partner with [datapm](https://datapm.io/) and published a [blog](https://www.timeplus.com/post/real-time-twitter-marketing)  to share how Timeplus and DataPM can help you develop a real-time Twitter marketing app within a few minutes, without a single line of code. This makes it super easy to create real-time social listening apps to understand how customers are talking about your company or products, and plan your next social marketing campaign with trending hot topics. This makes it super easy to create real-time social listening apps to understand how customers are talking about your company or products, and plan your next social marketing campaign with trending hot topics.
 
 ![Twitter screenshot](https://static.wixstatic.com/media/b32125_9cc9aa162b174834a4b7994f69eb33ca~mv2.png/v1/fill/w_1480,h_664,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/b32125_9cc9aa162b174834a4b7994f69eb33ca~mv2.png)
 
