@@ -1,4 +1,4 @@
-# Schema Management
+# Protobuf Schema
 
 ## Create A Schema {#create}
 

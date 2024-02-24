@@ -2,6 +2,50 @@
 
 本页总结了Timeplus中每个重要更新内容，包括新功能和重要的错误修复。
 
+## 2024 年 2 月 20 日
+
+*Proton：*
+  * 在 Proton v1.5.1 中，我们根据 ksqlDB 用户的反馈推出了更多的流式结果的发布政策。 最值得注意的是，当您运行 tumble/hop/session 窗口聚合时，在窗口关闭之前，中间聚合结果可以按一定的间隔或值发生变化时发出。 [在我们的文档中了解更多](query-syntax#emit)
+  * 现在您可以通过 `curl https://install.timeplus.com | sh` 将 Proton 作为单个二进制文件安装。
+  * 除了 GitHub Container Registry（GHCR）以外，您还可以通过 `docker pull public.ecr.aws/timeplus/proton`提取 Proton Docker。
+  * 由Marvin Hansen (Emet-Labs的负责人) 贡献的Proton Rust客户端的初始版本现已在 https://crates.io/crates/proton_client 上公开发布。
+
+*Timeplus Cloud：*
+  * 对于 NATS 数据源，我们在用户界面中添加了选择 JWT 或 NKey 文件内容进行身份验证的选项。
+  * 当你使用 Avro 架构注册表添加 Confluent Cloud 数据源时，用户界面会为新数据流建议一组列名，但您需要选择正确的数据类型。 未来，我们将对其进行增强，使其从架构注册表加载数据类型。
+  * 在即将发布的版本中，您将能够在 Timeplus Cloud 中运行任何 SQL，包括 `CREATE EXTERNAL TABLE` 和其他数据定义语言 (DDL)。 联系我们，抢先体验这项新功能。
+
+## 2024 年 2 月 5 日
+
+**Proton（当前版本：v1.4.2）：**
+  * 自 Proton v1.4.2 以来，我们增加了对读取或写入 ClickHouse 表格的支持。 为此，我们在 Proton 中引入了一个新概念：“外部表”。 与 [External Stream](external-stream)类似，Proton 中不保留任何数据。 将来，我们将通过引入其他类型的外部表来支持更多的集成。 [有关用例和更多详细信息，请参阅我们的文档](proton-clickhouse-external-table) 。
+  * 根据用户反馈，我们简化了读取 Kafka 主题中 JSON 文档中键/值对的过程。 你不需要将所有键定义为列，也无需在 DDL 或 SQL 中设置 `input_format_skip_unknown_fields`。 [了解更多](proton-kafka#multi_col_read)
+  * 对于随机流，您现在可以将 EPS（每秒事件数）定义为 0 到 1 之间的数字。 例如，eps=0.5 表示每 2 秒生成一个事件。
+  * 添加了一个新的 [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) 函数，用于将键值对从字符串提取到哈希字典。
+  * 我们改进了若干关于产品用量匿名上报的配置。 无论是单一二进制部署还是 Docker 部署，你都可以设置一个 `TELEMETRY_ENABLED` 环境变量。 报告间隔从 2 分钟更改为 5 分钟。
+  * 对我们文档的改进：重新组织了 Proton 文档，添加了 [“Proton How To” 页面](proton-howto)，并更新了有关为 [Kafka 外部流](proton-kafka#create-external-stream)使用认证的详细信息。
+
+*Timeplus 云服务:*
+  * 引入一个新的数据源：HTTP 流。 输入URL、方法以及可选标头和有效负载。
+  * 现在已为 NATS 源添加了身份验证。
+  * 对于外部流，我们在侧面板中查看详细信息时添加了更多信息，例如 Kafka 代理、主题和数据结构。
+  * 在查询历史记录中，如果查询失败，您现在可以从工具提示中复制错误消息。
+
+## 2024 年 1 月 22 日
+
+*Proton：*
+  * Proton v1.4.1 现已发布。 请注意：您不能使用旧版本的 Proton 客户端连接到新的 v1.4 Proton 服务器——请务必更新您的 Proton 客户端。 所有现有的 JDBC、ODBC、Go 和 Python 驱动程序仍将照常运行。
+  * (v1.3.31) 我们添加了新的外部流设置 `message_key`，该表达式返回用作每行的消息密钥的字符串值。 `message_key`可以与 `sharding_expr`（它在 Kafka 主题中指定目标分区号）一起使用，而 “sharding_expr” 的优先级更高。 [了解更多](proton-kafka#messagekey)
+  * (v1.3.31) 以纯文本写入 Kafka：你现在可以 [生成原始格式的数据](proton-kafka#single_col_write) 到包含单列的 Kafka 外部流。
+  * (v1.3.31) 默认情况下，我们禁用历史回填排序。 [在我们的查询指南中了解更多](query-syntax#query-settings) ，包括如何启用。
+  * Proton与Upstash的集成：使用Upstash创建Kafka集群和主题，作为数据源或数据下游。 适用于 [Timeplus Cloud](https://upstash.com/docs/kafka/integrations/timeplus) 和 [Proton](https://upstash.com/docs/kafka/integrations/proton)。
+
+*Timeplus Cloud：*
+  * In Data Lineage, external streams are now shown in a different color for better distinction.
+  * Also in Data Lineage, you can search by keyword.
+  * In chart format settings, you can set the maximum numbers of characters to show for a label on the x- or y-axis.
+  * We now auto-select a chart type based on your data. If you have a datetime column and numeric columns, we will default to a line chart. If you have only numeric columns: single value chart. And if no numeric columns: table chart.
+
 ## Jan 8, 2024
 
 *Proton：*
@@ -10,7 +54,7 @@
   * (v1.3.30) New functions for processing text: [base64_encode](functions_for_text#base64_encode), [base64_decode](functions_for_text#base64_decode), [base58_encode](functions_for_text#base58_encode), and [base58_decode](functions_for_text#base58_decode),
   * (v1.3.30) When creating an external stream, you can set sasl_mechanism to SCRAM-SHA-512, SCRAM-SHA-256, or PLAIN (default value). Learn more with [examples](proton-kafka#create-external-stream) in our docs.
 
-*Timeplus Cloud:*
+*Timeplus Cloud：*
   * In dashboard charts, you can now switch the chart into a table view.
   * Also in dashboard charts: additional options in View and Edit modes, such as Go Fullscreen, are shown in a dropdown. The chart size selector in Edit mode show an example of the size.
 
@@ -25,7 +69,7 @@
   * [Proton Metabase Driver (v0.0.3)](https://github.com/timeplus-io/metabase-proton-driver) is released to improve compatibility for Proton with case insensitive SQL functions.
   * The [Grafana plugin for Proton](https://grafana.com/grafana/plugins/timeplus-proton-datasource) has been enhanced and published on Grafana Catalog. You can install it via admin pages without downloading the file manually. Please make sure both 8463 and 3218 ports from Proton are accessible from Grafana, since the new version will call Proton query analyzer API (on 3218) to determine whether it is a streaming query or not, then render results differently. With this plugin, you can build charts and dashboards with data in Proton, as well as other data sources configured in your Grafana. Give it a try and let us know what you think!
 
-*Timeplus Cloud:*
+*Timeplus Cloud：*
   * New Core NATS/JetStream datasource is now available. We welcome any feedback!
   * WebSocket source now supports multiple open messages.
   * The chart type selector is now a dropdown, with hints for required columns when a type is disabled.
@@ -40,7 +84,7 @@
   * [Proton Metabase驱动](https://github.com/timeplus-io/metabase-proton-driver) 的新版本 (v0.0.2) 已推出：能够列出表和列。
   * 新增函数： [lag_behind](functions_for_streaming#lag_behind)，专为流 JOIN 而设计。 如果您未指定列名，则查询将使用左右流的处理时间来比较时间戳差异。
 
-*Timeplus Cloud:*
+*Timeplus Cloud：*
   * 新的 WebSocket 数据源：通过输入 URL 和数据类型（JSON 或文本）将 Timeplus 与 WebSocket 连接。
   * 直接输入 SQL 创建外部流。
   * 将 CSV 数据上传到现有流。
@@ -55,9 +99,9 @@
   * Proton JDBC driver is now available via [Maven](https://central.sonatype.com/artifact/com.timeplus/proton-jdbc).
   * You can now connect Proton to [Pulse](https://www.timestored.com/pulse/) for OHLC charts.
   * New functions added: [untuple](functions_for_comp#untuple), [tuple_element](functions_for_comp#tuple_element), [dict_get](functions_for_comp#dict_get), [dict_get_or_default](functions_for_comp#dict_get_or_default), [columns](functions_for_comp#columns), [apply](functions_for_comp#apply), [any](functions_for_agg#any), and [last_value](functions_for_agg#last_value).
-  * You can now create an external stream with multiple columns while reading Kafka. [Learn more](proton-kafka#multi_col_read)
+  * You can now create an external stream with multiple columns while reading Kafka. [了解更多](proton-kafka#multi_col_read)
 
-*Timeplus Cloud:*
+*Timeplus Cloud：*
   * An unlimited number of columns are now supported in the column chart (previously retricted to recent 30 results).
   * The Pulsar sink is enhanced to support batch, to improve writing performance.
   * "External Streams" is now shown in the left-side navigation menu, where you can see all external streams and create a new one.
@@ -71,7 +115,7 @@
   * Proton中还新增了一个实验性的`shuffle by`子句。 Currently, it only works for historical queries, and it will support streaming queries soon. The key use case for `shuffle by` is to support high cardinality `group by` (such as 10 millions of unique keys). To learn more about this advanced feature, join the discussion in our [Slack community](https://timeplus.com/slack).
   * Since version 1.3.19, by default, the backfill from historical store for time travel/rewind is enabled. For example `select * from stream where _tp_time>now()-14d` will load data from historical store for last 14 days, even for data not available in streaming storage. If you prefer the previous behavior, you can add `settings enable_backfill_from_historical_store=false` to the streaming SQL.
 
-*Timeplus Cloud:*
+*Timeplus Cloud：*
   * In Data lineage, when you click on a resource tile, the path of related tiles is highlighted and the rest is grayed out.
   * For map charts, the size of the dot is now correlated to the width of the dot in pixels.
   * When creating a source, if you choose Protobuf as the Read As data type, the Protobuf message and definition are now mandatory to proceed.
@@ -88,7 +132,7 @@
   * External streams support writing. [(Learn more)](proton-kafka#write-to-kafka-with-sql)
   * External streams also support reading from specific Kafka partition(s). [(Learn more)](proton-kafka#read-specified-partitions)
 
-*Timeplus Cloud:*
+*Timeplus Cloud：*
   * Per customer feedback, we added a new capability to allow users to monitor the infra usages for their workspace, such as cpu/memory/disk/network. Check out an example dashboard [here](https://demo.timeplus.cloud/default/console/dashboard/eac7a4ab-5a55-45c2-bc66-98c39ebe0a90), and please contact us if you want to enable this experimental feature in your workspace.
   * When creating an Apache Kafka, Confluent Cloud, or Redpanda source, we now display available topics in a dropdown. You can also enter a topic manually.
   * The CSV upload process is refined - we will auto-generate a column name if there is no header row available in your file.
@@ -106,7 +150,7 @@
   * Our [Grafana data source plugin](https://github.com/timeplus-io/proton-grafana-source), to connect to Proton and visualize streaming or batch queries, is now open source. Stay tuned for our upcoming blog and demo!
   * We've added [User-Defined Functions](proton-create-udf) support in Proton v1.3.15 (create/delete), allowing you to leverage existing programming libraries, integrate with external systems, or make SQL easier to maintain.
 
-*Timeplus Cloud:*
+*Timeplus Cloud：*
   * You can now search by keyword(s) in the Dashboards list.
   * In the Query page, we've removed Recent Queries from the SQL Helper side panel. You can still see your Recent Queries by opening a new query tab, or on your Homepage.
 

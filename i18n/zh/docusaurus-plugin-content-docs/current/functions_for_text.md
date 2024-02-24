@@ -112,7 +112,13 @@ SELECT
  -- [ [ "v1", "111" ], [ "v2", "222" ], [ "v3", "333" ] ]
 ```
 
+### extract_key_value_pairs
 
+`extract_key_value_pairs(string)`
+
+Extract key value pairs from the string and return a map. For example, `extract_key_value_pairs('name:neymar, age:31 team:psg,nationality:brazil')` will return a map with keys: name, age, team, ad nationality.
+
+For the advanced usage of the function, please check the [doc](https://clickhouse.com/docs/en/sql-reference/functions/tuple-map-functions#extractkeyvaluepairs).
 
 ### grok
 

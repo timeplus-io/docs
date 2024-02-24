@@ -1,6 +1,6 @@
 # 本地JavaScript自定义函数
 
-除了 [远程 UDF](remote-udf)之外，Timeplus 还支持在数据库引擎中运行基于 JavaScript 的 UDF。 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
+In addition to [Remote UDF](remote-udf), Timeplus Proton also supports JavaScript-based UDF running in the sql engine. 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
 :::info
 

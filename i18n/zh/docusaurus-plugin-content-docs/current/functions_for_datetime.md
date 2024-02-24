@@ -80,9 +80,17 @@
 
 `to_date(string)` 将日期字符串转换为日期类型，例如 `to_date('1953-11-02')`
 
+It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
+
 ### to_datetime
 
 `to_datetime(value)` 将值转换为日期时间类型，例如 `to_datetime(1655265661)` 或 `to_datetime(today())`
+
+It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
+
+### to_time
+
+Please refer to [to_time](functions_for_type#to_time)
 
 ### today
 

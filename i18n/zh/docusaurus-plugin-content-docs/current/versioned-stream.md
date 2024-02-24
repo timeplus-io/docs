@@ -1,6 +1,6 @@
 # 多版本流
 
-当您使用 `versioned_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 当您在与其他流的 JOIN 中将这个流用作 “右表” 时，Timeplus 会自动选择最接近的版本。
+当您使用 `versioned_kv` 的模式创建一个流时，流中的数据不再是附加的。 When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus Proton will automatically choose the closest version.
 
 以下是一些例子：
 
@@ -13,12 +13,6 @@
 | _tp_time | datetime64(3,'UTC') | 它是为所有在 Timeplus 中的流自动创建的，并且具有毫秒精度和UTC时区的事件时间 |
 | 产品名称       | 字符串                 | 产品的唯一 ID，作为主键                                |
 | 价格         | 浮点数                 | 当前价格                                         |
-
-:::info
-
-此页面的其余部分均假设您正在使用 TimePlus 控制台。 如果您使用的是 Proton，则可以使用 DDL 创建流。 [点击此处，了解更多](proton-create-stream#versioned-stream)
-
-:::
 
 如果您没有添加任何数据，查询 `SELECT * FROM dim_products` 将不返回任何结果并继续等待新的结果。
 
@@ -51,6 +45,8 @@
 事实上，您可以指定一个表达式作为主键。 例如，您可以使用 `first_name|' '||last_name` 来合并全名作为主键，而不是使用单列。
 
 :::
+
+You can also query the stream in the table mode, i.e. `select * from table(dim_products)`
 
 ## 在 INNER JOIN 中使用多版本流
 
@@ -132,3 +128,15 @@ ON orders.product_id=dim_products.product_id AND orders._tp_time >= dim_products
 如果你不熟悉 `ASOF JOIN` ，这个特殊的 JOIN 可以提供非精确匹配功能。 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
 
 :::
+
+
+
+## The advanced keep_versions setting:
+
+In the above example, you can add `settings keep_versions=3` at the end of the query. This will inform the query engine to read the base version from the historical storage for the versioned_kv stream, then read the new events in the streaming storage and based on the ASOF time condition to pick up 3 versions in the memory, and finally join events from left append_stream with the right 3 versions, and find the best candidate to join together.
+
+## Retention Policy
+
+You should not set the TTL(Time-To-Live) for the historical storage of versioned_kv stream. Because only the last version of the same primary key is kept in the historical storage (via an auto-compact background process). Mannually set a TTL may remove those events who haven't been updated recently.
+
+You may set a time-based or size-based retention policy for the streaming storage for the versioned_kv stream. But this is optional. By default a 4GB segment file is used for the streaming storage.

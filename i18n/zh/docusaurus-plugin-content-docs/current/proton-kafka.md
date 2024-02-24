@@ -17,6 +17,9 @@ The supported values for `security_protocol` are:
 
 * PLAINTEXT: when this option is omitted, this is also the default value.
 * SASL_SSL: when this value is set, username and password should be specified.
+  * If you need to specify own SSL certification file, add another setting `ssl_ca_cert_file='/ssl/ca.pem'`
+  * Alternatively you can add the setting `properties='enable.ssl.certificate.verification=false'` to avoid verifying the certification, especially if it's self-signed.
+
 
 The supported values for `sasl_mechanism` are:
 
@@ -118,12 +121,19 @@ Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](pro
 
 #### Multiple columns to read from Kafka{#multi_col_read}
 
-If the keys in the JSON message never change, you can also create the external stream with multiple columns (only available to Proton v1.3.24+).
+If the keys in the JSON message never change, or you don't care about the new columns, you can also create the external stream with multiple columns (only available to Proton v1.3.24+).
 
-You can either:
+You can pick up some top level keys in the JSON as columns, or all possible keys as columns.
 
-* make sure **all** keys in the JSON are defined as columns, with proper data types. Otherwise, if there are more key/value pairs in the JSON message than what're defined in the external stream, the query won't show any result.
-* or only define some keys as columns and append this to your query: `SETTINGS input_format_skip_unknown_fields=true`
+Please note the behaviors are changed in recent versions, based on user feedbacks:
+
+
+
+| Version         | Default Behavior                                                                                                                                                                                                                                                                           | How to overwrite                                                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| 1.4.2 or above  | Say there are 5 top level key/value pairs in JSON, you can define 5 or less than 5 columns in the external stream. Data will be read properly.                                                                                                                                             | If you don't want to read new events with unexpected columns, set `input_format_skip_unknown_fields=false` in the `CREATE` DDL. |
+| 1.3.24 to 1.4.1 | Say there are 5 top level key/value pairs in JSON, you can need to define 5 columns to read them all. Or define less than 5 columns in the DDL, and make sure to add `input_format_skip_unknown_fields=true` in each `SELECT` query settings, otherwise no search result will be returned. | In each `SELECT` query, you can specify the setting `input_format_skip_unknown_fields=true\|false`.                            |
+| 1.3.23 or older | You have to define a single `string` column for the entire JSON document and apply query time JSON parsing to extract fields.                                                                                                                                                              | N/A                                                                                                                             |
 
 示例：
 
@@ -139,10 +149,10 @@ CREATE EXTERNAL STREAM ext_github_events
 SETTINGS type='kafka', 
          brokers='localhost:9092',
          topic='github_events',
-         data_format='JSONEachRow';
+         data_format='JSONEachRow'
 ```
 
-If there are nested complex JSON in the message, you can define the column as a string type.
+If there are nested complex JSON in the message, you can define the column as a string type. Actually any JSON value can be saved in a string column.
 
 :::info
 
@@ -585,21 +595,22 @@ SETTINGS type='kafka',
 
 Please note, not all properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.
 
-| key                                | range                                  | 默认   | 描述                                                                                                                                                                               |
-| ---------------------------------- | -------------------------------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| enable.idempotence                 | true, false                            | true | When set to `true`, the producer will ensure that messages are successfully produced exactly once and in the original produce order.                                             |
-| message.timeout.ms                 | 0 .. 2147483647                        | 0    | Local message timeout.                                                                                                                                                           |
-| queue.buffering.max.messages       | 0 .. 2147483647                        |      | Maximum number of messages allowed on the producer queue.                                                                                                                        |
-| queue.buffering.max.kbytes         | 1 .. 2147483647                        |      | Maximum total message size sum allowed on the producer queue.                                                                                                                    |
-| queue.buffering.max.ms             | 0 .. 900000                            |      | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers.                         |
-| message.max.bytes                  | 1000 .. 1000000000                     |      | Maximum Kafka protocol request message size.                                                                                                                                     |
-| message.send.max.retries           | 0 .. 2147483647                        |      | How many times to retry sending a failing Message.                                                                                                                               |
-| retries                            | 0 .. 2147483647                        |      | Alias for `message.send.max.retries`: How many times to retry sending a failing Message.                                                                                         |
-| retry.backoff.ms                   | 1 .. 300000                            |      | The backoff time in milliseconds before retrying a protocol reques                                                                                                               |
-| retry.backoff.max.ms               | 1 .. 300000                            |      | The max backoff time in milliseconds before retrying a protocol request,                                                                                                         |
-| batch.num.messages                 | 1 .. 1000000                           |      | Maximum number of messages batched in one MessageSet.                                                                                                                            |
-| batch.size                         | 1 .. 2147483647                        |      | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead.                                                                          |
-| compression.codec                  | none, gzip, snappy, lz4, zstd, inherit |      | Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration.                                                                 |
-| compression.type                   | none, gzip, snappy, lz4, zstd          |      | Alias for `compression.codec`: compression codec to use for compressing message sets.                                                                                            |
-| compression.level                  | -1 .. 12                               |      | Compression level parameter for algorithm selected by configuration property `compression.codec`.                                                                                |
-| topic.metadata.refresh.interval.ms | -1 .. 3600000                          |      | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
+| key                                 | range                                  | 默认   | 描述                                                                                                                                                                               |
+| ----------------------------------- | -------------------------------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| enable.idempotence                  | true, false                            | true | When set to `true`, the producer will ensure that messages are successfully produced exactly once and in the original produce order.                                             |
+| message.timeout.ms                  | 0 .. 2147483647                        | 0    | Local message timeout.                                                                                                                                                           |
+| queue.buffering.max.messages        | 0 .. 2147483647                        |      | Maximum number of messages allowed on the producer queue.                                                                                                                        |
+| queue.buffering.max.kbytes          | 1 .. 2147483647                        |      | Maximum total message size sum allowed on the producer queue.                                                                                                                    |
+| queue.buffering.max.ms              | 0 .. 900000                            |      | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers.                         |
+| message.max.bytes                   | 1000 .. 1000000000                     |      | Maximum Kafka protocol request message size.                                                                                                                                     |
+| message.send.max.retries            | 0 .. 2147483647                        |      | How many times to retry sending a failing Message.                                                                                                                               |
+| retries                             | 0 .. 2147483647                        |      | Alias for `message.send.max.retries`: How many times to retry sending a failing Message.                                                                                         |
+| retry.backoff.ms                    | 1 .. 300000                            |      | The backoff time in milliseconds before retrying a protocol reques                                                                                                               |
+| retry.backoff.max.ms                | 1 .. 300000                            |      | The max backoff time in milliseconds before retrying a protocol request,                                                                                                         |
+| batch.num.messages                  | 1 .. 1000000                           |      | Maximum number of messages batched in one MessageSet.                                                                                                                            |
+| batch.size                          | 1 .. 2147483647                        |      | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead.                                                                          |
+| compression.codec                   | none, gzip, snappy, lz4, zstd, inherit |      | Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration.                                                                 |
+| compression.type                    | none, gzip, snappy, lz4, zstd          |      | Alias for `compression.codec`: compression codec to use for compressing message sets.                                                                                            |
+| compression.level                   | -1 .. 12                               |      | Compression level parameter for algorithm selected by configuration property `compression.codec`.                                                                                |
+| topic.metadata.refresh.interval.ms  | -1 .. 3600000                          |      | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
+| enable.ssl.certificate.verification | true,false                             | true | whether to verify the SSL certification                                                                                                                                          |

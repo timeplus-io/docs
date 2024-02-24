@@ -191,6 +191,8 @@
 
 或者，您可以使用 `map_cast(key1,value1,key2,value2...)`
 
+Since Proton v1.4.2, a new [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
+
 ### tuple_cast
 
 `tuple_cast (item1, item2)` 生成一个包含这 2 个元素的元组。 您也可以使用快捷语法：`(item1, item2)` 直接创建元组。
