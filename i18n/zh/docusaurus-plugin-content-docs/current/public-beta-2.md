@@ -64,7 +64,7 @@
 
 **其他改进**
   * 对于流，您现在可以为流媒体和历史数据设置单独的保留策略。 例如，对于包含 IoT 数据的流，您可以为流数据设置 1 天的保留时间，为历史数据设置 90 天的保留时限。
-  * 请注意：REST API v1beta1 现已废弃，将在几个月后被删除。 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/)、 [Java 示例代码](https://github.com/timeplus-io/java-demo) 和 [Streamlit 演示应用程序](https://github.com/timeplus-io/streamlit_apps) 已更新。
+  * 请注意：REST API v1beta1 现已废弃，将在几个月后被删除。 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/)、 [Java 示例代码](https://github.com/timeplus-io/java-demo) 和 [Streamlit 演示应用程序](https://github.com/timeplus-io/streamlit_apps) 已更新。
 
 
 ## 2023年5月29日
@@ -91,7 +91,7 @@
 
 **增强功能：仪表板和图表**
   * 当您对图表进行格式更改时，所有的更改效果都将是即时呈现出来的，不需要重新加载图表。
-  * 我们在将鼠标悬停在仪表板图表上添加了一个图标。在 “仅查看” 模式下，它将在查询编辑器页面中打开图表的 SQL。
+  * 我们在将鼠标悬停在仪表板图表上添加了一个图标。 在 “仅查看” 模式下，它将在查询编辑器页面中打开图表的 SQL。
 
 ## 2023年5月1日
 
@@ -190,7 +190,7 @@
 * 增强功能
   * 增强并优化每种图表类型的各种功能。 [了解更多](viz#chart)
   * 能够为带有流 sql 的视图运行 [table ()](functions#table) 函数，例如  `with c as(select col1,col2 from a_stream where b>0) select * from table(c)` 请注意，视图中的流 SQL 不能包含任何聚合。 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
-  * 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 ` earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
+  * 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 `earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
   * 你也可以在一个包括JOIN/UNION多个流的SQL中多次使用 `where _tp_time >..` 为不同的流穿越到不同的起点。
   * 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
   * 为流式查询添加 [LATEST JOIN](query-syntax#latest-join) 。 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。 无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
@@ -231,13 +231,13 @@
 ## 2023年1月20日
 
 * 查询结果的界面更新：
-  * **无限滚动。 ** 对于流式查询和历史查询，较新的结果显示在底部。 您可以向上滚动查看之前的结果，然后单击底部的 **跳转到最新数据** 按钮继续查看最新结果。
+  * **无限滚动。 ** 对于流式查询和历史查询，较新的结果显示在底部。 您可以向上滚动查看之前的结果，然后单击底部的 **跳转到最新数据** 按钮继续查看最新结果。</li>
   * **行详情**。 对于包含长文本或 JSON 的列，您可以单击 “眼睛” 按钮打开包含该行详细信息的侧面板。
   * **更新列摘要。 ** 对于数字列，列头中显示最小/最大/平均值。 数据范围是从查询开始到现在。 对于日期时间列，将显示起始/终止时间戳。 对于布尔列或字符串列，前 3 个值会与百分比一起显示。
   * **快速筛选。 ** 您可以键入一些关键字来筛选结果，而无需重写 SQL。 它将对所有列执行简单的 `string#contains` 匹配。 暂不支持正则表达式或逻辑条件。
   * **显示/隐藏列。 ** 您可以通过新引入的 **设置** 按钮来隐藏某些列，而无需重写 SQL。 您也可以在此对话框中以 CSV 格式下载结果。
-  * **调整列大小**. Timeplus会根据列的类型自动设置适当的初始列大小。 您可以随时通过拖放来调整列的大小。
+  * **调整列大小**. **调整列大小**. Timeplus会根据列的类型自动设置适当的初始列大小。 您可以随时通过拖放来调整列的大小。</ul></li>
 * 更多图表类型和选项。 您可以选择折线图、面积图、柱形图、条形图、单值图和图表作为可视化类型。 每个图表都支持基本设置和高级设置。
 * 添加了一种内置的针对`json`优化的数据类型，与将 JSON 另存为 `string` 并在查询时动态提取相比，查询性能更好。 适合于同一结构的 JSON 文档。 通过 `column.jsonpath` 访问该值（而不是用文本列的方式 `column:jsonpath` ）
 * 我们开始弃用 `settings seek_to=..` 仍然支持时空旅行，你只需要在 WHERE 条件下使用 `_tp_time` 列，例如 `WHERE _tp_time>=now () -1h` 即可在 1 小时前进行时空旅行并显示此后的数据。 或者 `其中 _tp_time >= '2023-01-14'`  Timeplus 中的所有数据流都包含 `_tp_time` 作为事件时间。
-* （实验性）除了 [Remote UDF](remote-udf)之外，现在你还可以使用 JavaScript 来定义新函数。 支持标量函数和聚合函数。 请查看 [JS UDF](js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。
+* （实验性）除了 [Remote UDF](remote-udf)之外，现在你还可以使用 JavaScript 来定义新函数。 支持标量函数和聚合函数。 请查看 [JS UDF](js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。</ul>
