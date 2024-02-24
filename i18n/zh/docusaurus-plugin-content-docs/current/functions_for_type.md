@@ -21,7 +21,7 @@
 
 对于可能的时区的完整列表，请检查 [维基百科页面](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) 中的“TZ 数据库名称”栏。
 
-You can also convert the time between time zones via [to_timezone](functions_for_datetime#to_timezone)
+您也可以通过 [to_timezone](#to_timezone) 转换时区
 
 It can parse string `2023-09-19 05:31:34` or `2023-09-19T05:31:34Z`.
 
@@ -47,7 +47,7 @@ This function is the alias to `parse_datetime_best_effort`.
 
 ### to_bool
 
-将值转换为 `bool` 类型。 例如：`select to_bool(1), to_bool(true),to_bool(True),to_bool('true')` all return `true`. 请注意，您不能运行 `to_bool('True')` 请注意，您不能运行 `to_bool('True')` 请注意，您不能运行 `to_bool('True')`
+将值转换为 `bool` 类型。 例如：`select to_bool(1), to_bool(true),to_bool(True),to_bool('true')` all return `true`. 请注意，您不能运行 `to_bool('True')` 请注意，您不能运行 `to_bool('True')` 请注意，您不能运行 `to_bool('True')` 请注意，您不能运行 `to_bool('True')`
 
 
 ### cast
