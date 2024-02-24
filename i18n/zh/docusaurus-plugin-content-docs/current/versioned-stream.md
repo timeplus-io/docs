@@ -1,6 +1,6 @@
 # 多版本流
 
-当您使用 `versioned_kv` 的模式创建一个流时，流中的数据不再是附加的。 When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus Proton will automatically choose the closest version.
+当您使用 `versioned_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 当您在与其他流的 JOIN 中将这个流用作 “右表” 时，Timeplus 会自动选择最接近的版本。
 
 以下是一些例子：
 
