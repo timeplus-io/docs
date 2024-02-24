@@ -13,7 +13,7 @@ Timeplus Cloud提供以下主要功能：
 
 ## 步骤 1：注册一个Timeplus账户 {#step1}
 
-Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 目前，支持谷歌或微软单一登录 (SSO)。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 It usually takes less than 2 minutes to get the account set up and have the first [workspace](glossary#workspace) created.
+目前，支持谷歌或微软单一登录 (SSO)。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 It usually takes less than 2 minutes to get the account set up and have the first [workspace](glossary#workspace) created.
 
 ![Sign up for an account](/img/sign-up-page.png)
 
@@ -23,7 +23,7 @@ Tell us a bit about yourself by completing a quick account setup:
 
 ![Onboarding Survey](/img/onboarding-survey.png)
 
-The final step of the setup is for naming your new workspace, the isolated storage and computing unit for you to run streaming data collection and analysis. Give it a name:
+The final step of the setup is for naming your new workspace, the isolated storage and computing unit for you to run streaming data collection and analysis. Give it a name: Give it a name:
 
 ![选择工作区名称](/img/workspace-name-setup.png)
 
@@ -40,7 +40,7 @@ If you don't yet have a streaming data source and would like test out how Timepl
 
 ### Create a sample source
 
-1. Create the first [source](glossary#source) in your workspace. From the left side navigation menu, click **Data Ingestion**, then click the **Add Data** button in the top right corner.
+1. Create the first [source](glossary#source) in your workspace. Create the first [source](glossary#source) in your workspace. From the left side navigation menu, click **Data Ingestion**, then click the **Add Data** button in the top right corner.
 
    ![Data Ingestion page](/img/sample-source-button-1.png)
 
@@ -56,7 +56,7 @@ If you don't yet have a streaming data source and would like test out how Timepl
 
    ![Sample dataset templates](/img/sample-source-template-3.png)
 
-4. Preview your data and create a new stream to load your data into. For the stream name, it can contain only letters, numbers, or underscores, and must start with a letter. You can also give it an optional description.
+4. Preview your data and create a new stream to load your data into. For the stream name, it can contain only letters, numbers, or underscores, and must start with a letter. You can also give it an optional description. For the stream name, it can contain only letters, numbers, or underscores, and must start with a letter. You can also give it an optional description.
 
    ![IoT sample data, preview step](/img/sample-source-preview-4.png)
 
@@ -68,19 +68,19 @@ If you don't yet have a streaming data source and would like test out how Timepl
 
 1. To check out the data in your newly created stream, you can either:
 
-   a. Go to the **Streams** page, and click on the **Explore** icon.
+   a. a. Go to the **Streams** page, and click on the **Explore** icon.
 
    ![IoT sample data, preview step](/img/streams-list.png)
 
-   b. Or, go to the **Query** page, and click on the name of the stream in the SQL helper below the SQL editor.
+   b. b. Or, go to the **Query** page, and click on the name of the stream in the SQL helper below the SQL editor.
 
    ![IoT sample data, preview step](/img/stream_name-in-list.png)
 
-2. Timeplus generates a basic query for you, such as `SELECT * FROM iot`, or you can type your own query into the editor. Click the **Run Query** button (or press `Ctrl+Enter` on PC, `Cmd + Enter` on Mac) to run the query.
+2. Timeplus generates a basic query for you, such as `SELECT * FROM iot`, or you can type your own query into the editor. Click the **Run Query** button (or press `Ctrl+Enter` on PC, `Cmd + Enter` on Mac) to run the query. Click the **Run Query** button (or press `Ctrl+Enter` on PC, `Cmd + Enter` on Mac) to run the query.
 
    ![Run Query in Query page](/img/run-query.png)
 
-The streaming results table will now appear below the editor. To create charts, click on the **Visualization** tab. [Learn more about Dashboards and Charts]
+The streaming results table will now appear below the editor. The streaming results table will now appear below the editor. To create charts, click on the **Visualization** tab. \[Learn more about Dashboards and Charts\] \[Learn more about Dashboards and Charts\]
 
 ![Example of visualization for sample dataset](/img/viz-sample-iot.png)
 
