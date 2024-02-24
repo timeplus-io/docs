@@ -8,7 +8,7 @@
 
 ### table
 
-`table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic 中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT FROM clicks</0> 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 <code>table` 函数中。 使用 `count` 作为示例：
+`table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic 中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT FROM clicks</0> 默认情况下，如果您运行 <code>SELECT FROM clicks</0> 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 <code>table` 函数中。 使用 `count` 作为示例：
 
 * 运行 `select count(*) from clicks` 将每2秒显示最新计数，直到您取消这个查询。
 * 运行 `select count(*) from table(clicks)` 将立即返回此数据流的历史数据行数。
@@ -61,9 +61,9 @@
 
 ### dedup
 
-`dedup(stream, column1 [,otherColumns..] [liveInSecond,limit]) [liveInSecond,limit]) [liveInSecond,limit])`
+`dedup(stream, column1 [,otherColumns..] [liveInSecond,limit]) [liveInSecond,limit]) [liveInSecond,limit]) [liveInSecond,limit])`
 
-在给定的数据流中使用指定的列 (s) 应用反复性。 具有相同列值的行将仅显示一次（仅选择第一行，而忽略其他行。） `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但是，如果您只想在特定时间段内避免重复，例如2分钟，则可以设置 `120s` 例如 `dedup(subquery,myId,120s)`
+在给定的数据流中使用指定的列 (s) 应用反复性。 具有相同列值的行将仅显示一次（仅选择第一行，而忽略其他行。） `liveInSecond` 是指定在内存/状态中保存密钥的时间。 `liveInSecond` 是指定在内存/状态中保存密钥的时间。 默认永远存在。 但是，如果您只想在特定时间段内避免重复，例如2分钟，则可以设置 `120s` 例如 `dedup(subquery,myId,120s)`
 
 最后一个参数 `限制` 是可选的，默认是 `100 000`。 它限制在查询引擎中最大唯一密钥。 如果达到限制，系统将回收最早的密钥以保持这一限制。
 
@@ -116,7 +116,7 @@ SELECT * FROM dedup(latest_to_earliest, id)
 
 ### lag_behind
 
-`lag_behind(offset)` or `lag_behind(offset,<column1_name>, <column2_name>)` It is designed for streaming JOIN. If you don't specify the column names, then it will use the processing time on the left stream and right stream to compare the timestamp difference.
+`lag_behind(offset)` or `lag_behind(offset,<column1_name>, <column2_name>)` It is designed for streaming JOIN. If you don't specify the column names, then it will use the processing time on the left stream and right stream to compare the timestamp difference. If you don't specify the column names, then it will use the processing time on the left stream and right stream to compare the timestamp difference.
 
 示例：
 
@@ -169,9 +169,9 @@ It can be also used in streaming queries to show the latest datetime with millis
 
 ### emit_version
 
-`emit_version()` to show an auto-increasing number for each emit of streaming query result. It only works with streaming aggregation, not tail or filter.
+`emit_version()` to show an auto-increasing number for each emit of streaming query result. It only works with streaming aggregation, not tail or filter. It only works with streaming aggregation, not tail or filter.
 
-For example, if you run `select emit_version(),count(*) from car_live_data` the query will emit results every 2 seconds and the first result will be with emit_version=0, the second result with emit_version=1. This function is particularly helpful when there are multiple rows in each emit result. For example, you can run a tumble window aggregation with a group by. All results from the same aggregation window will be in the same emit_version. You can then show a chart with all rows in the same aggregation window.
+For example, if you run `select emit_version(),count(*) from car_live_data` the query will emit results every 2 seconds and the first result will be with emit_version=0, the second result with emit_version=1. This function is particularly helpful when there are multiple rows in each emit result. For example, you can run a tumble window aggregation with a group by. All results from the same aggregation window will be in the same emit_version. You can then show a chart with all rows in the same aggregation window. This function is particularly helpful when there are multiple rows in each emit result. For example, you can run a tumble window aggregation with a group by. All results from the same aggregation window will be in the same emit_version. You can then show a chart with all rows in the same aggregation window.
 
 ✅ 流查询
 
@@ -181,7 +181,7 @@ For example, if you run `select emit_version(),count(*) from car_live_data` the 
 
 `changelog(stream[, [key_col1[,key_col2,[..]],version_column], drop_late_rows])` to convert a stream (no matter append-only stream or versioned stream) to a changelog stream with given primary keys.
 
-* 如果数据源流是常规流，即仅附加流，则可以选择一个或多个列作为主键列。 `changelog(append_stream, key_col1)`  比如[car_live_data](usecases#car_live_data) 流包含 `cid` 列作为车辆 ID, `speed_kmh` 作为最新上报的时速。 运行下面的 SQL 来为每辆车创建一个更新日志流以跟踪速度变化 `select * from changelog(car_live_data,cid)` 。一个新列 `_tp_delta` 包含在流查询结果中。 `-1` 表示行已被重新编辑(移除)。 _tp_delta=1，使用新值。
+* 如果数据源流是常规流，即仅附加流，则可以选择一个或多个列作为主键列。 `changelog(append_stream, key_col1)`  比如[car_live_data](usecases#car_live_data) 流包含 `cid` 列作为车辆 ID, `speed_kmh` 作为最新上报的时速。 运行下面的 SQL 来为每辆车创建一个更新日志流以跟踪速度变化 `select * from changelog(car_live_data,cid)` 。 一个新列 `_tp_delta` 包含在流查询结果中。 `-1` 表示行已被重新编辑(移除)。 _tp_delta=1，使用新值。
 * 如果源流是 [版本流](versioned-stream)，因为在版本流中已经指定了主键和版本列， `changelog` 函数可以直接这样使用 `changelog(versioned_kv)`
 * 默认情况下， `drop_late_rows` 为 false。 但是，如果你确实想删除同一个主键的延迟事件，那么你需要将 drop_late_rows 设置为 true，并指定 version_column。 版本_列值越大，它意味着的最新版本。 在大多数情况下，您可以将事件时间 (_tp_time) 设置为 version_column。 删除 car_live_data 的迟到事件的示例：
 
