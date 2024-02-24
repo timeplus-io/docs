@@ -22,7 +22,7 @@
 
 ### day_of_week
 
-使用`day_of_week(date)`来获取周中的某一天。 例如： 星期一是 1，星期日是 7。
+使用`day_of_week(date)`来获取周中的某一天。 例如： 例如： 星期一是 1，星期日是 7。
 
 ### hour
 
@@ -88,13 +88,13 @@ It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please
 
 It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
 
-### to_time
+### 小时
 
 Please refer to [to_time](functions_for_type#to_time)
 
 ### today
 
-`today ()` 返回当前日期。
+`to_YYYYMMDDhhmmss(date)` 返回一个数字。
 
 ### to_YYYYMM
 
@@ -106,7 +106,7 @@ Please refer to [to_time](functions_for_type#to_time)
 
 ### to_YYYMMDDhmmss
 
-`to_YYYYMMDDhhmmss(date)` 返回一个数字。
+`today ()` 返回当前日期。
 
 ### to_timezone
 
@@ -150,7 +150,7 @@ SELECT
 
 ### date_diff
 
-`date_diff(unit,begin,end)` 计算 `开始` 和 `结束` 之间的差额，并在 `unit` 中生成一个数字。 例如： `date_diff('second',window_start,window_end)`
+例如： `date_diff('second',window_start,window_end)` `date_diff(unit,begin,end)` 计算 `开始` 和 `结束` 之间的差额，并在 `unit` 中生成一个数字。
 
 支持的单位：
 
