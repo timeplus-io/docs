@@ -1,6 +1,6 @@
 # Read/Write Kafka
 
-You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Proton with [External Stream](external-stream). Combining with [Materialized View](proton-create-view#m_view) and [Target Stream](proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
+You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Proton with [External Stream](external-stream). You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Proton with [External Stream](external-stream). Combining with [Materialized View](proton-create-view#m_view) and [Target Stream](proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
 
 ## CREATE EXTERNAL STREAM
 
@@ -117,11 +117,11 @@ SETTINGS type='kafka',
          topic='github_events'
 ```
 
-Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted.
+Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted. The actual `data_format` value is `RawBLOB` but this can be omitted.
 
 #### Multiple columns to read from Kafka{#multi_col_read}
 
-If the keys in the JSON message never change, or you don't care about the new columns, you can also create the external stream with multiple columns (only available to Proton v1.3.24+).
+If the keys in the JSON message never change, you can also create the external stream with multiple columns (only available to Proton v1.3.24+).
 
 You can pick up some top level keys in the JSON as columns, or all possible keys as columns.
 
@@ -129,10 +129,10 @@ Please note the behaviors are changed in recent versions, based on user feedback
 
 
 
-| Version         | Default Behavior                                                                                                                                                                                                                                                                           | How to overwrite                                                                                                                |
+| Version         | By default, proton-client is started in single line and single query mode. To run multiple query statements together, start with the `-n` parameters, i.e. `docker exec -it proton-container-name proton-client -n`                                                                        | How to overwrite                                                                                                                |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
 | 1.4.2 or above  | Say there are 5 top level key/value pairs in JSON, you can define 5 or less than 5 columns in the external stream. Data will be read properly.                                                                                                                                             | If you don't want to read new events with unexpected columns, set `input_format_skip_unknown_fields=false` in the `CREATE` DDL. |
-| 1.3.24 to 1.4.1 | Say there are 5 top level key/value pairs in JSON, you can need to define 5 columns to read them all. Or define less than 5 columns in the DDL, and make sure to add `input_format_skip_unknown_fields=true` in each `SELECT` query settings, otherwise no search result will be returned. | In each `SELECT` query, you can specify the setting `input_format_skip_unknown_fields=true\|false`.                            |
+| 1.3.24 to 1.4.1 | Say there are 5 top level key/value pairs in JSON, you can need to define 5 columns to read them all. Or define less than 5 columns in the DDL, and make sure to add `input_format_skip_unknown_fields=true` in each `SELECT` query settings, otherwise no search result will be returned. | or only define some keys as columns and append this to your query: `SETTINGS input_format_skip_unknown_fields=true`             |
 | 1.3.23 or older | You have to define a single `string` column for the entire JSON document and apply query time JSON parsing to extract fields.                                                                                                                                                              | N/A                                                                                                                             |
 
 示例：
@@ -149,14 +149,14 @@ CREATE EXTERNAL STREAM ext_github_events
 SETTINGS type='kafka', 
          brokers='localhost:9092',
          topic='github_events',
-         data_format='JSONEachRow'
+         data_format='JSONEachRow';
 ```
 
 If there are nested complex JSON in the message, you can define the column as a string type. Actually any JSON value can be saved in a string column.
 
 :::info
 
-Since Proton v1.3.29, Protobuf messages can be read with all or partial columns. Please check [this page](proton-format-schema).
+Since Proton v1.3.29, Protobuf messages can be read with all or partial columns. Please check [this page](proton-format-schema). Please check [this page](proton-format-schema).
 
 :::
 
@@ -166,7 +166,7 @@ To write data via Kafka API (only available to Proton v1.3.18+), you can choose 
 
 ##### JSONEachRow
 
-You can use `data_format='JSONEachRow'`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. 例如：
+You can use `data_format='JSONEachRow'`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. 例如： The columns of the external stream will be converted to keys in the JSON documents. 例如：
 
 ```sql
 CREATE EXTERNAL STREAM target(
@@ -192,7 +192,7 @@ The messages will be generated in the specific topic as
 
 :::info
 
-Please note, since 1.3.25, by default multiple JSON documents will be inserted to the same Kafka message. One JSON document each row/line. Such default behavior aims to get the maximum writing performance to Kafka/Redpanda. But you need to make sure the downstream applications are able to properly split the JSON documents per Kafka message.
+Please note, since 1.3.25, by default multiple JSON documents will be inserted to the same Kafka message. One JSON document each row/line. Such default behavior aims to get the maximum writing performance to Kafka/Redpanda. But you need to make sure the downstream applications are able to properly split the JSON documents per Kafka message. One JSON document each row/line. Such default behavior aims to get the maximum writing performance to Kafka/Redpanda. But you need to make sure the downstream applications are able to properly split the JSON documents per Kafka message.
 
 If you need a valid JSON per each Kafka message, instead of a JSONL, please set one_message_per_row=true  e.g.
 
@@ -208,7 +208,7 @@ The default value of one_message_per_row, if not specified, is false.
 
 ##### CSV
 
-You can use `data_format='CSV'`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. 例如：
+You can use `data_format='CSV'`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. 例如： The columns of the external stream will be converted to keys in the JSON documents. 例如：
 
 ```sql
 CREATE EXTERNAL STREAM target(
@@ -236,7 +236,7 @@ Please check [this page](proton-format-schema).
 
 ### Read/Write Kafka Message Key {#messagekey}
 
-As an advanced feature, since Proton v1.3.31, you can read or write the message key for Kafka messages. This is done by adding a new external stream setting `message_key` which is an expression that returns a string value, the values return by the expression will be used as the message key for each row.
+As an advanced feature, since Proton v1.3.31, you can read or write the message key for Kafka messages. This is done by adding a new external stream setting `message_key` which is an expression that returns a string value, the values return by the expression will be used as the message key for each row. This is done by adding a new external stream setting `message_key` which is an expression that returns a string value, the values return by the expression will be used as the message key for each row.
 
 Examples:
 
@@ -275,7 +275,7 @@ SELECT window_start, count() FROM tumble(ext_stream,to_datetime(raw:timestamp)) 
 
 ### Read existing messages {#rewind}
 
-When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in the topics, not the existing ones. If you need to read all existing messages, you can use the following settings:
+When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in the topics, not the existing ones. If you need to read all existing messages, you can use the following settings: If you need to read all existing messages, you can use the following settings:
 
 ```sql
 SELECT raw FROM ext_stream SETTINGS seek_to='earliest'
@@ -285,7 +285,7 @@ SELECT raw FROM ext_stream SETTINGS seek_to='earliest'
 
 ### Read specified partitions
 
-Starting from Proton 1.3.18, you can also read in specified Kafka partitions. By default, all partitions will be read. But you can also read from a single partition via the `shards` setting, e.g.
+Starting from Proton 1.3.18, you can also read in specified Kafka partitions. By default, all partitions will be read. But you can also read from a single partition via the `shards` setting, e.g. By default, all partitions will be read. But you can also read from a single partition via the `shards` setting, e.g.
 
 ```sql
 SELECT raw FROM ext_stream SETTINGS shards='0'
@@ -336,7 +336,7 @@ A docker-compose file is created to bundle proton image with Redpanda (as lightw
 
 1. Download the [docker-compose.yml](https://github.com/timeplus-io/proton/blob/develop/docker-compose.yml) and put into a new folder.
 2. Open a terminal and run `docker compose up` in this folder.
-3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data.
+3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data.
 4. Use `proton-client` to run SQL to query such Kafka data: `docker exec -it <folder>-proton-1 proton-client` You can get the container name via `docker ps`
 5. Create an external stream to connect to a topic in the Kafka/Redpanda server and run SQL to filter or aggregate data.
 
@@ -382,7 +382,7 @@ Then you can scan incoming events via
 select * from frontend_events
 ```
 
-There are about 10 rows in each second. Only one column `raw` with sample data as following:
+There are about 10 rows in each second. There are about 10 rows in each second. Only one column `raw` with sample data as following:
 
 ```json
 {
@@ -412,7 +412,7 @@ Cancel the query by pressing Ctrl+C.
 select count() from frontend_events
 ```
 
-This query will show latest count every 2 seconds, without rescanning older data. This is a good example of incremental computation in Proton.
+This query will show latest count every 2 seconds, without rescanning older data. This is a good example of incremental computation in Proton. This is a good example of incremental computation in Proton.
 
 ### Filter events by JSON attributes
 
@@ -420,7 +420,7 @@ This query will show latest count every 2 seconds, without rescanning older data
 select _tp_time, raw:ipAddress, raw:requestedUrl from frontend_events where raw:method='POST'
 ```
 
-Once you start the query, any new event with method value as POST will be selected. `raw:key` is a shortcut to extract string value from the JSON document. It also supports nested structure, such as `raw:headers.accept`
+Once you start the query, any new event with method value as POST will be selected. `raw:key` is a shortcut to extract string value from the JSON document. It also supports nested structure, such as `raw:headers.accept` `raw:key` is a shortcut to extract string value from the JSON document. It also supports nested structure, such as `raw:headers.accept`
 
 ### Aggregate data every second
 
@@ -454,11 +454,11 @@ group by raw:method order by cnt desc limit 5 by emit_version()
 
 * This is a global aggregation, emitting results every 2 seconds (configurable).
 * [emit_version()](functions_for_streaming#emit_version) function to show an auto-increasing number for each emit of streaming query result
-* `limit 5 by emit_version()` to get the first 5 rows with the same emit_version(). This is a special syntax in Proton. The regular `limit 5` will cancel the entire SQL once 5 results are returned. But in this streaming SQL, we'd like to show 5 rows for each emit interval.
+* `limit 5 by emit_version()` to get the first 5 rows with the same emit_version(). This is a special syntax in Proton. The regular `limit 5` will cancel the entire SQL once 5 results are returned. But in this streaming SQL, we'd like to show 5 rows for each emit interval. This is a special syntax in Proton. The regular `limit 5` will cancel the entire SQL once 5 results are returned. But in this streaming SQL, we'd like to show 5 rows for each emit interval.
 
 ### Create a materialized view to save notable events in Proton
 
-With External Stream, you can query data in Kafka without saving the data in Proton. You can create a materialized view to selectively save some events, so that even the data in Kafka is removed, they remain available in Timeplus.
+With External Stream, you can query data in Kafka without saving the data in Proton. With External Stream, you can query data in Kafka without saving the data in Proton. You can create a materialized view to selectively save some events, so that even the data in Kafka is removed, they remain available in Timeplus.
 
 For example, the following SQL will create a materialized view to save those broken links with parsed attributes from JSON, such as URL, method, referrer.
 
@@ -581,7 +581,7 @@ CREATE MATERIALIZED VIEW mv INTO target AS
 
 ## Properties for Kafka client {#properties}
 
-For more advanced use cases, you can specify customized properties while creating the external streams. Those properties will be passed to the underlying Kafka client, which is [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
+For more advanced use cases, you can specify customized properties while creating the external streams. For more advanced use cases, you can specify customized properties while creating the external streams. Those properties will be passed to the underlying Kafka client, which is [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
 
 例如：
 
@@ -593,24 +593,24 @@ SETTINGS type='kafka',
          properties='message.max.bytes=1000000;message.timeout.ms=6000'
 ```
 
-Please note, not all properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.
+Please note, not all properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.
 
 | key                                 | range                                  | 默认   | 描述                                                                                                                                                                               |
 | ----------------------------------- | -------------------------------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | enable.idempotence                  | true, false                            | true | When set to `true`, the producer will ensure that messages are successfully produced exactly once and in the original produce order.                                             |
-| message.timeout.ms                  | 0 .. 2147483647                        | 0    | Local message timeout.                                                                                                                                                           |
+| message.timeout.ms                  | 1 .. 1000000 2147483647                | 0    | Local message timeout.                                                                                                                                                           |
 | queue.buffering.max.messages        | 0 .. 2147483647                        |      | Maximum number of messages allowed on the producer queue.                                                                                                                        |
 | queue.buffering.max.kbytes          | 1 .. 2147483647                        |      | Maximum total message size sum allowed on the producer queue.                                                                                                                    |
-| queue.buffering.max.ms              | 0 .. 900000                            |      | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers.                         |
-| message.max.bytes                   | 1000 .. 1000000000                     |      | Maximum Kafka protocol request message size.                                                                                                                                     |
+| queue.buffering.max.ms              | 0 .. 0 .. 900000                       |      | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers.                         |
+| message.max.bytes                   | 1000 .. 1000 .. 1000000000             |      | Maximum Kafka protocol request message size.                                                                                                                                     |
 | message.send.max.retries            | 0 .. 2147483647                        |      | How many times to retry sending a failing Message.                                                                                                                               |
-| retries                             | 0 .. 2147483647                        |      | Alias for `message.send.max.retries`: How many times to retry sending a failing Message.                                                                                         |
-| retry.backoff.ms                    | 1 .. 300000                            |      | The backoff time in milliseconds before retrying a protocol reques                                                                                                               |
-| retry.backoff.max.ms                | 1 .. 300000                            |      | The max backoff time in milliseconds before retrying a protocol request,                                                                                                         |
+| retries                             | 0 .. 1 .. 2147483647                   |      | Alias for `message.send.max.retries`: How many times to retry sending a failing Message.                                                                                         |
+| retry.backoff.ms                    | 1 .. 1 .. 300000                       |      | The backoff time in milliseconds before retrying a protocol reques                                                                                                               |
+| retry.backoff.max.ms                | 1 .. 1 .. 300000                       |      | The max backoff time in milliseconds before retrying a protocol request,                                                                                                         |
 | batch.num.messages                  | 1 .. 1000000                           |      | Maximum number of messages batched in one MessageSet.                                                                                                                            |
-| batch.size                          | 1 .. 2147483647                        |      | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead.                                                                          |
-| compression.codec                   | none, gzip, snappy, lz4, zstd, inherit |      | Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration.                                                                 |
+| batch.size                          | 1 .. 1 .. 2147483647                   |      | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead.                                                                          |
+| compression.codec                   | none, gzip, snappy, lz4, zstd, inherit |      | Compression codec to use for compressing message sets. Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration.          |
 | compression.type                    | none, gzip, snappy, lz4, zstd          |      | Alias for `compression.codec`: compression codec to use for compressing message sets.                                                                                            |
 | compression.level                   | -1 .. 12                               |      | Compression level parameter for algorithm selected by configuration property `compression.codec`.                                                                                |
-| topic.metadata.refresh.interval.ms  | -1 .. 3600000                          |      | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
+| topic.metadata.refresh.interval.ms  | -1 .. 12 3600000                       |      | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
 | enable.ssl.certificate.verification | true,false                             | true | whether to verify the SSL certification                                                                                                                                          |
