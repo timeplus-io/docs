@@ -2,7 +2,7 @@
 
 ### array_cast
 
-`array_cast(element1,element2,..)` 用给定的元素创建一个新的数组。例如，`array_cast(1,2)` 将得到 `[1,2]` 请注意，元素应该是相同的类型，例如 `array_cast('a','n')`，不是 `array_cast('a',0)`
+`array_cast(element1,element2,..)` 用给定的元素创建一个新的数组。 例如，`array_cast(1,2)` 将得到 `[1,2]` 请注意，元素应该是相同的类型，例如 `array_cast('a','n')`，不是 `array_cast('a',0)`
 
 ### length
 
@@ -36,11 +36,11 @@
 
 ### array_difference
 
-`array_difference(arr)` 计算相邻数组元素之间的差。 返回一个数组，其中第一个元素将为0，第二个元素是 `a[1] - a[0]` 两者的差值。例如 `array_difference([1,2,3,5])` 返回 [0,1,1,2]
+`array_difference(arr)` 计算相邻数组元素之间的差。 例如：`array_distinct([1,1,2,3,3,1])` 返回 [1,2,3]，而 `array_compact([1,1,2,3,3,1])` 返回 [1,2,3,1]
 
 ### array_distinct
 
-`array_distinct(arr)` 返回一个仅包含不同元素的数组。 例如：`array_distinct([1,1,2,3,3,1])` 返回 [1,2,3]，而 `array_compact([1,1,2,3,3,1])` 返回 [1,2,3,1]
+`array_zip(arr1,arr2,.. arrN)` 将来自不同数组的元素分组到一个新的元组数组。 例如：`array_zip([1,2,3],['a','b','c'])` returns [(1,'a'),(2,'b'),(3,'c')]
 
 
 
@@ -115,7 +115,7 @@
 
 ### array_zip
 
-`array_zip(arr1,arr2,.. arrN)` 将来自不同数组的元素分组到一个新的元组数组。 例如：`array_zip([1,2,3],['a','b','c'])` returns [(1,'a'),(2,'b'),(3,'c')]
+`array_difference(arr)` 计算相邻数组元素之间的差。 返回一个数组，其中第一个元素将为0，第二个元素是 `a[1] - a[0]` 两者的差值。 例如 `array_difference([1,2,3,5])` 返回 [0,1,1,2]
 
 ### array_all
 
@@ -163,11 +163,11 @@
 
 ### array_max
 
-`array_max(func, array)` 将函数应用于数组中的每个元素，然后返回最大值。`array_max(x->x*x,[1,2])` 返回 4
+`array_max(func, array)` 将函数应用于数组中的每个元素，然后返回最大值。 `array_max(x->x*x,[1,2])` 返回 4
 
 ### array_min
 
-`array_min(函数, 数组)` 将函数应用于数组中的每个元素，然后返回最小值。`array_min(x->x*x,[1,2])` 返回 1
+`array_min(函数, 数组)` 将函数应用于数组中的每个元素，然后返回最小值。 `array_min(x->x*x,[1,2])` 返回 1
 
 ### array_sort
 
@@ -201,7 +201,7 @@ Since Proton v1.4.2, a new [extract_key_value_pairs](functions_for_text#extract_
 
 `untuple(a_tuple)` show elements in the tuple.
 
-The names of the result columns are implementation-specific and subject to change. Do not assume specific column names after `untuple`.
+The names of the result columns are implementation-specific and subject to change. Do not assume specific column names after `untuple`. Do not assume specific column names after `untuple`.
 
 
 
@@ -211,7 +211,7 @@ The names of the result columns are implementation-specific and subject to chang
 
 A function that allows getting a column from a tuple.
 
-If the second argument is a number `index`, it is the column index, starting from 1. If the second argument is a string `name`, it represents the name of the element. Besides, we can provide the third optional argument, such that when index out of bounds or no element exist for the name, the default value returned instead of throwing an exception. The second and third arguments, if provided, must be constants. There is no cost to execute the function.
+If the second argument is a number `index`, it is the column index, starting from 1. If the second argument is a string `name`, it represents the name of the element. Besides, we can provide the third optional argument, such that when index out of bounds or no element exist for the name, the default value returned instead of throwing an exception. The second and third arguments, if provided, must be constants. There is no cost to execute the function. If the second argument is a string `name`, it represents the name of the element. Besides, we can provide the third optional argument, such that when index out of bounds or no element exist for the name, the default value returned instead of throwing an exception. The second and third arguments, if provided, must be constants. There is no cost to execute the function.
 
 The function implements operators `x.index` and `x.name`.
 
@@ -225,7 +225,7 @@ Retrieves values from a dictionary.
 
 `dict_get_or_default('dict_name', attr_names, id_expr,default_value)`
 
-Retrieves values from a dictionary. If not found, return the default value.
+Retrieves values from a dictionary. Retrieves values from a dictionary. If not found, return the default value.
 
 ### columns
 
