@@ -1,10 +1,10 @@
 # 本地JavaScript自定义函数
 
-In addition to [Remote UDF](remote-udf), Timeplus Proton also supports JavaScript-based UDF running in the sql engine. 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
+除了 [远程 UDF](remote-udf)之外，Timeplus 还支持在数据库引擎中运行基于 JavaScript 的 UDF。 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
 :::info
 
-The JavaScript-based UDF can run in both Timeplus and Proton local deployments. 它在数据库引擎中“本地”运行。 这并不意味着此功能仅适用于本地部署。
+The JavaScript-based UDF can run in both Timeplus and Proton local deployments. 它在数据库引擎中“本地”运行。 它在数据库引擎中“本地”运行。 这并不意味着此功能仅适用于本地部署。
 
 :::
 
@@ -189,7 +189,7 @@ function magic_number(values){
 
 To register this function, steps are different in Timeplus Cloud and Proton:
 
-* With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 在 `float` 类型中添加一个参数，并将返回类型也设置为 `float` 。 Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。
+* With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 在 `float` 类型中添加一个参数，并将返回类型也设置为 `float` 。 Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。
 * With SQL in Proton Client: check the example at [here](proton-create-udf#create-aggregate-function).
 
 ### Advanced Example for Complex Event Processing {#adv_udaf}
@@ -257,10 +257,10 @@ RETURNS string LANGUAGE JAVASCRIPT AS $$
 $$;
 ```
 
-There is an advanced setting `has_customized_emit`. When this is set to `true`:
+There is an advanced setting `has_customized_emit`. When this is set to `true`: When this is set to `true`:
 
 * `initialize()` is called to prepare a clean state for each function invocation.
-* Proton partitions the data according to `group by` keys and feeds the partitioned data to the JavaScript UDAF. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit.
+* Proton partitions the data according to `group by` keys and feeds the partitioned data to the JavaScript UDAF. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit.
 
 Caveats:
 
@@ -268,7 +268,7 @@ Caveats:
 2. If there are 1 million unique key, there will be 1 million UDAF invocations and each of them handles its own partitioned data.
 3. If one key has aggregation results to emit, but other keys don't have, then Proton only emit results for that key.
 
-This is an advanced feature. Please contact us or discuss your use case in [Community Slack](https://timeplus.com/slack) with us.
+This is an advanced feature. This is an advanced feature. Please contact us or discuss your use case in [Community Slack](https://timeplus.com/slack) with us.
 
 
 
