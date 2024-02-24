@@ -32,17 +32,17 @@
 
 ### json_extract_array
 
-`json_has(json, key)` 来检查是否在 JSON 文档中存在指定的密钥。 例如：`json_extract_array('{"a": "hello", "b": [-100, 200.0, "hello"]}', 'b')` 将获得数组值`['-100','200','"hello"']`。如果整个JSON文档是一个数组，则第二个参数`key` 可以省略以将JSON字符串转换为数组，例如：`json_extract_array(arrayString)`。
+`json_extract_keys(jsonStr)` 来解析 JSON 字符串并提取密钥。 例如： `选择 '{"system_diskio_name":"nvme0n1"}" 作为标签，json_extract_keys(标签)` 将获得一个数组： `[ "system_diskio_name" ]`
 
 你也可以使用快捷方式`col:b[*]`。
 
 ### json_extract_keys
 
-`json_extract_keys(jsonStr)` 来解析 JSON 字符串并提取密钥。 例如： `选择 '{"system_diskio_name":"nvme0n1"}" 作为标签，json_extract_keys(标签)` 将获得一个数组： `[ "system_diskio_name" ]`
+`json_value(json, path)` 允许您访问嵌套的 JSON 对象。 例如， `json_extract_int('{"a":,"b":1}','a')` 将获得数字 `1`
 
 ### is_valid_json
 
-`is_valid_json(str)` 来检查给定的字符串是否是有效的 JSON 返回 true(1) 或 false(0) 返回 true(1) 或 false(0) 返回 true(1) 或 false(0)
+`is_valid_json(str)` 来检查给定的字符串是否是有效的 JSON 返回 true(1) 或 false(0) 返回 true(1) 或 false(0) 返回 true(1) 或 false(0) 返回 true(1) 或 false(0)
 
 ### json_has
 
