@@ -1,11 +1,24 @@
 # 查询语法
 
-Timeplus Proton introduces several SQL extensions to support streaming processing. 总的语法如下：
+Timeplus引入了几个SQL扩展来支持流式处理。 总的语法如下：
 
 ```sql
 [WITH common_table_expression ..]
 SELECT <expr, columns, aggr>
-FROM <table_function>(<stream_name>, [<time_column>], [<window_size>], ...)
+FROM <streaming_window_function>(<table_name>, [<time_column>], [<window_size>], ...)
+[WHERE clause]
+[GROUP BY clause]
+EMIT <window_emit_policy>
+SETTINGS <key1>=<value1>, <key2>=<value2>, ...
+[WHERE clause]
+[GROUP BY clause]
+EMIT <window_emit_policy>
+SETTINGS <key1>=<value1>, <key2>=<value2>, ...
+[WHERE clause]
+[GROUP BY clause]
+[PARTITION BY clause]
+EMIT <window_emit_policy>
+SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 [JOIN clause]
 [WHERE clause]
 [GROUP BY clause]
@@ -27,26 +40,26 @@ Before we look into the details of the query syntax, we'd like to highlight the 
 * `SELECT .. FROM stream`  will query the future events. Once you run the query, it will process new events. For example, if there are 1,000 events in the stream already, running `SELECT count() FROM stream` could return 0, if there is more new events.
 * `SELECT .. FROM table(stream)` will query the historical data, just like many of other databases. In the above sample stream, if you run `SELECT count() FROM table(stream)`, you will get 1000 as the result and the query completed.
 
-## SETTINGS{#settings}
+## Query Settings
 
 时间插件支持一些高级`设置`来微调下列流式查询处理行为：
 
-1. `enable_backfill_from_historical_store=0|1`. By default, if it's omitted, it's `1`.
+1. `enable_backfill_from_historical_store=0|1`. By default, if it's omitted, it's `1`. By default, if it's omitted, it's `1`.
    * 当它为0时，查询引擎要么从流存储中加载数据，要么从历史存储中加载数据。
    * 当它为1时，查询引擎会评估是否需要从历史存储中加载数据（例如时间范围在流式存储空间之外），或者从历史存储中获取数据的效率会更高（例如，count/min/max 是在历史存储中预先计算的，比在流式存储中扫描数据更快）。
-2. `force_backfill_in_order=0|1`. By default, if it's omitted, it's `0`.
-   1. When it's 0, the data from the historical storage are turned without extra sorting. This would improve the performance.
-   2. When it's 1, the data from the historical storage are turned with extra sorting. This would decrease the performance. So turn on this flag carefully.
+2. `force_backfill_in_order=0|1`. By default, if it's omitted, it's `0`. By default, if it's omitted, it's `0`.
+   1. When it's 0, the data from the historical storage are turned without extra sorting. This would improve the performance. This would improve the performance.
+   2. When it's 1, the data from the historical storage are turned with extra sorting. This would decrease the performance. So turn on this flag carefully. This would decrease the performance. So turn on this flag carefully.
 
-3. `emit_aggregated_during_backfill=0|1`. By default, if it's omitted, it's `0`.
+3. `emit_aggregated_during_backfill=0|1`. By default, if it's omitted, it's `0`. By default, if it's omitted, it's `0`.
    1. When it's 0, the query engine won't emit intermediate aggregation results during the historical data backfill.
-   2. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. As long as there are aggregation functions and time window functions(e.g. tumble/hop/session) in the streaming SQL, when the `emit_aggregated_during_backfill` is on, `force_backfill_in_order` will be applied to 1 automatically.
-4. `query_mode=<table|streaming>` 默认情况下，如果省略，则为`streaming`。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。 This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical.
-5. `seek_to=<timestamp|earliest|latest>`. 默认情况下，如果省略，则为`latest`。 设置告诉Timeplus通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下，是`latest`，表示了Timeplus不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
+   2. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. As long as there are aggregation functions and time window functions(e.g. tumble/hop/session) in the streaming SQL, when the `emit_aggregated_during_backfill` is on, `force_backfill_in_order` will be applied to 1 automatically.
+4. `query_mode=<table|streaming>` 默认情况下，如果省略，则为`streaming`。 默认情况下，如果省略，则为`streaming`。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。 This can be overwritten in the port. This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical. If you use 8123, default is historical.
+5. `seek_to=<timestamp|earliest|latest>`. 默认情况下，如果省略，则为`latest`。 默认情况下，如果省略，则为`latest`。 设置告诉Timeplus通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下，是`latest`，表示了Timeplus不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
 :::info
 
-Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`(except for [External Stream](external-stream)). 请使用`WHERE _tp_time>='2023-01-01'`或其他类似的。 `_tp_time` is the special timestamp column in each raw stream to represent the [event time](eventtime). 您可以使用 `>`, `<`, `BETWEEN... AND` operations to filter the data in Timeplus storage. 唯一的例外是[外部流](external-stream)。 If you need to scan all existing data in the Kafka topic, you need to run the SQL with seek_to, e.g. `select raw from my_ext_stream settings seek_to='earliest'`
+Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`(except for [External Stream](external-stream)). 请使用`WHERE _tp_time>='2023-01-01'`或其他类似的。 请使用`WHERE _tp_time>='2023-01-01'`或其他类似的。 `_tp_time` is the special timestamp column in each raw stream to represent the [event time](eventtime). 您可以使用 `>`, `<`, `BETWEEN... AND` operations to filter the data in Timeplus storage. 唯一的例外是[外部流](external-stream)。 您可以使用 `>`, `<`, `BETWEEN... AND` operations to filter the data in Timeplus storage. 唯一的例外是[外部流](external-stream)。 If you need to scan all existing data in the Kafka topic, you need to run the SQL with seek_to, e.g. `select raw from my_ext_stream settings seek_to='earliest'`
 
 :::
 
@@ -97,10 +110,10 @@ Before Proton 1.5, the syntax was `EMIT AFTER WATERMARK AND DELAY`.  Since Proto
 SELECT device, max(cpu_usage)
 FROM tumble(device_utils, 5s)
 GROUP BY device, widnow_end
-EMIT AFTER WATERMARK WITH DELAY 2s;
+EMIT AFTER WATERMARK DELAY 2s;
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `device_utils`. Every time a window is closed, Timeplus Proton waits for another 2 seconds and then emits the aggregation results.
+上面的示例 SQL 持续聚合每个设备对表 `设备 _utils` 的最大cpu 使用量。 Every time a window is closed, Timeplus waits for another 2 seconds and then emits the aggregation results.
 
 ### EMIT PERIODIC {#emit_periodic}
 
@@ -124,11 +137,14 @@ When you run a tumble window aggregation, by default Proton will emit results wh
 In some cases, you may want to get aggregation results even the window is not closed, so that you can get timely alerts. For example, the following SQL will run a 5-second tumble window and every 1 second, if the number of event is over 300, a row will be emitted.
 
 ```sql
-SELECT window_start, count() AS cnt
-FROM tumble(car_live_data, 5s)
-GROUP BY window_start
-HAVING cnt > 300
-EMIT PERIODIC 1s
+SELECT <column_name1>, <column_name2>, <aggr_function>
+FROM <table_name>
+[WHERE clause]
+GROUP BY ...
+EMIT LAST INTERVAL <n> <UNIT>
+SETTINGS max_keep_windows=<window_count>
+EMIT LAST INTERVAL <n> <UNIT>
+SETTINGS max_keep_windows=<window_count>
 ```
 ### EMIT ON UPDATE {#emit_on_update}
 
@@ -197,7 +213,7 @@ By default, `EMIT LAST` uses the event time. Timeplus Proton will seek both stre
 
 正在修改事件时间戳处于最后X范围内的事件。
 
-示例：
+子查询
 
 ```sql
 SELECT *
@@ -206,15 +222,22 @@ WHERE cpu_usage > 80
 EMIT LAST 5m
 ```
 
-The above example filters events in the `device_utils` stream where `cpu_usage` is greater than 80% and events are appended in the last 5 minutes. 在内部，Timeplus寻求流式存储回到5分钟(从现在起全时时间)并从那里压缩数据。
+上面的示例过滤器事件在 `device_utils` 表中，其中 `cpu_usage` 大于80%，事件在过去 5 分钟内被添加。 在内部，Timeplus寻求流式存储回到5分钟(从现在起全时时间)并从那里压缩数据。
 
 #### EMIT LAST for Global Aggregation
 
 ```sql
-SELECT <column_name1>, <column_name2>, <aggr_function>
-FROM <stream_name>
-[WHERE clause]
-GROUP BY ...
+SELECT <column_name1>, <column_name2>, ...
+FROM <table_name>
+WHERE <clause>
+EMIT LAST INTERVAL <n> <UNIT>;
+SELECT <column_name1>, <column_name2>, ...
+FROM <table_name>
+WHERE <clause>
+EMIT LAST INTERVAL <n> <UNIT>;
+FROM <table_name>
+WHERE <clause>
+EMIT LAST INTERVAL <n> <UNIT>;
 EMIT LAST INTERVAL <n> <UNIT>
 SETTINGS max_keep_windows=<window_count>
 ```
@@ -224,12 +247,10 @@ SETTINGS max_keep_windows=<window_count>
 示例：
 
 ```sql
-SELECT device, count(*)
-FROM device_utils
-WHERE cpu_usage > 80
-GROUP BY device
-EMIT PERIODIC 5s AND LAST 1h
-SETTINGS max_keep_windows=720;
+SELECT device, max(cpu_usage)
+FROM tumble(devices, now64(3, 'UTC'), 5s)
+GROUP BY device, window_end
+EMIT AFTER WATERMARK DELAY 2s;
 ```
 
 #### EMIT LAST for Windowed Aggregation
@@ -315,6 +336,7 @@ WITH cte1 AS (SELECT ..),
      cte2 AS (SELECT ..)
 选择... FROM cte1 UNION SELECT .. 从 Cte2
 选择... FROM cte1 UNION SELECT .. 从 Cte2
+选择... FROM cte1 UNION SELECT .. 从 Cte2
 选择... FROM cte1 UNION SELECT .. 从 Cte2    
 ```
 
@@ -376,13 +398,13 @@ FROM
 ) AS avg_5_second;
 ```
 
-## Common Types of Queries
+## 普通子查询
 
 ### 流式扫描 {#streaming-tailing}
 
 ```sql
 SELECT <expr>, <columns>
-FROM <stream_name>
+FROM <table_name>
 [WHERE clause]
 ```
 
@@ -394,7 +416,7 @@ FROM devices_utils
 WHERE cpu_usage >= 99
 ```
 
-The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events which have `cpu_usage` less than 99. 最后的事件将会流向客户端。
+The above example continuously evaluates the filter expression on the new events in the stream `device_utils` to filter out events which have `cpu_usage` less than 99. 最后的事件将会流向客户端。 最后的事件将会流向客户端。
 
 ### 全局流聚合 {#global}
 
@@ -402,12 +424,12 @@ The above example continuously evaluates the filter expression on the new events
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
-FROM <stream_name>
+FROM <table_name>
 [WHERE clause]
 EMIT PERIODIC [<n><UNIT>]
 ```
 
-`PERIODIC <n><UNIT>` 告诉Timeplus号定期发布聚合。 `UNIT` 可以是 ms（毫秒）、s（秒）、m（分钟）、h（小时）、d（天）。`<n>` 应为大于 0 的整数。
+`PERIODIC <n><UNIT>` 告诉Timeplus号定期发布聚合。 `UNIT` 可以是 ms（毫秒）、s（秒）、m（分钟）、h（小时）、d（天）。 `<n>` 应为大于 0 的整数。
 
 示例：
 
@@ -418,7 +440,7 @@ WHERE cpu_usage > 99
 EMIT PERIODIC 5s
 ```
 
-Like in [Streaming Tail](#streaming-tailing), Timeplus continuously monitors new events in the stream `device_utils`, does the filtering and then continuously does **incremental** count aggregation. Whenever the specified delay interval is up, project the current aggregation result to clients.
+Like in [Streaming Tail](#streaming-tailing), Timeplus continuously monitors new events in the stream `device_utils`, does the filtering and then continuously does **incremental** count aggregation. Whenever the specified delay interval is up, project the current aggregation result to clients. Whenever the specified delay interval is up, project the current aggregation result to clients.
 
 ### 简易流窗口聚合 {#tumble}
 
@@ -426,9 +448,15 @@ Like in [Streaming Tail](#streaming-tailing), Timeplus continuously monitors new
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
-FROM tumble(<stream_name>, [<timestamp_column>], <tumble_window_size>, [<time_zone>])
+FROM tumble(<table_name>, [<timestamp_column>], <tumble_window_size>, [<time_zone>])
 [WHERE clause]
 GROUP BY [window_start | window_end], ...
+EMIT <window_emit_policy>
+设置 <key1>=<value1>, <key2>=<value2>, ...
+EMIT <window_emit_policy>
+设置 <key1>=<value1>, <key2>=<value2>, ...
+EMIT <window_emit_policy>
+设置 <key1>=<value1>, <key2>=<value2>, ...
 EMIT <window_emit_policy>
 设置 <key1>=<value1>, <key2>=<value2>, ...
 ```
@@ -444,17 +472,17 @@ EMIT <window_emit_policy>
 
 `tumble` window in Timeplus is left closed and right open `[)` meaning it includes all events which have timestamps **greater or equal** to the **lower bound** of the window, but **less** than the **upper bound** of the window.
 
-`tumble` in the above SQL spec is a table function whose core responsibility is assigning tumble window to each event in a streaming way. The `tumble` table function will generate 2 new columns: `window_start, window_end` which correspond to the low and high bounds of a tumble window.
+`tumble` in the above SQL spec is a table function whose core responsibility is assigning tumble window to each event in a streaming way. The `tumble` table function will generate 2 new columns: `window_start, window_end` which correspond to the low and high bounds of a tumble window. The `tumble` table function will generate 2 new columns: `window_start, window_end` which correspond to the low and high bounds of a tumble window.
 
 `tumble` 表格函数接受4个参数： `<timestamp_column>` 和 `<time-zone>` 是可选的，其他函数是强制性的。
 
-When the `<timestamp_column>` parameter is omitted from the query, the stream's default event timestamp column which is `_tp_time` will be used.
+当 `<timestamp_column>` 参数从查询中省略时，将使用该表的默认事件时间戳列，它是 `_tp_time`
 
-当 `<time_zone>` 参数被省略时，系统的默认时区将被使用。 `<time_zone>` 是一个字符串类型的参数，例如 `UTC`。
+`<time_zone>` 是一个字符串类型的参数，例如 `UTC`。 当 `<time_zone>` 参数被省略时，系统的默认时区将被使用。
 
-`<tumble_window_size>` 是一个间隔参数： `<n><UNIT>` `<UNIT>` 支持 `s`, `m`, `h`, `d`, `w`. 它还不支持 `M`, `q`, `y`。 它还不支持 `M`, `q`, `y`。 For example, `tumble(my_stream, 5s)`.
+`<tumble_window_size>` 是一个间隔参数： `<n><UNIT>` `<UNIT>` 支持 `s`, `m`, `h`, `d`, `w`. 它还不支持 `M`, `q`, `y`。 它还不支持 `M`, `q`, `y`。 例如： `tumble(my_table, 5s)`。
 
-More concrete examples:
+最近若干时间处理
 
 ```sql
 SELECT device, max(cpu_usage)
@@ -462,7 +490,7 @@ FROM tumble(device_utils, 5s)
 GROUP BY device, window_end
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results.
+上面的示例 SQL 持续聚合每个设备每个tumble窗口最大的 cpu 使用量，用于表 `设备 _utils`。 每次关闭一个窗口，Timeplus号发布聚合结果。
 
 Let's change `tumble(stream, 5s)` to `tumble(stream, timestmap, 5s)` :
 
@@ -470,7 +498,7 @@ Let's change `tumble(stream, 5s)` to `tumble(stream, timestmap, 5s)` :
 SELECT device, max(cpu_usage)
 FROM tumble(devices, timestamp, 5s)
 GROUP BY device, window_end
-EMIT AFTER WATERMARK WITH DELAY 2s;
+EMIT AFTER WATERMARK DELAY 2s;
 ```
 
 与上述延迟的tumble窗口聚合相同，但此查询除外； 用户指定 **特定时间列** `时间戳` 用于tumble窗口。
@@ -478,10 +506,12 @@ EMIT AFTER WATERMARK WITH DELAY 2s;
 下面的例子是所谓的处理时间处理，它使用墙时钟时间分配窗口。 时间外挂内部以串流方式处理 `/现在64`。
 
 ```sql
-SELECT device, max(cpu_usage)
-FROM tumble(devices, now64(3, 'UTC'), 5s)
-GROUP BY device, window_end
-EMIT AFTER WATERMARK WITH DELAY 2s;
+SELECT device, count(*)
+FROM device_utils
+WHERE cpu_usage > 80
+GROUP BY device
+EMIT LAST 1h AND PERIODIC 5s
+SETTINGS max_keep_windows=720;
 ```
 
 
@@ -493,9 +523,15 @@ EMIT AFTER WATERMARK WITH DELAY 2s;
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
-FROM hop(<stream_name>, [<timestamp_column>], <hop_slide_size>, [hop_windows_size], [<time_zone>])
+FROM hop(<table_name>, [<timestamp_column>], <hop_slide_size>, [hop_windows_size], [<time_zone>])
 [WHERE clause]
 GROUP BY [<window_start | window_end>], ...
+EMIT <window_emit_policy>
+设置 <key1>=<value1>, <key2>=<value2>, ...
+EMIT <window_emit_policy>
+设置 <key1>=<value1>, <key2>=<value2>, ...
+EMIT <window_emit_policy>
+设置 <key1>=<value1>, <key2>=<value2>, ...
 EMIT <window_emit_policy>
 设置 <key1>=<value1>, <key2>=<value2>, ...
 ```
@@ -527,7 +563,7 @@ GROUP BY device, window_end
 EMIT AFTER WATERMARK;
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per hop window for stream `device_utils`. 每次关闭一个窗口，Timeplus号发布聚合结果。
+上面的示例 SQL 持续聚合每个设备在表 `设备 _utils` 中的最大cpu 使用量。 每次关闭一个窗口，Timeplus号发布聚合结果。
 
 ### Session Streaming Window Aggregation
 
