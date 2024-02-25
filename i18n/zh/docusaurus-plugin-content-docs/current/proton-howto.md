@@ -58,6 +58,54 @@ Proton supports powerful, yet easy-to-use JSON processing. You can save the enti
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dTKr1-B5clg?si=eaeQ21SjY8JpUXID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
+## How to load CSV files {#csv}
+
+If you only need to load a single CSV file, you can create a stream then use the `INSERT INTO .. 选择... FROM file(..)` syntax. For example, if there are 3 fields in the CSV file: timestamp, price, volume, you can create the stream via
+
+```sql
+CREATE STREAM stream
+(
+  `timestamp` datetime64(3),
+  `price` float64,
+  `volume` float64
+)
+SETTINGS event_time_column = 'timestamp';
+```
+
+Please note there will be the 4th column in the stream, which is _tp_time as the [Event Time](eventtime).
+
+To import CSV content, use the `file` table function to set the file path and header and data types.
+
+```sql
+INSERT INTO stream (timestamp,price,volume) 
+SELECT timestamp,price,volume 
+FROM file('data/my.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
+```
+
+Please note you need to specify the column names. Otherwise `SELECT *` will get 3 columns while there are 4 columns in the data stream.
+
+If you need to import multiple CSV files to a single stream, you can do something similar. You can even add one more column to track the file path.
+
+```sql
+CREATE STREAM kraken_all
+(
+ `path` string,
+  `timestamp` datetime64(3),
+  `price` float64,
+  `volume` float64,
+  `_tp_time` datetime64(3, 'UTC') DEFAULT timestamp CODEC(DoubleDelta, LZ4),
+  INDEX _tp_time_index _tp_time TYPE minmax GRANULARITY 2
+)
+ENGINE = Stream(1, 1, rand())
+PARTITION BY to_YYYYMM(_tp_time)
+ORDER BY to_start_of_hour(_tp_time)
+SETTINGS event_time_column = 'timestamp', index_granularity = 8192;
+
+INSERT INTO kraken_all (path,timestamp,price,volume) 
+SELECT _path,timestamp,price,volume 
+FROM file('data/*.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64');
+```
+
 ## How to visualize Proton query results with Grafana or Metabase {#bi}
 
 The offical Grafana plugin for Proton is available on https\://grafana.com/grafana/plugins/timeplus-proton-datasource/ The source code is at https\://github.com/timeplus-io/proton-grafana-source. You can run streaming SQL with the plugin and build live charts in Grafana, without having to refresh the dashboard. Check out https\://github.com/timeplus-io/proton/tree/develop/examples/grafana for sample setup.
