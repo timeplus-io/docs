@@ -2,9 +2,9 @@
 
 ## Can I run Timeplus in our own cloud VPC or on-prem? {#deployment}
 
-In the first few releases of Timeplus, our focus is the AWS-based fully-managed cloud service. Supporting other cloud vendors, or hybrid cloud is certainly doable. Please contact us with your requirements.
+Sure. [Timeplus Enterprise](timeplus-enterprise) can be installed in your local data center or cloud VPC, with similar features as Timeplus Cloud.
 
-## How much data I can load into Timeplus? {#datasize}
+## How much data I can load into Timeplus Cloud? {#datasize}
 
 For Free Trial accounts, the total storage for each workspace is 20GB by default. Please contact us if you need to load or keep more data. You can choose the storage size when you upgrade to a paid plan.
 
@@ -14,7 +14,7 @@ Yes, the workspace owner can invite team members to access the workspace. Go to 
 
 ## What's relationship for Timeplus and Proton? {#compare}
 
-Proton is the core engine of Timeplus and open-sourced on September 2023. Please check the [Proton FAQ](proton-faq) for details.
+Proton is the core engine of Timeplus and open-sourced on September 2023. Timeplus Cloud or Timeplus Enterprise provide external features and support. Please check the [Proton FAQ](proton-faq) for details.
 
 ## What's the SLA and can I run production load? {#sla}
 
