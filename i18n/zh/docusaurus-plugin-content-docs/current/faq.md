@@ -2,9 +2,9 @@
 
 ## 我可以在我们自己的cloud VPC中运行Timeplus吗？ {#deployment}
 
-在 Timeplus 目前版本中，我们的重点是基于 AWS 的完全托管的云服务。 支持其他云供应商或混合云当然是可行的。 关于私有化部署，请与我们联系。
+Sure. [Timeplus Enterprise](timeplus-enterprise) can be installed in your local data center or cloud VPC, with similar features as Timeplus Cloud.
 
-## 我可以加载多少数据到Timeplus？ {#datasize}
+## How much data I can load into Timeplus Cloud? {#datasize}
 
 对于免费帐户，默认情况下，每个工作空间的总存储空间为 20GB。 如果您需要加载或保留更多数据，请联系我们。 当您升级到付费套餐时，您可以选择存储空间大小。
 
@@ -14,7 +14,7 @@
 
 ## Timeplus和Proton的关系是什么？ {#compare}
 
-Proton 是 TimePlus 的核心引擎，于 2023 年 9 月开源。 请查看 [Proton 常见问题解答了解](proton-faq) 详情。
+Proton 是 TimePlus 的核心引擎，于 2023 年 9 月开源。 Timeplus Cloud or Timeplus Enterprise provide external features and support. Please check the [Proton FAQ](proton-faq) for details.
 
 ## SLA是怎么样的，我可以运行生产负载吗？ {#sla}
 
