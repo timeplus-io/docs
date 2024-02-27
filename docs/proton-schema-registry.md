@@ -1,4 +1,4 @@
-# Schema Registry
+# Kafka Schema Registry
 
 Since Proton 1.5.2, Kafka schema registry is supported.
 
@@ -23,7 +23,7 @@ Please note:
 1. `kafka_schema_registry_credentials` is optional. Skip this if the schema registry server doesn't require authencation. 
 2. Make sure to add `http://` or `https://` in the `kafka_schema_registry_url`. Self-signed HTTPS certification is not supported yet.
 3. Make sure you define the columns matching the fields in the Avro schema.
-4. `data_format` can be `Avro`, `ProtobufSingle` or `Protobuf`.
+4. `data_format` can be `Avro`, or `ProtobufSingle`. 
 5. Schema reference is not supported yet.
 
 ### Example: Read Avro Encoded Data in Confluent Cloud {#read_avro_confluent_cloud}
