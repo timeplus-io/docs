@@ -161,44 +161,32 @@ const sidebars = {
       items: [
         "proton-howto",
         "proton-architecture",
+        "proton-create-stream",
+        "proton-kafka",
+        "proton-schema-registry",
+        "proton-format-schema",
         {
           type: "category",
-          label: "Stream & External Stream",
+          label: "Manage Stream",
           //collapsed: false,
           link: {
             type: "generated-index",
           },
-          items: [
-            "proton-create-stream",
-            {
-              type: "category",
-              label: "External Stream",
-              //collapsed: false,
-              link: {
-                type: "generated-index",
-              },
-              items: ["proton-kafka", "proton-log"],
-            },
-            "proton-alter-stream",
-            "proton-drop-stream",
-          ],
+          items: ["proton-alter-stream", "proton-drop-stream"],
         },
         "proton-create-view",
         "proton-clickhouse-external-table",
         "proton-create-udf",
-        "proton-format-schema",
-        "proton-schema-registry",
         {
           type: "category",
           label: "Query Guide",
           collapsed: true,
           link: {
             type: "doc",
-            id: "query-guide",
+            id: "query-syntax",
           },
           items: [
             "datatypes",
-            "query-syntax",
             {
               type: "category",
               label: "Functions",

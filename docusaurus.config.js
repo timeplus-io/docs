@@ -94,25 +94,25 @@ const config = {
         items: [
           {
             type: "doc",
-            docId: "index",
+            docId: "proton-howto",
             position: "left",
-            label: "Overview",
-          },
-          {
-            type: "doc",
-            docId: "quickstart",
-            position: "left",
-            label: "Quickstart",
+            label: "Proton How-to",
           },
           {
             type: "doc",
             docId: "functions",
             position: "left",
-            label: "Functions",
+            label: "SQL Functions",
           },
           {
             type: "doc",
-            docId: "changelog",
+            docId: "quickstart",
+            position: "left",
+            label: "Cloud Quickstart",
+          },
+          {
+            type: "doc",
+            docId: "release-notes",
             position: "left",
             label: "What's New",
           },
