@@ -74,15 +74,24 @@ SETTINGS event_time_column = 'timestamp';
 
 Please note there will be the 4th column in the stream, which is _tp_time as the [Event Time](eventtime).
 
-To import CSV content, use the `file` table function to set the file path and header and data types.
+To import CSV content, use the [file](https://clickhouse.com/docs/en/sql-reference/table-functions/file) table function to set the file path and header and data types.
 
 ```sql
 INSERT INTO stream (timestamp,price,volume) 
 SELECT timestamp,price,volume 
 FROM file('data/my.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
+SETTINGS max_insert_threads=8;
 ```
 
-Please note you need to specify the column names. Otherwise `SELECT *` will get 3 columns while there are 4 columns in the data stream.
+:::info
+
+请注意：
+
+1. You need to specify the column names. Otherwise `SELECT *` will get 3 columns while there are 4 columns in the data stream.
+2. For security reasons, Proton only read files under `proton-data/user_files` folder. If you install proton via `proton install` command on Linux servers, the folder will be `/var/lib/proton/user_files`. If you don't install proton and run proton binary directly via `proton server start`, the folder will be `proton-data/user_files`
+3. We recommend to use `max_insert_threads=8` to use multiple threads to maxiumize the ingestion performance.  If your file system has high IOPS, you can create the stream with `SETTINGS shards=3` and set a higher `max_insert_threads` value in the `INSERT` statement.
+
+:::
 
 If you need to import multiple CSV files to a single stream, you can do something similar. You can even add one more column to track the file path.
 
@@ -103,7 +112,8 @@ SETTINGS event_time_column = 'timestamp', index_granularity = 8192;
 
 INSERT INTO kraken_all (path,timestamp,price,volume) 
 SELECT _path,timestamp,price,volume 
-FROM file('data/*.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64');
+FROM file('data/*.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
+SETTINGS max_insert_threads=8;
 ```
 
 ## How to visualize Proton query results with Grafana or Metabase {#bi}
