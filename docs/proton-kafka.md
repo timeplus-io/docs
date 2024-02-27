@@ -10,7 +10,7 @@ To create an external stream in Proton:
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
-SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanism='..'
+SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanism='..',data_format='..',kafka_schema_registry_url='..',kafka_schema_registry_credentials='..'
 ```
 
 The supported values for `security_protocol` are:
@@ -26,6 +26,12 @@ The supported values for `sasl_mechanism` are:
 * PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
 * SCRAM-SHA-256
 * SCRAM-SHA-512
+
+The supported values for `data_format` are:
+
+* ProtobufSingle: for single Protobuf message per Kafka message
+* Protobuf: there could be multiple Protobuf messages in a single Kafka message.
+* Avro: added in Proton 1.5.2
 
 ### Connect to local Kafka or Redpanda {#connect-kafka}
 

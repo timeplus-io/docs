@@ -187,6 +187,7 @@ const sidebars = {
         "proton-clickhouse-external-table",
         "proton-create-udf",
         "proton-format-schema",
+        "proton-schema-registry",
         {
           type: "category",
           label: "Query Guide",
