@@ -20,7 +20,7 @@ CREATE EXTERNAL STREAM my_stream (
 
 Please note:
 
-1. `kafka_schema_registry_credentials` is optional. Skip this if the schema registry server doesn't require authencation. 
+1. `kafka_schema_registry_credentials` is optional. Skip this if the schema registry server doesn't require authentication. 
 2. Make sure to add `http://` or `https://` in the `kafka_schema_registry_url`. Self-signed HTTPS certification is not supported yet.
 3. Make sure you define the columns matching the fields in the Avro schema.
 4. `data_format` can be `Avro`, or `ProtobufSingle`. 
@@ -101,7 +101,7 @@ SETTINGS
   kafka_schema_registry_credentials = '$API_KEY:$API_SECRET';
 ```
 
-After running this SQL successfully, you can fetch existin data via
+After running this SQL successfully, you can fetch existing data via
 
 ```sql
 SELECT * FROM avro_stream WHERE _tp_time>earliest_ts()
