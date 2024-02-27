@@ -21,8 +21,8 @@ CREATE EXTERNAL STREAM my_stream (
 Please note:
 
 1. `kafka_schema_registry_credentials` is optional. Skip this if the schema registry server doesn't require authentication. 
-2. Make sure to add `http://` or `https://` in the `kafka_schema_registry_url`. Self-signed HTTPS certification is not supported yet.
-3. Make sure you define the columns matching the fields in the Avro schema.
+2. Make sure to add `http://` or `https://` in the `kafka_schema_registry_url`. Self-signed HTTPS certification is not supported yet (coming soon).
+3. Make sure you define the columns matching the fields in the Avro schema. You don't have to define all top level fields in Avro schema as columns in the stream. For example, if there are 4 fields in Avro schema, you can choose only 2 of them as columns in the external stream. But make sure the data types match.
 4. `data_format` can be `Avro`, or `ProtobufSingle`. 
 5. Schema reference is not supported yet.
 
@@ -112,6 +112,71 @@ Or only fetch the incoming new messages via
 ```sql
 SELECT * FROM avro_stream
 ```
+
+### Example: Read Avro Encoded Data in Confluent Platform {#read_avro_confluent_platform}
+
+You can follow [Confluent Docs](https://docs.confluent.io/platform/7.6/platform-quickstart.html#quickstart) to start Confluent Platform with Schema Registry via Docker Compose.
+
+The Avro schema definition:
+
+```json
+{
+ "namespace": "io.confluent.examples.clients.basicavro",
+ "type": "record",
+ "name": "Payment",
+ "fields": [
+     {"name": "id", "type": "string"},
+     {"name": "amount", "type": "double"}
+ ]
+}
+```
+
+Follow the [Schema Registry tutorial](https://docs.confluent.io/platform/7.6/schema-registry/schema_registry_onprem_tutorial.html) to create a new topic `transactions`. Create a `$HOME/.confluent/java.config` with content:
+
+```properties
+bootstrap.servers=localhost:9092
+client.dns.lookup=use_all_dns_ips
+session.timeout.ms=45000
+acks=all
+schema.registry.url=http://localhost:8081
+```
+
+Then use Maven to compile the [sample code](https://github.com/confluentinc/examples/tree/7.5.0-post/clients/avro) and produce Avro-encoded message to the local Kafka server with schema registry:
+
+```bash
+mvn clean compile package
+mvn exec:java -Dexec.mainClass=io.confluent.examples.clients.basicavro.ProducerExample \
+  -Dexec.args="$HOME/.confluent/java.config"
+```
+
+Then create an external steam in Proton:
+
+```sql
+CREATE EXTERNAL STREAM transactions(
+  id string,
+  amount double
+)
+SETTINGS
+  type = 'kafka',
+  brokers = 'localhost:9092',
+  topic = 'transactions',
+  data_format = 'Avro',
+  kafka_schema_registry_url = 'http://localhost:8081';
+```
+
+After running this SQL successfully, you can fetch existing data via
+
+```sql
+SELECT * FROM transactions WHERE _tp_time>earliest_ts()
+```
+
+Or only fetch the incoming new messages via
+
+```sql
+SELECT * FROM transactions
+```
+
+
 
 ## Write Messages{#write}
 
