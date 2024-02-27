@@ -10,7 +10,7 @@ To create an external stream in Proton:
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
-SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanism='..'
+SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanism='..',data_format='..',kafka_schema_registry_url='..',kafka_schema_registry_credentials='..'
 ```
 
 The supported values for `security_protocol` are:
@@ -26,6 +26,12 @@ The supported values for `sasl_mechanism` are:
 * PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
 * SCRAM-SHA-256
 * SCRAM-SHA-512
+
+The supported values for `data_format` are:
+
+* ProtobufSingle: for single Protobuf message per Kafka message
+* Protobuf: there could be multiple Protobuf messages in a single Kafka message.
+* Avro: added in Proton 1.5.2
 
 ### Connect to local Kafka or Redpanda {#connect-kafka}
 
@@ -604,7 +610,7 @@ Please note, not all properties in [librdkafka](https://github.com/confluentinc/
 | queue.buffering.max.ms              | 0 .. 0 .. 900000                       |      | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers.                         |
 | message.max.bytes                   | 1000 .. 1000 .. 1000000000             |      | Maximum Kafka protocol request message size.                                                                                                                                     |
 | message.send.max.retries            | 0 .. 2147483647                        |      | How many times to retry sending a failing Message.                                                                                                                               |
-| retries                             | 0 .. 1 .. 2147483647                   |      | Alias for `message.send.max.retries`: How many times to retry sending a failing Message.                                                                                         |
+| retries                             | 0 .. 2147483647                        |      | Alias for `message.send.max.retries`: How many times to retry sending a failing Message.                                                                                         |
 | retry.backoff.ms                    | 1 .. 1 .. 300000                       |      | The backoff time in milliseconds before retrying a protocol reques                                                                                                               |
 | retry.backoff.max.ms                | 1 .. 1 .. 300000                       |      | The max backoff time in milliseconds before retrying a protocol request,                                                                                                         |
 | batch.num.messages                  | 1 .. 1000000                           |      | Maximum number of messages batched in one MessageSet.                                                                                                                            |
@@ -612,5 +618,5 @@ Please note, not all properties in [librdkafka](https://github.com/confluentinc/
 | compression.codec                   | none, gzip, snappy, lz4, zstd, inherit |      | Compression codec to use for compressing message sets. Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration.          |
 | compression.type                    | none, gzip, snappy, lz4, zstd          |      | Alias for `compression.codec`: compression codec to use for compressing message sets.                                                                                            |
 | compression.level                   | -1 .. 12                               |      | Compression level parameter for algorithm selected by configuration property `compression.codec`.                                                                                |
-| topic.metadata.refresh.interval.ms  | -1 .. 12 3600000                       |      | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
+| topic.metadata.refresh.interval.ms  | -1 .. 3600000                          |      | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
 | enable.ssl.certificate.verification | true,false                             | true | whether to verify the SSL certification                                                                                                                                          |
