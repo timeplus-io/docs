@@ -211,6 +211,27 @@ SETTINGS type='kafka',
          kafka_schema_registry_credentials = 'avnadmin:PASSWORD'
 ```
 
+### Example: Read Avro Encoded Data in Upstash Kafka{#read_avro_upstash}
+
+Starting from Proton 1.5.3, schema registry with path is supported. This enables Proton users to load data from Upstash Serverless Kafka when schema registry is enabled.
+
+```sql
+CREATE EXTERNAL STREAM transactions(
+  id string,
+  amount double
+)
+SETTINGS type='kafka', 
+         brokers='abc-us1-kafka.upstash.io:9092',
+         topic='transactions',
+         security_protocol='SASL_SSL', 
+         sasl_mechanism='SCRAM-SHA-256',
+         username='USER', 
+         password='PWD',
+         data_format = 'Avro',
+         kafka_schema_registry_url = 'https://abc-us1-rest-kafka.upstash.io/schema-registry',
+         kafka_schema_registry_credentials = 'USER:PWD'
+```
+
 ## Write Messages{#write}
 
 Writing Avro/Protobuf data with schema registry is not supported yet (coming soon).
