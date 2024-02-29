@@ -15,15 +15,28 @@ CREATE EXTERNAL STREAM my_stream (
     topic = '...',
     data_format = '..',
     kafka_schema_registry_url = 'http://url.to/my/schema/registry',
-    kafka_schema_registry_credentials = 'API_KEY:API_SECRET';
+    kafka_schema_registry_credentials = 'API_KEY:API_SECRET',
+    kafka_schema_registry_skip_cert_check = true|false,
+    kafka_schema_registry_private_key_file = '..',
+    kafka_schema_registry_cert_file = '..',
+    kafka_schema_registry_ca_location = '..';
 ```
 
 请注意：
 
 1. `kafka_schema_registry_credentials` is optional. Skip this if the schema registry server doesn't require authentication.
-2. Make sure to add `http://` or `https://` in the `kafka_schema_registry_url`. Self-signed HTTPS certification is not supported yet (coming soon).
+
+2. Make sure to add `http://` or `https://` in the `kafka_schema_registry_url`. In Proton 1.5.3 or above, self-signed HTTPS certification is supported.
+   1. One solution is to set `kafka_schema_registry_skip_cert_check` to `true`. This will completely skip the TLS certification verification. In this case, you don't need to specify the certification files.
+   2. A more secure solution is to keep the default value of `kafka_schema_registry_skip_cert_check`, which is false. Omit this setting and specify the following 3 settings:
+      1. `kafka_schema_registry_private_key_file`: the file path to the private key file used for encryption. Please use absolute file path and make sure Proton can access this file. If you are using Kubernetes or Docker, please mount the file systems properly.
+      2. `kafka_schema_registry_cert_file`: the file path to the certificate file (in PEM format). If the private key and the certificate are stored in the same file, this can be empty if `kakfa_schema_registry_private_key_file` is specified.
+      3. `kafka_schema_registry_ca_location`: the path to the file or directory containing the CA/root certificates.
+
 3. Make sure you define the columns matching the fields in the Avro schema. You don't have to define all top level fields in Avro schema as columns in the stream. For example, if there are 4 fields in Avro schema, you can choose only 2 of them as columns in the external stream. But make sure the data types match.
+
 4. `data_format` can be `Avro`, or `ProtobufSingle`.
+
 5. Schema reference is not supported yet.
 
 ### Example: Read Avro Encoded Data in Confluent Cloud {#read_avro_confluent_cloud}
@@ -174,6 +187,28 @@ Or only fetch the incoming new messages via
 
 ```sql
 SELECT * FROM transactions
+```
+
+### Example: Read Avro Encoded Data in Kafka service on Aiven{#read_avro_aiven}
+
+The schema registry endpoint on Aiven is signed with CA, but you need to provide `ssl_ca_cert_file` for the broker.
+
+```sql
+CREATE EXTERNAL STREAM transactions(
+  id string,
+  amount double
+)
+SETTINGS type='kafka', 
+         brokers='name.a.aivencloud.com:28864',
+         topic='transactions',
+         security_protocol='SASL_SSL', 
+         sasl_mechanism='SCRAM-SHA-256',
+         username='avnadmin', 
+         password='PASSWORD',
+         ssl_ca_cert_file='/kafka.cert',
+         data_format = 'Avro',
+         kafka_schema_registry_url = 'https://name.a.aivencloud.com:28856',
+         kafka_schema_registry_credentials = 'avnadmin:PASSWORD'
 ```
 
 ## Write Messages{#write}
