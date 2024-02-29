@@ -10,7 +10,7 @@ To create an external stream in Proton:
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
-SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanism='..',data_format='..',kafka_schema_registry_url='..',kafka_schema_registry_credentials='..'
+SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanism='..',data_format='..',kafka_schema_registry_url='..',kafka_schema_registry_credentials='..',ssl_ca_cert_file='..'
 ```
 
 The supported values for `security_protocol` are:
@@ -18,7 +18,7 @@ The supported values for `security_protocol` are:
 * PLAINTEXT: when this option is omitted, this is also the default value.
 * SASL_SSL: when this value is set, username and password should be specified. 
   * If you need to specify own SSL certification file, add another setting `ssl_ca_cert_file='/ssl/ca.pem'`
-  * Alternatively you can add the setting `properties='enable.ssl.certificate.verification=false'` to avoid verifying the certification, especially if it's self-signed.
+  * Skipping the SSL certification verfication is not supported yet.
 
 
 The supported values for `sasl_mechanism` are:
@@ -56,6 +56,31 @@ SETTINGS type='kafka',
          security_protocol='SASL_SSL', 
          username='..', 
          password='..'
+```
+
+### Connect to Apache Kafka service on Aiven{#connect-aiven}
+
+You can connect Proton with the Kafka service on Avien Cloud.
+
+Example:
+
+```sql
+CREATE EXTERNAL STREAM ext_stream(raw string)
+SETTINGS type='kafka', 
+         brokers='name.a.aivencloud.com:28864',
+         topic='topic',
+         security_protocol='SASL_SSL', 
+         sasl_mechanism='SCRAM-SHA-256',
+         username='avnadmin', 
+         password='..',
+         ssl_ca_cert_file='/kafka.cert'
+```
+
+Make sure the `ssl_ca_cert_file` can be accessed via Proton. You can do so via:
+
+```bash
+chown timeplus:timeplus kafka.cert
+chmod 400 kafka.cert
 ```
 
 ### Connect to WarpStream{#connect-warp}
