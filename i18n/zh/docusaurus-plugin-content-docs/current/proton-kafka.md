@@ -261,9 +261,10 @@ The messages will be generated in the specific topic as
 
 ##### ProtobufSingle
 
-Please check [this page](proton-format-schema).
+You can either define the [Protobuf Schema in Proton](proton-format-schema), or specify the [Kafka Schema Registry](proton-schema-registry) when you create the external stream.
 
-
+##### Avro
+Starting from Proton 1.5.2, you can use Avro format when you specify the [Kafka Schema Registry](proton-schema-registry) when you create the external stream.
 
 ### Read/Write Kafka Message Key {#messagekey}
 
