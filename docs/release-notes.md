@@ -2,6 +2,20 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
 
+## Mar 4, 2024
+
+*Proton:*
+  * Proton can now natively integrate with ClickHouse, available for both ClickHouse Cloud or local/self-managed versions of ClickHouse. [Learn more](https://www.timeplus.com/post/proton-clickhouse-integration)
+  * Bulk CSV import is enhanced, in Proton 1.5.2. You can load billions of rows in multiple CSV files via a single SQL. [Learn more](proton-howto#csv)
+  * Kafka Schema Registry is supported with Protobuf and Avro format (Proton 1.5.2). [Learn more](proton-schema-registry)
+  * Self-signed HTTPS certification for Schema Registry is supported (Proton 1.5.3).
+  * Proton now can be compiled on SUSE Linux.
+
+*Timeplus Cloud:*
+  * In Data Lineage side panels, more details about the resoures are added. Click on a tile to view.
+  * Data types such as `float1` or `integer` are depreciated. The UI will show precise data types such as `int8`, `uinit16`, etc.
+  * In dashboard charts, the legend is maintained when rendering. Click to show or hide series. 
+
 ## Feb 20, 2024
 
 *Proton:*
