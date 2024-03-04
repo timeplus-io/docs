@@ -1,6 +1,6 @@
-# GA Releases
+# Release Notes
 
-This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
+This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes. For previous release notes, please check [this page](changelog).
 
 ## Mar 4, 2024
 

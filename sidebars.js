@@ -141,7 +141,6 @@ const sidebars = {
             id: "changelog",
           },
           items: [
-            "release-notes",
             "public-beta-2",
             "public-beta-1",
             "private-beta-2",
@@ -230,6 +229,7 @@ const sidebars = {
       ],
     },
     "getting-help",
+    "release-notes",
     "credits",
     /*
    ],
