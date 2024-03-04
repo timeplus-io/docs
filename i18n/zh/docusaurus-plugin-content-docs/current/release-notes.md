@@ -1,6 +1,20 @@
-# GA 版本
+# 更新日志
 
-本页总结了Timeplus中每个重要更新内容，包括新功能和重要的错误修复。
+This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes. For previous release notes, please check [this page](changelog).
+
+## Mar 4, 2024
+
+*Proton：*
+  * Proton can now natively integrate with ClickHouse, available for both ClickHouse Cloud or local/self-managed versions of ClickHouse. [Learn more](https://www.timeplus.com/post/proton-clickhouse-integration)
+  * Bulk CSV import is enhanced, in Proton 1.5.2. You can load billions of rows in multiple CSV files via a single SQL. [Learn more](proton-howto#csv)
+  * Kafka Schema Registry is supported with Protobuf and Avro format (Proton 1.5.2). [Learn more](proton-schema-registry)
+  * Self-signed HTTPS certification for Schema Registry is supported (Proton 1.5.3).
+  * Proton now can be compiled on SUSE Linux.
+
+*Timeplus Cloud：*
+  * In Data Lineage side panels, more details about the resoures are added. Click on a tile to view.
+  * Data types such as `float` or `integer` are depreciated. The UI will show precise data types such as `int8`, `uinit16`, etc.
+  * In dashboard charts, the legend is maintained when rendering. Click to show or hide series.
 
 ## During the Preview step of adding a new source, we now show you the time remaining for previewing data. If no event comes in after 30 seconds, you can go back to previous steps, check your configuration, then try again.
 
@@ -10,7 +24,7 @@
   * 除了 GitHub Container Registry（GHCR）以外，您还可以通过 `docker pull public.ecr.aws/timeplus/proton`提取 Proton Docker。
   * 由Marvin Hansen (Emet-Labs的负责人) 贡献的Proton Rust客户端的初始版本现已在 https://crates.io/crates/proton_client 上公开发布。
 
-*Timeplus Cloud：*
+*Timeplus 云服务:*
   * 对于 NATS 数据源，我们在用户界面中添加了选择 JWT 或 NKey 文件内容进行身份验证的选项。
   * 当你使用 Avro 架构注册表添加 Confluent Cloud 数据源时，用户界面会为新数据流建议一组列名，但您需要选择正确的数据类型。 未来，我们将对其进行增强，使其从架构注册表加载数据类型。
   * 在即将发布的版本中，您将能够在 Timeplus Cloud 中运行任何 SQL，包括 `CREATE EXTERNAL TABLE` 和其他数据定义语言 (DDL)。 联系我们，抢先体验这项新功能。
@@ -25,7 +39,7 @@
   * 我们改进了若干关于产品用量匿名上报的配置。 无论是单一二进制部署还是 Docker 部署，你都可以设置一个 `TELEMETRY_ENABLED` 环境变量。 报告间隔从 2 分钟更改为 5 分钟。
   * 对我们文档的改进：重新组织了 Proton 文档，添加了 [“Proton How To” 页面](proton-howto)，并更新了有关为 [Kafka 外部流](proton-kafka#create-external-stream)使用认证的详细信息。
 
-*Timeplus 云服务:*
+*Timeplus Cloud：*
   * 引入一个新的数据源：HTTP 流。 输入URL、方法以及可选标头和有效负载。
   * 现在已为 NATS 源添加了身份验证。
   * 对于外部流，我们在侧面板中查看详细信息时添加了更多信息，例如 Kafka 代理、主题和数据结构。
@@ -79,7 +93,7 @@
 
 ## Dec 11, 2023
 
-*Proton：*
+*Our [Grafana data source plugin](https://github.com/timeplus-io/proton-grafana-source), to connect to Proton and visualize streaming or batch queries, is now open source. Stay tuned for our upcoming blog and demo!*
   * [Proton JDBC 驱动程序](https://github.com/timeplus-io/proton-java-driver) 的新版本 (v0.6.0) 已上线：能够列出 DBeaver 和 Metabase 中的表和列。
   * [Proton Metabase驱动](https://github.com/timeplus-io/metabase-proton-driver) 的新版本 (v0.0.2) 已推出：能够列出表和列。
   * 新增函数： [lag_behind](functions_for_streaming#lag_behind)，专为流 JOIN 而设计。 如果您未指定列名，则查询将使用左右流的处理时间来比较时间戳差异。
@@ -94,7 +108,7 @@
 
 ## Nov 27, 2023
 
-*Our [Grafana data source plugin](https://github.com/timeplus-io/proton-grafana-source), to connect to Proton and visualize streaming or batch queries, is now open source. Stay tuned for our upcoming blog and demo!*
+*Proton：*
   * [Metabase driver](https://github.com/timeplus-io/metabase-proton-driver) for Proton is now open source.
   * Proton JDBC driver is now available via [Maven](https://central.sonatype.com/artifact/com.timeplus/proton-jdbc).
   * You can now connect Proton to [Pulse](https://www.timestored.com/pulse/) for OHLC charts.
@@ -109,7 +123,7 @@
 
 ## 2023年11月13日
 
-*Proton：*
+*Timeplus is now open source! Introducing **Proton**, a unified, lightweight streaming and historical data processing engine in a single binary, powering the Timeplus Cloud streaming analytics platform. [Try Proton with Docker](https://github.com/timeplus-io/proton)*
   * Proton的[JDBC driver](https://github.com/timeplus-io/proton-java-driver)现已开源。 请查看我们有关如何链接DBeaver到Proton的[演示示例](https://github.com/timeplus-io/proton/tree/develop/examples/jdbc)。 以及如何在[Pulse UI](https://github.com/timestored/pulseui/pull/139)中使用Proton。
   * 此外，我们还提供了一个实验性[ODBC driver](https://github.com/timeplus-io/proton-odbc)，用于从PowerBI等工具访问Proton
   * Proton中还新增了一个实验性的`shuffle by`子句。 Currently, it only works for historical queries, and it will support streaming queries soon. The key use case for `shuffle by` is to support high cardinality `group by` (such as 10 millions of unique keys). To learn more about this advanced feature, join the discussion in our [Slack community](https://timeplus.com/slack).
@@ -127,7 +141,7 @@
 
 ## Oct 30, 2023
 
-*Timeplus is now open source! Introducing **Proton**, a unified, lightweight streaming and historical data processing engine in a single binary, powering the Timeplus Cloud streaming analytics platform. [Try Proton with Docker](https://github.com/timeplus-io/proton)*
+*The [Grafana plugin for Proton](https://grafana.com/grafana/plugins/timeplus-proton-datasource) has been enhanced and published on Grafana Catalog. You can install it via admin pages without downloading the file manually. Please make sure both 8463 and 3218 ports from Proton are accessible from Grafana, since the new version will call Proton query analyzer API (on 3218) to determine whether it is a streaming query or not, then render results differently. With this plugin, you can build charts and dashboards with data in Proton, as well as other data sources configured in your Grafana. Give it a try and let us know what you think!*
   * You can now install single native binary for Mac or Linux - check out our installation guide [here](https://github.com/timeplus-io/proton/wiki/Install-single-binary-Proton).
   * External streams support writing. External streams support writing. [(Learn more)](proton-kafka#write-to-kafka-with-sql)
   * External streams also support reading from specific Kafka partition(s). [(Learn more)](proton-kafka#read-specified-partitions) [(Learn more)](proton-kafka#read-specified-partitions)
@@ -143,7 +157,7 @@
 
 ## Oct 16, 2023
 
-*The [Grafana plugin for Proton](https://grafana.com/grafana/plugins/timeplus-proton-datasource) has been enhanced and published on Grafana Catalog. You can install it via admin pages without downloading the file manually. Please make sure both 8463 and 3218 ports from Proton are accessible from Grafana, since the new version will call Proton query analyzer API (on 3218) to determine whether it is a streaming query or not, then render results differently. With this plugin, you can build charts and dashboards with data in Proton, as well as other data sources configured in your Grafana. Give it a try and let us know what you think!*
+*Proton：*
   * New data types now supported: ipv4 and ipv6, as well as related [functions](functions_for_url).
   * [Python Driver](https://github.com/timeplus-io/proton-python-driver) 0.2.10 now supports Python 3.11 and 3.12.
   * [Go Driver](https://github.com/timeplus-io/proton-go-driver) is now open source.
