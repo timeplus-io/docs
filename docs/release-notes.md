@@ -13,7 +13,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 
 *Timeplus Cloud:*
   * In Data Lineage side panels, more details about the resoures are added. Click on a tile to view.
-  * Data types such as `float1` or `integer` are depreciated. The UI will show precise data types such as `int8`, `uinit16`, etc.
+  * Data types such as `float` or `integer` are depreciated. The UI will show precise data types such as `int8`, `uinit16`, etc.
   * In dashboard charts, the legend is maintained when rendering. Click to show or hide series. 
 
 ## Feb 20, 2024
