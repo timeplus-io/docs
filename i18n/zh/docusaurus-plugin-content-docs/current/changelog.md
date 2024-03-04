@@ -1,4 +1,4 @@
-# 发布说明
+# Change Log
 
 Timeplus 可用于生产级部署和使用。 请查看 [最新发行说明](release-notes).
 
