@@ -58,6 +58,21 @@ SETTINGS type='kafka',
          password='..'
 ```
 
+### Connect to Redpanda Cloud{#connect-rp-cloud}
+
+示例：
+
+```sql
+CREATE EXTERNAL STREAM hello(raw string)
+SETTINGS type='kafka', 
+         brokers='abc.any.us-east-1.mpx.prd.cloud.redpanda.com:9092',
+         topic='hello-world',
+         security_protocol='SASL_SSL', 
+         sasl_mechanism='SCRAM-SHA-256',
+         username='..', 
+         password='..'
+```
+
 ### Connect to Apache Kafka service on Aiven{#connect-aiven}
 
 You can connect Proton with the Kafka service on Avien Cloud.
