@@ -47,13 +47,12 @@ Before we look into the details of the query syntax, we'd like to highlight the 
 1. `enable_backfill_from_historical_store=0|1`. By default, if it's omitted, it's `1`. By default, if it's omitted, it's `1`.
    * 当它为0时，查询引擎要么从流存储中加载数据，要么从历史存储中加载数据。
    * 当它为1时，查询引擎会评估是否需要从历史存储中加载数据（例如时间范围在流式存储空间之外），或者从历史存储中获取数据的效率会更高（例如，count/min/max 是在历史存储中预先计算的，比在流式存储中扫描数据更快）。
-2. `force_backfill_in_order=0|1`. By default, if it's omitted, it's `0`. By default, if it's omitted, it's `0`.
+2. `force_backfill_in_order=0|1`. By default, if it's omitted, it's `0`.
    1. When it's 0, the data from the historical storage are turned without extra sorting. This would improve the performance. This would improve the performance.
    2. When it's 1, the data from the historical storage are turned with extra sorting. This would decrease the performance. So turn on this flag carefully. This would decrease the performance. So turn on this flag carefully.
-
-3. `emit_aggregated_during_backfill=0|1`. By default, if it's omitted, it's `0`. By default, if it's omitted, it's `0`.
+3. `emit_during_backfill=0|1`. By default, if it's omitted, it's `0`.
    1. When it's 0, the query engine won't emit intermediate aggregation results during the historical data backfill.
-   2. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. As long as there are aggregation functions and time window functions(e.g. tumble/hop/session) in the streaming SQL, when the `emit_aggregated_during_backfill` is on, `force_backfill_in_order` will be applied to 1 automatically.
+   2. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. As long as there are aggregation functions and time window functions(e.g. tumble/hop/session) in the streaming SQL, when the `emit_during_backfill` is on, `force_backfill_in_order` will be applied to 1 automatically.
 4. `query_mode=<table|streaming>` 默认情况下，如果省略，则为`streaming`。 默认情况下，如果省略，则为`streaming`。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。 This can be overwritten in the port. This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical. If you use 8123, default is historical.
 5. `seek_to=<timestamp|earliest|latest>`. 默认情况下，如果省略，则为`latest`。 默认情况下，如果省略，则为`latest`。 设置告诉Timeplus通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下，是`latest`，表示了Timeplus不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
