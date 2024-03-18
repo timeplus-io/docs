@@ -2,6 +2,16 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes. For previous release notes, please check [this page](changelog).
 
+## Mar 18, 2024
+
+Introducing three new demos with live data in our [Timeplus Demo workspace](https://demo.timeplus.cloud): Stream Processing, Market Data, and ksqlDB Alternative. Choose a demo from the top header and explore it in read-only mode.
+
+*Timeplus Cloud:*
+  * Data Definition Language (DDL) is supported in the SQL Console (previously called the Query page). You can modify resources using commands such as `CREATE` and `DROP`.
+  * In Data Lineage, after clicking a resource tile, you can make edits to it directly from the details side panel. Please note that only certain fields may be edited for a particular resource type.  
+  * Also in Data Lineage, ClickHouse external tables are now included. Click the tile to see more details, such as the address and username.
+  * In addition to streams, you can now set external streams and external tables as the target for materialized views. 
+
 ## Mar 4, 2024
 
 *Proton:*
@@ -13,7 +23,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 
 *Timeplus Cloud:*
   * In Data Lineage side panels, more details about the resources are added. Click on a tile to view.
-  * Data types such as `float` or `integer` are depreciated. The UI will show precise data types such as `int8`, `uinit16`, etc.
+  * Data types such as `float` or `integer` are depreciated. The UI will show precise data types such as `int8`, `uint16`, etc.
   * In dashboard charts, the legend is maintained when rendering. Click to show or hide series. 
 
 ## Feb 20, 2024
