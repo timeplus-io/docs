@@ -4,7 +4,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 
 ## Mar 18, 2024
 
-Introducing three new demos with live data in our [Timeplus Demo workspace](https://demo.timeplus.cloud): Stream Processing, Market Data, and ksqlDB Alternative. Choose a demo from the top header and explore it in read-only mode.
+Introducing three new demos with live data in our [Timeplus Demo workspace](https://demo.timeplus.cloud): Stream Processing, Market Data, and ksqlDB Alternative. Choose a demo via the dropdown in the top header. You can explore the demos in read-only mode, or take a quick guided tour. 
 
 *Timeplus Cloud:*
   * Data Definition Language (DDL) is supported in the SQL Console (previously called the Query page). You can modify resources using commands such as `CREATE` and `DROP`.
