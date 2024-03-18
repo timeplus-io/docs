@@ -2,6 +2,16 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes. For previous release notes, please check [this page](changelog).
 
+## Mar 18, 2024
+
+Introducing three new demos with live data in our [Timeplus Demo workspace](https://demo.timeplus.cloud): Stream Processing, Market Data, and ksqlDB Alternative. Choose a demo via the dropdown in the top header. You can explore the demos in read-only mode, or take a quick guided tour.
+
+*Timeplus Cloud：*
+  * Data Definition Language (DDL) is supported in the SQL Console (previously called the Query page). You can modify resources using commands such as `CREATE` and `DROP`.
+  * In Data Lineage, after clicking a resource tile, you can make edits to it directly from the details side panel. Please note that only certain fields may be edited for a particular resource type.
+  * Also in Data Lineage, ClickHouse external tables are now included. Click the tile to see more details, such as the address and username.
+  * In addition to streams, you can now set external streams and external tables as the target for materialized views.
+
 ## Mar 4, 2024
 
 *Proton：*
@@ -11,9 +21,9 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
   * Self-signed HTTPS certification for Schema Registry is supported (Proton 1.5.3).
   * Proton now can be compiled on SUSE Linux.
 
-*Timeplus Cloud：*
+*Timeplus 云服务:*
   * In Data Lineage side panels, more details about the resources are added. Click on a tile to view.
-  * Data types such as `float` or `integer` are depreciated. The UI will show precise data types such as `int8`, `uinit16`, etc.
+  * Data types such as `float` or `integer` are depreciated. The UI will show precise data types such as `int8`, `uint16`, etc.
   * In dashboard charts, the legend is maintained when rendering. Click to show or hide series.
 
 ## During the Preview step of adding a new source, we now show you the time remaining for previewing data. If no event comes in after 30 seconds, you can go back to previous steps, check your configuration, then try again.
@@ -24,7 +34,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
   * 除了 GitHub Container Registry（GHCR）以外，您还可以通过 `docker pull public.ecr.aws/timeplus/proton`提取 Proton Docker。
   * 由Marvin Hansen (Emet-Labs的负责人) 贡献的Proton Rust客户端的初始版本现已在 https://crates.io/crates/proton_client 上公开发布。
 
-*Timeplus 云服务:*
+*Timeplus Cloud：*
   * 对于 NATS 数据源，我们在用户界面中添加了选择 JWT 或 NKey 文件内容进行身份验证的选项。
   * 当你使用 Avro 架构注册表添加 Confluent Cloud 数据源时，用户界面会为新数据流建议一组列名，但您需要选择正确的数据类型。 未来，我们将对其进行增强，使其从架构注册表加载数据类型。
   * 在即将发布的版本中，您将能够在 Timeplus Cloud 中运行任何 SQL，包括 `CREATE EXTERNAL TABLE` 和其他数据定义语言 (DDL)。 联系我们，抢先体验这项新功能。
