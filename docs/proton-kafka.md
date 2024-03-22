@@ -283,7 +283,11 @@ Starting from Proton 1.5.2, you can use Avro format when you specify the [Kafka 
 
 ### Read/Write Kafka Message Key {#messagekey}
 
-As an advanced feature, since Proton v1.3.31, you can read or write the message key for Kafka messages. This is done by adding a new external stream setting `message_key` which is an expression that returns a string value, the values return by the expression will be used as the message key for each row. 
+For each message in the Kafka topic, the value is critical for sure. The key is optional but could carry important meta data.
+
+Proton currently doesn't support read the message key yet (coming soon). When you create an external stream and send data to it, via a materialized view or `INSERT`, you can specify how the message key is to be generated.
+
+This is done by the setting `message_key` in the `CREATE` DDL. It is an expression that returns a string value, the values return by the expression will be used as the key for each message. 
 
 Examples:
 
