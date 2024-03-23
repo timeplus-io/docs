@@ -152,7 +152,7 @@ const config = {
             title: "Company",
             items: [
               {
-                label: "Company Home Page",
+                label: "timeplus.com",
                 href: "https://timeplus.com",
               },
               {
@@ -164,8 +164,8 @@ const config = {
                 href: "https://demo.timeplus.cloud",
               },
               {
-                label: "Blog",
-                href: "https://timeplus.com/blog",
+                label: "Status Page",
+                href: "https://timeplus.statuspage.io",
               },
             ],
           },
@@ -181,8 +181,8 @@ const config = {
                 href: "https://github.com/timeplus-io/proton",
               },
               {
-                label: "Status Page",
-                href: "https://timeplus.statuspage.io",
+                label: "Blog",
+                href: "https://timeplus.com/blog",
               },
             ],
           },
