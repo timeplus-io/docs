@@ -18,7 +18,7 @@ Proton 是 TimePlus 的核心引擎，于 2023 年 9 月开源。 Timeplus Cloud
 
 ## SLA是怎么样的，我可以运行生产负载吗？ {#sla}
 
-2023年8月，TimePlus Cloud进入GA，随时准备投入生产工作量。 没有免费试用的 SLA。 对于专业等级，这一比例为99.5％。 对于企业级，这一比例为 99.9% 或以上。 详情请查看 https://timeplus.com/pricing/。
+2023年8月，TimePlus Cloud进入GA，随时准备投入生产工作量。 没有免费试用的 SLA。 对于专业等级，这一比例为99.5％。 对于企业级，这一比例为 99.9% 或以上。 详情请查看 https://timeplus.com/pricing/。 To monitor Timeplus Cloud health status, please visit or subscribe to https://timeplus.statuspage.io.
 
 ## Timeplus Cloud 的 IP 地址是多少，以便我可以允许 Timeplus 访问我的 Kafka/Redpanda/Pulsar 服务器 {#ip}
 
