@@ -177,8 +177,12 @@ const config = {
                 href: "https://timeplus.com/slack",
               },
               {
-                label: "Github",
+                label: "Open Source",
                 href: "https://github.com/timeplus-io/proton",
+              },
+              {
+                label: "Status Page",
+                href: "https://timeplus.statuspage.io",
               },
             ],
           },

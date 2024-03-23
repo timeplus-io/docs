@@ -18,7 +18,7 @@ Proton is the core engine of Timeplus and open-sourced on September 2023. Timepl
 
 ## What's the SLA and can I run production load? {#sla}
 
-Timeplus Cloud went GA on August 2023, ready for production workload. There is no SLA for free trial. For Professional tier, it's 99.5%. For Enterprise tier, it's 99.9% or above. Please check https://timeplus.com/pricing for more details and FAQ.
+Timeplus Cloud went GA on August 2023, ready for production workload. There is no SLA for free trial. For Professional tier, it's 99.5%. For Enterprise tier, it's 99.9% or above. Please check https://timeplus.com/pricing for more details and FAQ. To monitor Timeplus Cloud health status, please visit or subscribe to https://timeplus.statuspage.io.
 
 ## What is the IP address for Timeplus Cloud so that I can allow Timeplus to access my Kafka/Redpanda/Pulsar servers {#ip}
 
