@@ -18,7 +18,7 @@ The supported values for `security_protocol` are:
 * PLAINTEXT: when this option is omitted, this is also the default value.
 * SASL_SSL: when this value is set, username and password should be specified.
   * If you need to specify own SSL certification file, add another setting `ssl_ca_cert_file='/ssl/ca.pem'`
-  * Skipping the SSL certification verfication is not supported yet.
+  * Skipping the SSL certification verfication can be done via `SETTINGS properties='enable.ssl.certificate.verification=false'`. Check [this section](#properties) for details.
 
 
 The supported values for `sasl_mechanism` are:
@@ -96,6 +96,20 @@ Make sure the `ssl_ca_cert_file` can be accessed via Proton. You can do so via:
 ```bash
 chown timeplus:timeplus kafka.cert
 chmod 400 kafka.cert
+```
+
+If you want to skip verifying the CA (not recommended), you can create the external stream in the following way:
+
+```sql
+CREATE EXTERNAL STREAM ext_stream(raw string)
+SETTINGS type='kafka', 
+         brokers='name.a.aivencloud.com:28864',
+         topic='topic',
+         security_protocol='SASL_SSL', 
+         sasl_mechanism='SCRAM-SHA-256',
+         username='avnadmin', 
+         password='..',
+         properties='enable.ssl.certificate.verification=false'
 ```
 
 ### Connect to WarpStream{#connect-warp}
@@ -643,7 +657,7 @@ CREATE EXTERNAL STREAM ext_github_events(raw string)
 SETTINGS type='kafka', 
          brokers='localhost:9092',
          topic='github_events',
-         properties='message.max.bytes=1000000;message.timeout.ms=6000'
+         properties='enable.ssl.certificate.verification=false;message.max.bytes=1000000;message.timeout.ms=6000'
 ```
 
 Please note, not all properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.
