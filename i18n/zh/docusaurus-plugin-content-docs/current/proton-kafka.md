@@ -285,7 +285,9 @@ Starting from Proton 1.5.2, you can use Avro format when you specify the [Kafka 
 
 For each message in the Kafka topic, the value is critical for sure. The key is optional but could carry important meta data.
 
-Proton currently doesn't support read the message key yet (coming soon). When you create an external stream and send data to it, via a materialized view or `INSERT`, you can specify how the message key is to be generated.
+**Read:** since Proton 1.5.4, you can read the message key via the `_message_key` virtual column in the Kafka external stream. If you run `SELECT * FROM ext_stream`, such virtual column won't be queried. You need to explicitly select the column to retrieve the message key, e.g. `SELECT _message_key, * FROM ext_stream`.
+
+**Write:** when you create an external stream and send data to it, via a materialized view or `INSERT`, you can specify how the message key is to be generated.
 
 This is done by the setting `message_key` in the `CREATE` DDL. It is an expression that returns a string value, the values return by the expression will be used as the key for each message.
 
