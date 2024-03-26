@@ -35,7 +35,16 @@ Different ways to use the materialized views:
 1. Streaming mode:  `SELECT * FROM materialized_view` Get the result for future data. This works in the same way as views.
 2. Historical mode:  `SELECT * FROM table(materialized_view)` Get all past results for the materialized view.
 3. Historical + streaming mode: `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` Get all past results and as well as the future data.
-4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where __tp_version in (SELECT max(__tp_version) as m from table(materialized_view))` This immediately returns the most recent query result. We will provide new syntax to simplify this.
+4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where _tp_time in (SELECT max(_tp_time) as m from table(materialized_view))` This immediately returns the most recent query result. If `_tp_time` is not available in the materialized view, or the latest aggregation can produce events with different `_tp_time`, you can add the `emit_version()` to the materialized view to assign a unique ID for each emit and pick up the events with largest `emit_version()`. For example:
+   ```sql
+   create materialized view mv as
+   select emit_version() as version, window_start as time, count() as n, max(speed_kmh) as h from tumble(car_live_data,10s)
+   group by window_start, window_end;
+   
+   select * from table(mv) where version in (select max(version) from table(mv));
+   ```
+
+   We are considering providing new syntax to simplify this.
 
 ### Target Stream
 
