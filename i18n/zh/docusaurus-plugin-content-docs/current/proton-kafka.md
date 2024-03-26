@@ -73,9 +73,9 @@ SETTINGS type='kafka',
          password='..'
 ```
 
-### Connect to Apache Kafka service on Aiven{#connect-aiven}
+### Connect to Aiven for Apache Kafka{#connect-aiven}
 
-You can connect Proton with the Kafka service on Avien Cloud.
+You can connect Proton with an Aiven for Apache Kafka service.
 
 示例：
 
