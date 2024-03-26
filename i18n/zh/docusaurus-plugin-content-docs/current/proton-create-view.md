@@ -35,7 +35,16 @@ AS <SELECT ...>
 1. 流式查询：`SELECT * FROM materialized_view` 获取未来数据的结果。 这与视图的工作方式相同。
 2. 历史模式：`SELECT * FROM table(materialized_view)` 获取所有过去的结果用于物化视图。
 3. 历史记录 + 流式模式：`SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` 获取所有过去的结果和未来的数据。
-4. 预聚合模式：`SELECT * FROM table(materialized_view) where __tp_version in (SELECT max(__tp_version) as m from table(materialized_view))` 这立即返回最近的查询结果。 我们将提供新的语法来简化它。
+4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where _tp_time in (SELECT max(_tp_time) as m from table(materialized_view))` This immediately returns the most recent query result. If `_tp_time` is not available in the materialized view, or the latest aggregation can produce events with different `_tp_time`, you can add the `emit_version()` to the materialized view to assign a unique ID for each emit and pick up the events with largest `emit_version()`. 例如：
+   ```sql
+   create materialized view mv as
+   select emit_version() as version, window_start as time, count() as n, max(speed_kmh) as h from tumble(car_live_data,10s)
+   group by window_start, window_end;
+
+   select * from table(mv) where version in (select max(version) from table(mv));
+   ```
+
+   We are considering providing new syntax to simplify this.
 
 ### Target Stream
 
