@@ -129,7 +129,6 @@ const sidebars = {
               },
               items: ["apikey", "terraform"],
             },
-            "glossary",
             "faq",
             "issues",
             {
@@ -230,6 +229,7 @@ const sidebars = {
         },
       ],
     },
+    "glossary",
     "getting-help",
     "release-notes",
     "credits",
