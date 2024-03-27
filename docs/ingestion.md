@@ -1,18 +1,21 @@
 # Data Ingestion
 
-Timeplus supports a wide range of data sources.
+Timeplus supports 2 ways to load data into the system:
+
+*  [External Stream](external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Core Engine (Proton).
+* [Source](source) for extra wide range of data sources. This is only available in Timeplus Cloud and Timeplus Enterprise.
 
 ## Add new sources via web console
 
 ### Load streaming data from Apache Kafka {#kafka}
 
-As of today, Kafka is the primary data source (and sink) for Timeplus. With our strong partnership with Confluent, you can load your real-time data from Confluent Cloud, Confluent Platform, or Apache Kafka into the Timeplus streaming engine. You can also create [external streams](working-with-streams#external_stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
+As of today, Kafka is the primary data integration for Timeplus. With our strong partnership with Confluent, you can load your real-time data from Confluent Cloud, Confluent Platform, or Apache Kafka into the Timeplus streaming engine. You can also create [external streams](working-with-streams#external_stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
 
 [Learn more.](kafka-source)
 
 ### Load streaming data from Apache Pulsar {#pulsar}
 
-Apache® Pulsar™ is a cloud-native, distributed, open source messaging and streaming platform for real-time workloads. Recently Timeplus added the first-class integration for Apache Pulsar as both a data source and a data sink.
+Apache® Pulsar™ is a cloud-native, distributed, open source messaging and streaming platform for real-time workloads. Timeplus added the integration for Apache Pulsar as both a data source and a data sink.
 
 [Learn more.](pulsar-source)
 
