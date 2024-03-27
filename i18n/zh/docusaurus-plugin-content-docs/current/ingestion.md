@@ -1,18 +1,21 @@
 # 流传数据
 
-Timeplus支持广泛的数据来源。
+Timeplus supports 2 ways to load data into the system:
+
+*  [External Stream](external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Core Engine (Proton).
+* [Source](source) for extra wide range of data sources. This is only available in Timeplus Cloud and Timeplus Enterprise.
 
 ## 通过 web 控制台添加新源
 
 ### 从Apache Kafka加载流数据 {#kafka}
 
-截至今天，Kafka是Timeplus的原始数据来源(和汇)。 通过与Confluent的强大伙伴关系，我们可以将来自Confluent Cloud、Confluent Platform或Apache Kafka的实时数据加载到TimePlus流式引擎。 (最近引入了一个新功能来创建 [个外部流](working-with-streams#external_stream) 来分析Confluent/Kafka/Redpanda 中的数据而不移动数据)
+As of today, Kafka is the primary data integration for Timeplus. 通过与Confluent的强大伙伴关系，我们可以将来自Confluent Cloud、Confluent Platform或Apache Kafka的实时数据加载到TimePlus流式引擎。 (最近引入了一个新功能来创建 [个外部流](working-with-streams#external_stream) 来分析Confluent/Kafka/Redpanda 中的数据而不移动数据)
 
 [了解更多。](kafka-source)
 
 ### 从 Apache Pulsar 加载流数据 {#pulsar}
 
-Apache® PulsarTM 是一个云端、分发、开源消息和流式平台，用于实时工作量。 最近，Timeplus 为 Apache Pulsar添加了一流的集成，既可以作为数据源，也可以作为数据下游。
+Apache® PulsarTM 是一个云端、分发、开源消息和流式平台，用于实时工作量。 Timeplus added the integration for Apache Pulsar as both a data source and a data sink.
 
 [了解更多。](pulsar-source)
 
