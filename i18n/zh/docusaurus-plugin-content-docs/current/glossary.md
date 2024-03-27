@@ -4,19 +4,23 @@
 
 ## 书签 Bookmark {#bookmark}
 
-查询书签。 您可以将常见的 SQL 语句保存为书签。 只需单击即可在 Web 控制台中快速运行。 您可以在查询页面创建、列出、编辑、删除书签。
+Query bookmarks, only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
 
-书签和 [视图](#view) 可以帮助您轻松地重新运行一个查询。 但在流式数据库中定义了视图，您可以直接通过 `select ..  from ..` 来查询这个视图。但书签仅仅是界面快捷方式。 当您点击书签时，最初的 SQL 语句将在查询控制台中预先填写。 您不能运行 `select .. from my_bookmark`
+You can save the common SQL statements as bookmarks. They can be run quickly in the web console by a single click. You can create, list, edit, remove bookmarks in the query page.
+
+Both bookmarks and [views](#view) can help you easily re-run a query. However views are defined in the streaming database and you can query the view directly via `select .. from ..` But bookmarks are just UI shortcuts. When you click the bookmark, the original SQL statement will be pre-filled in the query console. You cannot run `select .. from my_bookmark`
 
 
 
 ## CTE {#cte}
 
-通用表表达式或 CTE(在 [SQL](https://en.wikipedia.org/wiki/SQL)中) 是临时命名结果集。 来自一个简单查询并定义在 `SELECT`的执行范围内， `INSERT`, `UpdatE`, or `DELETE` 声明。
+A common table expression, or CTE, (in [SQL](https://en.wikipedia.org/wiki/SQL)) is a temporary named result set, derived from a simple query and defined within the execution scope of a `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.
 
-CTE可以被视为派生表格的替代品([ subquery ](https://en.wikipedia.org/wiki/Subquery)), [views](https://en.wikipedia.org/wiki/View_(database)), 以及内部用户定义的函数。
+CTEs can be thought of as alternatives to derived tables ([subquery](https://en.wikipedia.org/wiki/Subquery)), [views](https://en.wikipedia.org/wiki/View_(database)), and inline user-defined functions.
 
 ## 仪表板 Dashboard {#dashboard}
+
+Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
 
 您可以在工作区创建多个仪表板，并将多个图表添加到仪表板。 您也可以添加 [筛选器](viz#filter) 或Markdown (实验性)。
 
@@ -27,6 +31,8 @@ CTE可以被视为派生表格的替代品([ subquery ](https://en.wikipedia.org
 了解更多： [事件时间](eventtime)
 
 ## 数据生成器 Generator {#generator}
+
+Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
 
 了解更多 [流生成器](stream-generator)
 
@@ -42,7 +48,7 @@ Timeplus 通过增强的 SQL 提供强大的流式分析能力。 默认情况�
 
 ## 数据下游 Sink {#sink}
 
-又名 目的地
+又名 目的地 Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
 
 Timeplus使您能够将实时的洞察力发送到其他系统，以通知个人或向下游应用程序供电。
 
@@ -50,7 +56,7 @@ Timeplus使您能够将实时的洞察力发送到其他系统，以通知个人
 
 ## 数据源 Source {#source}
 
-一个源是Timeplus中的后台作业，将数据加载到 [流](#stream) 中。 Timeplus与各种系统相结合，作为数据来源，例如Apache Kafka。
+A source is a background job in Timeplus Cloud or Timeplus Enterprise to load data into a [stream](#stream). For Kafka API compatible streaming data platform, you need to create external streams.
 
 了解更多： [数据接收](http://localhost:3030/docs/ingestion)
 
@@ -59,6 +65,12 @@ Timeplus使您能够将实时的洞察力发送到其他系统，以通知个人
 Timeplus是一个流式分析平台和数据流中的生命值。 Timeplus中的`stream`类似传统数据库中的`table` 两者基本上都是数据集。 两者基本上都是数据集。 关键的区别是，Timeplus stream是一个只增不减、没有边界、不断变化的事件组。
 
 了解更多： [流](working-with-streams)
+
+## external stream {#external_stream}
+
+You can create external streams to read data from Kafka API compatible streaming data platform.
+
+Learn more: [External Stream](external-stream)
 
 ## 时间戳列 Timestamp Column
 
@@ -71,6 +83,8 @@ Timeplus是一个流式分析平台和数据流中的生命值。 Timeplus中的
 了解更多： [查看](view) 和 [物化视图](view#m_view)
 
 ## 工作区 Workspace {#workspace}
+
+Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
 
 工作区是您运行流数据收集和分析的独立存储和计算单位。 通常，一个组织中的用户组加入了相同的工作区，以建立一个或多个流式分析解决方案。 每个用户最多可以创建 1 个免费工作空间并加入多个工作区。
 
