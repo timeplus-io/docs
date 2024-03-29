@@ -54,7 +54,8 @@ Before we look into the details of the query syntax, we'd like to highlight the 
    1. When it's 0, the query engine won't emit intermediate aggregation results during the historical data backfill.
    2. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. As long as there are aggregation functions and time window functions(e.g. tumble/hop/session) in the streaming SQL, when the `emit_during_backfill` is on, `force_backfill_in_order` will be applied to 1 automatically.
 4. `query_mode=<table|streaming>` 默认情况下，如果省略，则为`streaming`。 默认情况下，如果省略，则为`streaming`。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。 This can be overwritten in the port. This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical. If you use 8123, default is historical.
-5. `seek_to=<timestamp|earliest|latest>`. 默认情况下，如果省略，则为`latest`。 默认情况下，如果省略，则为`latest`。 设置告诉Timeplus通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下，是`latest`，表示了Timeplus不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
+5. `recovery_policy=<strict|best_effort>`. By default, if it's omitted, it's `strict`.  The main use case for materialized views, if new events fail to process, such as converting a string to a int32, the default behavior will make the materialized view unusable. You may monitor the Timeplus logs to act on the dirty data. However, if you set  `SETTINGS recovery_policy=best_effort`, then Timeplus will attempt to recover from checkpoint and try up to 3 times, then skip dirty data and continue processing the rest of the data.
+6. `seek_to=<timestamp|earliest|latest>`. 默认情况下，如果省略，则为`latest`。 默认情况下，如果省略，则为`latest`。 设置告诉Timeplus通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下，是`latest`，表示了Timeplus不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
 
 :::info
 
@@ -407,7 +408,7 @@ FROM <table_name>
 [WHERE clause]
 ```
 
-示例：
+子查询
 
 ```sql
 SELECT device, cpu_usage
