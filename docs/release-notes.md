@@ -9,7 +9,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
   * Streaming processing now supports nullable data type.
   * [External Table](proton-clickhouse-external-table#create-external-table): ClickHouse external tables with names containing special characters (such as dashes) are now supported. Simply set `table='test-a-b'` in the `CREATE EXTERNAL TABLE` DDL.
   * [External Stream](proton-kafka#create-external-stream): Error handling and connection pooling/retry for Kafka external streams have been greatly improved.
-  * Materialized View: Added option to [skip dirty/unexpected data](query-syntax#settings). If you set `SETTINGS recovery_policy=best_effort`, Timeplus will try up to 3 times, then skip dirty data and continue processing the rest of the data.
+  * Materialized View: Added option to [skip dirty/unexpected data](query-syntax#settings). If you set `SETTINGS recovery_policy='best_effort'`, Timeplus will try up to 3 times, then skip dirty data and continue processing the rest of the data.
 
 *Timeplus Cloud and Timeplus Enterprise:*
   * Added built-in support for Redpanda Serverless. [See our how-to guide](https://www.timeplus.com/post/redpanda-serverless)
