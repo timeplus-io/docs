@@ -2,6 +2,23 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes. For previous release notes, please check [this page](changelog).
 
+## Apr 1, 2024
+
+*Timeplus Proton:*
+  * Added support for selecting message key from Apache Kafka external streams, via `SELECT _message_key, * FROM external_stream`.
+  * Streaming processing now supports nullable data type.
+  * [External Table](proton-clickhouse-external-table#create-external-table): ClickHouse external tables with names containing special characters (such as dashes) are now supported. Simply set `table='test-a-b'` in the `CREATE EXTERNAL TABLE` DDL.
+  * [External Stream](proton-kafka#create-external-stream): Error handling and connection pooling/retry for Kafka external streams have been greatly improved.
+  * Materialized View: Added option to [skip dirty/unexpected data](query-syntax#settings). If you set `SETTINGS recovery_policy='best_effort'`, Timeplus will try up to 3 times, then skip dirty data and continue processing the rest of the data.
+
+*Timeplus Cloud and Timeplus Enterprise:*
+  * Added built-in support for Redpanda Serverless. [See our how-to guide](https://www.timeplus.com/post/redpanda-serverless)
+  * Ingesting Apache Kafka data: We changed the implementation of Kafka integration from Benthos-based implementations to external stream-based. Our configuration wizard in the web console remains the same.
+  * New left menu item for “Sources”. The “Data Ingestion” page will now only show options to ingest data, and not list added sources.
+  * Based on user feedback, we enhanced the built-in OHLC chart to show live updates even when the current window of OHLC is not closed.
+  * Updated layout for Home page, with new stats on existing resources, and number of currently running queries in the top right corner. If you don't have a certain resource in your workspace, we will now hide the stat box, instead of showing 0.
+  * Enhancements to the 3 demos in our [Timeplus Demo workspace](https://demo.timeplus.cloud). In the [Stream Processing demo](https://demo.timeplus.cloud/sp-demo/console/dashboard/ff9a0be7-434f-4774-8412-e9289e144b0a), we've added a dashboard to show how to calculate standard deviation with live data and streaming SQL, and use query variables.
+
 ## Mar 18, 2024
 
 Introducing three new demos with live data in our [Timeplus Demo workspace](https://demo.timeplus.cloud): Stream Processing, Market Data, and ksqlDB Alternative. Choose a demo via the dropdown in the top header. You can explore the demos in read-only mode, or take a quick guided tour. 
