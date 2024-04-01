@@ -2,6 +2,23 @@
 
 This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes. For previous release notes, please check [this page](changelog).
 
+## Apr 1, 2024
+
+*Timeplus Proton:*
+  * Added support for selecting message key from Apache Kafka external streams, via `SELECT _message_key, * FROM external_stream`.
+  * Streaming processing now supports nullable data type.
+  * [External Table](proton-clickhouse-external-table#create-external-table): ClickHouse external tables with names containing special characters (such as dashes) are now supported. Simply set `table='test-a-b'` in the `CREATE EXTERNAL TABLE` DDL.
+  * [External Stream](proton-kafka#create-external-stream): Error handling and connection pooling/retry for Kafka external streams have been greatly improved.
+  * Materialized View: Added option to [skip dirty/unexpected data](query-syntax#settings). If you set `SETTINGS recovery_policy='best_effort'`, Timeplus will try up to 3 times, then skip dirty data and continue processing the rest of the data.
+
+*Timeplus Cloud and Timeplus Enterprise:*
+  * Added built-in support for Redpanda Serverless. [See our how-to guide](https://www.timeplus.com/post/redpanda-serverless)
+  * Ingesting Apache Kafka data: We changed the implementation of Kafka integration from Benthos-based implementations to external stream-based. Our configuration wizard in the web console remains the same.
+  * New left menu item for “Sources”. The “Data Ingestion” page will now only show options to ingest data, and not list added sources.
+  * Based on user feedback, we enhanced the built-in OHLC chart to show live updates even when the current window of OHLC is not closed.
+  * Updated layout for Home page, with new stats on existing resources, and number of currently running queries in the top right corner. If you don't have a certain resource in your workspace, we will now hide the stat box, instead of showing 0.
+  * Enhancements to the 3 demos in our [Timeplus Demo workspace](https://demo.timeplus.cloud). In the [Stream Processing demo](https://demo.timeplus.cloud/sp-demo/console/dashboard/ff9a0be7-434f-4774-8412-e9289e144b0a), we've added a dashboard to show how to calculate standard deviation with live data and streaming SQL, and use query variables.
+
 ## Mar 18, 2024
 
 Introducing three new demos with live data in our [Timeplus Demo workspace](https://demo.timeplus.cloud): Stream Processing, Market Data, and ksqlDB Alternative. Choose a demo via the dropdown in the top header. You can explore the demos in read-only mode, or take a quick guided tour.
@@ -133,7 +150,7 @@ Introducing three new demos with live data in our [Timeplus Demo workspace](http
 
 ## 2023年11月13日
 
-*Timeplus is now open source! Introducing **Proton**, a unified, lightweight streaming and historical data processing engine in a single binary, powering the Timeplus Cloud streaming analytics platform. [Try Proton with Docker](https://github.com/timeplus-io/proton)*
+*Proton：*
   * Proton的[JDBC driver](https://github.com/timeplus-io/proton-java-driver)现已开源。 请查看我们有关如何链接DBeaver到Proton的[演示示例](https://github.com/timeplus-io/proton/tree/develop/examples/jdbc)。 以及如何在[Pulse UI](https://github.com/timestored/pulseui/pull/139)中使用Proton。
   * 此外，我们还提供了一个实验性[ODBC driver](https://github.com/timeplus-io/proton-odbc)，用于从PowerBI等工具访问Proton
   * Proton中还新增了一个实验性的`shuffle by`子句。 Currently, it only works for historical queries, and it will support streaming queries soon. The key use case for `shuffle by` is to support high cardinality `group by` (such as 10 millions of unique keys). To learn more about this advanced feature, join the discussion in our [Slack community](https://timeplus.com/slack).
@@ -151,7 +168,7 @@ Introducing three new demos with live data in our [Timeplus Demo workspace](http
 
 ## Oct 30, 2023
 
-*The [Grafana plugin for Proton](https://grafana.com/grafana/plugins/timeplus-proton-datasource) has been enhanced and published on Grafana Catalog. You can install it via admin pages without downloading the file manually. Please make sure both 8463 and 3218 ports from Proton are accessible from Grafana, since the new version will call Proton query analyzer API (on 3218) to determine whether it is a streaming query or not, then render results differently. With this plugin, you can build charts and dashboards with data in Proton, as well as other data sources configured in your Grafana. Give it a try and let us know what you think!*
+*Timeplus is now open source! Introducing **Proton**, a unified, lightweight streaming and historical data processing engine in a single binary, powering the Timeplus Cloud streaming analytics platform. [Try Proton with Docker](https://github.com/timeplus-io/proton)*
   * You can now install single native binary for Mac or Linux - check out our installation guide [here](https://github.com/timeplus-io/proton/wiki/Install-single-binary-Proton).
   * External streams support writing. External streams support writing. [(Learn more)](proton-kafka#write-to-kafka-with-sql)
   * External streams also support reading from specific Kafka partition(s). [(Learn more)](proton-kafka#read-specified-partitions) [(Learn more)](proton-kafka#read-specified-partitions)
