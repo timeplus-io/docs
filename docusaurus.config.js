@@ -85,18 +85,44 @@ const config = {
       },
       navbar: {
         title: "Docs",
+        style: "dark",
         hideOnScroll: true,
         logo: {
           alt: "Timeplus",
           src: "img/Option1_B.png",
           srcDark: "img/Option1_W.png",
+          href: "https://timeplus.com",
         },
         items: [
           {
-            type: "doc",
-            docId: "proton-howto",
+            href: "https://www.timeplus.com/cloud",
             position: "left",
-            label: "Proton How-to",
+            label: "Products",
+            className: "navbar__link--active",
+          },
+          {
+            href: "https://www.timeplus.com/proton-vs-ksqldb",
+            position: "left",
+            label: "Use Cases",
+            className: "navbar__link--active",
+          },
+          {
+            href: "https://www.timeplus.com/pricing",
+            position: "left",
+            label: "Pricing",
+            className: "navbar__link--active",
+          },
+          {
+            href: "https://www.timeplus.com/blog",
+            position: "left",
+            label: "Blog",
+            className: "navbar__link--active",
+          },
+          {
+            href: "https://docs.timeplus.com/rest.html",
+            position: "left",
+            label: "REST API",
+            className: "navbar__link--active",
           },
           {
             type: "doc",
@@ -106,20 +132,9 @@ const config = {
           },
           {
             type: "doc",
-            docId: "quickstart",
-            position: "left",
-            label: "Cloud Quickstart",
-          },
-          {
-            type: "doc",
             docId: "release-notes",
             position: "left",
             label: "What's New",
-          },
-          {
-            href: "https://docs.timeplus.com/rest.html",
-            position: "left",
-            label: "REST API",
           },
           {
             type: "search",
