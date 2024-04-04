@@ -179,8 +179,11 @@ const sidebars = {
         "tutorial-sql-kafka",
         "tutorial-sql-join",
         "tutorial-sql-etl",
+        "tutorial-sql-etl-kafka-to-ch",
         "tutorial-sql-read-avro",
+        "tutorial-sql-connect-ch",
         "sql-pattern-topn",
+        "usecases",
       ],
     },
     {
@@ -222,12 +225,6 @@ const sidebars = {
           items: ["remote-udf", "js-udf"],
         },
         "joins",
-        {
-          type: "category",
-          label: "Query Patterns",
-          link: { type: "doc", id: "usecases" },
-          items: [],
-        },
       ],
     },
     {
