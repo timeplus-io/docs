@@ -170,6 +170,14 @@ const sidebars = {
     "timeplus-enterprise",
     {
       type: "category",
+      label: "Tutorials and Examples",
+      link: {
+        type: "generated-index",
+      },
+      items: ["sql-pattern-topn"],
+    },
+    {
+      type: "category",
       label: "SQL Reference",
       collapsed: true,
       link: {
@@ -211,7 +219,7 @@ const sidebars = {
           type: "category",
           label: "Query Patterns",
           link: { type: "doc", id: "usecases" },
-          items: ["sql-pattern-topn"],
+          items: [],
         },
       ],
     },

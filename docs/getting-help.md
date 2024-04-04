@@ -19,3 +19,7 @@ For Timeplus core engine (Proton), you can also raise your questions on https://
 ## Enterprise Support
 
 Customers of Timeplus Cloud or Timeplus Enterprise can additionally open support tickets by emailing [support@timeplus.com](mailto:support@timeplus.com)
+
+## Timeplus Cloud Status Page
+
+Customers of Timeplus Cloud can subscribe to the updates on https://timeplus.statuspage.io to monitor the service health status and get updates for outage or maintenance. 

@@ -401,7 +401,7 @@ CREATE MATERIALIZED VIEW mv INTO target AS
 
 A docker-compose file is created to bundle proton image with Redpanda (as lightweight server with Kafka API), Redpanda Console, and [owl-shop](https://github.com/cloudhut/owl-shop) as sample live data.
 
-1. Download the [docker-compose.yml](https://github.com/timeplus-io/proton/blob/develop/docker-compose.yml) and put into a new folder.
+1. Download the [docker-compose.yml](https://github.com/timeplus-io/proton/blob/develop/examples/ecommerce/docker-compose.yml) and put into a new folder.
 2. Open a terminal and run `docker compose up` in this folder.
 3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data.
 4. Use `proton-client` to run SQL to query such Kafka data: `docker exec -it <folder>-proton-1 proton-client` You can get the container name via `docker ps`
