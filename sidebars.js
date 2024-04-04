@@ -157,21 +157,6 @@ const sidebars = {
         },
         "faq",
         "issues",
-        {
-          type: "category",
-          label: "Release Notes",
-          //collapsed: false,
-          link: {
-            type: "doc",
-            id: "changelog",
-          },
-          items: [
-            "public-beta-2",
-            "public-beta-1",
-            "private-beta-2",
-            "private-beta-1",
-          ],
-        },
       ],
     },
     "timeplus-enterprise",
@@ -223,7 +208,21 @@ const sidebars = {
       ],
     },
     "getting-help",
-    "release-notes",
+    {
+      type: "category",
+      label: "Release Notes",
+      //collapsed: false,
+      link: {
+        type: "doc",
+        id: "release-notes",
+      },
+      items: [
+        "public-beta-2",
+        "public-beta-1",
+        "private-beta-2",
+        "private-beta-1",
+      ],
+    },
     "credits",
     /*
    ],

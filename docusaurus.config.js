@@ -131,12 +131,6 @@ const config = {
             label: "SQL Functions",
           },
           {
-            type: "doc",
-            docId: "release-notes",
-            position: "left",
-            label: "What's New",
-          },
-          {
             type: "search",
             position: "right",
           },
