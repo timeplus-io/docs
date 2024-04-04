@@ -174,7 +174,12 @@ const sidebars = {
       link: {
         type: "generated-index",
       },
-      items: ["sql-pattern-topn"],
+      items: [
+        "tutorial-sql-kafka",
+        "tutorial-sql-join",
+        "tutorial-sql-etl",
+        "sql-pattern-topn",
+      ],
     },
     {
       type: "category",
