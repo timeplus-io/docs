@@ -1,6 +1,6 @@
-# Glossary
+# Key Concepts
 
-This page lists key terms and concepts in Timeplus.
+This page lists key terms and concepts in Timeplus. Please check the sub-pages for more details.
 
 ## bookmark {#bookmark}
 
