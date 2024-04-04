@@ -44,7 +44,7 @@
 参数：
 
 * `stream` 数据流、视图或 [CTE](glossary#cte)/子查询
-* `timeCol` 可选，默认情况下是 `__tp_time` (记录的事件时间)
+* `timeCol` optional, by default it will be `_tp_time` (the event time for the record)
 * `idle` 事件将被自动分割为2个会话窗口
 * `maxLength` 会话窗口最大长度。 可选的。 默认值是 `idle`的 5 倍
 * `[startCondition, endCondition]`可选. 开始和结束条件 如果指定的话，会话窗口将在满足 `startCondition`时开始，并将在 `endCondition` 得到满足时关闭。 您可以使用 `[expression1, expression2]`表示开始和结束事件将包含在会话中。 或 `(expression1，expression2]` 表示结束事件将包括但不包括起始事件。
