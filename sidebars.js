@@ -44,7 +44,19 @@ const sidebars = {
       link: {
         type: "generated-index",
       },
-      items: ["quickstart", "quickstart-confluent", "quickstart-ingest-api"],
+      items: [
+        {
+          type: "category",
+          label: "Timieplus Cloud Quickstart",
+          //collapsed: false,
+          link: {
+            type: "doc",
+            id: "quickstart",
+          },
+          items: ["quickstart-confluent", "quickstart-ingest-api"],
+        },
+        "proton-howto",
+      ],
     },
     {
       type: "category",
@@ -88,7 +100,6 @@ const sidebars = {
         id: "proton",
       },
       items: [
-        "proton-howto",
         "proton-architecture",
         "proton-create-stream",
         "proton-kafka",
