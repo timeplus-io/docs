@@ -1,4 +1,4 @@
-# Frequently Asked Questions
+# Timeplus Cloud FAQ
 
 ## Can I run Timeplus in our own cloud VPC or on-prem? {#deployment}
 

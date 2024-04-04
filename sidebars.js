@@ -119,7 +119,6 @@ const sidebars = {
         "proton-create-udf",
         "proton-ingest-api",
         "proton-ports",
-        "proton-faq",
       ],
     },
     {
@@ -160,7 +159,6 @@ const sidebars = {
           },
           items: ["apikey", "terraform"],
         },
-        "faq",
         "issues",
         {
           label: "REST API Reference",
@@ -216,6 +214,15 @@ const sidebars = {
           items: ["sql-pattern-topn"],
         },
       ],
+    },
+    {
+      type: "category",
+      label: "Frequently Asked Questions",
+      //collapsed: false,
+      link: {
+        type: "generated-index",
+      },
+      items: ["proton-faq", "faq"],
     },
     {
       type: "category",
