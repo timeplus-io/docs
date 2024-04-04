@@ -45,7 +45,7 @@ Create dynamic windows based on the activities in the data stream.
 Parameters:
 
 * `stream` a data stream, a view, or a [CTE](glossary#cte)/subquery
-* `timeCol` optional, by default it will be `__tp_time` (the event time for the record)
+* `timeCol` optional, by default it will be `_tp_time` (the event time for the record)
 * `idle` how long the events will be automatically splitted to 2 session windows
 * `maxLength` the max length of the session window. Optional. Default value is the 5 times of `idle`
 * `[startCondition, endCondition]`Optional. If specified, the session window will start when the `startCondition`is met and will close when `endCondition` is met. You can use `[expression1, expression2]`to indicate start and end events will be included in the session, or `(expression1, expression2]` to indicate the ending events will be included but not the starting events.
