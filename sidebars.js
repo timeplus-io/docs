@@ -27,8 +27,25 @@ const sidebars = {
   ],
    */
   docSidebar: [
-    "index",
-    "quickstart",
+    {
+      type: "category",
+      label: "Overview",
+      //collapsed: false,
+      link: {
+        type: "doc",
+        id: "index",
+      },
+      items: ["why-timeplus", "showcases"],
+    },
+    {
+      type: "category",
+      label: "Quickstart",
+      //collapsed: false,
+      link: {
+        type: "generated-index",
+      },
+      items: ["quickstart", "quickstart-confluent", "quickstart-ingest-api"],
+    },
     {
       type: "category",
       label: "Key Concepts",
@@ -103,29 +120,6 @@ const sidebars = {
         id: "timeplus-cloud",
       },
       items: [
-        {
-          type: "category",
-          label: "Quickstart",
-          //collapsed: false,
-          link: {
-            type: "doc",
-            id: "quickstart",
-          },
-          items: [
-            {
-              type: "doc",
-              id: "quickstart-confluent",
-              label: "with Confluent Cloud",
-            },
-            {
-              type: "doc",
-              id: "quickstart-ingest-api",
-              label: "with ingest API",
-            },
-          ],
-        },
-        "why-timeplus",
-        "showcases",
         {
           type: "category",
           label: "Data Ingestion",
