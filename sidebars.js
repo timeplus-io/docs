@@ -175,6 +175,7 @@ const sidebars = {
         type: "generated-index",
       },
       items: [
+        "tutorial-sql-connect-kafka",
         "tutorial-sql-kafka",
         "tutorial-sql-join",
         "tutorial-sql-etl",
