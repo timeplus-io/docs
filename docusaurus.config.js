@@ -119,18 +119,6 @@ const config = {
             className: "navbar__link--active",
           },
           {
-            href: "https://docs.timeplus.com/rest.html",
-            position: "left",
-            label: "REST API",
-            className: "navbar__link--active",
-          },
-          {
-            type: "doc",
-            docId: "functions",
-            position: "left",
-            label: "SQL Functions",
-          },
-          {
             type: "search",
             position: "right",
           },

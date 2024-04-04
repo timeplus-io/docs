@@ -157,6 +157,11 @@ const sidebars = {
         },
         "faq",
         "issues",
+        {
+          label: "REST API Reference",
+          type: "link",
+          href: "https://docs.timeplus.com/rest.html",
+        },
       ],
     },
     "timeplus-enterprise",
@@ -207,10 +212,9 @@ const sidebars = {
         },
       ],
     },
-    "getting-help",
     {
       type: "category",
-      label: "Release Notes",
+      label: "What's New",
       //collapsed: false,
       link: {
         type: "doc",
@@ -223,10 +227,14 @@ const sidebars = {
         "private-beta-1",
       ],
     },
-    "credits",
-    /*
-   ],
- }*/
+    {
+      type: "category",
+      label: "Additional Resources",
+      link: {
+        type: "generated-index",
+      },
+      items: ["getting-help", "credits"],
+    },
   ],
 };
 
