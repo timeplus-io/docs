@@ -95,16 +95,44 @@ const config = {
         },
         items: [
           {
-            href: "https://www.timeplus.com/cloud",
-            position: "left",
+            type: "dropdown",
             label: "Products",
+            position: "left",
             className: "navbar__link--active",
+            items: [
+              {
+                href: "https://www.timeplus.com/cloud",
+                label: "Timeplus Cloud",
+              },
+              {
+                href: "https://www.timeplus.com/enterprise",
+                label: "Timeplus Enterprise",
+              },
+              {
+                href: "https://www.timeplus.com/proton",
+                label: "Timeplus Core",
+              },
+            ],
           },
           {
-            href: "https://www.timeplus.com/proton-vs-ksqldb",
-            position: "left",
+            type: "dropdown",
             label: "Use Cases",
+            position: "left",
             className: "navbar__link--active",
+            items: [
+              {
+                href: "https://www.timeplus.com/fintech",
+                label: "FinTech",
+              },
+              {
+                href: "https://www.timeplus.com/ai",
+                label: "AI",
+              },
+              {
+                href: "https://www.timeplus.com/proton-vs-ksqldb",
+                label: "Timeplus vs. ksqlDB",
+              },
+            ],
           },
           {
             href: "https://www.timeplus.com/pricing",
@@ -119,15 +147,33 @@ const config = {
             className: "navbar__link--active",
           },
           {
-            type: "search",
-            position: "right",
+            type: "dropdown",
+            label: "About Us",
+            position: "left",
+            className: "navbar__link--active",
+            items: [
+              {
+                href: "https://www.timeplus.com/team",
+                label: "Our Team",
+              },
+              {
+                href: "https://www.timeplus.com/media-kit",
+                label: "Media Kit",
+              },
+              {
+                href: "https://www.timeplus.com/resources",
+                label: "Resources",
+              },
+
+              {
+                href: "https://timeplus.com/slack",
+                label: "Slack Community",
+              },
+            ],
           },
           {
-            href: "https://github.com/timeplus-io/proton",
-            label: " ",
+            type: "search",
             position: "right",
-            className: "header-github-link",
-            "aria-label": "GitHub repository",
           },
           {
             href: "https://timeplus.com/slack",
@@ -135,6 +181,13 @@ const config = {
             position: "right",
             className: "header-slack-link",
             "aria-label": "Slack community",
+          },
+          {
+            href: "https://github.com/timeplus-io/proton",
+            label: " ",
+            position: "right",
+            className: "header-github-link",
+            "aria-label": "GitHub repository",
           },
           // {
           //   type: 'localeDropdown',
