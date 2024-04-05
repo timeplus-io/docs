@@ -38,6 +38,16 @@ html[data-theme="dark"] {
     --ifm-font-family-base: "Inter";
 }
 
+.iconExternalLink_node_modules-\@docusaurus-theme-classic-lib-theme-Icon-ExternalLink-styles-module {
+    display: none;
+}
+a.navbar__link {
+    font-size: 14px;
+    color: #a5a3a9;
+}
+.navbar--dark {
+    --ifm-navbar-link-hover-color: #efeeef;
+}
 .docusaurus-highlight-code-line {
     background-color: #222222;
     display: block;
