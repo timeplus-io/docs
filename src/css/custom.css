@@ -39,7 +39,13 @@ html[data-theme="dark"] {
     --ifm-link-color: #d53f8c;
 }
 
-.iconExternalLink_node_modules-\@docusaurus-theme-classic-lib-theme-Icon-ExternalLink-styles-module {
+.navbar__link svg {
+    display: none;
+}
+.dropdown__link svg {
+    display: none;
+}
+.footer__link-item svg {
     display: none;
 }
 a.navbar__link {
