@@ -1,31 +1,5 @@
 # Proton
 
-<p align="center">
-  <img alt="Proton – An open-source, fast and lightweight streaming SQL engine, 🚀 powered by ClickHouse" src="/img/proton-logo-white-bg.png"/> <br/>
-  <b> A streaming SQL engine, fast and lightweight </b> <br/><br/>
-  📄 <a href="https://docs.timeplus.com/proton" target="_blank">Documentation</a>&nbsp;&nbsp;
-  🚀 <a href="https://demo.timeplus.cloud/" target="_blank">Live Demo</a>&nbsp;&nbsp;
-  🌎 <a href="https://timeplus.com/" target="_blank">Timeplus</a> <br/><br/>
-  <a href="https://github.com/timeplus-io/proton/"><img src="https://img.shields.io/github/stars/timeplus-io/proton?logo=github" /></a>&nbsp;
-  <a href="https://github.com/timeplus-io/proton/pkgs/container/proton"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fuwkp37dgeb6d2oc5fxu6oles2i0eevmm.lambda-url.us-west-2.on.aws%2F" /></a>&nbsp; 
-  <a href="https://github.com/timeplus-io/proton/blob/develop/LICENSE"><img src="https://img.shields.io/github/v/release/timeplus-io/proton" alt="Release" /></a>&nbsp;
-  <a href="https://www.youtube.com/@timeplusdata"><img src="https://img.shields.io/youtube/channel/views/UCRQCOw9wOiqHZkm7ftAMdTQ" alt="YouTube" /></a>&nbsp;
-  <a href="https://timeplus.com/slack"><img src="https://img.shields.io/badge/Join%20Slack-blue?logo=slack" alt="Slack" /></a>&nbsp;
-  <a href="https://linkedin.com/company/timeplusinc"><img src="https://img.shields.io/badge/timeplusinc-0077B5?style=social&logo=linkedin" alt="follow on LinkedIn"/></a>&nbsp;
-  <a href="https://twitter.com/intent/follow?screen_name=timeplusdata"><img src="https://img.shields.io/twitter/follow/timeplusdata?label=" alt="Twitter(X)" /></a>&nbsp;
-  <a href="https://github.com/timeplus-io/proton/blob/develop/LICENSE"><img src="https://img.shields.io/github/license/timeplus-io/proton?label=license&logo=github&color=blue" alt="License" /></a>&nbsp;  
-</p>
-
-<p align="center">
-  <a href="#-why-use-proton"><strong>Why Use Proton</strong></a> ·
-  <a href="#-demo-video"><strong>Demo Video</strong></a> ·
-  <a href="#-deployment"><strong>Deployment</strong></a> ·
-  <a href="#-whats-next"><strong>What's Next</strong></a> ·
-  <a href="#-integrations"><strong>Integrations</strong></a> ·
-  <a href="#contributing"><strong>Contributing</strong></a> ·
-  <a href="#need-help"><strong>Need help?</strong></a>
-</p>
-
 Proton, the core engine of Timeplus products, is fast and lightweight alternative to ksqlDB or Apache Flink, 🚀 powered by ClickHouse. It enables developers to solve streaming data processing, routing and analytics challenges from Apache Kafka, Redpanda and more sources, and send aggregated data to the downstream systems. Proton is under active development under Apache 2.0 license and powers both [Timeplus Cloud](timeplus-cloud) and [Timeplus Enterprise](timeplus-enterprise).
 
 ## 💪 Why use Proton?

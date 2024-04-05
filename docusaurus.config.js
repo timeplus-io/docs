@@ -146,40 +146,60 @@ const config = {
         style: "dark",
         links: [
           {
-            title: "Company",
+            title: " ",
             items: [
               {
-                label: "timeplus.com",
+                label: "COMPANY",
                 href: "https://timeplus.com",
               },
               {
-                label: "Timeplus Cloud",
-                href: "https://us.timeplus.cloud",
+                label: "SHOWCASES",
+                href: "https://docs.timeplus.com/showcases",
               },
               {
-                label: "Live Demo",
-                href: "https://demo.timeplus.cloud",
+                label: "PROTON VS. KSQLDB​",
+                href: "https://www.timeplus.com/proton-vs-ksqldb",
               },
               {
-                label: "Status Page",
+                label: "PRICING",
+                href: "https://www.timeplus.com/pricing",
+              },
+              {
+                label: "OPEN SOURCE",
+                href: "https://github.com/timeplus-io/proton",
+              },
+              {
+                label: "STATUS",
                 href: "https://timeplus.statuspage.io",
               },
             ],
           },
           {
-            title: "Community",
+            title: " ",
             items: [
               {
-                label: "Community Slack",
-                href: "https://timeplus.com/slack",
-              },
-              {
-                label: "Open Source",
-                href: "https://github.com/timeplus-io/proton",
-              },
-              {
-                label: "Blog",
+                label: "BLOG",
                 href: "https://timeplus.com/blog",
+              },
+              {
+                label: "RESOURCES",
+                href: "https://www.timeplus.com/resources",
+              },
+              {
+                label: "ABOUT US",
+                href: "https://www.timeplus.com/team",
+              },
+              {
+                label: "PRIVACY POLICY",
+                href: "https://www.timeplus.com/privacy-policy",
+              },
+              {
+                label: "TERMS OF SERVICE",
+                href: "https://www.timeplus.com/terms-of-service",
+              },
+              {
+                label: "SLACK",
+                href: "https://timeplus.com/slack",
               },
             ],
           },
