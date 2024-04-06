@@ -47,7 +47,7 @@ const sidebars = {
       items: [
         {
           type: "category",
-          label: "Timieplus Cloud Quickstart",
+          label: "Timeplus Cloud Quickstart",
           //collapsed: false,
           link: {
             type: "doc",
