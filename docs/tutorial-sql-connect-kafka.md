@@ -65,6 +65,22 @@ chown timeplus:timeplus kafka.cert
 chmod 400 kafka.cert
 ```
 
+Alternatively, you can put the full content of the CA pem file in the DDL SQL. This could help you to setup secure connections with Aiven Kafka without man-in-middle attack, but in the case you cannot set a local file path, such as using Docker or Kubernetes, or in Timeplus Cloud.
+
+```sql
+CREATE EXTERNAL STREAM ext_stream(raw string)
+SETTINGS type='kafka', 
+         brokers='name.a.aivencloud.com:28864',
+         topic='topic',
+         security_protocol='SASL_SSL', 
+         sasl_mechanism='SCRAM-SHA-256',
+         username='avnadmin', 
+         password='..',
+         ssl_ca_pem='-----BEGIN CERTIFICATE----\nMIIEQTCCAqmgAwIBAgIU..ph0szPew==\n-----END CERTIFICATE-----'
+```
+
+
+
 If you want to skip verifying the CA (not recommended), you can create the external stream in the following way:
 
 ```sql
@@ -76,7 +92,7 @@ SETTINGS type='kafka',
          sasl_mechanism='SCRAM-SHA-256',
          username='avnadmin', 
          password='..',
-         properties='enable.ssl.certificate.verification=false'
+         skip_ssl_cert_check=true
 ```
 
 ### Connect to WarpStream{#connect-warp}
