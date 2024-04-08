@@ -4,7 +4,7 @@ If you have questions or get stuck, we are happy to help.
 
 ## Community Slack
 
-Join [the community Slack](https://timeplus.com/slack) to chat with Timeplus team and other users.
+Join [our community Slack](https://timeplus.com/slack) to chat with our Timeplus team and other users.
 
 Slack is a great place to ask questions, provide feedback, tell us what features you’d like to see, and learn more about using Timeplus.
 

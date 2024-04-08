@@ -2,7 +2,7 @@
 
 ## Can I run Timeplus in our own cloud VPC or on-prem? {#deployment}
 
-Sure. [Timeplus Enterprise](timeplus-enterprise) can be installed in your local data center or cloud VPC, with similar features as Timeplus Cloud.
+Certainly! [Timeplus Enterprise](timeplus-enterprise) can be installed in your local data center or cloud VPC, with similar features as Timeplus Cloud. Please [contact us](mailto:info@timeplus.com) to get more details or schedule a demo.
 
 ## How much data I can load into Timeplus Cloud? {#datasize}
 
