@@ -3,7 +3,7 @@
   align-items: center;
   flex-flow: row wrap;
   position: relative;
-  background:  var(--ifm-navbar-background-color);
+  background: #242227;
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-pagination-nav-border-radius);
   padding: 1.8rem 1.4rem;
@@ -22,12 +22,12 @@
 
 .quickstart h3 {
   font-size: 1.4rem;
-  color: white;
+  color: #DEDDDF;
   transition: 0.3s all ease-in-out;
 }
 
 .quickstart p {
-  color: white;
+  color: #DEDDDF;
 }
 
 .text {
