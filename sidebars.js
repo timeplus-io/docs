@@ -105,15 +105,7 @@ const sidebars = {
         "proton-kafka",
         "proton-schema-registry",
         "proton-format-schema",
-        {
-          type: "category",
-          label: "Manage Stream",
-          //collapsed: false,
-          link: {
-            type: "generated-index",
-          },
-          items: ["proton-alter-stream", "proton-drop-stream"],
-        },
+        "proton-manage-stream",
         "proton-create-view",
         "proton-clickhouse-external-table",
         "proton-create-udf",
