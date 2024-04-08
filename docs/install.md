@@ -31,6 +31,12 @@ docker run -d --pull always --name proton ghcr.io/timeplus-io/proton:latest
 
 In case you cannot access ghcr, you can pull the image from `public.ecr.aws/timeplus/proton`
 
+You may need to expose ports from the Proton container so that other tools can connect to it, such as DBeaver. Please check [Server Ports](proton-ports) for each port to expose. For example:
+
+```shell
+docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton ghcr.io/timeplus-io/proton:latest
+```
+
 ### Docker Compose {#compose}
 
 The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
