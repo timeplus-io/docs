@@ -148,7 +148,7 @@ const config = {
           },
           {
             type: "dropdown",
-            label: "About Us",
+            label: "Company",
             position: "left",
             className: "navbar__link--active",
             items: [
