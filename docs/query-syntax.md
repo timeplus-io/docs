@@ -528,5 +528,5 @@ The above example SQL continuously aggregates max cpu usage per device per hop w
 
 ### Session Streaming Window Aggregation
 
-This is similar to tumble and hop window. Please check the [session](funtions_for_streaming#session) function. 
+This is similar to tumble and hop window. Please check the [session](functions_for_streaming#session) function. 
 
