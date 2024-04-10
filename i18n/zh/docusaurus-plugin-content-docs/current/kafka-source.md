@@ -4,15 +4,14 @@
 
 ## Apache Kafka数据源
 
-1. 在左侧导航菜单中，单击 **数据摄取**，然后单击右上角的 **添加数据** 按钮。
-2. 在此弹出窗口中，您将看到您可以连接的数据源以及其他添加数据的方法。 点击**Apache Kafka**。
-3. 输入broker URL 你也可以在需要时启用TLS或身份验证。
-4. 输入 Kafka 主题的名称，并指定“读取为”的数据格式。 我们目前支持JSON、AVRO和文本格式。
-   1. 如果 Kafka 主题中的数据采用 JSON 格式，但架构可能会随着时间的推移而发生变化，我们建议您选择 Text。 这样，整个 JSON 文档将保存为字符串，即使架构发生变化，您也可以应用与 JSON 相关的函数来提取值。
-   2. 如果您选择AVRO，则有一个“自动提取”选项。 默认情况下，此选项处于关闭状态，这意味着整条消息将另存为字符串。 如果您将其打开，则 AVRO 消息中的顶级属性将被放入不同的列中。 这对您更方便查询，但不支持模式进化。 当选择AVRO时，您还需要指定schema注册表的地址、API密钥和密钥。
-5. 在接下来的“预览”步骤中，我们将从您指定的Confluent Cloud数据源中向您展示至少一个事件。
-6. 默认情况下，您的新数据源将在 Timeplus 中创建一个新流。 给这个新流命名并验证列信息（列名和数据类型）。 您也可以将一列设置为事件时间列。 如果您不这样做，我们将使用摄取时间作为事件时间。 或者，您可以从下拉列表中选择一个现有的流。
-7. 在预览您的数据后，您可以给源提供一个名称和一个可选的描述，并审查配置。 单击“完成”后，您的流数据将立即在指定的流中可用。
+1. From the left side navigation menu, click **Data Ingestion**. Here, you’ll see ways to connect a source or external stream. Click **Apache Kafka** (external stream).
+2. Enter the broker URL. You can also enable TLS or authentication, if needed.
+3. Enter the name of the Kafka topic, and specify the ‘read as’ data format. We currently support JSON, AVRO and Text formats.
+   1. If the data in the Kafka topic is in JSON format, but the schema may change over time, we recommend you choose Text. This way, the entire JSON document will be saved as a string, and you can apply JSON related functions to extract value, even if the schema changes.
+   2. If you choose AVRO, there is an option for 'Auto Extraction'. By default, this is toggled off, meaning the entire message will be saved as a string. If you toggle it on, then the top level attribute in the AVRO message will be put into different columns. This would be more convenient for you to query, but won't support schema evolution. When AVRO is selected, you also need to specify the address, API key, and secret key for the schema registry.
+4. In the next “Preview” step, we will show you at least one event from your specified Apache Kafka source.
+5. By default, your new source will create a new stream in Timeplus. Give this new stream a name and verify the columns information (column name and data type). You can also set a column as the event time column. If you don’t, we will use the ingestion time as the event time. Alternatively, you can select an existing stream from the dropdown.
+6. After previewing your data, you can give the source a name and an optional description, and review the configuration. Once you click Finish, your streaming data will be available in the specified stream immediately.
 
 ## 自定义Kafka部署
 
