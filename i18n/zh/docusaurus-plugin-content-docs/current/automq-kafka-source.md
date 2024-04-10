@@ -50,7 +50,7 @@ sh kafka-console-consumer.sh --bootstrap-server 10.0.96.4:9092 --topic example_t
 
 1. 在左侧导航菜单中，单击 数据摄取，然后单击右上角的 添加数据 按钮。
 2. 在此弹出窗口中，您将看到您可以连接的数据源以及其他添加数据的方法。 在此弹出窗口中，您将看到您可以连接的数据源以及其他添加数据的方法。 由于 AutoMQ Kafka 与 Apache Kafka 完全兼容，因此你可以直接点击这里 Apache Kafka。
-3. 输入broker URL 输入broker URL 由于默认创建的 AutoMQ Kafka 不启用 TLS 和身份验证，因此请在此处关闭 TLS 和身份验证。
+3. Enter the broker URL. 输入broker URL 由于默认创建的 AutoMQ Kafka 不启用 TLS 和身份验证，因此请在此处关闭 TLS 和身份验证。
 4. 输入 Kafka 主题的名称，并指定“读取为”的数据格式。 我们目前支持JSON、AVRO和文本格式。 我们目前支持JSON、AVRO和文本格式。
    1. 如果 Kafka 主题中的数据采用 JSON 格式，但架构可能会随着时间的推移而发生变化，我们建议您选择 Text。 这样，整个 JSON 文档将保存为字符串，即使架构发生变化，您也可以应用与 JSON 相关的函数来提取值。 这样，整个 JSON 文档将保存为字符串，即使架构发生变化，您也可以应用与 JSON 相关的函数来提取值。
    2. 如果您选择 AVRO，则会有一个 “自动提取” 选项。 默认情况下，此选项处于关闭状态，这意味着整条消息将另存为字符串。 如果您开启，那么AVRO消息中的顶级属性将会放入不同的列中。 这对您而言更方便查询，但不支持架构进化。 选择 AVRO 时，您还需要指定架构注册表的地址、API 密钥和密钥。
