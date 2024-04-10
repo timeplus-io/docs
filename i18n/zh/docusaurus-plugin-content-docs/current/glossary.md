@@ -1,6 +1,6 @@
-# 术语表
+# Key Concepts
 
-这个页面列出了Timeplus中的关键术语和概念。
+This page lists key terms and concepts in Timeplus. Please check the sub-pages for more details.
 
 ## 书签 Bookmark {#bookmark}
 
