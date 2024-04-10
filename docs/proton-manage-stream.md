@@ -26,7 +26,7 @@ ALTER STREAM stream_name MODIFY TTL to_datetime(created_at) + INTERVAL 48 HOUR
 
 ## DROP STREAM
 
-Run the following SQL to drop a stream, with all data in streaming storage and historical storage.
+Run the following SQL to drop a stream or an external stream, with all data in streaming storage and historical storage.
 
 ```sql
 DROP STREAM [IF EXISTS] db.<stream_name>;

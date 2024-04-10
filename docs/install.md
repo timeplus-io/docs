@@ -11,10 +11,10 @@ The quickest and easiest way to get started with Timeplus to sign up a free acco
 curl https://install.timeplus.com | sh
 ```
 
-Once the `proton` binary is available, you can 
+Once the `proton` binary is available, you can either
 
 * run `proton local` to start it for fast processing on local and remote files using SQL without having to install a full server, or
-* run `proton install` to install the server in predefined path and a default configuration file. Then you can run `proton server start` to start the server and use `proton client` in the other terminal to  start the SQL client.
+* run `sudo proton install` to install the server in predefined path and a default configuration file. Then you can run `proton server start` to start the server and use `proton client` in the other terminal to  start the SQL client.
 
 For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
 
