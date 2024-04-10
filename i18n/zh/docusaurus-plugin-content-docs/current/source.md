@@ -31,7 +31,7 @@ Timeplus与各种系统相结合，作为数据来源，例如Apache Kafka。
 
 ### stream_generator
 
-生成随机数据以供测试的数据源
+a source that generates random data for test
 
 | 属性       | 必填项 | 描述                                         | 默认值     |
 | -------- | --- | ------------------------------------------ | ------- |
@@ -77,7 +77,7 @@ refer to [https://docs.nats.io/nats-concepts/jetstream](https://docs.nats.io/nat
 | durable                  | no  | Preserve the state of your consumer under a durable name.                                                                   |         |
 | 流 Stream                 | no  | A stream to consume from. A stream to consume from. Either a subject or stream must be specified..                          |         |
 | deliver                  | no  | Determines which messages to deliver when consuming without a durable subscriber. support `all` `last` support `all` `last` | `all`   |
-| bind                     | no  | An bool indicates that the subscription should use an existing consumer.                                                    |         |
+| bind                     | no  | A bool indicates that the subscription should use an existing consumer.                                                     |         |
 | ack_wait                 | no  | The maximum amount of time NATS server should wait for an ack from consumer.                                                | `30s`   |
 | max_ack_pending        | no  | The maximum number of outstanding acks to be allowed before consuming is halted.                                            | `1024`  |
 | data_type                | yes | 指定用于创建流的数据类型。   支持`json`，`text`                                                                                             |         |
