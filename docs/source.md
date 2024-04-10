@@ -31,7 +31,7 @@ refer to [https://kafka.apache.org/](https://kafka.apache.org/)
 
 ### stream_generator
 
-a source that generates randome data for test
+a source that generates random data for test
 
 | Property                | Required    | Description                                               | Default |
 |-------------------------|---------|-----------------------------------------------------------|---------|
@@ -77,7 +77,7 @@ refer to [https://docs.nats.io/nats-concepts/jetstream](https://docs.nats.io/nat
 | durable   | no | Preserve the state of your consumer under a durable name.  |  |
 | stream | no | A stream to consume from. Either a subject or stream must be specified..  |  |
 | deliver   | no | Determines which messages to deliver when consuming without a durable subscriber. support `all` `last`  | `all` |
-| bind   | no | An bool indicates that the subscription should use an existing consumer.  |  |
+| bind   | no | A bool indicates that the subscription should use an existing consumer.  |  |
 | ack_wait   | no | The maximum amount of time NATS server should wait for an ack from consumer.  | `30s` |
 | max_ack_pending   | no | The maximum number of outstanding acks to be allowed before consuming is halted.  | `1024` |
 | data_type      | yes| Specifies the data type to use for creating the stream.   support `json`,`text`,
