@@ -210,8 +210,8 @@ const config = {
                 href: "https://docs.timeplus.com/showcases",
               },
               {
-                label: "PROTON VS. KSQLDB​",
-                href: "https://www.timeplus.com/proton-vs-ksqldb",
+                label: "TIMEPLUS VS. KSQLDB​",
+                href: "https://www.timeplus.com/timeplus-vs-ksqldb",
               },
               {
                 label: "PRICING",
