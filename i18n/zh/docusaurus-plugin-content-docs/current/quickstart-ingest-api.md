@@ -1,4 +1,4 @@
-# 使用Ingest API
+# Push data to Timeplus Cloud
 
 您可以使用任何语言调用 ingestion REST API 并将数据推送到 Timeplus。
 
