@@ -1,4 +1,4 @@
-# How-to Guides
+# Proton Quickstart
 
 Follow the compact guides that help you work with common Proton functionality.
 
@@ -118,11 +118,11 @@ SETTINGS max_insert_threads=8;
 
 ## How to visualize Proton query results with Grafana or Metabase {#bi}
 
-The offical Grafana plugin for Proton is available on https\://grafana.com/grafana/plugins/timeplus-proton-datasource/ The source code is at https\://github.com/timeplus-io/proton-grafana-source. You can run streaming SQL with the plugin and build live charts in Grafana, without having to refresh the dashboard. Check out https\://github.com/timeplus-io/proton/tree/develop/examples/grafana for sample setup.
+The offical Grafana plugin for Proton is available on https://grafana.com/grafana/plugins/timeplus-proton-datasource/ The source code is at https://github.com/timeplus-io/proton-grafana-source. You can run streaming SQL with the plugin and build live charts in Grafana, without having to refresh the dashboard. Check out https://github.com/timeplus-io/proton/tree/develop/examples/grafana for sample setup.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=U30K93FUVMyjUA--" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-We also provide a plugin for Metabase: https\://github.com/timeplus-io/metabase-proton-driver This is based on the Proton JDBC driver.
+We also provide a plugin for Metabase: https://github.com/timeplus-io/metabase-proton-driver This is based on the Proton JDBC driver.
 
 ## How to access Proton programmatically {#sdk}
 
@@ -130,6 +130,6 @@ SQL is the main interface to work with Proton. The [Ingest REST API](proton-inge
 
 The following drivers are available:
 
-- https\://github.com/timeplus-io/proton-java-driver JDBC and other Java clients
-- https\://github.com/timeplus-io/proton-go-driver for Golang
-- https\://github.com/timeplus-io/proton-python-driver for Python
+- https://github.com/timeplus-io/proton-java-driver JDBC and other Java clients
+- https://github.com/timeplus-io/proton-go-driver for Golang
+- https://github.com/timeplus-io/proton-python-driver for Python
