@@ -1,6 +1,11 @@
 # 更新日志
 
-This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes. For previous release notes, please check [this page](changelog).
+This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes. Release notes for previous beta programs:
+
+* [Public Beta 2](public-beta-2) (Jan 19, 2023 to Aug 3, 2023)
+* [Public Beta 1](public-beta-1) (Oct 3, 2022 to Jan 18, 2023)
+* [Private Beta 2](private-beta-2) (Aug 9 to Oct 2, 2022)
+* [Private Beta 1](private-beta-1) (Mar 8 to Aug 8, 2022)
 
 ## Apr 1, 2024
 
