@@ -1,9 +1,16 @@
-# Query Patterns
+# More Query Examples
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-This document demonstrates some typical query patterns that you can achieve in Timeplus to solve various use cases. You can also check the subpages for some of the highlighted query recipes. 
+This document demonstrates some typical query patterns that you can achieve in Timeplus to solve various use cases.
+
+A docker-compose file is created to bundle proton image with a data generator.
+
+1. Download [the docker-compose.yml](https://github.com/timeplus-io/proton/blob/develop/examples/carsharing/docker-compose.yml) and put into a new folder.
+2. Open a terminal and run docker compose up in this folder.
+3. Wait for few minutes to pull all required images and start the containers.
+4. Use proton-client to run SQL to query the data: `docker exec -it <folder>-proton-1 proton-client` You can get the container name via `docker ps`.
 
 ## Customer Scenario and Data Model {#model}
 
@@ -11,12 +18,11 @@ You are the lead business analyst in a carsharing company. Sensors are equipped 
 
 Some of the typical use cases for time-sensitive insights are:
 
-* How many cars are being driven by users in certain locations? Do we need to move some cars from less busy locations to those hot zones?
-* Which cars are being driven too fast or running low on fuel? The service team may need to take action.
-* Which users keep booking cars then canceling them? Shall we send real-time notification to those users to avoid abuse.
+- How many cars are being driven by users in certain locations? Do we need to move some cars from less busy locations to those hot zones?
+- Which cars are being driven too fast or running low on fuel? The service team may need to take action.
+- Which users keep booking cars then canceling them? Shall we send real-time notification to those users to avoid abuse.
 
 There are multiple data streams in the systems:
-
 
 ```mermaid
 erDiagram
@@ -55,8 +61,6 @@ erDiagram
       decimal amount
     }
 ```
-
-
 
 ### dim_user_info
 
@@ -102,12 +106,12 @@ A data stream with the latest data from car sensors. When the car engine is star
 
 A data stream with trip details and payment info. Each row is generated during the booking lifecycle
 
-* when the user books the car, a new event with action=add, with the booking_time=now, expire=now+30m
-* when the user unlock the car, a new event with action=service
-* when the user completes the trip and lock the car, a new event with action=end
-* when the user cancels the booking, a new event with action=cancel
-* when the user extends the booking for another 30 min, a new event with action=extend, and update the expire field
-* if the user doesn't unlock the car before the expire time, then new event is added with action=expire
+- when the user books the car, a new event with action=add, with the booking_time=now, expire=now+30m
+- when the user unlock the car, a new event with action=service
+- when the user completes the trip and lock the car, a new event with action=end
+- when the user cancels the booking, a new event with action=cancel
+- when the user extends the booking for another 30 min, a new event with action=extend, and update the expire field
+- if the user doesn't unlock the car before the expire time, then new event is added with action=expire
 
 ```mermaid
 stateDiagram
@@ -118,8 +122,6 @@ stateDiagram
   InService --> [*]: end
   NewBooking -->[*]: cancel
 ```
-
-
 
 | Column       | Comment                                                     | Type     | Sample Value            |
 | ------------ | ----------------------------------------------------------- | -------- | ----------------------- |
@@ -163,7 +165,7 @@ SELECT * FROM car_live_data
 or focusing on which cars are almost running out of gas (so that they can send service team to fill gas or suspend the car)
 
 ```sql
-SELECT time,cid,gas_percent FROM car_live_data WHERE gas_percent < 25 
+SELECT time,cid,gas_percent FROM car_live_data WHERE gas_percent < 25
 ```
 
 Result:
@@ -191,7 +193,7 @@ More practically, the user can create a [materialized view](view#materialized-vi
 
 ```sql
 CREATE MATERIALIZED VIEW car_live_data_1min as
-SELECT window_start AS time,cid, avg(gas_percent) AS avg_gas,avg(speed_kmh) AS avg_speed 
+SELECT window_start AS time,cid, avg(gas_percent) AS avg_gas,avg(speed_kmh) AS avg_speed
 FROM tumble(car_live_data,1m) GROUP BY window_start, cid
 ```
 
@@ -206,8 +208,6 @@ Result:
 | time                    | cid    | avg_gas | avg_speed |
 | ----------------------- | ------ | ------- | --------- |
 | 2022-01-12 23:01:00.000 | c00001 | 34      | 35        |
-
-
 
 ### S-AGG-RECENT: Showing aggregation for the recent data {#s-agg-recent}
 
@@ -231,15 +231,15 @@ There are other ways to get similar results, with more verbose queries
 
 1. We can apply a global aggregation for data in a recent 1 hour window. `select sum(amount) from trips where end_time > date_sub(now(), 1h)`
 
-2. The other solution is to use hop window aggregation. Similar to the `tumble` window in [S-DOWNSAMPLING](#s-downsampling) ,the data are grouped per a fixed size time window, such an hour. Tumble windows are not overlapped to each other, so it's ideal for downsampling without data duplication (for example, for `count` aggregation, no data will be counted twice) For hop window, it will be shifted to the left or right(past or future in the timeline) with a sliding step. For example, the following query will use the hop window to get total revenue for the past 1 hour, the result will be sent out every second. `select window_start,window_end, sum(amount) from hop(trips,end_time,1s,1h) 
-   group by window_start,window_end`
+2. The other solution is to use hop window aggregation. Similar to the `tumble` window in [S-DOWNSAMPLING](#s-downsampling) ,the data are grouped per a fixed size time window, such an hour. Tumble windows are not overlapped to each other, so it's ideal for downsampling without data duplication (for example, for `count` aggregation, no data will be counted twice) For hop window, it will be shifted to the left or right(past or future in the timeline) with a sliding step. For example, the following query will use the hop window to get total revenue for the past 1 hour, the result will be sent out every second. `select window_start,window_end, sum(amount) from hop(trips,end_time,1s,1h)
+group by window_start,window_end`
 
-###  S-SESSION: analyzing activities with active sessions {#s-session}
+### S-SESSION: analyzing activities with active sessions {#s-session}
 
-**Use Case:** The analyst wants to track the daily movement of the cars. The sensors on the cars report data every second while the engine is started, and report data every half an hour when the engine is off. If the server doesn't receive the data for a running car for 5 seconds, the car is considered disconnected.  We can run the following query to show the  trip distances for each running cars
+**Use Case:** The analyst wants to track the daily movement of the cars. The sensors on the cars report data every second while the engine is started, and report data every half an hour when the engine is off. If the server doesn't receive the data for a running car for 5 seconds, the car is considered disconnected. We can run the following query to show the trip distances for each running cars
 
 ```sql
-SELECT cid,window_start,window_end,max(total_km)-min(total_km) AS trip_km 
+SELECT cid,window_start,window_end,max(total_km)-min(total_km) AS trip_km
 FROM session(car_live_data, time, 5s, cid)
 GROUP BY __tp_session_id, cid, window_start, window_end
 HAVING trip_km > 0
@@ -256,10 +256,10 @@ More complex queries can be created to aggregate the data by car id and trip end
 
 ```sql
 with query_1 AS (
-select cid,window_start AS w_start,window_end AS w_end,max(total_km)-min(total_km) AS trip_km 
+select cid,window_start AS w_start,window_end AS w_end,max(total_km)-min(total_km) AS trip_km
 from session(car_live_data,time,20m, cid) group by __tp_session_id, cid, window_start, window_end
 )
-select cid,window_start,window_end,sum(trip_km) 
+select cid,window_start,window_end,sum(trip_km)
 from tumble(query_1,w_end,1h) group by cid,window_start,window_end
 ```
 
@@ -279,26 +279,26 @@ This query is a continuously streaming query. Every hour (or every day, dependin
 For example, the analyst wants to understand how the users book the car 2 hours ago
 
 ```sql
-SELECT window_start,count(*) FROM tumble(bookings,15m) 
-WHERE action='add' GROUP BY window_start 
+SELECT window_start,count(*) FROM tumble(bookings,15m)
+WHERE action='add' GROUP BY window_start
 EMIT LAST 2h
 ```
 
 Or they can specify an exactly timestamp, e.g.
 
 ```sql
-SELECT window_start,count(*) FROM tumble(bookings,15m) 
-WHERE action='add' and _tp_time>='2022-01-12 06:00:00.000' GROUP BY window_start 
+SELECT window_start,count(*) FROM tumble(bookings,15m)
+WHERE action='add' and _tp_time>='2022-01-12 06:00:00.000' GROUP BY window_start
 ```
 
 Result:
 
-| window_start            | count(*) |
-| ----------------------- | -------- |
-| 2022-01-12 06:00:00.000 | 34       |
-| 2022-01-12 06:15:00.000 | 23       |
+| window_start            | count(\*) |
+| ----------------------- | --------- |
+| 2022-01-12 06:00:00.000 | 34        |
+| 2022-01-12 06:15:00.000 | 23        |
 
-Not only the past data will be analyzed, but also the latest incoming data will be processed continuously. 
+Not only the past data will be analyzed, but also the latest incoming data will be processed continuously.
 
 ### S-MVIEW: Creating materialized view to keep latest analysis result and cache for other systems to query {#s-mview}
 
@@ -316,9 +316,9 @@ SELECT * FROM today_revenue
 
 **Use Case:** The streaming data may arrive late for many reasons, such as network latency, iot sensor malfunction, etc. When we run streaming analysis (such as payment per minute), we aggregate the data based on their event time (when the payment actually happened, instead of when Timeplus receives the data), and we don't want to wait for events which are significantly too late.
 
-Watermark is a common mechanism in the streaming processing world to set the bar on how late the events can be. Unlike other systems, Timeplus makes it very easy to identify late events without explicitly setting a watermark policy. 
+Watermark is a common mechanism in the streaming processing world to set the bar on how late the events can be. Unlike other systems, Timeplus makes it very easy to identify late events without explicitly setting a watermark policy.
 
-For a query like this 
+For a query like this
 
 ```sql
 SELECT window_start,window_end,sum(amount),count(*)
@@ -327,25 +327,23 @@ FROM tumble(trips,end_time,1m) GROUP BY window_start,window_end
 
 It will show the total payment every minute, for example
 
-| window_start            | window_end              | sum(amount) | count(*) |
-| ----------------------- | ----------------------- | ----------- | -------- |
-| 2022-01-12 10:00:00.000 | 2022-01-12 10:01:00.000 | 200         | 42       |
-| 2022-01-12 10:01:00.000 | 2022-01-12 10:02:00.000 | 300         | 67       |
+| window_start            | window_end              | sum(amount) | count(\*) |
+| ----------------------- | ----------------------- | ----------- | --------- |
+| 2022-01-12 10:00:00.000 | 2022-01-12 10:01:00.000 | 200         | 42        |
+| 2022-01-12 10:01:00.000 | 2022-01-12 10:02:00.000 | 300         | 67        |
 
 Considering two cars are returned at the same time at 10:00:10. For tripA and trip, both of them are supposed to be calculated into the first time window. However, for some reason, the data point tripA arrives in Timeplus on 10:01:15, and tripB data point arrives on 10:01:16. Timeplus will accept tripA data and add it into the 1st window aggregation, and also close the first window. The watermark will be sent to 10:01:00. So when tripB data point arrives, it's considered to be too late and won't be calculated in the streaming result. But it'll still be available when we run a historical query.
 
-| data point | event time              | arrive time             | note                                                                                                                                                                                              |
-| ---------- | ----------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| tripA      | 2022-01-12 10:00:10.000 | 2022-01-12 10:01:15.000 | included in 1st window, trigger the watermark change                                                                                                                                              |
+| data point | event time              | arrive time             | note                                                                                                                                                                                                  |
+| ---------- | ----------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| tripA      | 2022-01-12 10:00:10.000 | 2022-01-12 10:01:15.000 | included in 1st window, trigger the watermark change                                                                                                                                                  |
 | tripB      | 2022-01-12 10:00:10.000 | 2022-01-12 10:01:16.000 | its time is lower than the watermark. <br />1st window has been closed(not accepting more data)<br />The data is dropped for streaming analysis. <br />Still can be analyzed with historical searches |
-
-
 
 ### S-WAIT-LATE: Waiting for extra time for late events {#s-wait-late}
 
 **Use Case:** for more advanced use for the above case, it might be desirable for the analysts to set an extra time to wait for late events. This will make the streaming analysis not so real-time, however can include more data points, if the network latency is unpredictable.
 
-Given the similar scenario, the query with the advanced setting is 
+Given the similar scenario, the query with the advanced setting is
 
 ```sql
 SELECT window_start,window_end,sum(amount),count(*)
@@ -412,11 +410,11 @@ FROM tumble(trips,1m) GROUP BY window_start
 
 Result
 
-| window_start            | num_of_trips | last_min_trips | gap  |
-| ----------------------- | ------------ | -------------- | ---- |
-| 2022-01-12 10:00:00.000 | 88           | 0              | 88   |
-| 2022-01-12 10:01:00.000 | 80           | 88             | -8   |
-| 2022-01-12 10:02:00.000 | 90           | 80             | 10   |
+| window_start            | num_of_trips | last_min_trips | gap |
+| ----------------------- | ------------ | -------------- | --- |
+| 2022-01-12 10:00:00.000 | 88           | 0              | 88  |
+| 2022-01-12 10:01:00.000 | 80           | 88             | -8  |
+| 2022-01-12 10:02:00.000 | 90           | 80             | 10  |
 
 This is a very powerful and useful capability. Besides comparing the last aggregation result, the analysts can also compare the data for the past. For example this second with the same second in the last minute or last hour.
 
@@ -435,10 +433,10 @@ Once the query starts running, for the first 1 minute, only the newer result is 
 
 Result
 
-| window_start            | num_of_events | last_min                | last_min_events | gap  | change |
-| ----------------------- | ------------- | ----------------------- | --------------- | ---- | ------ |
-| 2022-01-12 10:01:00.000 | 88            | 2022-01-12 10:00:00.000 | 83              | 5    | 5      |
-| 2022-01-12 10:01:01.000 | 80            | 2022-01-12 10:00:01.000 | 87              | -7   | -8.75% |
+| window_start            | num_of_events | last_min                | last_min_events | gap | change |
+| ----------------------- | ------------- | ----------------------- | --------------- | --- | ------ |
+| 2022-01-12 10:01:00.000 | 88            | 2022-01-12 10:00:00.000 | 83              | 5   | 5      |
+| 2022-01-12 10:01:01.000 | 80            | 2022-01-12 10:00:01.000 | 87              | -7  | -8.75% |
 
 ### S-UNION-STREAMS: Merging multiple streams in same schema to a single stream {#s-union-streams}
 
@@ -452,7 +450,6 @@ UNION
 SELECT * FROM trips_victoria
 ```
 
-
 ### S-JOIN-STREAMS: Querying multiple data streams in the same time {#s-join-streams}
 
 **Use Case:** Data keeps changing, and each type of changing data is a stream. It's a common requirement to query multiple kinds of data at the same time to enrich the data, get more context and understand their correlation.
@@ -464,12 +461,10 @@ SELECT avg(gap) FROM
 ( SELECT
     date_diff('second', bookings.booking_time, trips.start_time) AS gap
   FROM bookings
-  INNER JOIN trips ON (bookings.bid = trips.bid) 
+  INNER JOIN trips ON (bookings.bid = trips.bid)
      AND date_diff_within(2m, bookings.booking_time, trips.start_time)
 ) WHERE _tp_time >= now()-1d
 ```
-
-
 
 ## Other streaming queries we can run for this demo set {#other-queries}
 
@@ -478,7 +473,7 @@ SELECT avg(gap) FROM
 Each car will report their status to the car_live_data stream, including the `in_use` bool flag. For the same car id, it may report `in_use=false` 2 minutes ago, then report `in_use=true` 1 minute ago. Then this car should be considered as in-use. We should not run global aggregation since we only care about the current status, not the accumulated data (each running car should report data twice a second). `tumble` window should be okay with 1 second as window size.
 
 ```sql
-SELECT window_start, count(distinct cid) FROM tumble(car_live_data,1s) 
+SELECT window_start, count(distinct cid) FROM tumble(car_live_data,1s)
 WHERE in_use GROUP BY window_start
 ```
 
@@ -487,9 +482,9 @@ WHERE in_use GROUP BY window_start
 We probably want to understand which cars help the company earn the most revenue or which cars are not gaining enough revenue. This can be done with the following query
 
 ```sql
-SELECT cid,sum(amount) AS revenue from trips 
-INNER JOIN bookings on trips.bid=bookings.bid 
-WHERE end_time > today() GROUP BY cid 
+SELECT cid,sum(amount) AS revenue from trips
+INNER JOIN bookings on trips.bid=bookings.bid
+WHERE end_time > today() GROUP BY cid
 ORDER BY revenue DESC LIMIT 10
 settings query_mode='table'
 ```
@@ -513,12 +508,12 @@ You can further enrich the data by looking up the car license plate from `dim_ca
 
 ```sql
 WITH top10cars AS (
-  SELECT cid,sum(amount) AS revenue FROM trips 
-INNER JOIN bookings on trips.bid=bookings.bid 
-WHERE end_time > today() GROUP BY cid 
+  SELECT cid,sum(amount) AS revenue FROM trips
+INNER JOIN bookings on trips.bid=bookings.bid
+WHERE end_time > today() GROUP BY cid
 ORDER BY revenue DESC LIMIT 10
 )
-SELECT cid,revenue,license_plate_no FROM top10cars 
+SELECT cid,revenue,license_plate_no FROM top10cars
 INNER JOIN dim_car_info on top10cars.cid=dim_car_info.cid
 settings query_mode='table'
 ```
@@ -538,8 +533,6 @@ The result is
 | c20995 | 477.38  | 6GN7SP           |
 | c96280 | 476.62  | YSK84J           |
 
-
-
 ## Data Transformation/filter/cleaning {#data}
 
 ### T-MASK: Scrubbing sensitive fields {#t-mask}
@@ -549,15 +542,15 @@ The result is
 In this example, only the first and last 4 digits of the credit card numbers are shown during user activity analysis.
 
 ```sql
-SELECT uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') AS card 
+SELECT uid,replace_regex(credit_card,'(\\d{4})(\\d*)(\\d{4})','\\1***\\3') AS card
 FROM user_info
 ```
 
 Result:
 
-| uid    | card        |
-| ------ | ----------- |
-| u00001 | 3717***8910 |
+| uid    | card           |
+| ------ | -------------- |
+| u00001 | 3717\*\*\*8910 |
 
 ### T-DERIVE: Computing derived columns from raw data {#t-derive}
 
@@ -570,18 +563,18 @@ year(today())-year(to_date(birthday)) AS age FROM user_info
 
 Result:
 
-| uid    | full_name | age  |
-| ------ | --------- | ---- |
-| u00001 | Foo Bar   | 32   |
+| uid    | full_name | age |
+| ------ | --------- | --- |
+| u00001 | Foo Bar   | 32  |
 
 ### T-LOOKUP: Converting identifiers to more readable information {#t-lookup}
 
 **Use Case:** While checking the car IoT data, we want to convert the car ID to its license plate number.
 
 ```sql
-SELECT time, cid, c.license_plate_no AS license,gas_percent,speed_kmh FROM car_live_data 
-INNER JOIN car_info AS c 
-ON car_live_data.cid=c.cid 
+SELECT time, cid, c.license_plate_no AS license,gas_percent,speed_kmh FROM car_live_data
+INNER JOIN car_info AS c
+ON car_live_data.cid=c.cid
 ```
 
 Result:

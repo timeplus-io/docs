@@ -1,4 +1,4 @@
-# Quickstart
+# Quickstart with Timeplus Cloud
 
 Timeplus is a high-performance converged platform that unifies streaming and historical data processing, to empower developers to build the most powerful and reliable streaming analytics applications, at speed and scale, anywhere. 
 

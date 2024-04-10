@@ -95,16 +95,44 @@ const config = {
         },
         items: [
           {
-            href: "https://www.timeplus.com/cloud",
-            position: "left",
+            type: "dropdown",
             label: "Products",
+            position: "left",
             className: "navbar__link--active",
+            items: [
+              {
+                href: "https://www.timeplus.com/cloud",
+                label: "Timeplus Cloud",
+              },
+              {
+                href: "https://www.timeplus.com/enterprise",
+                label: "Timeplus Enterprise",
+              },
+              {
+                href: "https://www.timeplus.com/proton",
+                label: "Timeplus Core",
+              },
+            ],
           },
           {
-            href: "https://www.timeplus.com/proton-vs-ksqldb",
-            position: "left",
+            type: "dropdown",
             label: "Use Cases",
+            position: "left",
             className: "navbar__link--active",
+            items: [
+              {
+                href: "https://www.timeplus.com/fintech",
+                label: "FinTech",
+              },
+              {
+                href: "https://www.timeplus.com/ai",
+                label: "AI",
+              },
+              {
+                href: "https://www.timeplus.com/proton-vs-ksqldb",
+                label: "Timeplus vs. ksqlDB",
+              },
+            ],
           },
           {
             href: "https://www.timeplus.com/pricing",
@@ -119,33 +147,33 @@ const config = {
             className: "navbar__link--active",
           },
           {
-            href: "https://docs.timeplus.com/rest.html",
+            type: "dropdown",
+            label: "About Us",
             position: "left",
-            label: "REST API",
             className: "navbar__link--active",
-          },
-          {
-            type: "doc",
-            docId: "functions",
-            position: "left",
-            label: "SQL Functions",
-          },
-          {
-            type: "doc",
-            docId: "release-notes",
-            position: "left",
-            label: "What's New",
+            items: [
+              {
+                href: "https://www.timeplus.com/team",
+                label: "Our Team",
+              },
+              {
+                href: "https://www.timeplus.com/media-kit",
+                label: "Media Kit",
+              },
+              {
+                href: "https://www.timeplus.com/resources",
+                label: "Resources",
+              },
+
+              {
+                href: "https://timeplus.com/slack",
+                label: "Slack Community",
+              },
+            ],
           },
           {
             type: "search",
             position: "right",
-          },
-          {
-            href: "https://github.com/timeplus-io/proton",
-            label: " ",
-            position: "right",
-            className: "header-github-link",
-            "aria-label": "GitHub repository",
           },
           {
             href: "https://timeplus.com/slack",
@@ -153,6 +181,13 @@ const config = {
             position: "right",
             className: "header-slack-link",
             "aria-label": "Slack community",
+          },
+          {
+            href: "https://github.com/timeplus-io/proton",
+            label: " ",
+            position: "right",
+            className: "header-github-link",
+            "aria-label": "GitHub repository",
           },
           // {
           //   type: 'localeDropdown',
@@ -164,40 +199,60 @@ const config = {
         style: "dark",
         links: [
           {
-            title: "Company",
+            title: " ",
             items: [
               {
-                label: "timeplus.com",
+                label: "COMPANY",
                 href: "https://timeplus.com",
               },
               {
-                label: "Timeplus Cloud",
-                href: "https://us.timeplus.cloud",
+                label: "SHOWCASES",
+                href: "https://docs.timeplus.com/showcases",
               },
               {
-                label: "Live Demo",
-                href: "https://demo.timeplus.cloud",
+                label: "PROTON VS. KSQLDB​",
+                href: "https://www.timeplus.com/proton-vs-ksqldb",
               },
               {
-                label: "Status Page",
+                label: "PRICING",
+                href: "https://www.timeplus.com/pricing",
+              },
+              {
+                label: "OPEN SOURCE",
+                href: "https://github.com/timeplus-io/proton",
+              },
+              {
+                label: "STATUS",
                 href: "https://timeplus.statuspage.io",
               },
             ],
           },
           {
-            title: "Community",
+            title: " ",
             items: [
               {
-                label: "Community Slack",
-                href: "https://timeplus.com/slack",
-              },
-              {
-                label: "Open Source",
-                href: "https://github.com/timeplus-io/proton",
-              },
-              {
-                label: "Blog",
+                label: "BLOG",
                 href: "https://timeplus.com/blog",
+              },
+              {
+                label: "RESOURCES",
+                href: "https://www.timeplus.com/resources",
+              },
+              {
+                label: "ABOUT US",
+                href: "https://www.timeplus.com/team",
+              },
+              {
+                label: "PRIVACY POLICY",
+                href: "https://www.timeplus.com/privacy-policy",
+              },
+              {
+                label: "TERMS OF SERVICE",
+                href: "https://www.timeplus.com/terms-of-service",
+              },
+              {
+                label: "SLACK",
+                href: "https://timeplus.com/slack",
               },
             ],
           },

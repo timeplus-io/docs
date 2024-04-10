@@ -34,19 +34,46 @@ html[data-theme="dark"] {
     --ifm-color-primary-lighter: #e590bd;
     --ifm-color-primary-lightest: #edb0cf;
     --ifm-code-font-size: 95%;
-    --ifm-background-color: #2c2c2c;
+    --ifm-background-color: #110F14;
     --ifm-font-family-base: "Inter";
+    --ifm-link-color: #ED64A6;
 }
 
+.navbar__link svg {
+    display: none;
+}
+.dropdown__link svg {
+    display: none;
+}
+.footer__link-item svg {
+    display: none;
+}
+a.navbar__link {
+    font-size: 14px;
+    color: #AEACB0;
+}
+.navbar {
+    background-color: #19171D;
+}
+.navbar--dark {
+    --ifm-navbar-link-hover-color: #DEDDDF;
+}
+.footer__link-item {
+    font-size: 12px;
+    --ifm-footer-link-hover-color: #DEDDDF;
+}
+.footer--dark {
+    --ifm-footer-background-color: #19171D;
+}
 .docusaurus-highlight-code-line {
-    background-color: #222222;
+    background-color: #2F2D32;
     display: block;
     margin: 0 calc(-1 * var(--ifm-pre-padding));
     padding: 0 var(--ifm-pre-padding);
 }
 
 html[data-theme="dark"] .docusaurus-highlight-code-line {
-    background-color: #222222;
+    background-color: #242227;
 }
 
 .header-github-link {

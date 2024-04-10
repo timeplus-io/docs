@@ -1,4 +1,4 @@
-# Quickstart with ingestion REST API
+# Push data to Timeplus Cloud
 
 You can call the ingestion REST API to push data to Timeplus, with any preferred languages. 
 

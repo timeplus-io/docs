@@ -1,4 +1,4 @@
-# How-to Guides
+# Proton Quickstart
 
 Follow the compact guides that help you work with common Proton functionality.
 
@@ -7,7 +7,7 @@ Follow the compact guides that help you work with common Proton functionality.
 Proton can be installed as a single binary on Linux or Mac, via:
 
 ```shell
-curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.sh | sh
+curl https://install.timeplus.com | sh
 ```
 
 For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
