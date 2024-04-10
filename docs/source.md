@@ -31,7 +31,7 @@ refer to [https://kafka.apache.org/](https://kafka.apache.org/)
 
 ### stream_generator
 
-a source that generates randome data for test
+a source that generates random data for test
 
 | Property                | Required    | Description                                               | Default |
 |-------------------------|---------|-----------------------------------------------------------|---------|
