@@ -1,4 +1,4 @@
-# 快速开始
+# Quickstart with Timeplus Cloud
 
 Timeplus是一个融合流处理和历史数据处理的高性能平台， 让开发者能够以最快的速度和最高的效率构建最强大和最可靠的流分析应用。
 
