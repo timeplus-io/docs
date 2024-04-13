@@ -42,6 +42,24 @@
 
 例如， `to_unix_timestamp(now())` 返回 `1644272032`
 
+### to_unix_timestamp64_milli
+
+Returns the UNIX timestamp with millisecond of the datetime64, a number in `int64`
+
+For example `to_unix_timestamp64_milli(now64())` returns `1712982826540`
+
+### to_unix_timestamp64_micro
+
+Returns the UNIX timestamp with microsecond of the datetime64, a number in `int64`
+
+For example `to_unix_timestamp64_micro(now64(9))` returns `1712982905267202`
+
+### to_unix_timestamp64_nano
+
+Returns the UNIX timestamp with nanosecond of the datetime64, a number in `int64`
+
+For example `to_unix_timestamp64_nano(now64(9))` returns `1712983042242306000`
+
 ### to_start_of_year
 
 `to_start_of_year(date)` 将日期或带时间的日期倒退到一年的第一天。 返回日期。
