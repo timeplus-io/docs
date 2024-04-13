@@ -18,7 +18,7 @@ The supported values for `security_protocol` are:
 * PLAINTEXT: when this option is omitted, this is the default value.
 * SASL_SSL: when this value is set, username and password should be specified. 
   * If you need to specify own SSL certification file, add another setting `ssl_ca_cert_file='/ssl/ca.pem'` New in Proton 1.5.5, you can also put the full content of the pem file as a string in the `ssl_ca_pem` setting if you don't want to, or cannot use a file path, such as on Timeplus Cloud or in Docker/Kubernetes environments.
-  * Skipping the SSL certification verfication can be done via  `SETTINGS skip_ssl_cert_check=true` or `SETTINGS properties='enable.ssl.certificate.verification=false'`. Check [this section](#properties) for details.
+  * Skipping the SSL certification verfication can be done via  `SETTINGS skip_ssl_cert_check=true`.
 
 
 The supported values for `sasl_mechanism` are:
@@ -331,4 +331,4 @@ Please note, not all properties in [librdkafka](https://github.com/confluentinc/
 | compression.type                    | none, gzip, snappy, lz4, zstd          |         | Alias for `compression.codec`: compression codec to use for compressing message sets. |
 | compression.level                   | -1 .. 12                               |         | Compression level parameter for algorithm selected by configuration property `compression.codec`. |
 | topic.metadata.refresh.interval.ms  | -1 .. 3600000                          |         | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
-| enable.ssl.certificate.verification | true,false                             | true    | whether to verify the SSL certification. Since Proton 1.5.5. a shortcut is provided: `SETTINGS skip_ssl_cert_check=true|false` (default false) |
+
