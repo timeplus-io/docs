@@ -7,6 +7,25 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 * [Private Beta 2](private-beta-2) (Aug 9 to Oct 2, 2022)
 * [Private Beta 1](private-beta-1) (Mar 8 to Aug 8, 2022)
 
+## Apr 15, 2024
+
+*Timeplus Core Engine (Proton v1.5.5 and v1.5.6):*
+  * Added two new Apache Kafka external stream settings for Kafka broker certifications:
+    * `skip_ssl_cert_check` allows you to skip verifying the server's certification
+    * `ssl_ca_pem` allows you to specify the Certificate Authority (CA) content, without needing to upload the CA file
+  * Added functions for datetime:
+    * `to_unix_timestamp64_milli` returns the UNIX timestamp with millisecond of the datetime64
+    * `to_unix_timestamp64_micro` returns with microsecond
+    * `to_unix_timestamp64_nano` returns with nanosecond
+  * Newly created streams will have streaming data retention set to 1 day storage by default.
+  * On MacOS, `sudo proton install` will install proton to /usr/local/bin instead of /usr/bin.
+  
+*Timeplus Cloud and Timeplus Enterprise:*
+  * Added workspace templates: you can create a new workspace from  scratch, or with a demo template (Market Data or Stream Processing).
+  * New layout for Data Ingestion page, with labels to show `Source` or `External Stream`.
+  * In Data Lineage, we've optimized the layout for when there are large amounts of resources in the workspace. Additionally, zooming out will show the icon and color, and added a button to zoom out to show all.
+  * Added TLS settings and Certificate Authority (CA) input field for Apache Kafka external streams and sinks.
+
 ## Apr 1, 2024
 
 *Timeplus Proton:*
