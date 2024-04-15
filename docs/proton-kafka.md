@@ -29,9 +29,12 @@ The supported values for `sasl_mechanism` are:
 
 The supported values for `data_format` are:
 
+* JSONEachRow: each Kafka message can be a single JSON document, or each row is a JSON document. [Learn More](#jsoneachrow).
+* CSV: less commonly used. [Learn More](#csv).
 * ProtobufSingle: for single Protobuf message per Kafka message
 * Protobuf: there could be multiple Protobuf messages in a single Kafka message.
 * Avro: added in Proton 1.5.2
+* RawBLOB: the default value. Read/write Kafka message as plain text.
 
 :::info
 
@@ -118,7 +121,7 @@ To write data via Kafka API (only available to Proton v1.3.18+), you can choose 
 
 ##### JSONEachRow
 
-You can use `data_format='JSONEachRow'`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:
+You can use `data_format='JSONEachRow',one_message_per_row=true`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:
 
 ```sql
 CREATE EXTERNAL STREAM target(
@@ -129,7 +132,8 @@ CREATE EXTERNAL STREAM target(
     SETTINGS type='kafka', 
              brokers='redpanda:9092', 
              topic='masked-fe-event', 
-             data_format='JSONEachRow';
+             data_format='JSONEachRow',
+             one_message_per_row=true;
 ```
 
 The messages will be generated in the specific topic as
@@ -146,7 +150,7 @@ The messages will be generated in the specific topic as
 
 Please note, since 1.3.25, by default multiple JSON documents will be inserted to the same Kafka message. One JSON document each row/line. Such default behavior aims to get the maximum writing performance to Kafka/Redpanda. But you need to make sure the downstream applications are able to properly split the JSON documents per Kafka message. 
 
-If you need a valid JSON per each Kafka message, instead of a JSONL, please set one_message_per_row=true  e.g.
+If you need a valid JSON per each Kafka message, instead of a JSONL, please set `one_message_per_row=true`  e.g.
 
 ```sql
 CREATE EXTERNAL STREAM target(_tp_time datetime64(3), url string, ip string) 
@@ -278,7 +282,8 @@ CREATE EXTERNAL STREAM target(
     SETTINGS type='kafka', 
              brokers='redpanda:9092', 
              topic='masked-fe-event', 
-             data_format='JSONEachRow';
+             data_format='JSONEachRow',
+             one_message_per_row=true;
 
 -- setup the ETL pipeline via a materialized view
 CREATE MATERIALIZED VIEW mv INTO target AS 
@@ -308,7 +313,7 @@ CREATE EXTERNAL STREAM ext_github_events(raw string)
 SETTINGS type='kafka', 
          brokers='localhost:9092',
          topic='github_events',
-         properties='enable.ssl.certificate.verification=false;message.max.bytes=1000000;message.timeout.ms=6000'
+         properties='message.max.bytes=1000000;message.timeout.ms=6000'
 ```
 
 Please note, not all properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.

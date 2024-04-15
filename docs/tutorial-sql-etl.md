@@ -24,7 +24,8 @@ CREATE EXTERNAL STREAM target(
     SETTINGS type='kafka', 
              brokers='redpanda:9092', 
              topic='masked-fe-event', 
-             data_format='JSONEachRow';
+             data_format='JSONEachRow',
+             one_message_per_row=true;
 
 -- setup the ETL pipeline via a materialized view
 CREATE MATERIALIZED VIEW mv INTO target AS 
