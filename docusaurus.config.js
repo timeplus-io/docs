@@ -25,6 +25,13 @@ const config = {
       // This script triggers page() on every page change. (URL Encoded)
       src: "data:,let%20prevUrl%20%3D%20undefined%3B%0AsetInterval%28%28%29%20%3D%3E%20%7B%0A%20%20const%20currUrl%20%3D%20window.location.href%3B%0A%20%20if%20%28currUrl%20%21%3D%3D%20prevUrl%29%20%7B%0A%20%20%20%20%2F%2F%20URL%20changed%0A%20%20%20%20prevUrl%20%3D%20currUrl%3B%0A%20%20%20%20if%20%28window.jitsu%29%20%7B%0A%20%20%20%20%20%20window.jitsu.page%28%29%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%2C%201000%29%3B",
     },
+    {
+      src: "https://unpkg.com/@tinybirdco/flock.js",
+      async: true,
+      "data-host": "https://api.us-east.aws.tinybird.co",
+      "data-token":
+        "p.eyJ1IjogIjY3Yzg5ZjE5LWMwMWUtNGFlMS1hMmY0LTdmMDgxZWQ2OWZiMiIsICJpZCI6ICJiZGRlNjY2YS1hYTQ0LTQ3ZjctOTVmZC01NGQzNzNjM2U0OGUiLCAiaG9zdCI6ICJ1cy1lYXN0LWF3cyJ9.rZNeUMnTM5ouxLqEGrgs4-2kOSOCJ61b8GIgLZR6J20",
+    },
   ],
   plugins: ["docusaurus-plugin-hubspot"],
 
