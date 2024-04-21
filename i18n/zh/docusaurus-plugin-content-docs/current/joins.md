@@ -155,7 +155,7 @@ This is a unique feature in Timeplus. This is a unique feature in Timeplus. You 
 Examples:
 
 ```sql
-SELECT count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii) 
+SELECT k, count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii) 
 FROM left_vk JOIN right_vk 
 ON left_vk.k = right_vk.kk
 ```
@@ -263,3 +263,14 @@ SELECT * FROM append LEFT LATEST JOIN versioned_kv
 ON append.k = versioned_kv.k
 ```
 
+#### version LEFT JOIN version {#version-left-version}
+
+This feature is enabled in Proton 1.5.7. This is a unique feature in Timeplus. You can setup [Versioned Stream](versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted and can be materialized to a target system, such as ClickHouse.
+
+Examples:
+
+```sql
+SELECT k, count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii) 
+FROM left_vk LEFT JOIN right_vk 
+ON left_vk.k = right_vk.kk
+```
