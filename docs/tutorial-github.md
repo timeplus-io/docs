@@ -40,7 +40,13 @@ Just run this SQL via `proton client` or the **SQL Console** in Timeplus web UI.
 
 ### Streaming Tail
 
-You can explore the live data via `select * from github_events`. This is a streaming SQL and keeps reading new events in the Kafka topic. You need to manually cancel the query to terminate it.
+You can explore the live data via
+
+```sql
+SELECT * FROM github_events
+```
+
+This is a streaming SQL and keeps reading new events in the Kafka topic. You need to manually cancel the query to terminate it.
 
 ### Streaming Filter
 
@@ -65,7 +71,9 @@ This is so-called [Global Aggregation](query-syntax#global).
 #### Tumble Aggregation
 
 ```sql
-SELECT window_start, repo, count(*) FROM tumble(github_events,30s) GROUP BY window_start, repo
+SELECT window_start, repo, count(*) 
+FROM tumble(github_events,30s) 
+GROUP BY window_start, repo
 ```
 
 This query counts events by repo every 30 seconds. Tumble windows are fixed windows, without overlaps. `30s` is the shortcut for SQL expression `INTERVAL 30 SECOND`. You can also use `2m` for 2 minutes and `3h` for 3 hours.
@@ -75,7 +83,9 @@ Please note, this query will wait for up to 30s to show the first results. Becau
 #### Hopping Aggregation
 
 ```sql
-SELECT window_start, repo, count(*) FROM hop(github_events,1s,30s) GROUP BY window_start, repo
+SELECT window_start, repo, count(*) 
+FROM hop(github_events,1s,30s) 
+GROUP BY window_start, repo
 ```
 
 This query counts events by repo every 30 seconds and update results every second. Hop window is also called as sliding windows.
@@ -85,13 +95,15 @@ This query counts events by repo every 30 seconds and update results every secon
 By default, streaming SQL in Timeplus will look for future events, not existing events. For externals streams, you can use `SETTINGS seek_to='..'` to go back to a past timestamp or offset in the Kafka topic. For example, if you want to get total number of events since April 1, you can run:
 
 ```sql
-SELECT count(*) FROM github_events SETTINGS seek_to='2024-04-01'
+SELECT count(*) FROM github_events 
+SETTINGS seek_to='2024-04-01'
 ```
 
 If you want to get data 6 hours ago:
 
 ```sql
-SELECT count(*) FROM github_events SETTINGS seek_to='-6h'
+SELECT count(*) FROM github_events 
+SETTINGS seek_to='-6h'
 ```
 
 ## Save Kafka data in Timeplus
