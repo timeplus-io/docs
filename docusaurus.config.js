@@ -32,6 +32,7 @@ const config = {
       "data-token":
         "p.eyJ1IjogIjY3Yzg5ZjE5LWMwMWUtNGFlMS1hMmY0LTdmMDgxZWQ2OWZiMiIsICJpZCI6ICJiZGRlNjY2YS1hYTQ0LTQ3ZjctOTVmZC01NGQzNzNjM2U0OGUiLCAiaG9zdCI6ICJ1cy1lYXN0LWF3cyJ9.rZNeUMnTM5ouxLqEGrgs4-2kOSOCJ61b8GIgLZR6J20",
     },
+    "/koala.js",
   ],
   plugins: ["docusaurus-plugin-hubspot"],
 
