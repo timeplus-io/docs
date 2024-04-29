@@ -7,6 +7,21 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 * [Private Beta 2](private-beta-2) (Aug 9 to Oct 2, 2022)
 * [Private Beta 1](private-beta-1) (Mar 8 to Aug 8, 2022)
 
+## Apr 29, 2024
+
+*Timeplus Core Engine (Proton v1.5.7):*
+  * You can now join multiple [versioned streams](versioned-stream) using `LEFT JOIN` and by assigning primary key(s). Results will be emitted whenever there are updates to either side of the JOIN. [Learn more](joins#version-left-version)
+  * New examples in the Timeplus Proton repo /examples folder:
+    * [One Billion Rows Challenge (1BRC)](https://github.com/timeplus-io/proton/tree/develop/examples/onebrc), contributed by Timeplus Community member [Saïd Abiola](https://github.com/ayewo)
+    * [Real-time retrieval-augmented generation (RAG)](https://github.com/timeplus-io/proton/tree/develop/examples/real-time-ai)
+
+*Timeplus Cloud and Timeplus Enterprise:*
+  * External tables configuration: A new wizard is available to integrate with ClickHouse.
+  * New "Save As" button on the Query Page: Save SQL as a view, materialized view, or bookmark.
+  * In the SQL editor, click the name of the stream, view, or materialized view to show the resource's schema.
+  * After creating a new source or external stream, you will now be redirected to the SQL Console page.
+  * View and edit resource details: Removed "Edit" from high-level actions in resource lists – it's now available in the side panel after clicking the "View" icon.
+
 ## Apr 15, 2024
 
 *Timeplus Core Engine (Proton v1.5.5 and v1.5.6):*
@@ -62,7 +77,7 @@ Introducing three new demos with live data in our [Timeplus Demo workspace](http
   * Self-signed HTTPS certification for Schema Registry is supported (Proton 1.5.3).
   * Proton now can be compiled on SUSE Linux.
 
-*Timeplus 云服务:*
+*Timeplus Cloud：*
   * In Data Lineage side panels, more details about the resources are added. Click on a tile to view.
   * Data types such as `float` or `integer` are depreciated. The UI will show precise data types such as `int8`, `uint16`, etc.
   * In dashboard charts, the legend is maintained when rendering. Click to show or hide series.
@@ -75,7 +90,7 @@ Introducing three new demos with live data in our [Timeplus Demo workspace](http
   * 除了 GitHub Container Registry（GHCR）以外，您还可以通过 `docker pull public.ecr.aws/timeplus/proton`提取 Proton Docker。
   * 由Marvin Hansen (Emet-Labs的负责人) 贡献的Proton Rust客户端的初始版本现已在 https://crates.io/crates/proton_client 上公开发布。
 
-*Timeplus Cloud：*
+*Timeplus 云服务:*
   * 对于 NATS 数据源，我们在用户界面中添加了选择 JWT 或 NKey 文件内容进行身份验证的选项。
   * 当你使用 Avro 架构注册表添加 Confluent Cloud 数据源时，用户界面会为新数据流建议一组列名，但您需要选择正确的数据类型。 未来，我们将对其进行增强，使其从架构注册表加载数据类型。
   * 在即将发布的版本中，您将能够在 Timeplus Cloud 中运行任何 SQL，包括 `CREATE EXTERNAL TABLE` 和其他数据定义语言 (DDL)。 联系我们，抢先体验这项新功能。
@@ -144,7 +159,7 @@ Introducing three new demos with live data in our [Timeplus Demo workspace](http
 
 ## Dec 11, 2023
 
-*Our [Grafana data source plugin](https://github.com/timeplus-io/proton-grafana-source), to connect to Proton and visualize streaming or batch queries, is now open source. Stay tuned for our upcoming blog and demo!*
+*Proton：*
   * [Proton JDBC 驱动程序](https://github.com/timeplus-io/proton-java-driver) 的新版本 (v0.6.0) 已上线：能够列出 DBeaver 和 Metabase 中的表和列。
   * [Proton Metabase驱动](https://github.com/timeplus-io/metabase-proton-driver) 的新版本 (v0.0.2) 已推出：能够列出表和列。
   * 新增函数： [lag_behind](functions_for_streaming#lag_behind)，专为流 JOIN 而设计。 如果您未指定列名，则查询将使用左右流的处理时间来比较时间戳差异。
@@ -174,7 +189,7 @@ Introducing three new demos with live data in our [Timeplus Demo workspace](http
 
 ## 2023年11月13日
 
-*Proton：*
+*Our [Grafana data source plugin](https://github.com/timeplus-io/proton-grafana-source), to connect to Proton and visualize streaming or batch queries, is now open source. Stay tuned for our upcoming blog and demo!*
   * Proton的[JDBC driver](https://github.com/timeplus-io/proton-java-driver)现已开源。 请查看我们有关如何链接DBeaver到Proton的[演示示例](https://github.com/timeplus-io/proton/tree/develop/examples/jdbc)。 以及如何在[Pulse UI](https://github.com/timestored/pulseui/pull/139)中使用Proton。
   * 此外，我们还提供了一个实验性[ODBC driver](https://github.com/timeplus-io/proton-odbc)，用于从PowerBI等工具访问Proton
   * Proton中还新增了一个实验性的`shuffle by`子句。 Currently, it only works for historical queries, and it will support streaming queries soon. The key use case for `shuffle by` is to support high cardinality `group by` (such as 10 millions of unique keys). To learn more about this advanced feature, join the discussion in our [Slack community](https://timeplus.com/slack).
