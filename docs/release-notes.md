@@ -7,6 +7,21 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 * [Private Beta 2](private-beta-2) (Aug 9 to Oct 2, 2022)
 * [Private Beta 1](private-beta-1) (Mar 8 to Aug 8, 2022)
 
+## Apr 29, 2024
+
+*Timeplus Core Engine (Proton v1.5.7):*
+  * You can now join multiple [versioned streams](versioned-stream) using `LEFT JOIN` and by assigning primary key(s). Results will be emitted whenever there are updates to either side of the JOIN. [Learn more](joins#version-left-version)
+  * New examples in the Timeplus Proton repo /examples folder:
+    * [One Billion Rows Challenge (1BRC)](https://github.com/timeplus-io/proton/tree/develop/examples/onebrc), contributed by Timeplus Community member [Saïd Abiola](https://github.com/ayewo)
+    * [Real-time retrieval-augmented generation (RAG)](https://github.com/timeplus-io/proton/tree/develop/examples/real-time-ai)
+  
+*Timeplus Cloud and Timeplus Enterprise:*
+  * External tables configuration: A new wizard is available to integrate with ClickHouse.
+  * New "Save As" button on the Query Page: Save SQL as a view, materialized view, or bookmark.
+  * In the SQL editor, click the name of the stream, view, or materialized view to show the resource's schema.
+  * After creating a new source or external stream, you will now be redirected to the SQL Console page.
+  * View and edit resource details: Removed "Edit" from high-level actions in resource lists – it's now available in the side panel after clicking the "View" icon.  
+
 ## Apr 15, 2024
 
 *Timeplus Core Engine (Proton v1.5.5 and v1.5.6):*
