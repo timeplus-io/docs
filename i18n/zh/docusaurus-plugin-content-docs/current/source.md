@@ -31,7 +31,7 @@ Timeplus与各种系统相结合，作为数据来源，例如Apache Kafka。
 
 ### stream_generator
 
-生成随机数据以供测试的数据源
+a source that generates random data for test
 
 | 属性       | 必填项 | 描述                                         | 默认值     |
 | -------- | --- | ------------------------------------------ | ------- |
@@ -43,57 +43,57 @@ Timeplus与各种系统相结合，作为数据来源，例如Apache Kafka。
 
 refer to [https://developer.mozilla.org/en-US/docs/Web/API/WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
 
-| 属性                  | 必填项 | 描述                                                                                   | 默认值    |
-| ------------------- | --- | ------------------------------------------------------------------------------------ | ------ |
-| url                 | yes | Specifies the URL of the websocket server url                                        |        |
-| open_message        | no  | An optional message to send to the server upon connection.                           |        |
-| open_message_type | no  | An optional flag to indicate the data type of open_message.  support `text` `binary` | `text` |
-| data_type           | yes | 指定用于创建流的数据类型。   support `json`,`text`,                                               |        |
+| 属性                  | 必填项 | 描述                                                         | 默认值    |
+| ------------------- | --- | ---------------------------------------------------------- | ------ |
+| url                 | yes | Specifies the URL of the websocket server url              |        |
+| open_message        | no  | An optional message to send to the server upon connection. |        |
+| open_message_type | no  | 指定用于创建流的数据类型。  support `json`,`text`,                      | `text` |
+| data_type           | yes | 指定用于创建流的数据类型。   support `json`,`text`,                     |        |
 
 ### nats
 
 refer to [https://docs.nats.io/nats-concepts/what-is-nats](https://docs.nats.io/nats-concepts/what-is-nats)
 
-| 属性                       | 必填项 | 描述                                                                                 | 默认值      |
-| ------------------------ | --- | ---------------------------------------------------------------------------------- | -------- |
-| url                      | yes | A list of URLs to connect to. for example `[nats://127.0.0.1:4222]`                |          |
-| subject                  | yes | A subject to consume from. Supports wildcards for consuming multiple subjects.     |          |
-| queue                    | no  | An optional queue group to consume as.                                             |          |
-| nak_delay                | no  | An optional delay duration on redelivering a message when negatively acknowledged. |          |
-| prefetch_count           | no  | The maximum number of messages to pull at a time.                                  | `524288` |
-| data_type                | yes | 指定用于创建流的数据类型。   support `json`,`text`,                                             |          |
-| tls.disable              | no  | 如果设置为`true`，则禁用 TLS 加密                                                             | `false`  |
-| tls.skip_verify_server | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                                   | `false`  |
+| 属性                       | 必填项 | 描述                                                                                                        | 默认值      |
+| ------------------------ | --- | --------------------------------------------------------------------------------------------------------- | -------- |
+| url                      | yes | A list of URLs to connect to. for example `[nats://127.0.0.1:4222]`                                       |          |
+| subject                  | yes | A subject to consume from. A subject to consume from. Supports wildcards for consuming multiple subjects. |          |
+| queue                    | no  | An optional queue group to consume as.                                                                    |          |
+| nak_delay                | no  | An optional delay duration on redelivering a message when negatively acknowledged.                        |          |
+| prefetch_count           | no  | The maximum number of messages to pull at a time.                                                         | `524288` |
+| data_type                | yes | 指定用于创建流的数据类型。   support `json`,`text`,                                                                    |          |
+| tls.disable              | no  | 如果设置为`true`，则禁用 TLS 加密                                                                                    | `false`  |
+| tls.skip_verify_server | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                                                          | `false`  |
 
 ### nats_jetstream
 
 refer to [https://docs.nats.io/nats-concepts/jetstream](https://docs.nats.io/nats-concepts/jetstream)
 
-| 属性                       | 必填项 | 描述                                                                                                     | 默认值     |
-| ------------------------ | --- | ------------------------------------------------------------------------------------------------------ | ------- |
-| url                      | yes | A list of URLs to connect to. for example `[nats://127.0.0.1:4222]`                                    |         |
-| subject                  | yes | A subject to consume from. Supports wildcards for consuming multiple subjects.                         |         |
-| queue                    | no  | An optional queue group to consume as.                                                                 |         |
-| durable                  | no  | Preserve the state of your consumer under a durable name.                                              |         |
-| 流 Stream                 | no  | A stream to consume from. Either a subject or stream must be specified..                               |         |
-| deliver                  | no  | Determines which messages to deliver when consuming without a durable subscriber. support `all` `last` | `all`   |
-| bind                     | no  | An bool indicates that the subscription should use an existing consumer.                               |         |
-| ack_wait                 | no  | The maximum amount of time NATS server should wait for an ack from consumer.                           | `30s`   |
-| max_ack_pending        | no  | The maximum number of outstanding acks to be allowed before consuming is halted.                       | `1024`  |
-| data_type                | yes | 指定用于创建流的数据类型。   support `json`,`text`,                                                                 |         |
-| tls.disable              | no  | 如果设置为`true`，则禁用 TLS 加密                                                                                 | `false` |
-| tls.skip_verify_server | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                                                       | `false` |
+| 属性                       | 必填项 | 描述                                                                                                                          | 默认值     |
+| ------------------------ | --- | --------------------------------------------------------------------------------------------------------------------------- | ------- |
+| url                      | yes | A list of URLs to connect to. for example `[nats://127.0.0.1:4222]`                                                         |         |
+| subject                  | yes | A subject to consume from. A subject to consume from. Supports wildcards for consuming multiple subjects.                   |         |
+| queue                    | no  | An optional queue group to consume as.                                                                                      |         |
+| durable                  | no  | Preserve the state of your consumer under a durable name.                                                                   |         |
+| 流 Stream                 | no  | A stream to consume from. A stream to consume from. Either a subject or stream must be specified..                          |         |
+| deliver                  | no  | Determines which messages to deliver when consuming without a durable subscriber. support `all` `last` support `all` `last` | `all`   |
+| bind                     | no  | A bool indicates that the subscription should use an existing consumer.                                                     |         |
+| ack_wait                 | no  | The maximum amount of time NATS server should wait for an ack from consumer.                                                | `30s`   |
+| max_ack_pending        | no  | The maximum number of outstanding acks to be allowed before consuming is halted.                                            | `1024`  |
+| data_type                | yes | 指定用于创建流的数据类型。   支持`json`，`text`                                                                                             |         |
+| tls.disable              | no  | 如果设置为`true`，则禁用 TLS 加密                                                                                                      | `false` |
+| tls.skip_verify_server | no  | 如果设置为`true`，则在使用 TLS 时会跳过服务器证书验证                                                                                            | `false` |
 
 ### pulsar
 
 请参考[https://pulsar.apache.org/](https://pulsar.apache.org/)
 
-| 属性          | 必填项 | 描述                                   | 默认值  |
-| ----------- | --- | ------------------------------------ | ---- |
-| 主题          | yes | 指定要连接的pulsar的主题                      |      |
-| 经纪网址        | yes | 指定要连接的broker URL                     |      |
+| 属性          | 必填项 | 描述                                     | 默认值  |
+| ----------- | --- | -------------------------------------- | ---- |
+| 主题          | yes | 指定要连接的pulsar的主题                        |      |
+| 经纪网址        | yes | 指定要连接的broker URL                       |      |
 | auth_type   | yes | 指定要使用的身份验证类型。  支持``，`oauth2`，`token` |      |
-| auth_params | no  | 将身份验证参数指定为键值对                        | `{}` |
+| auth_params | no  | 将身份验证参数指定为键值对                          | `{}` |
 
 
 ### livepeer

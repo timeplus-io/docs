@@ -46,7 +46,7 @@
 * 源、 汇、 API 和 SDK
   * 我们开发并开源了 [Pulsar Sink Connector for Timeplus](https://github.com/timeplus-io/pulsar-io-sink)。 你可以将这个连接器安装在你的 Pulsar 集群中，然后将实时数据推送到 Timeplus。
   * 我们发布了 Python SDK 的重大升级 https://pypi.org/project/timeplus/1.0.0/ 代码和文档由 [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) 自动生成，因此它将始终与我们最新的 REST API 保持一致。 请注意，这与之前的 0.2.x 或 0.3.x SDK 不兼容。 如果您正在使用这些 SDK，请计划迁移。 新 API 仅在 1.x SDK 中可用。
-  * 我们进一步增强了采集 REST API，以支持更多系统，例如 vector 和 auth0。 如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义内容类型， 然后您可以使用标准 `application/json` 内容类型，并将 POST 请求发送到 `/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`. 这将确保 Timeplus API 服务器将 POST 数据视为 NDJSON。 这可以确保 Timeplus 的 API 服务器将 POST 数据视为 NDJSON。 对于 API 身份验证，除了自定义 HTTP 标头 `X-api-key: the_key`之外，我们现在还支持 `Authorization：apiKey THE_KEY` 了解更多 [Ingest API](ingest-api)
+  * 我们进一步增强了采集 REST API，以支持更多系统，例如 vector 和 auth0。 如果您想要利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义内容类型， 然后您可以使用标准 `application/json` 内容类型，并将 POST 请求发送到 `/api/v1beta1/streams/$STREAM_NAME/ingest?format=streaming`. 这将确保 Timeplus API 服务器将 POST 数据视为 NDJSON。 对于 API 身份验证，除了自定义 HTTP 标头 `X-api-key: the_key`之外，我们现在还支持 `Authorization：apiKey THE_KEY` 了解更多 [Ingest API](ingest-api) 这可以确保 Timeplus 的 API 服务器将 POST 数据视为 NDJSON。
 * 界面改进
   * 在注册/登录页面中，我们添加了微信集成。 您可以用手机扫描二维码并注册或登录。
   * 当查询完成、取消或暂停时，您可以将当前结果下载为 CSV。 当结果超过 1 页时，这很有用。
@@ -86,7 +86,7 @@
 
 * 流引擎
 
-  * 我们简化了 [session](functions_for_streaming#session) 时间窗口：如果您想要创建子流， 您不再需要设置 `keyBy` 列作为会话窗口的一个参数。 只需使用 `SELECT... FROM session(..) PARTITION BY keyBy` . 其它时间窗口函数([tumble](functions_for_streaming#tumble) and [hop](functions_for_streaming#hop)) 以同样方式支持 ` PARTITION BY`。
+  * 我们简化了 [session](functions_for_streaming#session) 时间窗口：如果您想要创建子流， 您不再需要设置 `keyBy` 列作为会话窗口的一个参数。 只需使用 `SELECT... FROM session(..) PARTITION BY keyBy` . 只需使用 `SELECT... FROM session(..) PARTITION BY keyBy` . 其它时间窗口函数([tumble](functions_for_streaming#tumble) and [hop](functions_for_streaming#hop)) 以同样方式支持 `PARTITION BY`。
 
   * [session](functions_for_streaming#session) 时间窗口的另一个增强：我们引入了一种直观的方式来表示是否应该将启动或结束条件的事件包含在会话窗口中。 支持四种组合： `[startCondition, endCondition]`, `(startCondtion, endCondition)`, `[startCondition,endCondition)`,`(startCondition,endCondition)`
 

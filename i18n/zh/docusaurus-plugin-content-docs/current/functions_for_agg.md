@@ -28,7 +28,7 @@
 
 ### unique_exact_if
 
-`unie_extract_if(col, condition)` 统计符合 `condition` 的 `col` 的不同值个数。比如要找出超速行驶的车牌号 `unie_extract_if(cid,speed_kmh>80)`
+`unie_extract_if(col, condition)` 统计符合 `condition` 的 `col` 的不同值个数。 比如要找出超速行驶的车牌号 `unie_extract_if(cid,speed_kmh>80)`
 
 ### min
 
@@ -54,11 +54,11 @@
 
 ### quantile
 
-`quantile(column,level)` 计算一个大致的数值数据序列。 例如： ` quantile (a,0.9)` 获取列的 P90 和 ` quantile (a,0.5)` 获取 [median](#median) 数字
+`quantile(column,level)` 计算一个大致的数值数据序列。 例如： `quantile (a,0.9)` 获取列的 P90 和 `quantile (a,0.5)` 获取 [median](#median) 数字
 
 ### p90
 
-简写形式的 ` quantile (a,0.9)`
+简写形式的 `quantile (a,0.9)`
 
 ### p95
 
@@ -92,11 +92,11 @@
 
 ### arg_min
 
-`arg_min(argument, value_column)` 获取在 `argument` 列中 `value_column` 最小的值。 如果在 `value_column` 的最小值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+`arg_min(argument, value_column)` 获取在 `argument` 列中 `value_column` 最小的值。 如果在 `value_column` 的最小值中有多个对应的不同的值 `argument` ，则返回遇到的第一个值。 您可以通过 `min_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### arg_max
 
-`arg_max(argument, value_column)` 获取在 `argument` 列中 `value_column` 最大的值。 如果在 `value_column` 的最大值中有多个对应的不同的值 ` argument ` ，则返回遇到的第一个值。 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
+`arg_max(argument, value_column)` 获取在 `argument` 列中 `value_column` 最大的值。 如果在 `value_column` 的最大值中有多个对应的不同的值 `argument` ，则返回遇到的第一个值。 您可以通过 `max_k(value_column,1, argument)[1].2` 实现相同的功能。 但这要容易得多。
 
 ### group_array
 
@@ -104,7 +104,7 @@
 
 ### group_uniq_array
 
-`group_uniq_array(<column_name>)` to combine the values of the specific column as an array, making sure only unique values in it. For example, if there are 3 rows and the values for these columns are "a","a","c". This function will generate a single row and single column with value `['a','c']`
+`group_uniq_array(<column_name>)` to combine the values of the specific column as an array, making sure only unique values in it. For example, if there are 3 rows and the values for these columns are "a","a","c". This function will generate a single row and single column with value `['a','c']` For example, if there are 3 rows and the values for these columns are "a","a","c". This function will generate a single row and single column with value `['a','c']`
 
 ### moving_sum
 
@@ -112,7 +112,7 @@
 
 ### any
 
-`any(column)` Selects the first encountered (non-NULL) value, unless all rows have NULL values in that column. The query can be executed in any order and even in a different order each time, so the result of this function is indeterminate. To get a determinate result, you can use the `min` or `max` function instead of `any`.
+`any(column)` Selects the first encountered (non-NULL) value, unless all rows have NULL values in that column. The query can be executed in any order and even in a different order each time, so the result of this function is indeterminate. To get a determinate result, you can use the `min` or `max` function instead of `any`. The query can be executed in any order and even in a different order each time, so the result of this function is indeterminate. To get a determinate result, you can use the `min` or `max` function instead of `any`.
 
 ### last_value
 
@@ -124,11 +124,11 @@
 
 `stochastic_linear_regression_state(num, target, param1, param2)`
 
-This function implements stochastic linear regression. It supports custom parameters for learning rate, L2 regularization coefficient, mini-batch size and has few methods for updating weights ([Adam](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam) (used by default), [simple SGD](https://en.wikipedia.org/wiki/Stochastic_gradient_descent), [Momentum](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum), [Nesterov](https://mipt.ru/upload/medialibrary/d7e/41-91.pdf)). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlinearregression).
+This function implements stochastic linear regression. This function implements stochastic linear regression. It supports custom parameters for learning rate, L2 regularization coefficient, mini-batch size and has few methods for updating weights ([Adam](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam) (used by default), [simple SGD](https://en.wikipedia.org/wiki/Stochastic_gradient_descent), [Momentum](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum), [Nesterov](https://mipt.ru/upload/medialibrary/d7e/41-91.pdf)). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlinearregression). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlinearregression).
 
 ### stochastic_logistic_regression
 
 `stochastic_logistic_regression(num, num, num, string)`
 
-This function implements stochastic logistic regression. It can be used for binary classification problem, supports the same custom parameters as stochasticLinearRegression and works the same way. Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression).
+This function implements stochastic logistic regression. This function implements stochastic logistic regression. It can be used for binary classification problem, supports the same custom parameters as stochasticLinearRegression and works the same way. Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression).
 

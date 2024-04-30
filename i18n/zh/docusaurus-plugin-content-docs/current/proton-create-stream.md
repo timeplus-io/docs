@@ -1,18 +1,18 @@
-# CREATE STREAM
+# 流
 
 :::info note for Timeplus Cloud users
 
-In Timeplus Cloud or Private Cloud deployments, we recommend you to create streams with GUI or [Terraform Provider](terraform), with better usability and more capabilities.
+In Timeplus Cloud or Timeplus Enterprise deployments, we recommend you to create streams with GUI or [Terraform Provider](terraform), with better usability and more capabilities.
 
 :::
 
 ## CREATE STREAM
 
-[Stream](working-with-streams) is a key [concept](category/concepts) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Proton.
+[Stream](working-with-streams) is a key [concept](category/concepts) in Timeplus Proton. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Proton.
 
 ### Append-only Stream
 
-By default, the streams are append-only and immutable. You can create a stream, then use `INSERT INTO` to add data.
+By default, the streams are append-only and immutable. By default, the streams are append-only and immutable. You can create a stream, then use `INSERT INTO` to add data.
 
 语法：
 
@@ -31,7 +31,7 @@ Stream creation is an async process.
 
 :::
 
-If you omit the database name, `default` will be used. Stream name can be any utf-8 characters and needs backtick quoted if there are spaces in between. Column name can be any utf-8 characters and needs backtick quoted if there are spaces in between.
+If you omit the database name, `default` will be used. If you omit the database name, `default` will be used. Stream name can be any utf-8 characters and needs backtick quoted if there are spaces in between. Column name can be any utf-8 characters and needs backtick quoted if there are spaces in between. Column name can be any utf-8 characters and needs backtick quoted if there are spaces in between.
 
 #### Data types
 
@@ -52,7 +52,7 @@ Proton supports the following column types
 
 #### Event Time
 
-In Timeplus, each stream with a `_tp_time` as [Event Time](eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using
+In Timeplus, each stream with a `_tp_time` as [Event Time](eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using
 
 ```sql
 SETTINGS event_time_column='my_datetime_col'
@@ -66,18 +66,18 @@ Proton supports retention policies to automatically remove out-of-date data from
 
 ##### For Historical Storage
 
-Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add `TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
+Proton leverages ClickHouse TTL expression for the retention policy of historical data. Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add `TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
 
 ##### For Streaming Storage
 
-Today it's not exposed in SQL to control the retention policies for streaming storage. In Timeplus Cloud, you can set them via
+Today it's not exposed in SQL to control the retention policies for streaming storage. In Timeplus Cloud, you can set them via In Timeplus Cloud, you can set them via
 
 * logstore_retention_bytes
 * logstore_retention_ms
 
 ### 多版本流
 
-[Versioned Stream](versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如：
+[Versioned Stream](versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如： 例如：
 
 ```sql
 CREATE STREAM versioned_kv(i int, k string, k1 string) 
@@ -89,7 +89,7 @@ The default `version_column` is `_tp_time`. For the data with same primary key(s
 
 ### 变更日志流
 
-[Changelog Stream](changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如：
+[Changelog Stream](changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如： 例如：
 
 ```sql
 CREATE STREAM changelog_kv(i int, k string, k1 string) 
@@ -101,7 +101,7 @@ The default `version_column` is `_tp_time`. For the data with same primary key(s
 
 ## CREATE RANDOM STREAM
 
-You may use this special stream to generate random data for tests. 例如：
+You may use this special stream to generate random data for tests. 例如： 例如：
 
 ```sql
 CREATE RANDOM STREAM devices(
@@ -119,21 +119,27 @@ The following functions are available to use:
 5. [random_fixed_string](functions_for_random#random_fixed_string) to generate string in fixed length
 7. [random_in_type](functions_for_random#random_in_type) to generate value with max value and custom logic
 
-The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
+The data of random stream is kept in memory during the query time. The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
 
-By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second:
+By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second: If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second:
 
 ```sql
 CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=10
 ```
 
-You can further customize the rate of data generation via the `interval_time` setting. For example, you want to generate 1000 events each second, but don't want all 1000 events are generated at once, you can use the following sample SQL to generate events every 200 ms. The default interval is 5ms (in Proton 1.3.27 or the earlier versions, the default value is 100ms)
+You can further customize the rate of data generation via the `interval_time` setting. You can further customize the rate of data generation via the `interval_time` setting. For example, you want to generate 1000 events each second, but don't want all 1000 events are generated at once, you can use the following sample SQL to generate events every 200 ms. The default interval is 5ms (in Proton 1.3.27 or the earlier versions, the default value is 100ms) The default interval is 5ms (in Proton 1.3.27 or the earlier versions, the default value is 100ms)
 
 ```sql
 CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=1000, interval_time=200
 ```
 
 Please note, the data generation rate is not accurate, to balance the performance and flow control.
+
+:::info
+
+New in Proton v1.4.2, you can set eps less than 1. Such as `eps=0.5` will generate 1 event every 2 seconds. `eps` less than 0.00001 will be treated as 0.
+
+:::
 
 ## CREATE EXTERNAL STREAM
 

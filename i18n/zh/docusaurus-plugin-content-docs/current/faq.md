@@ -1,10 +1,10 @@
-# 常见问题
+# Timeplus Cloud FAQ
 
 ## 我可以在我们自己的cloud VPC中运行Timeplus吗？ {#deployment}
 
-在 Timeplus 目前版本中，我们的重点是基于 AWS 的完全托管的云服务。 支持其他云供应商或混合云当然是可行的。 关于私有化部署，请与我们联系。
+Certainly! [Timeplus Enterprise](timeplus-enterprise) can be installed in your local data center or cloud VPC, with similar features as Timeplus Cloud. Please [contact us](mailto:info@timeplus.com) to get more details or schedule a demo.
 
-## 我可以加载多少数据到Timeplus？ {#datasize}
+## How much data I can load into Timeplus Cloud? {#datasize}
 
 对于免费帐户，默认情况下，每个工作空间的总存储空间为 20GB。 如果您需要加载或保留更多数据，请联系我们。 当您升级到付费套餐时，您可以选择存储空间大小。
 
@@ -14,11 +14,11 @@
 
 ## Timeplus和Proton的关系是什么？ {#compare}
 
-Proton 是 TimePlus 的核心引擎，于 2023 年 9 月开源。 请查看 [Proton 常见问题解答了解](proton-faq) 详情。
+Proton 是 TimePlus 的核心引擎，于 2023 年 9 月开源。 Timeplus Cloud or Timeplus Enterprise provide external features and support. Please check the [Proton FAQ](proton-faq) for details.
 
 ## SLA是怎么样的，我可以运行生产负载吗？ {#sla}
 
-2023年8月，TimePlus Cloud进入GA，随时准备投入生产工作量。 没有免费试用的 SLA。 对于专业等级，这一比例为99.5％。 对于企业级，这一比例为 99.9% 或以上。 详情请查看 https://timeplus.com/pricing/。
+2023年8月，TimePlus Cloud进入GA，随时准备投入生产工作量。 没有免费试用的 SLA。 对于专业等级，这一比例为99.5％。 对于企业级，这一比例为 99.9% 或以上。 详情请查看 https://timeplus.com/pricing/。 To monitor Timeplus Cloud health status, please visit or subscribe to https://timeplus.statuspage.io.
 
 ## Timeplus Cloud 的 IP 地址是多少，以便我可以允许 Timeplus 访问我的 Kafka/Redpanda/Pulsar 服务器 {#ip}
 

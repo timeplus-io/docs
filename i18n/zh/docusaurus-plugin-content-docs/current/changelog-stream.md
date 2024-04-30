@@ -201,7 +201,7 @@ CREATE TABLE orders(
 );
 ```
 
-为了更新或删除来抓取 `之前` 的值，您还需要将 `REPLICA IDENTIFY` 设置成 `FULL` 查看 [Debezium 文档](https://debezium.io/documentation/reference/2.2/connectors/postgresql.html#postgresql-replica-identity) 了解更多详情。
+为了更新或删除来抓取 `之前` 的值，您还需要将 `REPLICA IDENTIFY` 设置成 `FULL` 为了更新或删除来抓取 `之前` 的值，您还需要将 `REPLICA IDENTIFY` 设置成 `FULL` 查看 [Debezium 文档](https://debezium.io/documentation/reference/2.2/connectors/postgresql.html#postgresql-replica-identity) 了解更多详情。
 
 ```sql
 ALTER TABLE dim_products REPLICA IDENTITY FULL;

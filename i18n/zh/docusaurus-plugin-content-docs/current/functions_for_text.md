@@ -112,15 +112,21 @@ SELECT
  -- [ [ "v1", "111" ], [ "v2", "222" ], [ "v3", "333" ] ]
 ```
 
+### extract_key_value_pairs
 
+`extract_key_value_pairs(string)`
+
+Extract key value pairs from the string and return a map. For example, `extract_key_value_pairs('name:neymar, age:31 team:psg,nationality:brazil')` will return a map with keys: name, age, team, ad nationality.
+
+For the advanced usage of the function, please check the [doc](https://clickhouse.com/docs/en/sql-reference/functions/tuple-map-functions#extractkeyvaluepairs).
 
 ### grok
 
 `grok(string,pattern)`
 
-在不使用正则表达式的情况下从计划文本中提取值。 例如：`SELECT grok('我的名字是杰克。 我今年 23 岁。','我的名字是 %{DATA:name}。 I am %{INT:age} years old.') 因为m`将得到 `{"name":"Jack","age":"23"}` 作为 `m`
+在不使用正则表达式的情况下从文本中提取内容。 例如 `SELECT grok('My name is Jack.   as m` 将得到 `{"name":"Jack","age":"23"}` 作为 `m`的值。
 
-请注意返回 map 中的所有密钥和值都是字符串类型。 您可以将它们转换为其他类型，例如 `(m['age'])：int`
+请注意返回 map 中的所有键和值都是字符串类型。 您可以将它们转换为其他类型，例如 `(m['age'])：int`
 
 ### coalesce
 
@@ -128,7 +134,7 @@ SELECT
 
 ### hex
 
-`hex(argument)` 返回包含参数十六进制表示形式的字符串。`argument` 可以是任何类型。
+`hex(argument)` 返回包含参数十六进制表示形式的字符串。 `argument` 可以是任何类型。
 
 ### uuid
 

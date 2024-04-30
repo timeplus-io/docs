@@ -45,7 +45,7 @@
 
 您可以在 Timeplus 中应用流式分析，然后将结果发送到 Snowflake 。 有几种不同的方式来实现这一目标：
 
-1. 您可以将流式结果发送到 Confluent Cloud 或 Kafka。 然后通过利用 [Confluent Cloud 中的 Snowflake 数据下游](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html) 移动数据到 Snowflake。 这种方法可以实现更低的延迟。 请注意 Confluent Cloud Kafka 集群必须位于同一个云供应商和地区，例如，它们都位于 AWS 的 us-west-1。 默认情况下，Snowflake 中的表格将以 Kafka 主题相同的名称创建，JSON 文档保存在一个 TEXT 列 `RECORD_CONT` 中。
+1. 您可以将流式结果发送到 Confluent Cloud 或 Kafka。 然后通过利用 [Confluent Cloud 中的 Snowflake 数据下游](https://docs.confluent.io/cloud/current/connectors/cc-snowflake-sink.html) 移动数据到 Snowflake。 这种方法可以实现更低的延迟。 默认情况下，Snowflake 中的表格将以 Kafka 主题相同的名称创建，JSON 文档保存在一个 TEXT 列 `RECORD_CONT` 中。 请注意 Confluent Cloud Kafka 集群必须位于同一个云供应商和地区，例如，它们都位于 AWS 的 us-west-1。
 
 ```mermaid
 flowchart LR
@@ -91,7 +91,7 @@ Airbyte 的 Timeplus 源插件处于早期阶段。 请联系我们来安排整�
 
 ## 通过 webhook{#webhook} 触发动作
 
-您还可以添加自动化，以便在 Timeplus 发现任何实时见解时触发其他系统采取行动。 只需选择**Webhook**作为操作类型，并可选地设置消息内容（默认情况下，整行将被编码为 JSON 文档并发送到 webhook）。 您可以使用这个方法来执行基于规则的自动化，而无需人工参与。例如自动替换过热的设备，扩容或缩容服务器集群，或提醒 Slack 上的用户等。 请检查 [这个博客](https://www.timeplus.com/post/build-a-real-time-security-app-in-3-easy-steps) 来了解真实示例。
+您还可以添加自动化，以便在 Timeplus 发现任何实时见解时触发其他系统采取行动。 只需选择**Webhook**作为操作类型，并可选地设置消息内容（默认情况下，整行将被编码为 JSON 文档并发送到 webhook）。 您可以使用这个方法来执行基于规则的自动化，而无需人工参与。 例如自动替换过热的设备，扩容或缩容服务器集群，或提醒 Slack 上的用户等。 请检查 [这个博客](https://www.timeplus.com/post/build-a-real-time-security-app-in-3-easy-steps) 来了解真实示例。
 
 
 ## Sink API
@@ -183,9 +183,9 @@ Airbyte 的 Timeplus 源插件处于早期阶段。 请联系我们来安排整�
 
 请参考[https://pulsar.apache.org/](https://pulsar.apache.org/)
 
-| 属性          | 必填项 | 描述                                   | 默认值  |
-| ----------- | --- | ------------------------------------ | ---- |
-| 主题          | yes | 指定要连接的pulsar的主题                      |      |
-| 经纪网址        | yes | 指定要连接的broker URL                     |      |
+| 属性          | 必填项 | 描述                                     | 默认值  |
+| ----------- | --- | -------------------------------------- | ---- |
+| 主题          | yes | 指定要连接的pulsar的主题                        |      |
+| 经纪网址        | yes | 指定要连接的broker URL                       |      |
 | auth_type   | yes | 指定要使用的身份验证类型。  支持``，`oauth2`，`token` |      |
-| auth_params | no  | 将身份验证参数指定为键值对                        | `{}` |
+| auth_params | no  | 将身份验证参数指定为键值对                          | `{}` |

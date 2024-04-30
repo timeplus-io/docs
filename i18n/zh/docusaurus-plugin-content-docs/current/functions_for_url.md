@@ -58,13 +58,13 @@
 
 `ipv4_num_to_string(ip)`采用`ipv4`或`uint32`的值并返回一个包含相应IPv4地址的字符串，格式为 A.B.C.d（十进制形式的点分隔数字）。
 
-例如： `select ipv4_num_to_string(1823216871)`返回`'108.172.20.231'`
+例如： 例如： `select ipv4_num_to_string(1823216871)`返回`'108.172.20.231'`
 
 ### ipv4_string_to_num
 
 `ipv4_string_to_num(string)`采用`string`的值并返回一个`uint32`的值。 如果IPv4地址的格式无效，则会引发异常。
 
-例如： `select ipv4_string_to_num('108.172.20.231')`返回`1823216871`
+例如： 例如： `select ipv4_string_to_num('108.172.20.231')`返回`1823216871`
 
 ### to_ipv4
 
@@ -74,7 +74,7 @@
 
 `ipv4_num_to_string_class_c(ip)`。 与ipv4_num_to_string(ip)相似，但使用xxx代替最后一个八位字节。
 
-例如： `select ipv4_num_to_string_class_c(1823216871)`返回`'108.172.20.xxx'`
+例如： 例如： `select ipv4_num_to_string_class_c(1823216871)`返回`'108.172.20.xxx'`
 
 :::warning
 
@@ -84,9 +84,9 @@
 
 ### ipv6_num_to_string
 
-`ipv6_num_to_string(ip)`采用一个包含二进制格式的IPv6地址的`fixed_string(16)` 以文本格式返回包含此地址的字符串。 IPv6-mapped IPv4地址的输出格式为::ffff:111.222.33.44。
+`ipv6_num_to_string(ip)`采用一个包含二进制格式的IPv6地址的`fixed_string(16)` 以文本格式返回包含此地址的字符串。 以文本格式返回包含此地址的字符串。 IPv6-mapped IPv4地址的输出格式为::ffff:111.222.33.44。
 
-例如： `select ipv6_num_to_string(to_fixed_string(unhex('2A0206B8000000000000000000000011'),16))`返回`'2a02:6b8::11'`
+例如： 例如： `select ipv6_num_to_string(to_fixed_string(unhex('2A0206B8000000000000000000000011'),16))`返回`'2a02:6b8::11'`
 
 ### ipv6_string_to_num
 
@@ -94,7 +94,7 @@
 
 如果输入字符串包含有效的IPv4地址，则返回其IPv6的等效地址。 HEX可以大写也可以小写。
 
-例如： `select hex(ipv6_string_to_num('2a02:2168:aaa:bbbb::2'))`返回`2A0221680AAABBBB0000000000000002`
+例如： 例如： `select hex(ipv6_string_to_num('2a02:2168:aaa:bbbb::2'))`返回`2A0221680AAABBBB0000000000000002`
 
 `select hex(ipv6_string_to_num('108.172.20.231'))`返回`00000000000000000000FFFF6CAC14E7`
 

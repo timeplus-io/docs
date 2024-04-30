@@ -1,0 +1,135 @@
+# Proton Quickstart
+
+Follow the compact guides that help you work with common Proton functionality.
+
+## How to install Proton {#install}
+
+Proton can be installed as a single binary on Linux or Mac, via:
+
+```shell
+curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.sh | sh
+```
+
+For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
+
+```shell
+brew tap timeplus-io/timeplus
+brew install proton
+```
+
+You can also install Proton in Docker, Docker Compose or Kubernetes.
+
+```bash
+docker run -d --pull always --name proton ghcr.io/timeplus-io/proton:latest
+```
+
+The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
+
+You can also try Proton in the fully-managed [Timeplus Cloud](https://us.timeplus.cloud/).
+
+## How to read/write Kafka or Redpanda {#kafka}
+
+You use [External Stream](proton-kafka) to read from Kafka topics or write data to the topics. We verified the integration with Apache Kafka, Confluent Cloud, Confluent Platform, Redpanda, WarpStream, Upstash and many more.
+
+```sql
+CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
+SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanism='..'
+```
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/w_Tr62oKE4E?si=xkrLA60-SZUrrmWL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+## How to load data from PostgreSQL/MySQL/ClickHouse {#cdc}
+
+For PostgreSQL, MySQL or other OLTP databases, you can apply the CDC (Change Data Capture) technology to load realtime changes to Proton via Debezium and Kafka/Redpanda. Example configuration at the [cdc folder of proton repo](https://github.com/timeplus-io/proton/tree/develop/examples/cdc). [This blog](https://www.timeplus.com/post/cdc-in-action-with-debezium-and-timeplus) shows the Timeplus Cloud UI but could be applied to Proton too.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/j6FpXg5cfsA?si=Mo5UrviidxqkkXSb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+If you have data in local ClickHouse or ClickHouse Cloud, you can also use [External Table](proton-clickhouse-external-table) to read data.
+
+## How to read/write ClickHouse {#clickhouse}
+
+You use [External Table](proton-clickhouse-external-table) to read from ClickHouse tables or write data to the ClickHouse tables. We verified the integration with self-hosted ClickHouse, ClickHouse Cloud, Aiven for ClickHouse and many more.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ga_DmCujEpw?si=ja2tmlcCbqa6HhwT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+## How to work with JSON {#json}
+
+Proton supports powerful, yet easy-to-use JSON processing. You can save the entire JSON document as a `raw` column in `string` type. Then use JSON path as the shortcut to access those values as string. For example `raw:a.b.c`. If your data is in int/float/bool or other type, you can also use `::` to convert them. For example `raw:a.b.c::int`. If you want to read JSON documents in Kafka topics, you can choose to read each JSON as a `raw` string, or read each top level key/value pairs as columns. Please check the [doc](proton-kafka#multi_col_read) for details.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dTKr1-B5clg?si=eaeQ21SjY8JpUXID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+## How to load CSV files {#csv}
+
+If you only need to load a single CSV file, you can create a stream then use the `INSERT INTO .. 选择... FROM file(..)` syntax. For example, if there are 3 fields in the CSV file: timestamp, price, volume, you can create the stream via
+
+```sql
+CREATE STREAM stream
+(
+  `timestamp` datetime64(3),
+  `price` float64,
+  `volume` float64
+)
+SETTINGS event_time_column = 'timestamp';
+```
+
+Please note there will be the 4th column in the stream, which is _tp_time as the [Event Time](eventtime).
+
+To import CSV content, use the [file](https://clickhouse.com/docs/en/sql-reference/table-functions/file) table function to set the file path and header and data types.
+
+```sql
+INSERT INTO stream (timestamp,price,volume) 
+SELECT timestamp,price,volume 
+FROM file('data/my.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
+SETTINGS max_insert_threads=8;
+```
+
+:::info
+
+请注意：
+
+1. You need to specify the column names. Otherwise `SELECT *` will get 3 columns while there are 4 columns in the data stream.
+2. For security reasons, Proton only read files under `proton-data/user_files` folder. If you install proton via `proton install` command on Linux servers, the folder will be `/var/lib/proton/user_files`. If you don't install proton and run proton binary directly via `proton server start`, the folder will be `proton-data/user_files`
+3. We recommend to use `max_insert_threads=8` to use multiple threads to maxiumize the ingestion performance.  If your file system has high IOPS, you can create the stream with `SETTINGS shards=3` and set a higher `max_insert_threads` value in the `INSERT` statement.
+
+:::
+
+If you need to import multiple CSV files to a single stream, you can do something similar. You can even add one more column to track the file path.
+
+```sql
+CREATE STREAM kraken_all
+(
+ `path` string,
+  `timestamp` datetime64(3),
+  `price` float64,
+  `volume` float64,
+  `_tp_time` datetime64(3, 'UTC') DEFAULT timestamp CODEC(DoubleDelta, LZ4),
+  INDEX _tp_time_index _tp_time TYPE minmax GRANULARITY 2
+)
+ENGINE = Stream(1, 1, rand())
+PARTITION BY to_YYYYMM(_tp_time)
+ORDER BY to_start_of_hour(_tp_time)
+SETTINGS event_time_column = 'timestamp', index_granularity = 8192;
+
+INSERT INTO kraken_all (path,timestamp,price,volume) 
+SELECT _path,timestamp,price,volume 
+FROM file('data/*.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
+SETTINGS max_insert_threads=8;
+```
+
+## How to visualize Proton query results with Grafana or Metabase {#bi}
+
+The offical Grafana plugin for Proton is available on https://grafana.com/grafana/plugins/timeplus-proton-datasource/ The source code is at https://github.com/timeplus-io/proton-grafana-source. You can run streaming SQL with the plugin and build live charts in Grafana, without having to refresh the dashboard. Check out https://github.com/timeplus-io/proton/tree/develop/examples/grafana for sample setup.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=U30K93FUVMyjUA--" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+We also provide a plugin for Metabase: https://github.com/timeplus-io/metabase-proton-driver This is based on the Proton JDBC driver.
+
+## How to access Proton programmatically {#sdk}
+
+SQL is the main interface to work with Proton. The [Ingest REST API](proton-ingest-api) allows you to push realtime data to Proton with any language.
+
+The following drivers are available:
+
+- https://github.com/timeplus-io/proton-java-driver JDBC and other Java clients
+- https://github.com/timeplus-io/proton-go-driver for Golang
+- https://github.com/timeplus-io/proton-python-driver for Python

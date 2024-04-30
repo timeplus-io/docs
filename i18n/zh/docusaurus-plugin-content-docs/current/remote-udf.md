@@ -79,7 +79,7 @@ exports.handler = async (event) => {
 1. 您可以调用UDF多于 1 行，如 `select my_udf(col) from my_stream`。 为了提高效率，Timeplus 会向远程 UDF 发送批量请求，例如 `my_udf([input1, input2, input3])` 返回值也是一个数组 `[return1, return2, return3]`
 2. 输入的数据被包装在 JSON 文档 `{"ip":["ip1","ip2","ip3"]}`
 3. 我们直接调用了 [ipinfo.io](https://ipinfo.io) 的REST API，用的是在Lambda环境变量里定义的API token
-4. 来自 ipinfo.io REST API 的响应将会放入一个 JSON 文档\{“结果”：[..]} 作为Lambda输出发送
+4. 来自 ipinfo.io REST API 的响应将会放入一个 JSON 文档\{“结果”：[..]} 作为Lambda输出发送 作为Lambda输出发送
 5. 由于Lambda函数在Timeplus服务器之外运行，对第三方函数库没有任何限制。 在此示例中，我们正在使用内置的 node.js “https” 库。 为了更加复杂的数据处理，人们可以自由地包括更复杂的图书馆，如机器学习。
 
 一旦你部署了 Lambda 函数，你可以生成一个可公开访问的 URL，然后在 Timeplus Web 控制台注册该函数。

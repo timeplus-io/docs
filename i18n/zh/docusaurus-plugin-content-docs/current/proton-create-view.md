@@ -1,4 +1,4 @@
-# View Management
+# View & Materialized View
 
 Timeplus 有两种类型的视图：逻辑视图（或普通View）和物化视图（Materialized View）。
 
@@ -6,8 +6,8 @@ Timeplus 有两种类型的视图：逻辑视图（或普通View）和物化视�
 
 您可以为所有类型的查询创建视图，并在其他查询中引用视图。
 
-* 如果基于串流查询创建视图，您可以将视图视为虚拟流。 例如， `create view view1 as select * from my_stream where c1='a'` 将创建一个视图（就像一个虚拟的数据流）来筛选所有满足 c1='a' 条件的事件。 您可以把这个视图当作另一个流来使用，例如 `select count(*) from tumble(view1,1m) group by window_start` 创建一个视图本身并不会执行查询。 只有当其他查询引用这个视图时才能会展开视图对应的查询。
-* 如果使用 [table()](functions_for_streaming#table) 函数用有边界的查询创建视图，视图可以是一个有边界的流，例如：`create view view2 as select * from table(my_stream)` 然后每次运行 `select count(*) from view2` 将立即返回my_stream的当前行数，而不必等待将来的事件。
+- 如果基于串流查询创建视图，您可以将视图视为虚拟流。 例如， `create view view1 as select * from my_stream where c1='a'` 将创建一个视图（就像一个虚拟的数据流）来筛选所有满足 c1='a' 条件的事件。 您可以把这个视图当作另一个流来使用，例如 `select count(*) from tumble(view1,1m) group by window_start` 创建一个视图本身并不会执行查询。 只有当其他查询引用这个视图时才能会展开视图对应的查询。
+- a view could be a bounded stream if the view is created with a bounded query using [table()](functions_for_streaming#table) function, e.g. `create view view2 as select * from table(my_stream)` then each time you run `select count(*) from view2` will return the current row number of the my_stream immediately without waiting for the future events.
 
 请注意，基于流查询而创建的视图，不能通过 `table(streaming_view)` 将视图转换为历史查询
 
@@ -24,26 +24,39 @@ CREATE VIEW [IF NOT EXISTS] <view_name> AS <SELECT ...>
 To create a materialized view:
 
 ```sql
-CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name> 
+CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name>
 AS <SELECT ...>
 ```
 
-创建物化视图后， Timeplus 在后台持续运行查询，并增量的计算结果写入存储。  每行都有一个 `__tp_version` 的时间戳版本。
+Once the materialized view is created, Timeplus will run the query in the background continuously and incrementally emit the calculated results according to the semantics of its underlying streaming select.
 
 使用物化视图的不同方式：
 
-1. 流式查询：`SELECT * FROM materialized_view` 获取未来数据的结果。 这与视图的工作方式相同。
-2. 历史模式：`SELECT * FROM table(materialized_view)` 获取所有过去的结果用于物化视图。
+1. Streaming mode: `SELECT * FROM materialized_view` Get the result for future data. 这与视图的工作方式相同。
+2. Historical mode: `SELECT * FROM table(materialized_view)` Get all past results for the materialized view.
 3. 历史记录 + 流式模式：`SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` 获取所有过去的结果和未来的数据。
-4. 预聚合模式：`SELECT * FROM table(materialized_view) where __tp_version in (SELECT max(__tp_version) as m from table(materialized_view))` 这立即返回最近的查询结果。 我们将提供新的语法来简化它。
+4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where _tp_time in (SELECT max(_tp_time) as m from table(materialized_view))` This immediately returns the most recent query result. If `_tp_time` is not available in the materialized view, or the latest aggregation can produce events with different `_tp_time`, you can add the `emit_version()` to the materialized view to assign a unique ID for each emit and pick up the events with largest `emit_version()`. 例如：
+
+   ```sql
+   create materialized view mv as
+   select emit_version() as version, window_start as time, count() as n, max(speed_kmh) as h from tumble(car_live_data,10s)
+   group by window_start, window_end;
+
+   select * from table(mv) where version in (select max(version) from table(mv));
+   ```
+
+   We are considering providing new syntax to simplify this.
 
 ### Target Stream
 
-By default, when you create a materialized view, an internal stream will be created automatically as the data storage. Querying on the materialized view will result in querying the underlying internal stream.
+By default, when you create a materialized view, an internal stream will be created automatically as the data storage. Querying on the materialized view will result in querying the underlying internal stream. Querying on the materialized view will result in querying the underlying internal stream.
 
-In some cases, you may want to build multiple materialized views to write data to the same stream. In this case, each materialized view serves as a real-time data pipeline.
+Use cases for specifying a target stream:
 
-You can also use materialized views to write data to Apache Kafka with an external stream.
+1. In some cases, you may want to build multiple materialized views to write data to the same stream. In this case, each materialized view serves as a real-time data pipeline. In this case, each materialized view serves as a real-time data pipeline.
+2. Or you may need to use [Changelog Stream](proton-create-stream#changelog-stream) or [Versioned Stream](proton-create-stream#versioned-stream) to build lookups.
+3. Or you may want to set the retention policy for the materialized view.
+4. You can also use materialized views to write data to Apache Kafka with an external stream.
 
 To create a materialized view with the target stream:
 

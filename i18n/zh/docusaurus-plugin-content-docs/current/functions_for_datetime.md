@@ -22,7 +22,7 @@
 
 ### day_of_week
 
-使用`day_of_week(date)`来获取周中的某一天。 例如： 星期一是 1，星期日是 7。
+使用`day_of_week(date)`来获取周中的某一天。 例如： 例如： 星期一是 1，星期日是 7。
 
 ### hour
 
@@ -41,6 +41,24 @@
 返回日期时间的 UNIX 时间戳，一个数字在 `uint32`
 
 例如， `to_unix_timestamp(now())` 返回 `1644272032`
+
+### to_unix_timestamp64_milli
+
+Returns the UNIX timestamp with millisecond of the datetime64, a number in `int64`
+
+For example `to_unix_timestamp64_milli(now64())` returns `1712982826540`
+
+### to_unix_timestamp64_micro
+
+Returns the UNIX timestamp with microsecond of the datetime64, a number in `int64`
+
+For example `to_unix_timestamp64_micro(now64(9))` returns `1712982905267202`
+
+### to_unix_timestamp64_nano
+
+Returns the UNIX timestamp with nanosecond of the datetime64, a number in `int64`
+
+For example `to_unix_timestamp64_nano(now64(9))` returns `1712983042242306000`
 
 ### to_start_of_year
 
@@ -80,13 +98,21 @@
 
 `to_date(string)` 将日期字符串转换为日期类型，例如 `to_date('1953-11-02')`
 
+It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
+
 ### to_datetime
 
 `to_datetime(value)` 将值转换为日期时间类型，例如 `to_datetime(1655265661)` 或 `to_datetime(today())`
 
+It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
+
+### 小时
+
+Please refer to [to_time](functions_for_type#to_time)
+
 ### today
 
-`today ()` 返回当前日期。
+`to_YYYYMMDDhhmmss(date)` 返回一个数字。
 
 ### to_YYYYMM
 
@@ -98,7 +124,7 @@
 
 ### to_YYYMMDDhmmss
 
-`to_YYYYMMDDhhmmss(date)` 返回一个数字。
+`today ()` 返回当前日期。
 
 ### to_timezone
 
@@ -142,7 +168,7 @@ SELECT
 
 ### date_diff
 
-`date_diff(unit,begin,end)` 计算 `开始` 和 `结束` 之间的差额，并在 `unit` 中生成一个数字。 例如： `date_diff('second',window_start,window_end)`
+例如： `date_diff('second',window_start,window_end)` `date_diff(unit,begin,end)` 计算 `开始` 和 `结束` 之间的差额，并在 `unit` 中生成一个数字。
 
 支持的单位：
 

@@ -1,4 +1,4 @@
-# Schema Management
+# Protobuf Schema
 
 ## Create A Schema {#create}
 
@@ -66,7 +66,7 @@ DROP FORMAT SCHEMA <IF EXISTS> schema_name;
 
 ```sql
 CREATE FORMAT SCHEMA simple_nested AS '
-syntax = "proto3"
+syntax = "proto3";
 
 message Name {
  string first = 1;

@@ -44,7 +44,7 @@ Data Package Manager（datapm）是一个 [开源](https://github.com/big-armor/
 ### 运行 datapm
 打开终端窗口并运行 `datapm`
 ```
-? What action would you like to take? ›
+? What action would you like to take? ? What action would you like to take? ›
 ❯   Fetch data
     Search for data
     Create new package and publish
@@ -102,6 +102,7 @@ datapm 将从本地文件系统或远程系统加载内容，并询问您是更�
 配置数据源后，选择数据下游：
 ```
 Sink Connector
+? Sink Connector? Sink Connector
 ? Sink Connector? Sink Connector
 ? Sink Connector? Sink Connector
 ? Sink Connector? ›
@@ -162,6 +163,7 @@ Timeplus Configuration
 下一步，在 Timeplus 中选择一个数据流名称，然后按回车键。
 ```
 Timeplus Configuration
+✔ Stream for appsumo records? Timeplus Configuration
 ✔ Stream for appsumo records? Timeplus Configuration
 ✔ Stream for appsumo records? Timeplus Configuration
 ✔ Stream for appsumo records? … local_tmp-package_0_1
