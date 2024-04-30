@@ -124,9 +124,9 @@ For the advanced usage of the function, please check the [doc](https://clickhous
 
 `grok(string,pattern)`
 
-在不使用正则表达式的情况下从计划文本中提取值。 例如：`SELECT grok('我的名字是杰克。 我今年 23 岁。 I am %{INT:age} years old.') 因为m`将得到 `{"name":"Jack","age":"23"}` 作为 `m` ','我的名字是 %{DATA:name}。
+在不使用正则表达式的情况下从文本中提取内容。 例如 `SELECT grok('My name is Jack.   as m` 将得到 `{"name":"Jack","age":"23"}` 作为 `m`的值。
 
-请注意返回 map 中的所有密钥和值都是字符串类型。 您可以将它们转换为其他类型，例如 `(m['age'])：int`
+请注意返回 map 中的所有键和值都是字符串类型。 您可以将它们转换为其他类型，例如 `(m['age'])：int`
 
 ### coalesce
 
