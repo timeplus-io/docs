@@ -32,8 +32,10 @@ You can also try Proton in the fully-managed [Timeplus Cloud](https://us.timeplu
 You use [External Stream](proton-kafka) to read from Kafka topics or write data to the topics. We verified the integration with Apache Kafka, Confluent Cloud, Confluent Platform, Redpanda, WarpStream, Upstash and many more.
 
 ```sql
-CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
-SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanism='..'
+CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name 
+(<col_name1> <col_type>)
+SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',
+username='..',password='..',sasl_mechanism='..'
 ```
 
 
@@ -53,6 +55,13 @@ If you have data in local ClickHouse or ClickHouse Cloud, you can also use [Exte
 You use [External Table](proton-clickhouse-external-table) to read from ClickHouse tables or write data to the ClickHouse tables. We verified the integration with self-hosted ClickHouse, ClickHouse Cloud, Aiven for ClickHouse and many more.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ga_DmCujEpw?si=ja2tmlcCbqa6HhwT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+## How to handle UPSERT or DELETE {#upsert}
+By default, streams in Timeplus are append-only. But you can create a stream with `versioned_kv` or `changelog_kv` mode to support data mutation or deletion. The [Versioned Stream](versioned-stream) supports UPSERT (Update or Insert) and [Changelog Stream](changelog-stream) supports UPSERT and DELETE.
+
+You can use tools like Debezium to send CDC messages to Timeplus, or just use `INSERT` SQL to add data. Values with same primary key(s) will be overwritten. For more details, please check this video: 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6iplMdHJUMw?si=LGiBkw6QUjq0RGTL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## How to work with JSON {#json}
 
@@ -91,7 +100,7 @@ Please note:
 
 1. You need to specify the column names. Otherwise `SELECT *` will get 3 columns while there are 4 columns in the data stream.
 2. For security reasons, Proton only read files under `proton-data/user_files` folder. If you install proton via `proton install` command on Linux servers, the folder will be `/var/lib/proton/user_files`. If you don't install proton and run proton binary directly via `proton server start`, the folder will be `proton-data/user_files`
-3. We recommend to use `max_insert_threads=8` to use multiple threads to maxiumize the ingestion performance.  If your file system has high IOPS, you can create the stream with `SETTINGS shards=3` and set a higher `max_insert_threads` value in the `INSERT` statement.
+3. We recommend to use `max_insert_threads=8` to use multiple threads to maximize the ingestion performance.  If your file system has high IOPS, you can create the stream with `SETTINGS shards=3` and set a higher `max_insert_threads` value in the `INSERT` statement.
 
 :::
 
@@ -122,7 +131,7 @@ SETTINGS max_insert_threads=8;
 
 ## How to visualize Proton query results with Grafana or Metabase {#bi}
 
-The offical Grafana plugin for Proton is available on https://grafana.com/grafana/plugins/timeplus-proton-datasource/ The source code is at https://github.com/timeplus-io/proton-grafana-source. You can run streaming SQL with the plugin and build live charts in Grafana, without having to refresh the dashboard. Check out https://github.com/timeplus-io/proton/tree/develop/examples/grafana for sample setup.
+The official Grafana plugin for Proton is available [here](https://grafana.com/grafana/plugins/timeplus-proton-datasource/). The source code is at https://github.com/timeplus-io/proton-grafana-source. You can run streaming SQL with the plugin and build live charts in Grafana, without having to refresh the dashboard. Check out [here](https://github.com/timeplus-io/proton/tree/develop/examples/grafana) for sample setup.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=U30K93FUVMyjUA--" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

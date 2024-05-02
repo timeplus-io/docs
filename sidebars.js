@@ -175,6 +175,7 @@ const sidebars = {
         "tutorial-sql-etl-kafka-to-ch",
         "tutorial-sql-read-avro",
         "tutorial-sql-connect-ch",
+        "tutorial-kv",
         "sql-pattern-topn",
         "usecases",
       ],
