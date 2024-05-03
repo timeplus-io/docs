@@ -173,6 +173,7 @@ const sidebars = {
         "tutorial-sql-join",
         "tutorial-sql-etl",
         "tutorial-sql-etl-kafka-to-ch",
+        "tutorial-sql-etl-mysql-to-ch",
         "tutorial-sql-read-avro",
         "tutorial-sql-connect-ch",
         "tutorial-kv",
