@@ -50,6 +50,8 @@ const config = {
           routeBasePath: "/", // Serve the docs at the site's root
           remarkPlugins: [require("mdx-mermaid")],
           sidebarPath: require.resolve("./sidebars.js"),
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
           // Please change this to your repo.
           //editUrl: 'https://github.com/timeplus-io/docs/blob/main',
         },
