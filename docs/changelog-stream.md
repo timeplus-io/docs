@@ -4,7 +4,7 @@ When you create a stream with the mode `changelog_kv`, the data in the stream is
 
 :::info
 
-We recently introduced a new table function [changelog](functions_for_streaming#changelog) to dynamically create a changelog stream based on an append-only stream by specifying the primary key column(s) and the version column, or create a changelog stream based on an [versioned stream](versioned-stream). This is designed for advanced use cases, such as per-key late event processing. Please check the documentation of [changelog](functions_for_streaming#changelog) for details. 
+We recently introduced a new table function [changelog](functions_for_streaming#changelog) to dynamically create a changelog stream based on an append-only stream by specifying the primary key column(s) and the version column, or create a changelog stream based on a [versioned stream](versioned-stream). This is designed for advanced use cases, such as per-key late event processing. Please check the documentation of [changelog](functions_for_streaming#changelog) for details. 
 
 :::
 
@@ -286,7 +286,7 @@ Optionally, you can add Redpanda Console in the docker compose file. It provides
 
 ### Add PostgreSQL Connector
 
-Start the docker-comose with `docker-compose up`. It will load the images for Debezium and Redpanda Console. You can access the Redpanda Console via http://localhost:8080 and the Kafka Connect REST API endpoint is http://localhost:8083
+Start the docker-compose with `docker-compose up`. It will load the images for Debezium and Redpanda Console. You can access the Redpanda Console via http://localhost:8080 and the Kafka Connect REST API endpoint is http://localhost:8083
 
 You may add the Debezium connector via the web UI. But the following command line just works fine:
 

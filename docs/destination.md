@@ -91,7 +91,7 @@ The Timeplus source plugin for Airbyte is in the early stage. Please contact us 
 
 ## Trigger Actions via webhook{#webhook}
 
-You can also add automations to trigger other systems to take actions when Timeplus finds any real-time insights. Simply choose the **Webhook** as the action type and optionally set a message body (by default, the entire row will be encoded as a JSON document and sent to the webhook). You can use this approach to perform rule-based automation without human interaction, such as swapping a overheated equipment, scaling up to scaling down the server farm, or reminder users on slack, etc. Please check [this blog](https://www.timeplus.com/post/build-a-real-time-security-app-in-3-easy-steps) for real-world examples.
+You can also add automation to trigger other systems to take actions when Timeplus finds any real-time insights. Simply choose the **Webhook** as the action type and optionally set a message body (by default, the entire row will be encoded as a JSON document and sent to the webhook). You can use this approach to perform rule-based automation without human interaction, such as swapping an overheated equipment, scaling up to scaling down the server farm, or reminder users on slack, etc. Please check [this blog](https://www.timeplus.com/post/build-a-real-time-security-app-in-3-easy-steps) for real-world examples.
 
 
 ## Sink API
@@ -127,14 +127,14 @@ refer to [https://kafka.apache.org/](https://kafka.apache.org/)
 | paralism                 | no   | Specifies the paralism number schema          | `1`     | 
 | retries                  | no   | Specifies the retries number                  | `0`     |
 | retry_interval           | no   | Specifies the interval between retries         |`10s`    |
-| timeout                  | no   | http timeput interval                         | `10s`   | 
+| timeout                  | no   | http timeout interval                         | `10s`   | 
 
 
 #### oauth2
 
 | Property                | Required| Description                                               | Default |
 |-------------------------|---------|-----------------------------------------------------------|---------|
-| enabled                 | no     | wether to enable oauth2                    |  `false`      | 
+| enabled                 | no     | whether to enable oauth2                    |  `false`      | 
 | client_key              | no     | client key                                 |        | 
 | client_secret           | no     | client secret                              |        | 
 | token_url                | no     | token URL                                  |        | 
@@ -147,7 +147,7 @@ refer to [https://slack.com/](https://slack.com/)
 
 | Property                | Required| Description                                               | Default |
 |-------------------------|---------|-----------------------------------------------------------|---------|
-| url                    | yes     | the webhook URL of the slack channel, which is considerred as a secret                   |   | 
+| url                    | yes     | the webhook URL of the slack channel, which is considered as a secret                   |   | 
 | template               | no     | the template used to send query result to slack, use `{{ .field_name }}` to replace the field of query result you want to reference. in case it is empty, will encode the event into JSON format                           |        | 
 | header                 | no     | the http header                             |   `{}`   | 
 
