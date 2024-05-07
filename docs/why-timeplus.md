@@ -18,7 +18,7 @@ See the [Showcases](showcases) page for a comprehensive list of our key use case
 
 
 
-## Cost Efficient {#cost_efficent}
+## Cost Efficient {#cost_efficient}
 
 Timeplus users don't need to setup and maintain multiple systems for Lambda-style data stack, since Proton unifies the stream processing and historical data analysis in a single system. This leads to significant cost saving.
 
