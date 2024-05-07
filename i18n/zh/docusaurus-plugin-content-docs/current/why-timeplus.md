@@ -2,7 +2,7 @@
 
 ![概览](/img/overview.png)
 
-Timeplus is a simple, powerful, cost-efficent stream processor.
+Timeplus is a simple, powerful, cost-efficient stream processor.
 
 ## Simple{#simple}
 
