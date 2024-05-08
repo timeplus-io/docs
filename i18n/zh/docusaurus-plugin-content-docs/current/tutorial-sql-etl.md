@@ -1,6 +1,6 @@
 # Streaming ETL: Kafka to Kafka
 
-You can quickly build streaming ETL pipelines with Timeplus. For example, the original web access logs in Kafak topics contain the raw IP address. To further protect user privacy, you can build a data pipeline to read new data from Kafka, masking the IP address and send to a different Kafka topic.
+You can quickly build streaming ETL pipelines with Timeplus. For example, the original web access logs in Kafka topics contain the raw IP address. To further protect user privacy, you can build a data pipeline to read new data from Kafka, masking the IP address and send to a different Kafka topic.
 
 Follow the guide for [Timeplus Proton](#timeplus-proton) or [Timeplus Cloud](#timeplus-cloud).
 
