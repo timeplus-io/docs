@@ -150,7 +150,7 @@ We partnered with [Crul](https://www.crul.com/) to analyze wildfire website data
 
 [Read case study](https://www.timeplus.com/post/integrating-timeplus-crul)
 
-![Wildfire sceenshot](https://static.wixstatic.com/media/b32125_b655043ec56c4fac920e3697bfc1049b~mv2.png/v1/fill/w_1480,h_902,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/b32125_b655043ec56c4fac920e3697bfc1049b~mv2.png)
+![Wildfire screenshot](https://static.wixstatic.com/media/b32125_b655043ec56c4fac920e3697bfc1049b~mv2.png/v1/fill/w_1480,h_902,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/b32125_b655043ec56c4fac920e3697bfc1049b~mv2.png)
 
 ### A data-driven parent{#baby}
 
