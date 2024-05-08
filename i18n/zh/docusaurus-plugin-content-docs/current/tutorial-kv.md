@@ -2,7 +2,7 @@
 
 By default, streams in Timeplus are in append-only mode. When you create a stream with the mode `versioned_kv`, you can update the data with same primary key(s). When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. 当您在与其他流的 JOIN 中将这个流用作 “右表” 时，Timeplus 会自动选择最接近的版本。
 
-[Versioned Stream](versioned-stream) supports INSERT and UPDATE. To delete data with certain primary key(s), please creaet a [Changelog Stream](changelog-stream).
+[Versioned Stream](versioned-stream) supports INSERT and UPDATE. To delete data with certain primary key(s), please create a [Changelog Stream](changelog-stream).
 
 A HOWTO video:
 
