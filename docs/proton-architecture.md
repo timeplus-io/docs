@@ -31,5 +31,6 @@ In quite lots of scenarios, data is already in Kafka / Redpanda or other streami
 
 ## Learn More
 
-Interested users can refer [How Timeplus Unifies Streaming and Historical Data Processing](https://www.timeplus.com/post/unify-streaming-and-historical-data-processing) blog for more details regarding its academic foundation and latest industry developments.
+Interested users can refer [How Timeplus Unifies Streaming and Historical Data Processing](https://www.timeplus.com/post/unify-streaming-and-historical-data-processing) blog for more details regarding its academic foundation and latest industry developments. You can also check the video below from [Kris Jenkins's Developer Voices podcast](https://www.youtube.com/watch?v=TBcWABm8Cro). Jove shared our key decision choices, how Timeplus manages data and state, and how Timeplus achieves high performance with single binary.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/QZ0le2WiJiY?si=eF45uwlXvFBpMR14" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
