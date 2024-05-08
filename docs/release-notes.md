@@ -217,7 +217,7 @@ Introducing three new demos with live data in our [Timeplus Demo workspace](http
   * When creating an Apache Kafka, Confluent Cloud, or Redpanda source, we now display available topics in a dropdown. You can also enter a topic manually.
   * The CSV upload process is refined - we will auto-generate a column name if there is no header row available in your file.
   * Search by keyword in resource list pages is no longer case sensitive.
-  * When formatting a single value chart, you can now add a blank space in the unit field (eg. if you want to have a space to separate the value and the unit).
+  * When formatting a single value chart, you can now add a blank space in the unit field (e.g. if you want to have a space to separate the value and the unit).
   * Dashboard query variables dropdowns have a new UI: when searching, instead of highlighting matching items, we will now only show matching items in the dropdown.
   * When deleting a query bookmark, a confirmation dialog will be shown.
 
@@ -309,7 +309,7 @@ Soft launch for the Cloud GA (version 1.3.x).
 **Database**
   * (Experimental) You can now convert append-only or [versioned streams](versioned-stream) to [changelog streams](changelog-stream) with the new [changelog](functions_for_streaming#changelog) function. This is designed for advanced use cases, such as per-key late event processing.
   * Added new functions for URL handling – check them out [here](functions_for_url).
-  * Block [hop](functions_for_streaming#hop)/[session](functions_for_streaming#session) functions for historical queries (ie. with the [table](functions_for_streaming#table) function).
+  * Block [hop](functions_for_streaming#hop)/[session](functions_for_streaming#session) functions for historical queries (i.e. with the [table](functions_for_streaming#table) function).
   * JavaScript user-defined functions (UDFs) are now publicly available – learn more [here](js-udf).
 
 **Sources/Sinks**
