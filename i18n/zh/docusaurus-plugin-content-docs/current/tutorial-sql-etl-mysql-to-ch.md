@@ -62,8 +62,8 @@ You can use `docker exec -it <name> proton-client -h 127.0.0.1 -m -n` to run the
 Copy the content of `mysql-to-clickhouse.sql`and paste in the Proton Client and run them together. What will happen:
 
 1. One [Timeplus External Stream](external-stream) will be created to read the MySQL CDC data from the Kafka/Redpanda topic.
-2. One [External Table](external-table) will be created to write data from Timeplus to ClickHouse.
-3. One [Materialized View](mview) will be created to continuously read data from Kafka and write to ClickHouse.
+2. One [External Table](proton-clickhouse-external-table) will be created to write data from Timeplus to ClickHouse.
+3. One [Materialized View](view#m_view) will be created to continuously read data from Kafka and write to ClickHouse.
 
 The content of the `mysql-to-clickhouse.sql` is:
 
