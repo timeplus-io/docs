@@ -217,7 +217,7 @@ Introducing three new demos with live data in our [Timeplus Demo workspace](http
   * When creating an Apache Kafka, Confluent Cloud, or Redpanda source, we now display available topics in a dropdown. You can also enter a topic manually. You can also enter a topic manually.
   * The CSV upload process is refined - we will auto-generate a column name if there is no header row available in your file.
   * Search by keyword in resource list pages is no longer case sensitive.
-  * When formatting a single value chart, you can now add a blank space in the unit field (eg. if you want to have a space to separate the value and the unit).
+  * When formatting a single value chart, you can now add a blank space in the unit field (e.g. if you want to have a space to separate the value and the unit).
   * Dashboard query variables dropdowns have a new UI: when searching, instead of highlighting matching items, we will now only show matching items in the dropdown.
   * When deleting a query bookmark, a confirmation dialog will be shown.
 
@@ -309,7 +309,7 @@ Cloud GA（版本 1.3.x）
 **数据库**
   * (实验性）您可以把追加数据流或[版本流](versioned-stream)转换为[变更流](changelog-stream)，只需要使用新的[changelog](functions_for_streaming#changelog)函数。 它专为高级用例而设计，例如按主键处理迟到事件。
   * 添加了用于 URL 处理的新函数 — 在 [这里](functions_for_url)查看。
-  * 对于非流式查询(也就是使用[table](functions_for_streaming#table)的流），禁止了[hop](functions_for_streaming#hop) 和 [session](functions_for_streaming#session) 函数。
+  * Block [hop](functions_for_streaming#hop)/[session](functions_for_streaming#session) functions for historical queries (i.e. with the [table](functions_for_streaming#table) function).
   * JavaScript UDF 现已对所有人开放。 在[这里](js-udf)查看。
 
 **数据源和下游**

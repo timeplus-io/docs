@@ -2,7 +2,7 @@
 
 ![概览](/img/overview.png)
 
-Timeplus is a simple, powerful, cost-efficent stream processor.
+Timeplus is a simple, powerful, cost-efficient stream processor.
 
 ## Simple{#simple}
 
@@ -18,7 +18,7 @@ Timeplus is more than a stream processor. It provides end to end analytic functi
 
 
 
-## Cost Efficient {#cost_efficent}
+## Cost Efficient {#cost_efficient}
 
 Timeplus users don't need to setup and maintain multiple systems for Lambda-style data stack, since Proton unifies the stream processing and historical data analysis in a single system. This leads to significant cost saving.
 
