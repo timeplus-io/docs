@@ -7,6 +7,19 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 * [Private Beta 2](private-beta-2) (Aug 9 to Oct 2, 2022)
 * [Private Beta 1](private-beta-1) (Mar 8 to Aug 8, 2022)
 
+## May 13, 2024
+
+*Timeplus Core Engine (Proton v1.5.8):*
+  * A new setting in `config.yaml`: `max_consumers_per_stream` defines how many consumers can be created for each Kafka external stream. When a SELECT query on a Kafka external stream is executed, a consumer will be created for that query. This means no more than `max_consumers_per_stream` SELECT queries can be executed in parallel on the same Kafka external stream.
+  * New example in the Timeplus Proton repo /examples folder: [Analyzing Nginx Access Logs](https://github.com/timeplus-io/proton/tree/develop/examples/nginx-access-logs-streaming), contributed by Timeplus Community member [Saïd Abiola](https://github.com/ayewo)
+      
+*Timeplus Console:*
+  * Send us questions or comments via the new “Talk to Us” button in the top header.
+  * "External Tables" resource list now available from the left navigation menu.
+  * To see resource schema in the SQL editor, mouseover on the underlined resource and press Ctrl + click to open the details side panel.
+  * For new charts, the default color will be pink (color scheme will be `Dawn`).
+  * In charts, the legend will be hidden when the series count exceeds 30.
+
 ## Apr 29, 2024
 
 *Timeplus Core Engine (Proton v1.5.7):*
@@ -15,7 +28,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
     * [One Billion Rows Challenge (1BRC)](https://github.com/timeplus-io/proton/tree/develop/examples/onebrc), contributed by Timeplus Community member [Saïd Abiola](https://github.com/ayewo)
     * [Real-time retrieval-augmented generation (RAG)](https://github.com/timeplus-io/proton/tree/develop/examples/real-time-ai)
   
-*Timeplus Cloud and Timeplus Enterprise:*
+*Timeplus Console:*
   * External tables configuration: A new wizard is available to integrate with ClickHouse.
   * New "Save As" button on the Query Page: Save SQL as a view, materialized view, or bookmark.
   * In the SQL editor, click the name of the stream, view, or materialized view to show the resource's schema.
