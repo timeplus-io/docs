@@ -87,7 +87,7 @@ const sidebars = {
     "install",
     {
       type: "category",
-      label: "Timeplus Core (Proton)",
+      label: "Core Engine (Proton)",
       link: {
         type: "doc",
         id: "proton",
@@ -108,11 +108,11 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Timeplus Cloud",
+      label: "Timeplus Enterprise",
       //collapsed: false,
       link: {
         type: "doc",
-        id: "timeplus-cloud",
+        id: "timeplus-enterprise",
       },
       items: [
         {
@@ -150,9 +150,9 @@ const sidebars = {
           type: "link",
           href: "https://docs.timeplus.com/rest.html",
         },
+        "timeplus-self-host",
       ],
     },
-    "timeplus-enterprise",
     {
       type: "category",
       label: "Tutorials and Examples",

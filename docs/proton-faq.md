@@ -1,4 +1,4 @@
-# Proton FAQ
+# Timeplus Proton FAQ
 
 On September 21, 2023, Timeplus announced the open source project: [Proton](https://github.com/timeplus-io/proton/). We're using this FAQ as the primary reference for learning about what Proton is, how we licensed the code open source, how you can use Proton today, and more.
 
@@ -20,10 +20,10 @@ We chose this license for a few important reasons:
 
 - **We're following the path ClickHouse first paved**. Because Proton leverages many excellent ClickHouse technologies, we hope to see our communities grow together and the two open source projects become more deeply integrated over time.
 
-- **We want to see Proton push the limits of streaming and data processing in unique and exotic environments**. While Proton already powers the enterprise-ready Timeplus Cloud, developers or other end users can download and deploy Proton or modify the code locally for use in a private cloud infrastructure. Using Proton does not require you adopt Timeplus Cloud or meet with our sales team.  
+- **We want to see Proton push the limits of streaming and data processing in unique and exotic environments**. While Proton already powers the enterprise-ready Timeplus Cloud, developers or other end users can download and deploy Proton or modify the code locally for use in a private cloud infrastructure. Using Proton does not require you adopt Timeplus Cloud or meet with our sales team.
 
-- **We're eager to see what value a _free_ streaming and historical data processing engine delivers**. By releasing the single-node edition of Proton to the open source community, we're giving developers, hobbyists, enthusiasts, and anyone who wants to try new technologies a new path that's entirely free. 
-  
+- **We're eager to see what value a _free_ streaming and historical data processing engine delivers**. By releasing the single-node edition of Proton to the open source community, we're giving developers, hobbyists, enthusiasts, and anyone who wants to try new technologies a new path that's entirely free.
+
 - **We're building a new community around unified streaming and data processing**. ClickHouse paved the way for processing, but we have much to experiment and discover together around streaming. We can't wait to get feedback from developers and users within organizations of all sizes and degrees of streaming maturity.
 
 ## What uses, commercial and beyond, are allowed with the Proton project? {#use}
@@ -38,12 +38,12 @@ Apache License 2.0 also prevents any contributor to Proton—a member of the Tim
 
 Proton powers unified streaming and data processing on a single database node. Its commercial counterpart supports advanced deployment strategy and includes enterprise-ready features. There are some other differences we would like to clarify.
 
-|                               | **Proton**                                                   | **Timeplus**                                                 |
-| ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| **Deployment**                | <ul><li>Single-node Docker image</li><li>Single binary on Mac/Linux</li></ul> | <ul><li>Single node</li><li>Cluster</li><li>Kubernetes-based “bring your own cloud” (BYOC)</li><li>Fully-managed cloud service with SOC2</li></ul> |
+|                               | **Proton**                                                                                                                                                                             | **Timeplus**                                                                                                                                                                          |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Deployment**                | <ul><li>Single-node Docker image</li><li>Single binary on Mac/Linux</li></ul>                                                                                                          | <ul><li>Single node</li><li>Cluster</li><li>Kubernetes-based “bring your own cloud” (BYOC)</li><li>Fully-managed cloud service with SOC2</li></ul>                                    |
 | **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li><li>[Streaming ingestion via REST API (compact mode only)](proton-ingest-api)</li></ul> | <ul><li>Everything in Proton</li><li>Apache Pulsar</li><li>Ably</li><li>CSV upload</li><li>[Streaming ingestion via REST API (with API key and flexible modes)](ingest-api)</li></ul> |
-| **Data destinations (sinks)** | <ul><li>External streams to Apache Kafka, Confluent Cloud, Redpand</li></ul> | <ul><li>Everything in Proton</li><li>Apache Pulsar</li><li>Slack</li><li>Webhook</li><li>Timeplus stream</li></ul> |
-| **Support**                   | <ul><li>Community support from GitHub and Slack</li></ul>    | <ul><li>Enterprise support via email, Slack, and Zoom, with a SLA</li></ul> |
+| **Data destinations (sinks)** | <ul><li>External streams to Apache Kafka, Confluent Cloud, Redpand</li></ul>                                                                                                           | <ul><li>Everything in Proton</li><li>Apache Pulsar</li><li>Slack</li><li>Webhook</li><li>Timeplus stream</li></ul>                                                                    |
+| **Support**                   | <ul><li>Community support from GitHub and Slack</li></ul>                                                                                                                              | <ul><li>Enterprise support via email, Slack, and Zoom, with a SLA</li></ul>                                                                                                           |
 
 These details are subject to change, but we'll do our best to make sure they accurately represent the latest roadmaps for Proton and Timeplus.
 
@@ -60,7 +60,7 @@ We publish a biweekly newsletter on [LinkedIn](https://www.linkedin.com/company/
 Short answer: very easy. We designed Proton's usage to be similar to ClickHouse, with a few key differences:
 
 - Timeplus' default SQL query mode is **streaming**, which means it is long-running and continuously tracks and evaluates changed data and pushes results to users or target systems. To create a [historical data query](functions_for_streaming#table), wrap your SQL in `table(stream)`.
-- The SQL keyword `AS` is required to create a temporary name for a table, stream, or a column. 
+- The SQL keyword `AS` is required to create a temporary name for a table, stream, or a column.
 - We renamed data types and functions to remove camelcase. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Proton. Our [functions](functions) docs have additional details.
 - Not all ClickHouse functions are currently enabled in Proton or work in a streaming query. If we should add or enhance the functions available in Proton, let us know in the [GitHub issues](https://github.com/timeplus-io/proton/issues) for Proton.
 - Materialized Views in ClickHouse works for one source table, and data is processed at the index time. In Proton, you can define a [Materialized View](proton-create-view#m_view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Proton continuously runs the query and sends the results to the internal stream or the target stream.
@@ -70,27 +70,28 @@ See the documentation for full usage details.
 
 ## Is Proton usage tracked?
 
-Yes. We have enabled telemetry in the following areas to understand how the community is using Proton and help us improve the project:  
+Yes. We have enabled telemetry in the following areas to understand how the community is using Proton and help us improve the project:
 
 - **Via Docker image download statistics**, which are provided by GitHub _without_ any personally identifying information (PII), such as IP addresses.
 
-- **On start**, Proton reports the following data to a public endpoint:  
-  
-   - Current Proton version
-   - CPU and memory availability
+- **On start**, Proton reports the following data to a public endpoint:
 
-No user data, schemas, SQL statements, or personally identifiable information (PII) is ever sent by Proton to this public endpoint.  
+  - Current Proton version
+  - CPU and memory availability
 
-You can disable telemetry in Proton via the environment variable `TELEMETRY_ENABLED`, such as `docker run --env TELEMETRY_ENABLED=false --name proton ghcr.io/timeplus-io/proton:latest ` or update the configuration with the following steps: 
+No user data, schemas, SQL statements, or personally identifiable information (PII) is ever sent by Proton to this public endpoint.
 
-  1. Start the Proton Docker image
-  2. Connect to the running container with `docker exec -it proton bin/sh`
-  3. Run the following command to edit the container's configuration:  
+You can disable telemetry in Proton via the environment variable `TELEMETRY_ENABLED`, such as `docker run --env TELEMETRY_ENABLED=false --name proton ghcr.io/timeplus-io/proton:latest ` or update the configuration with the following steps:
+
+1. Start the Proton Docker image
+2. Connect to the running container with `docker exec -it proton bin/sh`
+3. Run the following command to edit the container's configuration:
 
 ```bash
-sed -i 's/telemetry_enabled: true/telemetry_enabled: false/g' /etc/proton-server/config.yaml  
+sed -i 's/telemetry_enabled: true/telemetry_enabled: false/g' /etc/proton-server/config.yaml
 ```
-   4. Stop and start the container again to run Proton with all telemetry disabled.
+
+4.  Stop and start the container again to run Proton with all telemetry disabled.
 
 If you use the single binary, the environment variable `TELEMETRY_ENABLED` also works. Alternatively, you can manually update config.yaml file to set `telemetry_enabled: false`.
 
@@ -100,7 +101,7 @@ See our [privacy policy](https://www.timeplus.com/privacy-policy) for complete d
 
 JDBC driver is available at https://github.com/timeplus-io/proton-java-driver, and the ODBC driver is available at https://github.com/timeplus-io/proton-odbc.
 
-In the meanwhile, you can send the processed data to Kafka topics via External Stream, use the [proton-go-driver](https://github.com/timeplus-io/proton-go-driver), or [benthos](https://www.benthos.dev/) to send the data to other systems. 
+In the meanwhile, you can send the processed data to Kafka topics via External Stream, use the [proton-go-driver](https://github.com/timeplus-io/proton-go-driver), or [benthos](https://www.benthos.dev/) to send the data to other systems.
 
 If you are on Timeplus Cloud, you can use the REST API or [SDK](https://github.com/timeplus-io/gluon) to run queries or manage resources in Timeplus, via the API server, which is not part of Proton.
 
@@ -119,7 +120,7 @@ We're currently building out resources where you can learn about Proton's archit
 - [High-level architecture](https://docs.timeplus.com/proton-architecture)
 - [Wiki](https://github.com/timeplus-io/proton/wiki)
 
-We also discuss our journey to releasing Proton in open source in our [announcement post](https://www.timeplus.com/post/timeplus-journey-to-open-source). 
+We also discuss our journey to releasing Proton in open source in our [announcement post](https://www.timeplus.com/post/timeplus-journey-to-open-source).
 
 ## How can I get started?
 
