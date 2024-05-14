@@ -94,6 +94,8 @@ const sidebars = {
         id: "timeplus-enterprise",
       },
       items: [
+        "timeplus-cloud",
+        "timeplus-self-host",
         {
           type: "category",
           label: "Data Ingestion",
@@ -115,21 +117,14 @@ const sidebars = {
         "timeplus-query-guide",
         "query-api",
         "viz",
-        {
-          type: "category",
-          label: "Manage",
-          link: {
-            type: "generated-index",
-          },
-          items: ["apikey", "terraform"],
-        },
+        "apikey",
+        "terraform",
         "issues",
         {
           label: "REST API Reference",
           type: "link",
           href: "https://docs.timeplus.com/rest.html",
         },
-        "timeplus-self-host",
       ],
     },
     {

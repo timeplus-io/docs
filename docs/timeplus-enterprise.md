@@ -1,8 +1,8 @@
 # Timeplus Enterprise
 
-Timeplus Enterprise is self-managed, easy-to-deploy. It runs and scales everywhere, from edge to your data center. It's ideal for enterprise users with flexible deployment needs with advanced configurations needs.
+Timeplus is a simple, powerful, and cost-efficient stream processing platform. It's available as a fully-managed cloud service, or self-managed deployment.
 
-Timeplus Enterprise shares many features as Timeplus Cloud. Comparing to Timeplus Proton, you can do more with Timeplus Enterprise, e.g.
+Comparing to Timeplus Proton, you can do more with Timeplus Enterprise, e.g.
 
 - Multi-node cluster for high availability and horizontal scalability
 - Kubernetes Helm Chart
