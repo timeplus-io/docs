@@ -87,27 +87,6 @@ const sidebars = {
     "install",
     {
       type: "category",
-      label: "Core Engine (Proton)",
-      link: {
-        type: "doc",
-        id: "proton",
-      },
-      items: [
-        "proton-architecture",
-        "proton-create-stream",
-        "proton-kafka",
-        "proton-schema-registry",
-        "proton-format-schema",
-        "proton-manage-stream",
-        "proton-create-view",
-        "proton-clickhouse-external-table",
-        "proton-create-udf",
-        "proton-ingest-api",
-        "proton-ports",
-      ],
-    },
-    {
-      type: "category",
       label: "Timeplus Enterprise",
       //collapsed: false,
       link: {
@@ -172,6 +151,27 @@ const sidebars = {
         "tutorial-kv",
         "sql-pattern-topn",
         "usecases",
+      ],
+    },
+    {
+      type: "category",
+      label: "SQL Engine (Proton)",
+      link: {
+        type: "doc",
+        id: "proton",
+      },
+      items: [
+        "proton-architecture",
+        "proton-create-stream",
+        "proton-kafka",
+        "proton-schema-registry",
+        "proton-format-schema",
+        "proton-manage-stream",
+        "proton-create-view",
+        "proton-clickhouse-external-table",
+        "proton-create-udf",
+        "proton-ingest-api",
+        "proton-ports",
       ],
     },
     {
