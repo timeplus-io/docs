@@ -1,8 +1,8 @@
-# Proton Quickstart
+# Quickstart with Timeplus Proton
 
-Follow the compact guides that help you work with common Proton functionality.
+Follow the compact guides that help you work with common Timeplus Proton functionality.
 
-## How to install Proton {#install}
+## How to install Timeplus Proton {#install}
 
 Proton can be installed as a single binary on Linux or Mac, via:
 
@@ -32,13 +32,11 @@ You can also try Proton in the fully-managed [Timeplus Cloud](https://us.timeplu
 You use [External Stream](proton-kafka) to read from Kafka topics or write data to the topics. We verified the integration with Apache Kafka, Confluent Cloud, Confluent Platform, Redpanda, WarpStream, Upstash and many more.
 
 ```sql
-CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name 
+CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
 (<col_name1> <col_type>)
 SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',
 username='..',password='..',sasl_mechanism='..'
 ```
-
-
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/w_Tr62oKE4E?si=xkrLA60-SZUrrmWL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
@@ -57,9 +55,10 @@ You use [External Table](proton-clickhouse-external-table) to read from ClickHou
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ga_DmCujEpw?si=ja2tmlcCbqa6HhwT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## How to handle UPSERT or DELETE {#upsert}
+
 By default, streams in Timeplus are append-only. But you can create a stream with `versioned_kv` or `changelog_kv` mode to support data mutation or deletion. The [Versioned Stream](versioned-stream) supports UPSERT (Update or Insert) and [Changelog Stream](changelog-stream) supports UPSERT and DELETE.
 
-You can use tools like Debezium to send CDC messages to Timeplus, or just use `INSERT` SQL to add data. Values with same primary key(s) will be overwritten. For more details, please check this video: 
+You can use tools like Debezium to send CDC messages to Timeplus, or just use `INSERT` SQL to add data. Values with same primary key(s) will be overwritten. For more details, please check this video:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/6iplMdHJUMw?si=LGiBkw6QUjq0RGTL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
@@ -83,13 +82,13 @@ CREATE STREAM stream
 SETTINGS event_time_column = 'timestamp';
 ```
 
-Please note there will be the 4th column in the stream, which is _tp_time as the [Event Time](eventtime). 
+Please note there will be the 4th column in the stream, which is \_tp_time as the [Event Time](eventtime).
 
 To import CSV content, use the [file](https://clickhouse.com/docs/en/sql-reference/table-functions/file) table function to set the file path and header and data types.
 
 ```sql
-INSERT INTO stream (timestamp,price,volume) 
-SELECT timestamp,price,volume 
+INSERT INTO stream (timestamp,price,volume)
+SELECT timestamp,price,volume
 FROM file('data/my.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
 SETTINGS max_insert_threads=8;
 ```
@@ -100,7 +99,7 @@ Please note:
 
 1. You need to specify the column names. Otherwise `SELECT *` will get 3 columns while there are 4 columns in the data stream.
 2. For security reasons, Proton only read files under `proton-data/user_files` folder. If you install proton via `proton install` command on Linux servers, the folder will be `/var/lib/proton/user_files`. If you don't install proton and run proton binary directly via `proton server start`, the folder will be `proton-data/user_files`
-3. We recommend to use `max_insert_threads=8` to use multiple threads to maximize the ingestion performance.  If your file system has high IOPS, you can create the stream with `SETTINGS shards=3` and set a higher `max_insert_threads` value in the `INSERT` statement.
+3. We recommend to use `max_insert_threads=8` to use multiple threads to maximize the ingestion performance. If your file system has high IOPS, you can create the stream with `SETTINGS shards=3` and set a higher `max_insert_threads` value in the `INSERT` statement.
 
 :::
 
@@ -121,13 +120,11 @@ PARTITION BY to_YYYYMM(_tp_time)
 ORDER BY to_start_of_hour(_tp_time)
 SETTINGS event_time_column = 'timestamp', index_granularity = 8192;
 
-INSERT INTO kraken_all (path,timestamp,price,volume) 
-SELECT _path,timestamp,price,volume 
+INSERT INTO kraken_all (path,timestamp,price,volume)
+SELECT _path,timestamp,price,volume
 FROM file('data/*.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
 SETTINGS max_insert_threads=8;
 ```
-
-
 
 ## How to visualize Proton query results with Grafana or Metabase {#bi}
 
@@ -137,12 +134,12 @@ The official Grafana plugin for Proton is available [here](https://grafana.com/g
 
 We also provide a plugin for Metabase: https://github.com/timeplus-io/metabase-proton-driver This is based on the Proton JDBC driver.
 
-## How to access Proton programmatically {#sdk} 
+## How to access Timeplus Proton programmatically {#sdk}
 
-SQL is the main interface to work with Proton. The [Ingest REST API](proton-ingest-api) allows you to push realtime data to Proton with any language. 
+SQL is the main interface to work with Proton. The [Ingest REST API](proton-ingest-api) allows you to push realtime data to Proton with any language.
 
 The following drivers are available:
 
-* https://github.com/timeplus-io/proton-java-driver JDBC and other Java clients
-* https://github.com/timeplus-io/proton-go-driver for Golang
-* https://github.com/timeplus-io/proton-python-driver for Python
+- https://github.com/timeplus-io/proton-java-driver JDBC and other Java clients
+- https://github.com/timeplus-io/proton-go-driver for Golang
+- https://github.com/timeplus-io/proton-python-driver for Python

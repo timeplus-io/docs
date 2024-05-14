@@ -45,16 +45,9 @@ const sidebars = {
         type: "generated-index",
       },
       items: [
-        {
-          type: "category",
-          label: "Timeplus Cloud Quickstart",
-          //collapsed: false,
-          link: {
-            type: "doc",
-            id: "quickstart",
-          },
-          items: ["quickstart-confluent", "quickstart-ingest-api"],
-        },
+        "quickstart",
+        "quickstart-confluent",
+        "quickstart-ingest-api",
         "proton-howto",
       ],
     },
