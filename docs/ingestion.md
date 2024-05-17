@@ -2,8 +2,8 @@
 
 Timeplus supports 2 ways to load data into the system:
 
-*  [External Stream](external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Core Engine (Proton).
-* [Source](source) for extra wide range of data sources. This is only available in Timeplus Cloud and Timeplus Enterprise.
+- [External Stream](external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Core Engine (Proton).
+- [Source](source) for extra wide range of data sources. This is only available in Timeplus Enterprise.
 
 ## Add new sources via web console
 
@@ -24,7 +24,7 @@ Apache® Pulsar™ is a cloud-native, distributed, open source messaging and str
 If your streaming data resides in [Amazon Kinesis Data Stream](https://aws.amazon.com/kinesis/data-streams/), you can load them into Timeplus in two steps.
 
 1.  First load the Kinesis data into Kafka topics via [Amazon Kinesis Source Connector for Confluent Cloud](https://docs.confluent.io/cloud/current/connectors/cc-kinesis-source.html) or [Amazon Kinesis Source Connector for Confluent Platform](https://docs.confluent.io/kafka-connect-kinesis/current/overview.html)
-2. Use the above Kafka source in Timeplus to load data into streams.
+2.  Use the above Kafka source in Timeplus to load data into streams.
 
 The data flow can be illustrated as the following:
 
@@ -35,8 +35,6 @@ flowchart LR
   Timeplus -->KafkaTopic
 ```
 
-
-
 ### Upload local files
 
 If you have some static dataset or lookup tables in the CSV format, you can upload the files directly to Timeplus.
@@ -46,8 +44,6 @@ If you have some static dataset or lookup tables in the CSV format, you can uplo
 3. Choose whether the first row of the file is the column header.
 4. Specify a name for the stream, and optionally provide a readable description.
 5. Click the button to start uploading data and click the **View Imported Data** button to run a query to review imported data.
-
-
 
 ### Load sample streaming data
 
@@ -70,37 +66,36 @@ Timeplus provides ingestion REST API, and related SDKs in different programming 
 Timeplus works with the data ecosystems and can leverage various tools to load data or even do data transformation at ingestion time.
 
 ### DataPM (for files and databases) {#datapm}
-Data Package Manager (datapm) is an [open source](https://github.com/big-armor/datapm) data publishing platform for private and public use. The datapm command line tool makes moving data between systems seamless and easily repeatable. A special sink for Timeplus is shipped with the datapm command line tool out-of-box. 
+
+Data Package Manager (datapm) is an [open source](https://github.com/big-armor/datapm) data publishing platform for private and public use. The datapm command line tool makes moving data between systems seamless and easily repeatable. A special sink for Timeplus is shipped with the datapm command line tool out-of-box.
 
 [Learn more.](datapm)
 
 ### Airbyte
 
-AirByte provides both OSS version and managed cloud to collect data, transform data and send to other destinations. 
+AirByte provides both OSS version and managed cloud to collect data, transform data and send to other destinations.
 
 At the high level
 
 1. AirByte can grab data from many different data sources, including database/CDC, or infrastructure log, application logs, or even business apps(such as Salesforce)
-2. The data can be normalized via AirByte built-in capabilities. Or it can be saved to the destination database first, then relies on dbt or other tools to apply transformations/materialization. 
+2. The data can be normalized via AirByte built-in capabilities. Or it can be saved to the destination database first, then relies on dbt or other tools to apply transformations/materialization.
 3. Data collected by AirByte can be sent to many destinations, including Timeplus.
 
 Just name a few data sources from Airbyte:
 
-* App marketplace such as Apple App Store
-* AWS Cloudtrail
-* Google BigQuery
-* Load file from S3/GCS/SFTP/local with Gzip/Zip/xz/Snappy compression, in CSV/JSON/XML/Excel/Parquet/etc
-* Github, GitLab, or JIRA activities
-* Google Ads
-* Instagram social media
-* Slack or Microsoft Teams
-* PostgreSQL, RedShift, Snowflake, MongoDB, MySQL, Microsoft SQL Server, etc
-
-
+- App marketplace such as Apple App Store
+- AWS Cloudtrail
+- Google BigQuery
+- Load file from S3/GCS/SFTP/local with Gzip/Zip/xz/Snappy compression, in CSV/JSON/XML/Excel/Parquet/etc
+- Github, GitLab, or JIRA activities
+- Google Ads
+- Instagram social media
+- Slack or Microsoft Teams
+- PostgreSQL, RedShift, Snowflake, MongoDB, MySQL, Microsoft SQL Server, etc
 
 :::info
 
-The Timeplus destination plugin for Airbyte is in the early stage. Please contact us to arrange the integration. 
+The Timeplus destination plugin for Airbyte is in the early stage. Please contact us to arrange the integration.
 
 :::
 
@@ -110,33 +105,33 @@ You can use Kafka Connectors to load data from popular data sources into Conflue
 
 There are a few examples of data sources that can be ingested into Timeplus via Kafka Connectors. Please check https://www.confluent.io/product/confluent-connectors/ for more details.
 
-* Apache ActiveMQ
-* Amazon CloudWatch Logs
-* [Amazon Kinesis](#kinesis)
-* Amazon S3 
-* Amazon SQS
-* Azure Blob Storage
-* Azure Event Hubs
-* CockroachDB CDC
-* Databricks
-* Github
-* Google Cloud Pub/Sub
-* IBM MQ
-* InfluxDB
-* JDBC
-* Microsoft SQL Server
-* MongoDB
-* MQTT
-* MySQL CDC
-* Neo4j
-* Oracle Database
-* PostgreSQL CDC
-* RabbitMQ
-* Salesforce
-* ServiceNow
-* SFTP
-* SNMP
-* Splunk
-* TiDB CDC
-* Tigergraph
-* Zendesk
+- Apache ActiveMQ
+- Amazon CloudWatch Logs
+- [Amazon Kinesis](#kinesis)
+- Amazon S3
+- Amazon SQS
+- Azure Blob Storage
+- Azure Event Hubs
+- CockroachDB CDC
+- Databricks
+- Github
+- Google Cloud Pub/Sub
+- IBM MQ
+- InfluxDB
+- JDBC
+- Microsoft SQL Server
+- MongoDB
+- MQTT
+- MySQL CDC
+- Neo4j
+- Oracle Database
+- PostgreSQL CDC
+- RabbitMQ
+- Salesforce
+- ServiceNow
+- SFTP
+- SNMP
+- Splunk
+- TiDB CDC
+- Tigergraph
+- Zendesk

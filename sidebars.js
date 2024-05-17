@@ -115,7 +115,7 @@ const sidebars = {
           ],
         },
         "timeplus-query-guide",
-        "query-api",
+        /*"query-api",*/
         "viz",
         "apikey",
         "terraform",

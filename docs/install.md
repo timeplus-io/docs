@@ -4,16 +4,18 @@
 
 The quickest and easiest way to get started with Timeplus to sign up a free account at the fully-managed [us.timeplus.cloud](https://us.timeplus.cloud).
 
+You just need to sign up with Google or Microsoft Single Sign-On, or create a new username and password. Then create a new workspace and start your streaming journey.
+
 ## Timeplus Enterprise on-prem{#timeplus-self-hosted}
 
-Customers can install Timeplus Enterprise with high availability and scalability using the official Timeplus Kubernetes Helm Chart or bare metal installer. [Contact us](mailto:info@timeplus.com) to learn more.
+Customers can install Timeplus Enterprise with high availability and scalability using bare metal installer or the official Timeplus Kubernetes Helm Chart. [Contact us](mailto:info@timeplus.com) to learn more.
 
 ## Timeplus Proton, the core engine{#proton}
 
 ### As a single binary{#binary}
 
 ```shell
-curl https://install.timeplus.com | sh
+curl https://install.timeplus.com/oss | sh
 ```
 
 Once the `proton` binary is available, you can run Timeplus Proton in different modes:

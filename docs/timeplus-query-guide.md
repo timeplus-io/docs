@@ -1,3 +1,3 @@
 # Query Guide
 
-Please refer to [Proton Query Guide](query-syntax).
+Please refer to [SQL Reference](query-syntax).
