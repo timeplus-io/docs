@@ -132,20 +132,18 @@ Please refer to [to_time](functions_for_type#to_time)
 
 For the full list of possible timezones, please check "TZ database name" column in [the wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For the most common timezones, please check [to_time](#to_time)
 
-For example, 
+For example,
 
 ```sql
 SELECT
   to_time('2022-05-16', 'America/New_York') AS t1, to_timezone(t1, 'UTC') AS t2
 ```
 
-Output: 
+Output:
 
 | t1                      | t2                      |
 | ----------------------- | ----------------------- |
 | 2022-05-16 00:00:00.000 | 2022-05-16 04:00:00.000 |
-
-
 
 ### format_datetime
 
@@ -164,50 +162,60 @@ Output:
 | %S          | Second with 2 digits (00-59)                       | 44            |
 | %w          | Weekday as a decimal number with Sunday as 0 (0-6) | 1             |
 
+### parse_datetime
 
+Coverts a string to a datetime. This function is the opposite operation of function [format_datetime](#format_datetime).
+
+`parse_datetime(str, format [,timezone])`. For example `select parse_datetime('2021-01-04+23:00:00', '%Y-%m-%d+%H:%i:%s')` returns '2021-01-04 23:00:00'.
+
+### parse_datetime_in_joda_syntax
+
+Similar to [parse_datetime](#parse_datetime), except that the format string is in [Joda](https://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html) instead of MySQL syntax.
+
+`parse_datetime_in_joda_syntax(str, format [,timezone])`. For example `select parse_datetime_in_joda_syntax('2023-02-24 14:53:31', 'yyyy-MM-dd HH:mm:ss')` returns '2023-02-24 14:53:31'.
 
 ### date_diff
 
-`date_diff(unit,begin,end)` calculates the difference between `begin` and `end` and produce a number in `unit`. For example `date_diff('second',window_start,window_end)` 
+`date_diff(unit,begin,end)` calculates the difference between `begin` and `end` and produce a number in `unit`. For example `date_diff('second',window_start,window_end)`
 
 Supported unit:
 
-* us: for microseconds. 1 second = 1,000,000 us
-* ms: for milliseconds. 1 second = 1,000 ms
-* s: for seconds
-* m: for minutes
-* h: for hours
-* d: for days
+- us: for microseconds. 1 second = 1,000,000 us
+- ms: for milliseconds. 1 second = 1,000 ms
+- s: for seconds
+- m: for minutes
+- h: for hours
+- d: for days
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1, time2)` returns true or false.  This function only works in [stream-to-stream join](query-syntax#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
+`date_diff_within(timegap,time1, time2)` returns true or false. This function only works in [stream-to-stream join](query-syntax#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
 
 ### date_trunc
 
 `date_trunc(unit, value[, timezone])` truncates date and time data to the specified part of date. For example, `date_trunc('month',now())` returns the datetime at the beginning of the current month. Possible unit values are:
 
-* year
-* quarter
-* month
-* day
-* hour
-* minute
-* second
+- year
+- quarter
+- month
+- day
+- hour
+- minute
+- second
 
 ### date_add
 
 It supports both `date_add(unit, value, date)` and a shortcut solution `data_add(date,timeExpression)`
 
-*  `date_add(HOUR, 2, now())` will get a new datetime in 2 hours, while `date_add(HOUR, -2, now())` will get a new datetime 2 hours back.
-*  `date_add(now(),2h)` and `date_add(now(),-2h)` also work
+- `date_add(HOUR, 2, now())` will get a new datetime in 2 hours, while `date_add(HOUR, -2, now())` will get a new datetime 2 hours back.
+- `date_add(now(),2h)` and `date_add(now(),-2h)` also work
 
 ### date_sub
 
 It supports both `date_sub(unit, value, date)` and a shortcut solution `data_sub(date,timeExpression)`
 
-*  `date_sub(HOUR, 2, now())` will get a new datetime 2 hours back
-*  `date_sub(now(),2h)`  also work
+- `date_sub(HOUR, 2, now())` will get a new datetime 2 hours back
+- `date_sub(now(),2h)` also work
 
 ### earliest_timestamp
 
