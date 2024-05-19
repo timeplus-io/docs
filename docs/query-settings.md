@@ -40,3 +40,18 @@ Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..
 ## recovery_policy
 
 `recovery_policy=<strict|best_effort>`. By default, if it's omitted, it's `strict`. The main use case for materialized views, if new events fail to process, such as converting a string to a int32, the default behavior will make the materialized view unusable. You may monitor the Timeplus logs to act on the dirty data. However, if you set `SETTINGS recovery_policy=best_effort`, then Timeplus will attempt to recover from checkpoint and try up to 3 times, then skip dirty data and continue processing the rest of the data.
+
+## replay_speed
+
+`replay_speed=N` When replay_speed set to 1, it will use the `replay_time_column` (`_tp_append_time` as the default) to replay the historical data. When replay_speed is not set or set to 0, historical data will be replayed as fast as possible. When replay_speed set to 0 to 1, it will replay slower. If it's greater than 1, it will replay faster.
+
+e.g.
+
+```sql
+select * from test_stream where _tp_time > earliest_timestamp()
+settings replay_speed=1, replay_time_column='time_col'
+```
+
+## replay_time_column
+
+`replay_time_column=columnName` Specify the replay time column, default column is `_tp_append_time`.
