@@ -1,4 +1,4 @@
-#  Query Syntax
+# Query Syntax
 
 Timeplus Proton introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
 
@@ -24,37 +24,16 @@ SQL keywords and function names are case-insensitive, while the column names and
 
 Before we look into the details of the query syntax, we'd like to highlight the default query behavior in Timeplus Proton is in the streaming mode, i.e.
 
-* `SELECT .. FROM stream`  will query the future events. Once you run the query, it will process new events. For example, if there are 1,000 events in the stream already, running `SELECT count() FROM stream` could return 0, if there is more new events.
-* `SELECT .. FROM table(stream)` will query the historical data, just like many of other databases. In the above sample stream, if you run `SELECT count() FROM table(stream)`, you will get 1000 as the result and the query completed.
+- `SELECT .. FROM stream` will query the future events. Once you run the query, it will process new events. For example, if there are 1,000 events in the stream already, running `SELECT count() FROM stream` could return 0, if there is more new events.
+- `SELECT .. FROM table(stream)` will query the historical data, just like many of other databases. In the above sample stream, if you run `SELECT count() FROM table(stream)`, you will get 1000 as the result and the query completed.
 
 ## SETTINGS{#settings}
 
-Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors, listed below:
-
-1. `enable_backfill_from_historical_store=0|1`. By default, if it's omitted, it's `1`.
-   * When it's 0, the query engine either loads data from streaming storage, or from historical storage.
-   * When it's 1, the query engine evaluates whether it's necessary to load data from historical storage(such as the time range is outside of the streaming storage), or it'll be more efficient to get data from historical storage(for example, count/min/max is pre-computed in historical storage, faster than scanning data in streaming storage).
-2. `force_backfill_in_order=0|1`. By default, if it's omitted, it's `0`.
-   1. When it's 0, the data from the historical storage are turned without extra sorting. This would improve the performance.
-   2. When it's 1, the data from the historical storage are turned with extra sorting. This would decrease the performance. So turn on this flag carefully. 
-3. `emit_during_backfill=0|1`. By default, if it's omitted, it's `0`.
-   1. When it's 0, the query engine won't emit intermediate aggregation results during the historical data backfill.
-   2. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. As long as there are aggregation functions and time window functions(e.g. tumble/hop/session) in the streaming SQL, when the `emit_during_backfill` is on, `force_backfill_in_order` will be applied to 1 automatically. 
-4. `query_mode=<table|streaming>`. By default, if it's omitted, it's `streaming`. A general setting which decides if the overall query is streaming data processing or historical data processing. This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical.
-5. `recovery_policy=<strict|best_effort>`. By default, if it's omitted, it's `strict`.  The main use case for materialized views, if new events fail to process, such as converting a string to a int32, the default behavior will make the materialized view unusable. You may monitor the Timeplus logs to act on the dirty data. However, if you set  `SETTINGS recovery_policy=best_effort`, then Timeplus will attempt to recover from checkpoint and try up to 3 times, then skip dirty data and continue processing the rest of the data.
-6. `seek_to=<timestamp|earliest|latest>`. By default, if it's omitted, it's `latest`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. It can be a relative timestamp or an absolute timestamp. By default, it is `latest`, which tells Timeplus to not seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'` 
-
-:::info
-
-Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`(except for [External Stream](external-stream)). Please use `WHERE _tp_time>='2023-01-01'` or similar. `_tp_time` is the special timestamp column in each raw stream to represent the [event time](eventtime). You can use `>`, `<`, `BETWEEN .. AND` operations to filter the data in Timeplus storage. The only exception is [External Stream](external-stream). If you need to scan all existing data in the Kafka topic, you need to run the SQL with seek_to, e.g. `select raw from my_ext_stream settings seek_to='earliest'`
-
-:::
-
-
+Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors. Check [Query Settings](query-settings).
 
 ## EMIT{#emit}
 
-As an advanced feature, Timeplus Proton support various policies to emit results during streaming query. 
+As an advanced feature, Timeplus Proton support various policies to emit results during streaming query.
 
 The syntax is:
 
@@ -81,13 +60,11 @@ GROUP BY device, window_end
 
 The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](stream-query#window-watermark), which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
 
-
-
 ### EMIT AFTER WATERMARK WITH DELAY {#emit_after_wm_with_delay}
 
 :::warning
 
-Before Proton 1.5, the syntax was `EMIT AFTER WATERMARK AND DELAY`.  Since Proton 1.5, we use `WITH DELAY` instead of `AND DELAY`, in order to make `AND`  as the keyword to combine multiple emit polices.
+Before Proton 1.5, the syntax was `EMIT AFTER WATERMARK AND DELAY`. Since Proton 1.5, we use `WITH DELAY` instead of `AND DELAY`, in order to make `AND` as the keyword to combine multiple emit polices.
 
 :::
 
@@ -130,6 +107,7 @@ GROUP BY window_start
 HAVING cnt > 300
 EMIT PERIODIC 1s
 ```
+
 ### EMIT ON UPDATE {#emit_on_update}
 
 :::info
@@ -180,8 +158,6 @@ GROUP BY window_start
 ```
 
 Even you add `EMIT TIMEOUT` in the SQL, it won't trigger timeout, because the query engine doesn't see any event in the window. If you need to detect such missing event for certain time window, one workaround is to create a heartbeat stream and use `UNION` to create a subquery to combine both heartbeat stream and target stream, for a time window, if all observed events are from heartbeat stream, this means there is no event in the target stream. Please discuss more with us in community slack.
-
-
 
 ### EMIT LAST
 
@@ -261,8 +237,6 @@ Similarly, we can apply the last X on hopping window.
 
 `PARTITION BY` in Streaming SQL is to create [substreams](substream).
 
-
-
 ## GROUP BY and HAVING {#group_having}
 
 `GROUP BY` applies aggregations for 1 or more columns.
@@ -275,7 +249,7 @@ Please check [Joins](joins).
 
 ## WITH cte
 
-CTE, or Common Table Expression, is a handy way to define [subqueries](#subquery) one by one, before the main SELECT clause. 
+CTE, or Common Table Expression, is a handy way to define [subqueries](#subquery) one by one, before the main SELECT clause.
 
 ## Subquery {#subquery}
 
@@ -308,7 +282,7 @@ Multiple CTE can be defined in one query, such as
 ```sql
 WITH cte1 AS (SELECT ..),
      cte2 AS (SELECT ..)
-SELECT .. FROM cte1 UNION SELECT .. FROM cte2    
+SELECT .. FROM cte1 UNION SELECT .. FROM cte2
 ```
 
 CTE with column alias is not supported.
@@ -458,7 +432,7 @@ FROM tumble(device_utils, 5s)
 GROUP BY device, window_end
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. 
+The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results.
 
 Let's change `tumble(stream, 5s)` to `tumble(stream, timestmap, 5s)` :
 
@@ -480,9 +454,6 @@ GROUP BY device, window_end
 EMIT AFTER WATERMARK WITH DELAY 2s;
 ```
 
-
-
-
 ### Hop Streaming Window Aggregation {#hop}
 
 Like [Tumble](#tumble), Hop also slices the unbounded streaming data into smaller windows, and it has an additional sliding step.
@@ -503,7 +474,7 @@ parameter called `<hop_slide_size>` which means window progresses this slide siz
 2. `<hop_slide_size>` is equal to `<hop_window_size>`. Degenerated to a tumble window.
 3. `<hop_slide_size>` is greater than `<hop_window_size>`. Windows has a gap in between. Usually not useful, hence not supported so far.
 
-Please note, at this point, you need to use the same time unit in `<hop_slide_size>` and `<hop_window_size>`, for example `hop(device_utils, 1s, 60s)` instead of `hop(device_utils, 1s, 1m)`. 
+Please note, at this point, you need to use the same time unit in `<hop_slide_size>` and `<hop_window_size>`, for example `hop(device_utils, 1s, 60s)` instead of `hop(device_utils, 1s, 1m)`.
 
 Here is one hop window example which has 2 seconds slide and 5 seconds hop window.
 
@@ -528,5 +499,4 @@ The above example SQL continuously aggregates max cpu usage per device per hop w
 
 ### Session Streaming Window Aggregation
 
-This is similar to tumble and hop window. Please check the [session](functions_for_streaming#session) function. 
-
+This is similar to tumble and hop window. Please check the [session](functions_for_streaming#session) function.

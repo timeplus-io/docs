@@ -178,6 +178,7 @@ const sidebars = {
         id: "query-syntax",
       },
       items: [
+        "query-settings",
         "datatypes",
         {
           type: "category",
