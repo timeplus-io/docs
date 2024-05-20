@@ -296,6 +296,7 @@ const config = {
           "javascript",
           "json",
           "python",
+          "protobuf",
           "sql",
         ],
       },

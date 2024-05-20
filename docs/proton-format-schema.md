@@ -23,11 +23,11 @@ CREATE EXTERNAL STREAM stream_name(
          query string,
          page_number int32,
          results_per_page int32)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='pkc-1234.us-west-2.aws.confluent.cloud:9092',
          topic='topic_name',
-         security_protocol='SASL_SSL', 
-         username='..', 
+         security_protocol='SASL_SSL',
+         username='..',
          password='..',
          data_format='ProtobufSingle',
          format_schema='schema_name:SearchRequest'
@@ -35,7 +35,7 @@ SETTINGS type='kafka',
 
 Please note:
 
-1. If  you want to ensure there is only a single Protobuf message per Kafka message, please set `data_format` to `ProtobufSingle`. If you set it to `Protobuf`, then there could be multiple Protobuf messages in a single Kafka message.
+1. If you want to ensure there is only a single Protobuf message per Kafka message, please set `data_format` to `ProtobufSingle`. If you set it to `Protobuf`, then there could be multiple Protobuf messages in a single Kafka message.
 2. The `format_schema` setting contains two parts: the registered schema name (in this example: schema_name), and the message type (in this example: SearchRequest). Combining them together with a semicolon.
 3. You can use this external stream to read or write Protobuf messages in the target Kafka/Confluent topics.
 4. For more advanced use cases, please check the [examples for complex schema](#complex).
@@ -53,8 +53,6 @@ SHOW FORMAT SCHEMAS
 ```sql
 SHOW CREATE FORMAT SCHEMA schema_name
 ```
-
-
 
 ## Drop A Schema
 
@@ -99,10 +97,8 @@ SETTINGS type='kafka'.. data_format='ProtobufSingle',
 Please note:
 
 1. `Person` is the top level message type. It refers to the `Name` message type.
-2. Use `name` as the prefix as the column names. Use either _ or . to connect the prefix with the nested field names.
+2. Use `name` as the prefix as the column names. Use either \_ or . to connect the prefix with the nested field names.
 3. When you create an external stream to read the Protobuf messages, you don't have to define all possible columns. Only the columns you defined will be read. Other columns/fields are skipped.
-
-
 
 ### Enum
 
@@ -143,6 +139,44 @@ CREATE EXTERNAL STREAM ..(
 )
 ```
 
+### Repeated and Nested {#repeat_nested}
+
+Say in your Protobuf definition, there is a field in a custom type and also repeated:
+
+```protobuf
+syntax = "proto3";
+message DataComponent {
+  optional string message = 1;
+  message Params {
+    message KeyValue {
+      optional string name = 1;
+      optional string value = 2;
+    }
+    repeated KeyValue Param = 1;
+  }
+  optional Params params = 2;
+}
+```
+
+You can use the tuple type in Proton, e.g.
+
+```sql
+CREATE EXTERNAL STREAM ..(
+    message string,
+    params tuple(Param nested( name string, value string ))
+)
+```
+
+The streaming data will be shown as:
+
+```sql
+select * from stream_name;
+```
+
+| message | params                                                          |
+| ------- | --------------------------------------------------------------- |
+| No. 0   | ([('key_1','value_1'),('key_2','value_2'),('key_3','value_3')]) |
+
 ### Package
 
 Say in your Protobuf definition, there is a package:
@@ -159,7 +193,7 @@ If there is only 1 package in the Protobuf definition type, you don't have to in
 ```sql
 CREATE EXTERNAL STREAM ..(
   ..
-) 
+)
 SETTINGS .. format_schema="schema_name:StockRecord"
 ```
 
@@ -168,7 +202,7 @@ If there are multiple packages, you can use the fully qualified name with packag
 ```sql
 CREATE EXTERNAL STREAM ..(
   ..
-) 
+)
 SETTINGS .. format_schema="schema_name:demo.StockRecord"
 ```
 
@@ -186,4 +220,4 @@ message Test{
 ' TYPE Protobuf
 ```
 
-Please make sure to add `.proto` as the suffix. 
+Please make sure to add `.proto` as the suffix.
