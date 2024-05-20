@@ -218,7 +218,7 @@ const sidebars = {
       link: {
         type: "generated-index",
       },
-      items: ["proton-faq", "faq"],
+      items: ["faq", "proton-faq"],
     },
     {
       type: "category",
