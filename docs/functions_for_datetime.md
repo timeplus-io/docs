@@ -22,7 +22,7 @@
 
 ### day_of_week
 
-`day_of_week(date)` returns the day of the week. eg. Monday is 1, Sunday is 7.
+`day_of_week(date)` returns the day of the week. e.g. Monday is 1, Sunday is 7.
 
 ### hour
 

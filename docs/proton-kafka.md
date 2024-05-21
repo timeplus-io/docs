@@ -37,7 +37,7 @@ The supported values for `data_format` are:
 
 :::info
 
-For examples to connect to various Kafka API compatitable messsage platforms, please check [this doc](tutorial-sql-connect-kafka).
+For examples to connect to various Kafka API compatitable message platforms, please check [this doc](tutorial-sql-connect-kafka).
 
 :::
 
@@ -331,7 +331,7 @@ Please note, not all properties in [librdkafka](https://github.com/confluentinc/
 | message.max.bytes                  | 1000 .. 1000000000                     |         | Maximum Kafka protocol request message size.                                                                                                                                     |
 | message.send.max.retries           | 0 .. 2147483647                        |         | How many times to retry sending a failing Message.                                                                                                                               |
 | retries                            | 0 .. 2147483647                        |         | Alias for `message.send.max.retries`: How many times to retry sending a failing Message.                                                                                         |
-| retry.backoff.ms                   | 1 .. 300000                            |         | The backoff time in milliseconds before retrying a protocol reques                                                                                                               |
+| retry.backoff.ms                   | 1 .. 300000                            |         | The backoff time in milliseconds before retrying a protocol request                                                                                                              |
 | retry.backoff.max.ms               | 1 .. 300000                            |         | The max backoff time in milliseconds before retrying a protocol request,                                                                                                         |
 | batch.num.messages                 | 1 .. 1000000                           |         | Maximum number of messages batched in one MessageSet.                                                                                                                            |
 | batch.size                         | 1 .. 2147483647                        |         | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead.                                                                          |
