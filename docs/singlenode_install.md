@@ -2,7 +2,7 @@
 
 Timeplus Enterprise can be easily installed on a single node, with or without Docker.
 
-## Bare Metal Install
+## Bare Metal Install{#bare_metal}
 
 If your server or laptop is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies.
 
@@ -34,7 +34,7 @@ This will start Timeplus Enterprise with a few key components:
 
 You can access the Timeplus Console via http://localhost:8000. On your first login, please share your contact information and start the 30-day free trial.
 
-## Docker Install
+## Docker Install{#docker}
 
 You can also run the following command to start Timeplus Enterprise, with Docker:
 ```shell
@@ -47,7 +47,17 @@ A few optional parameters:
 * Add `-p 8463:8463 -p 3218:3218` if you want to run SQL with `timeplus client` or JDBC/ODBC drivers.
 * Add `-v "$(pwd)"/data:/timeplus/data -v "$(pwd)"/logs:/timeplus/logs` if you want to mount the data and log files to your host.
 
-## License Management
+## Quickstart with Docker Compose {#compose}
+You can also use Docker Compose to start Timeplus Enterprise, together with Redpanda (A Kafka API compatiable message bus) and data generator.
+
+```bash
+wget https://install.timeplus.com/docker-compose.yml
+docker compose up
+```
+
+Access the web console at https://localhost:8000.
+
+## License Management{#license}
 When you start Timeplus Enterprise and access the web console for the first time, the 30-day free trial starts. When it ends, the software stops working.
 
 You can [contact us](mailto:support@timeplus.com) and purchase a license, then upload in the web console. Click the *Workspace Settings* on the bottom-left and choose *License* tab. Copy and paste the license file or upload the file.

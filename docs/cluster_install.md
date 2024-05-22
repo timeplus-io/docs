@@ -37,3 +37,6 @@ helm repo add timeplus https://install.timeplus.com/helm-charts/ --force-update
 helm repo update
 ```
 Other steps (TBD)
+
+## License Management
+To activate or add new license, please follow the same process as [single node deployment](singlenode_install#license).

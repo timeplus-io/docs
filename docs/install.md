@@ -8,7 +8,7 @@ You just need to sign up with Google or Microsoft Single Sign-On, or create a ne
 
 ## Timeplus Enterprise self-hosted{#self-hosted}
 
-Customers can install Timeplus Enterprise with high availability and scalability in own data center or cloud account, using the bare metal installer or the official Timeplus Kubernetes Helm Chart. [Contact us](mailto:info@timeplus.com) to learn more.
+Customers can install Timeplus Enterprise with high availability and scalability in own data center or cloud account, using the [bare metal installer](singlenode_install#bare-metal-install) or the official Timeplus [Kubernetes Helm Chart](cluster_install#k8s).
 
 ## Timeplus Proton, the core engine{#proton}
 
