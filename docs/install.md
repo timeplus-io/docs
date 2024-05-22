@@ -1,14 +1,14 @@
 # Install
 
-## Timeplus Enterprise in the cloud{#timeplus-cloud}
+## Timeplus Enterprise in the cloud{#cloud}
 
-The quickest and easiest way to get started with Timeplus to sign up a free account at the fully-managed [us.timeplus.cloud](https://us.timeplus.cloud).
+The quickest and easiest way to get started with Timeplus is to sign up a free account at the fully-managed [us.timeplus.cloud](https://us.timeplus.cloud).
 
-You just need to sign up with Google or Microsoft Single Sign-On, or create a new username and password. Then create a new workspace and start your streaming journey.
+You just need to sign up with Google or Microsoft Single Sign-On, or create a new username and password. Then create a new workspace and start your streaming analytics journey.
 
-## Timeplus Enterprise on-prem{#timeplus-self-hosted}
+## Timeplus Enterprise self-hosted{#self-hosted}
 
-Customers can install Timeplus Enterprise with high availability and scalability using bare metal installer or the official Timeplus Kubernetes Helm Chart. [Contact us](mailto:info@timeplus.com) to learn more.
+Customers can install Timeplus Enterprise with high availability and scalability in own data center or cloud account, using the bare metal installer or the official Timeplus Kubernetes Helm Chart. [Contact us](mailto:info@timeplus.com) to learn more.
 
 ## Timeplus Proton, the core engine{#proton}
 

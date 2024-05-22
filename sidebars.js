@@ -95,7 +95,16 @@ const sidebars = {
       },
       items: [
         "timeplus-cloud",
-        "timeplus-self-host",
+        {
+          type: "category",
+          //collapsed: false,
+          label: "Self-hosted",
+          link: {
+            type: "doc",
+            id: "timeplus-self-host",
+          },
+          items: ["singlenode_install", "cluster_install"],
+        },
         {
           type: "category",
           label: "Data Ingestion",

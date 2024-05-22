@@ -298,6 +298,7 @@ const config = {
           "python",
           "protobuf",
           "sql",
+          "yaml",
         ],
       },
       colorMode: {
