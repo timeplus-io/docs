@@ -50,9 +50,12 @@ A few optional parameters:
 ## Quickstart with Docker Compose {#compose}
 You can also use Docker Compose to start Timeplus Enterprise, together with Redpanda (A Kafka API compatiable message bus), ClickHouse and data generator.
 
+For Linux or Mac users, please run the command:
 ```bash
 curl https://install.timeplus.com/sp-demo | sh
 ```
+
+For Windows users, you can download the package with docker compose file and bootstrap scripts [here](https://timeplus.io/dist/timeplus_enterprise/sp-demo-20240522.zip).
 
 Access the web console at https://localhost:8000.
 
