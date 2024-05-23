@@ -4,7 +4,7 @@ Timeplus Enterprise can be easily installed on a single node, with or without Do
 
 ## Bare Metal Install{#bare_metal}
 
-If your server or laptop is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies.
+If your server or laptop is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies. For Windows users, please follow [the guide](#docker) to run Timeplus Enterprise with Docker.
 
 ```shell
 curl https://install.timeplus.com | sh
@@ -36,7 +36,7 @@ You can access the Timeplus Console via http://localhost:8000. On your first log
 
 ## Docker Install{#docker}
 
-You can also run the following command to start Timeplus Enterprise, with Docker:
+You can also run the following command to start Timeplus Enterprise, with [Docker](https://www.docker.com/get-started/):
 ```shell
 docker run -p 8000:8000 timeplus/timeplus-aio:0542064f
 ```
