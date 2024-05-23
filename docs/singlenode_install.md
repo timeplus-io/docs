@@ -48,14 +48,17 @@ A few optional parameters:
 * Add `-v "$(pwd)"/data:/timeplus/data -v "$(pwd)"/logs:/timeplus/logs` if you want to mount the data and log files to your host.
 
 ## Quickstart with Docker Compose {#compose}
-You can also use Docker Compose to start Timeplus Enterprise, together with Redpanda (A Kafka API compatiable message bus) and data generator.
+You can also use Docker Compose to start Timeplus Enterprise, together with Redpanda (A Kafka API compatiable message bus), ClickHouse and data generator.
 
 ```bash
-wget https://install.timeplus.com/docker-compose.yml
-docker compose up
+curl https://install.timeplus.com/sp-demo | sh
 ```
 
 Access the web console at https://localhost:8000.
+
+This stack demonstrates how to run streaming ETL, getting data from Kafka API, applying filter or aggregation, then sending to another Kafka topic or ClickHouse tables. For more details, please check:
+* [Tutorial: Streaming ETL: Kafka to Kafka](tutorial-sql-etl)
+* [Tutorial: Streaming ETL: Kafka to ClickHouse](tutorial-sql-etl-kafka-to-ch)
 
 ## License Management{#license}
 When you start Timeplus Enterprise and access the web console for the first time, the 30-day free trial starts. When it ends, the software stops working.
