@@ -11,10 +11,10 @@ curl https://install.timeplus.com | sh
 ```
 
 You can also download the packages mannually with the following links:
-* [timeplus-enterprise-v2.1.6.0-linux-amd64.tar.gz](https://timeplus.io/dist/timeplus_enterprise/timeplus-enterprise-v2.1.6.0-linux-amd64.tar.gz) (318 MB)
-* timeplus-enterprise-v2.1.6.0-linux-arm64.tar.gz (coming soon)
-* timeplus-enterprise-v2.1.6.0-darwin-amd64.tar.gz (coming soon)
-* timeplus-enterprise-v2.1.6.0-darwin-arm64.tar.gz (coming soon)
+* [timeplus-enterprise-v2.1.6.1-linux-amd64.tar.gz](https://timeplus.io/dist/timeplus_enterprise/timeplus-enterprise-v2.1.6.1-linux-amd64.tar.gz) (318 MB)
+* timeplus-enterprise-v2.1.6.1-linux-arm64.tar.gz (coming soon)
+* timeplus-enterprise-v2.1.6.1-darwin-amd64.tar.gz (coming soon)
+* timeplus-enterprise-v2.1.6.1-darwin-arm64.tar.gz (coming soon)
 
 After you download the package, put it in a desired folder, uncompress the file and you can run Timeplus Enterprise with preconfigured settings:
 
@@ -38,7 +38,7 @@ You can access the Timeplus Console via http://localhost:8000. On your first log
 
 You can also run the following command to start Timeplus Enterprise, with [Docker](https://www.docker.com/get-started/):
 ```shell
-docker run -p 8000:8000 timeplus/timeplus-aio:0542064f
+docker run -p 8000:8000 timeplus/timeplus-enterprise:2.1.6.0
 ```
 
 A few optional parameters:
