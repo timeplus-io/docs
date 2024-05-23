@@ -9,16 +9,17 @@ Follow the guide on [Single Node Install](singlenode_install) to grab the bare m
 
 ```yaml
 node:
+  # cluster id this node belongs to. Only nodes in the same cluster id can form a cluster
+  cluster_id: timeplus_cluster
   advertised_host:
+  roles:
+    role: #Supported roles : Metadata, Data, Ingest, Query.`Data` role contains both `Ingest and Query` roles
+      - Metadata
+      - Data
 cluster:
-  metadata_node_quorum: host1,host2
-kv_service:
-  enabled: true
-data:
-  datastore:
-    log:
-      preallocate: false
+  metadata_node_quorum: localhost:8464
 ```
+For more details about the server configuration, please contact your account manager.
 
 ## Kubernetes Install {#k8s}
 

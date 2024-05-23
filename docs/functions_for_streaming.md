@@ -83,7 +83,7 @@ You can cascade this table function like `tumble(dedup(table(....` and so far th
 When you use `dedup` function together with `table()` function to get the latest status for events with same ID, you can consider ordering the data by \_tp_time in the reverse way, so that the latest event for same ID is kept. e.g.
 
 ```sql
-WITH latest_to_earliest AS (SEELCT * FROM table(my_stream) ORDER by _tp_time DESC)
+WITH latest_to_earliest AS (SELECT * FROM table(my_stream) ORDER by _tp_time DESC)
 SELECT * FROM dedup(latest_to_earliest, id)
 ```
 
