@@ -11,10 +11,10 @@ curl https://install.timeplus.com | sh
 ```
 
 You can also download the packages mannually with the following links:
-* [TimeplusEnterprise-v2.1.6.0-Linux-x86_64.tar.gz](https://timeplus.io/dist/timeplus_enterprise/TimeplusEnterprise-v2.1.6.0-Linux-x86_64.tar.gz) (318 MB)
-* TimeplusEnterprise-v2.1.6.0-Linux-aarch64.tar.gz (coming soon)
-* TimeplusEnterprise-v2.1.6.0-Darwin-x86_64.tar.gz (coming soon)
-* TimeplusEnterprise-v2.1.6.0-Darwin-arm64.tar.gz (coming soon)
+* [timeplus-enterprise-v2.1.6.0-linux-amd64.tar.gz](https://timeplus.io/dist/timeplus_enterprise/timeplus-enterprise-v2.1.6.0-linux-amd64.tar.gz) (318 MB)
+* timeplus-enterprise-v2.1.6.0-linux-arm64.tar.gz (coming soon)
+* timeplus-enterprise-v2.1.6.0-darwin-amd64.tar.gz (coming soon)
+* timeplus-enterprise-v2.1.6.0-darwin-arm64.tar.gz (coming soon)
 
 After you download the package, put it in a desired folder, uncompress the file and you can run Timeplus Enterprise with preconfigured settings:
 
