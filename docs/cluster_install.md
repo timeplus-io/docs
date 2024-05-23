@@ -31,13 +31,10 @@ You can also deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](http
 * Ensure you allocate enough resources for the deployment.
 
 ### Install Timeplus Enterprise with Helm
+
 Start a Kubernetes cluster.
-Add the Timeplus Enterprise Helm chart repository:
-```shell
-helm repo add timeplus https://install.timeplus.com/helm-charts/ --force-update
-helm repo update
-```
-Other steps (TBD)
+
+Contact us to get the Helm chart. We will make the Helm chart repository public soon.
 
 ## License Management
 To activate or add new license, please follow the same process as [single node deployment](singlenode_install#license).

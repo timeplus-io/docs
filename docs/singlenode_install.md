@@ -23,7 +23,7 @@ tar xfv file.tar.gz
 ```
 Then change directory to the `bin` folder and run
 ```shell
-timeplus start
+./timeplus start
 ```
 
 This will start Timeplus Enterprise with a few key components:
