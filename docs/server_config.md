@@ -1,5 +1,7 @@
 # Server Configuration
 
+When you run Timeplus Enterprise in a self-hosted environment, the default settings are designed to accommodate common use cases with ease and optimal performance. The server can be configured either by modifying the configuration file or through the web console.
+
 ## User Management {#users}
 There is a default user for Timeplus with the username `default` and empty password.
 

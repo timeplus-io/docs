@@ -39,7 +39,7 @@ You can access the Timeplus Console via http://localhost:8000. On your first log
 
 You can also run the following command to start Timeplus Enterprise, with [Docker](https://www.docker.com/get-started/):
 ```shell
-docker run -p 8000:8000 timeplus/timeplus-enterprise:2.1.6.0
+docker run -p 8000:8000 timeplus/timeplus-enterprise
 ```
 
 A few optional parameters:
