@@ -14,7 +14,7 @@ This script will download the latest package (based on your operating system and
 
 You can also download the packages mannually with the following links:
 * Linux ([Intel/AMD chip](https://install.timeplus.com/latest-linux-amd64), [ARM chip](https://install.timeplus.com/latest-linux-arm64))
-* MacOS ([Intel chip](https://install.timeplus.com/latest-darwin-amd64), [Apple Silicon chip](https://install.timeplus.com/latest-darwin-arm64))
+* macOS ([Intel chip](https://install.timeplus.com/latest-darwin-amd64), [Apple Silicon chip](https://install.timeplus.com/latest-darwin-arm64))
 * Windows (Not available. Please [install via Docker](#docker))
 
 After you download the package, put it in a desired folder, uncompress the file and you can run Timeplus Enterprise with preconfigured settings:
@@ -33,7 +33,7 @@ This will start Timeplus Enterprise with a few key components:
 * `timeplus_web`: the web UI, managed by `timeplus_appserver`.
 * `timeplus_connnector`: the service to provide extra sources and sinks, , managed by `timeplus_appserver`.
 
-You can access the Timeplus Console via http://localhost:8000. On your first login, please share your contact information and start the 30-day free trial.
+You can access the Timeplus Console via http://localhost:8000. On your first login, please share your contact information and start the 30-day free trial. You can login with the username `default` with an empty password. To improve security, you are recommended to [change the password or add new users](server_config#users).
 
 ## Docker Install{#docker}
 
@@ -67,6 +67,4 @@ This stack demonstrates how to run streaming ETL, getting data from Kafka API, a
 ## License Management{#license}
 When you start Timeplus Enterprise and access the web console for the first time, the 30-day free trial starts. When it ends, the software stops working.
 
-You can [contact us](mailto:support@timeplus.com) and purchase a license, then upload in the web console. Click the *Workspace Settings* on the bottom-left and choose *License* tab. Copy and paste the license file or upload the file.
-
-![Add license](/img/add_license.png)
+Please check [the guide](server_config#license) to update licenses.

@@ -37,4 +37,4 @@ Start a Kubernetes cluster.
 Contact us to get the Helm chart. We will make the Helm chart repository public soon.
 
 ## License Management
-To activate or add new license, please follow the same process as [single node deployment](singlenode_install#license).
+To activate or add new license, please follow [the guide](server_config#license).
