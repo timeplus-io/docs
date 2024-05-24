@@ -10,11 +10,12 @@ If your server or laptop is running Linux or MacOS, you can run the following co
 curl https://install.timeplus.com | sh
 ```
 
+This script will download the latest package (based on your operating system and CPU architecture) to the current folder. Uncompress the package and start the Timeplus Enterprise server.
+
 You can also download the packages mannually with the following links:
-* [timeplus-enterprise-v2.1.6.1-linux-amd64.tar.gz](https://timeplus.io/dist/timeplus_enterprise/timeplus-enterprise-v2.1.6.1-linux-amd64.tar.gz) (318 MB)
-* timeplus-enterprise-v2.1.6.1-linux-arm64.tar.gz (coming soon)
-* timeplus-enterprise-v2.1.6.1-darwin-amd64.tar.gz (coming soon)
-* timeplus-enterprise-v2.1.6.1-darwin-arm64.tar.gz (coming soon)
+* Linux ([Intel/AMD chip](https://install.timeplus.com/latest-linux-amd64), [ARM chip](https://install.timeplus.com/latest-linux-arm64))
+* MacOS ([Intel chip](https://install.timeplus.com/latest-darwin-amd64), [Apple Silicon chip](https://install.timeplus.com/latest-darwin-arm64))
+* Windows (Not available. Please [install via Docker](#docker))
 
 After you download the package, put it in a desired folder, uncompress the file and you can run Timeplus Enterprise with preconfigured settings:
 
