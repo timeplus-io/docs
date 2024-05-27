@@ -32,4 +32,11 @@ You can [contact us](mailto:support@timeplus.com) and purchase a license, then u
 
 By default, Timeplus Enterprise web console is listening on 8000 in HTTP protocol. If you need to turn on self-signed or CA-signed HTTPS, you can edit conf/timeplus_appserver.yaml.
 
-More detailed guide will be added. Or contact us for support.
+```yaml
+server-port: 8443
+tls: true
+cert: ../cert/ca.crt
+key: ../cert/ca.key
+```
+
+To create self-signed certificate, you may follow [this doc](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/securing_networks/creating-and-managing-tls-keys-and-certificates_securing-networks).
