@@ -7,6 +7,19 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 * [Private Beta 2](private-beta-2) (Aug 9 to Oct 2, 2022)
 * [Private Beta 1](private-beta-1) (Mar 8 to Aug 8, 2022)
 
+## May 28, 2024
+
+*Timeplus Core Engine (Proton v1.5.9):*
+  * You can now run `table` function on Kafka External Streams. This will read all existing data in the Kafka topic, e.g. `select * from table(topic) where condition=true`.
+  * To get the number of messages in a Kafka topic, you can run `select count() from table(topic)`. This will return the message count efficiently in less than 1 second, without scanning each message body.
+  * A new advanced setting is available to control the speed of historical data backfill with a certain column. E.g. `select * from test_stream where _tp_time > earliest_timestamp() settings replay_speed=1, replay_time_column='time_col'`.
+  * New SQL functions: `parse_datetime` and `parse_datetime_in_joda_syntax`. For example `parse_datetime('2021-01-04+23:00:00', '%Y-%m-%d+%H:%i:%s')` returns a value in `datetime` type, for '2021-01-04 23:00:00'.
+      
+*Timeplus Console:*
+  * The number of External Tables is now shown in the "Workspace at a Glance" section on the Homepage.
+  * Refined the code editor's height adjustment and lock height behavior.
+  * Workspace owners can now see who created API keys.
+
 ## May 13, 2024
 
 *Timeplus Core Engine (Proton v1.5.8):*
