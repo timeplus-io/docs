@@ -17,7 +17,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
       
 *Timeplus Console:*
   * The number of External Tables is now shown in the "Workspace at a Glance" section on the Homepage.
-  * Refined the code editor's height adjustment and lock height behavior.
+  * Refined the SQL editor's height adjustment and lock height behavior.
   * Workspace owners can now see who created API keys.
 
 ## May 13, 2024
