@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.17.0",
-    "@crowdin/cli": "^3.19.2",
+    "@crowdin/cli": "^4.0.0",
     "@docusaurus/core": "^3.3.2",
     "@docusaurus/plugin-google-gtag": "^3.3.2",
     "@docusaurus/preset-classic": "^3.3.2",
