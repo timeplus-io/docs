@@ -3,23 +3,9 @@
 When you run Timeplus Enterprise in a self-hosted environment, the default settings are designed to accommodate common use cases with ease and optimal performance. The server can be configured either by modifying the configuration file or through the web console.
 
 ## User Management {#users}
-There is a default user for Timeplus with the username `default` and empty password.
+When you launch the web console of Timeplus Enterprise for the first time, you will be prompted to create a new user with a password.
 
-To edit or add new users, you can edit the conf/users.yaml.
-
-Here is a snippet of the default settings:
-```yaml
-users:
-  default:
-    allow_databases:
-    - database: default
-    default_database: default
-    networks:
-    - ip: ::/0
-    password: ""
-    profile: default
-    quota: default
-```
+To edit or add new users, you can edit the conf/users.yaml, then restart the server. Web UI will be provided soon.
 
 ## License Management{#license}
 When you start Timeplus Enterprise and access the web console for the first time, the 30-day free trial starts. When it ends, the software stops working.

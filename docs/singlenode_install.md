@@ -13,8 +13,8 @@ curl https://install.timeplus.com | sh
 This script will download the latest package (based on your operating system and CPU architecture) to the current folder. Uncompress the package and start the Timeplus Enterprise server.
 
 You can also download the packages mannually with the following links:
-* Linux ([Intel/AMD chip](https://install.timeplus.com/latest-linux-amd64), [ARM chip](https://install.timeplus.com/latest-linux-arm64))
-* macOS ([Intel chip](https://install.timeplus.com/latest-darwin-amd64), [Apple Silicon chip](https://install.timeplus.com/latest-darwin-arm64))
+* Linux ([Intel/AMD chip](https://install.timeplus.com/latest-linux-amd64.tar.gz), [ARM chip](https://install.timeplus.com/latest-linux-arm64.tar.gz))
+* macOS ([Intel chip](https://install.timeplus.com/latest-darwin-amd64.tar.gz), [Apple Silicon chip](https://install.timeplus.com/latest-darwin-arm64.tar.gz))
 * Windows (Not available. Please [install via Docker](#docker))
 
 After you download the package, put it in a desired folder, uncompress the file and you can run Timeplus Enterprise with preconfigured settings:
@@ -33,7 +33,7 @@ This will start Timeplus Enterprise with a few key components:
 * `timeplus_web`: the web UI, managed by `timeplus_appserver`.
 * `timeplus_connnector`: the service to provide extra sources and sinks, , managed by `timeplus_appserver`.
 
-You can access the Timeplus Console via http://localhost:8000. On your first login, please share your contact information and start the 30-day free trial. You can login with the username `default` with an empty password. To improve security, you are recommended to [change the password or add new users](server_config#users).
+You can access the Timeplus Console via http://localhost:8000. On your first login, please create an account with a password and start the 30-day free trial.
 
 ## Docker Install{#docker}
 
