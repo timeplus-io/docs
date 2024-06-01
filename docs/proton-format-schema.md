@@ -1,9 +1,10 @@
-# Protobuf Schema
+# Protobuf/Avro Schema
 
 ## Create A Schema {#create}
 
-Currently Proton supports reading or writing messages in [Protobuf](https://protobuf.dev/) format. For example:
+Timeplus Proton supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. For example:
 
+### Protobuf
 ```sql
 CREATE OR REPLACE FORMAT SCHEMA schema_name AS '
               syntax = "proto3";
@@ -40,6 +41,39 @@ Please note:
 3. You can use this external stream to read or write Protobuf messages in the target Kafka/Confluent topics.
 4. For more advanced use cases, please check the [examples for complex schema](#complex).
 
+### Avro
+Available since Proton 1.5.10
+```sql
+CREATE OR REPLACE FORMAT SCHEMA schema_name AS '{
+                "namespace": "example.avro",
+                "type": "record",
+                "name": "User",
+                "fields": [
+                  {"name": "name", "type": "string"},
+                  {"name": "favorite_number",  "type": ["int", "null"]},
+                  {"name": "favorite_color", "type": ["string", "null"]}
+                ]
+              }
+              ' TYPE Avro;
+```
+
+Then refer to this schema while creating an external stream for Confluent Cloud or Apache Kafka:
+
+```sql
+CREATE EXTERNAL STREAM stream_name(
+         name string,
+         favorite_number nullable(int32),
+         favorite_color nullable(string))
+SETTINGS type='kafka',
+         brokers='pkc-1234.us-west-2.aws.confluent.cloud:9092',
+         topic='topic_name',
+         security_protocol='SASL_SSL',
+         username='..',
+         password='..',
+         data_format='Avro',
+         format_schema='schema_name:User'
+```
+
 ## List Schemas
 
 List schemas in the current Proton deployment:
@@ -60,7 +94,7 @@ SHOW CREATE FORMAT SCHEMA schema_name
 DROP FORMAT SCHEMA <IF EXISTS> schema_name;
 ```
 
-## Examples For Complex Schema {#complex}
+## Examples For Complex Protobuf Schema {#complex}
 
 ### Nested Schema
 
