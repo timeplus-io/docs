@@ -105,6 +105,7 @@ const sidebars = {
           },
           items: ["singlenode_install", "cluster_install", "server_config"],
         },
+        "timeplus-query-guide",
         {
           type: "category",
           label: "Data Ingestion",
@@ -123,7 +124,7 @@ const sidebars = {
             "datapm",
           ],
         },
-        "timeplus-query-guide",
+
         /*"query-api",*/
         "viz",
         "apikey",
