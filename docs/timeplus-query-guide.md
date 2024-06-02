@@ -1,4 +1,4 @@
-# SQL and UI
+# Timeplus SQL
 
 Timeplus Enterprise ships an enhanced version of [Timeplus Proton](proton), together with web UI and other features.
 
