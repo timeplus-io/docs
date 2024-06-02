@@ -99,7 +99,7 @@ See our [privacy policy](https://www.timeplus.com/privacy-policy) for complete d
 
 JDBC driver is available at https://github.com/timeplus-io/proton-java-driver, and the ODBC driver is available at https://github.com/timeplus-io/proton-odbc.
 
-In the meanwhile, you can send the processed data to Kafka topics via External Stream, use the [proton-go-driver](https://github.com/timeplus-io/proton-go-driver), or [benthos](https://www.benthos.dev/) to send the data to other systems.
+In the meanwhile, you can send the processed data to Kafka topics via External Stream, use the [proton-go-driver](https://github.com/timeplus-io/proton-go-driver), or [Redpanda Connect](https://github.com/redpanda-data/connect) to send the data to other systems.
 
 If you are on Timeplus Enterprise, you can use the REST API or [SDK](https://github.com/timeplus-io/gluon) to run queries or manage resources in Timeplus, via the API server, which is not part of Timeplus Proton.
 
