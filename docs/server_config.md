@@ -23,7 +23,7 @@ You can also import a license by running the following command when Timeplus Ent
 
 ## Enable HTTPS {#https}
 
-By default, Timeplus Enterprise web console is listening on 8000 in HTTP protocol. If you need to turn on self-signed or CA-signed HTTPS, you can edit conf/timeplus_appserver.yaml.
+By default, Timeplus Enterprise web console is listening on 8000, on a plain HTTP port. If you need to turn on self-signed or CA-signed HTTPS, you can edit conf/timeplus_appserver.yaml as follows:
 
 ```yaml
 server-port: 8443
@@ -32,7 +32,7 @@ cert: ../cert/ca.crt
 key: ../cert/ca.key
 ```
 
-To create self-signed certificate, you may follow [this doc](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/securing_networks/creating-and-managing-tls-keys-and-certificates_securing-networks) and put the certificate files under `cert` folder of `timeplus`.
+To create self-signed certificate, you may follow [this doc](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/securing_networks/creating-and-managing-tls-keys-and-certificates_securing-networks) and put the certificate files under the `timeplus/cert` folder.
 
 Stop and start timeplus service after the configuration change.
 
@@ -40,7 +40,7 @@ Stop and start timeplus service after the configuration change.
 
 To run Timeplus Enterprise as a service, you need a OS that supports `systemd`.
 
-To install it as service, run `sudo ./bin/timeplus service enable -u user -g user_group`.
+To install it as a systemd service, run `sudo ./bin/timeplus service enable -u user -g user_group`.
 
 Note:
 1. Root privilage is required to enable the service.

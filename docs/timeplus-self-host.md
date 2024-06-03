@@ -1,6 +1,6 @@
 # Self-hosted
 
-Timeplus Enterprise is easy to deploy from edge to your data center. It's ideal for enterprise users with flexible deployment needs with advanced configurations needs.
+Timeplus Enterprise is easy to deploy from edge devices to your data center. It is ideal for enterprise users with flexible deployment needs with advanced configurations needs.
 
 Timeplus Enterprise self-hosted edition shares many features as Timeplus Enterprise in the cloud. Comparing to Timeplus Proton, you can do more with Timeplus Enterprise, e.g.
 

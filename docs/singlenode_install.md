@@ -27,13 +27,17 @@ Then change directory to the `bin` folder and run
 ./timeplus start
 ```
 
-This will start Timeplus Enterprise with a few key components:
+This will start Timeplus Enterprise with a few key processes:
 * `timeplusd`: the core SQL engine, servering at port 8463 (TCP, for `timeplus client`) and 3218 (HTTP, for JDBC/ODBC drivers).
 * `timeplus_appserver`: the application server, servering at HTTP port 8000
 * `timeplus_web`: the web UI, managed by `timeplus_appserver`.
 * `timeplus_connnector`: the service to provide extra sources and sinks, , managed by `timeplus_appserver`.
 
-You can access the Timeplus Console via http://localhost:8000. On your first login, please create an account with a password and start the 30-day free trial.
+You can access the Timeplus Enterprise Web Console via http://localhost:8000. On your first login, please create an account with a password and start the 30-day free trial.
+
+It is also possible to only start/stop single process by running `timeplus start -s service_name`. For example where you only want to startup the Timeplus Core, run `timeplus start -s timeplusd`.
+
+For more information, just run  `timeplus start -h` for details.
 
 ## Docker Install{#docker}
 
