@@ -1,8 +1,9 @@
 # Protobuf/Avro Schema
+Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. This document covers how to process data without a Schema Registry. Check [this page](proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
 
 ## Create A Schema {#create}
 
-Timeplus Proton supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. For example:
+Without a Schema Registry, you need to define the Protobuf or Avro schema using SQL.
 
 ### Protobuf
 ```sql
@@ -17,7 +18,7 @@ CREATE OR REPLACE FORMAT SCHEMA schema_name AS '
               ' TYPE Protobuf
 ```
 
-Then refer to this schema while creating an external stream for Confluent Cloud or Apache Kafka:
+Then refer to this schema while creating an external stream for Kafka:
 
 ```sql
 CREATE EXTERNAL STREAM stream_name(
@@ -42,7 +43,7 @@ Please note:
 4. For more advanced use cases, please check the [examples for complex schema](#complex).
 
 ### Avro
-Available since Proton 1.5.10
+Available since Proton 1.5.10.
 ```sql
 CREATE OR REPLACE FORMAT SCHEMA schema_name AS '{
                 "namespace": "example.avro",
@@ -57,7 +58,7 @@ CREATE OR REPLACE FORMAT SCHEMA schema_name AS '{
               ' TYPE Avro;
 ```
 
-Then refer to this schema while creating an external stream for Confluent Cloud or Apache Kafka:
+Then refer to this schema while creating an external stream for Kafka:
 
 ```sql
 CREATE EXTERNAL STREAM stream_name(
@@ -71,7 +72,7 @@ SETTINGS type='kafka',
          username='..',
          password='..',
          data_format='Avro',
-         format_schema='schema_name:User'
+         format_schema='schema_name'
 ```
 
 ## List Schemas
@@ -94,7 +95,7 @@ SHOW CREATE FORMAT SCHEMA schema_name
 DROP FORMAT SCHEMA <IF EXISTS> schema_name;
 ```
 
-## Examples For Complex Protobuf Schema {#complex}
+## Examples For Complex Protobuf Schema {#protobuf_complex}
 
 ### Nested Schema
 
@@ -255,3 +256,31 @@ message Test{
 ```
 
 Please make sure to add `.proto` as the suffix.
+
+## Avro Data Types Mapping {#avro_types}
+The table below shows supported Avro data types and how they match Timeplus data types in INSERT and SELECT queries.
+
+|Avro data type|Timeplus data type|
+|---|---|
+|int|int8,int16,int32,uint8,uint16,uint32|
+|long|int64,uint64|
+|float|float32|
+|double|float64|
+|bytes,string|string|
+|fixed(N)|fixed_string(N)|
+|enum|enum8,enum16|
+|array(T)|array(T)|
+|map(k,v)|map(k,v)|
+|union(null,T)|nullable(T)|
+|null|nullable(nothing)|
+|int(date)|date,date32|
+|long (timestamp-millis)|datetime64(3)|
+|long (timestamp-micros)|datetime64(6)|
+|bytes (decimal)|datetime64(N)|
+|int|ipv4|
+|fixed(16)|ipv6|
+|bytes (decimal) | decimal(P,S)|
+|string (uuid) | uuid|
+|fixed(16)|int128, uint128|
+|fixed(32)|int256, uint256|
+|record|tuple|
