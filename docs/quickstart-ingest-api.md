@@ -1,6 +1,6 @@
-# Push data to Timeplus Cloud
+# Push data to Timeplus
 
-You can call the ingestion REST API to push data to Timeplus, with any preferred languages. 
+You can call the ingestion REST API to push data to Timeplus, with any preferred languages.
 
 With the recent enhancements of the ingest API, in many cases, you can configure other systems to push data directly to Timeplus via webhook, without writing code.
 
@@ -11,7 +11,7 @@ In this quickstart guide, you will push JSON documents one by one to the targete
 Timeplus provides many options to push data as a single document or in a batch with multiple documents, or as a flexible schema or fixed schema. For the sake of simplicity, in this tutorial, you will post JSON documents like this to a stream with a single column called `raw` in `string` type.
 
 ```json
-{"key1": "value11", "key2": 12}
+{ "key1": "value11", "key2": 12 }
 ```
 
 First, login in Timeplus Console, in the Streams page, click the **New Stream** button. Set **Stream Name** as `foo`, leaving the **Description** empty. In the **Columns** list, type `raw` as the NAME, type or choose `string` as the TYPE. Then click **Create** button.
@@ -22,11 +22,7 @@ What we will do is to add new JSON documents in this stream, and later on you ca
 select raw:key1 as k1, raw:key2::int as k2 from foo
 ```
 
-
-
 ## Step 2: Create an API Key
-
-
 
 You need to create an API key to access Timeplus REST API. To do so:
 
@@ -37,11 +33,9 @@ You need to create an API key to access Timeplus REST API. To do so:
 5. Set a readable name and choose an expiration date
 6. Save the API key securely in your computer. You are not going to retrieve the plain text key again in the console.
 
-
-
 ## Step 3: Send data to Timeplus with the API key
 
-Depending on which tool or programming language works best for you, you can send data to Timeplus in different ways. 
+Depending on which tool or programming language works best for you, you can send data to Timeplus in different ways.
 
 The base endpoint for the ingestion API is `https://us.timeplus.cloud/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest`
 :::info
@@ -49,7 +43,6 @@ The base endpoint for the ingestion API is `https://us.timeplus.cloud/WORKSPACE_
 Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is read only but we will make it editable in the future.
 
 :::
-
 
 ### curl
 
@@ -129,8 +122,8 @@ public class Example {
 
         String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
         MediaType mediaType = MediaType.parse("text/plain");
-        String data = """ 
-          {"key1": "value11", "key2": 12} 
+        String data = """
+          {"key1": "value11", "key2": 12}
           """;
         RequestBody body = RequestBody.create(mediaType, data);
 

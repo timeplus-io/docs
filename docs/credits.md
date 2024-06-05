@@ -3,8 +3,8 @@
 
 
 Parts of the Timeplus product are powered by open source projects.
-* Core engine ([Proton](proton), Apache License 2.0) integrates with [ClickHouse](https://clickhouse.com) (Apache License 2.0) as the historical storage
-* Sources and sinks are powered by [Benthos](https://www.benthos.dev/) (MIT License)
+* Core engine ([Proton](proton), Apache License 2.0) uses code from [ClickHouse](https://clickhouse.com) (Apache License 2.0) for SQL functions and the historical storage.
+* Sources and sinks are powered by [Redpanda Connect](https://github.com/redpanda-data/connect) (Apache License 2.0) and [Benthos Framework](https://github.com/redpanda-data/benthos) (MIT License).
 * JavaScript UDF is powered by [V8](https://v8.dev/) (BSD License)
 * [Other third-party libraries](https://clickhouse.com/docs/en/development/contrib) introduced by [ClickHouse](https://clickhouse.com), which can be obtained by the following query:
 
@@ -272,7 +272,7 @@ are:
     src/wasm/c-api.cc.
 These libraries have their own licenses; we recommend you read them,
 as their terms may differ from the terms below.
-Further license information can be found in LICENSE files located in 
+Further license information can be found in LICENSE files located in
 sub-directories.
 Copyright 2014, the V8 project authors. All rights reserved.
 Redistribution and use in source and binary forms, with or without
@@ -299,4 +299,3 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
-

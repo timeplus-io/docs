@@ -1,0 +1,7 @@
+files:
+  - "docs/*"
+dictionaries:
+  - spellchecker/dic.txt
+reports:
+  - spellchecker/report.json
+  - spellchecker/report.junit.xml

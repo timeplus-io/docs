@@ -2,15 +2,15 @@
 
 At Timeplus, we drink our own champagne and apply our technologies in many different use cases. Many our customers also contribute creative ways to build real-time solutions with Timeplus. This document lists known use cases in different categories. Hopefully this can inspire you to gain more insights from real-time data with low cost and effort.
 
-If you have an interesting use case you'd like to share, please join the [Timeplus Community](https://timeplus.com/slack) on Slack.
+If you have an interesting use case you'd like to share, please join the [Timeplus Community Slack](https://timeplus.com/slack).
 
 ## FinTech
 
 ### Real-time post-trade analytics {#posttrade}
 
-Based on real-world customer scenarios for post-trade capital markets, we turn real-time market and transaction data into real-time insights. 
+Based on real-world customer scenarios for post-trade capital markets, we turn real-time market and transaction data into real-time insights.
 
-> "Timeplus fills a major gap in today’s rapidly changing markets, where businesses must go real-time or become obsolete. It makes extracting insights from streaming data even easier, saving us from writing thousands of lines of code and hundreds of hours of development. The ability to monitor and analyze massive amounts of real-time investment data leads to greater risk control and cost analysis.” *-Ling Wang, Head of IT, Huatai Securities*
+> "Timeplus fills a major gap in today’s rapidly changing markets, where businesses must go real-time or become obsolete. It makes extracting insights from streaming data even easier, saving us from writing thousands of lines of code and hundreds of hours of development. The ability to monitor and analyze massive amounts of real-time investment data leads to greater risk control and cost analysis.” _-Ling Wang, Head of IT, Huatai Securities_
 
 [Read case study](https://www.timeplus.com/post/unlocking-real-time-post-trade-analytics-with-streaming-sql) | [See live demo](https://demo.timeplus.cloud)
 
@@ -18,9 +18,9 @@ Based on real-world customer scenarios for post-trade capital markets, we turn r
 
 ### Real-time pricing
 
-As one of our first case studies, check out how leading fintech player Alpha Stream deployed Timeplus to quickly upgrade its real-time analytics capabilities. 
+As one of our first case studies, check out how leading fintech player Alpha Stream deployed Timeplus to quickly upgrade its real-time analytics capabilities.
 
-> "We are able to simply plug the sources into Timeplus and start writing queries over the streaming data to get the results. No need to compile and deploy a code. This makes prototyping to deploy applications really fast." *-Hamilton Araujo, Managing Director, Alpha Stream*
+> "We are able to simply plug the sources into Timeplus and start writing queries over the streaming data to get the results. No need to compile and deploy a code. This makes prototyping to deploy applications really fast." _-Hamilton Araujo, Managing Director, Alpha Stream_
 
 [Read case study](https://www.timeplus.com/post/real-time-pricing-made-easy)
 
@@ -68,7 +68,7 @@ Timeplus has achieved SOC2 Type 1 compliance [since April 2023](https://www.time
 
 Build real-time monitoring systems for container vulnerabilities with Timeplus. Eric Guo, DevOps Director of Aurora Health Science & Technology Co., shares how his team set up a system to provide actionable insights to keep their system secure at all times.
 
-> "We are delighted to have integrated Timeplus into our data infrastructure at Aurora, replacing our previous Flink clusters while utilizing just a fraction of the hardware resources, a reduction of nearly 80%. With Timeplus, we have significantly improved the analytical capabilities of AuroraPrime, reducing the turnaround time for user-facing reports and dashboards." *– Eric Guo, DevOps Director, Aurora*
+> "We are delighted to have integrated Timeplus into our data infrastructure at Aurora, replacing our previous Flink clusters while utilizing just a fraction of the hardware resources, a reduction of nearly 80%. With Timeplus, we have significantly improved the analytical capabilities of AuroraPrime, reducing the turnaround time for user-facing reports and dashboards." _– Eric Guo, DevOps Director, Aurora_
 
 [Read case study](https://www.timeplus.com/post/real-time-container-vulnerabilities-monitoring)
 
@@ -96,7 +96,7 @@ Many organizations rely on [Slack](https://slack.com/about) to connect people, t
 
 Gain real-time visibility into fleet operations using only SQL. Based on real-world customer scenarios, here's how to monitor the entire truck fleet’s status in real-time to detect speeding and fatigued drivers, and to conduct geofencing related checks.
 
-> "We are thrilled to partner with Timeplus and gain real-time visibility to our 2000+ trucks, with much lower latency, smarter alerts and shorter Time-To-Value, compared to our previous solutions." *- Minfeng Xie, Chief Technology Officer, Duckbill*
+> "We are thrilled to partner with Timeplus and gain real-time visibility to our 2000+ trucks, with much lower latency, smarter alerts and shorter Time-To-Value, compared to our previous solutions." _- Minfeng Xie, Chief Technology Officer, Duckbill_
 
 [Read case study](https://www.timeplus.com/post/case-study-real-time-fleet-monitoring-with-timeplus) | [See live demo](https://demo.timeplus.cloud/)
 
@@ -106,7 +106,7 @@ Gain real-time visibility into fleet operations using only SQL. Based on real-wo
 
 [Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger#live-data-streaming) is a free, easy-to-use, cross-platform data logger that logs readings from common motion-related sensors on smartphones. It can push data to Timeplus via the [Ingest API](ingest-api), allowing you to build real-time dashboards.
 
-[Watch demo video](https://www.youtube.com/watch?v=iWA8FHjyatE)  
+[Watch demo video](https://www.youtube.com/watch?v=iWA8FHjyatE)
 
 ![Jove's demo](https://user-images.githubusercontent.com/30114997/224557365-dfe593f5-e84f-4fcf-9900-9bcfd31c5e44.png)
 
@@ -114,11 +114,11 @@ Gain real-time visibility into fleet operations using only SQL. Based on real-wo
 
 ### Analyze Livepeer Video Engagement Metrics
 
-Video engagement metrics are important to video creators, which serve as valuable indicators of content quality, help users manage their time effectively, facilitate interaction with content creators and other viewers, and contribute to the overall user experience on video-sharing platforms. 
+Video engagement metrics are important to video creators, which serve as valuable indicators of content quality, help users manage their time effectively, facilitate interaction with content creators and other viewers, and contribute to the overall user experience on video-sharing platforms.
 
-In May 2023, Livepeer released their version of these  [engagement metrics](https://docs.livepeer.org/guides/developing/viewer-engagement) offering detailed information on viewer behavior and playback quality on your platform. The API includes engagement metrics such as view counts and watch time, as well as performance metrics such as error rate, time to first frame, rebuffer ratio, and exit-before-starts across a variety of dimensions.
+In May 2023, Livepeer released their version of these [engagement metrics](https://docs.livepeer.org/guides/developing/viewer-engagement) offering detailed information on viewer behavior and playback quality on your platform. The API includes engagement metrics such as view counts and watch time, as well as performance metrics such as error rate, time to first frame, rebuffer ratio, and exit-before-starts across a variety of dimensions.
 
-In [this blog](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engagement-metrics-with-timeplus), we showed you how Timeplus can be used to create analytic solutions for Livepeer’s engagement metrics with a few commands.  
+In [this blog](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engagement-metrics-with-timeplus), we showed you how Timeplus can be used to create analytic solutions for Livepeer’s engagement metrics with a few commands.
 
 ![screenshot of video engagement analysis with Timeplus](https://static.wixstatic.com/media/2d747e_5c4f8e19e77e49f0aba59552cf6b6c3a~mv2.png/v1/fill/w_740,h_357,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2d747e_5c4f8e19e77e49f0aba59552cf6b6c3a~mv2.png)
 
@@ -138,7 +138,7 @@ We use the open source [Jitsu](https://jitsu.com/) platform to collect event dat
 
 ### Real-time Twitter marketing {#twitter}
 
-Twitter(X) is all about what is happening and what people are talking about right now. We partner with [datapm](https://datapm.io/) and published a [blog](https://www.timeplus.com/post/real-time-twitter-marketing)  to share how Timeplus and DataPM can help you develop a real-time Twitter marketing app within a few minutes, without a single line of code. This makes it super easy to create real-time social listening apps to understand how customers are talking about your company or products, and plan your next social marketing campaign with trending hot topics.
+Twitter(X) is all about what is happening and what people are talking about right now. We partner with [datapm](https://datapm.io/) and published a [blog](https://www.timeplus.com/post/real-time-twitter-marketing) to share how Timeplus and DataPM can help you develop a real-time Twitter marketing app within a few minutes, without a single line of code. This makes it super easy to create real-time social listening apps to understand how customers are talking about your company or products, and plan your next social marketing campaign with trending hot topics.
 
 ![Twitter screenshot](https://static.wixstatic.com/media/b32125_9cc9aa162b174834a4b7994f69eb33ca~mv2.png/v1/fill/w_1480,h_664,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/b32125_9cc9aa162b174834a4b7994f69eb33ca~mv2.png)
 
@@ -146,7 +146,7 @@ Twitter(X) is all about what is happening and what people are talking about righ
 
 ### Wildfire monitoring and alerting
 
-We partnered with [Crul](https://www.crul.com/) to analyze wildfire website data and send to Timeplus with customized monitoring and alerting. 
+We partnered with [Crul](https://www.crul.com/) to analyze wildfire website data and send to Timeplus with customized monitoring and alerting.
 
 [Read case study](https://www.timeplus.com/post/integrating-timeplus-crul)
 
@@ -154,7 +154,7 @@ We partnered with [Crul](https://www.crul.com/) to analyze wildfire website data
 
 ### A data-driven parent{#baby}
 
-One passionate Timeplus user shared how to use Timeplus to analyze baby names from data provided by [Data.gov](https://www.kaggle.com/datasets/kaggle/us-baby-names). 
+One passionate Timeplus user shared how to use Timeplus to analyze baby names from data provided by [Data.gov](https://www.kaggle.com/datasets/kaggle/us-baby-names).
 
 > Now that my wife has some great name suggestions at her fingertips (in real-time, I gave her a dashboard and I'm sending a Kafka stream to her phone for extra annoyance), she'll be able to make an informed decision.
 

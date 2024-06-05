@@ -40,10 +40,13 @@ const config = {
     [
       "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
+      {
         gtag: {
           trackingID: "G-8HHYCJFNRD",
-          anonymizeIP: true,
+          anonymizeIP: false,
+        },
+        googleTagManager: {
+          containerId: "GTM-5XLMK2H9",
         },
         docs: {
           path: "docs",
@@ -59,7 +62,7 @@ const config = {
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
-      }),
+      },
     ],
   ],
 
@@ -293,7 +296,9 @@ const config = {
           "javascript",
           "json",
           "python",
+          "protobuf",
           "sql",
+          "yaml",
         ],
       },
       colorMode: {

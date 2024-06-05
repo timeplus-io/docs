@@ -45,16 +45,9 @@ const sidebars = {
         type: "generated-index",
       },
       items: [
-        {
-          type: "category",
-          label: "Timeplus Cloud Quickstart",
-          //collapsed: false,
-          link: {
-            type: "doc",
-            id: "quickstart",
-          },
-          items: ["quickstart-confluent", "quickstart-ingest-api"],
-        },
+        "quickstart",
+        "quickstart-confluent",
+        "quickstart-ingest-api",
         "proton-howto",
       ],
     },
@@ -94,34 +87,25 @@ const sidebars = {
     "install",
     {
       type: "category",
-      label: "Timeplus Core (Proton)",
-      link: {
-        type: "doc",
-        id: "proton",
-      },
-      items: [
-        "proton-architecture",
-        "proton-create-stream",
-        "proton-kafka",
-        "proton-schema-registry",
-        "proton-format-schema",
-        "proton-manage-stream",
-        "proton-create-view",
-        "proton-clickhouse-external-table",
-        "proton-create-udf",
-        "proton-ingest-api",
-        "proton-ports",
-      ],
-    },
-    {
-      type: "category",
-      label: "Timeplus Cloud",
+      label: "Timeplus Enterprise",
       //collapsed: false,
       link: {
         type: "doc",
-        id: "timeplus-cloud",
+        id: "timeplus-enterprise",
       },
       items: [
+        "timeplus-cloud",
+        {
+          type: "category",
+          //collapsed: false,
+          label: "Self-hosted",
+          link: {
+            type: "doc",
+            id: "timeplus-self-host",
+          },
+          items: ["singlenode_install", "cluster_install", "server_config"],
+        },
+        "timeplus-query-guide",
         {
           type: "category",
           label: "Data Ingestion",
@@ -140,17 +124,11 @@ const sidebars = {
             "datapm",
           ],
         },
-        "timeplus-query-guide",
-        "query-api",
+
+        /*"query-api",*/
         "viz",
-        {
-          type: "category",
-          label: "Manage",
-          link: {
-            type: "generated-index",
-          },
-          items: ["apikey", "terraform"],
-        },
+        "apikey",
+        "terraform",
         "issues",
         {
           label: "REST API Reference",
@@ -159,7 +137,6 @@ const sidebars = {
         },
       ],
     },
-    "timeplus-enterprise",
     {
       type: "category",
       label: "Tutorials and Examples",
@@ -183,6 +160,27 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "SQL Engine (Proton)",
+      link: {
+        type: "doc",
+        id: "proton",
+      },
+      items: [
+        "proton-architecture",
+        "proton-create-stream",
+        "proton-kafka",
+        "proton-schema-registry",
+        "proton-format-schema",
+        "proton-manage-stream",
+        "proton-create-view",
+        "proton-clickhouse-external-table",
+        "proton-create-udf",
+        "proton-ingest-api",
+        "proton-ports",
+      ],
+    },
+    {
+      type: "category",
       label: "SQL Reference",
       collapsed: true,
       link: {
@@ -190,6 +188,7 @@ const sidebars = {
         id: "query-syntax",
       },
       items: [
+        "query-settings",
         "datatypes",
         {
           type: "category",
@@ -229,7 +228,7 @@ const sidebars = {
       link: {
         type: "generated-index",
       },
-      items: ["proton-faq", "faq"],
+      items: ["faq", "proton-faq"],
     },
     {
       type: "category",

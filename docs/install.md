@@ -1,21 +1,28 @@
 # Install
 
-## Timeplus Cloud
-The quickest and easiest way to get started with Timeplus to sign up a free account at the fully-managed [Timeplus Cloud](https://us.timeplus.cloud/).
+## Timeplus Enterprise in the cloud{#cloud}
 
-## Timeplus Core (Proton){#proton}
+The quickest and easiest way to get started with Timeplus is to sign up a free account at the fully-managed [us.timeplus.cloud](https://us.timeplus.cloud).
+
+You just need to sign up with Google or Microsoft Single Sign-On, or create a new username and password. Then create a new workspace and start your streaming analytics journey.
+
+## Timeplus Enterprise self-hosted{#self-hosted}
+
+Customers can install Timeplus Enterprise with high availability and scalability in own data center or cloud account, using the [bare metal installer](singlenode_install#bare-metal-install) or the official Timeplus [Kubernetes Helm Chart](cluster_install#k8s).
+
+## Timeplus Proton, the core engine{#proton}
 
 ### As a single binary{#binary}
 
 ```shell
-curl https://install.timeplus.com | sh
+curl https://install.timeplus.com/oss | sh
 ```
 
 Once the `proton` binary is available, you can run Timeplus Proton in different modes:
 
-* **Local Mode.** You run `proton local` to start it for fast processing on local and remote files using SQL without having to install a full server
-* **Config-less Mode.** You run `proton server` to start the server and put the config/logs/data in the current folder. Then use `proton client -h 127.0.0.1` in the other terminal to  start the SQL client.
-* **Server Mode.** You run `sudo proton install` to install the server in predefined path and a default configuration file. Then you can run `sudo proton server -C/etc/proton-server/config.yaml` to start the server and use `proton client` in the other terminal to start the SQL client.
+- **Local Mode.** You run `proton local` to start it for fast processing on local and remote files using SQL without having to install a full server
+- **Config-less Mode.** You run `proton server` to start the server and put the config/logs/data in the current folder. Then use `proton client -h 127.0.0.1` in the other terminal to start the SQL client.
+- **Server Mode.** You run `sudo proton install` to install the server in predefined path and a default configuration file. Then you can run `sudo proton server -C/etc/proton-server/config.yaml` to start the server and use `proton client` in the other terminal to start the SQL client.
 
 For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
 
@@ -45,7 +52,3 @@ The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/ex
 ### Kubernetes
 
 Running the single node Proton via Kubernetes is possible. We recommend you contact us to deploy Timeplus Enterprise for on-prem deployment.
-
-## Timeplus Enterprise
-
-Customers of Timeplus Enterprise can install Timeplus with high availability and scalability using the official Timeplus Kubernetes Helm Chart. [Contact us](mailto:info@timeplus.com) to learn more.

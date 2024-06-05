@@ -15,30 +15,29 @@ SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',usern
 
 The supported values for `security_protocol` are:
 
-* PLAINTEXT: when this option is omitted, this is the default value.
-* SASL_SSL: when this value is set, username and password should be specified. 
-  * If you need to specify own SSL certification file, add another setting `ssl_ca_cert_file='/ssl/ca.pem'` New in Proton 1.5.5, you can also put the full content of the pem file as a string in the `ssl_ca_pem` setting if you don't want to, or cannot use a file path, such as on Timeplus Cloud or in Docker/Kubernetes environments.
-  * Skipping the SSL certification verification can be done via  `SETTINGS skip_ssl_cert_check=true`.
-
+- PLAINTEXT: when this option is omitted, this is the default value.
+- SASL_SSL: when this value is set, username and password should be specified.
+  - If you need to specify own SSL certification file, add another setting `ssl_ca_cert_file='/ssl/ca.pem'` New in Proton 1.5.5, you can also put the full content of the pem file as a string in the `ssl_ca_pem` setting if you don't want to, or cannot use a file path, such as on Timeplus Cloud or in Docker/Kubernetes environments.
+  - Skipping the SSL certification verification can be done via `SETTINGS skip_ssl_cert_check=true`.
 
 The supported values for `sasl_mechanism` are:
 
-* PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
-* SCRAM-SHA-256
-* SCRAM-SHA-512
+- PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
+- SCRAM-SHA-256
+- SCRAM-SHA-512
 
 The supported values for `data_format` are:
 
-* JSONEachRow: each Kafka message can be a single JSON document, or each row is a JSON document. [Learn More](#jsoneachrow).
-* CSV: less commonly used. [Learn More](#csv).
-* ProtobufSingle: for single Protobuf message per Kafka message
-* Protobuf: there could be multiple Protobuf messages in a single Kafka message.
-* Avro: added in Proton 1.5.2
-* RawBLOB: the default value. Read/write Kafka message as plain text.
+- JSONEachRow: each Kafka message can be a single JSON document, or each row is a JSON document. [Learn More](#jsoneachrow).
+- CSV: less commonly used. [Learn More](#csv).
+- ProtobufSingle: for single Protobuf message per Kafka message
+- Protobuf: there could be multiple Protobuf messages in a single Kafka message.
+- Avro: added in Proton 1.5.2
+- RawBLOB: the default value. Read/write Kafka message as plain text.
 
 :::info
 
-For examples to connect to various Kafka API compatitable messsage platforms, please check [this doc](tutorial-sql-connect-kafka).
+For examples to connect to various Kafka API compatitable message platforms, please check [this doc](tutorial-sql-connect-kafka).
 
 :::
 
@@ -46,14 +45,14 @@ For examples to connect to various Kafka API compatitable messsage platforms, pl
 
 #### Single column to read from Kafka {#single_col_read}
 
-If the message in Kafka topic is in plain text format or JSON, you can create an external stream with only a `raw` column in `string` type. 
+If the message in Kafka topic is in plain text format or JSON, you can create an external stream with only a `raw` column in `string` type.
 
 Example:
 
 ```sql
 CREATE EXTERNAL STREAM ext_github_events
          (raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='localhost:9092',
          topic='github_events'
 ```
@@ -67,7 +66,7 @@ You can write plain text messages to Kafka topics with an external stream with a
 ```sql
 CREATE EXTERNAL STREAM ext_github_events
          (raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='localhost:9092',
          topic='github_events'
 ```
@@ -76,19 +75,17 @@ Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](pro
 
 #### Multiple columns to read from Kafka{#multi_col_read}
 
-If the keys in the JSON message never change, or you don't care about the new columns, you can also create the external stream with multiple columns (only available to Proton v1.3.24+). 
+If the keys in the JSON message never change, or you don't care about the new columns, you can also create the external stream with multiple columns (only available to Proton v1.3.24+).
 
-You can pick up some top level keys in the JSON as columns, or all possible keys as columns. 
+You can pick up some top level keys in the JSON as columns, or all possible keys as columns.
 
 Please note the behaviors are changed in recent versions, based on user feedbacks:
 
- 
-
-| Version         | Default Behavior                                             | How to overwrite                                             |
-| --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 1.4.2 or above  | Say there are 5 top level key/value pairs in JSON, you can define 5 or less than 5 columns in the external stream. Data will be read properly. | If you don't want to read new events with unexpected columns, set `input_format_skip_unknown_fields=false` in the `CREATE` DDL. |
-| 1.3.24 to 1.4.1 | Say there are 5 top level key/value pairs in JSON, you can need to define 5 columns to read them all. Or define less than 5 columns in the DDL, and make sure to add `input_format_skip_unknown_fields=true` in each `SELECT` query settings, otherwise no search result will be returned. | In each `SELECT` query, you can specify the setting `input_format_skip_unknown_fields=true\|false`. |
-| 1.3.23 or older | You have to define a single `string` column for the entire JSON document and apply query time JSON parsing to extract fields. | N/A                                                      |
+| Version         | Default Behavior                                                                                                                                                                                                                                                                           | How to overwrite                                                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| 1.4.2 or above  | Say there are 5 top level key/value pairs in JSON, you can define 5 or less than 5 columns in the external stream. Data will be read properly.                                                                                                                                             | If you don't want to read new events with unexpected columns, set `input_format_skip_unknown_fields=false` in the `CREATE` DDL. |
+| 1.3.24 to 1.4.1 | Say there are 5 top level key/value pairs in JSON, you can need to define 5 columns to read them all. Or define less than 5 columns in the DDL, and make sure to add `input_format_skip_unknown_fields=true` in each `SELECT` query settings, otherwise no search result will be returned. | In each `SELECT` query, you can specify the setting `input_format_skip_unknown_fields=true\|false`.                             |
+| 1.3.23 or older | You have to define a single `string` column for the entire JSON document and apply query time JSON parsing to extract fields.                                                                                                                                                              | N/A                                                                                                                             |
 
 Example:
 
@@ -101,7 +98,7 @@ CREATE EXTERNAL STREAM ext_github_events
           repo string,
           type string
          )
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='localhost:9092',
          topic='github_events',
          data_format='JSONEachRow'
@@ -111,7 +108,7 @@ If there are nested complex JSON in the message, you can define the column as a 
 
 :::info
 
-Since Proton v1.3.29, Protobuf messages can be read with all or partial columns. Please check [this page](proton-format-schema). 
+Since Proton v1.3.29, Protobuf messages can be read with all or partial columns. Please check [this page](proton-format-schema).
 
 :::
 
@@ -121,22 +118,23 @@ To write data via Kafka API (only available to Proton v1.3.18+), you can choose 
 
 ##### JSONEachRow
 
-You can use `data_format='JSONEachRow',one_message_per_row=true`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:
+You can use `data_format='JSONEachRow',one_message_per_row=true` to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:
 
 ```sql
 CREATE EXTERNAL STREAM target(
-    _tp_time datetime64(3), 
-    url string, 
-    method string, 
-    ip string) 
-    SETTINGS type='kafka', 
-             brokers='redpanda:9092', 
-             topic='masked-fe-event', 
+    _tp_time datetime64(3),
+    url string,
+    method string,
+    ip string)
+    SETTINGS type='kafka',
+             brokers='redpanda:9092',
+             topic='masked-fe-event',
              data_format='JSONEachRow',
              one_message_per_row=true;
 ```
 
 The messages will be generated in the specific topic as
+
 ```json
 {
 "_tp_time":"2023-10-29 05:36:21.957"
@@ -148,12 +146,12 @@ The messages will be generated in the specific topic as
 
 :::info
 
-Please note, since 1.3.25, by default multiple JSON documents will be inserted to the same Kafka message. One JSON document each row/line. Such default behavior aims to get the maximum writing performance to Kafka/Redpanda. But you need to make sure the downstream applications are able to properly split the JSON documents per Kafka message. 
+Please note, since 1.3.25, by default multiple JSON documents will be inserted to the same Kafka message. One JSON document each row/line. Such default behavior aims to get the maximum writing performance to Kafka/Redpanda. But you need to make sure the downstream applications are able to properly split the JSON documents per Kafka message.
 
-If you need a valid JSON per each Kafka message, instead of a JSONL, please set `one_message_per_row=true`  e.g.
+If you need a valid JSON per each Kafka message, instead of a JSONL, please set `one_message_per_row=true` e.g.
 
 ```sql
-CREATE EXTERNAL STREAM target(_tp_time datetime64(3), url string, ip string) 
+CREATE EXTERNAL STREAM target(_tp_time datetime64(3), url string, ip string)
 SETTINGS type='kafka', brokers='redpanda:9092', topic='masked-fe-event',
          data_format='JSONEachRow',one_message_per_row=true
 ```
@@ -164,17 +162,17 @@ The default value of one_message_per_row, if not specified, is false.
 
 ##### CSV
 
-You can use `data_format='CSV'`  to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:
+You can use `data_format='CSV'` to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:
 
 ```sql
 CREATE EXTERNAL STREAM target(
-    _tp_time datetime64(3), 
-    url string, 
-    method string, 
-    ip string) 
-    SETTINGS type='kafka', 
-             brokers='redpanda:9092', 
-             topic='masked-fe-event', 
+    _tp_time datetime64(3),
+    url string,
+    method string,
+    ip string)
+    SETTINGS type='kafka',
+             brokers='redpanda:9092',
+             topic='masked-fe-event',
              data_format='CSV';
 ```
 
@@ -189,6 +187,7 @@ The messages will be generated in the specific topic as
 You can either define the [Protobuf Schema in Proton](proton-format-schema), or specify the [Kafka Schema Registry](proton-schema-registry) when you create the external stream.
 
 ##### Avro
+
 Starting from Proton 1.5.2, you can use Avro format when you specify the [Kafka Schema Registry](proton-schema-registry) when you create the external stream.
 
 ### Read/Write Kafka Message Key {#messagekey}
@@ -199,7 +198,7 @@ For each message in the Kafka topic, the value is critical for sure. The key is 
 
 **Write:** when you create an external stream and send data to it, via a materialized view or `INSERT`, you can specify how the message key is to be generated.
 
-This is done by the setting `message_key` in the `CREATE` DDL. It is an expression that returns a string value, the values return by the expression will be used as the key for each message. 
+This is done by the setting `message_key` in the `CREATE` DDL. It is an expression that returns a string value, the values return by the expression will be used as the key for each message.
 
 Examples:
 
@@ -225,8 +224,6 @@ CREATE EXTERNAL STREAM example_two (
 DROP EXTERNAL STREAM [IF EXISTS] stream_name
 ```
 
-
-
 ## Query Kafka Data with SQL
 
 You can run streaming SQL on the external stream, e.g.
@@ -244,7 +241,15 @@ When you run `SELECT raw FROM ext_stream ` , Proton will read the new messages i
 SELECT raw FROM ext_stream SETTINGS seek_to='earliest'
 ```
 
+Or the following SQL if you are running Proton 1.5.9 or above:
 
+```sql
+SELECT raw FROM table(ext_stream) WHERE ...
+```
+
+:::warning
+Please avoid scanning all data via `select * from table(ext_stream)`. Apply some filtering conditions, or run the optimized `select count(*) from table(ext_stream)` to get the number of current message count.
+:::
 
 ### Read specified partitions
 
@@ -260,8 +265,6 @@ Or you can specify a set of partition ID, separated by comma, e.g.
 SELECT raw FROM ext_stream SETTINGS shards='0,2'
 ```
 
-
-
 ## Write to Kafka with SQL
 
 You can use materialized views to write data to Kafka as an external stream, e.g.
@@ -275,22 +278,22 @@ CREATE EXTERNAL STREAM frontend_events(raw string)
 
 -- create the other external stream to write data to the other topic
 CREATE EXTERNAL STREAM target(
-    _tp_time datetime64(3), 
-    url string, 
-    method string, 
-    ip string) 
-    SETTINGS type='kafka', 
-             brokers='redpanda:9092', 
-             topic='masked-fe-event', 
+    _tp_time datetime64(3),
+    url string,
+    method string,
+    ip string)
+    SETTINGS type='kafka',
+             brokers='redpanda:9092',
+             topic='masked-fe-event',
              data_format='JSONEachRow',
              one_message_per_row=true;
 
 -- setup the ETL pipeline via a materialized view
-CREATE MATERIALIZED VIEW mv INTO target AS 
-    SELECT now64() AS _tp_time, 
-           raw:requestedUrl AS url, 
-           raw:method AS method, 
-           lower(hex(md5(raw:ipAddress))) AS ip 
+CREATE MATERIALIZED VIEW mv INTO target AS
+    SELECT now64() AS _tp_time,
+           raw:requestedUrl AS url,
+           raw:method AS method,
+           lower(hex(md5(raw:ipAddress))) AS ip
     FROM frontend_events;
 ```
 
@@ -298,19 +301,19 @@ CREATE MATERIALIZED VIEW mv INTO target AS
 
 Please check the tutorials:
 
-* [Query Kafka with SQL](tutorial-sql-kafka)
-* [Streaming JOIN](tutorial-sql-join)
-* [Streaming ETL](tutorial-sql-etl)
+- [Query Kafka with SQL](tutorial-sql-kafka)
+- [Streaming JOIN](tutorial-sql-join)
+- [Streaming ETL](tutorial-sql-etl)
 
 ## Properties for Kafka client {#properties}
 
-For more advanced use cases, you can specify customized properties while creating the external streams. Those properties will be passed to the underlying Kafka client, which is [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md). 
+For more advanced use cases, you can specify customized properties while creating the external streams. Those properties will be passed to the underlying Kafka client, which is [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
 
 For example:
 
 ```sql
 CREATE EXTERNAL STREAM ext_github_events(raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='localhost:9092',
          topic='github_events',
          properties='message.max.bytes=1000000;message.timeout.ms=6000'
@@ -318,22 +321,21 @@ SETTINGS type='kafka',
 
 Please note, not all properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Proton today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.
 
-| key                                 | range                                  | default | description                                                  |
-| ----------------------------------- | -------------------------------------- | ------- | ------------------------------------------------------------ |
-| enable.idempotence                  | true, false                            | true    | When set to `true`, the producer will ensure that messages are successfully produced exactly once and in the original produce order. |
-| message.timeout.ms                  | 0 .. 2147483647                        | 0       | Local message timeout.                                       |
-| queue.buffering.max.messages        | 0 .. 2147483647                        |         | Maximum number of messages allowed on the producer queue.    |
-| queue.buffering.max.kbytes          | 1 .. 2147483647                        |         | Maximum total message size sum allowed on the producer queue. |
-| queue.buffering.max.ms              | 0 .. 900000                            |         | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers. |
-| message.max.bytes                   | 1000 .. 1000000000                     |         | Maximum Kafka protocol request message size.                 |
-| message.send.max.retries            | 0 .. 2147483647                        |         | How many times to retry sending a failing Message.           |
-| retries                             | 0 .. 2147483647                        |         | Alias for `message.send.max.retries`: How many times to retry sending a failing Message. |
-| retry.backoff.ms                    | 1 .. 300000                            |         | The backoff time in milliseconds before retrying a protocol reques |
-| retry.backoff.max.ms                | 1 .. 300000                            |         | The max backoff time in milliseconds before retrying a protocol request, |
-| batch.num.messages                  | 1 .. 1000000                           |         | Maximum number of messages batched in one MessageSet.        |
-| batch.size                          | 1 .. 2147483647                        |         | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead. |
-| compression.codec                   | none, gzip, snappy, lz4, zstd, inherit |         | Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration. |
-| compression.type                    | none, gzip, snappy, lz4, zstd          |         | Alias for `compression.codec`: compression codec to use for compressing message sets. |
-| compression.level                   | -1 .. 12                               |         | Compression level parameter for algorithm selected by configuration property `compression.codec`. |
-| topic.metadata.refresh.interval.ms  | -1 .. 3600000                          |         | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
-
+| key                                | range                                  | default | description                                                                                                                                                                      |
+| ---------------------------------- | -------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| enable.idempotence                 | true, false                            | true    | When set to `true`, the producer will ensure that messages are successfully produced exactly once and in the original produce order.                                             |
+| message.timeout.ms                 | 0 .. 2147483647                        | 0       | Local message timeout.                                                                                                                                                           |
+| queue.buffering.max.messages       | 0 .. 2147483647                        |         | Maximum number of messages allowed on the producer queue.                                                                                                                        |
+| queue.buffering.max.kbytes         | 1 .. 2147483647                        |         | Maximum total message size sum allowed on the producer queue.                                                                                                                    |
+| queue.buffering.max.ms             | 0 .. 900000                            |         | Delay in milliseconds to wait for messages in the producer queue to accumulate before constructing message batches (MessageSets) to transmit to brokers.                         |
+| message.max.bytes                  | 1000 .. 1000000000                     |         | Maximum Kafka protocol request message size.                                                                                                                                     |
+| message.send.max.retries           | 0 .. 2147483647                        |         | How many times to retry sending a failing Message.                                                                                                                               |
+| retries                            | 0 .. 2147483647                        |         | Alias for `message.send.max.retries`: How many times to retry sending a failing Message.                                                                                         |
+| retry.backoff.ms                   | 1 .. 300000                            |         | The backoff time in milliseconds before retrying a protocol request                                                                                                              |
+| retry.backoff.max.ms               | 1 .. 300000                            |         | The max backoff time in milliseconds before retrying a protocol request,                                                                                                         |
+| batch.num.messages                 | 1 .. 1000000                           |         | Maximum number of messages batched in one MessageSet.                                                                                                                            |
+| batch.size                         | 1 .. 2147483647                        |         | Maximum size (in bytes) of all messages batched in one MessageSet, including protocol framing overhead.                                                                          |
+| compression.codec                  | none, gzip, snappy, lz4, zstd, inherit |         | Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration.                                                                 |
+| compression.type                   | none, gzip, snappy, lz4, zstd          |         | Alias for `compression.codec`: compression codec to use for compressing message sets.                                                                                            |
+| compression.level                  | -1 .. 12                               |         | Compression level parameter for algorithm selected by configuration property `compression.codec`.                                                                                |
+| topic.metadata.refresh.interval.ms | -1 .. 3600000                          |         | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
