@@ -2,8 +2,8 @@
 
 Timeplus supports 2 ways to load data into the system:
 
-*  [External Stream](external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Core Engine (Proton).
-* [Source](source) for extra wide range of data sources. This is only available in Timeplus Cloud and Timeplus Enterprise.
+- [External Stream](external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Core Engine (Proton).
+- [Source](source) for extra wide range of data sources. This is only available in Timeplus Enterprise.
 
 ## 通过 web 控制台添加新源
 
@@ -24,7 +24,7 @@ Apache® PulsarTM 是一个云端、分发、开源消息和流式平台，用�
 如果您的流数据在 [Amazon Kinesis 数据流](https://aws.amazon.com/kinesis/data-streams/) 中，您可以分两步把它们加载到 Timeplus中。
 
 1.  首先通过 [将Kinesis 源连接器为 Confluent Cloud](https://docs.confluent.io/cloud/current/connectors/cc-kinesis-source.html) 或 [Amazon Kinesis 源连接器将Kinesis 数据加载到 Kafka 主题](https://docs.confluent.io/kafka-connect-kinesis/current/overview.html)
-2. 使用 Timeplus 上面的Kafka 源将数据加载到流中。
+2.  使用 Timeplus 上面的Kafka 源将数据加载到流中。
 
 数据流可以用以下方式说明：
 
@@ -35,8 +35,6 @@ flowchart LR
   Timeplus -->KafkaTopic
 ```
 
-
-
 ### 上传本地文件
 
 如果您有一些静态数据集或查找CSV格式的表，您可以直接上传文件到Timeplus。
@@ -46,8 +44,6 @@ flowchart LR
 3. 选择文件的第一行是否为列标题。
 4. 为流指定一个名称，并可选择提供一个可读的描述。
 5. 单击按钮开始上传数据，然后单击 **查看导入的数据** 按钮运行查询以查看导入的数据。
-
-
 
 ### 加载示例流数据
 
@@ -70,6 +66,7 @@ Timeplus 提供数据导入REST API 和相关的不同的编程语言软件开�
 Timeplus可与数据生态系统合作，并可利用各种工具加载数据，甚至在摄取时进行数据转换。
 
 ### DataPM（用于文件和数据库） {#datapm}
+
 Data Package Manager (datapm) 是一个[开源](https://github.com/big-armor/datapm)数据发布平台，供私人和公共使用。 datapm 命令行工具使得在系统之间无缝移动数据，而且易于重复。 我们为datapm开发了一个特殊的Timeplus sink，可以开箱即用发送各种数据到Timeplus。
 
 [了解更多。](datapm)
@@ -86,17 +83,15 @@ AirByte提供开放源码软件版本和管理云以收集数据、转换数据�
 
 只需命名来自Airby的几个数据源：
 
-* 应用市场，如苹果应用商店
-* AWS Cloudtrail
-* Google BigQuery
-* 使用 Gzip/Zip/xz/Snappy 压缩从 S3/GCS/SFTP/本地加载文件，在 CSV/JSON/XML/Excel/Parquet/etc
-* Github, GitLab, or JIRA活动
-* Google 广告
-* Instagram 社交媒体
-* Slack或微软团队
-* PostgreSQL, RedShift, Snowflake, MongoDB, MySQL, Microsoft SQL Server, 等等。
-
-
+- 应用市场，如苹果应用商店
+- AWS Cloudtrail
+- Google BigQuery
+- 使用 Gzip/Zip/xz/Snappy 压缩从 S3/GCS/SFTP/本地加载文件，在 CSV/JSON/XML/Excel/Parquet/etc
+- Github, GitLab, or JIRA活动
+- Google 广告
+- Instagram 社交媒体
+- Slack或微软团队
+- PostgreSQL, RedShift, Snowflake, MongoDB, MySQL, Microsoft SQL Server, 等等。
 
 :::info
 
@@ -110,33 +105,33 @@ Airbyte的 Timeplus 目标插件正处于早期阶段。 请联系我们来安�
 
 有几个可以通过Kafka Connects进入Timeplus的数据源例子。 详情请查看 https://www.confluent.io/product/confluent-connectors/。
 
-* Apache ActiveMQ
-* Amazon CloudWatch Logs
-* [Amazon Kinesis](#kinesis)
-* Amazon S3
-* Amazon SQS
-* Azure Blob Storage
-* Azure Event Hubs
-* CockroachDB CDC
-* Databricks
-* Github
-* Google Cloud Pub/Sub
-* IBM MQ
-* InfluxDB
-* JDBC
-* Microsoft SQL Server
-* MongoDB
-* MQTT
-* MySQL CDC
-* Neo4j
-* Oracle Database
-* PostgreSQL CDC
-* RabbitMQ
-* Salesforce
-* ServiceNow
-* SFTP
-* SNMP
-* Splunk
-* TiDB CDC
-* Tigergraph
-* Zendesk
+- Apache ActiveMQ
+- Amazon CloudWatch Logs
+- [Amazon Kinesis](#kinesis)
+- Amazon S3
+- Amazon SQS
+- Azure Blob Storage
+- Azure Event Hubs
+- CockroachDB CDC
+- Databricks
+- Github
+- Google Cloud Pub/Sub
+- IBM MQ
+- InfluxDB
+- JDBC
+- Microsoft SQL Server
+- MongoDB
+- MQTT
+- MySQL CDC
+- Neo4j
+- Oracle Database
+- PostgreSQL CDC
+- RabbitMQ
+- Salesforce
+- ServiceNow
+- SFTP
+- SNMP
+- Splunk
+- TiDB CDC
+- Tigergraph
+- Zendesk
