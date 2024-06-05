@@ -1,23 +1,23 @@
-# _tp_time（事件时间）
+# \_tp_time (Event time)
 
 ## 所有流数据都应有事件时间
 
 流是数据存在的地方，每个数据包含一个 `_tp_time` 列作为事件时间。 Timeplus 将此属性作为事件的一个重要特征。
 
-事件时间用来确定事件发生的时间，例如一个人生日。  它可以是下单时的确切时间戳，用户登录系统时的确切时间戳，发生错误时的确切时间戳，或者 IoT 设备报告其状态时的确切时间戳。 如果事件中没有合适的时间戳属性，Timeplus 将根据数据摄取时间生成事件时间。
+事件时间用来确定事件发生的时间，例如一个人生日。 它可以是下单时的确切时间戳，用户登录系统时的确切时间戳，发生错误时的确切时间戳，或者 IoT 设备报告其状态时的确切时间戳。 如果事件中没有合适的时间戳属性，Timeplus 将根据数据摄取时间生成事件时间。
 
-默认情况下， `_tp_time` 列在 `datetime64(3, 'UTC')` 类型以毫秒为精度。 您也可以在 `日期时间` 类型下创建它，并以秒为精度。
+默认情况下， `_tp_time` 列在 `datetime64(3, 'UTC')` 类型以毫秒为精度。 You can also create it in `datetime` type with second precision.
 
-当您要创建一个新的流时，请选择正确的列作为事件时间。 如果未指定任何列，则 Timeplus 将使用当前时间戳作为 `_tp_time` 的值。 我们不建议在查询时将列重命名为 _tp_time，因为这会导致一些意外情况发生，特别是对于[Time Travel](usecases#s-time-travel)而言。
+当您要创建一个新的流时，请选择正确的列作为事件时间。 If no column is specified, then Timeplus will use the current timestamp as the value of `_tp_time` It's not recommended to rename a column as \_tp_time at the query time, since it will lead to unexpected behaviour, specially for [Time Travel](usecases#s-time-travel).
 
 ## 为什么事件时间受到不同的处理
 
 事件时间几乎在任何地方在 Timeplus 数据处理和分析工作流程中使用：
 
-* 在执行基于时间窗口的聚合时， 例如 [tumble](functions_for_streaming#tumble) 或 [hop](functions_for_streaming#hop) 以获取每次窗口中的下载数据或外部数据， Timeplus 将使用事件时间来决定某些事件是否属于特定窗口。
-* 在这种具有时间敏感性的分析中，事件时间也用来识别不合顺序的事件或较晚的事件， 并丢弃它们以便及时获得串流洞察力。
-* 当一个数据流与另一个数据流合并时，事件时间是整理数据的钥匙，而不必期望两个事件在完全相同的毫秒内发生。
-* 事件时间也发挥重要作用来设备数据在流中保存的时间。
+- 在执行基于时间窗口的聚合时， 例如 [tumble](functions_for_streaming#tumble) 或 [hop](functions_for_streaming#hop) 以获取每次窗口中的下载数据或外部数据， Timeplus 将使用事件时间来决定某些事件是否属于特定窗口。
+- 在这种具有时间敏感性的分析中，事件时间也用来识别不合顺序的事件或较晚的事件， 并丢弃它们以便及时获得串流洞察力。
+- when one data stream is joined with the other, event time is the key to collate the data, without expecting two events to happen in exactly the same millisecond.
+- 事件时间也发挥重要作用来设备数据在流中保存的时间。
 
 ## 如何指定事件时间
 
@@ -52,4 +52,3 @@ select count(*) from tumble(taxi_data,1h) group by window_end
 ```sql
 select count(*) from tumble(taxi_data,trip_end,1h) group by window_end
 ```
-
