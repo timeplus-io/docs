@@ -108,24 +108,10 @@ const config = {
         },
         items: [
           {
-            type: "dropdown",
-            label: "Products",
+            href: "https://www.timeplus.com/product",
             position: "left",
+            label: "Product",
             className: "navbar__link--active",
-            items: [
-              {
-                href: "https://www.timeplus.com/cloud",
-                label: "Timeplus Cloud",
-              },
-              {
-                href: "https://www.timeplus.com/enterprise",
-                label: "Timeplus Enterprise",
-              },
-              {
-                href: "https://www.timeplus.com/proton",
-                label: "Timeplus Core",
-              },
-            ],
           },
           {
             type: "dropdown",
