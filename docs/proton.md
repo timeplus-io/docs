@@ -61,7 +61,7 @@ You should see data like the following:
 
 To see more examples of using Timeplus Proton, check out the [examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder.
 
-To access more features, such as sources, sinks, dashboards, alerts, data lineage, create a workspace on [Timeplus Cloud](https://us.timeplus.cloud) or try the [live demo](https://demo.timeplus.cloud) with pre-built live data and dashboards.
+To access more features, such as sources, sinks, dashboards, alerts, and data lineage, create a workspace on [Timeplus Cloud](https://us.timeplus.cloud) or try our [live demo](https://demo.timeplus.cloud) with pre-built live data and dashboards.
 
 ## 🧩 Integrations
 
