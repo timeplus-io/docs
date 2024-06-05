@@ -37,33 +37,12 @@ SQL keywords and function names are case-insensitive, while the column names and
 
 Before we look into the details of the query syntax, we'd like to highlight the default query behavior in Timeplus Proton is in the streaming mode, i.e.
 
-* `SELECT .. FROM stream`  will query the future events. Once you run the query, it will process new events. For example, if there are 1,000 events in the stream already, running `SELECT count() FROM stream` could return 0, if there is more new events.
-* `SELECT .. FROM table(stream)` will query the historical data, just like many of other databases. In the above sample stream, if you run `SELECT count() FROM table(stream)`, you will get 1000 as the result and the query completed.
+- `SELECT .. FROM stream` will query the future events. Once you run the query, it will process new events. For example, if there are 1,000 events in the stream already, running `SELECT count() FROM stream` could return 0, if there is more new events.
+- `SELECT .. FROM table(stream)` will query the historical data, just like many of other databases. In the above sample stream, if you run `SELECT count() FROM table(stream)`, you will get 1000 as the result and the query completed.
 
 ## Query Settings
 
-时间插件支持一些高级`设置`来微调下列流式查询处理行为：
-
-1. `enable_backfill_from_historical_store=0|1`. By default, if it's omitted, it's `1`. By default, if it's omitted, it's `1`.
-   * 当它为0时，查询引擎要么从流存储中加载数据，要么从历史存储中加载数据。
-   * 当它为1时，查询引擎会评估是否需要从历史存储中加载数据（例如时间范围在流式存储空间之外），或者从历史存储中获取数据的效率会更高（例如，count/min/max 是在历史存储中预先计算的，比在流式存储中扫描数据更快）。
-2. `force_backfill_in_order=0|1`. By default, if it's omitted, it's `0`.
-   1. When it's 0, the data from the historical storage are turned without extra sorting. This would improve the performance. This would improve the performance.
-   2. When it's 1, the data from the historical storage are turned with extra sorting. This would decrease the performance. So turn on this flag carefully. This would decrease the performance. So turn on this flag carefully.
-3. `emit_during_backfill=0|1`. By default, if it's omitted, it's `0`.
-   1. When it's 0, the query engine won't emit intermediate aggregation results during the historical data backfill.
-   2. When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. As long as there are aggregation functions and time window functions(e.g. tumble/hop/session) in the streaming SQL, when the `emit_during_backfill` is on, `force_backfill_in_order` will be applied to 1 automatically.
-4. `query_mode=<table|streaming>` 默认情况下，如果省略，则为`streaming`。 默认情况下，如果省略，则为`streaming`。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。 This can be overwritten in the port. This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical. If you use 8123, default is historical.
-5. `recovery_policy=<strict|best_effort>`. By default, if it's omitted, it's `strict`.  The main use case for materialized views, if new events fail to process, such as converting a string to a int32, the default behavior will make the materialized view unusable. You may monitor the Timeplus logs to act on the dirty data. However, if you set  `SETTINGS recovery_policy=best_effort`, then Timeplus will attempt to recover from checkpoint and try up to 3 times, then skip dirty data and continue processing the rest of the data.
-6. `seek_to=<timestamp|earliest|latest>`. 默认情况下，如果省略，则为`latest`。 默认情况下，如果省略，则为`latest`。 设置告诉Timeplus通过时间戳在流存储中查找旧数据。 它可以是相对的时间戳或绝对的时间戳。 默认情况下，是`latest`，表示了Timeplus不寻找旧数据。 例如:`seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, 或 `seek_to='earliest'`
-
-:::info
-
-Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`(except for [External Stream](external-stream)). 请使用`WHERE _tp_time>='2023-01-01'`或其他类似的。 请使用`WHERE _tp_time>='2023-01-01'`或其他类似的。 `_tp_time` is the special timestamp column in each raw stream to represent the [event time](eventtime). 您可以使用 `>`, `<`, `BETWEEN... AND` operations to filter the data in Timeplus storage. 唯一的例外是[外部流](external-stream)。 您可以使用 `>`, `<`, `BETWEEN... AND` operations to filter the data in Timeplus storage. 唯一的例外是[外部流](external-stream)。 If you need to scan all existing data in the Kafka topic, you need to run the SQL with seek_to, e.g. `select raw from my_ext_stream settings seek_to='earliest'`
-
-:::
-
-
+Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors. Check [Query Settings](query-settings).
 
 ## EMIT{#emit}
 
@@ -94,13 +73,11 @@ GROUP BY device, window_end
 
 The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](stream-query#window-watermark), which is an internal timestamp. 保证每个流量查询都能增加单一流量。
 
-
-
 ### EMIT AFTER WATERMARK WITH DELAY {#emit_after_wm_with_delay}
 
 :::warning
 
-Before Proton 1.5, the syntax was `EMIT AFTER WATERMARK AND DELAY`.  Since Proton 1.5, we use `WITH DELAY` instead of `AND DELAY`, in order to make `AND`  as the keyword to combine multiple emit polices.
+Before Proton 1.5, the syntax was `EMIT AFTER WATERMARK AND DELAY`. Since Proton 1.5, we use `WITH DELAY` instead of `AND DELAY`, in order to make `AND` as the keyword to combine multiple emit polices.
 
 :::
 
@@ -146,6 +123,7 @@ SETTINGS max_keep_windows=<window_count>
 EMIT LAST INTERVAL <n> <UNIT>
 SETTINGS max_keep_windows=<window_count>
 ```
+
 ### EMIT ON UPDATE {#emit_on_update}
 
 :::info
@@ -196,8 +174,6 @@ GROUP BY window_start
 ```
 
 Even you add `EMIT TIMEOUT` in the SQL, it won't trigger timeout, because the query engine doesn't see any event in the window. If you need to detect such missing event for certain time window, one workaround is to create a heartbeat stream and use `UNION` to create a subquery to combine both heartbeat stream and target stream, for a time window, if all observed events are from heartbeat stream, this means there is no event in the target stream. Please discuss more with us in community slack.
-
-
 
 ### EMIT LAST
 
@@ -287,8 +263,6 @@ SETTTINGS max_keep_windows=720;
 
 `PARTITION BY` in Streaming SQL is to create [substreams](substream).
 
-
-
 ## GROUP BY and HAVING {#group_having}
 
 `GROUP BY` applies aggregations for 1 or more columns.
@@ -337,7 +311,7 @@ WITH cte1 AS (SELECT ..),
 选择... FROM cte1 UNION SELECT .. 从 Cte2
 选择... FROM cte1 UNION SELECT .. 从 Cte2
 选择... FROM cte1 UNION SELECT .. 从 Cte2
-选择... FROM cte1 UNION SELECT .. 从 Cte2    
+选择... FROM cte1 UNION SELECT .. 从 Cte2
 ```
 
 不支持带列别名的 CTE。
@@ -514,9 +488,6 @@ EMIT LAST 1h AND PERIODIC 5s
 SETTINGS max_keep_windows=720;
 ```
 
-
-
-
 ### 滑动窗口聚合 {#hop}
 
 像 [Tumble](#tumble)一样，Hop也将无限流流量数据切片放入较小的窗口，它还有一个附加的滑动步骤。
@@ -567,5 +538,4 @@ EMIT AFTER WATERMARK;
 
 ### Session Streaming Window Aggregation
 
-This is similar to tumble and hop window. Please check the [session](functions_for_streaming#session) function. 
-
+This is similar to tumble and hop window. Please check the [session](functions_for_streaming#session) function.
