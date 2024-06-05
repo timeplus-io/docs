@@ -10,10 +10,14 @@
 
 `table(stream)` 将无界限的数据流转换为一个有界限的表格，并查询其历史数据。 例如，您可以在 Timeplus 中将 Kafka topic 中的点击流数据加载到 `clicks` 流。 默认情况下，如果您运行 `SELECT FROM clicks</0> 默认情况下，如果您运行 <code>SELECT FROM clicks</0> 这是一个带有无边界数据的流式查询。 查询将随时向您发送新结果。 如果您只需要分析过去的数据，您可以将流放到 <code>table` 函数中。 使用 `count` 作为示例：
 
-* 运行 `select count(*) from clicks` 将每2秒显示最新计数，直到您取消这个查询。
-* 运行 `select count(*) from table(clicks)` 将立即返回此数据流的历史数据行数。
+- 运行 `select count(*) from clicks` 将每2秒显示最新计数，直到您取消这个查询。
+- 运行 `select count(*) from table(clicks)` 将立即返回此数据流的历史数据行数。
 
 您可以创建视图，如 `create view histrical_view as select * from table(stream_name)`, 如果您想要多次查询表模式中的数据。 对于静态数据，例如查找信息(城市名称及其邮政编码)，这种方法可能很有效。
+
+:::info
+New in Proton v1.5.9, you can also run `table` function on an [External Stream](proton-kafka) for Kafka. This will read existing data in the specified Kafka topic. Please avoid scanning all data via `select * from table(ext_stream)`. Apply some filtering conditions, or run the optimized `select count(*) from table(ext_stream)` to get the number of current message count.
+:::
 
 了解更多关于 [非流式查询](history) 的信息。
 
@@ -43,17 +47,17 @@
 
 参数：
 
-* `stream` 数据流、视图或 [CTE](glossary#cte)/子查询
-* `timeCol` optional, by default it will be `_tp_time` (the event time for the record)
-* `idle` 事件将被自动分割为2个会话窗口
-* `maxLength` 会话窗口最大长度。 可选的。 默认值是 `idle`的 5 倍
-* `[startCondition, endCondition]`可选. 开始和结束条件 如果指定的话，会话窗口将在满足 `startCondition`时开始，并将在 `endCondition` 得到满足时关闭。 您可以使用 `[expression1, expression2]`表示开始和结束事件将包含在会话中。 或 `(expression1，expression2]` 表示结束事件将包括但不包括起始事件。
+- `stream` 数据流、视图或 [CTE](glossary#cte)/子查询
+- `timeCol` optional, by default it will be `_tp_time` (the event time for the record)
+- `idle` how long the events will be automatically split to 2 session windows
+- `maxLength` 会话窗口最大长度。 可选的。 默认值是 `idle`的 5 倍
+- `[startCondition, endCondition]`可选. 开始和结束条件 如果指定的话，会话窗口将在满足 `startCondition`时开始，并将在 `endCondition` 得到满足时关闭。 您可以使用 `[expression1, expression2]`表示开始和结束事件将包含在会话中。 或 `(expression1，expression2]` 表示结束事件将包括但不包括起始事件。
 
 例如，如果车辆在移动时一直在发送数据，停靠时停止发送数据或等待交通灯
 
-* `session(car_live_data, 1m) partition by cid` 将为每辆车创建会话窗口，空闲时间为1分钟。 表示汽车未在一分钟内移动， 窗口将被关闭，并将为未来事件创建一个新的会话窗口。 如果车辆移动时间超过5分钟，将创建不同的窗户(每5分钟)， 这样作为分析员，你就可以获得接近实时的结果，而不必等待太长时间才能停车。
-* `session(car_live_data, 1m, [speed>50,speed<50)) partition by cid` 创建会话窗口以检测汽车正在加速的情况。 将包括速度超过50的第一次活动。 和速度小于50的最后一个事件将不会被包含在会话窗口中。
-* `session(access_log, 5m, [action='login',action='logout']) partition by uid` 创建会话窗口时用户登录系统并退出登录。 如果在5分钟内没有活动，窗口将自动关闭。
+- `session(car_live_data, 1m) partition by cid` 将为每辆车创建会话窗口，空闲时间为1分钟。 表示汽车未在一分钟内移动， 窗口将被关闭，并将为未来事件创建一个新的会话窗口。 如果车辆移动时间超过5分钟，将创建不同的窗户(每5分钟)， 这样作为分析员，你就可以获得接近实时的结果，而不必等待太长时间才能停车。
+- `session(car_live_data, 1m, [speed>50,speed<50)) partition by cid` 创建会话窗口以检测汽车正在加速的情况。 将包括速度超过50的第一次活动。 和速度小于50的最后一个事件将不会被包含在会话窗口中。
+- `session(access_log, 5m, [action='login',action='logout']) partition by uid` 创建会话窗口时用户登录系统并退出登录。 如果在5分钟内没有活动，窗口将自动关闭。
 
 ✅ 流查询
 
@@ -75,18 +79,16 @@
 
 :::info tips
 
-当您将`dedup`函数与`table()`函数一起使用来获取具有相同ID的事件的最新状态时，可以考虑以相反的方式按_tp_time对数据进行排序，以便保留相同ID的最新事件。 例如
+When you use `dedup` function together with `table()` function to get the latest status for events with same ID, you can consider ordering the data by \_tp_time in the reverse way, so that the latest event for same ID is kept. 例如
 
 ```sql
-WITH latest_to_earliest AS (SEELCT * FROM table(my_stream) ORDER by _tp_time DESC)
+WITH latest_to_earliest AS (SELECT * FROM table(my_stream) ORDER by _tp_time DESC)
 SELECT * FROM dedup(latest_to_earliest, id)
 ```
 
-否则，如果您使用`dedup(table(my_stream),id)` 运行查询，则将首先处理具有相同ID的最早事件，而忽略其余更新状态。 在许多情况下，这不是你所期望的。
+Otherwise, if you run queries with `dedup(table(my_stream),id)` the earliest event with same ID will be processed first, ignoring the rest of the updated status. 在许多情况下，这不是你所期望的。
 
 :::
-
-
 
 ### lag
 
@@ -108,7 +110,7 @@ SELECT * FROM dedup(latest_to_earliest, id)
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1, time2)` 返回 true 或 false。  此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
+`date_diff_within(timegap,time1, time2)` 返回 true 或 false。 此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
 
 ✅ 流查询
 
@@ -121,7 +123,7 @@ SELECT * FROM dedup(latest_to_earliest, id)
 示例：
 
 ```sql
-SELECT * FROM stream1 ASOF JOIN stream2 
+SELECT * FROM stream1 ASOF JOIN stream2
 ON stream1.id=stream2.id AND stream1.seq>=stream2.seq AND lag_behind(10ms, stream1.ts1, stream2.ts2)
 ```
 
@@ -181,16 +183,14 @@ For example, if you run `select emit_version(),count(*) from car_live_data` the 
 
 `changelog(stream[, [key_col1[,key_col2,[..]],version_column], drop_late_rows])` to convert a stream (no matter append-only stream or versioned stream) to a changelog stream with given primary keys.
 
-* 如果数据源流是常规流，即仅附加流，则可以选择一个或多个列作为主键列。 `changelog(append_stream, key_col1)`  比如[car_live_data](usecases#car_live_data) 流包含 `cid` 列作为车辆 ID, `speed_kmh` 作为最新上报的时速。 运行下面的 SQL 来为每辆车创建一个更新日志流以跟踪速度变化 `select * from changelog(car_live_data,cid)` 。 一个新列 `_tp_delta` 包含在流查询结果中。 `-1` 表示行已被重新编辑(移除)。 _tp_delta=1，使用新值。
-* 如果源流是 [版本流](versioned-stream)，因为在版本流中已经指定了主键和版本列， `changelog` 函数可以直接这样使用 `changelog(versioned_kv)`
-* 默认情况下， `drop_late_rows` 为 false。 但是，如果你确实想删除同一个主键的延迟事件，那么你需要将 drop_late_rows 设置为 true，并指定 version_column。 版本_列值越大，它意味着的最新版本。 在大多数情况下，您可以将事件时间 (_tp_time) 设置为 version_column。 删除 car_live_data 的迟到事件的示例：
+- 如果数据源流是常规流，即仅附加流，则可以选择一个或多个列作为主键列。 `changelog(append_stream, key_col1)` For example, the [car_live_data](usecases#car_live_data) stream contains `cid` as car id, `speed_kmh` as the recently reported speed. 运行下面的 SQL 来为每辆车创建一个更新日志流以跟踪速度变化 `select * from changelog(car_live_data,cid)` 。 一个新列 `_tp_delta` 包含在流查询结果中。 `-1` 表示行已被重新编辑(移除)。 \_tp_delta=1 with the new value.
+- 如果源流是 [版本流](versioned-stream)，因为在版本流中已经指定了主键和版本列， `changelog` 函数可以直接这样使用 `changelog(versioned_kv)`
+- 默认情况下， `drop_late_rows` 为 false。 但是，如果你确实想删除同一个主键的延迟事件，那么你需要将 drop_late_rows 设置为 true，并指定 version_column。 版本_列值越大，它意味着的最新版本。 In most case, you can set the event time(\_tp_time) as the version_column. 删除 car_live_data 的迟到事件的示例：
 
 ```sql
-select _tp_time,cid,speed_kmh, _tp_delta 
+select _tp_time,cid,speed_kmh, _tp_delta
 from changelog(car_live_data, cid, _tp_time, true)
 ```
-
-
 
 ✅ 流查询
 
