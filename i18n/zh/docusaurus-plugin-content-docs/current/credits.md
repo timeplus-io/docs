@@ -3,8 +3,8 @@
 
 
 Timeplus 产品的部分功能基于开源项目。
-* 核心引擎（[Proton](proton)，Apache License 2.0）集成 [ClickHouse](https://clickhouse.com)（Apache License  2.0）, 用于历史存储
-* 数据源和数据下游的基于[Benthos](https://www.benthos.dev/)构建（MIT License）
+* Core engine ([Proton](proton), Apache License 2.0) uses code from [ClickHouse](https://clickhouse.com) (Apache License 2.0) for SQL functions and the historical storage.
+* Sources and sinks are powered by [Redpanda Connect](https://github.com/redpanda-data/connect) (Apache License 2.0) and [Benthos Framework](https://github.com/redpanda-data/benthos) (MIT License).
 * JavaScript UDF 基于[V8](https://v8.dev/)（BSD License)
 * 由 [ClickHouse](https://clickhouse.com) 引入的[其他第三方库](https://clickhouse.com/docs/en/development/contrib)，可以通过以下查询获取：
 
@@ -272,7 +272,7 @@ are:
     src/wasm/c-api.cc.
 These libraries have their own licenses; we recommend you read them,
 as their terms may differ from the terms below.
-Further license information can be found in LICENSE files located in 
+Further license information can be found in LICENSE files located in
 sub-directories.
 Copyright 2014, the V8 project authors. All rights reserved.
 Redistribution and use in source and binary forms, with or without
@@ -299,4 +299,3 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
-
