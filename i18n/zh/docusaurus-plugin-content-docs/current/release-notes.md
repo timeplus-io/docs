@@ -39,7 +39,7 @@ _Timeplus 游戏机：_
 
 _Timeplus 核心引擎（Proton v1.5.7）：_
 
-- 您现在可以使用 `LEFT JOIN` 并分配主键来加入多个 [版本控制的流](versioned-stream) 。 每当 JOIN 的任一端有更新时，就会发出结果。 [了解更多](joins#version-left-version)
+- 您现在可以使用 `LEFT JOIN` 并分配主键来加入多个 [版本控制的直播](versioned-stream) 。 每当 JOIN 的任一端有更新时，就会发出结果。 [了解更多](joins#version-left-version)
 - Timeplus Proton repo /examples 文件夹中的新示例：
   - [十亿行挑战赛 (1BRC)](https://github.com/timeplus-io/proton/tree/develop/examples/onebrc)，由 Timeplus 社区成员 [赛义德·阿比奥拉](https://github.com/ayewo)提供
   - [实时检索增强生成 (RAG)](https://github.com/timeplus-io/proton/tree/develop/examples/real-time-ai)
@@ -63,8 +63,8 @@ _Timeplus 核心引擎（Proton v1.5.5 和 v1.5.6）：_
   - `to_unix_timestamp64_milli` 返回以 datetime64 毫秒为单位的 UNIX 时间戳
   - `to_unix_timestamp64_micro` 以微秒返回
   - `to_unix_timestamp64_nano` 以纳秒返回
-- 默认情况下，新创建的流将流媒体数据保留时间设置为 1 天存储。
-- 在 macOS 上， `sudo proton install` 会将Proton安装到 /usr/local/bin 而不是 /usr/bin。
+- 默认情况下，新创建的直播将流媒体数据保留时间设置为 1 天存储。
+- 在 macOS 上， `sudo proton install` 会将质子安装到 /usr/local/bin 而不是 /usr/bin。
 
 _Timeplus Cloud 和 Timeplus 企业版：_
 
@@ -192,16 +192,16 @@ _Proton：_
 - (v1.3.28) For `create random stream`, the default interval_time is now 5 milliseconds, instead of 100 milliseconds. This new default value will generate random data more evenly. 这个新的默认值将更均匀地生成随机数据。
 - (v1.3.28) 函数名称不再区分大小写。 你可以使用计数 ()、计数 () 或计数 ()。 (v1.3.28) Function names are no longer case sensitive. You can use count(), COUNT(), or Count(). This improves the compatibility for Proton with 3rd party tools if they generate SQL statements in uppercase.
 - (v1.3.27) 随机流支持 ipv4 和 ipv6 数据类型。
-- [Proton元数据库驱动程序 (v0.0.3)](https://github.com/timeplus-io/metabase-proton-driver) 的发布是为了提高 Proton 与不区分大小写的 SQL 函数的兼容性。
-- Proton 的
-Grafana 插件已得到增强并发布在 Grafana Catalog 上。 您可以通过管理页面进行安装，而无需手动下载文件。 请确保可以从 Grafana 访问Proton的 8463 和 3218 端口，因为新版本将调用 Proton 查询分析器 API（在 3218 上）来确定它是否是流式查询，然后以不同的方式呈现结果。 使用此插件，您可以使用 Proton 中的数据以及在 Grafana 中配置的其他数据源来构建图表和仪表板。 试一试，告诉我们你的想法
-
+- [质子元数据库驱动程序 (v0.0.3)](https://github.com/timeplus-io/metabase-proton-driver) 的发布是为了提高 Proton 与不区分大小写的 SQL 函数的兼容性。
+- Proton</a> 的
+Grafana 插件已得到增强并发布在 Grafana Catalog 上。 您可以通过管理页面进行安装，而无需手动下载文件。 请确保可以从 Grafana 访问质子的 8463 和 3218 端口，因为新版本将调用 Proton 查询分析器 API（在 3218 上）来确定它是否是流式查询，然后以不同的方式呈现结果。 使用此插件，您可以使用 Proton 中的数据以及在 Grafana 中配置的其他数据源来构建图表和仪表板。 试一试，告诉我们你的想法！</li> </ul> 
+  
   _Timeplus Cloud：_
-
+  
   - New Core NATS/JetStream datasource is now available. We welcome any feedback! 我们欢迎任何反馈！
 - WebSocket 源现在支持多条打开的消息。
 - 图表类型选择器现在是一个下拉列表，其中包含禁用类型时所需列的提示。
-- 在查询页面的流目录中，您可以按流或列进行搜索。
+- 在查询页面的直播目录中，您可以按直播或列进行搜索。
 - 在图表格式设置中，单色调色板扩展为包含 10 种颜色阴影（之前为 3 种）。
 - 对于全屏模式下的图表，鼠标悬停在工具提示上可用。
 
@@ -240,7 +240,7 @@ _Timeplus Cloud：_
 
 - 柱形图现在支持无限数量的列（以前仅限于最近的 30 个结果）。
 - Pulsar 数据旅游经过增强，支持批处理，提高写入性能。
-- “外部流” 现在显示在左侧导航菜单中，您可以在其中查看所有外部流并创建新流。
+- “外部流” 现在显示在左侧导航菜单中，您可以在其中查看所有外部直播并创建新流。
 - (Preview) We've added the open-high-low-close ([OHLC](viz#ohlc-chart)) chart type common in the finance industry, to visualize the movement of prices over time. Additional format settings include choosing a time range. Please contact us if you'd like to try this new chart type. 其他格式设置包括选择时间范围。 如果您想尝试这种新的图表类型，请联系我们。
 
 
@@ -252,7 +252,7 @@ _Proton：_
 - Proton的[JDBC driver](https://github.com/timeplus-io/proton-java-driver)现已开源。 请查看我们有关如何链接DBeaver到Proton的[演示示例](https://github.com/timeplus-io/proton/tree/develop/examples/jdbc)。 以及如何在[Pulse UI](https://github.com/timestored/pulseui/pull/139)中使用Proton。
 - 此外，我们还提供了一个实验性[ODBC driver](https://github.com/timeplus-io/proton-odbc)，用于从PowerBI等工具访问Proton
 - Proton中还新增了一个实验性的`shuffle by`子句。 目前，它仅适用于历史查询，并将很快支持流式查询。 `shuffle by` 的关键用例是支持高基数 `按` 分组（例如 1000 万个唯一密钥）。 要了解有关此高级功能的更多信息，请加入我们的 [Slack 社区](https://timeplus.com/slack)中的讨论。
-- 自版本 1.3.19 起，默认情况下，历史存储中用于时空旅行/倒带的回填功能处于启用状态。 Since version 1.3.19, by default, the backfill from historical store for time travel/rewind is enabled. For example `select * from stream where _tp_time>now()-14d` will load data from historical store for last 14 days, even for data not available in streaming storage. If you prefer the previous behavior, you can add `settings enable_backfill_from_historical_store=false` to the streaming SQL. 如果你更喜欢之前的行为，可以在流 SQL 中添加 `设置 enable_backfill_from_historical_store=false` 。
+- 自版本 1.3.19 起，默认情况下，历史存储中用于时空旅行/倒带的回填功能处于启用状态。 Since version 1.3.19, by default, the backfill from historical store for time travel/rewind is enabled. For example `select * from stream where _tp_time>now()-14d` will load data from historical store for last 14 days, even for data not available in streaming storage. If you prefer the previous behavior, you can add `settings enable_backfill_from_historical_store=false` to the streaming SQL. 如果你更喜欢之前的行为，可以在直播 SQL 中添加 `设置 enable_backfill_from_historical_store=false` 。
 
 _Timeplus Cloud：_
 
@@ -306,11 +306,11 @@ _Timeplus Cloud：_
 
 ## 2023 年 10 月 2 日
 
-Timeplus 现在是开源的！ 推出 **Proton**，这是一款统一的轻量级流和历史数据处理引擎，采用单一二进制格式，为 Timeplus Cloud 流媒体分析平台提供支持。 [使用 Docker 试用 Proton](https://github.com/timeplus-io/proton)
+Timeplus 现在是开源的！ 推出 **Proton**，这是一款统一的轻量级直播和历史数据处理引擎，采用单一二进制格式，为 Timeplus Cloud 流媒体分析平台提供支持。 [使用 Docker 试用 Proton](https://github.com/timeplus-io/proton)
 
 _Proton 的新功能：_
 
-- 外部流现在支持检查点。 External stream now supports checkpoints. Whether you stop and rerun the query, or the server restarts, it will read from where it stopped.
+- 外部直播现在支持检查点。 External stream now supports checkpoints. Whether you stop and rerun the query, or the server restarts, it will read from where it stopped.
 - [Python 驱动程序](https://github.com/timeplus-io/proton-python-driver) 和 [Go 驱动程序](https://github.com/timeplus-io/proton-go-driver) 已发布。
 
 _Timeplus Cloud 的新功能：_
