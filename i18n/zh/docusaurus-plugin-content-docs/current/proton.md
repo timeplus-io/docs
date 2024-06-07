@@ -4,13 +4,13 @@ Timeplus Proton 是 Timeplus Enterprise 的核心引擎，是 ksqlDB 或 Apache 
 
 ## 💪 为何使用 Timeplus Proton？
 
-1. **[Apache Flink](https://github.com/apache/flink) 或 [ksqlDB](https://github.com/confluentinc/ksql) 替代方案。** Timeplus Proton 提供强大的流 SQL 功能，例如流 ETL、翻滚/跳跃/会话窗口、水印、物化视图、CDC 和数据修订处理等。
+1. **[Apache Flink](https://github.com/apache/flink) 或 [ksqlDB](https://github.com/confluentinc/ksql) 替代方案。** Timeplus Proton 提供强大的直播 SQL 功能，例如直播 ETL、翻滚/跳跃/会话窗口、水印、物化视图、CDC 和数据修订处理等。
 2. **快点。** Timeplus Proton 用 C++ 编写，通过 SIMD 优化了性能。 [例如](https://www.timeplus.com/post/scary-fast)，在配备 M2 Max 的苹果 MacBookPro 上，Timeplus Proton 可以提供 9000 万次 EPS、4 毫秒的端到端延迟以及具有 100 万个唯一密钥的高基数聚合。
 3. **轻盈。** Timeplus Proton 是一个单一二进制 (\<500MB)。 没有 JVM 或任何其他依赖关系。 你也可以使用 Docker 或 AWS t2.nano 实例（1 个 vCPU 和 0.5 GiB 内存）运行它。
 4. **由快速、资源节约和成熟的 [ClickHouse](https://github.com/clickhouse/clickhouse)提供支持。** Timeplus Proton 通过流处理扩展了 ClickHouse 的历史数据、存储和计算功能。 Timeplus Proton 中有数千个 SQL 函数可用。 以毫秒为单位查询数十亿行。
 5. Next, create an external stream in Proton with SQL to consume data from your Kafka or Redpanda. Follow this [tutorial](proton-kafka#tutorial) for SQL snippets.
 
-![Proton架构](/img/proton-arch.png) See our [architecture](proton-architecture) doc for technical details and the [FAQ](proton-faq) for more information on the various editions of Proton, how it's related to ClickHouse, and why we chose Apache License 2.0.
+![质子架构](/img/proton-arch.png) See our [architecture](proton-architecture) doc for technical details and the [FAQ](proton-faq) for more information on the various editions of Proton, how it's related to ClickHouse, and why we chose Apache License 2.0.
 
 ## 🎬 演示视频
 
@@ -33,7 +33,7 @@ curl https://install.timeplus.com/oss | sh
 From `proton-client`, run the following SQL to create a stream of random data:
 
 ```sql
---使用随机数据创建流
+--使用随机数据创建直播
 创建随机流设备 (
   设备字符串默认 'device'||to_string (rand ()%4)，
   温度浮点数默认 rand ()%1000/10)
