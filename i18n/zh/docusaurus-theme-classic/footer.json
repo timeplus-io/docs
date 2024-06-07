@@ -12,7 +12,7 @@
     "description": "带有 label=Blog 的页脚链接标签链接到 https://timeplus.com/blog"
   },
   "copyright": {
-    "message": "Copyright © 2024 Timeplus, Inc.",
+    "message": "版权所有 © 2024 Timeplus, Inc.",
     "description": "页脚版权"
   },
   "link.item.label.Company Home Page": {
