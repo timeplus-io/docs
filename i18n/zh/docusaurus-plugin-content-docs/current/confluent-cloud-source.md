@@ -1,15 +1,15 @@
 # 从 Confluent Cloud 中加载流数据
 
-We are pleased to partner with [Confluent Cloud](https://www.confluent.io/confluent-cloud/?utm_campaign=tm.pmm_cd.2023_partner_cwc_timeplus_generic&utm_source=timeplus&utm_medium=partnerref), allowing you to easily connect your streaming data via [external streams](working-with-streams#external_stream) without moving data.
+我们很高兴与 [Confluent Cloud](https://www.confluent.io/confluent-cloud/?utm_campaign=tm.pmm_cd.2023_partner_cwc_timeplus_generic&utm_source=timeplus&utm_medium=partnerref)合作，让您在不移动数据的情况下通过 [外部流](working-with-streams#external_stream) 轻松连接流媒体数据。
 
 ## Confluent Cloud 资源
 
-1. From the left side navigation menu, click **Data Ingestion**. Here, you’ll see ways to connect a source or external stream. Click **Confluent Cloud** (external stream).
-2. Enter the bootstrap UR for your Confluent Cloud cluster, and set the Kafka API key and secret. Click **Next**.
-3. Enter the name of the Kafka topic, and specify the ‘read as’ data format. We currently support JSON, Avro, Protobuf, Text and other formats.
-    1. If the data in the Kafka topic is in JSON format, but the schema may change over time, we recommend you choose Text. This way, the entire JSON document will be saved as a string, and you can apply JSON related functions to extract value, even if the schema changes.
-    2. If you choose Avro, there is an option for 'Auto Extraction'. By default, this is toggled off, meaning the entire message will be saved as a string. If you toggle it on, then the top level attribute in the AVRO message will be put into different columns. This would be more convenient for you to query, but won't support schema evolution. When Avro is selected, you also need to specify the address, API key, and secret key for the schema registry.
-    3. If you choose Protobuf, please paste the entire Protobuf definition in, and specify the root message name.
-4. In the next “Preview” step, we will show you at least one event from your specified Confluent Cloud source.
-5. By default, your new source will create a new stream in Timeplus. Give this new stream a name and verify the columns information (column name and data type). You can also set a column as the event time column. If you don’t, we will use the ingestion time as the event time. Alternatively, you can select an existing stream from the dropdown.
-6. After previewing your data, you can give the source a name and an optional description, and review the configuration. Once you click Finish, your streaming data will be available in the specified stream immediately. 
+1. 在左侧导航菜单中，单击 **数据提取**。 在这里，您将看到连接源或外部直播的方法。 单击 **Confluent Cloud** （外部直播）。
+2. 输入 Confluent Cloud 集群的引导 URL，然后设置 Kafka API 密钥和密钥。 点击 **下一步**。
+3. 输入 Kafka 主题的名称，并指定 “读取为” 数据格式。 我们目前支持 JSON、Avro、Protobuf、文本和其他格式。
+    1. 如果 Kafka 主题中的数据采用 JSON 格式，但架构可能会随时间而变化，我们建议您选择文本。 这样，整个 JSON 文档将保存为字符串，即使架构发生变化，您也可以应用 JSON 相关函数来提取值。
+    2. 如果您选择 Avro，则可以选择 “自动提取”。 默认情况下，它处于关闭状态，这意味着整条消息将另存为字符串。 如果您将其打开，则 AVRO 消息中的顶级属性将放入不同的列中。 这会更方便你查询，但不支持架构演变。 选择 Avro 时，您还需要为架构注册表指定地址、API 密钥和密钥。
+    3. 如果你选择 Protobuf，请将整个 Protobuf 定义粘贴进去，并指定根消息名称。
+4. 在下一步 “预览” 步骤中，我们将向您显示来自您指定 Confluent 云源的至少一个事件。
+5. 默认情况下，您的新源将在Timeplus中创建新的直播。 为这个新流命名并验证列信息（列名和数据类型）。 您也可以将一列设置为事件时间列。 如果您不这样做，我们将使用摄取时间作为活动时间。 或者，您可以从下拉列表中选择现有直播。
+6. 预览数据后，您可以为源指定名称和可选描述，并查看配置。 单击 “完成” 后，您的流媒体数据将立即在指定的流中可用。 
