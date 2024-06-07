@@ -12,7 +12,7 @@
 
 Users can create a stream by using `CREATE STREAM ...` [DDL SQL](proton-create-stream). Every stream has 2 parts at storage layer by default: 默认情况下，每个流在存储层有 2 个部分：
 
-1. 实时直播数据部分，由 Timeplus NativeLog 提供支持
+1. 实时流数据部分，由 Timeplus NativeLog 提供支持
 2. 历史数据部分，由ClickHouse历史数据存储支持。
 
 从根本上讲，Proton 中的流是一个常规的数据库表，前面有一个复制的 Write-Ahead-Log (WAL)，但可以流式查询。

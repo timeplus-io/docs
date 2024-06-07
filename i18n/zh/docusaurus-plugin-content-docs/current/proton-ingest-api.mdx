@@ -12,12 +12,12 @@ import TabItem from '@theme/TabItem';
 默认情况下，Proton 采集 REST API 位于端口 3218 上。 请在暴露了 3218 端口的情况下启动质子容器。 例如：
 
 ```shell
-docker run-d-p 3218:3218--pull always--name proton ghcr.io/timeplus-io/proton: latest 
+docker run-d-p 3218:3218--pull always--name proton ghcr.io/timeplus-io/proton: latest
 ```
 
-### 在 Proton 中创建直播
+### 在 Proton 中创建流
 
-你需要通过 [CREATE STREAM]（质子创建流）在 Timeplus 中创建直播。 应设置具有正确名称和类型的列。
+你需要通过 [CREATE STREAM]（质子创建流）在 Timeplus 中创建流。 应设置具有正确名称和类型的列。
 
 首先运行 SQL 客户端
 

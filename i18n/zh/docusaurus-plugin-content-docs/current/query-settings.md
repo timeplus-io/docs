@@ -4,7 +4,7 @@ Timeplus 支持一些高级 “设置” 来微调流式查询处理行为，如
 
 ## 查询模式
 
-`query_mode=<table|streaming>`。 默认情况下，如果省略它，则为 “直播”。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。 这可以在端口中覆盖。 This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical. 如果您使用 8123，则默认为历史记录。
+`query_mode=<table|streaming>`。 默认情况下，如果省略它，则为 “流”。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。 这可以在端口中覆盖。 This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical. 如果您使用 8123，则默认为历史记录。
 
 ## seek_to
 

@@ -23,7 +23,7 @@ Timeplus 支持以 [Protobuf] (https://protobuf.dev/) 或 [Avro] (https://avro.a
 然后在为 Kafka 创建外部流时参考这个架构：
 
 ```sql
-创建外部直播 stream_name (
+创建外部流 stream_name (
          查询字符串，
          page_number int32，
          results_per_page int32)
@@ -65,7 +65,7 @@ Timeplus 支持以 [Protobuf] (https://protobuf.dev/) 或 [Avro] (https://avro.a
 然后在为 Kafka 创建外部流时参考这个架构：
 
 ```sql
-创建外部直播 stream_name（
+创建外部流 stream_name（
          名称字符串，
          favorite_number 可为空（int32），
          favorite_color 可为空（字符串））
@@ -122,7 +122,7 @@ Timeplus 支持以 [Protobuf] (https://protobuf.dev/) 或 [Avro] (https://avro.a
 ```
 
 ```sql
-创建外部直播人物（
+创建外部流人物（
   电子邮件字符串、
   name_first 字符串、
   name.last 字符串、
@@ -206,7 +206,7 @@ message DataComponent {
 )
 ```
 
-直播数据将显示为：
+流数据将显示为：
 
 ```sql
 从 stream_name 中选择 *；

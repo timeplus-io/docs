@@ -68,8 +68,8 @@ curl--request POST\
 mysql-to-clickhouse.sql 的内容是：
 
 ```sql
-— 通过外部直播阅读话题
-创建外部直播客户_cdc（原始字符串）
+— 通过外部流阅读话题
+创建外部流客户_cdc（原始字符串）
                 设置类型='kafka'，
                          brokers='redpanda: 9092'，
                          topic='dbserver1.inventory.customers;
@@ -80,7 +80,7 @@ mysql-to-clickhouse.sql 的内容是：
         address='clickhouse: 9000'，
         table='客户；
 
-— 创建物化视图作为直播 ETL 作业
+— 创建物化视图作为流 ETL 作业
 向客户创建物化视图 mv_mysql2ch 作为
     选择
            raw: payload.after.after.id:: int32 AS id，

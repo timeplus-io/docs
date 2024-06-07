@@ -17,8 +17,8 @@
 ### 创建外部流
 
 ```sql
-创建外部直播 frontend_events（原始字符串）
-设置 type='kafka'、 
+创建外部流 frontend_events（原始字符串）
+设置 type='kafka'、
          brokers='redpanda: 9092'、
          topic='owlshop-frontend-events'
 ```
@@ -37,8 +37,8 @@
 	requestDuration int，
 	响应字符串，
 	标头字符串
-）	
-设置类型='kafka'， 
+）
+设置类型='kafka'，
          brokers='redpanda: 9092'，
          topic='owlshop-frontend-eventend-eventend'，
          data_format='jsoneachrow'；
@@ -80,7 +80,7 @@
 
 按 Ctrl+C 取消查询。
 
-### 获取直播次数
+### 获取流次数
 
 ```sql
 从 frontend_events 中选择 count ()
@@ -107,7 +107,7 @@ Once you start the query, any new event with method value as POST will be select
 
 ### 显示实时 ASCII 条形图
 
-结合来自 ClickHouse 的有趣的 [bar] (https://clickhouse.com/docs/en/sql-reference/functions/other-functions#bar) 函数，你可以使用以下直播 SQL 来可视化每个点击流的前 5 个 HTTP 方法。
+结合来自 ClickHouse 的有趣的 [bar] (https://clickhouse.com/docs/en/sql-reference/functions/other-functions#bar) 函数，你可以使用以下流 SQL 来可视化每个点击流的前 5 个 HTTP 方法。
 
 ```sql
 从 frontend_events
@@ -138,7 +138,7 @@ Once you start the query, any new event with method value as POST will be select
 
 ```sql
 创建物化视图 mv_broken_links 作为
-选择 raw: requestedURL 作为 url，raw: method 作为方法，raw: IP 地址作为 ip， 
+选择 raw: requestedURL 作为 url，raw: method 作为方法，raw: IP 地址作为 ip，
        raw: response.statusCode 作为状态码，域（raw: headers.referrer）作为引用
 从 frontend_events 中选择 raw: response.StatusCode <>'200'；
 ```
@@ -146,11 +146,11 @@ Once you start the query, any new event with method value as POST will be select
 稍后你可以直接在物化视图上查询：
 
 ```sql
---直播查询
+--流查询
 从 mv_broken_links 中选择 *；
 
 --历史查询
-选择方法，将 () 计为 cnt，bar (cnt,0,40,5) 作为表中的条形图 (mv_broken_links) 
+选择方法，将 () 计为 cnt，bar (cnt,0,40,5) 作为表中的条形图 (mv_broken_links)
 按方法分组按 cnt 降序排序；
 ```
 

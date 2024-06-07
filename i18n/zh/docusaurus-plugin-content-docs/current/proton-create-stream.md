@@ -2,15 +2,15 @@
 
 ::: Timeplus Cloud 用户须知
 
-在 Timeplus Cloud 或 Timeplus Enterprise 部署中，我们建议你使用 GUI 或 [Terraform Provider](terraform)创建直播，因为它们具有更好的可用性和更多的功能。
+在 Timeplus Cloud 或 Timeplus Enterprise 部署中，我们建议你使用 GUI 或 [Terraform Provider](terraform)创建流，因为它们具有更好的可用性和更多的功能。
 
 :::
 
-## 创建直播
+## 创建流
 
 [Stream](working-with-streams) 是 Timeplus Proton 中的一个关键 [概念](glossary) 。 所有数据都存在于流中，无论是静态数据还是动态数据。 我们不建议你在 Proton 中创建或管理 `TABLE` 。
 
-### 仅限追加的直播
+### 仅限追加的流
 
 默认情况下，这些流是仅附加且不可变的。 By default, the streams are append-only and immutable. You can create a stream, then use `INSERT INTO` to add data.
 
@@ -27,7 +27,7 @@
 
 :::info
 
-直播创建是一个异步过程。
+流创建是一个异步过程。
 
 :::
 
@@ -52,7 +52,7 @@ Proton 支持以下列类型
 
 #### 活动时间
 
-In Timeplus, each stream with a `_tp_time` as [Event Time](eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using 如果您在创建直播时没有创建 `_tp_time` 列，则系统将为您创建这样的列，默认值为 `now64 ()` 。 您也可以选择一列作为事件时间，使用
+In Timeplus, each stream with a `_tp_time` as [Event Time](eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using 如果您在创建流时没有创建 `_tp_time` 列，则系统将为您创建这样的列，默认值为 `now64 ()` 。 您也可以选择一列作为事件时间，使用
 
 ```sql
 设置 event_time_column='my_datetime_column'
@@ -80,8 +80,8 @@ Today it's not exposed in SQL to control the retention policies for streaming st
 [Versioned Stream](versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如： 例如：
 
 ```sql
-创建 STREAM versioned_kv（i int，k 字符串，k1 字符串） 
-主键 (k, k1) 
+创建 STREAM versioned_kv（i int，k 字符串，k1 字符串）
+主键 (k, k1)
 设置模式 ='versioned_kv'，version_column='i'；
 ```
 
@@ -92,8 +92,8 @@ Today it's not exposed in SQL to control the retention policies for streaming st
 [Changelog Stream](changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如： 例如：
 
 ```sql
-创建 STREAM changelog_kv（i int，k 字符串，k1 字符串） 
-主键（k，k1） 
+创建 STREAM changelog_kv（i int，k 字符串，k1 字符串）
+主键（k，k1）
 设置模式 ='changelog_kv'，version_column='i'；
 ```
 
@@ -105,7 +105,7 @@ You may use this special stream to generate random data for tests. 例如： 例
 
 ```sql
 创建随机流设备 (
-  设备字符串默认 'device'||to_string (rand ()%4)， 
+  设备字符串默认 'device'||to_string (rand ()%4)，
   位置字符串默认 'city'|to_string (rand ()%10)，
   温度浮动默认兰德 ()%1000/10)；
 ```
@@ -141,6 +141,6 @@ Proton v1.4.2 的新增功能是，您可以将 eps 设置为 1 以下。 比如
 
 :::
 
-## 创建外部直播
+## 创建外部流
 
 请查看 [使用外部流读取/写入 Kafka](proton-kafka)。

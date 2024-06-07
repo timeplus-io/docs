@@ -1,4 +1,4 @@
-# 直播 ETL：Kafka 到 ClickHouse
+# 流 ETL：Kafka 到 ClickHouse
 
 该视频演示了如何读取来自Redpanda的实时数据、应用流处理以及如何将结果发送到ClickHouse。 [相关博客] (https://www.timeplus.com/post/proton-clickhouse-integration)。
 
@@ -37,7 +37,7 @@ enge=mergeTree ()
 要从 Kafka 或 Redpanda 读取数据，你只需要使用以下 DDL SQL 创建 [外部流]（质子-kafka）：
 
 ```sql
-创建外部直播 frontend_events（原始字符串）
+创建外部流 frontend_events（原始字符串）
 设置 type='kafka'，
          brokers='redpanda: 9092'，
          topic='owlshop-frontend-events'；
@@ -75,7 +75,7 @@ enge=mergeTree ()
 
 ### 示例：tumble + join
 
-一个典型的用例是，如果您在ClickHouse中有静态或缓慢变化的维度（SCD），则无需在Proton中复制它们。 只需在 Proton 中创建一个外部表，您就可以通过使用这样的外部表加入直播来丰富您的实时数据，然后将高质量的数据发送到 ClickHouse。
+一个典型的用例是，如果您在ClickHouse中有静态或缓慢变化的维度（SCD），则无需在Proton中复制它们。 只需在 Proton 中创建一个外部表，您就可以通过使用这样的外部表加入流来丰富您的实时数据，然后将高质量的数据发送到 ClickHouse。
 
 例如：
 
