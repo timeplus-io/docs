@@ -123,7 +123,7 @@
 
 - API
 
-  - Updated the [REST API doc](https://docs.timeplus.com/rest.html), adding the experimental stream-level retention policies.
+  - 更新了 [REST API 文档](https://docs.timeplus.com/rest.html)，添加了实验性的直播级别保留政策。
 
 ### 6/13周
 
@@ -133,7 +133,7 @@
 - 源和汇：
   - Kafka 源支持无需认证的本地schema 注册表
 - 界面改进
-  - 在创建流时添加验证。 The stream name should start with a letter and the rest of the name only include number, letter or \_
+  - 在创建流时添加验证。 直播名称应以字母开头，名称的其余部分仅包含数字、字母或\ _
   - 如果数据未预览，请在源向导中禁用下一个按钮
 
 ### 6/6周
@@ -217,7 +217,7 @@
   - 能够重命名流
   - (实验性) 添加 `ORDER BY` 支持流式查询与聚合
   - (实验性) 添加 `EMIT TIMEOUT 5s` 用于串流查询，这样窗口将被关闭，即使没有更多的事件来推进水印。
-  - (Experimental) Added [emit_verison()](functions#emit_version) to show an unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
+  - （实验性）添加了 [emit_verison ()](functions#emit_version) 以显示每个发出的窗口的唯一数字（这样你就可以从流式传输结果中分辨出哪些行来自同一个窗口）
 - 源和汇：
   - Kafka源的10倍通量提高
   - (实验性) a [datapm](https://datapm.io/) sink to ingest 批处理/流流数据到 Timeplus
