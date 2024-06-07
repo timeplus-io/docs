@@ -62,7 +62,7 @@ curl https://install.timeplus.com/sp-demo | sh
 
 For Windows users, you can download the package with docker compose file and bootstrap scripts [here](https://timeplus.io/dist/timeplus_enterprise/sp-demo-20240522.zip).
 
-Access the web console at https://localhost:8000.
+Access the web console at http://localhost:8000.
 
 This stack demonstrates how to run streaming ETL, getting data from Kafka API, applying filter or aggregation, then sending to another Kafka topic or ClickHouse tables. For more details, please check:
 * [Tutorial: Streaming ETL: Kafka to Kafka](tutorial-sql-etl)

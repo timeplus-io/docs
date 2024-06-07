@@ -30,5 +30,53 @@
   "item.label. ": {
     "message": " ",
     "description": "Navbar item with label  "
+  },
+  "item.label.Product": {
+    "message": "Product",
+    "description": "Navbar item with label Product"
+  },
+  "item.label.Use Cases": {
+    "message": "Use Cases",
+    "description": "Navbar item with label Use Cases"
+  },
+  "item.label.Pricing": {
+    "message": "Pricing",
+    "description": "Navbar item with label Pricing"
+  },
+  "item.label.Blog": {
+    "message": "Blog",
+    "description": "Navbar item with label Blog"
+  },
+  "item.label.Company": {
+    "message": "Company",
+    "description": "Navbar item with label Company"
+  },
+  "item.label.FinTech": {
+    "message": "FinTech",
+    "description": "Navbar item with label FinTech"
+  },
+  "item.label.AI": {
+    "message": "AI",
+    "description": "Navbar item with label AI"
+  },
+  "item.label.Timeplus vs. ksqlDB": {
+    "message": "Timeplus vs. ksqlDB",
+    "description": "Navbar item with label Timeplus vs. ksqlDB"
+  },
+  "item.label.Our Team": {
+    "message": "Our Team",
+    "description": "Navbar item with label Our Team"
+  },
+  "item.label.Media Kit": {
+    "message": "Media Kit",
+    "description": "Navbar item with label Media Kit"
+  },
+  "item.label.Resources": {
+    "message": "Resources",
+    "description": "Navbar item with label Resources"
+  },
+  "item.label.Slack Community": {
+    "message": "Slack Community",
+    "description": "Navbar item with label Slack Community"
   }
 }
