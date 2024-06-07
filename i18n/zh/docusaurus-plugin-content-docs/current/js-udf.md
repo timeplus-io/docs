@@ -121,7 +121,7 @@ function magic_number(values){
 
 聚合函数为每组行返回一个值。 注册 UDF 时，请务必打开该选项以表明这是聚合函数。 与标量函数相比，生命周期要复杂一些。
 
-### 3 required and 3 optional functions {#udaf-lifecycle}
+### 3 个必需功能和 3 个可选功能 {#udaf-lifecycle}
 
 比如我们希望获得一组数据中的第二个最大值。
 
@@ -136,7 +136,7 @@ function magic_number(values){
 
 
 
-### Example: get second largest number {#udaf-example}
+### 示例：获取第二大数字 {#udaf-example}
 
 此 JS UDAF 的完整源代码是
 
@@ -187,88 +187,88 @@ function magic_number(values){
 };
 ```
 
-To register this function, steps are different in Timeplus Cloud and Proton:
+要注册此函数，Timeplus Cloud 和 Proton 中的步骤有所不同：
 
 * With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 在 `float` 类型中添加一个参数，并将返回类型也设置为 `float` 。 Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。
-* With SQL in Proton Client: check the example at [here](proton-create-udf#create-aggregate-function).
+* 在 Proton Client 中使用 SQL：在此处查看 [中的示例](proton-create-udf#create-aggregate-function)。
 
-### Advanced Example for Complex Event Processing {#adv_udaf}
+### 复杂事件处理的高级示例 {#adv_udaf}
 
-User-Defined Aggregation Function can be used for Complex Event Processing (CEP). Here is an example to count the number of failed login attempts for the same user. If there are more than 5 failed logins, create an alert message. If there is a successful login, reset the counter. Assuming the stream name is `logins` , with timestamp, user, login_status_code, this SQL can continuously monitor the login attempts:
+用户定义的聚合函数可用于复杂事件处理 (CEP)。 以下是计算同一用户登录尝试失败次数的示例。 如果登录失败次数超过 5 次，请创建警报消息。 如果成功登录，请重置计数器。 假设直播名称是 `logins` ，带有时间戳、用户、login_status_code，此 SQL 可以持续监控登录尝试：
 
 ```sql
-SELECT window_start, user, login_fail_event(login_status_code) 
-FROM hop(logins, 1m, 1h) GROUP BY window_start, user
+选择 window_start、用户、login_fail_event (login_status_code) 
+FROM hop（登录，1m，1h）按 window_start 分组，用户
 ```
 
-The UDAF is registered in this way:
+UDAF 是通过以下方式注册的：
 
 ```sql
-CREATE AGGREGATE FUNCTION login_fail_event(msg string) 
-RETURNS string LANGUAGE JAVASCRIPT AS $$
+创建聚合函数 login_fail_event（消息字符串） 
+将字符串语言 JAVASCRIPT 返回为 $$
 {
-  has_customized_emit: true,
+  has_customized_emit：true，
 
-  initialize: function() {
-      this.failed = 0; //internal state, number of login failures
+  初始化：函数（）{
+      this.failed = 0；//内部状态，登录失败次数
       this.result = [];
-  },
+  }，
 
-  process: function (events) {
-      for (let i = 0; i < events.length; i++) {
-          if (events[i]=="failed") {
+  进程：函数（事件）{
+      for（let i = 0；i < events.length；i++）{
+          if（事件 [i] == “失败”）{
               this.failed = this.failed + 1;
           }
-          else if (events[i]=="ok") {
-              this.failed = 0; //reset to 0 if there is login_ok before 5 login_fail
-          }
+          否则 if（事件 [i] == “ok”）{
+              this.failed = 0；//如果在 5 登录之前有 login_ok，则重置为 0
 
-          if (this.failed >= 5) {
-              this.result.push("alert"); //we can also attach a timestamp
-              this.failed = 0; //reset to 0 there are 5 login_fail
+
+ >= 5) {
+              this.result.push (“alert”); //我们也可以附加时间戳
+              this.failed = 0; //重置为 0 有 5 个 login_fail
           }
       }
-      return this.result.length; //show the number of alerts for the users
-  },
+      返回 this.result.length; //显示用户的警报数量
+  }，
 
   finalize: function () {
-      var old_result = this.result;
-      this.initialize();
-      return old_result;
-  },
+      var old_结果 = this.result；
+      this.initialize ()；
+      返回 old_result；
+  }，
 
-  serialize: function() {
+  序列化：函数 () {
       let s = {
           'failed': this.failed
       };
-      return JSON.stringify(s);
+      返回 json.stringify (s);
+  }，
+
+  反序列化：函数 (state_str) {
+      let s = json.parse (state_str));
+      this.failed = s ['失败'];
   },
 
-  deserialize: function (state_str) {
-      let s = JSON.parse(state_str);
-      this.failed = s['failed'];
-  },
-
-  merge: function(state_str) {
-      let s = JSON.parse(state_str);
-      this.failed = this.failed + s['failed'];
+  合并：函数 (state_str) {
+      let s = json.parse (state_str);
+      this.failed = this.failed + s ['失败'];
   }
 }
 $$;
 ```
 
-There is an advanced setting `has_customized_emit`. When this is set to `true`: When this is set to `true`:
+There is an advanced setting `has_customized_emit`. When this is set to `true`: 当将其设置为 `true`时：
 
-* `initialize()` is called to prepare a clean state for each function invocation.
-* Proton partitions the data according to `group by` keys and feeds the partitioned data to the JavaScript UDAF. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit.
+* 调用 `initialize ()` 是为了为每次函数调用准备一个干净的状态。
+* Proton partitions the data according to `group by` keys and feeds the partitioned data to the JavaScript UDAF. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit. `进程 (...)调用` 来运行自定义聚合逻辑。 如果是 `process (..) 的返回值` 是 0，不会发出任何结果。 如果 `process (..) 返回非零值`，然后 `finalize ()` 函数将被调用以获取聚合结果。  质子将立即发布结果。 `finalize ()` 函数还应重置其状态以供下次聚合和发出。
 
-Caveats:
+注意事项：
 
-1. One streaming SQL supports up to 1 UDAF with `has_customized_emit=true`
-2. If there are 1 million unique key, there will be 1 million UDAF invocations and each of them handles its own partitioned data.
-3. If one key has aggregation results to emit, but other keys don't have, then Proton only emit results for that key.
+1. 一个串流 SQL 最多支持 1 个 UDAF， `has_customized_emit=true`
+2. 如果有 100 万个唯一密钥，则将有 100 万次 UDAF 调用，每个调用都有自己的分区数据。
+3. 如果一个密钥有聚合结果要发出，而其他密钥没有，那么 Proton 只会为该密钥发出结果。
 
-This is an advanced feature. This is an advanced feature. Please contact us or discuss your use case in [Community Slack](https://timeplus.com/slack) with us.
+这是一项高级功能。 This is an advanced feature. Please contact us or discuss your use case in [Community Slack](https://timeplus.com/slack) with us.
 
 
 
