@@ -2,7 +2,7 @@
 
 子流不是物理流，仅在查询时可用。
 
-你可以为流创建子流，也可以为特定主键创建 [tumble](functions_for_streaming#tumble)/[hop](functions_for_streaming#hop)/[session](functions_for_streaming#session) 窗口，以维护单独的水印和流窗口。
+你可以为直播创建子流，也可以为特定主键创建 [tumble](functions_for_streaming#tumble)/[hop](functions_for_streaming#hop)/[session](functions_for_streaming#session) 窗口，以维护单独的水印和直播窗口。
 
 例如：
 
