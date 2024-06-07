@@ -1,59 +1,59 @@
-# Joins
+# 加入
 
-JOIN is a key feature in Timeplus to combine data from different sources and freshness into a new stream. Please refer to https://en.wikipedia.org/wiki/Join_(SQL) for general introduction. Please refer to https://en.wikipedia.org/wiki/Join_(SQL) for general introduction.
+JOIN is a key feature in Timeplus to combine data from different sources and freshness into a new stream. Please refer to https://en.wikipedia.org/wiki/Join_(SQL) for general introduction. 有关一般介绍，请参阅 https://en.wikipedia.org/wiki/Join_(SQL)。
 
 ## 流表和维度表联查{#stream_table_join}
 
-在 Timeplus 中，所有数据都生活在流中，默认查询模式正在流中。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 To query the historical data of a stream, [table()](functions_for_streaming#table) function can be used.
+在 Timeplus 中，所有数据都生活在流中，默认查询模式正在流中。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 要查询直播的历史数据，可以使用 [table ()](functions_for_streaming#table) 函数。
 
 有些典型的情况是，无约束的数据流需要通过连接到相对静态尺寸表来丰富。 Timeplus可以在一个引擎中通过流式到维度表加入来存储流式数据和尺寸表。
 
 示例：
 
 ```sql
-SELECT device, vendor, cpu_usage, timestamp
-FROM device_utils
-INNER JOIN table(device_products_info) AS dim
-ON device_utils.product_id = dim.id
+在 device_utils.product_id 上选择设备、供应商、cpu_usage、时间戳
+来自 device_utils
+INNER JOIN 表（设备_产品信息）作为 dim
+
 ```
 
-In the above example, data from `device_utils` is a stream and data from `device_products_info` is historical data since it is wrapped with `table()` function. For every (new) row from `device_utils`, it is continuously joined with rows from dimension table `device_products_info` and enriches the streaming data with product vendor information. For every (new) row from `device_utils`, it is continuously joined with rows from dimension table `device_products_info` and enriches the streaming data with product vendor information.
+In the above example, data from `device_utils` is a stream and data from `device_products_info` is historical data since it is wrapped with `table()` function. For every (new) row from `device_utils`, it is continuously joined with rows from dimension table `device_products_info` and enriches the streaming data with product vendor information. 对于 `device_utils`中的每行（新），它都会持续与维度表 `device_products_info` 中的行连接在一起，并使用产品供应商信息丰富流式数据。
 
-Three cases are supported:
+支持三种情况：
 
-### stream INNER JOIN table
+### 直播内部连接表
 
-`INNER JOIN` is the most common JOIN to return data have matching values in both side of the JOIN.
+`INNER JOIN` 是最常见的 JOIN，它返回的数据在 JOIN 的两端都有匹配的值。
 
 <img src='https://dataschool.com/assets/images/how-to-teach-people-sql/sqlJoins/sqlJoins_3.png' />
 
-(Credit: https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/)
+（来源：https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/）
 
-This is also the default behaviour if you just use `JOIN`.
+如果你只使用 `JOIN`，这也是默认行为。
 
-### stream LEFT JOIN table
+### 直播 LEFT JOIN
 
-`LEFT JOIN` returns all rows from the left stream with matching rows in the right table. Some columns can be NULL when there is no match. Some columns can be NULL when there is no match.
+`LEFT JOIN` returns all rows from the left stream with matching rows in the right table. Some columns can be NULL when there is no match. 当没有匹配项时，某些列可能为 NULL。
 
 <img src='https://dataschool.com/assets/images/how-to-teach-people-sql/sqlJoins/sqlJoins_4.png' />
 
-(Credit: https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/)
+（来源：https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/）
 
-### stream OUTER JOIN table
+### 直播外连接表
 
-`OUTER JOIN` combines the columns and rows from all tables and includes NULL when there is no match.
+`OUTER JOIN` 合并所有表中的列和行，如果没有匹配项，则包含 NULL。
 
 <img src='https://dataschool.com/assets/images/how-to-teach-people-sql/sqlJoins/sqlJoins_2.png' />
 
-(Credit: https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/)
+（来源：https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/）
 
 ## 流到流联查 {#stream_stream_join}
 
 在某些情况下，实时数据流向多个数据流。 例如，当广告展示给最终用户时，当用户点击广告时。
 
-### Correlated searches for multiple streams
+### 对多个直播进行关联搜索
 
-Timeplus allows you to do correlated searches for multiple data streams. For example, you can check the average time when the user clicks the ad after it is presented. For example, you can check the average time when the user clicks the ad after it is presented.
+Timeplus allows you to do correlated searches for multiple data streams. For example, you can check the average time when the user clicks the ad after it is presented. 例如，您可以查看用户在广告投放后点击广告的平均时间。
 
 ```sql
 选择... 选择... 选择... FROM stream1
@@ -62,7 +62,7 @@ ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
 ```
 
-### Self join
+### 自行加入
 
 您也可以加入一个流到自己。 一个典型的使用情况是检查同一流中数据是否有某种模式，例如： 是否在两分钟内购买相同的信用卡。 小规模购买后有大宗购买。 这可能是一种欺诈模式。
 
@@ -73,204 +73,204 @@ ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
 ```
 
-### 3 types of streams
+### 3 种类型的直播
 
-Timeplus supports 3 stream types:
+Timeplus 支持 3 种直播类型：
 
-1. Append only stream (default)
-2. [Versioned Stream](versioned-stream) with primary key(s) and multiple versions
-3. [Changelog Stream](changelog-stream) with primary key(s) and CDC semantic (data can be removed, or updated with old&new value). You can also use the [changelog()](functions_for_streaming#changelog) function to convert an append-only stream to changelog stream. You can also use the [changelog()](functions_for_streaming#changelog) function to convert an append-only stream to changelog stream.
+1. 仅追加直播（默认）
+2. [带有主键和多个版本的 Versioned Stream](versioned-stream)
+3. [Changelog Stream](changelog-stream) with primary key(s) and CDC semantic (data can be removed, or updated with old&new value). You can also use the [changelog()](functions_for_streaming#changelog) function to convert an append-only stream to changelog stream. 你也可以使用 [changelog ()](functions_for_streaming#changelog) 函数将仅限追加的流转换为变更日志流。
 
-### 2 join types
+### 2 种连接类型
 
 1.`INNER` (default)
 <img src='https://dataschool.com/assets/images/how-to-teach-people-sql/sqlJoins/sqlJoins_3.png' />
 
-(Credit: https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/)
+（来源：https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/）
 
-2.`LEFT`
+2。`向左`
 <img src='https://dataschool.com/assets/images/how-to-teach-people-sql/sqlJoins/sqlJoins_4.png' />
 
-(Credit: https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/)
+（来源：https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/）
 
-Other types of JOINS are not supported in the current version of Timeplus. If you have good use cases for them, please contact us at support@timeplus.com. If you have good use cases for them, please contact us at support@timeplus.com.
-1. RIGHT
-2. FULL or OUTER
-3. CROSS
+Other types of JOINS are not supported in the current version of Timeplus. If you have good use cases for them, please contact us at support@timeplus.com. 如果你有很好的用例，请通过 support@timeplus.com 联系我们。
+1. 对
+2. 全部或外部
+3. 十字架
 
-### 4 join strictnesses
+### 4. 严格的加入
 
-1. `ALL` (default)
-2. `LATEST` For two append-only streams, if you use `a INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either stream, the previous join result will be canceled and a new result will be added.
-3. `ASOF`, provides non-exact matching capabilities. `ASOF`, provides non-exact matching capabilities. 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
-4. range `ASOF`
+1. `ALL` （默认）
+2. `LATEST` 对于两个仅限追加的直播，如果你在 a.key=b.key</code>上使用 `a INNER LATEST JOIN b，则每当任一直播的密钥发生变化时，先前的连接结果将被取消并添加新的结果。</li>
+<li><code>ASOF`，提供非精确匹配功能。 `ASOF`, provides non-exact matching capabilities. 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
+4. 范围 `ASOF`
 
-### Supported combinations
+### 支持的组合
 
-At the high level, the JOIN syntax is
+简而言之，JOIN 语法是
 
 ```sql
 SELECT <column list> 
 FROM <left-stream> 
 [join_type] [join_strictness] JOIN <right-stream> 
 ON <on-clause>
-[WHERE .. GROUP BY .. HAVING ... ORDER BY ...] GROUP BY .. HAVING ... ORDER BY ...]
+[WHERE .. GROUP BY .. HAVING ... ORDER BY ...] 分组依据... 有... 按... 订购]
 ```
 
-By default, the strictness is `ALL` and the join kind is `INNER`.
+默认情况下，严格度为 `ALL` ，连接种类为 `INNER`。
 
-As you can imagine, there could be 24 (3 x 2 x 4) combinations. Not all of them are meaningful or performant.  Please read on for the supported combinations. Not all of them are meaningful or performant.  Please read on for the supported combinations.
+As you can imagine, there could be 24 (3 x 2 x 4) combinations. Not all of them are meaningful or performant.  Please read on for the supported combinations. 并非所有这些都很有意义或性能良好。  请继续阅读支持的组合。
 
-#### append JOIN append{#append-inner-append}
+#### 追加加入追加{#append-inner-append}
 
-This may look like the most easy-to-understand scenario. This may look like the most easy-to-understand scenario. You can try this type of join if you have 2 streams with incoming new data.
+这可能看起来像是最容易理解的场景。 This may look like the most easy-to-understand scenario. You can try this type of join if you have 2 streams with incoming new data.
 
-However, this is designed to be exploration purpose only, not recommended to for production use. Because both sides of the data streams are unbounded, it will consume more and more resources in the system. Internally there is a setting for max cached bytes to control the maximum source data it can buffer. Once the query reaches the limit, the streaming query will be aborted.
+但是，这仅用于勘探目的，不建议用于生产用途。 由于数据流的两端都是无限的，因此它将消耗系统中越来越多的资源。 内部设置了最大缓存字节数，以控制其可以缓冲的最大源数据。 一旦查询达到限制，流式查询将中止。
 
 示例：
 
 ```sql
-SELECT * FROM 
-left_append JOIN  right_append 
-ON left_append.k = right_append.kk 
+选择 * 来自 
+left_append JOIN right_append 
+on left_append.k = right_append.kk = right_append.kk 
 ```
 
 
 
-#### range join append streams {#append-range}
+#### 范围加入追加直播 {#append-range}
 
-The above join may buffer too much data, range bidirectional join tries to mitigate this problem by bucketing the stream data in time ranges and try to join the data bidirectionally in appropriate range buckets. The above join may buffer too much data, range bidirectional join tries to mitigate this problem by bucketing the stream data in time ranges and try to join the data bidirectionally in appropriate range buckets. It requires a [date_diff_within](functions_for_streaming#date_diff_within) clause in the join condition and the general form of the syntax is like below.
+上述联接可能会缓冲过多的数据，范围双向联接试图通过在时间范围内对流数据进行存储桶来缓解此问题，并尝试将数据双向加入到适当的范围存储桶中。 The above join may buffer too much data, range bidirectional join tries to mitigate this problem by bucketing the stream data in time ranges and try to join the data bidirectionally in appropriate range buckets. It requires a [date_diff_within](functions_for_streaming#date_diff_within) clause in the join condition and the general form of the syntax is like below.
 
 ```sql
-SELECT * FROM left_stream JOIN right_stream 
-ON left_stream.key = right_stream.key AND date_diff_within(2m)
+从 left_stream 中选择 * 在 left_stream.key = right_stream.key 和 date_diff_within (2m) 上加入 right_stream 
+
 ```
 
-Actually we don’t even require a timestamp for the range, any integral columns are supposed to work. For instance, `AND left_stream.sequence_number < rightstream.sequence_number + 10`. For instance, `AND left_stream.sequence_number < rightstream.sequence_number + 10`.
+Actually we don’t even require a timestamp for the range, any integral columns are supposed to work. For instance, `AND left_stream.sequence_number < rightstream.sequence_number + 10`. 例如， `和 left_stream.sequence_number < rightstream.sequence_number + 10`。
 
-#### version JOIN version{#version-inner-version}
+#### 版本 JOIN 版本{#version-inner-version}
 
-This is a unique feature in Timeplus. This is a unique feature in Timeplus. You can setup [Versioned Stream](versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted.
-
-Examples:
-
-```sql
-SELECT k, count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii) 
-FROM left_vk JOIN right_vk 
-ON left_vk.k = right_vk.kk
-```
-
-
-
-#### append INNER JOIN versioned{#append-versioned}
-
-This type of join and the following types enable you to dynamic data enrichment. Dynamic data enrichment join has special semantics as well compared to traditional databases since we don’t buffer any source data for the left stream, we let it keep flowing. This type of join and the following types enable you to dynamic data enrichment. Dynamic data enrichment join has special semantics as well compared to traditional databases since we don’t buffer any source data for the left stream, we let it keep flowing. It is similar to [stream to dimension table join](#stream_table_join), but the difference is we build a hash table for the right stream and **dynamically update the hash table** according to the join strictness semantics.
+这是 Timeplus 的一项独特功能。 This is a unique feature in Timeplus. You can setup [Versioned Stream](versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted. 分配主密钥并加入多个版本流，就好像它们在 OLTP 中一样。 每当JOIN的两端有新的更新时，都会发出新的结果。
 
 示例：
 
 ```sql
-SELECT * FROM append JOIN versioned_kv USING(k)
-```
-
-#### append LEFT JOIN versioned{#append-left-versioned}
-
-Similar to the above one, but all rows in the append-only stream will be shown, with NULL value in the columns from versioned stream, if there is no match.
-
-示例：
-
-```sql
-SELECT * FROM append LEFT JOIN versioned_kv USING(k)
-```
-
-#### append INNER JOIN changelog{#append-changelog}
-
-示例：
-
-```sql
-SELECT * FROM append JOIN changelog_kv USING(k)
-```
-
-#### append LEFT JOIN changelog{#append-left-changelog}
-
-示例：
-
-```sql
-SELECT * FROM append LEFT JOIN changelog_kv USING(k)
+选择 k、计数 (*)、最小值 (i)、最大值 (i)、平均值 (i)、最小值 (ii)、最大值 (ii)、平均值 (ii) 
+来自 left_vk 加入 right_vk 
+on left_vk.k = right_vk.kk
 ```
 
 
 
-#### append ASOF JOIN versioned {#append-asof-versioned}
+#### 追加 INNER JOIN 版本号{#append-versioned}
 
-ASOF enrichment join keeps multiple versions of values for the **same join key** in the hash table and the values are sorted by ASOF unequal join key.
+这种类型的联接和以下类型使您能够动态丰富数据。 与传统数据库相比，动态数据丰富连接也具有特殊的语义，因为我们不为左流缓冲任何源数据，而是让它继续流动。 This type of join and the following types enable you to dynamic data enrichment. Dynamic data enrichment join has special semantics as well compared to traditional databases since we don’t buffer any source data for the left stream, we let it keep flowing. It is similar to [stream to dimension table join](#stream_table_join), but the difference is we build a hash table for the right stream and **dynamically update the hash table** according to the join strictness semantics.
 
 示例：
 
 ```sql
-SELECT * FROM append ASOF JOIN versioned_kv 
-ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
+从 append 中选择 * 使用 (k) 加入 versioned_kv
+```
+
+#### append LEFT JOIN 版本为版本{#append-left-versioned}
+
+与上述类似，但将显示仅追加流中的所有行，如果没有匹配项，则版本化流中的列中将显示空值。
+
+示例：
+
+```sql
+选择 * 从追加左侧加入 versioned_kv 使用 (k)
+```
+
+#### 追加 INNER JOIN 变更日志{#append-changelog}
+
+示例：
+
+```sql
+使用 (k) 从 append JOIN changelog_kv 中选择 *
+```
+
+#### 追加 LEFT JOIN 变更日志{#append-left-changelog}
+
+示例：
+
+```sql
+选择 * 从追加左侧加入 changelog_kv 使用 (k)
+```
+
+
+
+#### 追加 ASOF JOIN 版本控制 {#append-asof-versioned}
+
+ASOF 丰富联接在哈希表中保留 **相同联接密钥** 的多个版本的值，这些值按 ASOF 不等联接密钥排序。
+
+示例：
+
+```sql
+选择 * 从 append asof JOIN versioned_kv 
+on append.k = versioned_kv.k 和 append.i <= versioned_kv.j
 ```
 
 There is an optional setting to ask the query engine to keep the last N versions of the value for the same join key. 示例： 示例：
 
 ```sql
-SELECT * FROM append ASOF JOIN versioned_kv 
-ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
-SETTINGS keep_versions = 3
+选择 * 从 append ASOF JOIN versioned_kv 
+on append.k = versioned_kv.k 和 append.i <= versioned_kv.j
+设置 keep_versiones = 3
 ```
 
-#### append LEFT ASOF JOIN versioned {#append-left-asof-versioned}
+#### 向左追加 ASOF JOIN 版本控制 {#append-left-asof-versioned}
 
-Similar to the above, but not INNER.
+与上面类似，但不是 INNER。
 
 示例：
 
 ```sql
-SELECT * FROM append LEFT ASOF JOIN versioned_kv 
-ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
+从向左追加中选择 * 在 append.k 上加入 versioned_kv 
+= versioned_kv.k 和 append.i <= versioned_kv.j
 ```
 
 
 
-#### append LATEST JOIN versioned {#append-latest-versioned}
+#### 追加最新加入版本 {#append-latest-versioned}
 
 Only the latest version of value for **each join key** is kept. 示例： 示例：
 
 ```sql
-SELECT *, _tp_delta FROM append ASOF LATEST JOIN versioned_kv 
-ON append.k = versioned_kv.k
+选择 *，_tp_delta from append asof LATEST JOIN versioned_kv 
+on append.k = versioned_kv.k
 ```
 
 然后，您可以向两个流中添加一些事件。
 
-| 添加数据                                                 | SQL 结果                                                                                                                         |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Add one event to `append` (id=100, name=apple)       | 没有结果                                                                                                                           |
-| Add one event to `versioned_kv` (id=100, amount=100) | 1. 1. id=100, name=apple, amount=100, _tp_delta=1                                                                            |
-| Add one event to `versioned_kv` (id=100, amount=200) | （新增2 行）<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
-| Add one event to `append` (id=100, name=appl)        | （新增2 行）<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1  |
+| 添加数据                                        | SQL 结果                                                                                                                         |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 向 `append` 添加一个事件 (id=100，name=apple)       | 没有结果                                                                                                                           |
+| 向 `versioned_kv` (id=100，amount=100) 添加一个事件 | 1. 1. id=100, name=apple, amount=100, _tp_delta=1                                                                            |
+| 向 `versioned_kv` (id=100，amount=200) 添加一个事件 | （新增2 行）<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
+| 向 `append` (id=100, name=appl) 添加一个事件       | （新增2 行）<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1  |
 
 如果您运行一个聚合函数，使用这种LATEST JOIN, 比如 `count(*)` 结果将永远是1，无论同一键值有多少次变化。
 
-#### append LEFT LATEST JOIN versioned {#append-left-latest-versioned}
+#### 向左追加最新加入版本 {#append-left-latest-versioned}
 
-Similar to the above, but not INNER.
+与上面类似，但不是 INNER。
 
 示例：
 
 ```sql
-SELECT * FROM append LEFT LATEST JOIN versioned_kv 
-ON append.k = versioned_kv.k
+选择 * 从向左追加最新加入版本_kv 
+on append.k = versioned_kv.k
 ```
 
-#### version LEFT JOIN version {#version-left-version}
+#### 版本向左加入版本 {#version-left-version}
 
-This feature is enabled in Proton 1.5.7. This is a unique feature in Timeplus. You can setup [Versioned Stream](versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted and can be materialized to a target system, such as ClickHouse.
+此功能在 Proton 1.5.7 中启用。 This is a unique feature in Timeplus. You can setup [Versioned Stream](versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted. 分配主密钥并加入多个版本流，就好像它们在 OLTP 中一样。 每当JOIN的任一端有新的更新时，都会发出新的结果，并且可以将其具体化到目标系统，例如ClickHouse。
 
-Examples:
+示例：
 
 ```sql
-SELECT k, count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii) 
-FROM left_vk LEFT JOIN right_vk 
-ON left_vk.k = right_vk.kk
+选择 k、计数 (*)、最小值 (i)、最大值 (i)、平均值 (i)、最小值 (ii)、最大值 (ii)、平均值 (ii) 
+从 left_vk 向左加入 right_vk 
+on left_vk.k = right_vk.kk
 ```
