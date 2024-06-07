@@ -80,16 +80,16 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
 
 
 
-### OHLC chart
+### OHLC 图表
 
-This is a new chart type, currently in technical preview. This is a new chart type, currently in technical preview. The open-high-low-close (OHLC) chart is common in the finance industry, to visualize the movement of prices over time. Please contact us if you'd like to try this preview feature. Please contact us if you'd like to try this preview feature.
+这是一种新的图表类型，目前处于技术预览阶段。 This is a new chart type, currently in technical preview. The open-high-low-close (OHLC) chart is common in the finance industry, to visualize the movement of prices over time. Please contact us if you'd like to try this preview feature. 如果您想尝试此预览功能，请联系我们。
 
-Please make sure there are 5 columns with names: time, open, close, high, low, e.g.
+请确保有 5 个列的名称：时间、开盘价、收盘价、最高价、最低价，例如
 
 ```sql
-SELECT window_start, earliest(price) AS open, latest(price) AS close, 
-       max(price) AS high, min(price) AS low 
-FROM tumble(prices, 1s) GROUP BY window_start
+选择 window_start，最早（价格）为开盘价，最新（价格）为收盘价， 
+       最高（价格）为最高，最低（价格）为低 
+FROM TUMBLE（价格，1 秒）GROUP BY window_start
 ```
 
 
@@ -164,9 +164,9 @@ select * from car_live_data where cid='{{car_id}}'
 
 ## 与外部BI集成
 
-You can call Timeplus SDK to load the data and render the chart with 3rd party charting libraries.
+你可以调用 Timeplus SDK 来加载数据并使用第三方图表库呈现图表。
 
-For Proton users, you can also try https://github.com/timeplus-io/proton-grafana-source It has been submitted to Grafana Inc and waiting for approval to list on its marketplace.
+对于Proton用户，你也可以试试 https://github.com/timeplus-io/proton-grafana-source 它已提交给Grafana Inc，正在等待批准在其市场上市。
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=TzVpULg-B0b0T5GE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=TzVpULg-B0b0T5GE" title="优酷视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
