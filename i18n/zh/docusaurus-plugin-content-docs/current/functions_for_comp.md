@@ -191,7 +191,7 @@
 
 或者，您可以使用 `map_cast(key1,value1,key2,value2...)`
 
-Since Proton v1.4.2, a new [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
+自 Proton v1.4.2 起，添加了一个新的 [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) 函数，用于将键值对从字符串提取到地图。
 
 ### tuple_cast
 
@@ -199,48 +199,48 @@ Since Proton v1.4.2, a new [extract_key_value_pairs](functions_for_text#extract_
 
 ### untuple
 
-`untuple(a_tuple)` show elements in the tuple.
+`untuple (a_tuple)` 显示元组中的元素。
 
-The names of the result columns are implementation-specific and subject to change. Do not assume specific column names after `untuple`. Do not assume specific column names after `untuple`.
+The names of the result columns are implementation-specific and subject to change. Do not assume specific column names after `untuple`. 不要在 `untuple`之后假设特定的列名。
 
 
 
-### tuple_element
+### 元组元素
 
-`tuple_element(a_tuple, index, [, default_value])` or `tuple_element(a_tuple, name, [, default_value])`
+`元组元素（a_tuple，索引，[，default_value]）` 或 `元组元素（a_tuple，名称，[，default_value]）`
 
-A function that allows getting a column from a tuple.
+一个允许从元组中获取列的函数。
 
-If the second argument is a number `index`, it is the column index, starting from 1. If the second argument is a string `name`, it represents the name of the element. Besides, we can provide the third optional argument, such that when index out of bounds or no element exist for the name, the default value returned instead of throwing an exception. The second and third arguments, if provided, must be constants. There is no cost to execute the function. If the second argument is a string `name`, it represents the name of the element. Besides, we can provide the third optional argument, such that when index out of bounds or no element exist for the name, the default value returned instead of throwing an exception. The second and third arguments, if provided, must be constants. There is no cost to execute the function.
+If the second argument is a number `index`, it is the column index, starting from 1. If the second argument is a string `name`, it represents the name of the element. Besides, we can provide the third optional argument, such that when index out of bounds or no element exist for the name, the default value returned instead of throwing an exception. The second and third arguments, if provided, must be constants. There is no cost to execute the function. 如果第二个参数是字符串 `name`，则它表示元素的名称。 此外，我们可以提供第三个可选参数，这样，当索引超出边界或名称不存在元素时，将返回默认值而不是引发异常。 第二个和第三个参数（如果提供）必须是常量。 执行该函数没有成本。
 
-The function implements operators `x.index` and `x.name`.
+该函数实现了运算符 `x.index` 和 `x.name`。
 
 ### dict_get
 
-`dict_get('dict_name', attr_names, id_expr)`
+`dict_get ('dict_name'、attr_names、id_expr)`
 
-Retrieves values from a dictionary.
+从字典中检索值。
 
 ### dict_get_or_default
 
-`dict_get_or_default('dict_name', attr_names, id_expr,default_value)`
+`dict_get_or_default（'dict_name'、attr_names、id_expr、default_value）`
 
-Retrieves values from a dictionary. Retrieves values from a dictionary. If not found, return the default value.
+从字典中检索值。 Retrieves values from a dictionary. If not found, return the default value.
 
-### columns
+### 列
 
-Not really for arrays, maps, or tuples.
+实际上不适用于数组、地图或元组。
 
-`columns(regexp)` Dynamic column selection (also known as a COLUMNS expression) allows you to match some columns in a result with a [re2](https://en.wikipedia.org/wiki/RE2_(software)) regular expression
+`columns (regexp)` 动态列选择（也称为 COLUMNS 表达式）允许您将结果中的某些列与 [re2](https://en.wikipedia.org/wiki/RE2_(software)) 正则表达式进行匹配
 
 [了解更多。](https://clickhouse.com/docs/en/sql-reference/statements/select#dynamic-column-selection)
 
-### apply
+### 适用
 
-Not really for arrays, maps, or tuples.
+实际上不适用于数组、地图或元组。
 
-`select <expr> apply( <func> )` Allows you to invoke some function for each row returned by an outer table expression of a query.
+`select <expr> apply ( <func> )` 允许你为查询的外表表达式返回的每一行调用一些函数。
 
-For example, `select * apply(sum) ..`
+例如， `select * apply (sum)..`
 
 [了解更多。](https://clickhouse.com/docs/en/sql-reference/statements/select#apply)
