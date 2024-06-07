@@ -21,7 +21,7 @@ curl https://install.timeplus.com/oss | sh
 一旦 `proton` 二进制文件可用，你就可以以不同的模式运行 Timeplus Proton：
 
 - **本地模式。** 您可以运行 `proton local` 来启动它，以便使用 SQL 快速处理本地和远程文件，而无需安装完整的服务器
-- **无配置模式。** 你运行 `Proton服务器`来启动服务器并将配置/日志/数据放入当前文件夹。 然后在另一个终端使用 proton client-h 127.0.0.1 启动 SQL 客户端。
+- **无配置模式。** 你运行 `质子服务器`来启动服务器并将配置/日志/数据放入当前文件夹。 然后在另一个终端使用 proton client-h 127.0.0.1 启动 SQL 客户端。
 - **服务器模式。** 您可以运行 `sudo proton install` 将服务器安装在预定义路径和默认配置文件中。 然后你可以运行 sudo proton server-c/etc/Proton-server/config.yaml 来启动服务器，并在另一个终端使用 proton client 来启动 SQL 客户端。
 
 对于 Mac 用户，你还可以使用 [Homebrew] (https://brew.sh/) 来管理安装/升级/卸载：
@@ -39,7 +39,7 @@ docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
 
 如果你无法访问 ghcr，你可以从 `public.ecr.aws/timeplus/proton`中提取图片
 
-您可能需要公开 Proton 容器中的端口，以便其他工具可以连接到该容器，例如 DBeaver。 请检查 [服务器端口]（Proton端口）以查看每个要暴露的端口。 例如：
+您可能需要公开 Proton 容器中的端口，以便其他工具可以连接到该容器，例如 DBeaver。 请检查 [服务器端口]（质子端口）以查看每个要暴露的端口。 例如：
 
 ```shell
 docker run-d--pull always-p 8123:8123-p 8463:8463--name proton ghcr.io/timeplus-io/proton: latest
