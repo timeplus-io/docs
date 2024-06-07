@@ -1,82 +1,82 @@
-# Ingest REST API
+# 收录 REST API
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-You can run `INSERT INTO [stream](column1, column2) VALUES (..)` SQL to insert data to Proton. You can also call the ingestion REST API to push data to Proton, with any preferred languages. This may work better for integration Proton with other systems or live data source (such as IoT sensors).
+你可以运行 \`INSERT INTO [stream] (column1, column2) VALUES (..) SQL 将数据插入到 Proton。 您还可以使用任何首选语言调用摄取 REST API 将数据推送到 Proton。 这可能更适合将 Proton 与其他系统或实时数据源（例如物联网传感器）集成。
 
 ## 先决条件
 
-### Expose port 3218 from Proton container
+### 从 Proton 容器中暴露端口 3218
 
-The Proton ingest REST API is on port 3218 by default. Please start the proton container with the 3218 port exposed. 例如：
-
-```shell
-docker run -d -p 3218:3218 --pull always --name proton ghcr.io/timeplus-io/proton:latest 
-```
-
-### Create a stream in Proton
-
-You need to create a stream in Timeplus via [CREATE STREAM](proton-create-stream). Columns with proper names and types should be set.
-
-First run the SQL client
+默认情况下，Proton 采集 REST API 位于端口 3218 上。 请在暴露了 3218 端口的情况下启动质子容器。 例如：
 
 ```shell
-docker exec -it proton proton-client
+docker run-d-p 3218:3218--pull always--name proton ghcr.io/timeplus-io/proton: latest 
 ```
 
-Then run the following SQL to create the stream.
+### 在 Proton 中创建直播
+
+你需要通过 [CREATE STREAM]（质子创建流）在 Timeplus 中创建直播。 应设置具有正确名称和类型的列。
+
+首先运行 SQL 客户端
+
+```shell
+docker exec-it 质子质子客户端
+```
+
+然后运行以下 SQL 来创建流。
 
 ```sql
-CREATE STREAM foo(id int, name string)
+CREATE STREAM foo（id 整数，名称字符串）
 ```
 
-## Push data to Timeplus
+## 将数据推送到 Timeplus
 
-The endpoint for real-time data ingestion is `http://localhost:3218/proton/v1/ingest/streams/{stream_name}`. HTTP method is `POST`.
+实时数据摄取的端点是 'http://localhost:3218/proton/v1/ingest/streams/{stream_name}\`。 HTTP 方法是 POST。
 
-**Request samples:**
+**索取样品：**
 
 <Tabs defaultValue="curl">
 <TabItem value="js" label="Node.js" default>
 
 ```js
-const http = require("http");
+const http = require (“http”);
 const options = {
-  hostname: "localhost",
-  path: "/proton/v1/ingest/streams/foo",
-  method: "POST"
-};
+  主机名：“本地主机”，
+  路径：“/proton/v1/ingest/streams/foo”，
+  方法：“POST”
+}；
 
 const data = `
 {
-  "columns": ["id","name"],
-  "data": [
-    [1,"hello"],
-    [2,"world"]
+  “列”：[“id”，“名称”]，
+  “数据”：[
+    [1, “你好“],
+    [2, “世界”]
   ]
 }
 `;
-const request = http.request(options, (resp) => {});
-request.on("error", (error) => {
-  console.error(error);
+const 请求 = http.request (选项, (resp) => {});
+request.on (“错误”, (错误) => {
+  控制台错误 (错误);
 });
-request.write(data);
-request.end();
+request.write (数据);
+request.end ();
 ```
 
 </TabItem>
   <TabItem value="curl" label="curl">
 
 ```bash
-curl -s -X POST http://localhost:3218/proton/v1/ingest/streams/foo \
+curl-s-X POST http://localhost:3218/proton/v1/ingest/streams/foo\
 -d '{
-  "columns": ["id","name"],
-  "data": [
-    [1,"hello"],
-    [2,"world"]
+  “列”：[“id”，“名称”]，
+  “数据”：[
+    [1，“你好”]，
+    [2，“世界”]
   ]
-}
+
 '
 ```
 
@@ -84,82 +84,82 @@ curl -s -X POST http://localhost:3218/proton/v1/ingest/streams/foo \
   <TabItem value="py" label="Python">
 
 ```python
-import requests
+导入请求
 
-url = "http://localhost:3218/proton/v1/ingest/streams/foo"
-headers = {
-    "Content-Type": "application/json"
+url = “http://localhost:3218/proton/v1/ingest/streams/foo”
+标头 = {
+    “内容类型”：“application/json”
 }
-data = '''
+data = “'
 {
-  "columns": ["id","name"],
-  "data": [
-    [1,"hello"],
-    [2,"world"]
+  “列”：[“id”，“名称”]，
+  “数据”：[
+    [1，“你好”]，
+    [2，”世界”]
   ]
 }
-'''
+“'
 
-response = requests.post(url, headers=headers, data=data)
-print(response.status_code)
-print(response.text)
+响应 = requests.post（网址，标题=标题，数据=数据）
+打印（response.status_code）
+打印（response.status_code）打印（response.text）
 ```
 
 </TabItem>
   <TabItem value="java" label="Java">
 
 ```java
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+导入 okhttp3.MediaType；
+导入 okhttp3.okHttpClient；
+导入 okhttp3.request；
+导入 okhttp3.requestBody；
+导入 okhttp3.Response；
 
-import java.io.IOException;
+导入 java.io.ioException；
 
-public class Example {
-    public static void main(String[] args) throws IOException {
-        OkHttpClient client = new OkHttpClient();
+公共类示例 {
+    公共静态空白 main (String [] args) 抛出 IOException {
+        OkHttpClient 客户端 =全新 OkhttpClient ();
 
-        String url = "http://localhost:3218/proton/v1/ingest/streams/foo";
-        MediaType mediaType = MediaType.parse("application/json");
-        String data = """
+        字符串 url = “http://localhost:3218/proton/v1/ingest/streams/foo”;
+        MediaType MediaType = MediaType.Parse (“application/json”);
+        字符串数据 = “”
 {
-  "columns": ["id","name"],
-  "data": [
-    [1,"hello"],
-    [2,"world"]
+  “列”: [“id”, “名称”],
+  “数据”: [
+    [1, “你好”],
+    [2, “世界”]
   ]
 }
-          """;
-        RequestBody body = RequestBody.create(mediaType, data);
+          “”;
+        requestBody 正文 = requestBody.Create（媒体类型，数据）；
 
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
+        请求请求 = 新的 Request.Builder ()
+                .url (url)
+                .post (body)
+                .build ();
 
-        try (Response response = client.newCall(request).execute()) {
-            System.out.println(response.code());
-            System.out.println(response.body().string());
+        尝试（响应响应 = client.newCall（请求）.execute ()) {
+            System.out.Println（响应。code ());
+            System.out.println (response.body () .string ());
         }
     }
-}
+}}
 ```
 
 </TabItem>
 </Tabs>
-The above method should work very well for most system integrations. However, the column names will be repeatedly mentioned in the requested body.
+上述方法应该适用于大多数系统集成。 但是，将在请求的正文中反复提及这些列的名称。
 
-We also provide a more performant solution to only list the column names once.
+我们还提供了一种性能更高的解决方案，只列出一次列名。
 
-The request body is this format:
+请求正文采用以下格式：
 
 ```json
 {
-  "columns": [..],
-  "data": [
-    [..],
+  “列”：[..]，
+  “数据”：[
+    [..]，
     [..]
   ]
 }
@@ -167,19 +167,19 @@ The request body is this format:
 
 备注：
 
-- the `columns` is an array of string, with the column names
-- the `data` is an array of arrays. Each nested array represents a row of data. The value order must match the exact same order in the `columns`.
+- `columns` 是一个字符串数组，其中包含列名
+- `数据`是一个数组数组。 每个嵌套数组代表一行数据。 值顺序必须与 “列” 中完全相同的顺序匹配。
 
 例如：
 
 ```json
 {
-  "columns": ["key1", "key2"],
-  "data": [
-    ["value11", "value12"],
-    ["value21", "value22"]
+  “列”：[“key1"，“key2"]，
+  “数据”：[
+    [“value11"，“value12"]，
+    [“value21"，“value22"]
   ]
 }
 ```
 
-You can also use one of our SDKs to ingest data without handling the low level details of REST API.
+您也可以使用我们的软件开发工具包来提取数据，而无需处理 REST API 的低级细节。
