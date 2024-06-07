@@ -6,7 +6,7 @@
 
 :::
 
-创建了一个 docker-compose 文件，用于将质子映像与 Redpanda（作为采用 Kafka API 的轻量级服务器）、Redpanda 控制台和 [猫头鹰商店] (https://github.com/cloudhut/owl-shop) 捆绑在一起，作为示例实时数据。
+创建了一个 docker-compose 文件，用于将Proton映像与 Redpanda（作为采用 Kafka API 的轻量级服务器）、Redpanda 控制台和 [猫头鹰商店] (https://github.com/cloudhut/owl-shop) 捆绑在一起，作为示例实时数据。
 
 1. 下载 [docker-compose.yml] (https://github.com/timeplus-io/proton/blob/develop/examples/ecommerce/docker-compose.yml) 然后放入新文件夹。
 2. 打开一个终端并在这个文件夹中运行 docker compose up。

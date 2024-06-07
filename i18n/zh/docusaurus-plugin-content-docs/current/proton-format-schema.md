@@ -1,6 +1,6 @@
 # Protobuf/Avro 架构
 
-Timeplus 支持以 [Protobuf] (https://protobuf.dev/) 或 [Avro] (https://avro.apache.org) 格式读取或写入消息。 本文档介绍如何在没有架构注册表的情况下处理数据。 如果您的 Kafka 主题是否与架构注册表关联，请查看 [此页面]（质子架构注册表）。
+Timeplus 支持以 [Protobuf] (https://protobuf.dev/) 或 [Avro] (https://avro.apache.org) 格式读取或写入消息。 本文档介绍如何在没有架构注册表的情况下处理数据。 如果您的 Kafka 主题是否与架构注册表关联，请查看 [此页面]（Proton架构注册表）。
 
 ## 创建架构 {#create}
 

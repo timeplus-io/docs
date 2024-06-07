@@ -66,7 +66,7 @@ Proton 支持保留政策，可自动从流中删除过时的数据。
 
 ##### 用于历史存储
 
-质子利用ClickHouse TTL表达式来制定历史数据的保留政策。 Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add `TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
+Proton利用ClickHouse TTL表达式来制定历史数据的保留政策。 Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add `TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
 
 ##### 用于流媒体存储
 

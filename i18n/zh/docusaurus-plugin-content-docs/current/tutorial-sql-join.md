@@ -50,6 +50,6 @@ raw: firstname|' ||raw: LastName 作为名字来自地址设置 seek_to='earlies
 
 :::info
 
-默认情况下，质子客户端以单行和单查询模式启动。 要同时运行多个查询语句，请从 `-n` 参数开始，即 docker exec-it proton-cainer-name proton-cainer-name proton-client-n
+默认情况下，Proton客户端以单行和单查询模式启动。 要同时运行多个查询语句，请从 `-n` 参数开始，即 docker exec-it proton-cainer-name proton-cainer-name proton-client-n
 
 :::

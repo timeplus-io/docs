@@ -41,7 +41,7 @@ Timeplus Proton 在单个数据库节点上为统一的流媒体和数据处理�
 |               | **Timeplus Proton**       | **Timeplus 企业版**          |
 | ------------- | ------------------------- | ------------------------- |
 | **部署**        | <ul><li>单节点 Docker 镜像</li><li>Mac/Linux 上的单一二进制</li></ul> | <ul><li>单节点</li><li>集群</li><li>基于 Kubernetes 的 “自带云” (BYOC)</li><li>使用 SOC2 实现完全托管的云服务</li></ul> |
-| **数据来源**      | <ul><li>随机流</li><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li><li>[通过 REST API 进行流媒体采集（仅限紧凑模式）]（质子摄取 API）</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>WebSocket 和 HTTP 流</li><li>阿帕奇脉冲星</li><li>干得好</li><li>上传 CSV</li><li>[通过 REST API 进行流式提取（使用 API 密钥和灵活模式）]（收录 API）</li></ul> |
+| **数据来源**      | <ul><li>随机流</li><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li><li>[通过 REST API 进行流媒体采集（仅限紧凑模式）]（Proton摄取 API）</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>WebSocket 和 HTTP 流</li><li>阿帕奇脉冲星</li><li>干得好</li><li>上传 CSV</li><li>[通过 REST API 进行流式提取（使用 API 密钥和灵活模式）]（收录 API）</li></ul> |
 | **数据目的地（汇点）** | <ul><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>阿帕奇脉冲星</li><li>Slack</li><li>网络挂钩</li><li>Timeplus 流</li></ul> |
 | **支持**        | <ul><li>来自 GitHub 和 Slack 的社区支持</li></ul> | <ul><li>通过电子邮件、Slack 和 Zoom 提供企业支持，并附有 SLA</li></ul> |
 

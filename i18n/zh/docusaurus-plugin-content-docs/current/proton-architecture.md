@@ -4,7 +4,7 @@
 
 下图描绘了 Proton 的高级架构。
 
-![质子架构](/img/proton-high-level-arch.svg)
+![Proton架构](/img/proton-high-level-arch.svg)
 
 所有组件/功能都内置在一个二进制文件中。
 

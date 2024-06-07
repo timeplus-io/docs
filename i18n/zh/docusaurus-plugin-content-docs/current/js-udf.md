@@ -260,7 +260,7 @@ $$;
 There is an advanced setting `has_customized_emit`. When this is set to `true`: 当将其设置为 `true`时：
 
 * 调用 `initialize ()` 是为了为每次函数调用准备一个干净的状态。
-* Proton partitions the data according to `group by` keys and feeds the partitioned data to the JavaScript UDAF. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit. `进程 (...)调用` 来运行自定义聚合逻辑。 如果是 `process (..) 的返回值` 是 0，不会发出任何结果。 如果 `process (..) 返回非零值`，然后 `finalize ()` 函数将被调用以获取聚合结果。  质子将立即发布结果。 `finalize ()` 函数还应重置其状态以供下次聚合和发出。
+* Proton partitions the data according to `group by` keys and feeds the partitioned data to the JavaScript UDAF. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit. `进程 (...)调用` 来运行自定义聚合逻辑。 如果是 `process (..) 的返回值` 是 0，不会发出任何结果。 如果 `process (..) 返回非零值`，然后 `finalize ()` 函数将被调用以获取聚合结果。  Proton将立即发布结果。 `finalize ()` 函数还应重置其状态以供下次聚合和发出。
 
 注意事项：
 

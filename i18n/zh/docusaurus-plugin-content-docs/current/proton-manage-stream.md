@@ -32,7 +32,7 @@ ALTER STREAM stream_name 将 TTL 修改为_datetime (created_at) + 间隔 48 小
 DROP STREAM [如果存在] db。<stream_name>;
 ```
 
-像 [CREATE STREAM]（质子创建流）一样，流删除是一个异步过程。
+像 [CREATE STREAM]（Proton创建流）一样，流删除是一个异步过程。
 
 :::info Timeplus Cloud 用户注意事项
 

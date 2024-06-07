@@ -10,7 +10,7 @@ Timeplus Proton 是 Timeplus Enterprise 的核心引擎，是 ksqlDB 或 Apache 
 4. **由快速、资源节约和成熟的 [ClickHouse](https://github.com/clickhouse/clickhouse)提供支持。** Timeplus Proton 通过流处理扩展了 ClickHouse 的历史数据、存储和计算功能。 Timeplus Proton 中有数千个 SQL 函数可用。 以毫秒为单位查询数十亿行。
 5. Next, create an external stream in Proton with SQL to consume data from your Kafka or Redpanda. Follow this [tutorial](proton-kafka#tutorial) for SQL snippets.
 
-![质子架构](/img/proton-arch.png) See our [architecture](proton-architecture) doc for technical details and the [FAQ](proton-faq) for more information on the various editions of Proton, how it's related to ClickHouse, and why we chose Apache License 2.0.
+![Proton架构](/img/proton-arch.png) See our [architecture](proton-architecture) doc for technical details and the [FAQ](proton-faq) for more information on the various editions of Proton, how it's related to ClickHouse, and why we chose Apache License 2.0.
 
 ## 🎬 演示视频
 

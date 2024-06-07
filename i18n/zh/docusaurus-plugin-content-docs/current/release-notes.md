@@ -64,7 +64,7 @@ _Timeplus 核心引擎（Proton v1.5.5 和 v1.5.6）：_
   - `to_unix_timestamp64_micro` 以微秒返回
   - `to_unix_timestamp64_nano` 以纳秒返回
 - 默认情况下，新创建的流将流媒体数据保留时间设置为 1 天存储。
-- 在 macOS 上， `sudo proton install` 会将质子安装到 /usr/local/bin 而不是 /usr/bin。
+- 在 macOS 上， `sudo proton install` 会将Proton安装到 /usr/local/bin 而不是 /usr/bin。
 
 _Timeplus Cloud 和 Timeplus 企业版：_
 
@@ -192,9 +192,9 @@ _Proton：_
 - (v1.3.28) For `create random stream`, the default interval_time is now 5 milliseconds, instead of 100 milliseconds. This new default value will generate random data more evenly. 这个新的默认值将更均匀地生成随机数据。
 - (v1.3.28) 函数名称不再区分大小写。 你可以使用计数 ()、计数 () 或计数 ()。 (v1.3.28) Function names are no longer case sensitive. You can use count(), COUNT(), or Count(). This improves the compatibility for Proton with 3rd party tools if they generate SQL statements in uppercase.
 - (v1.3.27) 随机流支持 ipv4 和 ipv6 数据类型。
-- [质子元数据库驱动程序 (v0.0.3)](https://github.com/timeplus-io/metabase-proton-driver) 的发布是为了提高 Proton 与不区分大小写的 SQL 函数的兼容性。
+- [Proton元数据库驱动程序 (v0.0.3)](https://github.com/timeplus-io/metabase-proton-driver) 的发布是为了提高 Proton 与不区分大小写的 SQL 函数的兼容性。
 - Proton 的
-Grafana 插件已得到增强并发布在 Grafana Catalog 上。 您可以通过管理页面进行安装，而无需手动下载文件。 请确保可以从 Grafana 访问质子的 8463 和 3218 端口，因为新版本将调用 Proton 查询分析器 API（在 3218 上）来确定它是否是流式查询，然后以不同的方式呈现结果。 使用此插件，您可以使用 Proton 中的数据以及在 Grafana 中配置的其他数据源来构建图表和仪表板。 试一试，告诉我们你的想法
+Grafana 插件已得到增强并发布在 Grafana Catalog 上。 您可以通过管理页面进行安装，而无需手动下载文件。 请确保可以从 Grafana 访问Proton的 8463 和 3218 端口，因为新版本将调用 Proton 查询分析器 API（在 3218 上）来确定它是否是流式查询，然后以不同的方式呈现结果。 使用此插件，您可以使用 Proton 中的数据以及在 Grafana 中配置的其他数据源来构建图表和仪表板。 试一试，告诉我们你的想法
 
   _Timeplus Cloud：_
 

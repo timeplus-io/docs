@@ -29,7 +29,7 @@ docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
 
 ## 如何读/写 Kafka 或 Redpanda {#kafka}
 
-您可以使用 [外部流]（质子-kafka）从 Kafka 主题中读取数据或向主题写入数据。 我们验证了与 Apache Kafka、Confluent Cloud、Confluent Platform、Redpanda、WarpStream、Upstash 等的集成。
+您可以使用 [外部流]（Proton-kafka）从 Kafka 主题中读取数据或向主题写入数据。 我们验证了与 Apache Kafka、Confluent Cloud、Confluent Platform、Redpanda、WarpStream、Upstash 等的集成。
 
 ```sql
 创建外部流 [如果不存在] stream_name
@@ -42,11 +42,11 @@ docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
 
 ## 如何从 PostgreSQL/MySQL/ClickHouse 加载数据 {#cdc}
 
-对于 PostgreSQL、MySQL 或其他 OLTP 数据库，您可以应用 CDC（变更数据捕获）技术，通过 Debezium 和 Kafka/Redpanda 将实时更改加载到 Proton 中。 [质子仓库的 cdc 文件夹] (https://github.com/timeplus-io/proton/tree/develop/examples/cdc) 中的示例配置。 [这篇博客] (https://www.timeplus.com/post/cdc-in-action-with-debezium-and-timeplus) 展示了 Timeplus Cloud 用户界面，但也可以应用于 Proton。
+对于 PostgreSQL、MySQL 或其他 OLTP 数据库，您可以应用 CDC（变更数据捕获）技术，通过 Debezium 和 Kafka/Redpanda 将实时更改加载到 Proton 中。 [Proton仓库的 cdc 文件夹] (https://github.com/timeplus-io/proton/tree/develop/examples/cdc) 中的示例配置。 [这篇博客] (https://www.timeplus.com/post/cdc-in-action-with-debezium-and-timeplus) 展示了 Timeplus Cloud 用户界面，但也可以应用于 Proton。
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j6FpXg5cfsA?si=Mo5UrviidxqkkXSb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-如果你在本地的ClickHouse或ClickHouse云中有数据，你也可以使用 [外部表]（质子点击屋外部表）来读取数据。
+如果你在本地的ClickHouse或ClickHouse云中有数据，你也可以使用 [外部表]（Proton点击屋外部表）来读取数据。
 
 ## 如何读/写 ClickHouse {#clickhouse}
 
@@ -98,7 +98,7 @@ FROM 文件（'data/my.csv'、'CSV'、'timestamp datetime64 (3)、价格 float64
 请注意：
 
 1. 你需要指定列名。 否则，SELECT \*将获得 3 列，而数据流中有 4 列。
-2. 出于安全原因，Proton 只读取 `proton-data/user_files`文件夹下的文件。 如果你在 Linux 服务器上通过 `proton install`命令安装质子，则该文件夹将是 `/var/lib/proton/user_files`。 如果你不安装质子并直接通过 “质子服务器启动” 运行质子二进制文件，则该文件夹将是 “proton-data/user_files”
+2. 出于安全原因，Proton 只读取 `proton-data/user_files`文件夹下的文件。 如果你在 Linux 服务器上通过 `proton install`命令安装Proton，则该文件夹将是 `/var/lib/proton/user_files`。 如果你不安装Proton并直接通过 “Proton服务器启动” 运行Proton二进制文件，则该文件夹将是 “proton-data/user_files”
 3. 我们建议使用 `max_insert_threads=8` 来使用多线程来最大限度地提高摄取性能。 如果你的文件系统的 IOPS 很高，你可以使用 SETTINGS shards=3 创建数据流，并在 `INSERT`语句中设置更高的 `max_insert_threads` 值。
 
 :::
@@ -136,7 +136,7 @@ Proton 的官方 Grafana 插件可在 [此处] (https://grafana.com/grafana/plug
 
 ## 如何以编程方式访问 Timeplus Proton {#sdk}
 
-SQL 是使用 Proton 的主要接口。 [采集 REST API]（质子摄取 API）允许您使用任何语言将实时数据推送到 Proton。
+SQL 是使用 Proton 的主要接口。 [采集 REST API]（Proton摄取 API）允许您使用任何语言将实时数据推送到 Proton。
 
 以下驱动程序可用：
 
