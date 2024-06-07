@@ -1,41 +1,41 @@
-# Manage Stream
+# 管理直播
 
-## List Streams
-
-```sql
-SHOW STREAMS
-```
-
-## Describe a stream
+## 列出直播
 
 ```sql
-SHOW CREATE <stream>
+显示直播
 ```
 
-## ALTER STREAM
+## 描述直播
 
-Currently we don't recommend to alter the schema of streams in Proton. The only exception is you can modify the retention policy for historical store. The only exception is you can modify the retention policy for historical store.
+```sql
+显示创建 <stream>
+```
 
-### MODIFY TTL
+## 改变直播
+
+Currently we don't recommend to alter the schema of streams in Proton. The only exception is you can modify the retention policy for historical store. 唯一的例外是您可以修改历史存储的保留政策。
+
+### 修改 TTL
 
 You can add or modify the retention policy. 例如 例如
 
 ```sql
-ALTER STREAM stream_name MODIFY TTL to_datetime(created_at) + INTERVAL 48 HOUR
+ALTER STREAM stream_name 将 TTL 修改为_datetime (created_at) + 间隔 48 小时
 ```
 
-## DROP STREAM
+## 下拉直播
 
-Run the following SQL to drop a stream or an external stream, with all data in streaming storage and historical storage.
+运行以下 SQL 来删除流或外部流，并将所有数据存储在流存储和历史存储中。
 
 ```sql
-DROP STREAM [IF EXISTS] db.<stream_name>;
+DROP STREAM [如果存在] db。<stream_name>;
 ```
 
-Like [CREATE STREAM](proton-create-stream), stream deletion is an async process.
+像 [CREATE STREAM]（质子创建流）一样，流删除是一个异步过程。
 
-:::info note for Timeplus Cloud users
+:::info Timeplus Cloud 用户注意事项
 
-In Timeplus Cloud or Private Cloud deployments, we recommend you to drop streams with GUI or [Terraform Provider](terraform), to better tracking the lineage and permission.
+在Timeplus云或私有云部署中，我们建议您使用GUI或 [Terraform提供商]（terraform）删除直播，以更好地跟踪血统和权限。
 
 :::
