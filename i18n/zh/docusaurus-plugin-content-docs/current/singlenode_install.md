@@ -37,7 +37,7 @@ tar xfv file.tar.gz
 - `timeplus_web`：网页用户界面，由 `timeplus_appserver` 管理。
 - `timeplus_connector`：提供额外源和接收器的服务，由 `timeplus_appserver` 管理。
 
-你可以通过 http://localhost:8000 访问 Timeplus Enterprise Web 控制台。 首次登录时，请使用密码创建一个帐户并开始 30 天免费试用。
+你可以通过 [http://localhost:8000](http://localhost:8000) 访问 Timeplus Enterprise Web 控制台。 首次登录时，请使用密码创建一个帐户并开始 30 天免费试用。
 
 也可以通过运行 `timeplus start-s service_name` 来启动/停止单个进程。 例如，当你只想启动 Timeplus Core 时，运行 `timeplus start-s timeplusd`。
 
@@ -70,7 +70,7 @@ curl https://install.timeplus.com/sp-demo | sh
 
 对于 Windows 用户，你可以下载包含 docker 撰写文件和引导脚本的软件包 [此处] (https://timeplus.io/dist/timeplus_enterprise/sp-demo-20240522.zip)。
 
-访问 Web 控制台，网址为 https://localhost:8000。
+访问 Web 控制台，网址为 [http://localhost:8000](http://localhost:8000)。
 
 该堆栈演示了如何运行流式 ETL、从 Kafka API 获取数据、应用过滤器或聚合，然后发送到另一个 Kafka 主题或 ClickHouse 表。 欲了解更多详情，请查看：
 

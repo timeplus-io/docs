@@ -49,9 +49,8 @@ Timeplus Proton 在单个数据库节点上为统一的流媒体和数据处理�
 
 ## 我的组织已经在使用ClickHouse了——是否有计划将Timeplus Proton与开源ClickHouse项目整合在一起？
 
-你可以创建一个 [外部表](proton-clickhouse-external-table) 来读取或写入 Timeplus Proton 的 ClickHouse 表。 查看教程，了解如何通过 Timeplus 构建从 Kafka 到 ClickHouse</a>的直播 ETL [，或者从 MySQL 构建到 ClickHouse](tutorial-sql-etl-kafka-to-ch)的
+你可以创建一个 [外部表](proton-clickhouse-external-table) 来读取或写入 Timeplus Proton 的 ClickHouse 表。 查看教程，了解如何通过 Timeplus 构建从 Kafka 到 ClickHouse的流式 ETL， [或者从 MySQL 构建到 ClickHouse](tutorial-sql-etl-kafka-to-ch)
 
-。</p> 
 
 我们还在与ClickHouse, Inc.以及整个ClickHouse开源项目的人士进行对话，以探讨这些项目之间深度整合的可能性。
 
@@ -79,7 +78,7 @@ Timeplus Proton 在单个数据库节点上为统一的流媒体和数据处理�
 - **通过 Docker 镜像下载统计信息**，由 GitHub _提供，没有_ 任何个人识别信息 (PII)，例如 IP 地址。
 
 - **启动**时，Timeplus Proton 向公共端点报告以下数据：
-  
+
     - 当前 Timeplus Proton 版本
   - CPU 和内存可用性
 

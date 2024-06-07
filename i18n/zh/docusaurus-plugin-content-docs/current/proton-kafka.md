@@ -9,8 +9,8 @@
 要在 Proton 中创建外部流，请执行以下操作：
 
 ```sql
-创建外部直播 [如果不存在] stream_name (<col_name1> <col_type>)
-设置 type='kafka'，brokers='ip: 9092'，topic='.. '，security_protocol='.. '，用户名='.. '，密码='.. '，sasl_mechanism='.. '，data_format='.. '，kafka_schema_registry_url='.. '，kafka_schema_registry_credentials='.. '，ssl_ca_cert_file='.. '，ss_ca_pem='.. '，skip_ssl_cert_check=。
+CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (\<col_name1> \<col_type>)
+SETTINGS type='kafka'，brokers='ip: 9092'，topic='.. '，security_protocol='.. '，用户名='.. '，密码='.. '，sasl_mechanism='.. '，data_format='.. '，kafka_schema_registry_url='.. '，kafka_schema_registry_credentials='.. '，ssl_ca_cert_file='.. '，ss_ca_pem='.. '，skip_ssl_cert_check=。
 ```
 
 `security_protocol` 的支持值为：
@@ -184,9 +184,9 @@ Please note, since 1.3.25, by default multiple JSON documents will be inserted t
 
 ##### ProtobufSingle
 
-你可以在 Proton</a>中定义
+你可以在 Proton中定义
 
-Protobuf 架构，也可以在创建外部流时指定 [Kafka 架构注册表](proton-schema-registry) 。</p> 
+Protobuf 架构，也可以在创建外部流时指定 [Kafka 架构注册表](proton-schema-registry) 。
 
 
 
@@ -274,9 +274,9 @@ When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in
 ```
 
 
-:: warning  
+:: warning
 请避免通过 `select * from table (ext_stream)`扫描所有数据。 应用一些筛选条件，或者运行优化的 `从表 (ext_stream)` 中选择计数 (*) 来获取当前的消息数量。
-:::  
+:::
 
 
 

@@ -6,7 +6,7 @@
 
 That's why we add User-Defined Functions (UDF) support in Proton. 这将使用户能够利用现有的编程库，与外部系统集成，或者只是让SQL更容易维护。 这将使用户能够利用现有的编程库，与外部系统集成，或者只是让SQL更容易维护。
 
-Proton 支持 JavaScript</a>中的本地 UDF。 您可以使用现代 JavaScript（由 V8提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。 </p> 
+Proton 支持 JavaScript 本地 UDF。 您可以使用 JavaScript（由 V8提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
 
 
@@ -19,8 +19,8 @@ You can create or replace a JavaScript UDF, by specifying the function name, inp
 
 
 ```sql showLineNumbers
-CREATE OR REPLACE FUNCTION test_add_five_5(value float32) 
-RETURNS float32 
+CREATE OR REPLACE FUNCTION test_add_five_5(value float32)
+RETURNS float32
 LANGUAGE JAVASCRIPT AS $$
   function test_add_five_5(value) {
     for(let i=0;i<value.length;i++) {
@@ -50,8 +50,8 @@ $$;
 
 
 ```sql showLineNumbers
-创建聚合函数 test_sec_large（值 float32） 
-返回 float32 
+创建聚合函数 test_sec_large（值 float32）
+返回 float32
 语言 JAVASCRIPT 作为 $$
     {
       初始化：函数 () {
@@ -115,4 +115,3 @@ $$;
 ```sql
 DROP FUNCTION test_add_five_5;
 ```
-
