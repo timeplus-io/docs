@@ -2,9 +2,9 @@
 
 当您使用 `versioned_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 当您在与其他流的 JOIN 中将这个流用作 “右表” 时，Timeplus 会自动选择最接近的版本。
 
-A HOWTO video:
+一段 HOWTO 视频：
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/6iplMdHJUMw?si=LGiBkw6QUjq0RGTL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6iplMdHJUMw?si=LGiBkw6QUjq0RGTL" title="优酷视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## 查询单个流
 
@@ -16,12 +16,12 @@ A HOWTO video:
 | 产品名称       | 字符串                 | 产品的唯一 ID，作为主键                                |
 | 价格         | float32             | 当前价格                                         |
 
-This stream can be created using UI wizard on Timeplus Cloud or Timeplus Enterprise. You can also create it with SQL in Timeplus Proton:
+这个直播可以在Timeplus Cloud或Timeplus Enterprise上使用用户界面向导创建。 你也可以在 Timeplus Proton 中使用 SQL 创建它：
 
 ```sql
-CREATE STREAM dim_products(product_id string, price float32) 
-PRIMARY KEY (product_id) 
-SETTINGS mode='versioned_kv'
+创建 STREAM dim_products（product_id 字符串，价格浮动32） 
+主键 (product_id) 
+设置模式='versioned_kv'
 ```
 
 如果您没有添加任何数据，查询 `SELECT * FROM dim_products` 将不返回任何结果并继续等待新的结果。
@@ -29,7 +29,7 @@ SETTINGS mode='versioned_kv'
 现在取消此查询，再向流中添加几行。
 
 ```sql
-INSERT INTO dim_products(product_id,price) VALUES ('iPhone15',799),('iPhone15_Plus',899);
+在 dim_products（商品编号、价格）中插入值（'iPhone15',799），（'iPhone15_Plus',899）；
 ```
 
 | 产品名称          | 价格  |
@@ -46,10 +46,10 @@ INSERT INTO dim_products(product_id,price) VALUES ('iPhone15',799),('iPhone15_Pl
 | iPhone15 | 800 |
 
 ```sql
-INSERT INTO dim_products(product_id,price) VALUES ('iPhone15',800);
+在 dim_products（商品编码、价格）中插入值（'iPhone15',800）；
 ```
 
-Then query `SELECT * FROM dim_products` again will get 2 rows (not 3, because the initial price of "iPhone15" is overwritten).
+然后再次查询 `SELECT * FROM dim_products` 将获得 2 行（不是 3 行，因为 “iPhone15” 的初始价格已被覆盖）。
 
 | 产品名称          | 价格  |
 | ------------- | --- |
@@ -60,22 +60,22 @@ Then query `SELECT * FROM dim_products` again will get 2 rows (not 3, because th
 
 :::info
 
-事实上，您可以指定一个表达式作为主键。 例如，您可以使用 `first_name|' '||last_name` 来合并全名作为主键，而不是使用单列。 Or you can create a tuple as compound keys `PRIMARY KEY (first_name,last_name)`
+事实上，您可以指定一个表达式作为主键。 例如，您可以使用 `first_name|' '||last_name` 来合并全名作为主键，而不是使用单列。 或者你可以创建一个元组作为复合键 `PRIMARY KEY (first_name, last_name)`
 
 :::
 
-You can also query the stream in the table mode, i.e. `select * from table(dim_products)`
+你也可以在表格模式下查询直播，即 `select * from table (dim_products)`
 
 ## 在 INNER JOIN 中使用多版本流
 
 在上述示例中，您总是获得具有相同主键的事件的最新版本。 其运行方式与 [变更日志流](changelog-stream) 类似。 这种流模式之所以被称为多版本流，是因为 Timeplus 将跟踪多个版本。 这主要在多版本流充当 JOIN 的 “右表” 时使用。
 
-Imagine you have the other versioned stream for the `orders`:
+想象一下你有 `订单`的另一个版本化直播：
 
 ```sql
-CREATE STREAM orders(order_id int8, product_id string, quantity int8)
-PRIMARY KEY order_id
-SETTINGS mode='versioned_kv';
+创建 STREAM 订单（order_id int8、product_id 字符串、数量 int8）
+主键 order_id
+设置模式='versioned_kv'；
 ```
 
 | _tp_time | 订单编号 | 产品名称 | 数量 |
@@ -85,15 +85,15 @@ SETTINGS mode='versioned_kv';
 现在运行流式SQL：
 
 ```sql
-SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS revenue
-FROM orders JOIN dim_products USING(product_id)
+选择订单。_tp_time、订单编号、产品编号、数量、价格*数量作为收入
+来自订单加入 dim_products 使用 (product_id)
 ```
 
 然后添加两行：
 
 ```sql
-INSERT INTO orders(order_id, product_id, quantity) 
-VALUES (1, 'iPhone15',1),(2, 'iPhone15_Plus',2);
+在订单中插入（订单编号、商品编号、数量） 
+值 (1, 'iPhone15',1), (2, 'iPhone15_Plus',2)；
 ```
 
 
@@ -105,12 +105,12 @@ VALUES (1, 'iPhone15',1),(2, 'iPhone15_Plus',2);
 
 在查询控制台中，您将逐一看到这两行：
 
-| _tp_time               | 订单编号 | 产品名称          | 数量 | revenue |
-| ------------------------ | ---- | ------------- | -- | ------- |
-| 2023-04-20T10:00:00.000Z | 1    | iPhone15      | 1  | 800     |
-| 2023-04-20T10:01:00.000Z | 2    | iPhone15_Plus | 1  | 899     |
+| _tp_time               | 订单编号 | 产品名称          | 数量 | 收入  |
+| ------------------------ | ---- | ------------- | -- | --- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone15      | 1  | 800 |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone15_Plus | 1  | 899 |
 
-Then you can change the price of iPhone15 back to 799, by adding a new row in `dim_products`
+然后你可以在 `dim_products`中添加新的一行，将 iPhone15 的价格改回 799 美元
 
 | 产品名称     | 价格  |
 | -------- | --- |
@@ -124,46 +124,46 @@ Then you can change the price of iPhone15 back to 799, by adding a new row in `d
 
 您将在前一个流式 SQL 中获得第三行：
 
-| _tp_time               | 订单编号 | 产品名称          | 数量 | revenue |
-| ------------------------ | ---- | ------------- | -- | ------- |
-| 2023-04-20T10:00:00.000Z | 1    | iPhone15      | 1  | 800     |
-| 2023-04-20T10:01:00.000Z | 2    | iPhone15_Plus | 1  | 899     |
-| 2023-04-20T11:00:00.000Z | 3    | iPhone15      | 1  | 799     |
+| _tp_time               | 订单编号 | 产品名称          | 数量 | 收入  |
+| ------------------------ | ---- | ------------- | -- | --- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone15      | 1  | 800 |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone15_Plus | 1  | 899 |
+| 2023-04-20T11:00:00.000Z | 3    | iPhone15      | 1  | 799 |
 
-It shows that the latest price of iPhone15 is applied to the JOIN of new events.
+它表明，iPhone15的最新价格适用于新活动的加入。
 
 您也可以运行一个流式 SQL `select sum(price) from dim_products`，它应显示1698，因为最新的价格是799和899。
 
-If you add a new row to set iPhone15 to 800, cancel the previous query and run again, you will get 1699.
+如果你添加一个新行来将 iPhone15 设置为 800，取消之前的查询然后再次运行，你会得到 1699。
 
-## Use Versioned Stream in LEFT JOIN
+## 在 LEFT JOIN 中使用版本化直播
 
-Since Proton 1.5.7, `LEFT JOIN` 2 versioned streams are also supported.
+自 Proton 1.5.7 起，还支持 `LEFT JOIN` 2 版本化直播。
 
-For example, you run a streaming SQL:
-
-```sql
-SELECT orders._tp_time, order_id,product_id,
-       quantity, price*quantity AS revenue
-FROM dim_products LEFT JOIN orders USING(product_id);
-```
-
-Then add a new product:
+例如，你运行流式 SQL：
 
 ```sql
-INSERT INTO dim_products(product_id,price) VALUES ('Vision Pro',3000);
+选择订单。_tp_time、order_id、product_id、
+       数量、价格*数量作为收入
+来自 dim_products 向左加入订单使用 (product_id)；
 ```
 
-Because there is no order for this product, you will get revenue 0 with the `LEFT JOIN` (if you are using `INNER JOIN` or just `JOIN`, this new product won't be counted).
-
-Adding a new order:
+然后添加新产品：
 
 ```sql
-INSERT INTO orders(order_id, product_id, quantity)
-VALUES (4, 'Vision Pro',1);
+在 dim_products（产品编号、价格）中插入值（'Vision Pro',3000）；
 ```
 
-The LEFT JOIN SQL will updated the result.
+由于此产品没有订单，因此使用 `LEFT JOIN` 将获得0收入（如果您使用的是 `INNER JOIN` 或者只使用 `JOIN`，则此新产品不计算在内）。
+
+添加新订单：
+
+```sql
+在订单中插入（订单编号、商品编号、数量）
+VALUES (4，'Vision Pro',1)；
+```
+
+LEFT JOIN SQL 将更新结果。
 
 ## 在 ASOF JOIN 中使用多版本流
 
@@ -172,14 +172,14 @@ The LEFT JOIN SQL will updated the result.
 继续前面的场景。
 
 ```sql
-SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS revenue
-FROM orders ASOF JOIN dim_products 
-ON orders.product_id=dim_products.product_id AND orders._tp_time >= dim_products._tp_time
+选择订单。_tp_time、订单编号、产品编号、数量、价格*数量作为收入
+来自订单 ASOF 在 orders.products.products.products.products.products.products.products.products 和订单上加入 d 
+_tp_time >= dim_products。_tp_time
 ```
 
-If the current iPhone15 price is 800, and you add a new order for 1 iPhone15, then you will get a transaction amount of 800.
+如果当前iPhone15的价格为800美元，并且您添加了购买1部iPhone15的新订单，那么您将获得800美元的交易金额。
 
-Then you change the iPhone15 price to 799, and add a new order for 1 iPhone15, you will get a transaction amount of 799.
+然后，你将iPhone15的价格更改为799美元，然后添加1部iPhone15的新订单，你将获得799美元的交易金额。
 
 但是，如果您在价格变动之前使用 _tp_time 添加订单，则交易金额将再次变为 800，因为 Timeplus 保留了多个版本的价格，并选择了与订单时间最匹配的旧版本。
 
@@ -191,12 +191,12 @@ Then you change the iPhone15 price to 799, and add a new order for 1 iPhone15, y
 
 
 
-## The advanced keep_versions setting:
+## 高级 keep_versions 设置：
 
-In the above example, you can add `settings keep_versions=3` at the end of the query. This will inform the query engine to read the base version from the historical storage for the versioned_kv stream, then read the new events in the streaming storage and based on the ASOF time condition to pick up 3 versions in the memory, and finally join events from left append_stream with the right 3 versions, and find the best candidate to join together.
+在上面的示例中，你可以在查询的末尾添加 `设置 keep_versions=3` 。 这将通知查询引擎从 versioned_kv 流的历史存储中读取基础版本，然后读取流存储中的新事件并根据 ASOF 时间条件在内存中获取 3 个版本，最后将左侧的 append_stream 中的事件与右侧的 3 个版本连接起来，并找到最佳的候选人加入。
 
-## Retention Policy
+## 保留政策
 
-You should not set the TTL(Time-To-Live) for the historical storage of versioned_kv stream. Because only the last version of the same primary key is kept in the historical storage (via an auto-compact background process). Manually set a TTL may remove those events who haven't been updated recently.
+您不应为 versioned_kv 流的历史存储设置 TTL（生存时间）。 因为只有同一主键的最后一个版本保存在历史存储中（通过自动压缩后台进程）。 手动设置 TTL 可能会删除最近未更新的那些事件。
 
-You may set a time-based or size-based retention policy for the streaming storage for the versioned_kv stream. But this is optional. By default a 4GB segment file is used for the streaming storage.
+您可以为 versioned_kv 流的流存储设置基于时间或大小的保留政策。 但这是可选的。 默认情况下，使用 4GB 的分段文件作为流媒体存储。
