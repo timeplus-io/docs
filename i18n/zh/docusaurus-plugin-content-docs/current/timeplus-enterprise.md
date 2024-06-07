@@ -2,7 +2,7 @@
 
 Timeplus是一个简单、强大且经济的流处理平台。 它可以作为完全托管的云服务或自我管理的部署提供。
 
-与 [Timeplus Proton]（Proton）相比，你可以使用 Timeplus Enterprise 做更多的事情，例如
+与 [Timeplus Proton]（质子）相比，你可以使用 Timeplus Enterprise 做更多的事情，例如
 
 - 多节点集群可实现高可用性和水平可扩展性
 - Kubernetes 头盔图表
