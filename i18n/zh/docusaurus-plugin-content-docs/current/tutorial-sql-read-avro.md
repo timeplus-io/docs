@@ -66,8 +66,8 @@ confluent kafka 话题生成 $TOPIC --schema ~/Dev/schema.txt\
 设置
   type = “kafka”，
   brokers = “pkc-ab123.us-east-2.confluent.cloud: 9092”，
-  security_protocol='sasl_SSL'，
-  username='$KEY'，
+  security_protocol='sasl_SSL'， 
+  username='$KEY'， 
   password='$SECRET'，
   topic = '$TOPIC'，
   data_format = 'Avro'，
@@ -126,7 +126,7 @@ mvn exec: java-dexec.mainclass=io.confluent.examples.clients.basicavro.producerE
 然后在 Proton 中创建外部蒸汽：
 
 ```sql
-创建外部流交易（
+创建外部直播交易（
   id 字符串，
   金额翻倍
 ）
@@ -155,16 +155,16 @@ mvn exec: java-dexec.mainclass=io.confluent.examples.clients.basicavro.producerE
 Aiven 上的架构注册表端点是使用 CA 签名的，但你需要为代理提供 `ssl_ca_cert_file`。
 
 ```sql
-创建外部流交易（
+创建外部直播交易（
   id 字符串，
   金额翻倍
 ）
-设置类型='kafka'，
+设置类型='kafka'， 
          brokers='name.aivencloud.com: 28864'，
          topic='transactions'，
-         secury_protocol='sasl_SSL'，
+         secury_protocol='sasl_SSL'， 
          sasl_mechanism='scram-SHA-256'，
-         username='avnadmin'，
+         username='avnadmin'， 
          password='password'，
          ssl_ca_cert_file='/kafka.cert'，
          data_format =' Avro '，
@@ -177,16 +177,16 @@ Aiven 上的架构注册表端点是使用 CA 签名的，但你需要为代理�
 从 Proton 1.5.3 开始，支持带路径的架构注册表。 这使得 Proton 用户能够在启用架构注册表时从 Upstash Serverless Kafka 加载数据。
 
 ```sql
-创建外部流交易（
+创建外部直播交易（
   id 字符串，
   金额翻倍
 ）
-设置类型='kafka'，
+设置类型='kafka'， 
          brokers='abc-us1-kafka.upstash.io: 9092'，
          topic='transactions'，
-         secury_protocol='sl_SSL'，
+         secury_protocol='sl_SSL'， 
          sasl_Mechanism='scram-SHA-256'，
-         Username='User'，
+         Username='User'， 
          password='pwd'，
          data_format = 'Avro'，
          kafka_schema_registry_url = 'https://abc-us1-rest-kafka.upstash.io/schema-registry'，
