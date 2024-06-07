@@ -4,7 +4,7 @@ JOIN is a key feature in Timeplus to combine data from different sources and fre
 
 ## 流表和维度表联查{#stream_table_join}
 
-在 Timeplus 中，所有数据都生活在流中，默认查询模式正在流中。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 要查询流的历史数据，可以使用 [table ()](functions_for_streaming#table) 函数。
+在 Timeplus 中，所有数据都生活在流中，默认查询模式正在流中。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 要查询直播的历史数据，可以使用 [table ()](functions_for_streaming#table) 函数。
 
 有些典型的情况是，无约束的数据流需要通过连接到相对静态尺寸表来丰富。 Timeplus可以在一个引擎中通过流式到维度表加入来存储流式数据和尺寸表。
 
@@ -21,7 +21,7 @@ In the above example, data from `device_utils` is a stream and data from `device
 
 支持三种情况：
 
-### 流内部连接表
+### 直播内部连接表
 
 `INNER JOIN` 是最常见的 JOIN，它返回的数据在 JOIN 的两端都有匹配的值。
 
@@ -31,7 +31,7 @@ In the above example, data from `device_utils` is a stream and data from `device
 
 如果你只使用 `JOIN`，这也是默认行为。
 
-### 流 LEFT JOIN
+### 直播 LEFT JOIN
 
 `LEFT JOIN` returns all rows from the left stream with matching rows in the right table. Some columns can be NULL when there is no match. 当没有匹配项时，某些列可能为 NULL。
 
@@ -39,7 +39,7 @@ In the above example, data from `device_utils` is a stream and data from `device
 
 （来源：https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/）
 
-### 流外连接表
+### 直播外连接表
 
 `OUTER JOIN` 合并所有表中的列和行，如果没有匹配项，则包含 NULL。
 
@@ -51,7 +51,7 @@ In the above example, data from `device_utils` is a stream and data from `device
 
 在某些情况下，实时数据流向多个数据流。 例如，当广告展示给最终用户时，当用户点击广告时。
 
-### 对多个流进行关联搜索
+### 对多个直播进行关联搜索
 
 Timeplus allows you to do correlated searches for multiple data streams. For example, you can check the average time when the user clicks the ad after it is presented. 例如，您可以查看用户在广告投放后点击广告的平均时间。
 
@@ -73,11 +73,11 @@ ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
 ```
 
-### 3 种类型的流
+### 3 种类型的直播
 
-Timeplus 支持 3 种流类型：
+Timeplus 支持 3 种直播类型：
 
-1. 仅追加流（默认）
+1. 仅追加直播（默认）
 2. [带有主键和多个版本的 Versioned Stream](versioned-stream)
 3. [Changelog Stream](changelog-stream) with primary key(s) and CDC semantic (data can be removed, or updated with old&new value). You can also use the [changelog()](functions_for_streaming#changelog) function to convert an append-only stream to changelog stream. 你也可以使用 [changelog ()](functions_for_streaming#changelog) 函数将仅限追加的流转换为变更日志流。
 
@@ -101,8 +101,8 @@ Other types of JOINS are not supported in the current version of Timeplus. If yo
 ### 4. 严格的加入
 
 1. `ALL` （默认）
-2. `LATEST` 对于两个仅限追加的流，如果你在 <code>a.key=b.key</code>上使用 `a INNER LATEST JOIN b`，则每当任一流的密钥发生变化时，先前的连接结果将被取消并添加新的结果。
-3. `ASOF`，提供非精确匹配功能。 `ASOF`, provides non-exact matching capabilities. 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
+2. `LATEST` 对于两个仅限追加的直播，如果你在 a.key=b.key</code>上使用 `a INNER LATEST JOIN b，则每当任一直播的密钥发生变化时，先前的连接结果将被取消并添加新的结果。</li>
+<li><code>ASOF`，提供非精确匹配功能。 `ASOF`, provides non-exact matching capabilities. 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
 4. 范围 `ASOF`
 
 ### 支持的组合
@@ -110,9 +110,9 @@ Other types of JOINS are not supported in the current version of Timeplus. If yo
 简而言之，JOIN 语法是
 
 ```sql
-SELECT <column list>
-FROM <left-stream>
-[join_type] [join_strictness] JOIN <right-stream>
+SELECT <column list> 
+FROM <left-stream> 
+[join_type] [join_strictness] JOIN <right-stream> 
 ON <on-clause>
 [WHERE .. GROUP BY .. HAVING ... ORDER BY ...] 分组依据... 有... 按... 订购]
 ```
@@ -130,19 +130,19 @@ As you can imagine, there could be 24 (3 x 2 x 4) combinations. Not all of them 
 示例：
 
 ```sql
-选择 * 来自
-left_append JOIN right_append
-on left_append.k = right_append.kk = right_append.kk
+选择 * 来自 
+left_append JOIN right_append 
+on left_append.k = right_append.kk = right_append.kk 
 ```
 
 
 
-#### 范围加入追加流 {#append-range}
+#### 范围加入追加直播 {#append-range}
 
 上述联接可能会缓冲过多的数据，范围双向联接试图通过在时间范围内对流数据进行存储桶来缓解此问题，并尝试将数据双向加入到适当的范围存储桶中。 The above join may buffer too much data, range bidirectional join tries to mitigate this problem by bucketing the stream data in time ranges and try to join the data bidirectionally in appropriate range buckets. It requires a [date_diff_within](functions_for_streaming#date_diff_within) clause in the join condition and the general form of the syntax is like below.
 
 ```sql
-从 left_stream 中选择 * 在 left_stream.key = right_stream.key 和 date_diff_within (2m) 上加入 right_stream
+从 left_stream 中选择 * 在 left_stream.key = right_stream.key 和 date_diff_within (2m) 上加入 right_stream 
 
 ```
 
@@ -155,8 +155,8 @@ Actually we don’t even require a timestamp for the range, any integral columns
 示例：
 
 ```sql
-选择 k、计数 (*)、最小值 (i)、最大值 (i)、平均值 (i)、最小值 (ii)、最大值 (ii)、平均值 (ii)
-来自 left_vk 加入 right_vk
+选择 k、计数 (*)、最小值 (i)、最大值 (i)、平均值 (i)、最小值 (ii)、最大值 (ii)、平均值 (ii) 
+来自 left_vk 加入 right_vk 
 on left_vk.k = right_vk.kk
 ```
 
@@ -207,14 +207,14 @@ ASOF 丰富联接在哈希表中保留 **相同联接密钥** 的多个版本的
 示例：
 
 ```sql
-选择 * 从 append asof JOIN versioned_kv
+选择 * 从 append asof JOIN versioned_kv 
 on append.k = versioned_kv.k 和 append.i <= versioned_kv.j
 ```
 
 There is an optional setting to ask the query engine to keep the last N versions of the value for the same join key. 示例： 示例：
 
 ```sql
-选择 * 从 append ASOF JOIN versioned_kv
+选择 * 从 append ASOF JOIN versioned_kv 
 on append.k = versioned_kv.k 和 append.i <= versioned_kv.j
 设置 keep_versiones = 3
 ```
@@ -226,7 +226,7 @@ on append.k = versioned_kv.k 和 append.i <= versioned_kv.j
 示例：
 
 ```sql
-从向左追加中选择 * 在 append.k 上加入 versioned_kv
+从向左追加中选择 * 在 append.k 上加入 versioned_kv 
 = versioned_kv.k 和 append.i <= versioned_kv.j
 ```
 
@@ -237,7 +237,7 @@ on append.k = versioned_kv.k 和 append.i <= versioned_kv.j
 Only the latest version of value for **each join key** is kept. 示例： 示例：
 
 ```sql
-选择 *，_tp_delta from append asof LATEST JOIN versioned_kv
+选择 *，_tp_delta from append asof LATEST JOIN versioned_kv 
 on append.k = versioned_kv.k
 ```
 
@@ -259,7 +259,7 @@ on append.k = versioned_kv.k
 示例：
 
 ```sql
-选择 * 从向左追加最新加入版本_kv
+选择 * 从向左追加最新加入版本_kv 
 on append.k = versioned_kv.k
 ```
 
@@ -270,7 +270,7 @@ on append.k = versioned_kv.k
 示例：
 
 ```sql
-选择 k、计数 (*)、最小值 (i)、最大值 (i)、平均值 (i)、最小值 (ii)、最大值 (ii)、平均值 (ii)
-从 left_vk 向左加入 right_vk
+选择 k、计数 (*)、最小值 (i)、最大值 (i)、平均值 (i)、最小值 (ii)、最大值 (ii)、平均值 (ii) 
+从 left_vk 向左加入 right_vk 
 on left_vk.k = right_vk.kk
 ```
