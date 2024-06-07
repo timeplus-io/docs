@@ -93,7 +93,7 @@ function email_not_in(emails,lists){
     for(let i=0;i<list.length;i++){
       if(email.endsWith('@'+list[i]))
         return false; // if the email ends with any of the domain, return false, otherwise continue
-    }
+    }                
     return true; // no match, return true confirming the email is in none of the provided domains
   });
 }
@@ -194,17 +194,17 @@ function magic_number(values){
 
 ### 复杂事件处理的高级示例 {#adv_udaf}
 
-用户定义的聚合函数可用于复杂事件处理 (CEP)。 以下是计算同一用户登录尝试失败次数的示例。 如果登录失败次数超过 5 次，请创建警报消息。 如果成功登录，请重置计数器。 假设流名称是 `logins` ，带有时间戳、用户、login_status_code，此 SQL 可以持续监控登录尝试：
+用户定义的聚合函数可用于复杂事件处理 (CEP)。 以下是计算同一用户登录尝试失败次数的示例。 如果登录失败次数超过 5 次，请创建警报消息。 如果成功登录，请重置计数器。 假设直播名称是 `logins` ，带有时间戳、用户、login_status_code，此 SQL 可以持续监控登录尝试：
 
 ```sql
-选择 window_start、用户、login_fail_event (login_status_code)
+选择 window_start、用户、login_fail_event (login_status_code) 
 FROM hop（登录，1m，1h）按 window_start 分组，用户
 ```
 
 UDAF 是通过以下方式注册的：
 
 ```sql
-创建聚合函数 login_fail_event（消息字符串）
+创建聚合函数 login_fail_event（消息字符串） 
 将字符串语言 JAVASCRIPT 返回为 $$
 {
   has_customized_emit：true，
@@ -260,7 +260,7 @@ $$;
 There is an advanced setting `has_customized_emit`. When this is set to `true`: 当将其设置为 `true`时：
 
 * 调用 `initialize ()` 是为了为每次函数调用准备一个干净的状态。
-* Proton partitions the data according to `group by` keys and feeds the partitioned data to the JavaScript UDAF. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit. `进程 (...)调用` 来运行自定义聚合逻辑。 如果是 `process (..) 的返回值` 是 0，不会发出任何结果。 如果 `process (..) 返回非零值`，然后 `finalize ()` 函数将被调用以获取聚合结果。  Proton将立即发布结果。 `finalize ()` 函数还应重置其状态以供下次聚合和发出。
+* Proton partitions the data according to `group by` keys and feeds the partitioned data to the JavaScript UDAF. `process(..)` is called to run the customized aggregation logic. If the return value of `process(..)` is 0, no result will be emitted. If a none-zero value is returned by `process(..)`, then `finalize()` function will be called to get the aggregation result.  Proton will emit the results immediately. `finalize()` function should also reset its state for next aggregation and emit. `进程 (...)调用` 来运行自定义聚合逻辑。 如果是 `process (..) 的返回值` 是 0，不会发出任何结果。 如果 `process (..) 返回非零值`，然后 `finalize ()` 函数将被调用以获取聚合结果。  质子将立即发布结果。 `finalize ()` 函数还应重置其状态以供下次聚合和发出。
 
 注意事项：
 
@@ -276,3 +276,4 @@ There is an advanced setting `has_customized_emit`. When this is set to `true`: 
 
 * 将来我们将提供更好的测试工具。
 * 自定义 JavaScript 代码在装有 V8 引擎的沙箱中运行。 它不会影响其他工作空间。
+
