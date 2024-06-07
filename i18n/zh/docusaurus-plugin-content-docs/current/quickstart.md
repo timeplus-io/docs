@@ -27,7 +27,7 @@ The final step of the setup is for naming your new workspace, the isolated stora
 
 ![选择工作区名称](/img/workspace-name-setup.png)
 
-## 第 3 步：加载您的流数据 {#step3}
+## 第 3 步：加载您的直播数据 {#step3}
 
 If your streaming data resides in or a publicly accessible Kafka or Pulsar instance, follow one of following docs to create a source in Timeplus Cloud, then return here to complete the quickstart:
 
@@ -56,7 +56,7 @@ If you don't yet have a streaming data source and would like test out how Timepl
 
    ![示例数据集模板](/img/sample-source-template-3.png)
 
-4. Preview your data and create a new stream to load your data into. For the stream name, it can contain only letters, numbers, or underscores, and must start with a letter. You can also give it an optional description. 对于流名称，它只能包含字母、 数字或下划线，并且必须以字母开头。 你也可以给它一个可选的描述。
+4. Preview your data and create a new stream to load your data into. For the stream name, it can contain only letters, numbers, or underscores, and must start with a letter. You can also give it an optional description. 对于直播名称，它只能包含字母、 数字或下划线，并且必须以字母开头。 你也可以给它一个可选的描述。
 
    ![物联网示例数据，预览步骤](/img/sample-source-preview-4.png)
 
@@ -66,7 +66,7 @@ If you don't yet have a streaming data source and would like test out how Timepl
 
 ### 探索流媒体数据
 
-1. 要查看新创建的流中的数据，您可以：
+1. 要查看新创建的直播中的数据，您可以：
 
    a。 a. Go to the **Streams** page, and click on the **Explore** icon.
 
@@ -80,13 +80,13 @@ If you don't yet have a streaming data source and would like test out how Timepl
 
    ![在 “查询” 页面中运行查询](/img/run-query.png)
 
-流结果表现在将显示在编辑器下方。 The streaming results table will now appear below the editor. To create charts, click on the **Visualization** tab. \[Learn more about Dashboards and Charts\] \[了解有关仪表板和图表的更多信息\]
+直播结果表现在将显示在编辑器下方。 The streaming results table will now appear below the editor. To create charts, click on the **Visualization** tab. \[Learn more about Dashboards and Charts\] \[了解有关仪表板和图表的更多信息\]
 
 ![示例数据集的可视化示例](/img/viz-sample-iot.png)
 
 ## 下一步是什么？
 
 - [摄取](ingestion) 额外数据流
-- 写下 [流查询](query-syntax)
+- 写下 [直播查询](query-syntax)
 - 使用 [可视化](viz) 和仪表板根据流数据创建其他图表
 - 将您的查询结果发送到 [数据下游](destination)
