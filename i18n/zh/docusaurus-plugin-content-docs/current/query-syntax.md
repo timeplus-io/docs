@@ -3,7 +3,7 @@
 Timeplus引入了几个SQL扩展来支持流式处理。 总的语法如下：
 
 ```sql
-[WITH common_table_expression ..]
+[使用 common_table_expression...]
 SELECT <expr, columns, aggr>
 FROM <streaming_window_function>(<table_name>, [<time_column>], [<window_size>], ...)
 [WHERE clause]
@@ -19,51 +19,51 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 [PARTITION BY clause]
 EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
-[JOIN clause]
-[WHERE clause]
-[GROUP BY clause]
-[HAVING expression]
-[PARTITION BY clause]
+[加入子句]
+[WHERE 子句]
+[按子句分组]
+[HAVING 表达式]
+[按子句分区]
 [LIMIT n]
 [EMIT emit_policy]
-[SETTINGS <key1>=<value1>, <key2>=<value2>, ...]
+[设置 <key1>=<value1>, <key2>=<value2>,...]
 ```
 
-Only `SELECT` and `FROM` clauses are required (you can even omit `FORM`, such as `SELECT now()`, but it's less practical). Other clauses in `[..]` are optional. We will talk about them one by one in the reverse order, i.e. [SETTINGS](#settings), then [EMIT](#emit), [LIMIT](#limit), etc.
+只有 `SELECT` 和 `FROM` 条款是必填的（你甚至可以省略 `FORM`，比如 `SELECT now ()`，但它不太实用）。 `[...] 中的其他条款` 是可选的。 我们将按照相反的顺序逐一讨论它们，即 [设置](#settings)，然后 [EMIT](#emit)、 [LIMIT](#limit)等。
 
-SQL keywords and function names are case-insensitive, while the column names and stream names are case-sensitive.
+SQL 关键字和函数名不区分大小写，而列名和流名称区分大小写。
 
-## Streaming First Query Behavior {#streaming_first}
+## 流式传输优先查询行为 {#streaming_first}
 
-Before we look into the details of the query syntax, we'd like to highlight the default query behavior in Timeplus Proton is in the streaming mode, i.e.
+在我们研究查询语法的细节之前，我们想重点介绍一下 Timeplus Proton 中的默认查询行为是流媒体模式，即
 
-- `SELECT .. FROM stream` will query the future events. Once you run the query, it will process new events. For example, if there are 1,000 events in the stream already, running `SELECT count() FROM stream` could return 0, if there is more new events.
-- `SELECT .. FROM table(stream)` will query the historical data, just like many of other databases. In the above sample stream, if you run `SELECT count() FROM table(stream)`, you will get 1000 as the result and the query completed.
+- `选择... FROM stream` 将查询未来的事件。 运行查询后，它将处理新事件。 例如，如果直播中已经有 1,000 个事件，则如果还有更多新事件，则运行 `SELECT count () FROM Stream` 可能会返回 0。
+- `选择... FROM 表（流）` 将查询历史数据，就像许多其他数据库一样。 在上面的示例流中，如果你运行 `SELECT count () FROM table (stream)`，你将得到 1000 作为结果并且查询完成。
 
 ## Query Settings
 
-Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors. Check [Query Settings](query-settings).
+Timeplus 支持一些高级 `设置` 来微调流式查询处理行为。 检查 [查询设置](query-settings)。
 
-## EMIT{#emit}
+## 发出{#emit}
 
-As an advanced feature, Timeplus Proton support various policies to emit results during streaming query.
+作为一项高级功能，Timeplus Proton支持各种策略，以在流式查询期间发出结果。
 
-The syntax is:
+语法是：
 
 ```sql
-EMIT
- [AFTER WATERMARK [WITH DELAY <interval>]
- [PERIODIC <interval>]
- [ON UPDATE]
-  - [[ AND ]TIMEOUT <interval>]
-  - [[ AND ]LAST <interval> [ON PROCTIME]]
+发出
+ [在水印之后 [有延迟 <interval>]
+ [定期 <interval>]
+ [更新时]
+  -[[和] TIMEOUT <interval>]
+  -[[和] 最后一个 <interval> [ON PROCTIME]]
 ```
 
-Please note some policies are added in Proton 1.5 and incompatible with 1.4 or earlier version.
+请注意，Proton 1.5 中添加了一些政策，与 1.4 或更早版本不兼容。
 
-### EMIT AFTER WATERMARK {#emit_after_wm}
+### 在水印后发出 {#emit_after_wm}
 
-You can omit `EMIT AFTER WATERMARK`, since this is the default behavior for time window aggregations. 例如：
+您可以省略 `在水印`之后发出，因为这是时间窗聚合的默认行为。 例如：
 
 ```sql
 SELECT device, max(cpu_usage)
@@ -71,13 +71,13 @@ FROM tumble(device_utils, 5s)
 GROUP BY device, window_end
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](stream-query#window-watermark), which is an internal timestamp. 保证每个流量查询都能增加单一流量。
+上面的示例 SQL 连续汇总了直播 `devices_utils`的每个滚动窗口中每台设备的最大 CPU 使用量。 每次关闭窗口时，Timeplus Proton都会发布聚合结果。 如何确定窗户应该关闭？ 这是由 [水印](stream-query#window-watermark)完成的，它是一个内部时间戳。 保证每个流量查询都能增加单一流量。
 
-### EMIT AFTER WATERMARK WITH DELAY {#emit_after_wm_with_delay}
+### 延迟在水印后发出 {#emit_after_wm_with_delay}
 
 :::warning
 
-Before Proton 1.5, the syntax was `EMIT AFTER WATERMARK AND DELAY`. Since Proton 1.5, we use `WITH DELAY` instead of `AND DELAY`, in order to make `AND` as the keyword to combine multiple emit polices.
+在 Proton 1.5 之前，语法是 `EMIT AFTER WATERMARK AND DELAY`。 从 Proton 1.5 开始，我们使用 `WITH DELAY` 而不是 `和 DELAY`，以便将 `和` 作为组合多个发射策略的关键字。
 
 :::
 
@@ -92,9 +92,9 @@ EMIT AFTER WATERMARK DELAY 2s;
 
 上面的示例 SQL 持续聚合每个设备对表 `设备 _utils` 的最大cpu 使用量。 Every time a window is closed, Timeplus waits for another 2 seconds and then emits the aggregation results.
 
-### EMIT PERIODIC {#emit_periodic}
+### 定期发射 {#emit_periodic}
 
-`PERIODIC <n><UNIT>` tells Proton to emit the aggregation periodically. `UNIT` 可以是 ms（毫秒）、s（秒）、m（分钟）、h（小时）、d（天）。`<n>` 应为大于 0 的整数。
+`PERIODIC <n><UNIT>` 告诉 Proton 定期发出聚合。 `UNIT` 可以是 ms（毫秒）、s（秒）、m（分钟）、h（小时）、d（天）。`<n>` 应为大于 0 的整数。
 
 示例：
 
@@ -105,13 +105,13 @@ WHERE cpu_usage > 99
 EMIT PERIODIC 5s
 ```
 
-For [Global Streaming Aggregation](#global) the default periodic emit interval is `2s`, i.e. 2 seconds.
+对于 [Global Streaming Aggregation](#global) ，默认的周期性发射间隔为 `2s`，即 2 秒。
 
-Since Proton 1.5, you can also apply `EMIT PERIODIC` in time windows, such as tumble/hop/session.
+从 Proton 1.5 开始，你还可以在时间窗中应用 `EMIT PERIODIC` ，例如翻滚/跳跃/会话。
 
-When you run a tumble window aggregation, by default Proton will emit results when the window is closed. So `tumble(stream,5s)` will emit results every 5 seconds, unless there is no event in the window to progress the watermark.
+当你运行 tumble 窗口聚合时，默认情况下，Proton 将在窗口关闭时发出结果。 因此 `tumble (stream,5s)` 将每 5 秒发出一次结果，除非窗口中没有事件可以处理水印。
 
-In some cases, you may want to get aggregation results even the window is not closed, so that you can get timely alerts. For example, the following SQL will run a 5-second tumble window and every 1 second, if the number of event is over 300, a row will be emitted.
+在某些情况下，即使窗口未关闭，您也可能希望获得聚合结果，以便及时收到警报。 例如，以下 SQL 将运行一个 5 秒的 tumble 窗口，如果事件数量超过 300，则每 1 秒就会发出一行。
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -124,68 +124,68 @@ EMIT LAST INTERVAL <n> <UNIT>
 SETTINGS max_keep_windows=<window_count>
 ```
 
-### EMIT ON UPDATE {#emit_on_update}
+### 更新时发出 {#emit_on_update}
 
 :::info
 
-This is a new emit policy added in Proton 1.5.
+这是 Proton 1.5 中添加的一项新排放政策。
 
 :::
 
-Since Proton 1.5, you can apply `EMIT ON UPDATE` in time windows, such as tumble/hop/session, with `GROUP BY` keys. 例如：
+从 Proton 1.5 开始，你可以使用 `GROUP BY` 键在时间窗口（例如 tumble/hop/session）中应用 `EMIT ON UPDATE` 。 例如：
 
 ```sql
-SELECT
-  window_start, cid, count() AS cnt
-FROM
-  tumble(car_live_data, 5s)
+从
+  tumble（car_live_data，5s）中选择
+  window_start、cid、count () 作为 cnt
+
 WHERE
-  cid IN ('c00033', 'c00022')
-GROUP BY
-  window_start, cid
-EMIT ON UPDATE
+  cid IN ('c00033'、'c00022')
+分组 BY
+  window_start，cid
+更新时发出
 ```
 
-During the 5 second tumble window, even the window is not closed, as long as the aggregation value(`cnt`) for the same `cid` is different , the results will be emitted.
+在 5 秒的 tumble 窗口期间，即使窗口没有关闭，只要相同 `cid` 的聚合值 (`cnt`) 不同，就会发出结果。
 
-### EMIT PERIODIC .. ON UPDATE {#emit_periodic_on_update}
+### 定期发射... 更新时 {#emit_periodic_on_update}
 
 :::info
 
-This is a new emit policy added in Proton 1.5.
+这是 Proton 1.5 中添加的一项新排放政策。
 
 :::
 
-You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Proton will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
+你可以将 `EMIT PERIODIAL` 和 `更新时发射` 组合在一起。 在这种情况下，即使窗口没有关闭，Proton 也会按指定的间隔检查中间聚合结果，如果结果发生变化，则发出行。
 
-### EMIT TIMEOUT{#emit_timeout}
+### 发射超时{#emit_timeout}
 
-For time window based aggregations, when the window is closed is decided by the watermark. A new event outside the window will progress the watermark and inform the query engine to close the previous window and to emit aggregation results.
+对于基于时间窗的聚合，窗口的关闭时间由水印决定。 窗口外的新事件将推进水印处理，并通知查询引擎关闭前一个窗口并发出聚合结果。
 
-Say you only get one event for the time window. Since there is no more event, the watermark cannot be moved so the window won't be closed.
+假设你在时间窗口内只有一个赛事。 由于没有更多的事件，水印无法移动，因此窗口不会关闭。
 
-`EMIT TIMEOUT` is to force the window close, with a timeout after seeing last event.
+`EMIT TIMEOUT` 是强制关闭窗口，在看到最后一个事件后超时。
 
-Please note, if there no single event in the data stream, or in the time window, Proton won't emit result. For example, in the following SQL, you won't get 0 as the count:
+请注意，如果数据流中或时间窗口中没有单个事件，Proton 将不会发出结果。 例如，在以下 SQL 中，你不会得到 0 作为计数：
 
 ```sql
-SELECT window_start, count() as count FROM tumble(stream,2s)
-GROUP BY window_start
+选择 window_start，count () 作为从 tumble 开始计数 (stream,2s)
+按 window_start 分组
 ```
 
-Even you add `EMIT TIMEOUT` in the SQL, it won't trigger timeout, because the query engine doesn't see any event in the window. If you need to detect such missing event for certain time window, one workaround is to create a heartbeat stream and use `UNION` to create a subquery to combine both heartbeat stream and target stream, for a time window, if all observed events are from heartbeat stream, this means there is no event in the target stream. Please discuss more with us in community slack.
+即使你在 SQL 中添加了 `EMIT TIMEOUT` ，它也不会触发超时，因为查询引擎在窗口中看不到任何事件。 如果您需要在某个时间窗口内检测此类缺失事件，一种解决方法是创建一个心跳流，并使用 `UNION` 创建一个子查询，将心跳流和目标流合并到一个时间窗内，如果所有观测到的事件都来自心跳流，这意味着目标流中没有事件。 请在社区 slack 中与我们讨论更多内容。
 
-### EMIT LAST
+### 最后发出
 
 在流处理中，有一个典型的查询正在处理过去 X 秒/分钟/小时的数据。 例如，在过去 1 小时内显示每台设备的 cpu 使用量。 我们称这种类型的处理 `最后X 流处理` Timeplus和Timeplus提供专门的 SQL 扩展以便于使用： `EMIT LAST <n><UNIT>` 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。 与流式查询的其他部分一样，用户可以在这里使用间隔快捷键。
 
 :::info
 
-By default, `EMIT LAST` uses the event time. Timeplus Proton will seek both streaming storage and historical to backfill data in last X time range. `EMIT LAST .. ON PROCTIME` uses the wall clock time to do the seek.
+默认情况下， `EMIT LAST` 使用事件时间。 Timeplus Proton将同时寻找流存储空间和历史存储空间，以回填最近X个时间范围内的数据。 `最后发射... ON PROCTIME` 使用挂钟时间进行搜索。
 
 :::
 
-#### EMIT LAST for Streaming Tail
+#### 最后发出 Streaming Tail
 
 正在修改事件时间戳处于最后X范围内的事件。
 
@@ -200,7 +200,7 @@ EMIT LAST 5m
 
 上面的示例过滤器事件在 `device_utils` 表中，其中 `cpu_usage` 大于80%，事件在过去 5 分钟内被添加。 在内部，Timeplus寻求流式存储回到5分钟(从现在起全时时间)并从那里压缩数据。
 
-#### EMIT LAST for Global Aggregation
+#### 发出 LAST 以进行全局聚合
 
 ```sql
 SELECT <column_name1>, <column_name2>, ...
@@ -229,11 +229,11 @@ GROUP BY device, window_end
 EMIT AFTER WATERMARK DELAY 2s;
 ```
 
-#### EMIT LAST for Windowed Aggregation
+#### 为窗口聚合发出 LAST
 
 ```sql
-SELECT <column_name1>, <column_name2>, <aggr_function>
-FROM <streaming_window_function>(<stream_name>, [<time_column>], [<window_size>], ...)
+从 <streaming_window_function>(<stream_name>, [<time_column>], [<window_size>],...) 中选择 <column_name1>, <column_name2>, <aggr_function>
+
 
 群组由...
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -259,23 +259,23 @@ SETTTINGS max_keep_windows=720;
 
 同样，我们可以在跳跃窗口上应用最后X。
 
-## PARTITION BY
+## 分割依据
 
-`PARTITION BY` in Streaming SQL is to create [substreams](substream).
+`Streaming SQL 中的` 分区是创建 [子流](substream)。
 
-## GROUP BY and HAVING {#group_having}
+## 分组依据并拥有 {#group_having}
 
-`GROUP BY` applies aggregations for 1 or more columns.
+`GROUP BY` 对 1 个或更多列应用聚合。
 
-When `GROUP BY` is applied, `HAVING` is optional to filter the aggregation results. The difference between `WHERE` and`HAVING` is data will be filtered by `WHERE` clause first, then apply `GROUP BY`, and finally apply `HAVING`.
+当应用 `GROUP BY` 时，可以选择 `HAVING` 来筛选聚合结果。 `WHERE` 和`HAVING` 的区别在于，数据将首先按 `WHERE` 子句过滤，然后应用 `GROUP BY`，最后应用 `HAVING`。
 
 ## JOINs
 
 请查看[Joins](joins)。
 
-## WITH cte
+## WITH CTE
 
-CTE, or Common Table Expression, is a handy way to define [subqueries](#subquery) one by one, before the main SELECT clause.
+CTE（公用表表达式）是在主 SELECT 子句之前逐一定义 [子查询](#subquery) 的便捷方法。
 
 ## 子查询 {#subquery}
 
@@ -414,11 +414,11 @@ WHERE cpu_usage > 99
 EMIT PERIODIC 5s
 ```
 
-Like in [Streaming Tail](#streaming-tailing), Timeplus continuously monitors new events in the stream `device_utils`, does the filtering and then continuously does **incremental** count aggregation. Whenever the specified delay interval is up, project the current aggregation result to clients. Whenever the specified delay interval is up, project the current aggregation result to clients.
+Like in [Streaming Tail](#streaming-tailing), Timeplus continuously monitors new events in the stream `device_utils`, does the filtering and then continuously does **incremental** count aggregation. Whenever the specified delay interval is up, project the current aggregation result to clients. 每当指定的延迟间隔达到时，都会将当前聚合结果投影到客户端。
 
 ### 简易流窗口聚合 {#tumble}
 
-将无边界数据根据其参数混合成不同的窗户。 Internally, Timeplus observes the data streaming and automatically decides when to close a sliced window and emit the final results for that window.
+将无边界数据根据其参数混合成不同的窗户。 在内部，Timeplus观察数据流，并自动决定何时关闭切片窗口并发布该窗口的最终结果。
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
@@ -444,9 +444,9 @@ EMIT <window_emit_policy>
 ...
 ```
 
-`tumble` window in Timeplus is left closed and right open `[)` meaning it includes all events which have timestamps **greater or equal** to the **lower bound** of the window, but **less** than the **upper bound** of the window.
+Timeplus 中的 `tumble` 窗口左关右开 `[)` 这意味着它包括所有时间戳 **大于或等于窗口的 **下限** 的事件 **** ** **窗口的上界** 。
 
-`tumble` in the above SQL spec is a table function whose core responsibility is assigning tumble window to each event in a streaming way. The `tumble` table function will generate 2 new columns: `window_start, window_end` which correspond to the low and high bounds of a tumble window. The `tumble` table function will generate 2 new columns: `window_start, window_end` which correspond to the low and high bounds of a tumble window.
+`tumble` in the above SQL spec is a table function whose core responsibility is assigning tumble window to each event in a streaming way. The `tumble` table function will generate 2 new columns: `window_start, window_end` which correspond to the low and high bounds of a tumble window. `tumble` 表函数将生成 2 个新列： `window_start、window_end` ，它们对应于滚动窗口的低界和高界。
 
 `tumble` 表格函数接受4个参数： `<timestamp_column>` 和 `<time-zone>` 是可选的，其他函数是强制性的。
 
@@ -466,7 +466,7 @@ GROUP BY device, window_end
 
 上面的示例 SQL 持续聚合每个设备每个tumble窗口最大的 cpu 使用量，用于表 `设备 _utils`。 每次关闭一个窗口，Timeplus号发布聚合结果。
 
-Let's change `tumble(stream, 5s)` to `tumble(stream, timestmap, 5s)` :
+让我们把 `tumble（直播，5s）` 改成 `tumble（直播，timestmap，5s）` ：
 
 ```sql
 SELECT device, max(cpu_usage)
@@ -536,6 +536,6 @@ EMIT AFTER WATERMARK;
 
 上面的示例 SQL 持续聚合每个设备在表 `设备 _utils` 中的最大cpu 使用量。 每次关闭一个窗口，Timeplus号发布聚合结果。
 
-### Session Streaming Window Aggregation
+### 会话流媒体窗口聚合
 
-This is similar to tumble and hop window. Please check the [session](functions_for_streaming#session) function.
+这类似于 tumble and hop 窗口。 请查看 [session](functions_for_streaming#session) 函数。
