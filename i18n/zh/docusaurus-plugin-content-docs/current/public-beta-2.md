@@ -15,7 +15,7 @@
 
 **其他用户界面的改进**
 
-- 在查询页面的结果表中，对于日期/时间列，我们现在显示原始时间戳（不再显示浏览器的本地时区）。 In Timeplus, by default the \_tp_time column is created in the UTC timezone. Please check the [\_tp_time (Event time)](eventtime) for details.
+- 在查询页面的结果表中，对于日期/时间列，我们现在显示原始时间戳（不再显示浏览器的本地时区）。 在 Timeplus 中，默认情况下，\ _tp_time 列是在 UTC 时区创建的。 有关详细信息，请查看 [\ _tp_time（事件时间）](eventtime) 。
 - 改进了在个人设置中显示 API 密钥到期日期的方式。
 
 **流数据库和流式SQL**
@@ -35,8 +35,8 @@
 
 **查询页面**
 
-- Added keyboard shortcuts to add or remove comments in the SQL editor: On PC: `Ctrl + /` to toggle line comment, and `Shift + Alt + A` to toggle block comment On Mac: `Cmd + /` to toggle line comment, and `Shift + Option + A` to toggle block comment
-- More improved error messages for SQL queries, to show more details.
+- 添加了在 SQL 编辑器中添加或删除注释的键盘快捷键： 在 PC 上： `Ctrl +/` 用于切换行注释， `Shift + Alt + A` 用于切换区块注释 在 Mac 上： `Cmd +/` 切换行注释，以及 `Shift + Option + A` 切换区块评论
+- 进一步改进了 SQL 查询的错误消息，以显示更多详细信息。
 
 **数据源**
 
@@ -109,7 +109,7 @@
 
 **流数据库和流式SQL**
 
-- （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 You can leverage tools, such as [Debezium](https://debezium.io/), to load CDC (Change Data Capture) data from different sources and track the INSERT, UPDATE, DELETE operations in Timeplus. 您可以随时获得任意主键的最新数据。 [了解更多](working-with-streams)
+- （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 你可以利用 [Debezium](https://debezium.io/)等工具加载来自不同来源的CDC（变更数据捕获）数据，并跟踪Timeplus中的插入、更新、删除操作。 您可以随时获得任意主键的最新数据。 [了解更多](working-with-streams)
 
 **图表和仪表盘**
 
@@ -200,9 +200,9 @@
   - 之前当您打开面板时，您可以随时调整面板大小，删除面板。 设置会自动保存。 我们在不断增强仪表板添加更多功能，所以决定引入了显式的视图模式和编辑模式。
   - （实验性）你可以使用 [Markdown](https://en.wikipedia.org/wiki/Markdown)的面板进一步装饰仪表板，你可以添加样式化文本甚至图像。 可选配置，默认情况下关闭. 如果您想试用此功能，请联系我们。
 
-- Enhancements
+- 增强功能
   - 增强并优化每种图表类型的各种功能。 [了解更多](viz#chart)
-  - Able to run [table()](functions#table) function for a view with streaming sql, e.g. `with c as(select col1,col2 from a_stream where b>0) select * from table(c)` Please note the streaming SQL in the view cannot contain any aggregation. 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
+  - 能够对使用流式 sql 的视图运行 [table ()](functions#table) 函数，例如 `将 c 设置为（从 a_stream 中选择 col1，col2 其中 b>0）从表 (c) 中选择 *` 请注意，视图中的直播 SQL 不能包含任何聚合。 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
   - 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 `earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
   - 你也可以在一个包括JOIN/UNION多个流的SQL中多次使用 `where _tp_time >..` 为不同的流穿越到不同的起点。
   - 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
@@ -250,5 +250,5 @@
   - **调整列大小**. **调整列大小**. Timeplus会根据列的类型自动设置适当的初始列大小。 您可以随时通过拖放来调整列的大小。
 - 更多图表类型和选项。 您可以选择折线图、面积图、柱形图、条形图、单值图和图表作为可视化类型。 每个图表都支持基本设置和高级设置。
 - 添加了一种内置的针对`json`优化的数据类型，与将 JSON 另存为 `string` 并在查询时动态提取相比，查询性能更好。 适合于同一结构的 JSON 文档。 通过 `column.jsonpath` 访问该值（而不是用文本列的方式 `column:jsonpath` ）
-- 我们开始弃用 `settings seek_to=..` 仍然支持时空旅行，你只需要在 WHERE 条件下使用 `_tp_time` 列，例如 `WHERE _tp_time>=now () -1h` 即可在 1 小时前进行时空旅行并显示此后的数据。 Or `WHERE _tp_time >= '2023-01-14'` All data streams in Timeplus contain such `_tp_time` as the event time.
+- 我们开始弃用 `settings seek_to=..` 仍然支持时空旅行，你只需要在 WHERE 条件下使用 `_tp_time` 列，例如 `WHERE _tp_time>=now () -1h` 即可在 1 小时前进行时空旅行并显示此后的数据。 或者 `WHERE _tp_time >= '2023-01-14'` Timeplus 中的所有数据流都包含 `_tp_time` 作为事件时间。
 - （实验性）除了 [Remote UDF](remote-udf)之外，现在你还可以使用 JavaScript 来定义新函数。 支持标量函数和聚合函数。 请查看 [JS UDF](js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。
