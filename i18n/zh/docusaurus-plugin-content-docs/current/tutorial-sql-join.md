@@ -1,4 +1,4 @@
-# 流加入
+# 直播加入
 
 :::info
 
@@ -21,22 +21,22 @@
 - 街道、州、城市、邮政编码
 - 名字，姓氏
 
-您可以创建流 JOIN 来验证这两个主题中的数据是否相互匹配。
+您可以创建直播 JOIN 来验证这两个主题中的数据是否相互匹配。
 
 ```sql
-创建外部流客户（原始字符串）
-设置类型='kafka'，
+创建外部直播客户（原始字符串）
+设置类型='kafka'， 
          brokers='redpanda: 9092'，
          topic='owlshop-customers；
-
-创建外部流地址（原始字符串）
-设置类型='kafka'，
+         
+创建外部直播地址（原始字符串）
+设置类型='kafka'， 
          brokers='redpanda: 9092'，
-         topic='owlshop-addresses'；
+         topic='owlshop-addresses'；   
 
-使用 parsed_customer AS（选择 raw: id 作为 ID，raw: firstName|' '||raw: LastName 作为姓名，
+使用 parsed_customer AS（选择 raw: id 作为 ID，raw: firstName|' '||raw: LastName 作为姓名， 
 raw: gender 作为性别从客户设置中选择 seek_to='earliest '），
-parsed_addr AS（选择 raw: customer.id 作为 ID，raw: street|' '|raw: city 作为地址，
+parsed_addr AS（选择 raw: customer.id 作为 ID，raw: street|' '|raw: city 作为地址， 
 raw: firstname|' ||raw: LastName 作为名字来自地址设置 seek_to='earliest')
 选择 * 从 parsed_customer 中选择 * 使用 (id) 加入 parsed_addr；
 ```
@@ -50,6 +50,6 @@ raw: firstname|' ||raw: LastName 作为名字来自地址设置 seek_to='earlies
 
 :::info
 
-默认情况下，Proton客户端以单行和单查询模式启动。 要同时运行多个查询语句，请从 `-n` 参数开始，即 docker exec-it proton-cainer-name proton-cainer-name proton-client-n
+默认情况下，质子客户端以单行和单查询模式启动。 要同时运行多个查询语句，请从 `-n` 参数开始，即 docker exec-it proton-cainer-name proton-cainer-name proton-client-n
 
 :::
