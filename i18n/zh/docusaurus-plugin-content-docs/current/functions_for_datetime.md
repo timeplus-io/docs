@@ -22,7 +22,7 @@
 
 ### day_of_week
 
-使用`day_of_week(date)`来获取周中的某一天。 例如： 例如： 星期一是 1，星期日是 7。
+使用`day_of_week(date)`来获取周中的某一天。 e.g. Monday is 1, Sunday is 7.
 
 ### hour
 
@@ -145,8 +145,6 @@ SELECT
 | ----------------------- | ----------------------- |
 | 2022-05-16 00:00:00.000 | 2022-05-16 04:00:00.000 |
 
-
-
 ### format_datetime
 
 `format_datetime(time,format,timezone)` 将日期时间的格式化为字符串。 第三个参数是可选的。 支持以下占位符
@@ -164,7 +162,17 @@ SELECT
 | %S  | 2位数秒(00-59)                   | 44         |
 | %w  | 周日为小数点，周日为0(0-6)              | 1          |
 
+### parse_datetime
 
+Coverts a string to a datetime. This function is the opposite operation of function [format_datetime](#format_datetime).
+
+`parse_datetime(str, format [,timezone])`. For example `select parse_datetime('2021-01-04+23:00:00', '%Y-%m-%d+%H:%i:%s')` returns '2021-01-04 23:00:00'.
+
+### parse_datetime_in_joda_syntax
+
+Similar to [parse_datetime](#parse_datetime), except that the format string is in [Joda](https://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html) instead of MySQL syntax.
+
+`parse_datetime_in_joda_syntax(str, format [,timezone])`. For example `select parse_datetime_in_joda_syntax('2023-02-24 14:53:31', 'yyyy-MM-dd HH:mm:ss')` returns '2023-02-24 14:53:31'.
 
 ### date_diff
 
@@ -172,42 +180,42 @@ SELECT
 
 支持的单位：
 
-* us：表示微秒。 1 秒 = 1,000,000 微秒
-* ms：表示毫秒。 1 秒 = 1,000 毫秒
-* s︰表示秒数
-* m：表示分钟
-* h：表示小时
-* d：表示天数
+- us：表示微秒。 1 秒 = 1,000,000 微秒
+- ms：表示毫秒。 1 秒 = 1,000 毫秒
+- s︰表示秒数
+- m：表示分钟
+- h：表示小时
+- d：表示天数
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1, time2)` 返回 true 或 false。  此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
+`date_diff_within(timegap,time1, time2)` 返回 true 或 false。 此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
 
 ### date_trunc
 
 `date_trunc(funit), value[, timezone])`将日期和时间数据截断到日期的指定部分。 例如， `date_trunc('month',now())` 返回的是当前月的月初的日期时间。 可能的单位值为：
 
-* 年
-* 季度
-* 月
-* 天
-* 小时
-* 分钟
-* 秒
+- 年
+- 季度
+- 月
+- 天
+- 小时
+- 分钟
+- 秒
 
 ### date_add
 
 它支持 `date_add(unit, value, date)` 和快捷解决 `data_add(date,timeExpression)`
 
-*  `date_add(HOUR, 2, now())` 将在 2 小时内获得一个新的日期时间。 `date_add(HOUR, -2, now())` 将得到一个新的日期时间 2 小时后退。
-*  `date_add(now(),2h)` 和 `date_add(now(),-2h)` 也工作
+- `date_add(HOUR, 2, now())` 将在 2 小时内获得一个新的日期时间。 `date_add(HOUR, -2, now())` 将得到一个新的日期时间 2 小时后退。
+- `date_add(now(),2h)` 和 `date_add(now(),-2h)` 也工作
 
 ### date_sub
 
 它支持 `date_sub(unit, value, date)` 和快捷解决 `data_sub(date,timeExpression)`
 
-*  `date_sub(HOUR, 2, now())` 将获得一个新的日期时间 2 小时
-*  `date_sub(now(),2h)`  也工作
+- `date_sub(HOUR, 2, now())` 将获得一个新的日期时间 2 小时
+- `date_sub(now(),2h)` also work
 
 ### earliest_timestamp
 

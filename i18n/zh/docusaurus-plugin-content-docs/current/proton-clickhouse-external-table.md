@@ -26,7 +26,7 @@ SETTINGS type='clickhouse',
          password='..',
          database='..',
          secure=true|false,
-         table='..'; 
+         table='..';
 ```
 
 The required settings are type and address. For other settings, the default values are
@@ -39,7 +39,7 @@ The required settings are type and address. For other settings, the default valu
 
 You don't need to specify the columns, since the table schema will be fetched from the ClickHouse server.
 
-Once the external table is created succesfully, you can run the following SQL to list the columns:
+Once the external table is created successfully, you can run the following SQL to list the columns:
 
 ```sql
 DESCRIBE name
@@ -75,7 +75,7 @@ SETTINGS type='clickhouse',
          user='default',
          password='..',
          secure=true,
-         table='events';  
+         table='events';
 ```
 
 ### Connect to Aiven for ClickHouse {#aiven}
@@ -102,7 +102,7 @@ You can query it via the regular `select .. from table_name`.
 
 Please note, in the current implementation, all rows will be fetched from ClickHouse to Proton, with the selected columns. Then Proton applies the SQL functions and `LIMIT n` locally. It's not recommended to run `SELECT *` for a large ClickHouse table.
 
-Also note, use the Proton function names when you query the external table, such as [to_int](functions_for_type#to_int), instead of ClickHouse's naming converstion, e.g. [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256). In current implementation, the SQL functions are applied in Proton engine. We plan to support some function push-down to ClickHouse in future versions.
+Also note, use the Proton function names when you query the external table, such as [to_int](functions_for_type#to_int), instead of ClickHouse's naming convension, e.g. [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256). In current implementation, the SQL functions are applied in Proton engine. We plan to support some function push-down to ClickHouse in future versions.
 
 :::
 

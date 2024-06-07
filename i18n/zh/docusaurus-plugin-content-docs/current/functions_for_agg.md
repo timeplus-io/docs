@@ -1,5 +1,3 @@
-
-
 # 聚合
 
 ### 计数
@@ -40,7 +38,7 @@
 
 ### sum
 
-`sum(<column_name>)`：列之和。 仅适用于数字。
+`sum(<column_name>)`：列之和。 Only works for numbers.
 
 ### avg
 
@@ -49,8 +47,6 @@
 ### median
 
 `median(<column_name>)` 计算数值数据样本的中值。
-
-
 
 ### quantile
 
@@ -80,7 +76,7 @@
 
 ### min_k
 
-`min_k(<column_name>,K [,context_column])`：列名中最小的 K 项。 返回一个数组。 您还可以添加列表，获取同行中值的更多上下文，例如 `min_k(price,3,product_id,last_updated)` 这将返回一个数组，每个元素作为元组，比如 `[(5.12,'c42664'),(5.12,'c42664'),(15.36,'c84068')]`
+`min_k(<column_name>,K [,context_column])`：列名中最小的 K 项。 返回一个数组。 You can also add a list of columns to get more context of the values in same row, such as `min_k(price,3,product_id,last_updated)` This will return an array with each element as a tuple, such as `[(5.12,'c42664'),(5.12,'c42664'),(15.36,'c84068')]`
 
 在 [Top-N Query Pattern](sql-pattern-topn) 页上阅读更多内容。
 
@@ -118,8 +114,6 @@
 
 `last_value(column)` Selects the last encountered value.
 
-
-
 ### stochastic_linear_regression_state
 
 `stochastic_linear_regression_state(num, target, param1, param2)`
@@ -131,4 +125,3 @@ This function implements stochastic linear regression. This function implements 
 `stochastic_logistic_regression(num, num, num, string)`
 
 This function implements stochastic logistic regression. This function implements stochastic logistic regression. It can be used for binary classification problem, supports the same custom parameters as stochasticLinearRegression and works the same way. Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression).
-

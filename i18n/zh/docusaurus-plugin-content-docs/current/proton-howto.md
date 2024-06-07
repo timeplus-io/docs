@@ -1,8 +1,8 @@
-# Proton Quickstart
+# Quickstart with Timeplus Proton
 
-Follow the compact guides that help you work with common Proton functionality.
+Follow the compact guides that help you work with common Timeplus Proton functionality.
 
-## How to install Proton {#install}
+## How to install Timeplus Proton {#install}
 
 Proton can be installed as a single binary on Linux or Mac, via:
 
@@ -32,7 +32,7 @@ You can also try Proton in the fully-managed [Timeplus Cloud](https://us.timeplu
 You use [External Stream](proton-kafka) to read from Kafka topics or write data to the topics. We verified the integration with Apache Kafka, Confluent Cloud, Confluent Platform, Redpanda, WarpStream, Upstash and many more.
 
 ```sql
-CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name 
+CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
 (<col_name1> <col_type>)
 SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',
 username='..',password='..',sasl_mechanism='..'
@@ -82,13 +82,13 @@ CREATE STREAM stream
 SETTINGS event_time_column = 'timestamp';
 ```
 
-Please note there will be the 4th column in the stream, which is _tp_time as the [Event Time](eventtime).
+Please note there will be the 4th column in the stream, which is \_tp_time as the [Event Time](eventtime).
 
 To import CSV content, use the [file](https://clickhouse.com/docs/en/sql-reference/table-functions/file) table function to set the file path and header and data types.
 
 ```sql
-INSERT INTO stream (timestamp,price,volume) 
-SELECT timestamp,price,volume 
+INSERT INTO stream (timestamp,price,volume)
+SELECT timestamp,price,volume
 FROM file('data/my.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
 SETTINGS max_insert_threads=8;
 ```
@@ -99,7 +99,7 @@ SETTINGS max_insert_threads=8;
 
 1. You need to specify the column names. Otherwise `SELECT *` will get 3 columns while there are 4 columns in the data stream.
 2. For security reasons, Proton only read files under `proton-data/user_files` folder. If you install proton via `proton install` command on Linux servers, the folder will be `/var/lib/proton/user_files`. If you don't install proton and run proton binary directly via `proton server start`, the folder will be `proton-data/user_files`
-3. We recommend to use `max_insert_threads=8` to use multiple threads to maximize the ingestion performance.  If your file system has high IOPS, you can create the stream with `SETTINGS shards=3` and set a higher `max_insert_threads` value in the `INSERT` statement.
+3. We recommend to use `max_insert_threads=8` to use multiple threads to maximize the ingestion performance. If your file system has high IOPS, you can create the stream with `SETTINGS shards=3` and set a higher `max_insert_threads` value in the `INSERT` statement.
 
 :::
 
@@ -120,8 +120,8 @@ PARTITION BY to_YYYYMM(_tp_time)
 ORDER BY to_start_of_hour(_tp_time)
 SETTINGS event_time_column = 'timestamp', index_granularity = 8192;
 
-INSERT INTO kraken_all (path,timestamp,price,volume) 
-SELECT _path,timestamp,price,volume 
+INSERT INTO kraken_all (path,timestamp,price,volume)
+SELECT _path,timestamp,price,volume
 FROM file('data/*.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
 SETTINGS max_insert_threads=8;
 ```
@@ -134,7 +134,7 @@ The official Grafana plugin for Proton is available [here](https://grafana.com/g
 
 We also provide a plugin for Metabase: https://github.com/timeplus-io/metabase-proton-driver This is based on the Proton JDBC driver.
 
-## How to access Proton programmatically {#sdk}
+## How to access Timeplus Proton programmatically {#sdk}
 
 SQL is the main interface to work with Proton. The [Ingest REST API](proton-ingest-api) allows you to push realtime data to Proton with any language.
 
