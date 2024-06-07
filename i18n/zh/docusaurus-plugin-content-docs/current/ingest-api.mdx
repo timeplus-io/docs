@@ -7,9 +7,9 @@ import TabItem from '@theme/TabItem';
 
 有关详细的 API 文档，请查看 https://docs.timeplus.com/rest。
 
-## 在 Timeplus 中创建流
+## 在 Timeplus 中创建直播
 
-首先，你需要使用网页界面或通过 REST API 在 Timeplus 中创建流。 应设置具有正确名称和类型的列。 在下一节中，我们假设流名称为 `foo`。
+首先，你需要使用网页界面或通过 REST API 在 Timeplus 中创建直播。 应设置具有正确名称和类型的列。 在下一节中，我们假设直播名称为 `foo`。
 
 ## 在 HTTP 标头中设置 API 密钥
 
@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
 
 :::info
 
-确保你使用的是 “工作空间 ID”，而不是 “工作空间名称”。 Workspace-id 是一个包含8个字符的随机字符串。 你可以从浏览器的地址栏中获取：https://us.timeplus.cloud/workspace/console。 Workspace-name 是您在创建工作区时设置的名称。 目前，此名称是只读的，但我们将在将来将其设为可编辑。
+确保你使用的是 “工作空间 ID”，而不是 “工作空间名称”。 Workspace-id 是一个包含8个字符的随机字符串。 你可以从浏览器的地址栏中获取：https://us.timeplus.cloud/<workspace-id>/console。 Workspace-name 是您在创建工作区时设置的名称。 目前，此名称是只读的，但我们将在将来将其设为可编辑。
 
 :::
 
@@ -43,10 +43,10 @@ import TabItem from '@theme/TabItem';
 
 | 用例                                                                     | POST 正文示例                                                                                                                 | 内容类型                   | 网址                                  | 目标流中的列              |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ----------------------------------- | ------------------- |
-| 1. 推送 JSON 对象。 每个 JSON 都是一个事件。                                         | \{"key1": "value11", "key2": "value12", ...}<br/>\{"key1": "value21", "key2": "value22", ...}                               | `应用程序/x-ndjson`        | 摄取？格式=流                            | 多列，例如 key1、key2     |
-| 2. 推送单个 JSON 或长文本。 单项活动。                                               | \{"key1": "value11", "key2": "value12", ...}                                                                               | 'text/plain'           | 摄取？格式=原始                            | 单列，命名为 “raw”        |
+| 1. 推送 JSON 对象。 每个 JSON 都是一个事件。                                         | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                               | `应用程序/x-ndjson`        | 摄取？格式=直播                            | 多列，例如 key1、key2     |
+| 2. 推送单个 JSON 或长文本。 单项活动。                                               | {"key1": "value11", "key2": "value12", ...}                                                                               | 'text/plain'           | 摄取？格式=原始                            | 单列，命名为 “raw”        |
 | 3. 推送一批事件。 每行都是一个事件。                                                   | event1<br/>event2                                                                                                         | 'text/plain'           | 摄取？格式=行数                            | 单列，命名为 “raw”        |
-| 4. 推送包含多个事件的特殊 JSON，无需重复列名                                             | \{ <br/> "columns": ["key1","key2"],<br/> "data": \[ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `应用程序/json`            | 摄取？format=compact 或者直接收录            | 多列，例如 key1、key2     |
+| 4. 推送包含多个事件的特殊 JSON，无需重复列名                                             | { <br/> "columns": ["key1","key2"],<br/> "data": \[ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `应用程序/json`            | 摄取？format=compact 或者直接收录            | 多列，例如 key1、key2     |
 
 #### 1. 直接推送 JSON 对象 {#option1}
 
@@ -275,8 +275,8 @@ data = “'
 
         字符串 url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw”;
         MediaType MediaType = MediaType.Parse（“文本/纯文本”）；
-        字符串数据 = “”
-          {“key1"：“value11"，“key2"：“value12"}
+        字符串数据 = “” 
+          {“key1"：“value11"，“key2"：“value12"} 
           “”；
         requestBody.create = requestBody.Create（媒体类型，数据）；
 
@@ -298,7 +298,7 @@ data = “'
 </TabItem>
 </Tabs>
 
-在Timeplus中使用一个名为 “raw” 的 “字符串” 列创建流是一种常见的做法。 您可以将 JSON 对象放入此列，然后提取值（例如 “select raw: key1”），或者将原始日志消息放入此列。
+在Timeplus中使用一个名为 “raw” 的 “字符串” 列创建直播是一种常见的做法。 您可以将 JSON 对象放入此列，然后提取值（例如 “select raw: key1”），或者将原始日志消息放入此列。
 
 当你将 Content-Type 标头设置为 “text/plain”，并将 format=raw 添加到摄取端点时，POST 请求中的整个正文将放在 “原始” 列中。
 
