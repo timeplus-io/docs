@@ -3,77 +3,77 @@
 import Quickstart from '@site/src/components/Quickstart'
 import Grid, { GridItem } from '@site/src/components/Grid'
 
-Timeplus是一个简单、强大且经济的流处理平台。 It's available in different ways:
+Timeplus是一个简单、强大且经济的流处理平台。 它有不同的可用方式：
 
-- [Timeplus Proton](proton), the core engine open-sourced at [GitHub](https://github.com/timeplus-io/proton) under Apache 2.0 License. It is a fast and lightweight streaming SQL engine.
-- [Timeplus Enterprise](timeplus-enterprise) is the production-ready commercial product, with 2 deployment options:
-  - Cloud: a fully-managed unified platform streaming and historical data processing.
-  - Self-hosted: Same feature sets as Timeplus Cloud. Runs and scales everywhere, from edge to your data center.
+- [Timeplus Proton]（质子），在 Apache 2.0 许可下在 [GitHub] (https://github.com/timeplus-io/proton) 上开源的核心引擎。 它是一个快速而轻量级的流式SQL引擎。
+- [Timeplus Enterprise]（timeplus-Enterprise）是一款可用于生产的商用产品，有 2 种部署选项：
+  - 云：完全托管的统一平台流媒体和历史数据处理。
+  - 自托管：与 Timeplus Cloud 相同的功能集。 从边缘到数据中心，可在任何地方运行和扩展。
 
-Timeplus provides powerful end-to-end capabilities to help data teams process streaming and historical data quickly and intuitively, accessible for organizations of all sizes and industries. It enables data engineers and platform engineers to unlock streaming data value using SQL.
+Timeplus 提供强大的端到端功能，帮助数据团队快速、直观地处理流和历史数据，各种规模和行业的组织都可以访问。 它使数据工程师和平台工程师能够使用 SQL 解锁流数据价值。
 
-The Timeplus Console allows for easy connection to diverse data sources (such as Apache Kafka, Confluent Cloud, Redpanda, NATS, Web Socket/SSE, CSV file upload, and more), explore streaming patterns via SQL queries, send real-time insights and alerts to other systems or individuals, and create dashboards and visualizations.
+Timeplus 控制台允许轻松连接到不同的数据源（例如Apache Kafka、Confluent Cloud、Redpanda、NATS、Web Socket/SSE、CSV文件上传等），通过SQL查询探索流媒体模式，向其他系统或个人发送实时见解和警报，以及创建仪表板和可视化效果。
 
-Still curious about [why to use Timeplus](why-timeplus)? Check out the [showcases](showcases) to see how Timeplus
-customers use our unified streaming and historical processing platform.
+还对 [为什么要使用 Timeplus]（为什么是 timeplus）感到好奇吗？ 查看 [展示]（展示），了解Timeplus
+客户如何使用我们的统一直播和历史处理平台。
 
-## Get started with Timeplus
+## 开始使用 Timeplus
 
 <Quickstart href="/quickstart">
 
-<h3>Quickstart</h3>
+<h3>快速入门</h3>
 
-<p>Follow along with step-by-step instructions for creating a Timeplus Cloud account and loading sample IoT, user login, or DevOps data.</p>
+<p>按照分步说明创建Timeplus云账户和加载示例物联网、用户登录或开发运营数据。</p>
 
 </Quickstart>
 
-## Jump into stream processing and analytics
+## 进入流处理和分析领域
 
 <Grid>
 
 <GridItem href="/ingestion">
-    <h3>Ingest data &rarr;</h3>
+    <h3>采集数据 &rarr;</h3>
     <p>
-    Connect Timeplus to Apache Kafka, Apache Pulsar, Confluent Cloud, or push with a REST API, SDKs, and beyond.
+    将 Timeplus 连接到 Apache Kafka、Apache Pulsar、Confluent Cloud，或使用 REST API、SDK 等进行推送。
     </p>
 
 </GridItem>
   <GridItem href="/query-syntax">
-    <h3>Write SQL queries &rarr;</h3>
+    <h3>编写 SQL 查询 &rarr;</h3>
     <p>
-    Create long-running queries using functions like transformations, joins, aggregation, windowed processing, substreams, and more.
+    使用转换、联接、聚合、窗口处理、子流等函数创建长时间运行的查询。
     </p>
 
 </GridItem>
   <GridItem href="/viz">
-    <h3>Visualize data &rarr;</h3>
+    <h3>可视化数据 &rarr;</h3>
     <p>
-    View real-time results for any query, create custom dashboards to tell stories about your data, or integrate with external BI systems.
+    查看任何查询的实时结果，创建自定义仪表板以讲述数据故事，或与外部 BI 系统集成。
     </p>
   </GridItem>
 </Grid>
 
-## Core concepts and functions
+## 核心概念和功能
 
 <Grid>
   <GridItem href="/working-with-streams">
     <h3>Streams &rarr;</h3>
     <p>
-    An append-only (by default), unbounded, constantly changing events group with changelog, versioned, and external options.
+    一个仅限追加（默认）、无界限且不断变化的事件组，包含变更日志、版本控制和外部选项。
     </p>
 
 </GridItem>
   <GridItem href="/destination">
     <h3>Sinks &rarr;</h3>
     <p>
-    Send real-time insights to other systems, either to notify individuals or power downstream applications.
+    向其他系统发送实时见解，以通知个人或为下游应用程序提供支持。
     </p>
 
 </GridItem>
   <GridItem href="/proton">
     <h3>Proton &rarr;</h3>
     <p>
-    The open source, unified streaming and historical data processing engine powering the Timeplus streaming analytics platform.
+    开源、统一的直播和历史数据处理引擎，为 Timeplus 直播分析平台提供动力。
     </p>
 
 </GridItem>
