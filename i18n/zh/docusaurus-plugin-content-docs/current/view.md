@@ -35,7 +35,7 @@ DROP VIEW [IF EXISTS] <view_name>
 
 使用物化视图的不同方式：
 
-1. 流模式： `SELECT * FROM materialized_view` 获取结果以备将来的数据。 这与视图的工作方式相同。
+1. 直播模式： `SELECT * FROM materialized_view` 获取结果以备将来的数据。 这与视图的工作方式相同。
 2. 历史模式： `SELECT * 从表 (materialized_view)` 获取物化视图的所有过去结果。
 3. 历史记录 + 流式模式：`SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` 获取所有过去的结果和未来的数据。
 4. 预聚合模式： `SELECT * 从表 (materialized_view) 其中 _tp_time in (SELECT max (_tp_time) 作为表 (materialized_view) 中的 m)` 这会立即返回最新的查询结果。 如果 `_tp_time` 在物化视图中不可用，或者最新聚合可以生成具有不同的 `_tp_time`的事件，则可以将 `emit_version ()` 添加到物化视图中，为每个发射分配一个唯一的 ID，并选取最大的 `emit_version () 的事件`。 例如：
