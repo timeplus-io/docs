@@ -2,15 +2,15 @@
 
 你可以使用 [External Stream](external-stream)从 Proton 中的 Apache Kafka（以及 Confluent Cloud 或 Redpanda）读取数据。 You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Proton with [External Stream](external-stream). Combining with [Materialized View](proton-create-view#m_view) and [Target Stream](proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
 
-## 创建外部流
+## 创建外部直播
 
-目前，Timeplus 外部流仅支持 Kafka API 作为唯一类型。
+目前，Timeplus 外部直播仅支持 Kafka API 作为唯一类型。
 
 要在 Proton 中创建外部流，请执行以下操作：
 
 ```sql
-CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (\<col_name1> \<col_type>)
-SETTINGS type='kafka'，brokers='ip: 9092'，topic='.. '，security_protocol='.. '，用户名='.. '，密码='.. '，sasl_mechanism='.. '，data_format='.. '，kafka_schema_registry_url='.. '，kafka_schema_registry_credentials='.. '，ssl_ca_cert_file='.. '，ss_ca_pem='.. '，skip_ssl_cert_check=。
+创建外部直播 [如果不存在] stream_name (<col_name1> <col_type>)
+设置 type='kafka'，brokers='ip: 9092'，topic='.. '，security_protocol='.. '，用户名='.. '，密码='.. '，sasl_mechanism='.. '，data_format='.. '，kafka_schema_registry_url='.. '，kafka_schema_registry_credentials='.. '，ssl_ca_cert_file='.. '，ss_ca_pem='.. '，skip_ssl_cert_check=。
 ```
 
 `security_protocol` 的支持值为：
@@ -50,7 +50,7 @@ SETTINGS type='kafka'，brokers='ip: 9092'，topic='.. '，security_protocol='..
 示例：
 
 ```sql
-创建外部流 ext_github_events
+创建外部直播 ext_github_events
          （原始字符串）
 设置类型='kafka'，
          brokers='localhost: 9092'，
@@ -64,7 +64,7 @@ SETTINGS type='kafka'，brokers='ip: 9092'，topic='.. '，security_protocol='..
 您可以使用带有单列的外部流向 Kafka 主题写入纯文本消息。
 
 ```sql
-创建外部流 ext_github_events
+创建外部直播 ext_github_events
          （原始字符串）
 设置类型='kafka'，
          brokers='localhost: 9092'，
@@ -121,7 +121,7 @@ Since Proton v1.3.29, Protobuf messages can be read with all or partial columns.
 你可以使用 `data_format='jsoneachrow'，one_message_per_row=true` 通知 Proton 将每个事件写成 JSON 文档。 外部流的列将转换为 JSON 文档中的密钥。 例如：
 
 ```sql
-创建外部流目标 (
+创建外部直播目标 (
     _tp_time datetime64 (3)、
     网址字符串、
     方法字符串、
@@ -151,7 +151,7 @@ Please note, since 1.3.25, by default multiple JSON documents will be inserted t
 如果你需要每条 Kafka 消息的有效的 JSON，而不是 JSONL，请设置 `one_message_per_row=true` 例如
 
 ```sql
-创建外部流目标（_tp_time datetime64 (3)、网址字符串、IP 字符串）
+创建外部直播目标（_tp_time datetime64 (3)、网址字符串、IP 字符串）
 设置类型='kafka'、brokers='redpanda: 9092'、topic='masked-fe-event'、
          data_format='jsoneachrow'、one_message_per_row=true
 ```
@@ -165,7 +165,7 @@ Please note, since 1.3.25, by default multiple JSON documents will be inserted t
 你可以使用 `data_format='csv'` 来通知 Proton 将每个事件写成 JSON 文档。 外部流的列将转换为 JSON 文档中的密钥。 例如：
 
 ```sql
-创建外部流目标（
+创建外部直播目标（
     _tp_time datetime64 (3)、
     网址字符串、
     方法字符串、
@@ -184,9 +184,9 @@ Please note, since 1.3.25, by default multiple JSON documents will be inserted t
 
 ##### ProtobufSingle
 
-你可以在 Proton中定义
+你可以在 Proton</a>中定义
 
-Protobuf 架构，也可以在创建外部流时指定 [Kafka 架构注册表](proton-schema-registry) 。
+Protobuf 架构，也可以在创建外部流时指定 [Kafka 架构注册表](proton-schema-registry) 。</p> 
 
 
 
@@ -229,7 +229,7 @@ CREATE EXTERNAL STREAM example_two（
 
 
 
-## 删除外部流
+## 删除外部直播
 
 
 
@@ -274,9 +274,9 @@ When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in
 ```
 
 
-:: warning
+:: warning  
 请避免通过 `select * from table (ext_stream)`扫描所有数据。 应用一些筛选条件，或者运行优化的 `从表 (ext_stream)` 中选择计数 (*) 来获取当前的消息数量。
-:::
+:::  
 
 
 
@@ -309,7 +309,7 @@ Starting from Proton 1.3.18, you can also read in specified Kafka partitions. By
 
 
 ```sql
-— 通过外部流阅读话题
+— 通过外部直播阅读话题
 创建外部流 frontend_events（原始字符串）
                 SETTINGS type='kafka'，
                          brokers='redpanda: 9092'，
@@ -344,8 +344,8 @@ Starting from Proton 1.3.18, you can also read in specified Kafka partitions. By
 请查看教程：
 
 - [使用 SQL 查询 Kafka](tutorial-sql-kafka)
-- [流加入](tutorial-sql-join)
-- [流 ETL](tutorial-sql-etl)
+- [直播加入](tutorial-sql-join)
+- [直播 ETL](tutorial-sql-etl)
 
 
 
