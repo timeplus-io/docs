@@ -420,5 +420,9 @@
   "theme.unlistedContent.message": {
     "message": "该页面未列出。搜索引擎不会对其进行索引，只有拥有直接链接的用户才能访问。",
     "description": "未列出内容的横幅消息"
+  },
+  "theme.docs.DocCard.categoryDescription.plurals": {
+    "message": "1 item|{count} items",
+    "description": "生成的索引中类别卡的默认描述，说明该类别包含多少项"
   }
 }
