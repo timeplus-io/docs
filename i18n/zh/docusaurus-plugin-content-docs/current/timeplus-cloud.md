@@ -1,13 +1,13 @@
-# Cloud
+# 云
 
-Timeplus Enterprise is available as a fully automated cloud service, with zero ops. It's ideal for enterprise users from starter projects, evaluation to mission-critical workloads without ops.
+Timeplus Enterprise是一项全自动云服务，操作为零。 无论是入门项目、评估还是无需运维的关键任务工作负载，它都非常适合企业用户。
 
-Currently it is available in us-west-2 in AWS region.
+目前，它在 AWS 区域的 us-west-2 中可用。
 
-You can start a 14-day free trial at [us.timeplus.cloud](https://us.timeplus.cloud) without binding a credit card. You can subscribe the Enterprise plan any time, by specifying:
+你可以在不绑定信用卡的情况下在 [us.timeplus.cloud] (https://us.timeplus.cloud) 开始14天的免费试用。 您可以随时订阅企业计划，只需指定：
 
-- the number of CPU, starting from 1 to 32
-- the disk size, starting from 50 GB
-- the size of the cluster, by default single node.
+- CPU 的数量，从 1 到 32
+- 磁盘大小，从 50 GB 开始
+- 集群的大小，默认为单节点。
 
-Check https://timeplus.com/pricing for details and FAQ.
+查看 https://timeplus.com/pricing 了解详情和常见问题解答。
