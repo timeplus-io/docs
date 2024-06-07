@@ -3,7 +3,7 @@
 自 Proton v1.4.2 起，它增加了对读取或写入 ClickHouse 表格的支持。 这将解锁一系列新的用例，例如
 
 - 使用 Proton 高效处理 Kafka/Redpanda 中的实时数据，应用平面转换或状态聚合，然后将数据写入本地或远程 ClickHouse 以进行进一步分析或可视化。
-- 使用ClickHouse中的静态或缓慢变化的数据来丰富实时数据。 申请流加入。
+- 使用ClickHouse中的静态或缓慢变化的数据来丰富实时数据。 申请直播加入。
 - 使用 Proton 查询 ClickHouse 中的历史或近期数据
 
 这种集成是通过在 Proton 中引入一个新概念来完成的：“外部表”。 与 [外部流]（外部流）类似，Proton 中没有保留任何数据。 但是，由于ClickHouse中的数据是表格，而不是数据流的形式，因此我们将其称为外部表。 在路线图中，我们将通过引入其他类型的外部表来支持更多集成。
@@ -102,7 +102,7 @@
 
 请注意，在当前的实现中，所有行都将从ClickHouse提取到Proton，其中包含选定的列。 然后 Proton 在本地应用 SQL 函数和 LIMIT n。 不建议对大型的 ClickHouse 表格运行 `SELECT *`。
 
-另请注意，在查询外部表时使用Proton函数名称，例如 [to_int] (functions_for_type #to_int)，而不是 ClickHouse 的命名规范，例如 [toInt] (https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256)。 在当前的实现中，SQL 函数应用于 Proton 引擎中。 我们计划在未来的版本中支持向ClickHouse下推一些功能。
+另请注意，在查询外部表时使用质子函数名称，例如 [to_int] (functions_for_type #to_int)，而不是 ClickHouse 的命名规范，例如 [toInt] (https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256)。 在当前的实现中，SQL 函数应用于 Proton 引擎中。 我们计划在未来的版本中支持向ClickHouse下推一些功能。
 
 :::
 
