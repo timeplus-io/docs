@@ -4,7 +4,7 @@
 
 :::info
 
-We recently introduced a new table function [changelog](functions_for_streaming#changelog) to dynamically create a changelog stream based on an append-only stream by specifying the primary key column(s) and the version column, or create a changelog stream based on a [versioned stream](versioned-stream). 它专为高级用例而设计，例如按主键处理迟到事件。 详细信息请检查 [更新日志](functions_for_streaming#changelog) 的文档。
+我们最近引入了一个新的表函数 [changelog](functions_for_streaming#changelog) ，通过指定主键列和版本列，基于仅追加流动态创建变更日志流，或者基于 [版本控制流](versioned-stream)创建变更日志流。 它专为高级用例而设计，例如按主键处理迟到事件。 详细信息请检查 [更新日志](functions_for_streaming#changelog) 的文档。
 
 :::
 
@@ -288,7 +288,7 @@ SECURITY_PROTOCOL=SASL_SSL
 
 ### 添加 PostgreSQL 连接器
 
-Start the docker-compose with `docker-compose up`. 它将加载 Debezium 和 Redpanda 控制台的图像。 您可以通过 http://localhost:8080 访问 Redpanda 控制台，Kafka Connect REST API 的端点是 http://localhost:8083
+使用 `docker-compose up`启动 docker-compose up。 它将加载 Debezium 和 Redpanda 控制台的图像。 您可以通过 http://localhost:8080 访问 Redpanda 控制台，Kafka Connect REST API 的端点是 http://localhost:8083
 
 您可以通过 Web 用户界面添加 Debezium 连接器。 但以下命令行可以正常运行：
 
