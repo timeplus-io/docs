@@ -62,5 +62,49 @@
   "sidebar.docSidebar.category.Proton": {
     "message": "Proton",
     "description": "侧边栏 docSidebar 中的“Proton”标签"
+  },
+  "sidebar.docSidebar.category.Overview": {
+    "message": "概览",
+    "description": "The label for category Overview in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Key Concepts": {
+    "message": "关键概念",
+    "description": "The label for category Key Concepts in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Timeplus Enterprise": {
+    "message": "Timeplus 企业版",
+    "description": "The label for category Timeplus Enterprise in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Self-hosted": {
+    "message": "自托管",
+    "description": "The label for category Self-hosted in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Tutorials and Examples": {
+    "message": "Tutorials and Examples",
+    "description": "The label for category Tutorials and Examples in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.SQL Engine (Proton)": {
+    "message": "SQL Engine (Proton)",
+    "description": "The label for category SQL Engine (Proton) in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.SQL Reference": {
+    "message": "SQL Reference",
+    "description": "The label for category SQL Reference in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Frequently Asked Questions": {
+    "message": "Frequently Asked Questions",
+    "description": "The label for category Frequently Asked Questions in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.What's New": {
+    "message": "产品更新",
+    "description": "The label for category What's New in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.category.Additional Resources": {
+    "message": "Additional Resources",
+    "description": "The label for category Additional Resources in sidebar docSidebar"
+  },
+  "sidebar.docSidebar.link.REST API Reference": {
+    "message": "REST API Reference",
+    "description": "The label for link REST API Reference in sidebar docSidebar, linking to https://docs.timeplus.com/rest.html"
   }
 }
