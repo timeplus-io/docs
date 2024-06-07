@@ -4,7 +4,7 @@ Timeplus 支持一些高级 “设置” 来微调流式查询处理行为，如
 
 ## 查询模式
 
-`query_mode=<table|streaming>`。 默认情况下，如果省略它，则为 “流”。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。 这可以在端口中覆盖。 This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical. 如果您使用 8123，则默认为历史记录。
+`query_mode=<table|streaming>`。 默认情况下，如果省略它，则为 “直播”。 一种常规设置，用于决定整体查询是流数据处理还是历史数据处理。 这可以在端口中覆盖。 This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical. 如果您使用 8123，则默认为历史记录。
 
 ## seek_to
 
@@ -12,7 +12,7 @@ Timeplus 支持一些高级 “设置” 来微调流式查询处理行为，如
 
 :::info
 
-请注意，自 2023 年 1 月起，我们不再建议您使用 `SETTINGS seek_to=...`（[外部流]（外部流）除外）。 请使用 `WHERE _tp_time>='2023-01-01'或类似的。 `_tp_time`是每个原始流中的特殊时间戳列，用于表示 [事件时间]（事件时间）。 你可以使用`\>`、`\<`、`BETWEEN.. 用于过滤 Timeplus 存储空间中的数据的 AND 操作。 唯一的例外是 [外部流]（外部流）。 如果你需要扫描 Kafka 主题中的所有现有数据，你需要使用 seek_to 运行 SQL，例如 `从 my_ext_stream 设置中选择原始数据 seek_to='earliest'`
+请注意，自 2023 年 1 月起，我们不再建议您使用 `SETTINGS seek_to=...`（[外部流]（外部流）除外）。 请使用 `WHERE _tp_time>='2023-01-01'或类似的。 `_tp_time`是每个原始流中的特殊时间戳列，用于表示 [事件时间]（事件时间）。 你可以使用`>`、`<`、`BETWEEN.. 用于过滤 Timeplus 存储空间中的数据的 AND 操作。 唯一的例外是 [外部流]（外部流）。 如果你需要扫描 Kafka 主题中的所有现有数据，你需要使用 seek_to 运行 SQL，例如 `从 my_ext_stream 设置中选择原始数据 seek_to='earliest'`
 
 :::
 
