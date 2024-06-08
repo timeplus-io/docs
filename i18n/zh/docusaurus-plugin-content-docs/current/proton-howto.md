@@ -32,10 +32,6 @@ docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
 您可以使用 [外部流]（质子-kafka）从 Kafka 主题中读取数据或向主题写入数据。 我们验证了与 Apache Kafka、Confluent Cloud、Confluent Platform、Redpanda、WarpStream、Upstash 等的集成。
 
 ```sql
-创建外部直播 [如果不存在] stream_name
-(<col_name1> <col_type>)
-设置类型='kafka'，brokers='ip: 9092'，topic='... '，安全协议='..',
-用户名='..'，密码='.. '，sasl_mechanism='.. '
 ```
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/w_Tr62oKE4E?si=xkrLA60-SZUrrmWL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -46,7 +42,7 @@ docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j6FpXg5cfsA?si=Mo5UrviidxqkkXSb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-如果你在本地的ClickHouse或ClickHouse云中有数据，你也可以使用 [外部表]（质子点击屋外部表）来读取数据。
+如果你在本地的ClickHouse或ClickHouse云中有数据，你也可以使用 [外部表](proton-clickhouse-external-table) 来读取数据。
 
 ## 如何读/写 ClickHouse {#clickhouse}
 
@@ -64,7 +60,7 @@ docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
 
 ## 如何使用 JSON {#json}
 
-Proton 支持强大且易于使用的 JSON 处理。 你可以将整个 JSON 文档保存为 “字符串” 类型的 “原始” 列。 然后使用 JSON 路径作为快捷方式以字符串形式访问这些值。 例如 “raw: a.b.c”。 如果你的数据是整数/浮点数/布尔值或其他类型，你也可以使用 `::` 来转换它们。 例如 `raw: a.b.c:: int`。 如果你想读取 Kafka 主题中的 JSON 文档，你可以选择将每个 JSON 作为 “原始” 字符串读取，也可以将每个顶级键/值对作为列读取。 请查看 [doc] (proton-kafka #multi_col_read) 了解详情。
+Proton 支持强大且易于使用的 JSON 处理。 你可以将整个 JSON 文档保存为 “字符串” 类型的 “原始” 列。 然后使用 JSON 路径作为快捷方式以字符串形式访问这些值。 例如 “raw: a.b.c”。 如果你的数据是整数/浮点数/布尔值或其他类型，你也可以使用 `::` 来转换它们。 例如 `raw: a.b.c:: int`。 如果你想读取 Kafka 主题中的 JSON 文档，你可以选择将每个 JSON 作为 “原始” 字符串读取，也可以将每个顶级键/值对作为列读取。 请查看 [doc](proton-kafka#multi_col_read) 了解详情。
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dTKr1-B5clg?si=eaeQ21SjY8JpUXID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
@@ -73,13 +69,6 @@ Proton 支持强大且易于使用的 JSON 处理。 你可以将整个 JSON 文
 如果你只需要加载一个 CSV 文件，你可以创建一个直播然后使用 `INSERT INTO.. 选择... FROM 文件 (..) `语法。 例如，如果 CSV 文件中有 3 个字段：时间戳、价格、交易量，则可以通过以下方式创建直播
 
 ```sql
-创建直播流
-(
-  `timestamp` datetime64 (3),
-  `price` float64,
-  `volume` float64
-)
-设置 event_time_column = '时间戳';
 ```
 
 请注意，直播中将有第 4 列，即\ _tp_time 作为 [事件时间]（事件时间）。
@@ -87,10 +76,6 @@ Proton 支持强大且易于使用的 JSON 处理。 你可以将整个 JSON 文
 要导入 CSV 内容，请使用 [文件] (https://clickhouse.com/docs/en/sql-reference/table-functions/file) 表函数来设置文件路径、标题和数据类型。
 
 ```sql
-插入直播中（时间戳、价格、交易量）
-选择时间戳、价格、交易量
-FROM 文件（'data/my.csv'、'CSV'、'timestamp datetime64 (3)、价格 float64、交易量 float64 ')
-设置 max_insert_threads=8；
 ```
 
 :::info
@@ -106,24 +91,6 @@ FROM 文件（'data/my.csv'、'CSV'、'timestamp datetime64 (3)、价格 float64
 如果您需要将多个 CSV 文件导入到单个数据流，则可以执行类似的操作。 你甚至可以再添加一列来跟踪文件路径。
 
 ```sql
-创建 STREAM kraken_all
-(
- `路径` 字符串，
-  `timestamp` datetime64 (3)，
-  `price` float64，
-  `volume` float64，
-  `_tp_time` datetime64 (3，'UTC') 默认时间戳编解码器（doubleDelta，LZ4），
-  索引 _tp_time_index _time_time 类型最小粒度 2
-
-ENGINE = Stream (1, 1, rand ())
-分区按 to_yyyymm (_tp_time)
-按 to_start_of_hour (_tp_time) 排序
-设置 event_time_column = “时间戳”，index_granularity = 8192；
-
-INSERT INTO kraken_all（路径、时间戳、价格、交易量）
-选择 _path、时间戳、价格、交易量
-FROM 文件 ('数据/*.csv'、'CSV'、'时间戳datetime64 (3)，价格 float64，交易量 float64')
-设置 max_insert_threads=8；
 ```
 
 ## 如何使用 Grafana 或 Metabase 可视化 Proton 查询结果 {#bi}
@@ -136,7 +103,7 @@ Proton 的官方 Grafana 插件可在 [此处] (https://grafana.com/grafana/plug
 
 ## 如何以编程方式访问 Timeplus Proton {#sdk}
 
-SQL 是使用 Proton 的主要接口。 [采集 REST API]（质子摄取 API）允许您使用任何语言将实时数据推送到 Proton。
+SQL 是使用 Proton 的主要接口。 [采集 REST API](proton-ingest-api) 允许您使用任何语言将实时数据推送到 Proton。
 
 以下驱动程序可用：
 
