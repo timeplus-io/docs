@@ -140,17 +140,11 @@ Since Proton v1.3.29, Protobuf messages can be read with all or partial columns.
 
 ##### ProtobufSingle
 
-你可以在 Proton</a>中定义
-
-Protobuf 架构，也可以在创建外部流时指定 [Kafka 架构注册表](proton-schema-registry) 。</p> 
-
-
+你可以在 Proton中定义 [Protobuf 格式](proton-format-schema)，也可以在创建外部流时指定 [Kafka 架构注册表](proton-schema-registry) 。
 
 ##### Avro
 
 从 Proton 1.5.2 开始，在创建外部流时指定 [Kafka 架构注册表](proton-schema-registry) 时，可以使用 Avro 格式。
-
-
 
 ### 读/写 Kafka 消息密钥 {#messagekey}
 
@@ -164,101 +158,65 @@ Protobuf 架构，也可以在创建外部流时指定 [Kafka 架构注册表](p
 
 示例：
 
-
-
 ```sql
 
 ```
 
-
 `message_key` 可以与 `sharding_expr`（在 Kafka 主题中指定目标分区号）一起使用，而且 `sharding_expr` 将优先级更高。
 
-
-
 ## 删除外部流
-
-
 
 ```sql
 删除外部流 [如果存在] stream_name
 ```
 
-
-
-
 ## 使用 SQL 查询 Kafka 数据
 
 你可以在外部流上运行流式传输 SQL，例如
 
-
-
 ```sql
 
 ```
-
-
-
 
 ### 阅读现有消息 {#rewind}
 
 When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in the topics, not the existing ones. If you need to read all existing messages, you can use the following settings: 如果您需要阅读所有现有消息，则可以使用以下设置：
 
-
-
 ```sql
 
 ```
-
 
 或者如果你运行的是 Proton 1.5.9 或更高版本，则使用以下 SQL：
 
-
-
 ```sql
 
 ```
 
-
 :: warning  
 请避免通过 `select * from table (ext_stream)`扫描所有数据。 应用一些筛选条件，或者运行优化的 `从表 (ext_stream)` 中选择计数 (*) 来获取当前的消息数量。
-:::  
-
-
+:::
 
 ### 读取指定分区
 
 从 Proton 1.3.18 开始，你还可以在指定的 Kafka 分区中读取。 默认情况下，将读取所有分区。 但是你也可以通过 `shards` 设置从单个分区读取，例如
 
-
-
 ```sql
 
 ```
-
 
 或者你可以指定一组用逗号分隔的分区 ID，例如
 
-
-
 ```sql
 
 ```
-
-
-
 
 ## 使用 SQL 写入 Kafka
 
 你可以使用物化视图将数据作为外部流写入到 Kafka，例如
 
-
-
 ```sql
 
 ```
-
-
-
 
 ## Docker Compose 教程 {#tutorial}
 
@@ -268,20 +226,15 @@ When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in
 - [直播加入](tutorial-sql-join)
 - [直播 ETL](tutorial-sql-etl)
 
-
-
 ## Kafka 客户端的属性 {#properties}
 
 对于更高级的用例，可以在创建外部流时指定自定义属性。 For more advanced use cases, you can specify customized properties while creating the external streams. Those properties will be passed to the underlying Kafka client, which is [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
 
 例如：
 
-
-
 ```sql
 
 ```
-
 
 请注意，并非支持 [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) 中的所有属性。 今天，Proton 接受了以下内容。 有关详细信息，请查看 [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) 的配置指南。
 
