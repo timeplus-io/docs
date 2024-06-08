@@ -2,7 +2,7 @@
 
 :::info
 
-本教程主要面向 Timeplus Proton 用户。 对于Timeplus Cloud用户，请查看 [指南]（快速入门），以使用网络用户界面将Timeplus与Confluent Cloud连接起来。 本指南中的SQL可以在Timeplus Proton和Timeplus Cloud/Enterprise中运行。
+本教程主要面向 Timeplus Proton 用户。 对于Timeplus Cloud用户，请查看 [指南]（quickstart），以使用网页界面将Timeplus与Confluent Cloud连接起来。 本指南中的SQL可以在Timeplus Proton和Timeplus Cloud/Enterprise中运行。
 
 :::
 
