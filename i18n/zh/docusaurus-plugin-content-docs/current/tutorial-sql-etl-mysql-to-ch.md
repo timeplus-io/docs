@@ -1,4 +1,4 @@
-# 将 ETL：MySQL 串流到 ClickHouse
+# 流式ETL：同步MySQL 数据到 ClickHouse
 
 https://github.com/timeplus-io/proton/tree/develop/examples/cdc 提供了 Docker Compose 堆栈，用于演示如何将数据从 MySQL 镜像到 ClickHouse。 常见的用例是保留MySQL作为交易数据库，同时使用ClickHouse来处理分析工作负载。
 
