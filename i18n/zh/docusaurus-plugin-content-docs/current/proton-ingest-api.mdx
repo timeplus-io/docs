@@ -1,4 +1,4 @@
-# 收录 REST API
+# 数据摄取 REST API
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -22,13 +22,13 @@ docker run-d-p 3218:3218--pull always--name proton ghcr.io/timeplus-io/proton: l
 首先运行 SQL 客户端
 
 ```shell
-docker exec-it 质子质子客户端
+
 ```
 
 然后运行以下 SQL 来创建流。
 
 ```sql
-CREATE STREAM foo（id 整数，名称字符串）
+
 ```
 
 ## 将数据推送到 Timeplus
@@ -41,110 +41,28 @@ CREATE STREAM foo（id 整数，名称字符串）
 <TabItem value="js" label="Node.js" default>
 
 ```js
-const http = require (“http”);
-const options = {
-  主机名：“本地主机”，
-  路径：“/proton/v1/ingest/streams/foo”，
-  方法：“POST”
-}；
 
-const data = `
-{
-  “列”：[“id”，“名称”]，
-  “数据”：[
-    [1, “你好“],
-    [2, “世界”]
-  ]
-}
-`;
-const 请求 = http.request (选项, (resp) => {});
-request.on (“错误”, (错误) => {
-  控制台错误 (错误);
-});
-request.write (数据);
-request.end ();
 ```
 
 </TabItem>
   <TabItem value="curl" label="curl">
 
 ```bash
-curl-s-X POST http://localhost:3218/proton/v1/ingest/streams/foo\
--d '{
-  “列”：[“id”，“名称”]，
-  “数据”：[
-    [1，“你好”]，
-    [2，“世界”]
-  ]
 
-'
 ```
 
 </TabItem>
   <TabItem value="py" label="Python">
 
 ```python
-导入请求
 
-url = “http://localhost:3218/proton/v1/ingest/streams/foo”
-标头 = {
-    “内容类型”：“application/json”
-}
-data = “'
-{
-  “列”：[“id”，“名称”]，
-  “数据”：[
-    [1，“你好”]，
-    [2，”世界”]
-  ]
-}
-“'
-
-响应 = requests.post（网址，标题=标题，数据=数据）
-打印（response.status_code）
-打印（response.status_code）打印（response.text）
 ```
 
 </TabItem>
   <TabItem value="java" label="Java">
 
 ```java
-导入 okhttp3.MediaType；
-导入 okhttp3.okHttpClient；
-导入 okhttp3.request；
-导入 okhttp3.requestBody；
-导入 okhttp3.Response；
 
-导入 java.io.ioException；
-
-公共类示例 {
-    公共静态空白 main (String [] args) 抛出 IOException {
-        OkHttpClient 客户端 =全新 OkhttpClient ();
-
-        字符串 url = “http://localhost:3218/proton/v1/ingest/streams/foo”;
-        MediaType MediaType = MediaType.Parse (“application/json”);
-        字符串数据 = “”
-{
-  “列”: [“id”, “名称”],
-  “数据”: [
-    [1, “你好”],
-    [2, “世界”]
-  ]
-}
-          “”;
-        requestBody 正文 = requestBody.Create（媒体类型，数据）；
-
-        请求请求 = 新的 Request.Builder ()
-                .url (url)
-                .post (body)
-                .build ();
-
-        尝试（响应响应 = client.newCall（请求）.execute ()) {
-            System.out.Println（响应。code ());
-            System.out.println (response.body () .string ());
-        }
-    }
-}}
 ```
 
 </TabItem>
@@ -156,13 +74,7 @@ data = “'
 请求正文采用以下格式：
 
 ```json
-{
-  “列”：[..]，
-  “数据”：[
-    [..]，
-    [..]
-  ]
-}
+
 ```
 
 备注：
@@ -173,13 +85,7 @@ data = “'
 例如：
 
 ```json
-{
-  “列”：[“key1"，“key2"]，
-  “数据”：[
-    [“value11"，“value12"]，
-    [“value21"，“value22"]
-  ]
-}
+
 ```
 
 您也可以使用我们的软件开发工具包来提取数据，而无需处理 REST API 的低级细节。
