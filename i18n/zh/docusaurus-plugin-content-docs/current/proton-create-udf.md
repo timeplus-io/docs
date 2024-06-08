@@ -50,52 +50,6 @@ $$;
 
 
 ```sql showLineNumbers
-创建聚合函数 test_sec_large（值 float32） 
-返回 float32 
-语言 JAVASCRIPT 作为 $$
-    {
-      初始化：函数 () {
-         this.max = -1.0；
-         this.sec = -1.0
-      }，
-      进程：函数（值）{
-        for（let i = 0；i < values.length; i++) {
-          if (值 [i] > this.max) {
-            this.sec = this.max;
-            this.max = 值 [i]
-          }
-          if（值 [i] < this.max && 值 [i] > this.sec）
-            this.sec = 值 [i]；
-        }
-      }，
-            finalize：函数 () {
-            return this.sec
-            }，
-            序列化：函数 () {
-            let s = {
-            'max': this.max,
-            'sec': this.sec
-            }；
-        返回 json.stringify (s)
-      }，
-        反序列化：函数 (state_str) {
-                                           let s = json.parse (state_str);
-                                           this.max = s ['max'];
-                                           this.sec = s ['sec']
-        },
-        合并：函数 (state_str) {
-                                     let s = json.parse (state_str);
-                                     if (s ['sec'] >= this.max) {
-                                     this.max = s ['max'];
-                                     这个。sec = s ['sec']
-                                     } 否则 if (s ['max'] >= this.max) {
-                                     this.sec = this.max;
-                                     this.max = s ['max']
-                                     } 否则如果 (s ['max'] > this.sec = s ['max']
-                                     }
-                                     }
-        }
-$$;
 
 ```
 
@@ -104,7 +58,7 @@ $$;
 
 
 
-## 拖放功能
+## 删除函数
 
 无论是 UDF 还是 UDAF，你都可以通过 `DROP FUNCTION`删除该函数
 
