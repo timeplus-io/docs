@@ -40,7 +40,7 @@
     "description": "Navbar item with label Use Cases"
   },
   "item.label.Pricing": {
-    "message": "定价",
+    "message": "价格",
     "description": "Navbar item with label Pricing"
   },
   "item.label.Blog": {
