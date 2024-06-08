@@ -1,27 +1,24 @@
-# 加入
+# Joins
 
-JOIN is a key feature in Timeplus to combine data from different sources and freshness into a new stream. Please refer to https://en.wikipedia.org/wiki/Join_(SQL) for general introduction. 有关一般介绍，请参阅 https://en.wikipedia.org/wiki/Join_(SQL)。
+JOIN是Timeplus的一项关键功能，可将来自不同来源和新鲜度的数据合并到新的数据流中。 有关一般介绍，请参阅 https://en.wikipedia.org/wiki/Join_(SQL)。
 
 ## 流表和维度表联查{#stream_table_join}
 
-在 Timeplus 中，所有数据都生活在流中，默认查询模式正在流中。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 要查询直播的历史数据，可以使用 [table ()](functions_for_streaming#table) 函数。
+在Timeplus中，所有数据都存在于流中，默认的查询模式是流式传输。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 要查询直播的历史数据，可以使用 [table ()](functions_for_streaming#table) 函数。
 
 有些典型的情况是，无约束的数据流需要通过连接到相对静态尺寸表来丰富。 Timeplus可以在一个引擎中通过流式到维度表加入来存储流式数据和尺寸表。
 
 示例：
 
 ```sql
-在 device_utils.product_id 上选择设备、供应商、cpu_usage、时间戳
-来自 device_utils
-INNER JOIN 表（设备_产品信息）作为 dim
 
 ```
 
-In the above example, data from `device_utils` is a stream and data from `device_products_info` is historical data since it is wrapped with `table()` function. For every (new) row from `device_utils`, it is continuously joined with rows from dimension table `device_products_info` and enriches the streaming data with product vendor information. 对于 `device_utils`中的每行（新），它都会持续与维度表 `device_products_info` 中的行连接在一起，并使用产品供应商信息丰富流式数据。
+在上述例子中， 来自 `device_utils` 的数据是一个流，而来自 `device_products_info` 的数据是历史数据，因为它已经被标记 `table()` 函数。 对于 `device_utils`中的每行（新），它都会持续与维度表 `device_products_info` 中的行连接在一起，并使用产品供应商信息丰富流式数据。
 
 支持三种情况：
 
-### 直播内部连接表
+### 流 INNER JOIN 表
 
 `INNER JOIN` 是最常见的 JOIN，它返回的数据在 JOIN 的两端都有匹配的值。
 
@@ -31,7 +28,7 @@ In the above example, data from `device_utils` is a stream and data from `device
 
 如果你只使用 `JOIN`，这也是默认行为。
 
-### 直播 LEFT JOIN
+### 流 LEFT JOIN 表
 
 `LEFT JOIN` returns all rows from the left stream with matching rows in the right table. Some columns can be NULL when there is no match. 当没有匹配项时，某些列可能为 NULL。
 
@@ -39,7 +36,7 @@ In the above example, data from `device_utils` is a stream and data from `device
 
 （来源：https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/）
 
-### 直播外连接表
+### 流 OUTER JOIN 表
 
 `OUTER JOIN` 合并所有表中的列和行，如果没有匹配项，则包含 NULL。
 
@@ -51,18 +48,15 @@ In the above example, data from `device_utils` is a stream and data from `device
 
 在某些情况下，实时数据流向多个数据流。 例如，当广告展示给最终用户时，当用户点击广告时。
 
-### 对多个直播进行关联搜索
+### 多个流的相关搜索
 
 Timeplus allows you to do correlated searches for multiple data streams. For example, you can check the average time when the user clicks the ad after it is presented. 例如，您可以查看用户在广告投放后点击广告的平均时间。
 
 ```sql
-选择... 选择... 选择... FROM stream1
-INNER JOIN stream2
-ON stream1.id=stream2.id AND date_diff_within(1m)
-WHERE ..
+ 
 ```
 
-### 自行加入
+### Self join
 
 您也可以加入一个流到自己。 一个典型的使用情况是检查同一流中数据是否有某种模式，例如： 是否在两分钟内购买相同的信用卡。 小规模购买后有大宗购买。 这可能是一种欺诈模式。
 
@@ -73,11 +67,11 @@ ON stream1.id=stream2.id AND date_diff_within(1m)
 WHERE ..
 ```
 
-### 3 种类型的直播
+### 3 种流类型
 
-Timeplus 支持 3 种直播类型：
+Timeplus 支持 3 种流类型：
 
-1. 仅追加直播（默认）
+1. 仅附加流 (默认)
 2. [带有主键和多个版本的 Versioned Stream](versioned-stream)
 3. [Changelog Stream](changelog-stream) with primary key(s) and CDC semantic (data can be removed, or updated with old&new value). You can also use the [changelog()](functions_for_streaming#changelog) function to convert an append-only stream to changelog stream. 你也可以使用 [changelog ()](functions_for_streaming#changelog) 函数将仅限追加的流转换为变更日志流。
 
@@ -93,7 +87,7 @@ Timeplus 支持 3 种直播类型：
 
 （来源：https://dataschool.com/how-to-teach-people-sql/sql-join-types-explained-visually/）
 
-Other types of JOINS are not supported in the current version of Timeplus. If you have good use cases for them, please contact us at support@timeplus.com. 如果你有很好的用例，请通过 support@timeplus.com 联系我们。
+当前版本的 Timeplus 不支持其他类型的连接。 如果你有很好的用例，请通过 support@timeplus.com 联系我们。
 1. 对
 2. 全部或外部
 3. 十字架
@@ -137,7 +131,7 @@ on left_append.k = right_append.kk = right_append.kk
 
 
 
-#### 范围加入追加直播 {#append-range}
+#### range join append streams {#append-range}
 
 上述联接可能会缓冲过多的数据，范围双向联接试图通过在时间范围内对流数据进行存储桶来缓解此问题，并尝试将数据双向加入到适当的范围存储桶中。 The above join may buffer too much data, range bidirectional join tries to mitigate this problem by bucketing the stream data in time ranges and try to join the data bidirectionally in appropriate range buckets. It requires a [date_diff_within](functions_for_streaming#date_diff_within) clause in the join condition and the general form of the syntax is like below.
 
@@ -169,7 +163,7 @@ on left_vk.k = right_vk.kk
 示例：
 
 ```sql
-从 append 中选择 * 使用 (k) 加入 versioned_kv
+
 ```
 
 #### append LEFT JOIN 版本为版本{#append-left-versioned}
@@ -179,7 +173,7 @@ on left_vk.k = right_vk.kk
 示例：
 
 ```sql
-选择 * 从追加左侧加入 versioned_kv 使用 (k)
+
 ```
 
 #### 追加 INNER JOIN 变更日志{#append-changelog}
@@ -187,7 +181,7 @@ on left_vk.k = right_vk.kk
 示例：
 
 ```sql
-使用 (k) 从 append JOIN changelog_kv 中选择 *
+
 ```
 
 #### 追加 LEFT JOIN 变更日志{#append-left-changelog}
@@ -195,7 +189,7 @@ on left_vk.k = right_vk.kk
 示例：
 
 ```sql
-选择 * 从追加左侧加入 changelog_kv 使用 (k)
+
 ```
 
 
@@ -207,16 +201,13 @@ ASOF 丰富联接在哈希表中保留 **相同联接密钥** 的多个版本的
 示例：
 
 ```sql
-选择 * 从 append asof JOIN versioned_kv 
-on append.k = versioned_kv.k 和 append.i <= versioned_kv.j
+
 ```
 
 There is an optional setting to ask the query engine to keep the last N versions of the value for the same join key. 示例： 示例：
 
 ```sql
-选择 * 从 append ASOF JOIN versioned_kv 
-on append.k = versioned_kv.k 和 append.i <= versioned_kv.j
-设置 keep_versiones = 3
+
 ```
 
 #### 向左追加 ASOF JOIN 版本控制 {#append-left-asof-versioned}
@@ -226,8 +217,7 @@ on append.k = versioned_kv.k 和 append.i <= versioned_kv.j
 示例：
 
 ```sql
-从向左追加中选择 * 在 append.k 上加入 versioned_kv 
-= versioned_kv.k 和 append.i <= versioned_kv.j
+
 ```
 
 
@@ -237,8 +227,7 @@ on append.k = versioned_kv.k 和 append.i <= versioned_kv.j
 Only the latest version of value for **each join key** is kept. 示例： 示例：
 
 ```sql
-选择 *，_tp_delta from append asof LATEST JOIN versioned_kv 
-on append.k = versioned_kv.k
+
 ```
 
 然后，您可以向两个流中添加一些事件。
@@ -259,8 +248,7 @@ on append.k = versioned_kv.k
 示例：
 
 ```sql
-选择 * 从向左追加最新加入版本_kv 
-on append.k = versioned_kv.k
+
 ```
 
 #### 版本向左加入版本 {#version-left-version}
@@ -270,7 +258,5 @@ on append.k = versioned_kv.k
 示例：
 
 ```sql
-选择 k、计数 (*)、最小值 (i)、最大值 (i)、平均值 (i)、最小值 (ii)、最大值 (ii)、平均值 (ii) 
-从 left_vk 向左加入 right_vk 
-on left_vk.k = right_vk.kk
+
 ```
