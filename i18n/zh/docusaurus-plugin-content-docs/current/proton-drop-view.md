@@ -6,7 +6,7 @@
 删除视图 [如果存在] 数据库。<view_name>;
 ```
 
-像 [CREATE STREAM](proton-create-stream)一样，直播删除是一个异步过程。
+像 [CREATE STREAM](proton-create-stream)一样，流删除是一个异步过程。
 
 ::: Timeplus Cloud 用户须知
 

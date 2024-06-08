@@ -2,7 +2,7 @@
 
 在本教程中，您将处理来自 GitHub 的实时数据。 我们已经设置了一个可公开访问的 Kafka 集群，供您使用来自 Kafka 主题的数据。 如果您使用的是Timeplus Cloud，则还可以构建实时仪表板和警报。
 
-## 阅读 GitHub 活动直播
+## 阅读 GitHub 活动流
 
 我们都喜欢 GitHub。 但是你知道Github现在的趋势是什么吗？ 你知道在过去 10 分钟内哪些回购获得的推送量或 PR 评论最多的吗？ https://github.com/trending 有每日/每周排行榜，但没有实时提要。
 
@@ -13,7 +13,7 @@
 在 Timeplus 中，你可以通过 [外部流]（外部流）从 Kafka 读取数据。 以下是创建这样的外部流以从 Aiven 上的 Kafka 集群读取内容的 SQL：
 
 ```sql
-创建外部直播 github_events
+创建外部流 github_events
 (
   演员字符串，
   created_at 字符串，
@@ -31,14 +31,14 @@
          密码 = 'avns_muadrshcpeepa93AQY_'， 
          security_protocol = 'SASL_SSL'， 
          skip_ssl_cert_check== true
-COMMENT '要阅读的外部直播来自 Aiven for Apache Kafka 的 JSON 格式的 GitHub 活动
+COMMENT '要阅读的外部流来自 Aiven for Apache Kafka 的 JSON 格式的 GitHub 活动
 ```
 
-只需通过 Timeplus 网络用户界面中的 “质子客户端” 或 **SQL 控制台** 运行这个 SQL 即可。 此 Kafka 用户配置为对主题/集群的只读访问权限。 我们可能会更改密码。 如果密码不起作用，请回来。
+只需通过 Timeplus 网络用户界面中的 “Proton客户端” 或 **SQL 控制台** 运行这个 SQL 即可。 此 Kafka 用户配置为对主题/集群的只读访问权限。 我们可能会更改密码。 如果密码不起作用，请回来。
 
 ## 串流 SQL 示例
 
-### 直播尾巴
+### 流尾巴
 
 您可以通过以下方式浏览实时数据
 
@@ -48,7 +48,7 @@ COMMENT '要阅读的外部直播来自 Aiven for Apache Kafka 的 JSON 格式�
 
 这是一个流式的 SQL，会继续阅读 Kafka 主题中的新事件。 您需要手动取消查询才能终止查询。
 
-### 直播过滤器
+### 流过滤器
 
 在 WHERE 子句中添加一些条件以应用流媒体过滤器，例如
 
@@ -92,7 +92,7 @@ FROM hop (github_events,1s,30s)
 
 ## 时光倒流
 
-默认情况下，在 Timeplus 中传输 SQL 将查找未来的事件，而不是现有事件。 对于外部直播，你可以使用 'SETTINGS seek_to='。。'\`返回 Kafka 主题中过去的时间戳或偏移量。 例如，如果你想获得自 4 月 1 日以来的活动总数，你可以运行：
+默认情况下，在 Timeplus 中传输 SQL 将查找未来的事件，而不是现有事件。 对于外部流，你可以使用 'SETTINGS seek_to='。。'\`返回 Kafka 主题中过去的时间戳或偏移量。 例如，如果你想获得自 4 月 1 日以来的活动总数，你可以运行：
 
 ```sql
 从 github_events 中选择计数 (*) 

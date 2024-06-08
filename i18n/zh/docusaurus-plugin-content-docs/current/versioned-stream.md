@@ -16,7 +16,7 @@
 | 产品名称       | 字符串                 | 产品的唯一 ID，作为主键                                |
 | 价格         | float32             | 当前价格                                         |
 
-这个直播可以在Timeplus Cloud或Timeplus Enterprise上使用用户界面向导创建。 你也可以在 Timeplus Proton 中使用 SQL 创建它：
+这个流可以在Timeplus Cloud或Timeplus Enterprise上使用用户界面向导创建。 你也可以在 Timeplus Proton 中使用 SQL 创建它：
 
 ```sql
 创建 STREAM dim_products（product_id 字符串，价格浮动32） 
@@ -64,13 +64,13 @@
 
 :::
 
-你也可以在表格模式下查询直播，即 `select * from table (dim_products)`
+你也可以在表格模式下查询流，即 `select * from table (dim_products)`
 
 ## 在 INNER JOIN 中使用多版本流
 
 在上述示例中，您总是获得具有相同主键的事件的最新版本。 其运行方式与 [变更日志流](changelog-stream) 类似。 这种流模式之所以被称为多版本流，是因为 Timeplus 将跟踪多个版本。 这主要在多版本流充当 JOIN 的 “右表” 时使用。
 
-想象一下你有 `订单`的另一个版本化直播：
+想象一下你有 `订单`的另一个版本化流：
 
 ```sql
 创建 STREAM 订单（order_id int8、product_id 字符串、数量 int8）
@@ -136,9 +136,9 @@
 
 如果你添加一个新行来将 iPhone15 设置为 800，取消之前的查询然后再次运行，你会得到 1699。
 
-## 在 LEFT JOIN 中使用版本化直播
+## 在 LEFT JOIN 中使用版本化流
 
-自 Proton 1.5.7 起，还支持 `LEFT JOIN` 2 版本化直播。
+自 Proton 1.5.7 起，还支持 `LEFT JOIN` 2 版本化流。
 
 例如，你运行流式 SQL：
 

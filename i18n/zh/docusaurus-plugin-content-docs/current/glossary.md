@@ -66,11 +66,11 @@ Timeplus是一个流式分析平台和数据流中的生命值。 Timeplus中的
 
 了解更多： [流](working-with-streams)
 
-## 外部直播 {#external_stream}
+## 外部流 {#external_stream}
 
 您可以创建外部流，从与 Kafka API 兼容的流媒体数据平台读取数据。
 
-了解更多： [外部直播](external-stream)
+了解更多： [外部流](external-stream)
 
 ## 时间戳列 Timestamp Column
 

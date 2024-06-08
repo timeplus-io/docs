@@ -74,8 +74,8 @@ Access the web console at http://localhost:8000.
 
 该堆栈演示了如何运行流式 ETL、从 Kafka API 获取数据、应用过滤器或聚合，然后发送到另一个 Kafka 主题或 ClickHouse 表。 欲了解更多详情，请查看：
 
-- [教程：直播 ETL：从 Kafka 到 Kafka]（教程-sql-etl）
-- [教程：直播 ETL：从 Kafka 到 ClickHouse]（教程-sql-etl-kafka-to-ch）
+- [教程：流 ETL：从 Kafka 到 Kafka]（教程-sql-etl）
+- [教程：流 ETL：从 Kafka 到 ClickHouse]（教程-sql-etl-kafka-to-ch）
 
 ## 许可证管理{#license}
 

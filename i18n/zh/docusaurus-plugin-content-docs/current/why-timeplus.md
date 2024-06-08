@@ -2,9 +2,9 @@
 
 ![概览](/img/overview.png)
 
-Timeplus 是一款简单、强大、经济实惠的流媒体处理器。
+Timeplus是一个简单、强大且经济的流处理平台。
 
-## 很简单{#simple}
+## 简单{#simple}
 
 Timeplus的核心引擎被设计和实现为单个二进制文件，没有任何依赖关系，例如JVM或Kubernetes。 这可以帮助开发人员轻松下载和设置系统，然后轻松管理和扩展系统。 Timeplus SQL 易于学习，Timeplus Console 易于使用。 简单性是该产品的关键 DNA，它使更多的数据团队能够以简单易维护的方式进行流处理。
 
@@ -16,7 +16,7 @@ Timeplus 不仅仅是一个流媒体处理器。 它提供端到端的分析功�
 
 了解我们的密钥使用案例和功能的完整列表请访问 [示例](showcases) 页面。
 
-## 具有成本效益 {#cost_efficient}
+## 低成本 {#cost_efficient}
 
 Timeplus 用户无需为 Lambda 样式的数据堆栈设置和维护多个系统，因为 Proton 将流处理和历史数据分析统一到一个系统中。 这可以显著节省成本。
 

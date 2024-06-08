@@ -2,15 +2,15 @@
 
 ::: Timeplus Cloud 用户须知
 
-在 Timeplus Cloud 或 Timeplus Enterprise 部署中，我们建议你使用 GUI 或 [Terraform Provider](terraform)创建直播，因为它们具有更好的可用性和更多的功能。
+在 Timeplus Cloud 或 Timeplus Enterprise 部署中，我们建议你使用 GUI 或 [Terraform Provider](terraform)创建流，因为它们具有更好的可用性和更多的功能。
 
 :::
 
-## 创建直播
+## 创建流
 
 [Stream](working-with-streams) 是 Timeplus Proton 中的一个关键 [概念](glossary) 。 所有数据都存在于流中，无论是静态数据还是动态数据。 我们不建议你在 Proton 中创建或管理 `TABLE` 。
 
-### 仅限追加的直播
+### 仅限追加的流
 
 默认情况下，这些流是仅附加且不可变的。 By default, the streams are append-only and immutable. You can create a stream, then use `INSERT INTO` to add data.
 
@@ -27,7 +27,7 @@
 
 :::info
 
-直播创建是一个异步过程。
+流创建是一个异步过程。
 
 :::
 
@@ -52,7 +52,7 @@ Proton 支持以下列类型
 
 #### 活动时间
 
-In Timeplus, each stream with a `_tp_time` as [Event Time](eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using 如果您在创建直播时没有创建 `_tp_time` 列，则系统将为您创建这样的列，默认值为 `now64 ()` 。 您也可以选择一列作为事件时间，使用
+In Timeplus, each stream with a `_tp_time` as [Event Time](eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using 如果您在创建流时没有创建 `_tp_time` 列，则系统将为您创建这样的列，默认值为 `now64 ()` 。 您也可以选择一列作为事件时间，使用
 
 ```sql
 设置 event_time_column='my_datetime_column'
@@ -66,7 +66,7 @@ Proton 支持保留政策，可自动从流中删除过时的数据。
 
 ##### 用于历史存储
 
-质子利用ClickHouse TTL表达式来制定历史数据的保留政策。 Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add `TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
+Proton利用ClickHouse TTL表达式来制定历史数据的保留政策。 Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add `TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
 
 ##### 用于流媒体存储
 
@@ -141,6 +141,6 @@ Proton v1.4.2 的新增功能是，您可以将 eps 设置为 1 以下。 比如
 
 :::
 
-## 创建外部直播
+## 创建外部流
 
 请查看 [使用外部流读取/写入 Kafka](proton-kafka)。

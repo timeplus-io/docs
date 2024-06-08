@@ -32,7 +32,7 @@ AS <SELECT ...>
 
 使用物化视图的不同方式：
 
-1. 直播模式： `SELECT * FROM materialized_view` 获取结果以备将来的数据。 这与视图的工作方式相同。
+1. 流模式： `SELECT * FROM materialized_view` 获取结果以备将来的数据。 这与视图的工作方式相同。
 2. 历史模式： `SELECT * 从表 (materialized_view)` 获取物化视图的所有过去结果。
 3. 历史记录 + 流式模式：`SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` 获取所有过去的结果和未来的数据。
 4. 预聚合模式： `SELECT * 从表 (materialized_view) 其中 _tp_time in (SELECT max (_tp_time) 作为表 (materialized_view) 中的 m)` 这会立即返回最新的查询结果。 如果 `_tp_time` 在物化视图中不可用，或者最新聚合可以生成具有不同的 `_tp_time`的事件，则可以将 `emit_version ()` 添加到物化视图中，为每个发射分配一个唯一的 ID，并选取最大的 `emit_version () 的事件`。 例如：
@@ -47,7 +47,7 @@ AS <SELECT ...>
 
    我们正在考虑提供新的语法来简化这一点。
 
-### 目标直播
+### 目标流
 
 By default, when you create a materialized view, an internal stream will be created automatically as the data storage. Querying on the materialized view will result in querying the underlying internal stream. 对物化视图进行查询将导致对底层内部流的查询。
 
@@ -73,7 +73,7 @@ INTO <target_stream> AS <SELECT ...>
 删除视图 [如果存在] 数据库。<view_name>;
 ```
 
-像 [CREATE STREAM](proton-create-stream)一样，直播删除是一个异步过程。
+像 [CREATE STREAM](proton-create-stream)一样，流删除是一个异步过程。
 
 ::: Timeplus Cloud 用户须知
 

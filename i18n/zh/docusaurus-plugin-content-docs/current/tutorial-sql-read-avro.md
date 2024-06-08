@@ -126,7 +126,7 @@ mvn exec: java-dexec.mainclass=io.confluent.examples.clients.basicavro.producerE
 然后在 Proton 中创建外部蒸汽：
 
 ```sql
-创建外部直播交易（
+创建外部流交易（
   id 字符串，
   金额翻倍
 ）
@@ -155,7 +155,7 @@ mvn exec: java-dexec.mainclass=io.confluent.examples.clients.basicavro.producerE
 Aiven 上的架构注册表端点是使用 CA 签名的，但你需要为代理提供 `ssl_ca_cert_file`。
 
 ```sql
-创建外部直播交易（
+创建外部流交易（
   id 字符串，
   金额翻倍
 ）
@@ -177,7 +177,7 @@ Aiven 上的架构注册表端点是使用 CA 签名的，但你需要为代理�
 从 Proton 1.5.3 开始，支持带路径的架构注册表。 这使得 Proton 用户能够在启用架构注册表时从 Upstash Serverless Kafka 加载数据。
 
 ```sql
-创建外部直播交易（
+创建外部流交易（
   id 字符串，
   金额翻倍
 ）

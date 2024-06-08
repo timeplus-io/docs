@@ -28,10 +28,10 @@
 ```sql
 ```
 
-像 [CREATE STREAM]（质子创建流）一样，流删除是一个异步过程。
+像 [CREATE STREAM]（Proton创建流）一样，流删除是一个异步过程。
 
 :::info Timeplus Cloud 用户注意事项
 
-在Timeplus云或私有云部署中，我们建议您使用GUI或 [Terraform提供商]（terraform）删除直播，以更好地跟踪血统和权限。
+在Timeplus云或私有云部署中，我们建议您使用GUI或 [Terraform提供商]（terraform）删除流，以更好地跟踪血统和权限。
 
 :::
