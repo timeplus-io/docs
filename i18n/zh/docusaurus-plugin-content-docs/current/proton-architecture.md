@@ -1,4 +1,4 @@
-# 建筑
+# 架构
 
 ## 高级架构
 
@@ -19,9 +19,9 @@ Users can create a stream by using `CREATE STREAM ...` [DDL SQL](proton-create-s
 
 ## 数据摄取
 
-When users `INSERT INTO ...` data to Proton, the data always first lands in NativeLog which is immediately queryable. Since NativeLog is in essence a replicated Write-Ahead-Log (WAL) and is append-only, it can support high frequent, low latency and large concurrent data ingestion work loads. 由于 NativeLog 本质上是复制的 Write-Ahead-Log (WAL)，并且只能追加，因此它可以支持高频率、低延迟和大量并发数据摄取工作负载。
+当用户 `INSERT INTO...` 数据给 Proton，数据总是首先存放在 NativeLog 中，可以立即查询。 由于 NativeLog 本质上是复制的 Write-Ahead-Log (WAL)，并且只能追加，因此它可以支持高频率、低延迟和大量并发数据摄取工作负载。
 
-In background, there is a separate thread tailing the delta data from NativeLog and commits the data in bigger batch to the historical data store. Since Proton leverages ClickHouse for the historical part, its historical query processing is blazing fast as well. 由于Proton在历史部分利用了ClickHouse，因此其历史查询处理速度也非常快。
+在后台，有一个单独的线程跟踪来自NativeLog的增量数据，并将更大批量的数据提交到历史数据存储中。 由于Proton在历史部分利用了ClickHouse，因此其历史查询处理速度也非常快。
 
 ## 外部流
 
