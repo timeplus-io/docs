@@ -1,3 +1,3 @@
-# Change Log
+# 更改日志
 
-Timeplus is ready for production. Please check [the latest release notes](release-notes).
+Timeplus 已准备好投入生产。 请查看 [最新的发行说明](release-notes)。

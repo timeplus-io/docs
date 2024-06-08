@@ -1,103 +1,55 @@
-# Streaming ETL: MySQL to ClickHouse
+# 流式ETL：同步MySQL 数据到 ClickHouse
 
-A Docker Compose stack is provided at https://github.com/timeplus-io/proton/tree/develop/examples/cdc, to demonstrate how to mirror the data from MySQL to ClickHouse. The common use case is to keep MySQL as the transactional database, while using ClickHouse for the analytics workload.
+https://github.com/timeplus-io/proton/tree/develop/examples/cdc 提供了 Docker Compose 堆栈，用于演示如何将数据从 MySQL 镜像到 ClickHouse。 常见的用例是保留MySQL作为交易数据库，同时使用ClickHouse来处理分析工作负载。
 
-## Start the example
+## 开始举个例子
 
-Clone the [proton](https://github.com/timeplus-io/proton) repo or just download the docker-compose.yml in a folder. Run `docker compose up` in the folder. Six docker containers in the stack:
+克隆 [proton] (https://github.com/timeplus-io/proton) 存储库或者直接将 docker-compose.yml 下载到一个文件夹中。 在文件夹中运行 docker compose up。 堆栈中有六个 docker 容器：
 
-1. ghcr.io/timeplus-io/proton:latest, as the streaming database.
-2. docker.redpanda.com/redpandadata/redpanda, as the Kafka compatible streaming message bus
-3. docker.redpanda.com/redpandadata/console, as the web UI to explore data in Kafka/Redpanda
-4. debezium/connect, as the CDC engine to read changes from OLTP and send data to Kafka/Redpanda
-5. debezium/example-mysql, a pre-configured MySQL, as pipeline source
-6. clickhouse/clickhouse-server, the real-time OLAP as the pipeline destination
+1. ghcr.io/timeplus-io/proton: latest，作为流媒体数据库。
+2. docker.redpanda.com/redpandadata/redpanda，作为兼容 Kafka 的流媒体消息总线
+3. docker.redpanda.com/redpandadata/console，作为在 Kafka/Redpanda 中浏览数据的 Web 用户界面
+4. debezium/connect，作为 CDC 引擎，用于从 OLTP 读取更改并将数据发送到 Kafka/Redpanda
+5. debezium/example-mysql，一个预先配置的 MySQL，作为管道源
+6. clickhouse/clickhouse-server，实时 OLAP 作为管道目的地
 
-## Prepare the table in ClickHouse
+## 在 ClickHouse 中准备桌子
 
-Open the `clickhouse client` in the clickhouse container. Run the following SQL to create a regular MergeTree table.
+在 clickhouse 容器中打开 “clickhouse 客户端”。 运行以下 SQL 来创建常规的 MergeTree 表。
 
 ```sql
-CREATE TABLE customers
-(
-    id Int32,
-    first_name String,
-    last_name String,
-    email String
-)
-ENGINE=MergeTree()
-PRIMARY KEY (id);
 ```
 
-## Create the CDC job
+## 创建 CDC 作业
 
-Perform the following command in your host server, since port 8083 is exposed from Debezium Connect.
+由于 Debezium Connect 会泄露端口 8083，因此请在主机服务器中执行以下命令。
 
 ```shell
-curl --request POST \
-  --url http://localhost:8083/connectors \
-  --header 'Content-Type: application/json' \
-  --data '{
-  "name": "inventory-connector",
-  "config": {
-    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
-    "tasks.max": "1",
-    "database.hostname": "mysql",
-    "database.port": "3306",
-    "database.user": "debezium",
-    "database.password": "dbz",
-    "database.server.id": "184054",
-    "topic.prefix": "dbserver1",
-    "database.include.list": "inventory",
-    "schema.history.internal.kafka.bootstrap.servers": "redpanda:9092",
-    "schema.history.internal.kafka.topic": "schema-changes.inventory"
-  }
-}'
 ```
 
-## Run SQL
+## 运行 SQL
 
-You can use `docker exec -it <name> proton-client -h 127.0.0.1 -m -n` to run the SQL client in Proton container. Or use the Docker Desktop UI to choose the container, choose "Exec" tab and type `proton-client -h 127.0.0.1 -m -n` to start the SQL client.
+你可以使用 docker exec-it \<name> proton-client-h 127.0.0.1-m-n 在 Proton 容器中运行 SQL 客户端。 或者使用 Docker 桌面用户界面选择容器，选择 “执行” 选项卡并键入 proton-client-h 127.0.0.1-m-n 来启动 SQL 客户端。
 
-Copy the content of `mysql-to-clickhouse.sql`and paste in the Proton Client and run them together. What will happen:
+复制 “mysql-to-clickhouse.sql” 的内容并粘贴到 Proton Client 中并一起运行。 会发生什么：
 
-1. One [Timeplus External Stream](external-stream) will be created to read the MySQL CDC data from the Kafka/Redpanda topic.
-2. One [External Table](proton-clickhouse-external-table) will be created to write data from Timeplus to ClickHouse.
-3. One [Materialized View](view#m_view) will be created to continuously read data from Kafka and write to ClickHouse.
+1. 将创建一个 [Timeplus 外部流]（外部流）来读取 Kafka/Redpanda 主题中的 MySQL CDC 数据。
+2. 将创建一个 [外部表]（proton-clickhouse-external-table），用于将数据从Timeplus写入ClickHouse。
+3. 将创建一个 [物化视图]（视图 #m_view），用于持续从 Kafka 读取数据并写入 ClickHouse。
 
-The content of the `mysql-to-clickhouse.sql` is:
+mysql-to-clickhouse.sql 的内容是：
 
 ```sql
--- read the topic via an external stream
-CREATE EXTERNAL STREAM customers_cdc(raw string)
-                SETTINGS type='kafka',
-                         brokers='redpanda:9092',
-                         topic='dbserver1.inventory.customers';
-
--- create an external table so that Timeplus can write to ClickHouse
-CREATE EXTERNAL TABLE customers
-SETTINGS type='clickhouse',
-        address='clickhouse:9000',
-        table='customers';
-
--- create a materialized view as a streaming ETL job
-CREATE MATERIALIZED VIEW mv_mysql2ch INTO customers AS
-    SELECT
-           raw:payload.after.id::int32 AS id,
-           raw:payload.after.first_name AS first_name,
-           raw:payload.after.last_name AS last_name,
-           raw:payload.after.email AS email
-    FROM customers_cdc WHERE raw:payload.op in ('r','c') SETTINGS seek_to='earliest';
 ```
 
-## Verify the data is copied to ClickHouse
+## 验证数据已复制到 ClickHouse
 
-Go back to the ClickHouse client and run `select * from customers` to see the 4 rows from MySQL.
+返回 ClickHouse 客户端，运行 'select \* from customers' 来查看 MySQL 中的 4 行。
 
-Use a MySQL client(e.g. DBeaver) to add some records to see the update from `select * from customers`. You can also run `select * from table(customers)` to avoid waiting for new updates.
+使用 MySQL 客户端（例如 DBeaver）添加一些记录，以查看 “从客户中选择\*” 中的更新。 你也可以运行 “从表（客户）中选择\*” 以避免等待新的更新。
 
 :::info
 
-Since we create a regular MergeTree-based table in ClickHouse. It doesn't support update or delete. You may create the table with ReplacingMergeTree engine, if you need to change the data in MySQL. In this case, Timeplus needs to handle CDC data with `op='u'`.
+因为我们在 ClickHouse 中创建了一个基于 MergeTree 的常规表格。 它不支持更新或删除。 如果你需要更改 MySQL 中的数据，你可以使用替换 MergeTree 引擎来创建表。 在这种情况下，Timeplus 需要使用 \`op='u'来处理CDC数据。
 
 :::

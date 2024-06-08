@@ -1,42 +1,42 @@
-# Connect to local ClickHouse, ClickHouse Cloud, Aiven, etc.
+# 连接到本地 ClickHouse、ClickHouse Cloud、Aiven 等
 
-You can define the external table and use it to read data from the ClickHouse table, or write to it.
+您可以定义外部表并使用它从 ClickHouse 表中读取数据或向其写入数据。
 
-### Connect to a local ClickHouse {#local}
+### 连接到本地 ClickHouse {#local}
 
-Example SQL to connect to a local ClickHouse server without password:
+无需密码即可连接到本地 ClickHouse 服务器的 SQL 示例：
 
 ```sql
-CREATE EXTERNAL TABLE ch_local
-SETTINGS type='clickhouse',
-         address='localhost:9000',
+创建外部表 ch_local
+设置 type='clickhouse'、
+         address='localhost: 9000'、
          table='events'
 ```
 
-### Connect to ClickHouse Cloud {#ch_cloud}
+### 连接到 ClickHouse Cloud {#ch_cloud}
 
-Example SQL to connect to [ClickHouse Cloud](https://clickhouse.com/):
+连接到 [ClickHouse Cloud] (https://clickhouse.com/) 的示例 SQL：
 
 ```sql
-CREATE EXTERNAL TABLE ch_cloud
-SETTINGS type='clickhouse',
-         address='abc.clickhouse.cloud:9440',
-         user='default',
-         password='..',
-         secure=true,
-         table='events';  
+创建外部表 ch_cloud
+设置类型='clickhouse'、
+         address='abc.clickhouse.cloud: 9440'、
+         user='default'、
+         password='..'，
+         secure=true，
+         table='events'；  
 ```
 
-### Connect to Aiven for ClickHouse {#aiven}
+### 使用 ClickHouse 连接到 Aiven {#aiven}
 
-Example SQL to connect to [Aiven for ClickHouse](https://docs.aiven.io/docs/products/clickhouse/getting-started):
+连接到 [Aiven for ClickHouse] (https://docs.aiven.io/docs/products/clickhouse/getting-started) 的示例 SQL：
 
 ```sql
-CREATE EXTERNAL TABLE ch_aiven
-SETTINGS type='clickhouse',
-         address='abc.aivencloud.com:28851',
-         user='avnadmin',
-         password='..',
-         secure=true,
-         table='events';
+创建外部表 ch_aiven
+设置 type='clickhouse'、
+         address='abc.aivencloud.com: 28851'、
+         user='avnadmin'、
+         password='..'，
+         secure=true，
+         table='events'；
 ```

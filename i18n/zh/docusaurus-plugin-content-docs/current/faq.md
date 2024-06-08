@@ -1,8 +1,8 @@
-# Timeplus Enterprise FAQ
+# Timeplus 企业版常见问题解答
 
-## Fully-managed Timeplus Enterprise {#cloud}
+## 完全托管的 Timeplus 企业版 {#cloud}
 
-### How much data I can load into Timeplus Cloud? {#datasize}
+### 我可以向 Timeplus 云端加载多少数据？ {#datasize}
 
 对于免费帐户，默认情况下，每个工作空间的总存储空间为 20GB。 如果您需要加载或保留更多数据，请联系我们。 当您升级到付费套餐时，您可以选择存储空间大小。
 
@@ -12,7 +12,7 @@
 
 ### SLA是怎么样的，我可以运行生产负载吗？ {#cloud_sla}
 
-2023年8月，TimePlus Cloud进入GA，随时准备投入生产工作量。 没有免费试用的 SLA。 For the paid tier, it's 99.5% or above. 详情请查看 https://timeplus.com/pricing/。 To monitor Timeplus Cloud health status, please visit or subscribe to https://timeplus.statuspage.io.
+2023年8月，TimePlus Cloud进入GA，随时准备投入生产工作量。 没有免费试用的 SLA。 对于付费等级，为 99.5% 或以上。 详情请查看 https://timeplus.com/pricing/。 要监控 Timeplus Cloud 的运行状况，请访问或订阅 https://timeplus.statuspage.io。
 
 ### Timeplus Cloud 的 IP 地址是多少，以便我可以允许 Timeplus 访问我的 Kafka/Redpanda/Pulsar 服务器 {#ip}
 
@@ -20,14 +20,14 @@
 
 `44.232.236.191` for us.timeplus.cloud
 
-## Self-hosted Timeplus Enterprise {#self_host}
+## 自托管 Timeplus 企业版 {#self_host}
 
-### Can I run Timeplus Enterprise in our own cloud VPC or on-prem? {#deployment}
+### 我可以在我们自己的云 VPC 或本地运行 Timeplus Enterprise 吗？ {#deployment}
 
-Certainly! [Timeplus Enterprise](timeplus-enterprise) can be installed in your local data center or cloud VPC, with similar features as Timeplus Cloud. You can download the 30-day free trial at timeplus.com or [contact us](mailto:info@timeplus.com) to get more details or schedule a demo.
+当然！ [Timeplus Enterprise](timeplus-enterprise) 可以安装在您的本地数据中心或云 VPC 中，其功能与 Timeplus Cloud 类似。 你可以在 timeplus.com 或 [联系我们](mailto:info@timeplus.com) 上下载 30 天免费试用版以获取更多详情或预约演示。
 
-## General
+## 普通的
 
-### What's relationship for Timeplus Enterprise and Timeplus Proton? {#compare}
+### Timeplus Enterprise 和 Timeplus Proton 之间有什么关系？ {#compare}
 
-Timeplus Proton is the core engine of Timeplus Enterprise and open-sourced on September 2023. Timeplus Enterprise provides external features and support. Please check the [Proton FAQ](proton-faq#compare) for details.
+Timeplus Proton 是 Timeplus Enterprise 的核心引擎，于 2023 年 9 月开源。 Timeplus 企业版提供外部功能和支持。 请查看 [Proton 常见问题解答](proton-faq#compare) 了解详情。

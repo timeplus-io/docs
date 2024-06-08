@@ -1,129 +1,129 @@
-# Connect to Kafka, Confluent, Redpanda, Aiven, WarpStream, Upstash, etc.
+# 连接 Kafka、Confluent、Redpanda、Aiven、WarpStream、Upstash 等
 
-### Connect to local Kafka or Redpanda {#connect-kafka}
+### 连接到本地 Kafka 或 Redpanda {#connect-kafka}
 
 示例：
 
 ```sql
-CREATE EXTERNAL STREAM ext_github_events(raw string)
-SETTINGS type='kafka', 
-         brokers='localhost:9092',
+创建外部流 ext_github_events（原始字符串）
+设置类型='kafka'， 
+         brokers='localhost: 9092'，
          topic='github_events'
 ```
 
-### Connect to Confluent Cloud{#connect-confluent}
+### 连接到 Confluent Cloud{#connect-confluent}
 
 示例：
 
 ```sql
-CREATE EXTERNAL STREAM ext_github_events(raw string)
-SETTINGS type='kafka', 
-         brokers='pkc-1234.us-west-2.aws.confluent.cloud:9092',
-         topic='github_events',
-         security_protocol='SASL_SSL', 
-         username='..', 
+创建外部直播 ext_github_events（原始字符串）
+设置类型='kafka'， 
+         brokers='pkc-1234.us-west-2.aws.confluent.cloud: 9092'，
+         topic='github_events'，
+         security_protocol='sasl_SSL'， 
+         username='..'， 
          password='..'
 ```
 
-### Connect to Redpanda Cloud{#connect-rp-cloud}
+### 连接到 Redpanda Cloud{#connect-rp-cloud}
 
 示例：
 
 ```sql
-CREATE EXTERNAL STREAM hello(raw string)
-SETTINGS type='kafka', 
-         brokers='abc.any.us-east-1.mpx.prd.cloud.redpanda.com:9092',
-         topic='hello-world',
-         security_protocol='SASL_SSL', 
-         sasl_mechanism='SCRAM-SHA-256',
-         username='..', 
+创建外部直播你好（原始字符串）
+设置类型='kafka'， 
+         brokers='abc.any.us-east-1.mpx.prd.cloud.redpanda.com: 9092'，
+         topic='hello-world'，
+         security_protocol='sasl_SSL'， 
+         sasl_Mechanism='scram-SHA-256'，
+         username='..'， 
          password='..'
 ```
 
-### Connect to Aiven for Apache Kafka{#connect-aiven}
+### 连接到 Apache Kafka 版 Aiven{#connect-aiven}
 
-You can connect Proton with an Aiven for Apache Kafka service.
+你可以将 Proton 与 Aiven for Apache Kafka 服务连接起来。
 
 示例：
 
 ```sql
-CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka', 
-         brokers='name.a.aivencloud.com:28864',
-         topic='topic',
-         security_protocol='SASL_SSL', 
-         sasl_mechanism='SCRAM-SHA-256',
-         username='avnadmin', 
-         password='..',
+创建外部直播 ext_stream（原始字符串）
+设置类型='kafka'， 
+         brokers='name.aivencloud.com: 28864'，
+         topic='topic'，
+         security_protocol='sasl_SSL'， 
+         sasl_mechanism='scram-SHA-256'，
+         用户名='avnadmin'， 
+         密码='..'，
          ssl_ca_cert_file='/kafka.cert'
 ```
 
-Make sure the `ssl_ca_cert_file` can be accessed via Proton. You can do so via:
+确保可以通过 Proton 访问 ssl_ca_cert_file。 你可以通过以下方式做到这一点：
 
 ```bash
-chown timeplus:timeplus kafka.cert
+chown timeplus: timeplus kafka.cert
 chmod 400 kafka.cert
 ```
 
-Alternatively, you can put the full content of the CA pem file in the DDL SQL. This could help you to setup secure connections with Kafka brokers which use a certificate that is signed by a CA certificate that Proton does not know. You may want to put the CA content inline, when you cannot set a local file path or don't want to mount or modify files, such as using Docker or Kubernetes, or in Timeplus Cloud.
+或者，您可以将 CA pem 文件的全部内容放入 DDL SQL 中。 这可以帮助你与Kafka经纪人建立安全连接，Kafka代理使用由Proton不知道的CA证书签名的证书。 当你无法设置本地文件路径或者不想挂载或修改文件（例如使用Docker或Kubernetes或在Timeplus Cloud中）时，你可能需要将CA内容内联。
 
 ```sql
-CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka', 
-         brokers='name.a.aivencloud.com:28864',
-         topic='topic',
-         security_protocol='SASL_SSL', 
-         sasl_mechanism='SCRAM-SHA-256',
-         username='avnadmin', 
-         password='..',
-         ssl_ca_pem='-----BEGIN CERTIFICATE----\nMIIEQTCCAqmgAwIBAgIU..ph0szPew==\n-----END CERTIFICATE-----'
+创建外部直播 ext_stream（原始字符串）
+设置类型='kafka'， 
+         brokers='name.aivencloud.com: 28864'，
+         topic='topic'，
+         security_protocol='sasl_SSL'， 
+         sasl_mechanism='scram-SHA-256'，
+         用户名='avnadmin'， 
+         密码='..'，
+         SSL_ca_pem='-----开始证书----\nmiieqtccaqmgawibagiu... ph0szpew==\n-----结束证书-----'
 ```
 
-If you want to skip verifying the CA (not recommended), you can create the external stream in the following way:
+如果你想跳过验证 CA（不推荐），你可以通过以下方式创建外部流：
 
 ```sql
-CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka', 
-         brokers='name.a.aivencloud.com:28864',
-         topic='topic',
-         security_protocol='SASL_SSL', 
-         sasl_mechanism='SCRAM-SHA-256',
-         username='avnadmin', 
-         password='..',
+创建外部直播 ext_stream（原始字符串）
+设置类型='kafka'， 
+         brokers='name.aivencloud.com: 28864'，
+         topic='topic'，
+         security_protocol='sasl_SSL'， 
+         sasl_mechanism='scram-SHA-256'，
+         用户名='avnadmin'， 
+         密码='..',
          skip_ssl_cert_check=true
 ```
 
-### Connect to WarpStream{#connect-warp}
+### 连接到 WarpStream{#connect-warp}
 
-You can connect Proton with local deployment of WarpStream or WarpStream Serverless Cloud.
-
-示例：
-
-```sql
-CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka', 
-         brokers='serverless.prod-z.us-east-1.warpstream.com:9092',
-         topic='topic',
-         security_protocol='SASL_SSL', 
-         username='..', 
-         password='..'
-```
-
-### Connect to Upstash{#connect-upstash}
-
-You can connect Proton with Upstash Serverless Kafka.
+你可以将 Proton 与 WarpStream 或 WarpStream Serverless Cloud 的本地部署连接起来。
 
 示例：
 
 ```sql
-CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka', 
-         brokers='grizzly-1234-us1-kafka.upstash.io:9092',
-         topic='topic',
-         security_protocol='SASL_SSL', 
-         sasl_mechanism='SCRAM-SHA-256',
-         username='..', 
+创建外部直播 ext_stream（原始字符串）
+设置类型='kafka'、 
+         brokers='serverless.prod-z.us-east-1.warpstream.com: 9092'、
+         topic='topic'、
+         security_protocol='sasl_SSL'、 
+         username='..'， 
          password='..'
 ```
 
-More detailed instructions are available on [Upstash Docs](https://upstash.com/docs/kafka/integrations/proton).
+### 连接到 Upstash{#connect-upstash}
+
+您可以将 Proton 与 Upstash Serverless Kafka 连接起来。
+
+示例：
+
+```sql
+创建外部直播 ext_stream（原始字符串）
+设置类型='kafka'， 
+         brokers='grizzly-1234-us1-kafka.upstash.io: 9092'，
+         topic='topic'，
+         security_protocol='sasl_SSL'， 
+         sasl_Mechanism='scram-SHA-256'，
+         username='..'， 
+         password='..'
+```
+
+更多详细说明可在 [Upstash Docs] (https://upstash.com/docs/kafka/integrations/proton) 上找到。

@@ -1,54 +1,54 @@
-# Install
+# 安装
 
-## Timeplus Enterprise in the cloud{#cloud}
+## 云端的 Timeplus 企业版{#cloud}
 
-The quickest and easiest way to get started with Timeplus is to sign up a free account at the fully-managed [us.timeplus.cloud](https://us.timeplus.cloud).
+开始使用Timeplus的最快、最简单的方法是在完全托管的 [us.timeplus.cloud] (https://us.timeplus.cloud) 注册一个免费账户。
 
-You just need to sign up with Google or Microsoft Single Sign-On, or create a new username and password. Then create a new workspace and start your streaming analytics journey.
+你只需要注册谷歌或微软单点登录，或者创建一个新的用户名和密码即可。 然后创建一个新的工作空间并开始您的流媒体分析之旅。
 
-## Timeplus Enterprise self-hosted{#self-hosted}
+## Timeplus 企业版自托管{#self-hosted}
 
-Customers can install Timeplus Enterprise with high availability and scalability in own data center or cloud account, using the [bare metal installer](singlenode_install#bare-metal-install) or the official Timeplus [Kubernetes Helm Chart](cluster_install#k8s).
+客户可以使用 [裸机安装程序]（singlenode_install #bare-metal-install）或官方的Timeplus [Kubernetes Helm Chart]（cluster_install #k8s）在自己的数据中心或云账户中安装具有高可用性和可扩展性的Timeplus Enterprise。
 
-## Timeplus Proton, the core engine{#proton}
+## Timeplus Proton，核心引擎{#proton}
 
-### As a single binary{#binary}
+### 作为单个二进制文件{#binary}
 
 ```shell
 curl https://install.timeplus.com/oss | sh
 ```
 
-Once the `proton` binary is available, you can run Timeplus Proton in different modes:
+一旦 `proton` 二进制文件可用，你就可以以不同的模式运行 Timeplus Proton：
 
-- **Local Mode.** You run `proton local` to start it for fast processing on local and remote files using SQL without having to install a full server
-- **Config-less Mode.** You run `proton server` to start the server and put the config/logs/data in the current folder. Then use `proton client -h 127.0.0.1` in the other terminal to start the SQL client.
-- **Server Mode.** You run `sudo proton install` to install the server in predefined path and a default configuration file. Then you can run `sudo proton server -C/etc/proton-server/config.yaml` to start the server and use `proton client` in the other terminal to start the SQL client.
+- **本地模式。** 您可以运行 `proton local` 来启动它，以便使用 SQL 快速处理本地和远程文件，而无需安装完整的服务器
+- **无配置模式。** 你运行 `质子服务器`来启动服务器并将配置/日志/数据放入当前文件夹。 然后在另一个终端使用 proton client-h 127.0.0.1 启动 SQL 客户端。
+- **服务器模式。** 您可以运行 `sudo proton install` 将服务器安装在预定义路径和默认配置文件中。 然后你可以运行 sudo proton server-c/etc/Proton-server/config.yaml 来启动服务器，并在另一个终端使用 proton client 来启动 SQL 客户端。
 
-For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
+对于 Mac 用户，你还可以使用 [Homebrew] (https://brew.sh/) 来管理安装/升级/卸载：
 
 ```shell
-brew tap timeplus-io/timeplus
-brew install proton
+brew tap tap timeplus-io/timeplus
+brew inst
 ```
 
-### As a Docker container{#docker}
+### 作为 Docker 容器{#docker}
 
 ```bash
-docker run -d --pull always --name proton ghcr.io/timeplus-io/proton:latest
+docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
 ```
 
-In case you cannot access ghcr, you can pull the image from `public.ecr.aws/timeplus/proton`
+如果你无法访问 ghcr，你可以从 `public.ecr.aws/timeplus/proton`中提取图片
 
-You may need to expose ports from the Proton container so that other tools can connect to it, such as DBeaver. Please check [Server Ports](proton-ports) for each port to expose. 例如：
+您可能需要公开 Proton 容器中的端口，以便其他工具可以连接到该容器，例如 DBeaver。 请检查 [服务器端口]（质子端口）以查看每个要暴露的端口。 例如：
 
 ```shell
-docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton ghcr.io/timeplus-io/proton:latest
+docker run-d--pull always-p 8123:8123-p 8463:8463--name proton ghcr.io/timeplus-io/proton: latest
 ```
 
-### Docker Compose {#compose}
+### Docker 撰写 {#compose}
 
-The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
+[Docker Compose 堆栈] (https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) 演示了如何使用外部流在 Kafka/Redpanda 中读取/写入数据。
 
 ### Kubernetes
 
-Running the single node Proton via Kubernetes is possible. We recommend you contact us to deploy Timeplus Enterprise for on-prem deployment.
+通过 Kubernetes 运行单节点 Proton 是可能的。 我们建议您联系我们部署 Timeplus 企业版进行本地部署。

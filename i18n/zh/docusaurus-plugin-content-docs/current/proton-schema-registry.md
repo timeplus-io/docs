@@ -1,50 +1,50 @@
-# Kafka Schema Registry
+# Kafka 架构注册表
 
-Since Proton 1.5.2, Kafka schema registry is supported.
+从 Proton 1.5.2 开始，支持 Kafka 架构注册表。
 
-## Read Messages in Protobuf or Avro Schema {#read}
+## 在 Protobuf 或 Avro 架构中读取消息 {#read}
 
-To read Kafka data in Protobuf or Avro schema with a schema registry, you can create an external stream with `kafka_schema_registry_url` settings, e.g.
+要使用架构注册表读取 Protobuf 或 Avro 架构中的 Kafka 数据，你可以使用 kafka_schema_registry_url 设置创建外部流，例如
 
 ```sql
-CREATE EXTERNAL STREAM my_stream (
-  -- columns goes here ...
-) SETTINGS
-    type = 'kafka',
-    brokers = '...',
-    topic = '...',
-    data_format = '..',
-    kafka_schema_registry_url = 'http://url.to/my/schema/registry',
-    kafka_schema_registry_credentials = 'API_KEY:API_SECRET',
-    kafka_schema_registry_skip_cert_check = true|false,
-    kafka_schema_registry_private_key_file = '..',
-    kafka_schema_registry_cert_file = '..',
-    kafka_schema_registry_ca_location = '..';
+创建外部流 my_stream (
+  --这里有列...
+) 设置
+    type = 'kafka'，
+    brokers = '...'，
+    话题 ='...',
+    data_format ='..'，
+    kafka_schema_registry_url =' http://url.to/my/schema/registry '，
+    kafka_schema_registry_credentials =' API_KEY: API_SECRET '，
+    kafka_schema_registry_registry_private_key_file ='
+    ..'，
+    kafka_schema_registry_cert_file ='..'，
+    kafka_schema_registry_ca_location ='..';
 ```
 
 请注意：
 
-1. `kafka_schema_registry_credentials` is optional. Skip this if the schema registry server doesn't require authentication.
+1. `kafka_schema_registry_credentials` 是可选的。 如果架构注册服务器不需要身份验证，请跳过此操作。
 
-2. Make sure to add `http://` or `https://` in the `kafka_schema_registry_url`. In Proton 1.5.3 or above, self-signed HTTPS certification is supported.
-   1. One solution is to set `kafka_schema_registry_skip_cert_check` to `true`. This will completely skip the TLS certification verification. In this case, you don't need to specify the certification files.
-   2. A more secure solution is to keep the default value of `kafka_schema_registry_skip_cert_check`, which is false. Omit this setting and specify the following 3 settings:
-      1. `kafka_schema_registry_private_key_file`: the file path to the private key file used for encryption. Please use absolute file path and make sure Proton can access this file. If you are using Kubernetes or Docker, please mount the file systems properly.
-      2. `kafka_schema_registry_cert_file`: the file path to the certificate file (in PEM format). If the private key and the certificate are stored in the same file, this can be empty if `kakfa_schema_registry_private_key_file` is specified.
-      3. `kafka_schema_registry_ca_location`: the path to the file or directory containing the CA/root certificates.
+2. 确保在 `kafka_schema_registry_url`中添加 `http: //` 或 `https: //`。 在 Proton 1.5.3 或更高版本中，支持自签名的 HTTPS 认证。
+   1. 一种解决方案是将 kafka_schema_registry_skip_cert_check 设置为 true。 这将完全跳过 TLS 认证验证。 在这种情况下，您无需指定认证文件。
+   2. 更安全的解决方案是保留 kafka_schema_registry_skip_cert_check 的默认值，该值为 false。 省略此设置并指定以下 3 个设置：
+      1. `kafka_schema_registry_private_key_file`：用于加密的私钥文件的文件路径。 请使用绝对文件路径并确保 Proton 可以访问此文件。 如果你使用的是 Kubernetes 或 Docker，请正确安装文件系统。
+      2. `kafka_schema_registry_cert_file`：证书文件的文件路径（采用 PEM 格式）。 如果私钥和证书存储在同一个文件中，则如果指定了 kakfa_schema_registry_private_key_file，则该文件可以为空。
+      3. `kafka_schema_registry_ca_location`：包含 CA/根证书的文件或目录的路径。
 
-3. Make sure you define the columns matching the fields in the Avro schema. You don't have to define all top level fields in Avro schema as columns in the stream. For example, if there are 4 fields in Avro schema, you can choose only 2 of them as columns in the external stream. But make sure the data types match.
+3. 确保定义的列与 Avro 架构中的字段相匹配。 您不必将 Avro 架构中的所有顶级字段定义为流中的列。 例如，如果 Avro 架构中有 4 个字段，则只能选择其中 2 个作为外部流中的列。 但是请确保数据类型匹配。
 
-4. `data_format` can be `Avro`, or `ProtobufSingle`.
+4. `data_format` 可以是 `Avro` 或 `ProtobufSingle`。
 
-5. Schema reference is not supported yet.
+5. 尚不支持架构引用。
 
 :::info
 
-For examples to read Avro message in various Kafka API compatitable messsage platforms, please check [this doc](tutorial-sql-read-avro).
+有关在各种与 Kafka API 兼容的消息平台上阅读 Avro 消息的示例，请查看 [此文档]（教程-sql-read-avro）。
 
 :::
 
-## Write Messages{#write}
+## 写消息{#write}
 
-Writing Avro/Protobuf data with schema registry is not supported yet (coming soon).
+尚不支持使用架构注册表写入 Avro/Protobuf 数据（即将推出）。

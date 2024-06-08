@@ -22,7 +22,7 @@
 
 ### day_of_week
 
-使用`day_of_week(date)`来获取周中的某一天。 e.g. Monday is 1, Sunday is 7.
+使用`day_of_week(date)`来获取周中的某一天。 例如，星期一是 1，星期日是 7。
 
 ### hour
 
@@ -44,21 +44,21 @@
 
 ### to_unix_timestamp64_milli
 
-Returns the UNIX timestamp with millisecond of the datetime64, a number in `int64`
+返回以 datetime64 毫秒为单位的 UNIX 时间戳，该数字位于 `int64`
 
-For example `to_unix_timestamp64_milli(now64())` returns `1712982826540`
+例如 `to_unix_timestamp64_milli (now64 ())` 返回 `1712982826540`
 
 ### to_unix_timestamp64_micro
 
-Returns the UNIX timestamp with microsecond of the datetime64, a number in `int64`
+返回以 datetime64 的微秒为单位的 UNIX 时间戳，该数字位于 `int64`
 
-For example `to_unix_timestamp64_micro(now64(9))` returns `1712982905267202`
+例如 `to_unix_timestamp64_micro (now64 (9))` 返回 `1712982905267202`
 
 ### to_unix_timestamp64_nano
 
-Returns the UNIX timestamp with nanosecond of the datetime64, a number in `int64`
+返回带有 datetime64 纳秒的 UNIX 时间戳，该数字位于 `int64`
 
-For example `to_unix_timestamp64_nano(now64(9))` returns `1712983042242306000`
+例如 `to_unix_timestamp64_nano (now64 (9))` 返回 `1712983042242306000`
 
 ### to_start_of_year
 
@@ -98,17 +98,17 @@ For example `to_unix_timestamp64_nano(now64(9))` returns `1712983042242306000`
 
 `to_date(string)` 将日期字符串转换为日期类型，例如 `to_date('1953-11-02')`
 
-It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
+它可以解析字符串 `2023-09-19 05:31:34` 但不能 `2023-09-19T 05:31:34 Z`。 请使用 [to_time](#to_time) 函数。
 
 ### to_datetime
 
 `to_datetime(value)` 将值转换为日期时间类型，例如 `to_datetime(1655265661)` 或 `to_datetime(today())`
 
-It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
+它可以解析字符串 `2023-09-19 05:31:34` 但不能 `2023-09-19T 05:31:34 Z`。 请使用 [to_time](#to_time) 函数。
 
 ### 小时
 
-Please refer to [to_time](functions_for_type#to_time)
+请参阅 [to_time](functions_for_type#to_time)
 
 ### today
 
@@ -164,15 +164,15 @@ SELECT
 
 ### parse_datetime
 
-Coverts a string to a datetime. This function is the opposite operation of function [format_datetime](#format_datetime).
+将字符串转换为日期时间。 此函数与函数 [format_datetime](#format_datetime)的运算相反。
 
-`parse_datetime(str, format [,timezone])`. For example `select parse_datetime('2021-01-04+23:00:00', '%Y-%m-%d+%H:%i:%s')` returns '2021-01-04 23:00:00'.
+`parse_datetime (str, format [, 时区])`. 例如 `select parse_datetime ('2021-01-04+ 23:00:00 ','%Y-%m-%d+%H:%i:%s')` 返回 '2021-01-04 23:00:00'。
 
 ### parse_datetime_in_joda_syntax
 
-Similar to [parse_datetime](#parse_datetime), except that the format string is in [Joda](https://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html) instead of MySQL syntax.
+与 [parse_datetime](#parse_datetime)类似，不同之处在于格式字符串采用 [Joda](https://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html) 而不是 MySQL 语法。
 
-`parse_datetime_in_joda_syntax(str, format [,timezone])`. For example `select parse_datetime_in_joda_syntax('2023-02-24 14:53:31', 'yyyy-MM-dd HH:mm:ss')` returns '2023-02-24 14:53:31'.
+`parse_datetime_in_joda_syntax (str，格式 [，时区])`. 例如 `select parse_datetime_in_joda_syntax ('2023-02-24 14:53:31 '，'yyyy-MM-DD HH: mm: ss')` 返回 '2023-02-24 14:53:31'。
 
 ### date_diff
 
@@ -215,7 +215,7 @@ Similar to [parse_datetime](#parse_datetime), except that the format string is i
 它支持 `date_sub(unit, value, date)` 和快捷解决 `data_sub(date,timeExpression)`
 
 - `date_sub(HOUR, 2, now())` 将获得一个新的日期时间 2 小时
-- `date_sub(now(),2h)` also work
+- `date_sub (now () ,2h)` 也起作用
 
 ### earliest_timestamp
 

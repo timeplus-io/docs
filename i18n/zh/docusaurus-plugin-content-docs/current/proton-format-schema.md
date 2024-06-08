@@ -1,291 +1,291 @@
-# Protobuf/Avro Schema
+# Protobuf/Avro 架构
 
-Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. This document covers how to process data without a Schema Registry. Check [this page](proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
+Timeplus 支持以 [Protobuf] (https://protobuf.dev/) 或 [Avro] (https://avro.apache.org) 格式读取或写入消息。 本文档介绍如何在没有架构注册表的情况下处理数据。 如果您的 Kafka 主题是否与架构注册表关联，请查看 [此页面]（质子架构注册表）。
 
-## Create A Schema {#create}
+## 创建架构 {#create}
 
-Without a Schema Registry, you need to define the Protobuf or Avro schema using SQL.
+如果没有架构注册表，则需要使用 SQL 定义 Protobuf 或 Avro 架构。
 
 ### Protobuf
 
 ```sql
-CREATE OR REPLACE FORMAT SCHEMA schema_name AS '
-              syntax = "proto3";
+创建或替换格式架构 schema_name 为 '
+              语法 = “proto3”；
 
-              message SearchRequest {
-                string query = 1;
-                int32 page_number = 2;
-                int32 results_per_page = 3;
+              消息 searchRequest {
+                字符串查询 = 1；
+                int32 page_number = 2；
+                int32 results_per_page = 3；
               }
-              ' TYPE Protobuf
+              '类型 Protobuf
 ```
 
-Then refer to this schema while creating an external stream for Kafka:
+然后在为 Kafka 创建外部流时参考这个架构：
 
 ```sql
-CREATE EXTERNAL STREAM stream_name(
-         query string,
-         page_number int32,
+创建外部直播 stream_name (
+         查询字符串，
+         page_number int32，
          results_per_page int32)
-SETTINGS type='kafka',
-         brokers='pkc-1234.us-west-2.aws.confluent.cloud:9092',
-         topic='topic_name',
-         security_protocol='SASL_SSL',
+设置类型='kafka'，
+         brokers='pkc-1234.us-west-2.aws.confluent.cloud: 9092'，
+         topic='topic_name'，
+         security_protocol='sasl_SSL'，
          username='..',
-         password='..',
-         data_format='ProtobufSingle',
-         format_schema='schema_name:SearchRequest'
+         密码='..',
+         data_format='protobufSingle',
+         format_schema='schema_name: searchrequest'
 ```
 
 请注意：
 
-1. If you want to ensure there is only a single Protobuf message per Kafka message, please set `data_format` to `ProtobufSingle`. If you set it to `Protobuf`, then there could be multiple Protobuf messages in a single Kafka message.
-2. The `format_schema` setting contains two parts: the registered schema name (in this example: schema_name), and the message type (in this example: SearchRequest). Combining them together with a semicolon.
-3. You can use this external stream to read or write Protobuf messages in the target Kafka/Confluent topics.
-4. For more advanced use cases, please check the [examples for complex schema](#complex).
+1. 如果你想确保每条 Kafka 消息只有一条 Protobuf 消息，请将 data_format 设置为 protobufSingle。 如果你将其设置为 Protobuf，那么在一条 Kafka 消息中可能会有多条 Protobuf 消息。
+2. `format_schema`设置包含两部分：注册的架构名称（在本示例中：架构名称）和消息类型（在本示例中：SearchRequest）。 用分号将它们组合在一起。
+3. 你可以使用这个外部流在目标 Kafka/Confluent 主题中读取或写入 Protobuf 消息。
+4. 有关更高级的用例，请查看 [复杂架构示例] (#complex)。
 
 ### Avro
 
-Available since Proton 1.5.10.
+自 Proton 1.5.10 起可用。
 
 ```sql
-CREATE OR REPLACE FORMAT SCHEMA schema_name AS '{
-                "namespace": "example.avro",
-                "type": "record",
-                "name": "User",
-                "fields": [
-                  {"name": "name", "type": "string"},
-                  {"name": "favorite_number",  "type": ["int", "null"]},
-                  {"name": "favorite_color", "type": ["string", "null"]}
+创建或替换格式架构 schema_name 为 '{
+                “命名空间”：“example.avro”，
+                “类型”：“记录”，
+                “名称”：“用户”，
+                “字段”：[
+                  {“名称”：“名称”，“类型”：“字符串”}，
+                  {“名称”：“favorite_number”，“类型”：[“int”，“null”]}，
+                  {“名称”：“favorite_color”，“类型”：[“字符串”，“空”]}
                 ]
               }
-              ' TYPE Avro;
+              'TYPE Avro;
 ```
 
-Then refer to this schema while creating an external stream for Kafka:
+然后在为 Kafka 创建外部流时参考这个架构：
 
 ```sql
-CREATE EXTERNAL STREAM stream_name(
-         name string,
-         favorite_number nullable(int32),
-         favorite_color nullable(string))
-SETTINGS type='kafka',
-         brokers='pkc-1234.us-west-2.aws.confluent.cloud:9092',
-         topic='topic_name',
-         security_protocol='SASL_SSL',
-         username='..',
-         password='..',
-         data_format='Avro',
+创建外部直播 stream_name（
+         名称字符串，
+         favorite_number 可为空（int32），
+         favorite_color 可为空（字符串））
+设置类型='kafka'，
+         brokers='pkc-1234.us-west-2.aws.confluent.cloud.cloud: 9092'，
+         topic='topic_name'，
+         security_protocol='sasl_SSL'，
+         用户名='..',
+         密码='..',
+         data_format='avro',
          format_schema='schema_name'
 ```
 
-## List Schemas
+## 列出架构
 
-List schemas in the current Proton deployment:
+列出当前 Proton 部署中的架构：
 
 ```sql
-SHOW FORMAT SCHEMAS
+显示格式架构
 ```
 
-## Show Details For A Schema
+## 显示架构的详细信息
 
 ```sql
-SHOW CREATE FORMAT SCHEMA schema_name
+显示创建格式架构 schema_name
 ```
 
-## Drop A Schema
+## 删除架构
 
 ```sql
-DROP FORMAT SCHEMA <IF EXISTS> schema_name;
+删除格式架构 <IF EXISTS> schema_name;
 ```
 
-## Examples For Complex Protobuf Schema {#protobuf_complex}
+## 复杂 Protobuf 架构的示例 {#protobuf_complex}
 
-### Nested Schema
+### 嵌套架构
 
 ```sql
-CREATE FORMAT SCHEMA simple_nested AS '
-syntax = "proto3";
+创建格式架构 simple_nested AS '
+语法 = “proto3"；
 
-message Name {
- string first = 1;
- string last = 2;
+消息名称 {
+ 字符串第一 = 1；
+ 字符串最后 = 2；
 }
 
-message Person {
- string email = 1;
- Name name = 2;
- int32 age = 3;
+消息 Person {
+ 字符串电子邮件 = 1；
+ 姓名 = 2；
+ int32 年龄 = 3；
  map<string, int32> skills = 4;
 }
-' TYPE Protobuf
+'TYPE Protobuf
 ```
 
 ```sql
-CREATE EXTERNAL STREAM people(
-  email string,
-  name_first string,
-  name.last string,
-  skills map(string,int32),
-  age int32
+创建外部直播人物（
+  电子邮件字符串、
+  name_first 字符串、
+  name.last 字符串、
+  技能地图（字符串，int32）、
+  年龄 int32
 )
-SETTINGS type='kafka'.. data_format='ProtobufSingle',
-         format_schema='simple_nested:Person'
+设置 type='kafka'... data_format='protobufSingle'，
+         format_schema='simple_nested: person'
 ```
 
 请注意：
 
-1. `Person` is the top level message type. It refers to the `Name` message type.
-2. Use `name` as the prefix as the column names. Use either \_ or . to connect the prefix with the nested field names.
-3. When you create an external stream to read the Protobuf messages, you don't have to define all possible columns. Only the columns you defined will be read. Other columns/fields are skipped.
+1. `Person`是顶级消息类型。 它指的是 “名称” 消息类型。
+2. 使用 `name`作为前缀作为列名。 使用\ _ 或。 将前缀与嵌套字段名称连接起来。
+3. 当你创建外部流来读取 Protobuf 消息时，你不必定义所有可能的列。 只有您定义的列才会被读取。 跳过其他列/字段。
 
-### Enum
+### 枚举
 
-Say in your Protobuf definition, there is a enum type:
+假设在你的 Protobuf 定义中，有一个枚举类型：
 
 ```protobuf
-enum Level {
-  LevelOne = 0;
-  LevelTwo = 1;
+枚举级别 {
+  levelOne = 0；
+  levelTwo = 1；
 }
 ```
 
-You can use the enum type in Proton, e.g.
+你可以在 Proton 中使用枚举类型，例如
 
 ```sql
-CREATE EXTERNAL STREAM ..(
+创建外部流... (
   ..
-  level enum8('LevelOne'=0,'LevelTwo'=1),
+  level enum8 ('levelOne'=0, 'levelTwo'=1)，
   ..
 )
 ```
 
-### Repeat
+### 重复
 
-Say in your Protobuf definition, there is a repeated type:
+假设在你的 Protobuf 定义中，有一种重复的类型：
 
 ```protobuf
-repeated string Status
+重复的字符串状态
 ```
 
-You can use the array type in Proton, e.g.
+你可以在 Proton 中使用数组类型，例如
 
 ```sql
-CREATE EXTERNAL STREAM ..(
+创建外部流... (
   ..
-  status array(string),
+  状态数组（字符串），
   ..
 )
 ```
 
-### Repeated and Nested {#repeat_nested}
+### 重复和嵌套 {#repeat_nested}
 
-Say in your Protobuf definition, there is a field in a custom type and also repeated:
+比如说，在你的 Protobuf 定义中，有一个自定义类型的字段，而且还重复了这个字段：
 
 ```protobuf
-syntax = "proto3";
+syntax = “proto3"；
 message DataComponent {
-  optional string message = 1;
-  message Params {
-    message KeyValue {
-      optional string name = 1;
-      optional string value = 2;
+  可选字符串消息 = 1；
+  消息参数 {
+    message keyValue {
+      可选字符串名称 = 1；
+      可选字符串值 = 2；
     }
-    repeated KeyValue Param = 1;
+    重复的 keyValue 参数 = 1；
   }
-  optional Params params = 2;
+  可选参数参数 = 2;
 }
 ```
 
-You can use the tuple type in Proton, e.g.
+你可以在 Proton 中使用元组类型，例如
 
 ```sql
-CREATE EXTERNAL STREAM ..(
-    message string,
-    params tuple(Param nested( name string, value string ))
+创建外部流... (
+    消息字符串，
+    参数元组（参数嵌套（名称字符串，值字符串））
 )
 ```
 
-The streaming data will be shown as:
+直播数据将显示为：
 
 ```sql
-select * from stream_name;
+从 stream_name 中选择 *；
 ```
 
-| message               | params                                                                                                                                                                                                                                                                                                                        |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| No. 0 | ([('key_1','value_1'),('key_2','value_2'),('key_3','value_3')]) |
+| 消息    | 参数                                                                                                                                                                                                                                                                                                                                 |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 第 0 号 | ([('key_1', 'value_1'), ('key_2', 'value_2'), ('key_3', 'value_3')]) |
 
-### Package
+### 包裹
 
-Say in your Protobuf definition, there is a package:
+假设在你的 Protobuf 定义中，有一个软件包：
 
 ```protobuf
-package demo;
-message StockRecord {
+软件包演示；
+消息 stockRecord {
 ..
 }
 ```
 
-If there is only 1 package in the Protobuf definition type, you don't have to include the package name. 例如：
+如果 Protobuf 定义类型中只有 1 个软件包，则不必包含软件包名称。 例如：
 
 ```sql
-CREATE EXTERNAL STREAM ..(
+创建外部流... (
   ..
 )
-SETTINGS .. format_schema="schema_name:StockRecord"
+设置... format_schema= “schema_name: stockRecord”
 ```
 
-If there are multiple packages, you can use the fully qualified name with package, e.g.
+如果有多个软件包，则可以在软件包中使用完全限定名称，例如
 
 ```sql
-CREATE EXTERNAL STREAM ..(
+创建外部流... (
   ..
 )
-SETTINGS .. format_schema="schema_name:demo.StockRecord"
+设置... format_schema= “schema_name: demo.stockRecord”
 ```
 
-### Import Schemas
+### 导入架构
 
-If you have used [CREATE FORMAT SCHEMA](#create) to register a format schema, say `schema_name`, you can create the other schema and import this:
+如果你使用 [创建格式架构] (#create) 来注册格式架构，比如 `schema_name`，你可以创建另一个架构并导入这个架构：
 
 ```sql
-CREATE FORMAT SCHEMA import_example AS '
-import "schema_name.proto";
-message Test{
- required string ID = 1;
- optional Level TheLevel = 2;
+创建格式架构 import_example 为 '
+import “schema_name.proto”；
+消息 Test {
+ 必填字符串 ID = 1；
+ 可选级别 theLevel = 2；
 }
-' TYPE Protobuf
+'TYPE Protobuf
 ```
 
-Please make sure to add `.proto` as the suffix.
+请务必添加 `.proto` 作为后缀。
 
-## Avro Data Types Mapping {#avro_types}
+## Avro 数据类型映射 {#avro_types}
 
-The table below shows supported Avro data types and how they match Timeplus data types in INSERT and SELECT queries.
+下表显示了支持的 Avro 数据类型以及它们如何与 INSERT 和 SELECT 查询中的 Timeplus 数据类型相匹配。
 
-| Avro data type                             | Timeplus data type                                      |
-| ------------------------------------------ | ------------------------------------------------------- |
-| 整数                                         | int8,int16,int32,uint8,uint16,uint32                    |
-| long                                       | int64,uint64                                            |
-| 浮点数                                        | float32                                                 |
-| double                                     | float64                                                 |
-| bytes,string                               | 字符串                                                     |
-| fixed(N)                | fixed_string(N) |
-| enum                                       | enum8,enum16                                            |
-| array(T)                | array(T)                             |
-| map(k,v)                | map(k,v)                             |
-| union(null,T)           | nullable(T)                          |
-| null                                       | nullable(nothing)                    |
-| int(date)               | date,date32                                             |
-| long (timestamp-millis) | datetime64(3)                        |
-| long (timestamp-micros) | datetime64(6)                        |
-| bytes (decimal)         | datetime64(N)                        |
-| 整数                                         | ipv4                                                    |
-| fixed(16)               | ipv6                                                    |
-| bytes (decimal)         | decimal(P,S)                         |
-| string (uuid)           | uuid                                                    |
-| fixed(16)               | int128, uint128                                         |
-| fixed(32)               | int256, uint256                                         |
-| record                                     | 元组                                                      |
+| Avro 数据类型                     | Timeplus 数据类型                                            |
+| ----------------------------- | -------------------------------------------------------- |
+| 整数                            | int8, int16, int32, uint8, uint16, uint32                |
+| 长                             | int64，uint64                                             |
+| 浮点数                           | float32                                                  |
+| 双重的                           | float64                                                  |
+| 字节，字符串                        | 字符串                                                      |
+| 固定 (N)     | fixed_string (N) |
+| 枚举                            | enum8，enum16                                             |
+| 数组 (T)     | 数组 (T)                                |
+| 地图 (k, v)  | 地图 (k, v)                             |
+| 联盟（空值，T）                      | 可为空 (T)                               |
+| 空的                            | 可为空（什么都没有）                                               |
+| int（日期）                       | 日期，日期32                                                  |
+| 长（时间戳毫秒）                      | datetime64 (3)                        |
+| 长（时间戳微秒）                      | datetime64 (6)                        |
+| 字节（十进制）                       | datetime64 (N)                        |
+| 整数                            | ipv4                                                     |
+| 已修复 (16)   | ipv6                                                     |
+| 字节（十进制）                       | 十进制（P、S）                                                 |
+| 字符串 (uuid) | uuid                                                     |
+| 已修复 (16)   | int128，uint128                                           |
+| 已修复 (32)   | int256，uint256                                           |
+| 记录                            | 元组                                                       |

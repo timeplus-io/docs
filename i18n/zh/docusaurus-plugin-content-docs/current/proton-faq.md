@@ -1,128 +1,128 @@
-# Timeplus Proton FAQ
+# Timeplus Proton 常见问题解答
 
-On September 21, 2023, Timeplus announced the open source project: [Timeplus Proton](https://github.com/timeplus-io/proton/). We're using this FAQ as the primary reference for learning about what Timeplus Proton is, how we licensed the code open source, how you can use Timeplus Proton today, and more.
+2023 年 9 月 21 日，Timeplus 宣布了开源项目： [Timeplus Proton](https://github.com/timeplus-io/proton/)。 我们使用这个常见问题作为主要参考来了解什么是Timeplus Proton，我们如何许可代码开源，今天如何使用Timeplus Proton等等。
 
-## What is Timeplus Proton?
+## 什么是 Timeplus Proton？
 
-Timeplus Proton is the core engine powering [Timeplus Enterprise](https://www.timeplus.com), a unified streaming and historical data processing engine designed for efficiency and strong performance. Timeplus Proton has no external service dependencies, which allows you to deploy it on bare metal, edge devices, within containers, or as part of an orchestrated cloud environment.
+Timeplus Proton 是 [Timeplus Enterprise](https://www.timeplus.com)的核心引擎，这是一个统一的直播和历史数据处理引擎，专为提高效率和强劲性能而设计。 Timeplus Proton 没有外部服务依赖关系，这使您可以将其部署在裸机、边缘设备、容器内或作为协调的云环境的一部分进行部署。
 
-Timeplus Proton builds on top of the popular open source [ClickHouse project](https://github.com/ClickHouse/ClickHouse) for its historical data, storage, computing functionality, and a portion of its query engine.
+Timeplus Proton建立在广受欢迎的开源项目 [ClickHouse项目](https://github.com/ClickHouse/ClickHouse) 之上，其历史数据、存储、计算功能和部分查询引擎是其历史数据、存储、计算功能和部分查询引擎的。
 
-By leveraging the proven technologies of ClickHouse, Timeplus Proton brings more mature online analytical processing (OLAP) capabilities to the open source community with lots of new development to unify the streaming and processing engines. You can use Timeplus Proton alongside your existing ClickHouse deployment to enable additional functionality.
+通过利用ClickHouse的成熟技术，Timeplus Proton为开源社区带来了更成熟的在线分析处理（OLAP）功能，并进行了许多新开发以统一流媒体和处理引擎。 你可以将Timeplus Proton与现有的ClickHouse部署一起使用，以启用其他功能。
 
-## How is Timeplus Proton licensed? {#license}
+## Timeplus Proton 是如何获得许可的？ {#license}
 
-Timeplus Proton follows the ClickHouse licensing model with [Apache License 2.0](https://github.com/timeplus-io/proton/blob/develop/LICENSE), which is also used by popular open source projects like [Kubernetes](https://github.com/kubernetes/kubernetes) and [Apache Flink](https://github.com/apache/flink).
+Timeplus Proton 遵循 ClickHouse 许可模式，推出了 [Apache License 2.0](https://github.com/timeplus-io/proton/blob/develop/LICENSE)，而 [Kubernetes](https://github.com/kubernetes/kubernetes) 和 [Apache Flink](https://github.com/apache/flink)等热门开源项目也使用该许可模式。
 
-Apache License 2.0 is a [permissive license](https://fossa.com/blog/open-source-licenses-101-apache-license-2-0/) that allows for most uses without restriction. We'll talk more about how you can use Proton in the [following section](#use). We'll talk more about how you can use Timeplus Proton in the [following section](#use).
+Apache 许可证 2.0 是一个 [许可证](https://fossa.com/blog/open-source-licenses-101-apache-license-2-0/) ，它允许不受限制地进行大多数用途。 我们将在接下来的 [部分](#use)中更多地讨论如何使用 Timeplus Proton。
 
-We chose this license for a few important reasons:
+我们之所以选择这个许可证，有几个重要原因：
 
-- **We're following the path ClickHouse first paved**. Because Timeplus Proton leverages many excellent ClickHouse technologies, we hope to see our communities grow together and the two open source projects become more deeply integrated over time.
+- **我们走的是 ClickHouse 最初铺设的**之路。 由于Timeplus Proton利用了许多优秀的ClickHouse技术，我们希望看到我们的社区共同成长，随着时间的推移，这两个开源项目得到更深入的整合。
 
-- **We want to see Timeplus Proton push the limits of streaming and data processing in unique and exotic environments**. While Timeplus Proton already powers the enterprise-ready Timeplus Cloud, developers or other end users can download and deploy Timeplus Proton or modify the code locally for use in a private cloud infrastructure. Using Timeplus Proton does not require you adopt Timeplus Enterprise or meet with our sales team.
+- **我们希望看到 Timeplus Proton 在独特而异国情调的环境中突破直播和数据处理的极限**. 尽管Timeplus Proton已经为企业级Timeplus Cloud提供了支持，但开发者或其他最终用户可以下载和部署Timeplus Proton或在本地修改代码以用于私有云基础架构。 使用Timeplus Proton不需要您采用Timeplus Enterprise或与我们的销售团队会面。
 
-- **We're eager to see what value a _free_ streaming and historical data processing engine delivers**. By releasing the single-node edition of Proton to the open source community, we're giving developers, hobbyists, enthusiasts, and anyone who wants to try new technologies a new path that's entirely free. By releasing the single-node edition of Timeplus Proton to the open source community, we're giving developers, hobbyists, enthusiasts, and anyone who wants to try new technologies a new path that's entirely free.
+- **我们渴望看看 _免费_ 流媒体和历史数据处理引擎能带来什么价值**。 通过向开源社区发布 Timeplus Proton 的单节点版本，我们为开发者、业余爱好者、发烧友以及任何想尝试新技术的人提供了一条完全免费的新途径。
 
-- **We're building a new community around unified streaming and data processing**. ClickHouse paved the way for processing, but we have much to experiment and discover together around streaming. We can't wait to get feedback from developers and users within organizations of all sizes and degrees of streaming maturity. ClickHouse paved the way for processing, but we have much to experiment and discover together around streaming. We can't wait to get feedback from developers and users within organizations of all sizes and degrees of streaming maturity.
+- **我们正在围绕统一流和批数据处理** 建立一个新的社区。 ClickHouse 为处理铺平了道路，但围绕流计算，我们还有很多东西要一起实验和发现。 我们迫不及待地想从各种规模和流媒体成熟度的组织中获得开发者和用户的反馈。
 
-## What uses, commercial and beyond, are allowed with the Timeplus Proton project? {#use}
+## Timeplus Proton 项目允许哪些商业用途及其他用途？ {#use}
 
-Under Apache License 2.0, you are allowed to modify, distribute, and sublicense Timeplus Proton as it's available on GitHub.
+在 Apache License 2.0 下，你可以修改、分发和再许可 Timeplus Proton，因为它在 GitHub 上可用。
 
-You can also include Timeplus Proton in proprietary software that you then sell to customers, but that does not grant you any rights to use Proton or Timeplus trademarks or imply a commercial relationship or partnership between your organization and Timeplus.
+您还可以在专有软件中加入Timeplus Proton，然后将其出售给客户，但这并不授予您使用宝腾或Timeplus商标的任何权利，也不会暗示您的组织与Timeplus之间存在商业关系或合作关系。
 
-Apache License 2.0 also prevents any contributor to Timeplus Proton—a member of the Timeplus team or an outside contributor—from being held liable by end users, whether they are individual developers or commercial organizations.
+Apache License 2.0还防止Timeplus Proton的任何贡献者（Timeplus团队的成员或外部贡献者）被最终用户追究责任，无论他们是个人开发者还是商业组织。
 
-## What features are available with Timeplus Proton versus Timeplus Enterprise? {#compare}
+## Timeplus Proton 与 Timeplus Enterprise 有哪些功能可用？ {#compare}
 
-Timeplus Proton powers unified streaming and data processing on a single database node. Its commercial counterpart supports advanced deployment strategy and includes enterprise-ready features. There are some other differences we would like to clarify.
+Timeplus Proton 在单个数据库节点上为统一的流媒体和数据处理提供支持。 它的商业版本支持高级部署策略，并包括企业就绪功能。 我们还想澄清其他一些差异。
 
-|                               | **Timeplus Proton**       | **Timeplus Enterprise**   |
-| ----------------------------- | ------------------------- | ------------------------- |
-| **Deployment**                | <ul><li>Single-node Docker image</li><li>Single binary on Mac/Linux</li></ul> | <ul><li>Single node</li><li>Cluster</li><li>Kubernetes-based “bring your own cloud” (BYOC)</li><li>Fully-managed cloud service with SOC2</li></ul> |
-| **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li><li>[Streaming ingestion via REST API (compact mode only)](proton-ingest-api)</li></ul> | <ul><li>Everything in Timeplus Proton</li><li>WebSocket and HTTP Stream</li><li>Apache Pulsar</li><li>Ably</li><li>CSV upload</li><li>[Streaming ingestion via REST API (with API key and flexible modes)](ingest-api)</li></ul> |
-| **Data destinations (sinks)** | <ul><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li></ul> | <ul><li>Everything in Timeplus Proton</li><li>Apache Pulsar</li><li>Slack</li><li>Webhook</li><li>Timeplus stream</li></ul> |
-| **Support**                   | <ul><li>Community support from GitHub and Slack</li></ul> | <ul><li>Enterprise support via email, Slack, and Zoom, with a SLA</li></ul> |
+|               | **Timeplus Proton**       | **Timeplus 企业版**          |
+| ------------- | ------------------------- | ------------------------- |
+| **部署**        | <ul><li>单节点 Docker 镜像</li><li>Mac/Linux 上的单一二进制</li></ul> | <ul><li>单节点</li><li>集群</li><li>基于 Kubernetes 的 “自带云” (BYOC)</li><li>使用 SOC2 实现完全托管的云服务</li></ul> |
+| **数据来源**      | <ul><li>随机直播</li><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li><li>[通过 REST API 进行流媒体采集（仅限紧凑模式）]（质子摄取 API）</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>WebSocket 和 HTTP 流</li><li>Apache Pulsar</li><li>Ably</li><li>上传 CSV</li><li>[通过 REST API 进行流式提取（使用 API 密钥和灵活模式）]（收录 API）</li></ul> |
+| **数据目的地（汇点）** | <ul><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>Apache Pulsar</li><li>Slack</li><li>网络挂钩</li><li>Timeplus 直播</li></ul> |
+| **支持**        | <ul><li>来自 GitHub 和 Slack 的社区支持</li></ul> | <ul><li>通过电子邮件、Slack 和 Zoom 提供企业支持，并附有 SLA</li></ul> |
 
-These details are subject to change, but we'll do our best to make sure they accurately represent the latest roadmaps for Timeplus Proton and Timeplus Enterprise.
+这些细节可能会发生变化，但我们将尽最大努力确保它们准确代表Timeplus Proton和Timeplus Enterprise的最新路线图。
 
-## My organization already uses ClickHouse—are there plans to integrate Timeplus Proton with the open source ClickHouse project?
+## 我的组织已经在使用ClickHouse了——是否有计划将Timeplus Proton与开源ClickHouse项目整合在一起？
 
-You can create an [External Table](proton-clickhouse-external-table) to read or write ClickHouse tables from Timeplus Proton. Check the tutorials for how to build streaming ETL [from Kafka to ClickHouse](tutorial-sql-etl-kafka-to-ch), or [from MySQL to ClickHouse](tutorial-sql-etl-mysql-to-ch), via Timeplus.
+你可以创建一个Timeplus Proton 的 [外部表](proton-clickhouse-external-table) 来读取或写入  ClickHouse 表。 查看如下教程，了解如何通过 Timeplus [从 Kafka 到 ClickHouse](tutorial-sql-etl-kafka-to-ch)流式ETL ，或者[从 MySQL 到 ClickHouse](tutorial-sql-etl-mysql-to-ch)。
 
-We are also in conversation with the folks at ClickHouse, Inc., and the ClickHouse open source project at large, to scope the possibility of deep integration between the projects.
+我们还在与ClickHouse, Inc.以及整个ClickHouse开源项目的人士进行对话，以探讨这些项目之间深度整合的可能性。
 
-## If I'm familiar with ClickHouse, how easy is it for me to use Timeplus Proton?
+## 如果我熟悉 ClickHouse，那么使用 Timeplus Proton 对我来说有多容易？
 
-Short answer: very easy. We designed Timeplus Proton's usage to be similar to ClickHouse, with a few key differences:
+简短的答案：非常简单。 我们将Timeplus Proton的用法设计为与ClickHouse类似，但有一些关键区别：
 
-- Timeplus' default SQL query mode is **streaming**, which means it is long-running and continuously tracks and evaluates changed data and pushes results to users or target systems. To create a [historical data query](functions_for_streaming#table), wrap your SQL in `table(stream)`. To create a [historical data query](functions_for_streaming#table), wrap your SQL in `table(stream)`.
-- The SQL keyword `AS` is required to create a temporary name for a table, stream, or a column.
-- We renamed data types and functions to remove camelcase. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Proton. Our [functions](functions) docs have additional details. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Timeplus Proton. Our [functions](functions) docs have additional details.
-- Not all ClickHouse functions are currently enabled in Timeplus Proton or work in a streaming query. If we should add or enhance the functions available in Timeplus Proton, let us know in the [GitHub issues](https://github.com/timeplus-io/proton/issues).
-- Materialized Views in ClickHouse works for one source table, and data is processed at the index time. In Timeplus Proton, you can define a [Materialized View](proton-create-view#m_view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Timeplus Proton continuously runs the query and sends the results to the internal stream or the target stream.
-- In Timeplus Proton, [JOINs](joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
+- Timeplus 的默认 SQL 查询模式是 **streaming**，这意味着它可以长时间运行，持续跟踪和评估更改后的数据，并将结果推送给用户或目标系统。 要创建 [历史数据查询](functions_for_streaming#table)，请将您的 SQL 包装在 `表（流）`中。
+- 要为表、流或列创建临时名称，必须使用 SQL 关键字 `AS` 。
+- 我们重命名了数据类型和函数以删除驼峰大小写。 例如，在 Timeplus Proton 中，ClickHouse 的 `toInt8 ()` 被重命名为 `to_int8 ()` 。 我们的 [函数](functions) 文档还有其他详细信息。
+- 目前，并非所有的ClickHouse功能都可以在Timeplus Proton中启用，也不是在直播查询中都能使用。 如果我们应该添加或增强 Timeplus Proton 中可用的功能，请在 [GitHub 问题](https://github.com/timeplus-io/proton/issues)中告诉我们。
+- ClickHouse 中的物化视图适用于一个源表，数据在索引时处理。 在 Timeplus Proton 中，你可以使用流式 SQL 定义 [物化视图](proton-create-view#m_view) ，用于任意数量的流，使用 JOIN、CTE 或子查询。 Timeplus Proton 持续运行查询，并将结果发送到内部流或目标流。
+- 在 Timeplus Proton 中， [JOIN](joins) 是一种将来自多个来源的数据合并为单个数据流的强大而灵活的手段。
 
-See the documentation for full usage details.
+有关完整用法的详细信息，请参阅文档。
 
-## Is Timeplus Proton usage tracked?
+## Timeplus Proton 的使用情况是否被追踪？
 
-Yes. We have enabled telemetry in the following areas to understand how the community is using Timeplus Proton and help us improve the project:
+是的。 我们在以下领域启用了遥测功能，以了解社区如何使用Timeplus Proton并帮助我们改进项目：
 
-- **Via Docker image download statistics**, which are provided by GitHub _without_ any personally identifying information (PII), such as IP addresses.
+- **通过 Docker 镜像下载统计信息**，由 GitHub _提供，没有_ 任何个人识别信息 (PII)，例如 IP 地址。
 
-- **On start**, Timeplus Proton reports the following data to a public endpoint:
+- **启动**时，Timeplus Proton 向公共端点报告以下数据：
 
-  - Current Timeplus Proton version
-  - CPU and memory availability
+  - 当前 Timeplus Proton 版本
+  - CPU 和内存可用性
 
-No user data, schemas, SQL statements, or personally identifiable information (PII) is ever sent by Timeplus Proton to this public endpoint.
+Timeplus Proton 从未向该公共端点发送过任何用户数据、架构、SQL 语句或个人身份信息 (PII)。
 
-You can disable telemetry in Timeplus Proton via the environment variable `TELEMETRY_ENABLED`, such as `docker run --env TELEMETRY_ENABLED=false --name proton ghcr.io/timeplus-io/proton:latest` or update the configuration with the following steps:
+你可以通过环境变量 `TELEMETRY_ENABLED`在 Timeplus Proton 中禁用遥测，比如 `docker run--env telemetry_enabled=false--name proton ghcr.io/timeplus-io/proton: latest` 或者使用以下步骤更新配置：
 
-1. Start the Timeplus Proton Docker image
-2. Connect to the running container with `docker exec -it proton bin/sh`
-3. Run the following command to edit the container's configuration:
+1. 启动 Timeplus Proton Docker 镜像
+2. 使用 `docker exec-it proton bin/sh`连接到正在运行的容器
+3. 运行以下命令来编辑容器的配置：
 
 ```bash
-sed -i 's/telemetry_enabled: true/telemetry_enabled: false/g' /etc/proton-server/config.yaml
+sed-i 's/telemetry_enabled：true/telemetry_enabled：false/g' /etc/proton-server/config.yaml
 ```
 
-4.  Stop and start the container again to run Timeplus Proton with all telemetry disabled.
+4.  停止并再次启动容器以在禁用所有遥测的情况下运行 Timeplus Proton。
 
-If you use the single binary, the environment variable `TELEMETRY_ENABLED` also works. Alternatively, you can manually update config.yaml file to set `telemetry_enabled: false`.
+如果你使用单一二进制，环境变量 `TELEMETRY_ENABLED` 也可以使用。 或者，你可以手动更新 config.yaml 文件来设置 `telemetry_enabled: false`。
 
-See our [privacy policy](https://www.timeplus.com/privacy-policy) for complete details about the telemetry we collect and use.
+有关我们收集和使用的遥测数据的完整详细信息，请参阅我们的 [隐私政策](https://www.timeplus.com/privacy-policy) 。
 
-## Does Timeplus Proton provide a JDBC/ODBC driver?
+## Timeplus Proton 是否提供 JDBC/ODBC 驱动程序？
 
-JDBC driver is available at https://github.com/timeplus-io/proton-java-driver, and the ODBC driver is available at https://github.com/timeplus-io/proton-odbc.
+JDBC 驱动程序可在 https://github.com/timeplus-io/proton-java-driver 获得，ODBC 驱动程序可在 https://github.com/timeplus-io/proton-odbc 获得。
 
-In the meanwhile, you can send the processed data to Kafka topics via External Stream, use the [proton-go-driver](https://github.com/timeplus-io/proton-go-driver), or [Redpanda Connect](https://github.com/redpanda-data/connect) to send the data to other systems.
+同时，你可以通过外部流将处理后的数据发送到Kafka主题，使用 [proton-go-driver](https://github.com/timeplus-io/proton-go-driver)或 [Redpanda Connect](https://github.com/redpanda-data/connect) 将数据发送到其他系统。
 
-If you are on Timeplus Enterprise, you can use the REST API or [SDK](https://github.com/timeplus-io/gluon) to run queries or manage resources in Timeplus, via the API server, which is not part of Timeplus Proton.
+如果你使用的是 Timeplus Enterprise，你可以使用 REST API 或 [SDK](https://github.com/timeplus-io/gluon) 通过不属于 Timeplus Proton 的 API 服务器在 Timeplus 中运行查询或管理资源。
 
-## Can I contribute to Timeplus Proton?
+## 我可以为 Timeplus Proton 捐款吗？
 
-Yes!
+是的！
 
-The best way to get started is to check out the [existing issues](https://github.com/timeplus-io/proton/issues) in the Timeplus Proton repository on GitHub. We're also actively discussing future versions of Timeplus Proton in the `#proton` and `#contributing` channels in our [Timeplus Community Slack](https://timeplus.com/slack).
+最好的入门方法是查看 GitHub 上的 Timeplus Proton 仓库中的 [现有问题](https://github.com/timeplus-io/proton/issues) 。 我们还在我们 [Timeplus 社区 Slack](https://timeplus.com/slack)的 `#proton` 和 `#contributing` 频道中积极讨论 Timeplus Proton 的未来版本。
 
-## Where can I learn more about Timeplus Proton?
+## 在哪里可以了解有关 Timeplus Proton 的更多信息？
 
-We're currently building out resources where you can learn about Timeplus Proton's architecture, features, and future:
+我们目前正在开发资源，您可以在其中了解Timeplus Proton的架构、功能和未来：
 
 - [GitHub](https://github.com/timeplus-io/proton/)
-- [Documentation](proton)
-- [High-level architecture](proton-architecture)
-- [Videos](https://youtube.com/@timeplusdata)
-- [Wiki](https://github.com/timeplus-io/proton/wiki)
+- [文档](proton)
+- [高级架构](proton-architecture)
+- [视频](https://youtube.com/@timeplusdata)
+- [维基](https://github.com/timeplus-io/proton/wiki)
 
-We also discuss our journey to releasing Timeplus Proton in open source in our [announcement post](https://www.timeplus.com/post/timeplus-journey-to-open-source).
+我们还在 [公告文章](https://www.timeplus.com/post/timeplus-journey-to-open-source)中讨论了我们以开源形式发布 Timeplus Proton 的旅程。
 
-## How can I get started?
+## 我怎样才能开始？
 
-Learn how to pull and run the Timeplus Proton image and query a test stream in our [documentation](proton#get-started). To see a more complete use case in action, using Timeplus Proton, Redpanda, and sample live data, check out our [tutorial](proton-kafka#tutorial) that leverages Docker Compose.
+在我们的 [文档](proton#get-started)中学习如何提取和运行 Timeplus Proton 镜像以及查询测试流。 要查看使用 Timeplus Proton、Redpanda 和示例实时数据的更完整用例，请查看我们利用 Docker Compose 的 [教程](proton-kafka#tutorial) 。
 
-If you need advanced deployment strategies or features, with Timeplus Proton running behind the scenes, create your first workspace with [Timeplus Cloud](https://us.timeplus.cloud/).
+如果你需要高级部署策略或功能，让Timeplus Proton在幕后运行，那就使用 [Timeplus Cloud](https://us.timeplus.cloud/)创建你的第一个工作空间。
