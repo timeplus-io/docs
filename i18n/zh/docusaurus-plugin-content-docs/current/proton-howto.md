@@ -42,7 +42,7 @@ username='..',password='..',sasl_mechanism='..'
 
 ## 如何从 PostgreSQL/MySQL/ClickHouse 加载数据 {#cdc}
 
-对于 PostgreSQL、MySQL 或其他 OLTP 数据库，您可以应用 CDC（变更数据捕获）技术，通过 Debezium 和 Kafka/Redpanda 将实时更改加载到 Proton 中。 [质子仓库的 cdc 文件夹] (https://github.com/timeplus-io/proton/tree/develop/examples/cdc) 中的示例配置。 [这篇博客] (https://www.timeplus.com/post/cdc-in-action-with-debezium-and-timeplus) 展示了 Timeplus Cloud 用户界面，但也可以应用于 Proton。
+对于 PostgreSQL、MySQL 或其他 OLTP 数据库，您可以应用 CDC（变更数据捕获）技术，通过 Debezium 和 Kafka/Redpanda 将实时更改加载到 Proton 中。 [Proton仓库的 cdc 文件夹] (https://github.com/timeplus-io/proton/tree/develop/examples/cdc) 中的示例配置。 [这篇博客] (https://www.timeplus.com/post/cdc-in-action-with-debezium-and-timeplus) 展示了 Timeplus Cloud 用户界面，但也可以应用于 Proton。
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j6FpXg5cfsA?si=Mo5UrviidxqkkXSb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
@@ -56,7 +56,7 @@ username='..',password='..',sasl_mechanism='..'
 
 ## 如何处理 UPSERT 或 DELETE {#upsert}
 
-默认情况下，Timeplus 中的直播仅限追加。 但是你可以使用 “versioned_kv” 或 “changelog_kv” 模式创建直播来支持数据变更或删除。 [版本化流]（版本流）支持 UPSERT（更新或插入），[变更日志流]（变更日志流）支持 UPSERT 和 DELETE。
+默认情况下，Timeplus 中的流仅限追加。 但是你可以使用 “versioned_kv” 或 “changelog_kv” 模式创建流来支持数据变更或删除。 [版本化流]（版本流）支持 UPSERT（更新或插入），[变更日志流]（变更日志流）支持 UPSERT 和 DELETE。
 
 你可以使用像 Debezium 这样的工具向 Timeplus 发送 CDC 消息，也可以直接使用 `INSERT` SQL来添加数据。 具有相同主键的值将被覆盖。 欲了解更多详情，请观看此视频：
 
@@ -70,7 +70,7 @@ Proton 支持强大且易于使用的 JSON 处理。 你可以将整个 JSON 文
 
 ## 如何加载 CSV 文件 {#csv}
 
-如果你只需要加载一个 CSV 文件，你可以创建一个直播然后使用 `INSERT INTO.. 选择... FROM 文件 (..) `语法。 例如，如果 CSV 文件中有 3 个字段：时间戳、价格、交易量，则可以通过以下方式创建直播
+如果你只需要加载一个 CSV 文件，你可以创建一个流然后使用 `INSERT INTO.. 选择... FROM 文件 (..) `语法。 例如，如果 CSV 文件中有 3 个字段：时间戳、价格、交易量，则可以通过以下方式创建流
 
 ```sql
 CREATE STREAM stream
@@ -82,7 +82,7 @@ CREATE STREAM stream
 SETTINGS event_time_column = 'timestamp';
 ```
 
-请注意，直播中将有第 4 列，即\ _tp_time 作为 [事件时间]（事件时间）。
+请注意，流中将有第 4 列，即\ _tp_time 作为 [事件时间]（事件时间）。
 
 要导入 CSV 内容，请使用 [文件] (https://clickhouse.com/docs/en/sql-reference/table-functions/file) 表函数来设置文件路径、标题和数据类型。
 
@@ -98,7 +98,7 @@ SETTINGS max_insert_threads=8;
 请注意：
 
 1. 你需要指定列名。 否则，SELECT \*将获得 3 列，而数据流中有 4 列。
-2. 出于安全原因，Proton 只读取 `proton-data/user_files`文件夹下的文件。 如果你在 Linux 服务器上通过 `proton install`命令安装质子，则该文件夹将是 `/var/lib/proton/user_files`。 如果你不安装质子并直接通过 “质子服务器启动” 运行质子二进制文件，则该文件夹将是 “proton-data/user_files”
+2. 出于安全原因，Proton 只读取 `proton-data/user_files`文件夹下的文件。 如果你在 Linux 服务器上通过 `proton install`命令安装Proton，则该文件夹将是 `/var/lib/proton/user_files`。 如果你不安装Proton并直接通过 “Proton服务器启动” 运行Proton二进制文件，则该文件夹将是 “proton-data/user_files”
 3. 我们建议使用 `max_insert_threads=8` 来使用多线程来最大限度地提高摄取性能。 如果你的文件系统的 IOPS 很高，你可以使用 SETTINGS shards=3 创建数据流，并在 `INSERT`语句中设置更高的 `max_insert_threads` 值。
 
 :::
