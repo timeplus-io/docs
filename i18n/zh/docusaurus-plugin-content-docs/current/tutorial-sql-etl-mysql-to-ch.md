@@ -18,15 +18,6 @@ https://github.com/timeplus-io/proton/tree/develop/examples/cdc 提供了 Docker
 在 clickhouse 容器中打开 “clickhouse 客户端”。 运行以下 SQL 来创建常规的 MergeTree 表。
 
 ```sql
-CREATE TABLE 客户
-(
-    id Int32，
-    first_name String，
-    last_name String，
-    email String
-)
-enge=mergeTree ()
-主键 (id)；
 ```
 
 ## 创建 CDC 作业
@@ -34,25 +25,6 @@ enge=mergeTree ()
 由于 Debezium Connect 会泄露端口 8083，因此请在主机服务器中执行以下命令。
 
 ```shell
-curl--request POST\
-  --url http://localhost:8083/connectors\
-  --header '内容类型：应用程序/json'\
-  --data '{
-  “名称”：“库存连接器”，
-  “配置”：{
-    “connector.class”：“io.debezium.connector.mysqlConnector”，
-    “tasks.max”：“1”，
-    “数据库主机名”：”mysql”，
-    “database.port”：“3306”，
-    “dabase.user”：“debezium”，
-    “数据库密码”：“dbz”，
-    “dabase.server.id”：“184054”，
-    “topic.prefix”：“dbserver1”，
-    “dabase.include.list”：“清单”，
-    “schema.history” y.internal.kafka.bootstrap.servers”：“redpanda: 9092”，
-    “架构。history.internal.kafka.topic”: “架构变更.inventory”
-  }
-} '
 ```
 
 ## 运行 SQL
@@ -68,26 +40,6 @@ curl--request POST\
 mysql-to-clickhouse.sql 的内容是：
 
 ```sql
-— 通过外部直播阅读话题
-创建外部直播客户_cdc（原始字符串）
-                设置类型='kafka'，
-                         brokers='redpanda: 9092'，
-                         topic='dbserver1.inventory.customers;
-
-— 创建外部表格这样 Timeplus 就可以写信给 ClickHouse
-创建外部表格客户
-设置 type='clickhouse'，
-        address='clickhouse: 9000'，
-        table='客户；
-
-— 创建物化视图作为直播 ETL 作业
-向客户创建物化视图 mv_mysql2ch 作为
-    选择
-           raw: payload.after.after.id:: int32 AS id，
-           raw: payload.after.after.after.after.after.after.after.after.after.after.after.after.after.after.after.after.after.after.after.first_name 作为 first_最后_
-           命名为 last_name，
-           raw: payload.after.email AS 电子邮件
-    来自 customers_cc 其中 raw: payload.op 在 ('r', 'c') 设置中 seek_to='earliest'；
 ```
 
 ## 验证数据已复制到 ClickHouse
