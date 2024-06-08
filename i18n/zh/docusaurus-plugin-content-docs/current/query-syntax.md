@@ -37,7 +37,7 @@ SQL 关键字和函数名不区分大小写，而列名和流名称区分大小�
 
 在我们研究查询语法的细节之前，我们想重点介绍一下 Timeplus Proton 中的默认查询行为是流媒体模式，即
 
-- `选择... FROM stream` 将查询未来的事件。 运行查询后，它将处理新事件。 例如，如果直播中已经有 1,000 个事件，则如果还有更多新事件，则运行 `SELECT count () FROM Stream` 可能会返回 0。
+- `选择... FROM stream` 将查询未来的事件。 运行查询后，它将处理新事件。 例如，如果流中已经有 1,000 个事件，则如果还有更多新事件，则运行 `SELECT count () FROM Stream` 可能会返回 0。
 - `选择... FROM 表（流）` 将查询历史数据，就像许多其他数据库一样。 在上面的示例流中，如果你运行 `SELECT count () FROM table (stream)`，你将得到 1000 作为结果并且查询完成。
 
 ## Query Settings
@@ -71,7 +71,7 @@ FROM tumble(device_utils, 5s)
 GROUP BY device, window_end
 ```
 
-上面的示例 SQL 连续汇总了直播 `devices_utils`的每个滚动窗口中每台设备的最大 CPU 使用量。 每次关闭窗口时，Timeplus Proton都会发布聚合结果。 如何确定窗户应该关闭？ 这是由 [水印](stream-query#window-watermark)完成的，它是一个内部时间戳。 保证每个流量查询都能增加单一流量。
+上面的示例 SQL 连续汇总了流 `devices_utils`的每个滚动窗口中每台设备的最大 CPU 使用量。 每次关闭窗口时，Timeplus Proton都会发布聚合结果。 如何确定窗户应该关闭？ 这是由 [水印](stream-query#window-watermark)完成的，它是一个内部时间戳。 保证每个流量查询都能增加单一流量。
 
 ### 延迟在水印后发出 {#emit_after_wm_with_delay}
 
@@ -466,7 +466,7 @@ GROUP BY device, window_end
 
 上面的示例 SQL 持续聚合每个设备每个tumble窗口最大的 cpu 使用量，用于表 `设备 _utils`。 每次关闭一个窗口，Timeplus号发布聚合结果。
 
-让我们把 `tumble（直播，5s）` 改成 `tumble（直播，timestmap，5s）` ：
+让我们把 `tumble（流，5s）` 改成 `tumble（流，timestmap，5s）` ：
 
 ```sql
 SELECT device, max(cpu_usage)
