@@ -223,8 +223,8 @@ When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in
 请查看教程：
 
 - [使用 SQL 查询 Kafka](tutorial-sql-kafka)
-- [直播加入](tutorial-sql-join)
-- [直播 ETL](tutorial-sql-etl)
+- [流加入](tutorial-sql-join)
+- [流 ETL](tutorial-sql-etl)
 
 ## Kafka 客户端的属性 {#properties}
 
