@@ -1,4 +1,4 @@
-# 直播 ETL：从 Kafka 到 Kafka
+# 流式ETL：从 Kafka 到 Kafka
 
 你可以使用 Timeplus 快速构建直播 ETL 管道。 例如，Kafka 主题中的原始 Web 访问日志包含原始 IP 地址。 为了进一步保护用户隐私，你可以建立一个数据管道来读取来自Kafka的新数据，屏蔽IP地址并发送到不同的Kafka主题。
 
@@ -6,34 +6,9 @@
 
 ## Timeplus Proton
 
-您可以按照 [前面的教程]（教程-sql-kafka）设置示例数据，并运行以下 SQL 来构建管道。
+您可以按照 [前面的教程]（tutorial-sql-kafka）设置示例数据，并运行以下 SQL 来构建管道。
 
 ```sql
-— 通过外部直播阅读话题
-创建外部流 frontend_events（原始字符串）
-                SETTINGS type='kafka'，
-                         brokers='redpanda: 9092'，
-                         topic='owlshop-frontend-events'；
-
-— 创建另一个外部流向另一个主题
-创建外部流目标 (
-    _tp_time datetime64 (3)， 
-    url 字符串， 
-    方法字符串， 
-    ip 字符串） 
-    设置类型='kafka'， 
-             brokers='redpanda: 9092'， 
-             topic='masked-fe-event'， 
-             data_format='jsoneachrow'，
-             one_message_per_row=true；
-
-— 通过物化视图设置 ETL 管道
-在目标中创建物化视图 mv 作为 
-    SELECT now64 () 作为 _tp_time， 
-           raw: requestedURL 作为 url， 
-           raw: method 作为方法， 
-           向下（十六进制 (md5 (raw: IPAddress)) 作为 ip 
-    来自 frontend_events；
 ```
 
 ## Timeplus 云服务
