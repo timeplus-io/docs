@@ -1,6 +1,6 @@
 # 流式ETL：从 Kafka 到 Kafka
 
-你可以使用 Timeplus 快速构建直播 ETL 管道。 例如，Kafka 主题中的原始 Web 访问日志包含原始 IP 地址。 为了进一步保护用户隐私，你可以建立一个数据管道来读取来自Kafka的新数据，屏蔽IP地址并发送到不同的Kafka主题。
+你可以使用 Timeplus 快速构建流 ETL 管道。 例如，Kafka 主题中的原始 Web 访问日志包含原始 IP 地址。 为了进一步保护用户隐私，你可以建立一个数据管道来读取来自Kafka的新数据，屏蔽IP地址并发送到不同的Kafka主题。
 
 按照 [Timeplus Proton] (#timeplus-proton) 或 [Timeplus Cloud] (#timeplus-cloud) 的指南进行操作。
 
@@ -29,11 +29,11 @@
 
 ![预览] (https://static.wixstatic.com/media/3796d3_fee20aa87fc6446ca97d7947028bec03~mv2.png/v1/fill/w_1400,h_1012,al_c,q_90,enc_auto/3796d3_fee20aa87fc6446ca97d7947028bec03~mv2.png)
 
-4. 设置外部直播的名称，比如 `frontend_events`。
+4. 设置外部流的名称，比如 `frontend_events`。
 
 ![套装名称] (https://static.wixstatic.com/media/3796d3_530daa439da24dcb893901de33dfebc0~mv2.png/v1/fill/w_1399,h_533,al_c,q_90,enc_auto/3796d3_530daa439da24dcb893901de33dfebc0~mv2.png)
 
-5. 浏览直播/话题中的实时数据。
+5. 浏览流/话题中的实时数据。
 
 ![探索] (https://static.wixstatic.com/media/3796d3_5703bf748d5a4c00bd9eefff534b63c0~mv2.png/v1/fill/w_1400,h_751,al_c,q_90,enc_auto/3796d3_5703bf748d5a4c00bd9eefff534b63c0~mv2.png)
 
