@@ -49,13 +49,9 @@ Timeplus Proton 在单个数据库节点上为统一的流媒体和数据处理�
 
 ## 我的组织已经在使用ClickHouse了——是否有计划将Timeplus Proton与开源ClickHouse项目整合在一起？
 
-你可以创建一个 [外部表](proton-clickhouse-external-table) 来读取或写入 Timeplus Proton 的 ClickHouse 表。 查看教程，了解如何通过 Timeplus 构建从 Kafka 到 ClickHouse</a>的直播 ETL [，或者从 MySQL 构建到 ClickHouse](tutorial-sql-etl-kafka-to-ch)的
-
-。</p> 
+你可以创建一个Timeplus Proton 的 [外部表](proton-clickhouse-external-table) 来读取或写入  ClickHouse 表。 查看如下教程，了解如何通过 Timeplus [从 Kafka 到 ClickHouse](tutorial-sql-etl-kafka-to-ch)流式ETL ，或者[从 MySQL 到 ClickHouse](tutorial-sql-etl-mysql-to-ch)。
 
 我们还在与ClickHouse, Inc.以及整个ClickHouse开源项目的人士进行对话，以探讨这些项目之间深度整合的可能性。
-
-
 
 ## 如果我熟悉 ClickHouse，那么使用 Timeplus Proton 对我来说有多容易？
 
@@ -70,8 +66,6 @@ Timeplus Proton 在单个数据库节点上为统一的流媒体和数据处理�
 
 有关完整用法的详细信息，请参阅文档。
 
-
-
 ## Timeplus Proton 的使用情况是否被追踪？
 
 是的。 我们在以下领域启用了遥测功能，以了解社区如何使用Timeplus Proton并帮助我们改进项目：
@@ -79,8 +73,8 @@ Timeplus Proton 在单个数据库节点上为统一的流媒体和数据处理�
 - **通过 Docker 镜像下载统计信息**，由 GitHub _提供，没有_ 任何个人识别信息 (PII)，例如 IP 地址。
 
 - **启动**时，Timeplus Proton 向公共端点报告以下数据：
-  
-    - 当前 Timeplus Proton 版本
+
+  - 当前 Timeplus Proton 版本
   - CPU 和内存可用性
 
 Timeplus Proton 从未向该公共端点发送过任何用户数据、架构、SQL 语句或个人身份信息 (PII)。
@@ -91,20 +85,15 @@ Timeplus Proton 从未向该公共端点发送过任何用户数据、架构、S
 2. 使用 `docker exec-it proton bin/sh`连接到正在运行的容器
 3. 运行以下命令来编辑容器的配置：
 
-
-
 ```bash
 sed-i 's/telemetry_enabled：true/telemetry_enabled：false/g' /etc/proton-server/config.yaml
 ```
-
 
 4.  停止并再次启动容器以在禁用所有遥测的情况下运行 Timeplus Proton。
 
 如果你使用单一二进制，环境变量 `TELEMETRY_ENABLED` 也可以使用。 或者，你可以手动更新 config.yaml 文件来设置 `telemetry_enabled: false`。
 
 有关我们收集和使用的遥测数据的完整详细信息，请参阅我们的 [隐私政策](https://www.timeplus.com/privacy-policy) 。
-
-
 
 ## Timeplus Proton 是否提供 JDBC/ODBC 驱动程序？
 
@@ -114,15 +103,11 @@ JDBC 驱动程序可在 https://github.com/timeplus-io/proton-java-driver 获得
 
 如果你使用的是 Timeplus Enterprise，你可以使用 REST API 或 [SDK](https://github.com/timeplus-io/gluon) 通过不属于 Timeplus Proton 的 API 服务器在 Timeplus 中运行查询或管理资源。
 
-
-
 ## 我可以为 Timeplus Proton 捐款吗？
 
 是的！
 
 最好的入门方法是查看 GitHub 上的 Timeplus Proton 仓库中的 [现有问题](https://github.com/timeplus-io/proton/issues) 。 我们还在我们 [Timeplus 社区 Slack](https://timeplus.com/slack)的 `#proton` 和 `#contributing` 频道中积极讨论 Timeplus Proton 的未来版本。
-
-
 
 ## 在哪里可以了解有关 Timeplus Proton 的更多信息？
 
@@ -135,8 +120,6 @@ JDBC 驱动程序可在 https://github.com/timeplus-io/proton-java-driver 获得
 - [维基](https://github.com/timeplus-io/proton/wiki)
 
 我们还在 [公告文章](https://www.timeplus.com/post/timeplus-journey-to-open-source)中讨论了我们以开源形式发布 Timeplus Proton 的旅程。
-
-
 
 ## 我怎样才能开始？
 
