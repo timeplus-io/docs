@@ -190,22 +190,19 @@ _Proton：_
 - 查看 [proton/examples](https://github.com/timeplus-io/proton/tree/develop/examples) 文件夹中的新示例： [CDC](https://github.com/timeplus-io/proton/tree/develop/examples/cdc)、 [awesome-sensor-Logger](https://github.com/timeplus-io/proton/tree/develop/examples/awesome-sensor-logger)和 [欺诈检测](https://github.com/timeplus-io/proton/tree/develop/examples/fraud_detection)
 - (v1.3.29) 为 [管理格式架构](proton-format-schema) 引入了新的 SQL 命令（目前，仅支持 Protobuf 架构）。
 - (v1.3.28) For `create random stream`, the default interval_time is now 5 milliseconds, instead of 100 milliseconds. This new default value will generate random data more evenly. 这个新的默认值将更均匀地生成随机数据。
-- (v1.3.28) 函数名称不再区分大小写。 你可以使用计数 ()、计数 () 或计数 ()。 (v1.3.28) Function names are no longer case sensitive. You can use count(), COUNT(), or Count(). This improves the compatibility for Proton with 3rd party tools if they generate SQL statements in uppercase.
+- (v1.3.28) 函数名称不再区分大小写。 你可以使用计数 ()、计数 () 或计数 ()。 在 Proton 与其他工具整合时，忽略大小写将进一步提高兼容性。
 - (v1.3.27) 随机流支持 ipv4 和 ipv6 数据类型。
-- [质子元数据库驱动程序 (v0.0.3)](https://github.com/timeplus-io/metabase-proton-driver) 的发布是为了提高 Proton 与不区分大小写的 SQL 函数的兼容性。
-- Proton</a> 的
-Grafana 插件已得到增强并发布在 Grafana Catalog 上。 您可以通过管理页面进行安装，而无需手动下载文件。 请确保可以从 Grafana 访问质子的 8463 和 3218 端口，因为新版本将调用 Proton 查询分析器 API（在 3218 上）来确定它是否是流式查询，然后以不同的方式呈现结果。 使用此插件，您可以使用 Proton 中的数据以及在 Grafana 中配置的其他数据源来构建图表和仪表板。 试一试，告诉我们你的想法！</li> </ul> 
-  
-  _Timeplus Cloud：_
-  
-  - New Core NATS/JetStream datasource is now available. We welcome any feedback! 我们欢迎任何反馈！
+- [Proton Metabase数据库驱动程序 (v0.0.3)](https://github.com/timeplus-io/metabase-proton-driver) 的发布是为了提高 Proton 与不区分大小写的 SQL 函数的兼容性。
+- Proton的 [Grafana 插件](https://grafana.com/grafana/plugins/timeplus-proton-datasource)已得到增强并发布在 Grafana Catalog 上。 您可以通过管理页面进行安装，而无需手动下载文件。 请确保可以从 Grafana 访问质子的 8463 和 3218 端口，因为新版本将调用 Proton 查询分析器 API（在 3218 上）来确定它是否是流式查询，然后以不同的方式呈现结果。 使用此插件，您可以使用 Proton 中的数据以及在 Grafana 中配置的其他数据源来构建图表和仪表板。 试一试，告诉我们你的想法！
+
+_Timeplus Cloud：_
+
+- 新的 Core NATS/JetStream 数据源现已推出。 我们欢迎任何反馈！ 我们欢迎任何反馈！ 我们欢迎任何反馈！
 - WebSocket 源现在支持多条打开的消息。
 - 图表类型选择器现在是一个下拉列表，其中包含禁用类型时所需列的提示。
 - 在查询页面的直播目录中，您可以按直播或列进行搜索。
 - 在图表格式设置中，单色调色板扩展为包含 10 种颜色阴影（之前为 3 种）。
 - 对于全屏模式下的图表，鼠标悬停在工具提示上可用。
-
-
 
 ## 2023 年 12 月 11 日
 
@@ -224,8 +221,6 @@ _Timeplus Cloud：_
 - 在仪表板图表中，我们现在在鼠标悬停时显示所有图表类型的 “上次更新” 时间。
 - （预览功能）推出新的数据源：NATS 和 NATS JetStream。 配置用户界面将很快在 Timeplus Cloud 中推出。 如果您想试用此功能，请联系我们。
 
-
-
 ## 2023 年 11 月 27 日
 
 _Our [Grafana data source plugin](https://github.com/timeplus-io/proton-grafana-source), to connect to Proton and visualize streaming or batch queries, is now open source. Stay tuned for our upcoming blog and demo!_
@@ -242,8 +237,6 @@ _Timeplus Cloud：_
 - Pulsar 数据旅游经过增强，支持批处理，提高写入性能。
 - “外部流” 现在显示在左侧导航菜单中，您可以在其中查看所有外部直播并创建新流。
 - (Preview) We've added the open-high-low-close ([OHLC](viz#ohlc-chart)) chart type common in the finance industry, to visualize the movement of prices over time. Additional format settings include choosing a time range. Please contact us if you'd like to try this new chart type. 其他格式设置包括选择时间范围。 如果您想尝试这种新的图表类型，请联系我们。
-
-
 
 ## 2023年11月13日
 
@@ -265,8 +258,6 @@ _Timeplus 平台：_
 
 - 对于Timeplus平台的本地部署，我们现在提供两种可观察性选项：使用Timeplus或使用Grafana/Loki。
 
-
-
 ## 2023 年 10 月 30 日
 
 _Proton：_
@@ -285,8 +276,6 @@ _Timeplus Cloud：_
 - 仪表板查询变量下拉菜单有了新的用户界面：搜索时，我们现在将仅在下拉列表中显示匹配的项目，而不是突出显示匹配的项目。
 - 删除查询书签时，将显示一个确认对话框。
 
-
-
 ## 2023 年 10 月 16 日
 
 _Timeplus is now open source! Introducing **Proton**, a unified, lightweight streaming and historical data processing engine in a single binary, powering the Timeplus Cloud streaming analytics platform. [Try Proton with Docker](https://github.com/timeplus-io/proton)_
@@ -301,8 +290,6 @@ _Timeplus Cloud：_
 
 - 现在，您可以在 “控制面板” 列表中按关键字进行搜索。
 - 在 “查询” 页面中，我们从 SQL Helper 侧面板中删除了 “最近的查询”。 In the Query page, we've removed Recent Queries from the SQL Helper side panel. You can still see your Recent Queries by opening a new query tab, or on your Homepage.
-
-
 
 ## 2023 年 10 月 2 日
 
@@ -324,8 +311,6 @@ _Timeplus Cloud 的新功能：_
 
 - 我们的入职体验焕然一新。 Our onboarding experience has a new look. After [creating a new account](https://us.timeplus.cloud), answer a couple of quick questions so we can get to know you better, and then give your workspace a name.
 
-
-
 ## 2023 年 9 月 18 日
 
 **数据库**
@@ -345,8 +330,6 @@ _Timeplus Cloud 的新功能：_
 **控制台用户界面**
 
 - 在视图、物化视图、接收器和查询历史记录等资源列表中，SQL 现在显示在一行中，没有中断。
-
-
 
 ## 2023 年 9 月 5 日
 
@@ -374,8 +357,6 @@ Timeplus 的 Terraform 提供商现已发布—— [看看吧](https://registry.
 
 - We've added a banner to inform you when a new version of Timeplus is deployed, and prompt you to refresh your browser to get the latest version. We also show a similar banner if we detect network issues. 如果我们检测到网络问题，我们还会显示类似的横幅。
 
-
-
 ## 2023 年 8 月 21 日
 
 **基础设施即代码**
@@ -392,8 +373,6 @@ Timeplus 的 Terraform 提供商现已发布—— [看看吧](https://registry.
 - 在 “数据提取” 页面上，“添加数据” 弹出窗口现在可以直接显示数据源（例如 Apache Kafka、Confluent Cloud、Redpanda 等）。
 - 在 Data Lineages 页面上，如果您四处移动图块，我们将记住它们的位置，并在您下次访问此页面时将其显示在相同的位置。 要返回默认位置，请单击右上角的重置布局按钮。
 - 当您删除 API 密钥时，我们现在将显示一个弹出窗口以确认删除。
-
-
 
 ## 2023年8月8日
 
