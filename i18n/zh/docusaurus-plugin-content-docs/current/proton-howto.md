@@ -29,9 +29,13 @@ docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
 
 ## 如何读/写 Kafka 或 Redpanda {#kafka}
 
-您可以使用 [外部流]（质子-kafka）从 Kafka 主题中读取数据或向主题写入数据。 我们验证了与 Apache Kafka、Confluent Cloud、Confluent Platform、Redpanda、WarpStream、Upstash 等的集成。
+您可以使用 [外部流](proton-kafka)从 Kafka 主题中读取数据或向主题写入数据。 我们验证了与 Apache Kafka、Confluent Cloud、Confluent Platform、Redpanda、WarpStream、Upstash 等的集成。
 
 ```sql
+CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
+(<col_name1> <col_type>)
+SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',
+username='..',password='..',sasl_mechanism='..'
 ```
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/w_Tr62oKE4E?si=xkrLA60-SZUrrmWL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -69,6 +73,13 @@ Proton 支持强大且易于使用的 JSON 处理。 你可以将整个 JSON 文
 如果你只需要加载一个 CSV 文件，你可以创建一个直播然后使用 `INSERT INTO.. 选择... FROM 文件 (..) `语法。 例如，如果 CSV 文件中有 3 个字段：时间戳、价格、交易量，则可以通过以下方式创建直播
 
 ```sql
+CREATE STREAM stream
+(
+  `timestamp` datetime64(3),
+  `price` float64,
+  `volume` float64
+)
+SETTINGS event_time_column = 'timestamp';
 ```
 
 请注意，直播中将有第 4 列，即\ _tp_time 作为 [事件时间]（事件时间）。
@@ -76,6 +87,10 @@ Proton 支持强大且易于使用的 JSON 处理。 你可以将整个 JSON 文
 要导入 CSV 内容，请使用 [文件] (https://clickhouse.com/docs/en/sql-reference/table-functions/file) 表函数来设置文件路径、标题和数据类型。
 
 ```sql
+INSERT INTO stream (timestamp,price,volume)
+SELECT timestamp,price,volume
+FROM file('data/my.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
+SETTINGS max_insert_threads=8;
 ```
 
 :::info
@@ -91,6 +106,24 @@ Proton 支持强大且易于使用的 JSON 处理。 你可以将整个 JSON 文
 如果您需要将多个 CSV 文件导入到单个数据流，则可以执行类似的操作。 你甚至可以再添加一列来跟踪文件路径。
 
 ```sql
+CREATE STREAM kraken_all
+(
+ `path` string,
+  `timestamp` datetime64(3),
+  `price` float64,
+  `volume` float64,
+  `_tp_time` datetime64(3, 'UTC') DEFAULT timestamp CODEC(DoubleDelta, LZ4),
+  INDEX _tp_time_index _tp_time TYPE minmax GRANULARITY 2
+)
+ENGINE = Stream(1, 1, rand())
+PARTITION BY to_YYYYMM(_tp_time)
+ORDER BY to_start_of_hour(_tp_time)
+SETTINGS event_time_column = 'timestamp', index_granularity = 8192;
+
+INSERT INTO kraken_all (path,timestamp,price,volume)
+SELECT _path,timestamp,price,volume
+FROM file('data/*.csv', 'CSV', 'timestamp datetime64(3), price float64, volume float64')
+SETTINGS max_insert_threads=8;
 ```
 
 ## 如何使用 Grafana 或 Metabase 可视化 Proton 查询结果 {#bi}
