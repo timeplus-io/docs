@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
 
 :::info
 
-确保你使用的是 “工作空间 ID”，而不是 “工作空间名称”。 Workspace-id 是一个包含8个字符的随机字符串。 你可以从浏览器的地址栏中获取：https://us.timeplus.cloud/<workspace-id>/console。 Workspace-name 是您在创建工作区时设置的名称。 目前，此名称是只读的，但我们将在将来将其设为可编辑。
+确保你使用的是 “工作空间 ID”，而不是 “工作空间名称”。 Workspace-id 是一个包含8个字符的随机字符串。 你可以从浏览器的地址栏中找到这个 id：https://us.timeplus.cloud/workspace/console。 Workspace-name 是您在创建工作区时设置的名称。 目前，此名称是只读的，但我们将在将来将其设为可编辑。
 
 :::
 
@@ -41,12 +41,12 @@ import TabItem from '@theme/TabItem';
 
 以下是向Timeplus推送数据的不同用例列表：
 
-| 用例                                                                     | POST 正文示例                                                                                                                 | 内容类型                   | 网址                                  | 目标流中的列              |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ----------------------------------- | ------------------- |
-| 1. 推送 JSON 对象。 每个 JSON 都是一个事件。                                         | {"key1": "value11", "key2": "value12", ...}<br/>{"key1": "value21", "key2": "value22", ...}                               | `应用程序/x-ndjson`        |                                     | 多列，例如 key1、key2     |
-| 2. 推送单个 JSON 或长文本。 单项活动。                                               | {"key1": "value11", "key2": "value12", ...}                                                                               | 'text/plain'           |                                     | 单列，命名为 “raw”        |
-| 3. 推送一批事件。 每行都是一个事件。                                                   | event1<br/>event2                                                                                                         | 'text/plain'           |                                     | 单列，命名为 “raw”        |
-| 4. 推送包含多个事件的特殊 JSON，无需重复列名                                             | { <br/> "columns": ["key1","key2"],<br/> "data": \[ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>} | `应用程序/json`            |                                     | 多列，例如 key1、key2     |
+| 用例                                                                     | POST 正文示例                                                                                                                | 内容类型           | 网址                                  | 目标流中的列              |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------- | ----------------------------------- | ------------------- |
+| 1. 推送 JSON 对象。 每个 JSON 都是一个事件。                                         | "key1": "value11", "key2": "value12", ...<br/>"key1": "value21", "key2": "value22", ...                                  |                |                                     | 多列，例如 key1、key2     |
+| 2. 推送单个 JSON 或长文本。 单项活动。                                               | "key1": "value11", "key2": "value12", ...                                                                                |                |                                     | 单列，命名为 “raw”        |
+| 3. 推送一批事件。 每行都是一个事件。                                                   | event1<br/>event2                                                                                                        |                |                                     | 单列，命名为 “raw”        |
+| 4. 推送包含多个事件的特殊 JSON，无需重复列名                                             | <br/> "columns": ["key1","key2"],<br/> "data": [ <br/> ["value11","value12"],<br/> ["value21","value22"],<br/> ]<br/>    |                |                                     | 多列，例如 key1、key2     |
 
 #### 1. 直接推送 JSON 对象 {#option1}
 
@@ -56,100 +56,28 @@ import TabItem from '@theme/TabItem';
 <TabItem value="js" label="Node.js" default>
 
 ```js
-const https = require (“https”);
-const 选项 = {
-  主机名：“us.timeplus.cloud”，
-  路径：“/ws123456/api/v1beta2/streams/foo/ingest？format=streaming”，
-  方法：“POST”，
-  标头：{
-    “内容类型”：“应用程序/x-ndjson”，
-    “X-Api-Key”：“<your_api_key>”，
-  }，
-}；
 
-const data = `
-{“key1"：“value11"，“key2"：“value12”}
-{“key1"：“value21”，“key2”: “value22"}
-`;
-const 请求 = https.request (选项，(resp) => {});
-request.on (“错误”, (错误) => {
-  console.error (错误);
-});
-request.write (数据);
-request.end ();
 ```
 
 </TabItem>
   <TabItem value="curl" label="curl">
 
 ```bash
-curl-s-X POST-H “X-Api-Key：your_api_key”\
--H “内容类型：应用程序/x-ndjson”\
-https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming\
--d '
-{“key1”：“value11”，“value2”：“value2”：“value2”：“value2”：“value2”：“value2”：“value12”}
-{“key1”：“value21”，“key2”：“value22”}
-'
+
 ```
 
 </TabItem>
   <TabItem value="py" label="Python">
 
 ```python
-导入请求
 
-url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming”
-标头 = {
-    “X-Api-Key”：“your_api_key”，
-    “内容类型”：“application/x-ndjson”
-}
-数据 = “'
-{“key1"：“value11”，“key2"：“value11”，“value2”: “value12”}
-{“key1"：“value21”，“key2"：“value22"}
-“'
-
-响应 = requests.post（网址，标题=标题，数据 = 数据）
-打印（response.status_code）
-打印（response.status_code）打印（response.text）
 ```
 
 </TabItem>
   <TabItem value="java" label="Java">
 
 ```java
-导入 okhttp3.MediaType；
-导入 okhttp3.okHttpClient；
-导入 okhttp3.request；
-导入 okhttp3.requestBody；
-导入 okhttp3.Response；
 
-导入 java.io.ioException；
-
-公共类示例 {
-    公共静态空白 main (String [] args) 抛出 IOException {
-        OkHttpClient 客户端 =全新 OkhttpClient ();
-
-        字符串 url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming”;
-        MediaType MediaType = MediaType.Parse（“application/x-ndjson”）；
-        字符串数据 = “”
-          {“key1”，“value2"}
-          “”;
-        requestBody 正文 =
-          requestBody.Create（媒体类型，数据）；
-
-        请求请求 = 新的 Request.Builder ()
-                .url (url)
-                .header（“X-Api-Key”，“your_api_key”）
-                .header（“内容类型”，“应用程序/x-ndjson”）
-                .post（正文）
-                .build ();
-
-        尝试（响应响应 = Client.newCall（请求）。()) {
-            系统。out.println (response.code ());
-            System.out.println (response.body () .string ());
-        }
-    }
-}}
 ```
 
 </TabItem>
@@ -157,12 +85,12 @@ url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?forma
 
 您可以将换行符分隔的 JSON (http://ndjson.org/) 推送到终端节点。 确保将 HTTP 标头设置为以下内容之一：
 
-- `应用程序/x-ndjson`
+-
 - `application/vnd.timeplus+json; format=streaming`
 
 :::info
 
-如果你想利用第三方系统/工具将数据推送到 Timeplus 但它不允许自定义内容类型，那么你可以使用标准的 “application/json”，然后向 `/api/v1beta2/streams/$STREAM_NAME/ingest 发送 POST 请求？format=streaming`。 对于 API 身份验证，除了自定义 HTTP 标头 <code>X-api-key: the_key</code>之外，我们现在还支持 <code>Authorization：apiKey THE_KEY</code> 了解更多 <a href="ingest-api">Ingest API</a>
+如果你想利用第三方系统/工具将数据推送到 Timeplus 但它不允许自定义内容类型，那么你可以使用标准的 “application/json”，然后向 \``/api/v1beta2/streams/$STREAM_NAME/ingest?format=streaming`。 对于 API 身份验证，除了自定义 HTTP 标头 <code>X-api-key: the_key</code>之外，我们现在还支持 <code>Authorization：apiKey THE_KEY</code> 了解更多 <a href="ingest-api">Ingest API</a>
 
 :::
 
@@ -205,24 +133,7 @@ url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?forma
 <TabItem value="js" label="Node.js" default>
 
 ```js
-const https = require (“https”);
-const 选项 = {
-  主机名：“us.timeplus.cloud”，
-  路径：“/ws123456/api/v1beta2/streams/foo/ingest？format=raw”，
-  方法：“POST”，
-  标头：{
-    “内容类型”：“文本/纯文本”，
-    “X-Api-Key”：“<your_api_key>”，
-  }，
-}；
 
-const data = `{“key1"：“value11"，“key2"：“value12"}}`；
-常量请求 = https.request (选项，(resp) => {});
-request.on (“错误”, (错误) => {
-  console.error (错误);
-});
-request.write（数据）;
-request.end ();
 ```
 
 </TabItem>
@@ -241,58 +152,14 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw\
   <TabItem value="py" label="Python">
 
 ```python
-导入请求
 
-url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw”
-标头 = {
-    “X-Api-Key”：“your_api_key”，
-    “内容类型”：“text/plain”
-}
-data = “'
-{“key1"：“value11”，“key2"：“value12"}
-“'
-
-响应 = requests.post（网址，标题=标题，数据=数据）
-打印（response.status_code）
-打印（response.text）
 ```
 
 </TabItem>
   <TabItem value="java" label="Java">
 
 ```java
-导入 okhttp3.MediaType；
-导入 okhttp3.okHttpClient；
-导入 okhttp3.request；
-导入 okhttp3.requestBody；
-导入 okhttp3.Response；
 
-导入 java.io.ioException；
-
-公共类示例 {
-    公共静态空白 main (String [] args) 抛出 IOException {
-        OkHttpClient 客户端 =全新 OkhttpClient ();
-
-        字符串 url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw”;
-        MediaType MediaType = MediaType.Parse（“文本/纯文本”）；
-        字符串数据 = “” 
-          {“key1"：“value11"，“key2"：“value12"} 
-          “”；
-        requestBody.create = requestBody.Create（媒体类型，数据）；
-
-        请求请求 =新的 Request.Builder ()
-                .url (url)
-                .header（“X-Api-Key”，“your_api_key”）
-                .header（“内容类型”，“文本/纯文本”）
-                .post（正文）
-                .build ()；
-
-        尝试（响应响应 = Client.newCall（请求）.execute ()) {
-            System.out.println (response.code ());
-            system.out.println (response.body ()。字符串 ();
-        }
-    }
-}
 ```
 
 </TabItem>
@@ -310,97 +177,28 @@ data = “'
 <TabItem value="js" label="Node.js" default>
 
 ```js
-const https = require (“https”);
-const 选项 = {
-  主机名：“us.timeplus.cloud”，
-  路径：“/ws123456/api/v1beta2/streams/foo/ingest？format=lines”，
-  方法：“POST”，
-  标题：{
-    “内容类型”：“文本/纯文本”，
-    “X-Api-Key”：“<your_api_key>”，
-  }，
-}；
 
-常量数据 = `{“key1"：“value11”，“key2"：“value2”：“value12”}
-{“key1"：“value21”，“key2"：“value22”}
-`;
-const 请求 = https.request（选项，（resp）=> {}）；
-request.on（“错误”，（错误）=> {
-  console.error（错误）；
-}）；
-request.write（数据）；
-request.end ();
 ```
 
 </TabItem>
   <TabItem value="curl" label="curl">
 
 ```bash
-curl-s-X POST-H “X-Api-Key：your_api_key”\
--H “内容类型：文本/纯文本”\
-https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines\
--d '{“key1"：“value11”，“key2：“value12”}
-{“key1"：“value21”，“key2"：“value22"}
-'
+
 ```
 
 </TabItem>
   <TabItem value="py" label="Python">
 
 ```python
-导入请求
 
-url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines”
-标头 = {
-    “X-Api-Key”：“your_api_key”，
-    “内容类型”：“文本/纯文本”
-}
-数据 = “'{“key1"：“value11”，“value2"：“value2"，“value2"}
-“'
-
-
-响应 = requests.post（网址，标题=标题，数据=数据）
-打印（response.status_code）
-打印（response.text）
 ```
 
 </TabItem>
   <TabItem value="java" label="Java">
 
 ```java
-导入 okhttp3.MediaType；
-导入 okhttp3.okHttpClient；
-导入 okhttp3.request；
-导入 okhttp3.requestBody；
-导入 okhttp3.Response；
 
-导入 java.io.ioException；
-
-公共类示例 {
-    公共静态空白 main (String [] args) 抛出 IOException {
-        OkHttpClient 客户端 =全新 OkhttpClient ();
-
-        字符串 url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines”;
-        MediaType MediaType = MediaType.Parse（“文本/纯文本”）；
-        字符串数据 = “”
-          {“key1"：“value11"，“key2"} “
-”;
-        请求正文 = 请求正文。
-          创建（MediaType，数据）；
-
-        请求请求 = new Request.Builder ()
-                .url (url)
-                .header（“X-Api-Key”，“your_api_key”）
-                .header（“内容类型”，“文本/纯文本”）
-                .post（正文）
-                .build ();
-
-        尝试（响应响应 = Client.newCall（请求）.execute () .out.println（响应代码
-            ());
-            System.out.println (response.body () .string ());
-        }
-    }
-}}
 ```
 
 </TabItem>
@@ -416,119 +214,27 @@ url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?forma
 <TabItem value="js" label="Node.js" default>
 
 ```js
-const https = require (“https”)；
-const 选项 = {
-  主机名：“us.timeplus.cloud”，
-  路径：“/ws123456/api/v1beta2/streams/foo/ingest”，
-  方法：“POST”，
-  标头：{
-    “内容类型”：“应用程序/json”，
-    “X-Api-Key”：“<your_api_key>”，
-  }，
-};
 
-const data = `
-{
-  “列”：[“key1"，“key2"]，
-  “数据”：[
-    [“value11"，“value12"]，
-    [“value21"，“value22"]，
-  ]
-}
-`;
-常量请求 = https.request (选项，(resp) => {});
-request.on (“错误”, (错误) => {
-  console.error (错误);
-});
-request.write（数据）;
-request.end ();
 ```
 
 </TabItem>
   <TabItem value="curl" label="curl">
 
 ```bash
-curl-s-X POST-H “X-Api-Key：your_api_key”\
--H “内容类型：应用程序/json”\
-https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest\
--d '
-{
-  “列”：[“key1"，“key2"]，
-  “数据”：[
-    [“value11”，“value12”]，
-    [“value21”，“value22”]，
-  ]
-}
-'
+
 ```
 
 </TabItem>
   <TabItem value="py" label="Python">
 
 ```python
-导入请求
 
-url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest”
-标头 = {
-    “X-Api-Key”：“your_api_key”，
-    “内容类型”：“application/json”
-}
-data = “'
-
-  “列”：[“key1"，“key2"]，
-  “数据”：[
-    [“value11"，“value12"]，
-    [“value21"，“value22"]，
-  ]
-}
-“'
-
-响应 = requests.post（网址，标题=标题，数据=数据）
-打印（response.status_code）
-打印（响应.text）
 ```
 
 </TabItem>
   <TabItem value="java" label="Java">
 
 ```java
-导入 okhttp3.MediaType；
-导入 okhttp3.okHttpClient；
-导入 okhttp3.request；
-导入 okhttp3.requestBody；
-导入 okhttp3.Response；
-
-导入 java.io.ioException；
-
-公共类示例 {
-    公共静态空白 main (String [] args) 抛出 IOException {
-        OkHttpClient 客户端 =全新 OkhttpClient ();
-
-        字符串 url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest”;
-        MediaType MediaType = MediaType.Parse（“文本/纯文本”）；
-        字符串数据 = “”
-{
-  “列”：[“key1"，“key2"]，
-  “数据”：[
-    [“value11"，“value12"]，
-    [“value21”，“value22” “]，
-  ]
-}
-          “”;
-        requestBody 正文 = requestBody.Create（媒体类型，数据）；
-
-        请求请求 = 新的 Request.Builder ()
-                .url (url)
-                .header (“X-Api-Key”，“your_api_key”)
-                .header（“内容类型”，“应用程序/json”）
-                .post（正文）
-                .build ();
-
-        尝试（响应响应 = client.newCall（请求）.execute ()) {
-            System.out.println (response.code ())；
-            System.out.println (response.out.println (response.out.println ())；System.out.println (response.
-
-
 
 ```
 
@@ -542,20 +248,14 @@ data = “'
 
 但是你需要将 HTTP 标头设置为以下其中之一：
 
-- `应用程序/json`
+-
 - `application/vnd.timeplus+json`
 - `application/vnd.timeplus+json; format=compact`
 
 请求正文采用以下格式：
 
 ```json
-{
-  “列”: [..],
-  “数据”: [
-    [..],
-    [..],
-  ]
-}
+
 ```
 
 备注：
@@ -566,13 +266,7 @@ data = “'
 例如：
 
 ```json
-{
-  “列”：[“key1"，“key2"]，
-  “数据”：[
-    [“value11"，“value12"]，
-    [“value21"，“value22"]
-  ]
-}
+
 ```
 
 您也可以使用我们的软件开发工具包来提取数据，而无需处理 REST API 的低级细节。
