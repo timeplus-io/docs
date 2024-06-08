@@ -80,19 +80,19 @@
     "description": "The label for category Self-hosted in sidebar docSidebar"
   },
   "sidebar.docSidebar.category.Tutorials and Examples": {
-    "message": "Tutorials and Examples",
+    "message": "教程和示例",
     "description": "The label for category Tutorials and Examples in sidebar docSidebar"
   },
   "sidebar.docSidebar.category.SQL Engine (Proton)": {
-    "message": "SQL Engine (Proton)",
+    "message": "SQL 引擎 (Proton)",
     "description": "The label for category SQL Engine (Proton) in sidebar docSidebar"
   },
   "sidebar.docSidebar.category.SQL Reference": {
-    "message": "SQL Reference",
+    "message": "SQL 参考",
     "description": "The label for category SQL Reference in sidebar docSidebar"
   },
   "sidebar.docSidebar.category.Frequently Asked Questions": {
-    "message": "Frequently Asked Questions",
+    "message": "常见问题",
     "description": "The label for category Frequently Asked Questions in sidebar docSidebar"
   },
   "sidebar.docSidebar.category.What's New": {
@@ -100,11 +100,11 @@
     "description": "The label for category What's New in sidebar docSidebar"
   },
   "sidebar.docSidebar.category.Additional Resources": {
-    "message": "Additional Resources",
+    "message": "额外资源",
     "description": "The label for category Additional Resources in sidebar docSidebar"
   },
   "sidebar.docSidebar.link.REST API Reference": {
-    "message": "REST API Reference",
+    "message": "REST API 参考",
     "description": "The label for link REST API Reference in sidebar docSidebar, linking to https://docs.timeplus.com/rest.html"
   }
 }
