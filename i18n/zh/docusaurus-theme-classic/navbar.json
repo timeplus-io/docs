@@ -32,7 +32,7 @@
     "description": "带有标签的导航栏项目  "
   },
   "item.label.Product": {
-    "message": "Product",
+    "message": "产品",
     "description": "Navbar item with label Product"
   },
   "item.label.Use Cases": {
@@ -40,7 +40,7 @@
     "description": "Navbar item with label Use Cases"
   },
   "item.label.Pricing": {
-    "message": "Pricing",
+    "message": "定价",
     "description": "Navbar item with label Pricing"
   },
   "item.label.Blog": {
@@ -60,23 +60,23 @@
     "description": "Navbar item with label AI"
   },
   "item.label.Timeplus vs. ksqlDB": {
-    "message": "Timeplus vs. ksqlDB",
+    "message": "Timeplus 与 ksqlDB",
     "description": "Navbar item with label Timeplus vs. ksqlDB"
   },
   "item.label.Our Team": {
-    "message": "Our Team",
+    "message": "团队",
     "description": "Navbar item with label Our Team"
   },
   "item.label.Media Kit": {
-    "message": "Media Kit",
+    "message": "媒体工具包",
     "description": "Navbar item with label Media Kit"
   },
   "item.label.Resources": {
-    "message": "Resources",
+    "message": "资源",
     "description": "Navbar item with label Resources"
   },
   "item.label.Slack Community": {
-    "message": "Slack Community",
+    "message": "Slack 社区",
     "description": "Navbar item with label Slack Community"
   }
 }
