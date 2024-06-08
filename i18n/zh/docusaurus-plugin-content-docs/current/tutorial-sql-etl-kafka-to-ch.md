@@ -1,4 +1,4 @@
-# 直播 ETL：Kafka 到 ClickHouse
+# 流式ETL：Kafka 到 ClickHouse
 
 该视频演示了如何读取来自Redpanda的实时数据、应用流处理以及如何将结果发送到ClickHouse。 [相关博客] (https://www.timeplus.com/post/proton-clickhouse-integration)。
 
@@ -15,15 +15,6 @@ https://github.com/timeplus-io/proton/tree/develop/examples/clickhouse 提供了
 首先，在 ClickHouse 中使用常规 MergeTree 表格引擎创建一个表格。
 
 ```sql
-创建 TABLE 事件
-(
-    _tp_time dateTime64 (3)、
-    url 字符串、
-    方法字符串、
-    ip 字符串
-)
-enge=mergeTree ()
-主键 (_tp_time，url)；
 ```
 
 这将成为 ClickHouse 的 Proton 外部表的目的地。 稍后，你还可以读取 Proton 中的数据。
@@ -37,30 +28,16 @@ enge=mergeTree ()
 要从 Kafka 或 Redpanda 读取数据，你只需要使用以下 DDL SQL 创建 [外部流]（质子-kafka）：
 
 ```sql
-创建外部直播 frontend_events（原始字符串）
-设置 type='kafka'，
-         brokers='redpanda: 9092'，
-         topic='owlshop-frontend-events'；
 ```
 
 然后运行以下 DDL SQL 来设置 Proton 和 ClickHouse 之间的连接。 对于没有安全设置的本地 Clickhouse，可以这么简单：
 
 ```sql
-创建外部表 ch_local
-设置 type='clickhouse'，
-         address='localhost: 9000'，
-         table='events'；
 ```
 
 然后创建一个物化视图来从 Redpanda 读取数据，提取值并将 IP 转换为屏蔽的 md5，然后将数据发送到外部表。 这样，转换后的数据将持续写入ClickHouse。
 
 ```sql
-在 ch_local 中创建物化视图 mv 作为
-    SELECT now64 () 作为 _tp_time，
-           raw: requestedURL 作为 url，
-           raw: 方法作为方法，
-           lower（十六进制 (md5 (raw: IP 地址)）作为 ip
-    来自 frontend_events；
 ```
 
 创建物化视图后，它将用作 Proton 中的后台 ETL 作业，持续从 Kafka/Redpanda 读取数据，应用转换或聚合，然后将结果发送到 ClickHouse。 要了解有关 Proton 中物化视图的更多信息，请参阅 [此文档]（查看 #m_view）。
@@ -80,27 +57,4 @@ enge=mergeTree ()
 例如：
 
 ```sql
-— 在不将数据复制到 Proton 的情况下读取 ClickHouse 中的维度表
-创建外部表 dim_path_to_title
-设置类型='clickhouse'，地址 ='localhost: 9000'；
-
-— 以亚秒级延迟读取 Kafka 数据
-创建外部流点击流 (
-  ts datetime64，
-  product_id int，
-  ip 字符串
-)
-设置类型='kafka'，brokers='kafka: 9092'，topic='clickstream'；
-
-— 持续写信给 ClickHouse
-创建外部表 target_table
-设置类型='clickhouse'，地址='localhost: 9000'，table='pageviews'；
-
-— 每隔 5 秒缩小点击事件的样本并使用页面标题丰富 URL 路径
-创建物化视图 mv 进入 target_table 为
-  ，pv 为（
-        选择 window_start、path、count () 作为视图
-        FROM tumble（clickstream，ts,5s）按 window_start、路径分组）
-  选择 window_start 作为 ts、路径、标题
-  从 pv 使用（路径）加入 dim_path_to_title；
 ```
