@@ -7,9 +7,9 @@ import TabItem from '@theme/TabItem';
 
 有关详细的 API 文档，请查看 https://docs.timeplus.com/rest。
 
-## 在 Timeplus 中创建直播
+## 在 Timeplus 中创建流
 
-首先，你需要使用网页界面或通过 REST API 在 Timeplus 中创建直播。 应设置具有正确名称和类型的列。 在下一节中，我们假设直播名称为 `foo`。
+首先，你需要使用网页界面或通过 REST API 在 Timeplus 中创建流。 应设置具有正确名称和类型的列。 在下一节中，我们假设流名称为 `foo`。
 
 ## 在 HTTP 标头中设置 API 密钥
 
@@ -165,7 +165,7 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw\
 </TabItem>
 </Tabs>
 
-在Timeplus中使用一个名为 “raw” 的 “字符串” 列创建直播是一种常见的做法。 您可以将 JSON 对象放入此列，然后提取值（例如 “select raw: key1”），或者将原始日志消息放入此列。
+在Timeplus中使用一个名为 “raw” 的 “字符串” 列创建流是一种常见的做法。 您可以将 JSON 对象放入此列，然后提取值（例如 “select raw: key1”），或者将原始日志消息放入此列。
 
 当你将 Content-Type 标头设置为 “text/plain”，并将 format=raw 添加到摄取端点时，POST 请求中的整个正文将放在 “原始” 列中。
 
