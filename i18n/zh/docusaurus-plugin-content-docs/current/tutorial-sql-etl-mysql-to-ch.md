@@ -29,7 +29,7 @@ https://github.com/timeplus-io/proton/tree/develop/examples/cdc 提供了 Docker
 
 ## 运行 SQL
 
-你可以使用 docker exec-it <name> proton-client-h 127.0.0.1-m-n 在 Proton 容器中运行 SQL 客户端。 或者使用 Docker 桌面用户界面选择容器，选择 “执行” 选项卡并键入 proton-client-h 127.0.0.1-m-n 来启动 SQL 客户端。
+你可以使用 docker exec-it \<name> proton-client-h 127.0.0.1-m-n 在 Proton 容器中运行 SQL 客户端。 或者使用 Docker 桌面用户界面选择容器，选择 “执行” 选项卡并键入 proton-client-h 127.0.0.1-m-n 来启动 SQL 客户端。
 
 复制 “mysql-to-clickhouse.sql” 的内容并粘贴到 Proton Client 中并一起运行。 会发生什么：
 
