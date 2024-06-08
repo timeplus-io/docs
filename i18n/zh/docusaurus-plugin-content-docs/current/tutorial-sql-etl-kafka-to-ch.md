@@ -8,7 +8,7 @@
 
 ## 子查询
 
-https://github.com/timeplus-io/proton/tree/develop/examples/clickhouse 提供了 Docker Compose 堆栈以及示例 SQL 语句。 当你启动堆栈时，最新版本的质子和ClickHouse以及Redpanda和数据生成器将自动启动。
+https://github.com/timeplus-io/proton/tree/develop/examples/clickhouse 提供了 Docker Compose 堆栈以及示例 SQL 语句。 当你启动堆栈时，最新版本的Proton和ClickHouse以及Redpanda和数据生成器将自动启动。
 
 ### 示例：带有屏蔽数据的 ETL
 
@@ -25,7 +25,7 @@ https://github.com/timeplus-io/proton/tree/develop/examples/clickhouse 提供了
 
 本教程的目标是阅读这些访问日志，将敏感的IP地址转换为md5，然后将其提取到ClickHouse进行更多业务分析。
 
-要从 Kafka 或 Redpanda 读取数据，你只需要使用以下 DDL SQL 创建 [外部流]（质子-kafka）：
+要从 Kafka 或 Redpanda 读取数据，你只需要使用以下 DDL SQL 创建 [外部流]（Proton-kafka）：
 
 ```sql
 ```
@@ -48,11 +48,11 @@ https://github.com/timeplus-io/proton/tree/develop/examples/clickhouse 提供了
 
 您可以在 Proton 中使用流式处理 SQL 来完成更多操作，例如后期事件处理、复杂事件处理，或者利用数千个 ClickHouse 函数自定义转换/丰富逻辑。 Proton 的许多功能都由 ClickHouse 提供支持。 因此，如果你已经是ClickHouse的用户，你可以用类似的方式使用Proton。
 
-如上所述，质子中的外部表可用于从ClickHouse读取数据，甚至可以在流媒体JOIN中应用数据查询。 只需运行 `SELECT.. 来自 Proton 中的 external_table_name`。 它将从ClickHouse读取所选列的数据，然后在质子中应用转换或加入。
+如上所述，Proton中的外部表可用于从ClickHouse读取数据，甚至可以在流媒体JOIN中应用数据查询。 只需运行 `SELECT.. 来自 Proton 中的 external_table_name`。 它将从ClickHouse读取所选列的数据，然后在Proton中应用转换或加入。
 
 ### 示例：tumble + join
 
-一个典型的用例是，如果您在ClickHouse中有静态或缓慢变化的维度（SCD），则无需在Proton中复制它们。 只需在 Proton 中创建一个外部表，您就可以通过使用这样的外部表加入直播来丰富您的实时数据，然后将高质量的数据发送到 ClickHouse。
+一个典型的用例是，如果您在ClickHouse中有静态或缓慢变化的维度（SCD），则无需在Proton中复制它们。 只需在 Proton 中创建一个外部表，您就可以通过使用这样的外部表加入流来丰富您的实时数据，然后将高质量的数据发送到 ClickHouse。
 
 例如：
 
