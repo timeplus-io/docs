@@ -48,8 +48,6 @@ Timeplus 支持一些高级 “设置” 来微调流式查询处理行为，如
 例如
 
 ```sql
-从 test_stream 中选择 * 其中 _tp_time > earliest_timestamp ()
-设置 replay_speed=1，replay_time_column='time_column='time_column'
 ```
 
 ## replay_time_column
