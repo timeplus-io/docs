@@ -92,11 +92,11 @@ Timeplus 支持 3 种流类型：
 2. 全部或外部
 3. 十字架
 
-### 4. 严格的加入
+### 4. 严格的JOIN
 
 1. `ALL` （默认）
-2. `LATEST` 对于两个仅限追加的直播，如果你在 a.key=b.key</code>上使用 `a INNER LATEST JOIN b，则每当任一直播的密钥发生变化时，先前的连接结果将被取消并添加新的结果。</li>
-<li><code>ASOF`，提供非精确匹配功能。 `ASOF`, provides non-exact matching capabilities. 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
+2. `LATEST` 对于两个仅限追加的流，如果你运行  `a INNER LATEST JOIN b on a.key=b.key`，则每当任一流的密钥发生变化时，先前的连接结果将被取消并添加新的结果。
+3. `ASOF`，提供非精确匹配功能。 `ASOF`, provides non-exact matching capabilities. 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
 4. 范围 `ASOF`
 
 ### 支持的组合
