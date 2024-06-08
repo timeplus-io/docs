@@ -44,7 +44,7 @@
 
 ### 计量基于使用量的定价
 
-通过利用直播 SQL、 [版本化流](versioned-stream)、 [HTTP 提取](ingest-api)、 [HTTP sink](destination#http) 和许多其他功能，我们收集每个租户的实时基础设施使用情况，应用查询和聚合，并将数据发送给基于使用量的定价供应商 ([Paigo](https://paigo.tech/))。
+通过利用流 SQL、 [版本化流](versioned-stream)、 [HTTP 提取](ingest-api)、 [HTTP sink](destination#http) 和许多其他功能，我们收集每个租户的实时基础设施使用情况，应用查询和聚合，并将数据发送给基于使用量的定价供应商 ([Paigo](https://paigo.tech/))。
 
 [阅读案例研究](https://www.timeplus.com/post/usage-based-pricing-with-timeplus-and-paigo).
 
@@ -110,7 +110,7 @@ Build real-time monitoring systems for container vulnerabilities with Timeplus. 
 
 ![Jove 的演示](https://user-images.githubusercontent.com/30114997/224557365-dfe593f5-e84f-4fcf-9900-9bcfd31c5e44.png)
 
-## 视频直播
+## 视频流
 
 ### 分析 Livepeer 视频参与度指标
 
@@ -156,6 +156,6 @@ Twitter（X）全是关于正在发生的事情和人们现在在谈论什么。
 
 一位充满激情的 Timeplus 用户分享了如何使用 Timeplus 从 [Data.gov](https://www.kaggle.com/datasets/kaggle/us-baby-names)提供的数据中分析宝宝的名字。
 
-> 现在，我妻子有一些好名字的建议触手可及（实际上，我给了她一个仪表板，我正在向她的手机发送一个Kafka直播，以备不时之需），她将能够做出明智的决定。
+> 现在，我妻子有一些好名字的建议触手可及（实际上，我给了她一个仪表板，我正在向她的手机发送一个Kafka流，以备不时之需），她将能够做出明智的决定。
 
 ![宝宝的名字](/img/babynames.png)
