@@ -16,7 +16,7 @@
 示例：
 
 ```sql
-创建外部直播 ext_github_events（原始字符串）
+创建外部流 ext_github_events（原始字符串）
 设置类型='kafka'， 
          brokers='pkc-1234.us-west-2.aws.confluent.cloud: 9092'，
          topic='github_events'，
@@ -30,7 +30,7 @@
 示例：
 
 ```sql
-创建外部直播你好（原始字符串）
+创建外部流你好（原始字符串）
 设置类型='kafka'， 
          brokers='abc.any.us-east-1.mpx.prd.cloud.redpanda.com: 9092'，
          topic='hello-world'，
@@ -47,7 +47,7 @@
 示例：
 
 ```sql
-创建外部直播 ext_stream（原始字符串）
+创建外部流 ext_stream（原始字符串）
 设置类型='kafka'， 
          brokers='name.aivencloud.com: 28864'，
          topic='topic'，
@@ -68,7 +68,7 @@ chmod 400 kafka.cert
 或者，您可以将 CA pem 文件的全部内容放入 DDL SQL 中。 这可以帮助你与Kafka经纪人建立安全连接，Kafka代理使用由Proton不知道的CA证书签名的证书。 当你无法设置本地文件路径或者不想挂载或修改文件（例如使用Docker或Kubernetes或在Timeplus Cloud中）时，你可能需要将CA内容内联。
 
 ```sql
-创建外部直播 ext_stream（原始字符串）
+创建外部流 ext_stream（原始字符串）
 设置类型='kafka'， 
          brokers='name.aivencloud.com: 28864'，
          topic='topic'，
@@ -82,7 +82,7 @@ chmod 400 kafka.cert
 如果你想跳过验证 CA（不推荐），你可以通过以下方式创建外部流：
 
 ```sql
-创建外部直播 ext_stream（原始字符串）
+创建外部流 ext_stream（原始字符串）
 设置类型='kafka'， 
          brokers='name.aivencloud.com: 28864'，
          topic='topic'，
@@ -100,7 +100,7 @@ chmod 400 kafka.cert
 示例：
 
 ```sql
-创建外部直播 ext_stream（原始字符串）
+创建外部流 ext_stream（原始字符串）
 设置类型='kafka'、 
          brokers='serverless.prod-z.us-east-1.warpstream.com: 9092'、
          topic='topic'、
@@ -116,7 +116,7 @@ chmod 400 kafka.cert
 示例：
 
 ```sql
-创建外部直播 ext_stream（原始字符串）
+创建外部流 ext_stream（原始字符串）
 设置类型='kafka'， 
          brokers='grizzly-1234-us1-kafka.upstash.io: 9092'，
          topic='topic'，
