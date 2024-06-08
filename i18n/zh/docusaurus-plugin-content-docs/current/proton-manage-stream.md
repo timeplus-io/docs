@@ -1,35 +1,31 @@
-# 管理直播
+# 数据流管理
 
-## 列出直播
-
-```sql
-显示直播
-```
-
-## 描述直播
+## 列出流
 
 ```sql
-显示创建 <stream>
 ```
 
-## 改变直播
+## 描述流
 
-Currently we don't recommend to alter the schema of streams in Proton. The only exception is you can modify the retention policy for historical store. 唯一的例外是您可以修改历史存储的保留政策。
+```sql
+```
+
+## 改变流
+
+目前我们不建议更改Proton中的流模式。 唯一的例外是您可以修改历史存储的保留政策。
 
 ### 修改 TTL
 
-You can add or modify the retention policy. 例如 例如
+您可以添加或修改保留政策。 例如
 
 ```sql
-ALTER STREAM stream_name 将 TTL 修改为_datetime (created_at) + 间隔 48 小时
 ```
 
-## 下拉直播
+## 删除流
 
 运行以下 SQL 来删除流或外部流，并将所有数据存储在流存储和历史存储中。
 
 ```sql
-DROP STREAM [如果存在] db。<stream_name>;
 ```
 
 像 [CREATE STREAM]（质子创建流）一样，流删除是一个异步过程。
