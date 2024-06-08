@@ -107,36 +107,5 @@ implementation("com.squareup.okhttp3:okhttp:4.10.0")
 ```
 
 ```java
-导入 okhttp3.MediaType；
-导入 okhttp3.okHttpClient；
-导入 okhttp3.request；
-导入 okhttp3.requestBody；
-导入 okhttp3.Response；
 
-导入 java.io.ioException；
-
-公共类示例 {
-    公共静态空白 main (String [] args) 抛出 IOException {
-        OkHttpClient 客户端 =全新 OkhttpClient ();
-
-        字符串 url = “https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw”;
-        MediaType MediaType = MediaType.Parse（“文本/纯文本”）；
-        字符串数据 = “”
-          {“key1"：“value11"，“key2"：12}
-          “”；
-        requestBody.Create（媒体类型，数据）；
-
-        请求请求 = 新Request.Builder ()
-                .url (url)
-                .header（“X-Api-Key”，“your_api_key”）
-                .header（“内容类型”，“文本/纯文本”）
-                .post（正文）
-                .build ()；
-
-        尝试（响应响应 = Client.newCall（请求）.execute ()) {
-            System.out.println (response.code ());
-            system.out.println (response.body () .string ());
-        }
-    }
-}
 ```
