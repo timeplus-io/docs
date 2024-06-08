@@ -75,7 +75,7 @@ Timeplus与各种系统相结合，作为数据来源，例如Apache Kafka。
 | 主题                       | yes | 可从中食用。 A subject to consume from. Supports wildcards for consuming multiple subjects.                               |         |
 | 排队                       | no  | 可选队列组，可用作使用。                                                                                                        |         |
 | 耐用的                      | no  | 使用耐用的名称保留消费者的状态。                                                                                                    |         |
-| 流 Stream                 | no  | 可供消费的直播。 A stream to consume from. Either a subject or stream must be specified..                                   |         |
+| 流 Stream                 | no  | 可供消费的流。 A stream to consume from. Either a subject or stream must be specified..                                    |         |
 | 配送                       | no  | Determines which messages to deliver when consuming without a durable subscriber. support `all` `last` 支持 `全部` `最后` | `所有`    |
 | 捆绑                       | no  | 布尔值表示订阅应使用现有消费者。                                                                                                    |         |
 | ack_wait                 | no  | NATS 服务器等待消费者回复的最大时间。                                                                                               | `30 秒`  |
