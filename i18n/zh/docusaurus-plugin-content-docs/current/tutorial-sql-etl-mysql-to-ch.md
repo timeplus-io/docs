@@ -4,7 +4,7 @@ https://github.com/timeplus-io/proton/tree/develop/examples/cdc 提供了 Docker
 
 ## 开始举个例子
 
-克隆 [proton] (https://github.com/timeplus-io/proton) 存储库或者直接将 docker-compose.yml 下载到一个文件夹中。 在文件夹中运行 docker compose up。 堆栈中有六个 docker 容器：
+克隆 [proton](https://github.com/timeplus-io/proton) 存储库或者直接将 docker-compose.yml 下载到一个文件夹中。 在文件夹中运行 docker compose up。 堆栈中有六个 docker 容器：
 
 1. ghcr.io/timeplus-io/proton: latest，作为流媒体数据库。
 2. docker.redpanda.com/redpandadata/redpanda，作为兼容 Kafka 的流媒体消息总线
