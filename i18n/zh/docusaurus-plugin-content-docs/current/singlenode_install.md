@@ -4,7 +4,7 @@
 
 ## 裸机安装{#bare_metal}
 
-如果你的服务器或笔记本电脑运行的是 Linux 或 macOS，你可以运行以下命令来下载软件包并在没有任何其他依赖关系的情况下启动 Timeplus Enterprise。 对于 Windows 用户，请按照 [指南] (#docker) 使用 Docker 运行 Timeplus Enterprise。
+如果你的服务器或笔记本电脑运行的是 Linux 或 macOS，你可以运行以下命令来下载软件包并在没有任何其他依赖关系的情况下启动 Timeplus Enterprise。 对于 Windows 用户，请按照 [指南](#docker) 使用 Docker 运行 Timeplus Enterprise。
 
 ```shell
 curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.sh | sh
@@ -14,9 +14,9 @@ curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.s
 
 您也可以通过以下链接手动下载软件包：
 
-- Linux（[英特尔/AMD 芯片] (https://install.timeplus.com/latest-linux-amd64.tar.gz)、[ARM 芯片] (https://install.timeplus.com/latest-linux-arm64.tar.gz)）
-- macOS（[英特尔芯片] (https://install.timeplus.com/latest-darwin-amd64.tar.gz)，[苹果硅芯片] (https://install.timeplus.com/latest-darwin-arm64.tar.gz))
-- Windows（不可用。 请 [通过 Docker 安装] (#docker))
+- Linux（[英特尔/AMD 芯片](https://install.timeplus.com/latest-linux-amd64.tar.gz)、[ARM 芯片](https://install.timeplus.com/latest-linux-arm64.tar.gz)）
+- macOS（[英特尔芯片](https://install.timeplus.com/latest-darwin-amd64.tar.gz)，[苹果硅芯片](https://install.timeplus.com/latest-darwin-arm64.tar.gz))
+- Windows（不可用。 请 [通过 Docker 安装](#docker))
 
 下载软件包后，将其放入所需的文件夹，解压缩文件，即可使用预先配置的设置运行 Timeplus Enterprise：
 
@@ -45,7 +45,7 @@ tar xfv file.tar.gz
 
 ## 安装 Docker{#docker}
 
-你也可以使用 [Docker] (https://www.docker.com/get-started/) 运行以下命令启动 Timeplus Enterprise：
+你也可以使用 [Docker](https://www.docker.com/get-started/) 运行以下命令启动 Timeplus Enterprise：
 
 ```shell
 docker run-p 8000:8000 timeplus/timeplus-企业版
@@ -68,7 +68,7 @@ docker run-p 8000:8000 timeplus/timeplus-企业版
 curl https://install.timeplus.com/sp-demo | sh
 ```
 
-对于 Windows 用户，你可以下载包含 docker 撰写文件和引导脚本的软件包 [此处] (https://timeplus.io/dist/timeplus_enterprise/sp-demo-20240522.zip)。
+对于 Windows 用户，你可以下载包含 docker 撰写文件和引导脚本的软件包 [此处](https://timeplus.io/dist/timeplus_enterprise/sp-demo-20240522.zip)。
 
 Access the web console at http://localhost:8000.
 
@@ -81,4 +81,4 @@ Access the web console at http://localhost:8000.
 
 当你启动Timeplus Enterprise并首次访问网络控制台时，30天的免费试用开始。 当它结束时，软件将停止运行。
 
-请查看 [指南] (server_config #license) 更新许可证。
+请查看 [指南](server_config #license) 更新许可证。
