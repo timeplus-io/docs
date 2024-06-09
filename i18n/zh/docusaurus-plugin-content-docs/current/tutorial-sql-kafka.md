@@ -6,9 +6,9 @@
 
 :::
 
-创建了一个 docker-compose 文件，用于将Proton映像与 Redpanda（作为采用 Kafka API 的轻量级服务器）、Redpanda 控制台和 [猫头鹰商店] (https://github.com/cloudhut/owl-shop) 捆绑在一起，作为示例实时数据。
+创建了一个 docker-compose 文件，用于将Proton映像与 Redpanda（作为采用 Kafka API 的轻量级服务器）、Redpanda 控制台和 [猫头鹰商店](https://github.com/cloudhut/owl-shop) 捆绑在一起，作为示例实时数据。
 
-1. 下载 [docker-compose.yml] (https://github.com/timeplus-io/proton/blob/develop/examples/ecommerce/docker-compose.yml) 然后放入新文件夹。
+1. 下载 [docker-compose.yml](https://github.com/timeplus-io/proton/blob/develop/examples/ecommerce/docker-compose.yml) 然后放入新文件夹。
 2. 打开一个终端并在这个文件夹中运行 docker compose up。
 3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data. 访问 http://localhost:8080 使用 Redpanda 控制台浏览话题和实时数据。
 4. 使用 `proton-client` 运行 SQL 来查询这样的 Kafka 数据：`docker exec-it <folder>-proton-1 proton-1 proton-client` 你可以通过 `docker ps` 获取容器名称
@@ -107,7 +107,7 @@ Once you start the query, any new event with method value as POST will be select
 
 ### 显示实时 ASCII 条形图
 
-结合来自 ClickHouse 的有趣的 [bar] (https://clickhouse.com/docs/en/sql-reference/functions/other-functions#bar) 函数，你可以使用以下流 SQL 来可视化每个点击流的前 5 个 HTTP 方法。
+结合来自 ClickHouse 的有趣的 [bar](https://clickhouse.com/docs/en/sql-reference/functions/other-functions#bar) 函数，你可以使用以下流 SQL 来可视化每个点击流的前 5 个 HTTP 方法。
 
 ```sql
 从 frontend_events
@@ -127,7 +127,7 @@ Once you start the query, any new event with method value as POST will be select
 备注：
 
 - 这是全局聚合，每 2 秒发出一次结果（可配置）。
-- [emit_version ()] (functions_for_streaming #emit_version) 函数显示每次发射流式查询结果的自动递增数字
+- [emit_version ()](functions_for_streaming #emit_version) 函数显示每次发射流式查询结果的自动递增数字
 - 使用 emit_version () 限制 5 行以获取具有相同的 emit_version () 的前 5 行。 这是 Proton 中的一种特殊语法。 一旦返回 5 个结果，常规的 “限制 5” 将取消整个 SQL。 但是在这个串流 SQL 中，我们希望每个发射间隔显示 5 行。
 
 ### 创建物化视图以保存 Proton 中的重要事件
