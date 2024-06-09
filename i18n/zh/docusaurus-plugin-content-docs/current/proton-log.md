@@ -1,6 +1,6 @@
 # 读取日志文件
 
-您可以将 Proton 用作轻量级的高性能工具进行日志分析。 请查看 [博客] (https://www.timeplus.com/post/log-stream-analysis) 了解更多详情。
+您可以将 Proton 用作轻量级的高性能工具进行日志分析。 请查看 [博客](https://www.timeplus.com/post/log-stream-analysis) 了解更多详情。
 
 :::info
 
