@@ -10,7 +10,7 @@ Proton 可以通过以下方式作为单个二进制文件安装在 Linux 或 Ma
 curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.sh | sh
 ```
 
-对于 Mac 用户，你还可以使用 [Homebrew] (https://brew.sh/) 来管理安装/升级/卸载：
+对于 Mac 用户，你还可以使用 [Homebrew](https://brew.sh/) 来管理安装/升级/卸载：
 
 ```shell
 brew tap tap timeplus-io/timeplus
@@ -23,9 +23,9 @@ brew inst
 docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
 ```
 
-[Docker Compose 堆栈] (https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) 演示了如何使用外部流在 Kafka/Redpanda 中读取/写入数据。
+[Docker Compose 堆栈](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) 演示了如何使用外部流在 Kafka/Redpanda 中读取/写入数据。
 
-你也可以在完全托管的 [Timeplus Cloud] (https://us.timeplus.cloud/) 中试用 Proton。
+你也可以在完全托管的 [Timeplus Cloud](https://us.timeplus.cloud/) 中试用 Proton。
 
 ## 如何读/写 Kafka 或 Redpanda {#kafka}
 
@@ -42,7 +42,7 @@ username='..',password='..',sasl_mechanism='..'
 
 ## 如何从 PostgreSQL/MySQL/ClickHouse 加载数据 {#cdc}
 
-对于 PostgreSQL、MySQL 或其他 OLTP 数据库，您可以应用 CDC（变更数据捕获）技术，通过 Debezium 和 Kafka/Redpanda 将实时更改加载到 Proton 中。 [Proton仓库的 cdc 文件夹] (https://github.com/timeplus-io/proton/tree/develop/examples/cdc) 中的示例配置。 [这篇博客] (https://www.timeplus.com/post/cdc-in-action-with-debezium-and-timeplus) 展示了 Timeplus Cloud 用户界面，但也可以应用于 Proton。
+对于 PostgreSQL、MySQL 或其他 OLTP 数据库，您可以应用 CDC（变更数据捕获）技术，通过 Debezium 和 Kafka/Redpanda 将实时更改加载到 Proton 中。 [Proton仓库的 cdc 文件夹](https://github.com/timeplus-io/proton/tree/develop/examples/cdc) 中的示例配置。 [这篇博客](https://www.timeplus.com/post/cdc-in-action-with-debezium-and-timeplus) 展示了 Timeplus Cloud 用户界面，但也可以应用于 Proton。
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j6FpXg5cfsA?si=Mo5UrviidxqkkXSb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
@@ -84,7 +84,7 @@ SETTINGS event_time_column = 'timestamp';
 
 请注意，流中将有第 4 列，即\ _tp_time 作为 [事件时间]（事件时间）。
 
-要导入 CSV 内容，请使用 [文件] (https://clickhouse.com/docs/en/sql-reference/table-functions/file) 表函数来设置文件路径、标题和数据类型。
+要导入 CSV 内容，请使用 [文件](https://clickhouse.com/docs/en/sql-reference/table-functions/file) 表函数来设置文件路径、标题和数据类型。
 
 ```sql
 INSERT INTO stream (timestamp,price,volume)
@@ -128,7 +128,7 @@ SETTINGS max_insert_threads=8;
 
 ## 如何使用 Grafana 或 Metabase 可视化 Proton 查询结果 {#bi}
 
-Proton 的官方 Grafana 插件可在 [此处] (https://grafana.com/grafana/plugins/timeplus-proton-datasource/) 获得。 源代码位于 https://github.com/timeplus-io/proton-grafana-source。 你可以使用该插件运行 SQL 流，并在 Grafana 中构建实时图表，而无需刷新仪表板。 查看 [此处] (https://github.com/timeplus-io/proton/tree/develop/examples/grafana) 获取示例设置。
+Proton 的官方 Grafana 插件可在 [此处](https://grafana.com/grafana/plugins/timeplus-proton-datasource/) 获得。 源代码位于 https://github.com/timeplus-io/proton-grafana-source。 你可以使用该插件运行 SQL 流，并在 Grafana 中构建实时图表，而无需刷新仪表板。 查看 [此处](https://github.com/timeplus-io/proton/tree/develop/examples/grafana) 获取示例设置。
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=U30K93FUVMyjUA--" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
