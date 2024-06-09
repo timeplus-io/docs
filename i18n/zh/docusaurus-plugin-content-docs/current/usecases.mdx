@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 创建一个 docker-compose 文件以将Proton图像与数据生成器捆绑在一起。
 
-1. 下载 [docker-compose.yml] (https://github.com/timeplus-io/proton/blob/develop/examples/carsharing/docker-compose.yml) 然后放入新文件夹。
+1. 下载 [docker-compose.yml](https://github.com/timeplus-io/proton/blob/develop/examples/carsharing/docker-compose.yml) 然后放入新文件夹。
 2. 打开终端并在此文件夹中运行 docker compose up。
 3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data.
 4. 使用 proton-client 运行 SQL 来查询数据：`docker exec-it <folder>-proton-1 proton-1 proton-client` 你可以通过 `docker ps` 获取容器名称。
@@ -454,7 +454,7 @@ UNION
 
 **用例：** 数据不断变化，每种类型的变化数据都是一个流。 同时查询多种数据以丰富数据、获取更多背景信息并了解它们的相关性是一项常见的要求。
 
-例如，我们想了解用户预订汽车和开始行程之间的平均分钟数。 [预订] (#bookings) 流和 [行程] (#trips) 流中的预订信息包含行程开始时间和结束时间
+例如，我们想了解用户预订汽车和开始行程之间的平均分钟数。 [预订](#bookings) 流和 [行程](#trips) 流中的预订信息包含行程开始时间和结束时间
 
 ```sql
 从

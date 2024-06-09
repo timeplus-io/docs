@@ -1,6 +1,6 @@
 # 流式ETL：Kafka 到 ClickHouse
 
-该视频演示了如何读取来自Redpanda的实时数据、应用流处理以及如何将结果发送到ClickHouse。 [相关博客] (https://www.timeplus.com/post/proton-clickhouse-integration)。
+该视频演示了如何读取来自Redpanda的实时数据、应用流处理以及如何将结果发送到ClickHouse。 [相关博客](https://www.timeplus.com/post/proton-clickhouse-integration)。
 
 ## 演示视频
 
@@ -21,7 +21,7 @@ https://github.com/timeplus-io/proton/tree/develop/examples/clickhouse 提供了
 
 在演示面板撰写堆栈中，启动了Redpanda容器，以及数据生成器和Redpanda控制台，供您轻松浏览实时数据。 例如，前往 [http://localhost:8080](http://localhost:8080/)，你将在**owlshop-frontend-events**主题中看到实时数据。
 
-![数据] (https://static.wixstatic.com/media/3796d3_2bb403497c0b48fab5710bec35793ae0~mv2.png/v1/fill/w_1480,h_642,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/3796d3_2bb403497c0b48fab5710bec35793ae0~mv2.png)
+![数据](https://static.wixstatic.com/media/3796d3_2bb403497c0b48fab5710bec35793ae0~mv2.png/v1/fill/w_1480,h_642,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/3796d3_2bb403497c0b48fab5710bec35793ae0~mv2.png)
 
 本教程的目标是阅读这些访问日志，将敏感的IP地址转换为md5，然后将其提取到ClickHouse进行更多业务分析。
 
@@ -44,7 +44,7 @@ https://github.com/timeplus-io/proton/tree/develop/examples/clickhouse 提供了
 
 现在，如果你回到ClickHouse并运行 “从事件中选择\*”，你会看到新的数据以亚秒级的延迟出现。
 
-![clickhouse 用户界面] (https://static.wixstatic.com/media/3796d3_804a80321d1a4219836203b83c19ae35~mv2.png/v1/fill/w_1480,h_996,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/3796d3_804a80321d1a4219836203b83c19ae35~mv2.png)
+![clickhouse 用户界面](https://static.wixstatic.com/media/3796d3_804a80321d1a4219836203b83c19ae35~mv2.png/v1/fill/w_1480,h_996,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/3796d3_804a80321d1a4219836203b83c19ae35~mv2.png)
 
 您可以在 Proton 中使用流式处理 SQL 来完成更多操作，例如后期事件处理、复杂事件处理，或者利用数千个 ClickHouse 函数自定义转换/丰富逻辑。 Proton 的许多功能都由 ClickHouse 提供支持。 因此，如果你已经是ClickHouse的用户，你可以用类似的方式使用Proton。
 

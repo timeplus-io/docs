@@ -15,7 +15,7 @@
 
 ### 连接到 ClickHouse Cloud {#ch_cloud}
 
-连接到 [ClickHouse Cloud] (https://clickhouse.com/) 的示例 SQL：
+连接到 [ClickHouse Cloud](https://clickhouse.com/) 的示例 SQL：
 
 ```sql
 创建外部表 ch_cloud
@@ -29,7 +29,7 @@
 
 ### 使用 ClickHouse 连接到 Aiven {#aiven}
 
-连接到 [Aiven for ClickHouse] (https://docs.aiven.io/docs/products/clickhouse/getting-started) 的示例 SQL：
+连接到 [Aiven for ClickHouse](https://docs.aiven.io/docs/products/clickhouse/getting-started) 的示例 SQL：
 
 ```sql
 创建外部表 ch_aiven

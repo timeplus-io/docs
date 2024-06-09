@@ -6,9 +6,9 @@
 
 我们都喜欢 GitHub。 但是你知道Github现在的趋势是什么吗？ 你知道在过去 10 分钟内哪些回购获得的推送量或 PR 评论最多的吗？ https://github.com/trending 有每日/每周排行榜，但没有实时提要。
 
-你可以编写一个使用专用 [个人访问令牌] (https://github.com/settings/tokens) 调用 [GitHub Events API] (https://docs.github.com/en/rest/reference/activity) 的脚本。请注意，来自GitHub API的公共活动有5分钟的延迟（[源代码]（https://docs.github.com/en/rest/reference/activity#list-public-events））。
+你可以编写一个使用专用 [个人访问令牌](https://github.com/settings/tokens) 调用 [GitHub Events API](https://docs.github.com/en/rest/reference/activity) 的脚本。请注意，来自GitHub API的公共活动有5分钟的延迟（[源代码]（https://docs.github.com/en/rest/reference/activity#list-public-events））。
 
-这里有一个 [Python 脚本示例] (https://github.com/timeplus-io/github_liveview/blob/develop/github_demo.py) 供你参考。 但是我们已经允许通过Kafka API访问实时数据。
+这里有一个 [Python 脚本示例](https://github.com/timeplus-io/github_liveview/blob/develop/github_demo.py) 供你参考。 但是我们已经允许通过Kafka API访问实时数据。
 
 在 Timeplus 中，你可以通过 [外部流]（外部流）从 Kafka 读取数据。 以下是创建这样的外部流以从 Aiven 上的 Kafka 集群读取内容的 SQL：
 
@@ -127,4 +127,4 @@ SELECT * 来自 github_events
 
 ## 了解更多
 
-你可以查看 [这个博客] (https://www.timeplus.com/post/github-real-time-app) 了解更多详情。
+你可以查看 [这个博客](https://www.timeplus.com/post/github-real-time-app) 了解更多详情。

@@ -66,7 +66,7 @@
 
 ### 连接到 ClickHouse Cloud {#ch_cloud}
 
-连接到 [ClickHouse Cloud] (https://clickhouse.com/) 的示例 SQL：
+连接到 [ClickHouse Cloud](https://clickhouse.com/) 的示例 SQL：
 
 ```sql
 创建外部表 ch_cloud
@@ -80,7 +80,7 @@
 
 ### 使用 ClickHouse 连接到 Aiven {#aiven}
 
-连接到 [Aiven for ClickHouse] (https://docs.aiven.io/docs/products/clickhouse/getting-started) 的示例 SQL：
+连接到 [Aiven for ClickHouse](https://docs.aiven.io/docs/products/clickhouse/getting-started) 的示例 SQL：
 
 ```sql
 创建外部表 ch_aiven
@@ -102,7 +102,7 @@
 
 请注意，在当前的实现中，所有行都将从ClickHouse提取到Proton，其中包含选定的列。 然后 Proton 在本地应用 SQL 函数和 LIMIT n。 不建议对大型的 ClickHouse 表格运行 `SELECT *`。
 
-另请注意，在查询外部表时使用Proton函数名称，例如 [to_int] (functions_for_type #to_int)，而不是 ClickHouse 的命名规范，例如 [toInt] (https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256)。 在当前的实现中，SQL 函数应用于 Proton 引擎中。 我们计划在未来的版本中支持向ClickHouse下推一些功能。
+另请注意，在查询外部表时使用Proton函数名称，例如 [to_int](functions_for_type #to_int)，而不是 ClickHouse 的命名规范，例如 [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256)。 在当前的实现中，SQL 函数应用于 Proton 引擎中。 我们计划在未来的版本中支持向ClickHouse下推一些功能。
 
 :::
 

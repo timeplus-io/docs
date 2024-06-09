@@ -89,7 +89,7 @@ confluent kafka 话题生成 $TOPIC --schema ~/Dev/schema.txt\
 
 ### 示例：在 Confluent 平台中读取 Avro 编码的数据 {#read_avro_confluent_platform}
 
-你可以关注 [Confluent Docs] (https://docs.confluent.io/platform/7.6/platform-quickstart.html#quickstart) 通过 Docker Compose 启动带有架构注册表的 Confluent 平台。
+你可以关注 [Confluent Docs](https://docs.confluent.io/platform/7.6/platform-quickstart.html#quickstart) 通过 Docker Compose 启动带有架构注册表的 Confluent 平台。
 
 Avro 架构定义：
 
@@ -105,7 +105,7 @@ Avro 架构定义：
 
 ```
 
-按照 [架构注册表教程] (https://docs.confluent.io/platform/7.6/schema-registry/schema_registry_onprem_tutorial.html) 创建新主题 “交易”。 使用以下内容创建一个$HOME/.confluent/java.config
+按照 [架构注册表教程](https://docs.confluent.io/platform/7.6/schema-registry/schema_registry_onprem_tutorial.html) 创建新主题 “交易”。 使用以下内容创建一个$HOME/.confluent/java.config
 
 ```properties
 bootstrap.servers=localhost: 9092
@@ -115,7 +115,7 @@ acks=all
 schema.registry.url = http://localhost:8081
 ```
 
-然后使用 Maven 编译 [示例代码] (https://github.com/confluentinc/examples/tree/7.5.0-post/clients/avro)，并使用架构注册表向本地 Kafka 服务器生成 AVRO 编码的消息：
+然后使用 Maven 编译 [示例代码](https://github.com/confluentinc/examples/tree/7.5.0-post/clients/avro)，并使用架构注册表向本地 Kafka 服务器生成 AVRO 编码的消息：
 
 ```bash
 mvn 干净编译包
