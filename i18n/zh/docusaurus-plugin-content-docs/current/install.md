@@ -2,7 +2,7 @@
 
 ## 云端的 Timeplus 企业版{#cloud}
 
-开始使用Timeplus的最快、最简单的方法是在完全托管的 [us.timeplus.cloud] (https://us.timeplus.cloud) 注册一个免费账户。
+开始使用Timeplus的最快、最简单的方法是在完全托管的 [us.timeplus.cloud](https://us.timeplus.cloud) 注册一个免费账户。
 
 你只需要注册谷歌或微软单点登录，或者创建一个新的用户名和密码即可。 然后创建一个新的工作空间并开始您的流媒体分析之旅。
 
@@ -24,7 +24,7 @@ curl https://install.timeplus.com/oss | sh
 - **无配置模式。** 你运行 `Proton服务器`来启动服务器并将配置/日志/数据放入当前文件夹。 然后在另一个终端使用 proton client-h 127.0.0.1 启动 SQL 客户端。
 - **服务器模式。** 您可以运行 `sudo proton install` 将服务器安装在预定义路径和默认配置文件中。 然后你可以运行 sudo proton server-c/etc/Proton-server/config.yaml 来启动服务器，并在另一个终端使用 proton client 来启动 SQL 客户端。
 
-对于 Mac 用户，你还可以使用 [Homebrew] (https://brew.sh/) 来管理安装/升级/卸载：
+对于 Mac 用户，你还可以使用 [Homebrew](https://brew.sh/) 来管理安装/升级/卸载：
 
 ```shell
 brew tap tap timeplus-io/timeplus
@@ -47,7 +47,7 @@ docker run-d--pull always-p 8123:8123-p 8463:8463--name proton ghcr.io/timeplus-
 
 ### Docker 撰写 {#compose}
 
-[Docker Compose 堆栈] (https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) 演示了如何使用外部流在 Kafka/Redpanda 中读取/写入数据。
+[Docker Compose 堆栈](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) 演示了如何使用外部流在 Kafka/Redpanda 中读取/写入数据。
 
 ### Kubernetes
 
