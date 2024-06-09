@@ -126,4 +126,4 @@ chmod 400 kafka.cert
          password='..'
 ```
 
-更多详细说明可在 [Upstash Docs] (https://upstash.com/docs/kafka/integrations/proton) 上找到。
+更多详细说明可在 [Upstash Docs](https://upstash.com/docs/kafka/integrations/proton) 上找到。
