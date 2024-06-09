@@ -1,6 +1,6 @@
 # Protobuf/Avro 架构
 
-Timeplus 支持以 [Protobuf] (https://protobuf.dev/) 或 [Avro] (https://avro.apache.org) 格式读取或写入消息。 本文档介绍如何在没有架构注册表的情况下处理数据。 如果您的 Kafka 主题是否与架构注册表关联，请查看 [此页面]（Proton架构注册表）。
+Timeplus 支持以 [Protobuf](https://protobuf.dev/) 或 [Avro](https://avro.apache.org) 格式读取或写入消息。 本文档介绍如何在没有架构注册表的情况下处理数据。 如果您的 Kafka 主题是否与架构注册表关联，请查看 [此页面]（Proton架构注册表）。
 
 ## 创建架构 {#create}
 
@@ -42,7 +42,7 @@ Timeplus 支持以 [Protobuf] (https://protobuf.dev/) 或 [Avro] (https://avro.a
 1. 如果你想确保每条 Kafka 消息只有一条 Protobuf 消息，请将 data_format 设置为 protobufSingle。 如果你将其设置为 Protobuf，那么在一条 Kafka 消息中可能会有多条 Protobuf 消息。
 2. `format_schema`设置包含两部分：注册的架构名称（在本示例中：架构名称）和消息类型（在本示例中：SearchRequest）。 用分号将它们组合在一起。
 3. 你可以使用这个外部流在目标 Kafka/Confluent 主题中读取或写入 Protobuf 消息。
-4. 有关更高级的用例，请查看 [复杂架构示例] (#complex)。
+4. 有关更高级的用例，请查看 [复杂架构示例](#complex)。
 
 ### Avro
 
@@ -247,7 +247,7 @@ message DataComponent {
 
 ### 导入架构
 
-如果你使用 [创建格式架构] (#create) 来注册格式架构，比如 `schema_name`，你可以创建另一个架构并导入这个架构：
+如果你使用 [创建格式架构](#create) 来注册格式架构，比如 `schema_name`，你可以创建另一个架构并导入这个架构：
 
 ```sql
 创建格式架构 import_example 为 '
