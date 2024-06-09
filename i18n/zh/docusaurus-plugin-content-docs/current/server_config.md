@@ -16,7 +16,7 @@
 
 你可以 [联系我们]（邮箱：support@timeplus.com）购买许可证，然后上传到 Web 控制台。 点击左下角的_工作空间设置_，然后选择_许可证_选项卡。 复制并粘贴许可证文件或上传该文件。
 
-![添加许可证] (/img/add_license.png)
+![添加许可证](/img/add_license.png)
 
 你也可以在 Timeplus 企业版运行时通过运行以下命令来导入许可。
 
@@ -35,7 +35,7 @@ cert:../cert/ca.crt
 密钥:../cert/ca.key
 ```
 
-要创建自签名证书，你可以关注 [此文档] (https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/securing_networks/creating-and-managing-tls-keys-and-certificates_securing-networks) 并将证书文件放在 `timeplus/cert`文件夹下。
+要创建自签名证书，你可以关注 [此文档](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/securing_networks/creating-and-managing-tls-keys-and-certificates_securing-networks) 并将证书文件放在 `timeplus/cert`文件夹下。
 
 配置更改后停止并启动 timeplus 服务。
 
