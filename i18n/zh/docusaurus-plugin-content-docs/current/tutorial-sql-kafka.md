@@ -10,16 +10,16 @@
 
 1. 下载 [docker-compose.yml](https://github.com/timeplus-io/proton/blob/develop/examples/ecommerce/docker-compose.yml) 然后放入新文件夹。
 2. 打开一个终端并在这个文件夹中运行 docker compose up。
-3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data. 访问 http://localhost:8080 使用 Redpanda 控制台浏览话题和实时数据。
+3. 等待几分钟，提取所有必需的镜像并启动容器。 访问 http://localhost:8080 使用 Redpanda 控制台浏览话题和实时数据。
 4. 使用 `proton-client` 运行 SQL 来查询这样的 Kafka 数据：`docker exec-it <folder>-proton-1 proton-1 proton-client` 你可以通过 `docker ps` 获取容器名称
 5. 创建外部流以连接到 Kafka/Redpanda 服务器中的主题，然后运行 SQL 来筛选或聚合数据。
 
 ### 创建外部流
 
 ```sql
-创建外部流 frontend_events（原始字符串）
-设置 type='kafka'、 
-         brokers='redpanda: 9092'、
+CREATE EXTERNAL STREAM frontend_events(raw string)
+SETTINGS type='kafka', 
+         brokers='redpanda:9092',
          topic='owlshop-frontend-events'
 ```
 
@@ -28,20 +28,20 @@
 从 Proton 1.3.24 开始，您还可以定义多列。
 
 ```sql
-创建外部流 frontend_events_json（
-	版本 int，
-	requestedURL 字符串，
-	方法字符串，
-	CorrelationID 字符串，
-	IP 地址字符串，
-	requestDuration int，
-	响应字符串，
-	标头字符串
-）	
-设置类型='kafka'， 
-         brokers='redpanda: 9092'，
-         topic='owlshop-frontend-eventend-eventend'，
-         data_format='jsoneachrow'；
+CREATE EXTERNAL STREAM frontend_events_json(
+	version int,
+	requestedUrl string,
+	method string,
+	correlationId string,
+	ipAddress string,
+	requestDuration int,
+	response string,
+	headers string
+)	
+SETTINGS type='kafka', 
+         brokers='redpanda:9092',
+         topic='owlshop-frontend-events',
+         data_format='JSONEachRow';
 ```
 
 然后直接选择列，无需进行 JSON 解析，例如 “从 frontend_events_json 中选择方法” 对于嵌套数据，你可以 “从 frontend_events_json 中选择标题:referrer”
@@ -53,27 +53,27 @@
 然后你可以通过以下方式扫描传入的事件
 
 ```sql
-从 frontend_events 中选择 *
+select * from frontend_events
 ```
 
 每秒大约有 10 行。 只有一列 “raw”，其示例数据如下所示：
 
 ```json
 {
-  “版本”：0，
-  “requesteDurl”：“http://www.internationalinteractive.name/end-to-end”，
-  “方法”：“PUT”，
-  “CorrelationID”：“0c7e970a-f65d-429a-9acf-6a136ce0a6ae”，
-  “IP 地址”：“186.58.241.7”，
-  “请求持续时间”：678，
-  “响应”：{“尺寸”：2232，“状态码”：200}，
-  ”标题”：{
-    “接受”：“*/*”，
-    “接受编码”：“gzip”，
-    “缓存控制”：“max-age=0”，
-    “起源”：“http://www.humanenvisioneer.com/engage/transparent/evolve/target”，
-    “引用者”：“http://www.centralharness.org/bandwidth/paradigms/target/whiteboard”，
-    “用户代理”：“Opera/10.41（Macintosh；U；英特尔 Mac OS X 10_9_8；en-US）Prestos /2.10.292 版本/13.00”
+  "version": 0,
+  "requestedUrl": "http://www.internationalinteractive.name/end-to-end",
+  "method": "PUT",
+  "correlationId": "0c7e970a-f65d-429a-9acf-6a136ce0a6ae",
+  "ipAddress": "186.58.241.7",
+  "requestDuration": 678,
+  "response": { "size": 2232, "statusCode": 200 },
+  "headers": {
+    "accept": "*/*",
+    "accept-encoding": "gzip",
+    "cache-control": "max-age=0",
+    "origin": "http://www.humanenvisioneer.com/engage/transparent/evolve/target",
+    "referrer": "http://www.centralharness.org/bandwidth/paradigms/target/whiteboard",
+    "user-agent": "Opera/10.41 (Macintosh; U; Intel Mac OS X 10_9_8; en-US) Presto/2.10.292 Version/13.00"
   }
 }
 ```
@@ -83,7 +83,7 @@
 ### 获取流次数
 
 ```sql
-从 frontend_events 中选择 count ()
+select count() from frontend_events
 ```
 
 This query will show latest count every 2 seconds, without rescanning older data. This is a good example of incremental computation in Proton. 这是 Proton 中增量计算的一个很好的例子。
@@ -91,7 +91,7 @@ This query will show latest count every 2 seconds, without rescanning older data
 ### 按 JSON 属性筛选事件
 
 ```sql
-从 frontend_events 中选择 _tp_time、raw: IP 地址、raw: requestedURL，其中 raw: method='post'
+select _tp_time, raw:ipAddress, raw:requestedUrl from frontend_events where raw:method='POST'
 ```
 
 Once you start the query, any new event with method value as POST will be selected. <code>raw:key</code> is a shortcut to extract string value from the JSON document. It also supports nested structure, such as <code>raw:headers.accept</code> `raw: key` 是从 JSON 文档中提取字符串值的快捷方式。 它还支持嵌套结构，例如 `raw: headers.accept`
@@ -99,8 +99,8 @@ Once you start the query, any new event with method value as POST will be select
 ### 每秒聚合数据
 
 ```sql
-从 tumble 中选择 window_start、raw: method、count () () (frontend_events，now () ,1s)
-按 window_start 分组，raw: method
+select window_start, raw:method, count() from tumble(frontend_events,now(),1s)
+group by window_start, raw:method
 ```
 
 它每秒钟都会显示每个 HTTP 方法的事件数的聚合结果。
@@ -110,18 +110,18 @@ Once you start the query, any new event with method value as POST will be select
 结合来自 ClickHouse 的有趣的 [bar](https://clickhouse.com/docs/en/sql-reference/functions/other-functions#bar) 函数，你可以使用以下流 SQL 来可视化每个点击流的前 5 个 HTTP 方法。
 
 ```sql
-从 frontend_events
-中选择 raw: method，cunt () 作为 cnt，bar (cnt, 0, 40,5) 作为 bar，按 raw: method 分组按 cnt desc limit 5 by emit_version ()
+select raw:method, count() as cnt, bar(cnt, 0, 40,5) as bar from frontend_events
+group by raw:method order by cnt desc limit 5 by emit_version()
 ```
 
 ```
-─raw: method ──cnt─bar───
-│ 删除 │ 35 │ ──────
-
-
-
-
-
+┌─raw:method─┬─cnt─┬─bar───┐
+│ DELETE     │  35 │ ████▍ │
+│ POST       │  29 │ ███▋  │
+│ GET        │  27 │ ███▍  │
+│ HEAD       │  25 │ ███   │
+│ PUT        │  22 │ ██▋   │
+└────────────┴─────┴───────┘
 ```
 
 备注：
@@ -137,30 +137,30 @@ Once you start the query, any new event with method value as POST will be select
 例如，以下 SQL 将创建一个物化视图，使用来自 JSON 的解析属性（例如 URL、方法、反向链接）保存那些断开的链接。
 
 ```sql
-创建物化视图 mv_broken_links 作为
-选择 raw: requestedURL 作为 url，raw: method 作为方法，raw: IP 地址作为 ip， 
-       raw: response.statusCode 作为状态码，域（raw: headers.referrer）作为引用
-从 frontend_events 中选择 raw: response.StatusCode <>'200'；
+create materialized view mv_broken_links as
+select raw:requestedUrl as url,raw:method as method, raw:ipAddress as ip, 
+       raw:response.statusCode as statusCode, domain(raw:headers.referrer) as referrer
+from frontend_events where raw:response.statusCode<>'200';
 ```
 
 稍后你可以直接在物化视图上查询：
 
 ```sql
---流查询
-从 mv_broken_links 中选择 *；
+-- streaming query
+select * from mv_broken_links;
 
---历史查询
-选择方法，将 () 计为 cnt，bar (cnt,0,40,5) 作为表中的条形图 (mv_broken_links) 
-按方法分组按 cnt 降序排序；
+-- historical query
+select method, count() as cnt, bar(cnt,0,40,5) as bar from table(mv_broken_links) 
+group by method order by cnt desc;
 ```
 
 ```
-─method──cnt─bar─
-│ 获取 │ 25 │
-
-
-
-
-
-
+┌─method─┬─cnt─┬─bar─┐
+│ GET    │  25 │ ███ │
+│ DELETE │  20 │ ██▌ │
+│ HEAD   │  17 │ ██  │
+│ POST   │  17 │ ██  │
+│ PUT    │  17 │ ██  │
+│ PATCH  │  17 │ ██  │
+└────────┴─────┴─────┘
 ```

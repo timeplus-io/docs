@@ -4,11 +4,11 @@
 
 开始使用Timeplus的最快、最简单的方法是在完全托管的 [us.timeplus.cloud](https://us.timeplus.cloud) 注册一个免费账户。
 
-你只需要注册谷歌或微软单点登录，或者创建一个新的用户名和密码即可。 然后创建一个新的工作空间并开始您的流媒体分析之旅。
+只需使用谷歌或微软单点登录进行注册，或创建用户名和密码即可。 接下来，创建一个新的工作区并开始您的流式分析旅程。
 
 ## Timeplus 企业版自托管{#self-hosted}
 
-客户可以使用 [裸机安装程序]（singlenode_install #bare-metal-install）或官方的Timeplus [Kubernetes Helm Chart]（cluster_install #k8s）在自己的数据中心或云账户中安装具有高可用性和可扩展性的Timeplus Enterprise。
+使用 [裸机安装程序](singlenode_install #bare-metal-install)或官方 Timeplus [Kubernetes Helm Chart](cluster_install #k8s)在自己的数据中心或云账户中安装具有高可用性和可扩展性的 Timeplus 企业版。
 
 ## Timeplus Proton，核心引擎{#proton}
 
@@ -51,4 +51,4 @@ docker run-d--pull always-p 8123:8123-p 8463:8463--name proton ghcr.io/timeplus-
 
 ### Kubernetes
 
-通过 Kubernetes 运行单节点 Proton 是可能的。 我们建议您联系我们部署 Timeplus 企业版进行本地部署。
+通过 Kubernetes 运行单节点 Proton 是可能的。 我们建议您[联系我们](mailto:support@timeplus.com)进行私有化Timeplus Enterprise部署。
