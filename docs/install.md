@@ -2,13 +2,13 @@
 
 ## Timeplus Enterprise in the cloud{#cloud}
 
-The quickest and easiest way to get started with Timeplus is to sign up a free account at the fully-managed [us.timeplus.cloud](https://us.timeplus.cloud).
+The quickest and easiest way to get started with Timeplus is to sign up a free account on our fully-managed platform at [us.timeplus.cloud](https://us.timeplus.cloud).
 
-You just need to sign up with Google or Microsoft Single Sign-On, or create a new username and password. Then create a new workspace and start your streaming analytics journey.
+Simply sign up with Google or Microsoft Single Sign-On, or create a username and password. Next, create a new workspace and start your streaming analytics journey.
 
 ## Timeplus Enterprise self-hosted{#self-hosted}
 
-Customers can install Timeplus Enterprise with high availability and scalability in own data center or cloud account, using the [bare metal installer](singlenode_install#bare-metal-install) or the official Timeplus [Kubernetes Helm Chart](cluster_install#k8s).
+Install Timeplus Enterprise with high availability and scalability in your own data center or cloud account, using the [bare metal installer](singlenode_install#bare-metal-install) or the official Timeplus [Kubernetes Helm Chart](cluster_install#k8s).
 
 ## Timeplus Proton, the core engine{#proton}
 
@@ -51,4 +51,4 @@ The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/ex
 
 ### Kubernetes
 
-Running the single node Proton via Kubernetes is possible. We recommend you contact us to deploy Timeplus Enterprise for on-prem deployment.
+Running the single node Proton via Kubernetes is possible. We recommend you [contact us](mailto:support@timeplus.com) to deploy Timeplus Enterprise for on-prem deployment.
