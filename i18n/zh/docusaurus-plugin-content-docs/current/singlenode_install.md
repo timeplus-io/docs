@@ -60,7 +60,7 @@ docker run -p 8000:8000 timeplus/timeplus-enterprise
 
 ## Docker Compose 快速入门 {#compose}
 
-To try our demo kit, you can use Docker Compose to start Timeplus Enterprise, together with Redpanda (A Kafka API compatiable message bus), ClickHouse and data generator.
+要试用我们的演示套件，你可以使用 Docker Compose 启动 Timeplus Enterprise，以及 Redpanda（与 Kafka API 兼容的消息总线）、ClickHouse 和数据生成器。
 
 对于 Linux 或 Mac 用户，请运行以下命令：
 
