@@ -6,9 +6,9 @@ Timeplus 企业版可以以多节点集群模式安装，以实现高可用性�
 
 ## 裸机安装
 
-Follow the guide in [Single Node Install](singlenode_install) to grab the bare metal package and install on each node.
+安装[单节点安装](singlenode_install)指南在每个物理机格子安装一个节点。
 
-Next, update the `config.yml` file to connect the nodes together:
+接下来，更新 config.yml 文件以将节点连接在一起：
 
 ```yaml
 node:
@@ -23,24 +23,24 @@ cluster:
   metadata_node_quorum: localhost:8464
 ```
 
-For more details about the server configuration, please contact [support](mailto:support@timeplus.com) or message us in our [Slack Community](timeplus.com/slack).
+欲了解服务器配置的更多详情，请联系 [support](mailto:support@timeplus.com) 或在 [Slack Community](timeplus.com/slack)与我们讨论。
 
-## Kubernetes Install {#k8s}
+## 在Kubernetes安装{#k8s}
 
-You can also deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://helm.sh/).
+你还可以使用 [Helm](https://helm.sh/) 在 Kubernetes 集群上部署 Timeplus Enterprise。
 
 ### 先决条件
 
-- Ensure you have Helm 3.7 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
-- Ensure you have [Kubernetes](https://kubernetes.io/) 1.24 or higher installed in your environment
-- Ensure you have allocated enough resources for the deployment
+- 确保你的环境中安装了 Helm 3.7+。 有关如何安装 Helm 的详细信息，请参阅 [Helm 文档](https://helm.sh/docs/intro/install/)。
+- 确保你的环境中安装了 [Kubernetes](https://kubernetes.io/) 1.24 或更高版本。
+- 确保为部署分配了足够的资源
 
-### Install Timeplus Enterprise with Helm
+### 使用 Helm 安装 Timeplus 企业版
 
-Start a Kubernetes cluster.
+启动 Kubernetes 集群。
 
-Please [contact us](mailto:support@timeplus.com) to get the Helm chart. We will make the Helm chart repository public soon.
+请[联系我们](mailto:support@timeplus.com)获取Helm Chart。 我们将很快公开 Helm Chart库。
 
-## License Management
+## 许可管理
 
-To activate or add new a license, please follow [our guide](server_config#license).
+要激活或添加新许可证，请遵循 [指南](server_config#license)。
