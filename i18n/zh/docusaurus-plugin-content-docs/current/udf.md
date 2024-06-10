@@ -15,7 +15,7 @@
 
 :::info
 
-请注意，决定函数调用次数的因素有很多。 For example, when you run a query, Timeplus query analyzer will dry-run the query first. During the query execution, a batch of data will be sent to the UDF, depending on how the data is organized.
+请注意，决定函数调用次数的因素有很多。 例如，当你运行查询时，Timeplus 查询分析器将首先试运行查询。 在执行查询期间，将向 UDF 发送一批数据，具体取决于数据的组织方式。
 
 长话短说，开发者不应该假设函数调用的次数。 对于用户定义的标量函数 (UDF)，它应该是无状态的；对于用户定义的聚合函数 (UDAF)，数据可能会被多次聚合，但最终结果是正确的。
 

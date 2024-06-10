@@ -22,7 +22,7 @@
 
 ### day_of_week
 
-使用`day_of_week(date)`来获取周中的某一天。 例如： 例如： 星期一是 1，星期日是 7。
+使用`day_of_week(date)`来获取周中的某一天。 例如，星期一是 1，星期日是 7。
 
 ### hour
 
@@ -44,21 +44,21 @@
 
 ### to_unix_timestamp64_milli
 
-Returns the UNIX timestamp with millisecond of the datetime64, a number in `int64`
+返回以 datetime64 毫秒为单位的 UNIX 时间戳，该数字位于 `int64`
 
-For example `to_unix_timestamp64_milli(now64())` returns `1712982826540`
+例如 `to_unix_timestamp64_milli (now64 ())` 返回 `1712982826540`
 
 ### to_unix_timestamp64_micro
 
-Returns the UNIX timestamp with microsecond of the datetime64, a number in `int64`
+返回以 datetime64 的微秒为单位的 UNIX 时间戳，该数字位于 `int64`
 
-For example `to_unix_timestamp64_micro(now64(9))` returns `1712982905267202`
+例如 `to_unix_timestamp64_micro (now64 (9))` 返回 `1712982905267202`
 
 ### to_unix_timestamp64_nano
 
-Returns the UNIX timestamp with nanosecond of the datetime64, a number in `int64`
+返回带有 datetime64 纳秒的 UNIX 时间戳，该数字位于 `int64`
 
-For example `to_unix_timestamp64_nano(now64(9))` returns `1712983042242306000`
+例如 `to_unix_timestamp64_nano (now64 (9))` 返回 `1712983042242306000`
 
 ### to_start_of_year
 
@@ -98,17 +98,17 @@ For example `to_unix_timestamp64_nano(now64(9))` returns `1712983042242306000`
 
 `to_date(string)` 将日期字符串转换为日期类型，例如 `to_date('1953-11-02')`
 
-It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
+它可以解析字符串 `2023-09-19 05:31:34` 但不能 `2023-09-19T 05:31:34 Z`。 请使用 [to_time](#to_time) 函数。
 
 ### to_datetime
 
 `to_datetime(value)` 将值转换为日期时间类型，例如 `to_datetime(1655265661)` 或 `to_datetime(today())`
 
-It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please use [to_time](#to_time) function.
+它可以解析字符串 `2023-09-19 05:31:34` 但不能 `2023-09-19T 05:31:34 Z`。 请使用 [to_time](#to_time) 函数。
 
 ### 小时
 
-Please refer to [to_time](functions_for_type#to_time)
+请参阅 [to_time](functions_for_type#to_time)
 
 ### today
 
@@ -145,8 +145,6 @@ SELECT
 | ----------------------- | ----------------------- |
 | 2022-05-16 00:00:00.000 | 2022-05-16 04:00:00.000 |
 
-
-
 ### format_datetime
 
 `format_datetime(time,format,timezone)` 将日期时间的格式化为字符串。 第三个参数是可选的。 支持以下占位符
@@ -164,7 +162,17 @@ SELECT
 | %S  | 2位数秒(00-59)                   | 44         |
 | %w  | 周日为小数点，周日为0(0-6)              | 1          |
 
+### parse_datetime
 
+将字符串转换为日期时间。 此函数与函数 [format_datetime](#format_datetime)的运算相反。
+
+`parse_datetime (str, format [, 时区])`. 例如 `select parse_datetime ('2021-01-04+ 23:00:00 ','%Y-%m-%d+%H:%i:%s')` 返回 '2021-01-04 23:00:00'。
+
+### parse_datetime_in_joda_syntax
+
+与 [parse_datetime](#parse_datetime)类似，不同之处在于格式字符串采用 [Joda](https://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html) 而不是 MySQL 语法。
+
+`parse_datetime_in_joda_syntax (str，格式 [，时区])`. 例如 `select parse_datetime_in_joda_syntax ('2023-02-24 14:53:31 '，'yyyy-MM-DD HH: mm: ss')` 返回 '2023-02-24 14:53:31'。
 
 ### date_diff
 
@@ -172,42 +180,42 @@ SELECT
 
 支持的单位：
 
-* us：表示微秒。 1 秒 = 1,000,000 微秒
-* ms：表示毫秒。 1 秒 = 1,000 毫秒
-* s︰表示秒数
-* m：表示分钟
-* h：表示小时
-* d：表示天数
+- us：表示微秒。 1 秒 = 1,000,000 微秒
+- ms：表示毫秒。 1 秒 = 1,000 毫秒
+- s︰表示秒数
+- m：表示分钟
+- h：表示小时
+- d：表示天数
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1, time2)` 返回 true 或 false。  此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
+`date_diff_within(timegap,time1, time2)` 返回 true 或 false。 此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
 
 ### date_trunc
 
 `date_trunc(funit), value[, timezone])`将日期和时间数据截断到日期的指定部分。 例如， `date_trunc('month',now())` 返回的是当前月的月初的日期时间。 可能的单位值为：
 
-* 年
-* 季度
-* 月
-* 天
-* 小时
-* 分钟
-* 秒
+- 年
+- 季度
+- 月
+- 天
+- 小时
+- 分钟
+- 秒
 
 ### date_add
 
 它支持 `date_add(unit, value, date)` 和快捷解决 `data_add(date,timeExpression)`
 
-*  `date_add(HOUR, 2, now())` 将在 2 小时内获得一个新的日期时间。 `date_add(HOUR, -2, now())` 将得到一个新的日期时间 2 小时后退。
-*  `date_add(now(),2h)` 和 `date_add(now(),-2h)` 也工作
+- `date_add(HOUR, 2, now())` 将在 2 小时内获得一个新的日期时间。 `date_add(HOUR, -2, now())` 将得到一个新的日期时间 2 小时后退。
+- `date_add(now(),2h)` 和 `date_add(now(),-2h)` 也工作
 
 ### date_sub
 
 它支持 `date_sub(unit, value, date)` 和快捷解决 `data_sub(date,timeExpression)`
 
-*  `date_sub(HOUR, 2, now())` 将获得一个新的日期时间 2 小时
-*  `date_sub(now(),2h)`  也工作
+- `date_sub(HOUR, 2, now())` 将获得一个新的日期时间 2 小时
+- `date_sub (now () ,2h)` 也起作用
 
 ### earliest_timestamp
 

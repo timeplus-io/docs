@@ -4,14 +4,14 @@
 
 ## Apache Kafka数据源
 
-1. From the left side navigation menu, click **Data Ingestion**. Here, you’ll see ways to connect a source or external stream. Click **Apache Kafka** (external stream).
-2. Enter the broker URL. You can also enable TLS or authentication, if needed.
-3. Enter the name of the Kafka topic, and specify the ‘read as’ data format. We currently support JSON, AVRO and Text formats.
-   1. If the data in the Kafka topic is in JSON format, but the schema may change over time, we recommend you choose Text. This way, the entire JSON document will be saved as a string, and you can apply JSON related functions to extract value, even if the schema changes.
-   2. If you choose AVRO, there is an option for 'Auto Extraction'. By default, this is toggled off, meaning the entire message will be saved as a string. If you toggle it on, then the top level attribute in the AVRO message will be put into different columns. This would be more convenient for you to query, but won't support schema evolution. When AVRO is selected, you also need to specify the address, API key, and secret key for the schema registry.
-4. In the next “Preview” step, we will show you at least one event from your specified Apache Kafka source.
-5. By default, your new source will create a new stream in Timeplus. Give this new stream a name and verify the columns information (column name and data type). You can also set a column as the event time column. If you don’t, we will use the ingestion time as the event time. Alternatively, you can select an existing stream from the dropdown.
-6. After previewing your data, you can give the source a name and an optional description, and review the configuration. Once you click Finish, your streaming data will be available in the specified stream immediately.
+1. 在左侧导航菜单中，单击 **数据提取**。 在这里，您将看到连接源或外部流的方法。 单击 **Apache Kafka** （外部流）。
+2. 输入经纪商 URL。 如果需要，您还可以启用 TLS 或身份验证。
+3. 输入 Kafka 主题的名称，并指定 “读取为” 数据格式。 我们目前支持 JSON、AVRO 和文本格式。
+   1. 如果 Kafka 主题中的数据采用 JSON 格式，但架构可能会随时间而变化，我们建议您选择文本。 这样，整个 JSON 文档将保存为字符串，即使架构发生变化，您也可以应用 JSON 相关函数来提取值。
+   2. 如果您选择 AVRO，则可以选择 “自动提取”。 默认情况下，它处于关闭状态，这意味着整条消息将另存为字符串。 如果您将其打开，则 AVRO 消息中的顶级属性将放入不同的列中。 这会更方便你查询，但不支持架构演变。 选择 AVRO 时，您还需要为架构注册表指定地址、API 密钥和密钥。
+4. 在下一步 “预览” 步骤中，我们将向您显示来自您指定 Apache Kafka 源的至少一个事件。
+5. 默认情况下，您的新源将在Timeplus中创建新的流。 为这个新流命名并验证列信息（列名和数据类型）。 您也可以将一列设置为事件时间列。 如果您不这样做，我们将使用摄取时间作为活动时间。 或者，您可以从下拉列表中选择现有流。
+6. 预览数据后，您可以为源指定名称和可选描述，并查看配置。 单击 “完成” 后，您的流媒体数据将立即在指定的流中可用。
 
 ## 自定义Kafka部署
 

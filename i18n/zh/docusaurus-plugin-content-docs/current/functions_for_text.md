@@ -112,13 +112,13 @@ SELECT
  -- [ [ "v1", "111" ], [ "v2", "222" ], [ "v3", "333" ] ]
 ```
 
-### extract_key_value_pairs
+### 提取密钥值对
 
-`extract_key_value_pairs(string)`
+`提取密钥值对（字符串）`
 
-Extract key value pairs from the string and return a map. For example, `extract_key_value_pairs('name:neymar, age:31 team:psg,nationality:brazil')` will return a map with keys: name, age, team, ad nationality.
+从字符串中提取键值对并返回地图。 例如， `extract_key_value_pairs（'name: neymar，age: 31 球队:psg，国籍：巴西'）` 将返回一张包含密钥的地图：姓名、年龄、球队和国籍。
 
-For the advanced usage of the function, please check the [doc](https://clickhouse.com/docs/en/sql-reference/functions/tuple-map-functions#extractkeyvaluepairs).
+有关该函数的高级用法，请查看 [文档](https://clickhouse.com/docs/en/sql-reference/functions/tuple-map-functions#extractkeyvaluepairs)。
 
 ### grok
 
@@ -142,24 +142,24 @@ For the advanced usage of the function, please check the [doc](https://clickhous
 
 ### base64_encode
 
-`base64_encode(string)` Encodes a string or fixed_string as base64.
+`base64_encode (string)` 将字符串或 fixed_string 编码为 base64。
 
-For example `base64_encode('hello')` returns `aGVsbG8=`
+例如 `base64_encode ('hello')` 返回 `agvsBG8=`
 
 ### base64_decode
 
-`base64_decode(string)` Decode a base64 string to a string.
+`base64_decode (string)` 将 base64 字符串解码为字符串。
 
-For example `base64_decode('aGVsbG8=')` returns `hello`
+例如 `base64_decode ('agvsBG8=')` 返回 `你好`
 
 ### base58_encode
 
-`base58_encode(string)` Encodes a string or fixed_string as [base58](https://tools.ietf.org/id/draft-msporny-base58-01.html) in the "Bitcoin" alphabet.
+`base58_encode（字符串）` 在 “比特币” 字母表中将字符串或 fixed_string 编码为 [base58](https://tools.ietf.org/id/draft-msporny-base58-01.html) 。
 
-For example `base58_encode('hello')` returns `Cn8eVZg`
+例如 `base58_encode ('hello')` 返回 `cn8evZG`
 
 ### base58_decode
 
-`base58_decode(string)` Decode a [base58](https://tools.ietf.org/id/draft-msporny-base58-01.html) string to a string.
+`base58_decode（字符串）` 将 [base58](https://tools.ietf.org/id/draft-msporny-base58-01.html) 字符串解码为字符串。
 
-For example `base58_decode('Cn8eVZg')` returns `hello`
+例如 `base58_decode ('cn8evzg')` 返回 `你好`

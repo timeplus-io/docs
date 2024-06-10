@@ -1,194 +1,194 @@
-# Read Avro Message in Kafka
+# 在 Kafka 中阅读 Avro 消息
 
-### Example: Read Avro Encoded Data in Confluent Cloud {#read_avro_confluent_cloud}
+### 示例：在 Confluent Cloud 中读取 Avro 编码的数据 {#read_avro_confluent_cloud}
 
-Say you create such a Avro schema definition:
+假设你创建了这样的 Avro 架构定义：
 
 ```json
 {
-  "type": "record",
-  "namespace": "com.mycorp.mynamespace",
-  "name": "sampleRecord",
-  "doc": "Sample schema to help you get started.",
-  "fields": [
+  “类型”：“记录”，
+  “命名空间”：“com.mycorp.mynamespace”，
+  “名称”：“SampleRecord”，
+  “doc”：“可以帮助你入门的示例架构。“，
+  “字段”：[
     {
-      "name": "my_field1",
-      "type": "int",
-      "doc": "The int type is a 32-bit signed integer."
-    },
+      “名称”：“my_field1"，
+      “类型”：“int”，
+      “doc”：“int 类型是 32 位有符号整数。”
+    }，
     {
-      "name": "my_field2",
-      "type": "double",
-      "doc": "The double type is a double precision (64-bit) IEEE 754 floating-point number."
-    },
+      “名称”：“my_field2”，
+      “类型”：“双精度”，
+      “doc”：“双精度类型是双精度（64 位）IEEE 754 浮点数。”
+    }，
     {
-      "name": "my_field3",
-      "type": "string",
-      "doc": "The string is a unicode character sequence."
-    },
+      “名称”：“my_field3”，
+      “类型”：“字符串”，
+      “doc”：“字符串是一个 Unicode 字符序列。”
+    }，
     {
-      "name": "my_field4",
-      "type": {
-        "type": "long",
-        "logicalType": "timestamp-millis"
-      },
-      "doc": "use case"
+      “名称”：“my_field4"，
+      “类型”：{
+        “类型”：“长”，
+        “LogicalType”：“timestamp-millis”
+      }，
+      “doc”：“用例”
     }
   ]
 }
 ```
 
-Create a topic in Confluent Cloud and you can push data to the topic in Avro format with the following command:
+在 Confluent Cloud 中创建主题，您可以使用以下命令以 Avro 格式将数据推送到该主题：
 
 ```bash
-confluent kafka topic produce $TOPIC --schema ~/Dev/schema.txt \
---schema-registry-endpoint https://psrc-ab123.us-east-2.aws.confluent.cloud \
+confluent kafka 话题生成 $TOPIC --schema ~/Dev/schema.txt\
+--schema-registry-endpoint https://psrc-ab123.us-east-2.aws.confluent.cloud\
 --schema-registry-api-key $API_KEY \
 --schema-registry-api-secret $API_SECRET \
---value-format avro
+--value-for
 ```
 
-You can add messages line by line, for example
+例如，您可以逐行添加消息
 
 ```json
-{"my_field1":1,"my_field2":3.4,"my_field3":"hello","my_field4":1707954127790}
+{“my_field1": 1、“my_field2”: 3.4、“my_field3”: “你好”、“my_field4”: 1707954127790}
 ```
 
-Now let's create an external stream in Proton to read such messages:
+现在让我们在 Proton 中创建一个外部流来读取这样的消息：
 
 ```sql
-CREATE EXTERNAL STREAM avro_stream(
-  my_field1 int8,
-  my_field2 float32,
-  my_field3 string,
+创建外部流 avro_stream (
+  my_field1 int8、
+  my_field2 float32、
+  my_field3 字符串、
   my_field4 int64
 )
-SETTINGS
-  type = 'kafka',
-  brokers = 'pkc-ab123.us-east-2.aws.confluent.cloud:9092',
-  security_protocol='SASL_SSL', 
-  username='$KEY', 
-  password='$SECRET',
-  topic = '$TOPIC',
-  data_format = 'Avro',
-  kafka_schema_registry_url = 'https://psrc-ab123.us-east-2.aws.confluent.cloud',
+设置
+  type = “kafka”，
+  brokers = “pkc-ab123.us-east-2.confluent.cloud: 9092”，
+  security_protocol='sasl_SSL'， 
+  username='$KEY'， 
+  password='$SECRET'，
+  topic = '$TOPIC'，
+  data_format = 'Avro'，
+  kafka_schema_registry_url = 'https://psrc-ab123.us-east-2.aws.confluent.cloud'，
   kafka_schema_registry_credentials = '$API_KEY:$API_SECRET';
 ```
 
-After running this SQL successfully, you can fetch existing data via
+成功运行此 SQL 后，您可以通过以下方式获取现有数据
 
 ```sql
-SELECT * FROM avro_stream WHERE _tp_time>earliest_ts()
+从 avro_stream 中选择 * 其中 _tp_time>earliest_ts ()
 ```
 
-Or only fetch the incoming new messages via
+或者只通过以下方式获取收到的新消息
 
 ```sql
-SELECT * FROM avro_stream
+从 avro_stream 中选择 *
 ```
 
-### Example: Read Avro Encoded Data in Confluent Platform {#read_avro_confluent_platform}
+### 示例：在 Confluent 平台中读取 Avro 编码的数据 {#read_avro_confluent_platform}
 
-You can follow [Confluent Docs](https://docs.confluent.io/platform/7.6/platform-quickstart.html#quickstart) to start Confluent Platform with Schema Registry via Docker Compose.
+你可以关注 [Confluent Docs](https://docs.confluent.io/platform/7.6/platform-quickstart.html#quickstart) 通过 Docker Compose 启动带有架构注册表的 Confluent 平台。
 
-The Avro schema definition:
+Avro 架构定义：
 
 ```json
 {
- "namespace": "io.confluent.examples.clients.basicavro",
- "type": "record",
- "name": "Payment",
- "fields": [
-     {"name": "id", "type": "string"},
-     {"name": "amount", "type": "double"}
+ “命名空间”：“io.confluent.examples.clients.basicavro”，
+ “类型”：“记录”，
+ “名称”：“付款”，
+ “字段”：[
+     {“名称”：“id”，“类型”：“字符串”}，
+     {“名称”：“金额”，“类型”：“双倍”}
  ]
-}
+
 ```
 
-Follow the [Schema Registry tutorial](https://docs.confluent.io/platform/7.6/schema-registry/schema_registry_onprem_tutorial.html) to create a new topic `transactions`. Create a `$HOME/.confluent/java.config` with content:
+按照 [架构注册表教程](https://docs.confluent.io/platform/7.6/schema-registry/schema_registry_onprem_tutorial.html) 创建新主题 “交易”。 使用以下内容创建一个$HOME/.confluent/java.config
 
 ```properties
-bootstrap.servers=localhost:9092
+bootstrap.servers=localhost: 9092
 client.dns.lookup=use_all_dns_ips
 session.timeout.ms=45000
 acks=all
-schema.registry.url=http://localhost:8081
+schema.registry.url = http://localhost:8081
 ```
 
-Then use Maven to compile the [sample code](https://github.com/confluentinc/examples/tree/7.5.0-post/clients/avro) and produce Avro-encoded message to the local Kafka server with schema registry:
+然后使用 Maven 编译 [示例代码](https://github.com/confluentinc/examples/tree/7.5.0-post/clients/avro)，并使用架构注册表向本地 Kafka 服务器生成 AVRO 编码的消息：
 
 ```bash
-mvn clean compile package
-mvn exec:java -Dexec.mainClass=io.confluent.examples.clients.basicavro.ProducerExample \
-  -Dexec.args="$HOME/.confluent/java.config"
+mvn 干净编译包
+mvn exec: java-dexec.mainclass=io.confluent.examples.clients.basicavro.producerExample\
+  -dexec.args=”$HOME/.confluent/java.config”
 ```
 
-Then create an external steam in Proton:
+然后在 Proton 中创建外部蒸汽：
 
 ```sql
-CREATE EXTERNAL STREAM transactions(
-  id string,
-  amount double
-)
-SETTINGS
-  type = 'kafka',
-  brokers = 'localhost:9092',
-  topic = 'transactions',
-  data_format = 'Avro',
-  kafka_schema_registry_url = 'http://localhost:8081';
+创建外部流交易（
+  id 字符串，
+  金额翻倍
+）
+设置
+  type = 'kafka'，
+  经纪商 = 'localhost: 9092'，
+  主题 = “交易”，
+  data_format = 'Avro'，
+  kafka_schema_registry_url = 'http://localhost:8081'；
 ```
 
-After running this SQL successfully, you can fetch existing data via
+成功运行此 SQL 后，您可以通过以下方式获取现有数据
 
 ```sql
-SELECT * FROM transactions WHERE _tp_time>earliest_ts()
+从交易中选择 * 其中 _tp_time>earliest_ts ()
 ```
 
-Or only fetch the incoming new messages via
+或者只通过以下方式获取收到的新消息
 
 ```sql
-SELECT * FROM transactions
+从交易中选择 *
 ```
 
-### Example: Read Avro Encoded Data in Kafka service on Aiven{#read_avro_aiven}
+### 示例：在 Aiven 上读取 Kafka 服务中的 Avro 编码数据{#read_avro_aiven}
 
-The schema registry endpoint on Aiven is signed with CA, but you need to provide `ssl_ca_cert_file` for the broker.
+Aiven 上的架构注册表端点是使用 CA 签名的，但你需要为代理提供 `ssl_ca_cert_file`。
 
 ```sql
-CREATE EXTERNAL STREAM transactions(
-  id string,
-  amount double
-)
-SETTINGS type='kafka', 
-         brokers='name.a.aivencloud.com:28864',
-         topic='transactions',
-         security_protocol='SASL_SSL', 
-         sasl_mechanism='SCRAM-SHA-256',
-         username='avnadmin', 
-         password='PASSWORD',
-         ssl_ca_cert_file='/kafka.cert',
-         data_format = 'Avro',
-         kafka_schema_registry_url = 'https://name.a.aivencloud.com:28856',
-         kafka_schema_registry_credentials = 'avnadmin:PASSWORD'
+创建外部流交易（
+  id 字符串，
+  金额翻倍
+）
+设置类型='kafka'， 
+         brokers='name.aivencloud.com: 28864'，
+         topic='transactions'，
+         secury_protocol='sasl_SSL'， 
+         sasl_mechanism='scram-SHA-256'，
+         username='avnadmin'， 
+         password='password'，
+         ssl_ca_cert_file='/kafka.cert'，
+         data_format =' Avro '，
+         kafka_schema_registry_url =' https://name.a.aivencloud.com:28856 '，
+         kafka_schema_registry_certencials =' avnadmin: Password '
 ```
 
-### Example: Read Avro Encoded Data in Upstash Kafka{#read_avro_upstash}
+### 示例：在 Upstash Kafka 中读取 Avro 编码的数据{#read_avro_upstash}
 
-Starting from Proton 1.5.3, schema registry with path is supported. This enables Proton users to load data from Upstash Serverless Kafka when schema registry is enabled.
+从 Proton 1.5.3 开始，支持带路径的架构注册表。 这使得 Proton 用户能够在启用架构注册表时从 Upstash Serverless Kafka 加载数据。
 
 ```sql
-CREATE EXTERNAL STREAM transactions(
-  id string,
-  amount double
-)
-SETTINGS type='kafka', 
-         brokers='abc-us1-kafka.upstash.io:9092',
-         topic='transactions',
-         security_protocol='SASL_SSL', 
-         sasl_mechanism='SCRAM-SHA-256',
-         username='USER', 
-         password='PWD',
-         data_format = 'Avro',
-         kafka_schema_registry_url = 'https://abc-us1-rest-kafka.upstash.io/schema-registry',
-         kafka_schema_registry_credentials = 'USER:PWD'
+创建外部流交易（
+  id 字符串，
+  金额翻倍
+）
+设置类型='kafka'， 
+         brokers='abc-us1-kafka.upstash.io: 9092'，
+         topic='transactions'，
+         secury_protocol='sl_SSL'， 
+         sasl_Mechanism='scram-SHA-256'，
+         Username='User'， 
+         password='pwd'，
+         data_format = 'Avro'，
+         kafka_schema_registry_url = 'https://abc-us1-rest-kafka.upstash.io/schema-registry'，
+         kafka_schema_registry_credentials = '用户:PWD'
 ```

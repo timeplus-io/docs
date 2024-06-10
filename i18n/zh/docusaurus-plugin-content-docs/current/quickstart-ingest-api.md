@@ -1,4 +1,4 @@
-# Push data to Timeplus Cloud
+# 将数据推送到 Timeplus
 
 您可以使用任何语言调用 ingestion REST API 并将数据推送到 Timeplus。
 
@@ -11,7 +11,7 @@
 Timeplus 提供了许多选项来将数据作为单个文档推送，或批量推送多个文档，亦或者作为灵活的架构或固定架构推送。 为了简单起见，在本教程中，您将把像这样的 JSON 文档发布到一个流中，其中有一个在 `字符串` 类型中被命名为 `raw` 的单列。
 
 ```json
-{"key1": "value11", "key2": 12}
+{“key1"：“value11"，“key2"：12}
 ```
 
 首先，登录 Timeplus 控制台，在流页面中，单击 **新的流** 按钮。 将 **流名称** 设置为 `foo`，将 **描述** 留空。 在 **列** 列表中，键入 `raw` 作为名称，键入或选择 `字符串` 作为类型。 然后，单击 **创建** 按钮。
@@ -22,11 +22,7 @@ Timeplus 提供了许多选项来将数据作为单个文档推送，或批量�
 select raw:key1 as k1, raw:key2::int as k2 from foo
 ```
 
-
-
 ## 第二步：创建API密钥
-
-
 
 您需要创建 API 密钥才能访问 Timeplus REST API。 为此，请执行以下操作：
 
@@ -37,8 +33,6 @@ select raw:key1 as k1, raw:key2::int as k2 from foo
 5. 设置一个可读的名称并选择到期日期
 6. 将 API 密钥安全地保存在您的计算机中。 您不会在控制台中再次检索纯文本密钥。
 
-
-
 ## 第 3 步：使用 API 密钥向 Timeplus 发送数据
 
 根据哪种工具或编程语言最适合您，您可以通过不同的方式向 Timeplus 发送数据。
@@ -48,7 +42,6 @@ ingestion API 的基础端点是 `https://cloud.timeplus.com.cn/WORKSPACE_ID/api
 请确保您使用的是 `workspace-id`，而不是 `workspace-name`。 Workspace-id 是一个包含8个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name 是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
 
 :::
-
 
 ### curl
 
@@ -114,36 +107,5 @@ implementation("com.squareup.okhttp3:okhttp:4.10.0")
 ```
 
 ```java
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
-import java.io.IOException;
-
-public class Example {
-    public static void main(String[] args) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-
-        String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
-        MediaType mediaType = MediaType.parse("text/plain");
-        String data = """ 
-          {"key1": "value11", "key2": 12} 
-          """;
-        RequestBody body = RequestBody.create(mediaType, data);
-
-        Request request = new Request.Builder()
-                .url(url)
-                .header("X-Api-Key", "your_api_key")
-                .header("Content-Type", "text/plain")
-                .post(body)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            System.out.println(response.code());
-            System.out.println(response.body().string());
-        }
-    }
-}
 ```

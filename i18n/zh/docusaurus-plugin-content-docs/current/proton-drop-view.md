@@ -1,15 +1,15 @@
-# DROP VIEW
+# 拖放视图
 
-Run the following SQL to drop a view or a materialized view.
+运行以下 SQL 来删除视图或物化视图。
 
 ```sql
-DROP VIEW [IF EXISTS] db.<view_name>;
+删除视图 [如果存在] 数据库。<view_name>;
 ```
 
-Like [CREATE STREAM](proton-create-stream), stream deletion is an async process.
+像 [CREATE STREAM](proton-create-stream)一样，流删除是一个异步过程。
 
-:::info note for Timeplus Cloud users
+::: Timeplus Cloud 用户须知
 
-In Timeplus Cloud or Private Cloud deployments, we recommend you to drop views with GUI or [Terraform Provider](terraform), to better tracking the lineage and permission.
+在 Timeplus Cloud 或私有云部署中，我们建议您使用 GUI 或 [Terraform Provider](terraform)删除视图，以便更好地跟踪世系和权限。
 
 :::

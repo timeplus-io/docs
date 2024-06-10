@@ -1,130 +1,130 @@
-# Real-time Insights for GitHub
+# GitHub 的实时见解
 
-In this tutorial, you will process real-time data from GitHub. We have setup a public accessible Kafka cluster for you to consume data from Kafka topic. If you are on Timeplus Cloud, you can also build real-time dashboards and alerts.
+在本教程中，您将处理来自 GitHub 的实时数据。 我们已经设置了一个可公开访问的 Kafka 集群，供您使用来自 Kafka 主题的数据。 如果您使用的是Timeplus Cloud，则还可以构建实时仪表板和警报。
 
-## Read Live GitHub Events
+## 阅读 GitHub 活动流
 
-We all love GitHub. But do you know what’s trending on Github right now? Do you know which repos have received the most pushes or PR reviews over the past 10 minutes? There are daily/weekly leaderboards at https://github.com/trending, but no real-time feeds.
+我们都喜欢 GitHub。 但是你知道Github现在的趋势是什么吗？ 你知道在过去 10 分钟内哪些回购获得的推送量或 PR 评论最多的吗？ https://github.com/trending 有每日/每周排行榜，但没有实时提要。
 
-You can write a script to call [GitHub Events API](https://docs.github.com/en/rest/reference/activity) with a dedicated [Personal Access Token](https://github.com/settings/tokens) Please note, the public events from the GitHub API has a 5-minute delay ([source](https://docs.github.com/en/rest/reference/activity#list-public-events)).
+你可以编写一个使用专用 [个人访问令牌](https://github.com/settings/tokens) 调用 [GitHub Events API](https://docs.github.com/en/rest/reference/activity) 的脚本。请注意，来自GitHub API的公共活动有5分钟的延迟（[源代码]（https://docs.github.com/en/rest/reference/activity#list-public-events））。
 
-Here is a [sample Python script](https://github.com/timeplus-io/github_liveview/blob/develop/github_demo.py) for your reference. But we have made the live data accessible via Kafka API.
+这里有一个 [Python 脚本示例](https://github.com/timeplus-io/github_liveview/blob/develop/github_demo.py) 供你参考。 但是我们已经允许通过Kafka API访问实时数据。
 
-In Timeplus, you read data from Kafka via an [External Stream](external-stream). Here is the SQL to create such an external stream to read from our Kafka clusters on Aiven:
+在 Timeplus 中，你可以通过 [外部流]（外部流）从 Kafka 读取数据。 以下是创建这样的外部流以从 Aiven 上的 Kafka 集群读取内容的 SQL：
 
 ```sql
-CREATE EXTERNAL STREAM github_events
+创建外部流 github_events
 (
-  actor string,
-  created_at string,
-  id string,
-  payload string,
-  repo string,
-  type string
+  演员字符串，
+  created_at 字符串，
+  id 字符串，
+  有效负载字符串，
+  回购字符串，
+  类型字符串
 )
-SETTINGS type = 'kafka', 
-         brokers = 'kafka-public-read-timeplus.a.aivencloud.com:28864', 
-         topic = 'github_events', 
-         data_format='JSONEachRow',
-         sasl_mechanism = 'SCRAM-SHA-256', 
-         username = 'readonly', 
-         password = 'AVNS_MUaDRshCpeePa93AQy_', 
-         security_protocol = 'SASL_SSL', 
-         skip_ssl_cert_check=true
-COMMENT 'an external stream to read GitHub events in JSON format from Aiven for Apache Kafka'
+设置类型 = 'kafka'， 
+         brokers = 'kafka-public-read-timeplus。a.aivencloud.com: 28864'， 
+         topic = 'github_events'， 
+         data_format='jsoneachrow'，
+         sasl_mechanics = 'SCRAM-SHA-256'， 
+         用户名 = '只读'， 
+         密码 = 'avns_muadrshcpeepa93AQY_'， 
+         security_protocol = 'SASL_SSL'， 
+         skip_ssl_cert_check== true
+COMMENT '要阅读的外部流来自 Aiven for Apache Kafka 的 JSON 格式的 GitHub 活动
 ```
 
-Just run this SQL via `proton client` or the **SQL Console** in Timeplus web UI. This Kafka user is configured with read-only access to the topic/cluster. We may change the password. Please come back if the password doesn't work.
+只需通过 Timeplus 网络用户界面中的 “Proton客户端” 或 **SQL 控制台** 运行这个 SQL 即可。 此 Kafka 用户配置为对主题/集群的只读访问权限。 我们可能会更改密码。 如果密码不起作用，请回来。
 
-## Sample Streaming SQL
+## 串流 SQL 示例
 
-### Streaming Tail
+### 流尾巴
 
-You can explore the live data via
+您可以通过以下方式浏览实时数据
 
 ```sql
-SELECT * FROM github_events
+从 github_events 中选择 *
 ```
 
-This is a streaming SQL and keeps reading new events in the Kafka topic. You need to manually cancel the query to terminate it.
+这是一个流式的 SQL，会继续阅读 Kafka 主题中的新事件。 您需要手动取消查询才能终止查询。
 
-### Streaming Filter
+### 流过滤器
 
-Add some condition in the WHERE clause to apply streaming filters, e.g.
+在 WHERE 子句中添加一些条件以应用流媒体过滤器，例如
 
 ```sql
-SELECT * FROM github_events WHERE type='WatchEvent'
+从 github_events 中选择 * 其中 type='watchEvent'
 ```
 
 ### 聚合
 
-#### Global Aggregation
+#### 全球聚合
 
 ```sql
-SELECT count(*) FROM github_events
+从 github_events 中选择计数 (*)
 ```
 
-This will show how many new events received, since the query is started. So you may see a number like 158, then a couple seconds later, 334.
+这将显示自查询开始以来收到了多少新事件。 因此，你可能会看到像158这样的数字，然后在几秒钟后看到334这样的数字。
 
-This is so-called [Global Aggregation](query-syntax#global).
+这就是所谓的 [全局聚合]（查询语法 #global）。
 
-#### Tumble Aggregation
+#### 滚动聚合
 
 ```sql
-SELECT window_start, repo, count(*) 
-FROM tumble(github_events,30s) 
-GROUP BY window_start, repo
+选择 window_start、repo、count (*) 
+FROM tumble (github_events,30s) 
+按 window_start、repo 分组
 ```
 
-This query counts events by repo every 30 seconds. Tumble windows are fixed windows, without overlaps. `30s` is the shortcut for SQL expression `INTERVAL 30 SECOND`. You can also use `2m` for 2 minutes and `3h` for 3 hours.
+此查询每 30 秒按存储库统计一次事件。 滚动窗户是固定窗口，没有重叠。 `30s` 是 SQL 表达式 `INTERVAL 30 SECOND` 的快捷方式。 你也可以使用 2m 表示 2 分钟，使用 3h 表示 3 小时。
 
-Please note, this query will wait for up to 30s to show the first results. Because by default, streaming SQL in Timeplus will look for future events, not existing events. We will talk about how to get past data shortly.
+请注意，此查询最多需要等待 30 秒才能显示第一个结果。 因为默认情况下，在 Timeplus 中传输 SQL 将查找未来的事件，而不是现有的事件。 我们很快将讨论如何获得过去的数据。
 
-#### Hopping Aggregation
+#### 跳跃聚合
 
 ```sql
-SELECT window_start, repo, count(*) 
-FROM hop(github_events,1s,30s) 
-GROUP BY window_start, repo
+选择 window_start、repo、count (*) 
+FROM hop (github_events,1s,30s) 
+按 window_start、repo 分组
 ```
 
-This query counts events by repo every 30 seconds and update results every second. Hop window is also called as sliding windows.
+此查询每 30 秒按 repo 对事件进行一次计数，每秒更新一次结果。 Hop window 也称为滑动窗口。
 
-## Time Rewind
+## 时光倒流
 
-By default, streaming SQL in Timeplus will look for future events, not existing events. For externals streams, you can use `SETTINGS seek_to='..'` to go back to a past timestamp or offset in the Kafka topic. For example, if you want to get total number of events since April 1, you can run:
+默认情况下，在 Timeplus 中传输 SQL 将查找未来的事件，而不是现有事件。 对于外部流，你可以使用 'SETTINGS seek_to='。。'\`返回 Kafka 主题中过去的时间戳或偏移量。 例如，如果你想获得自 4 月 1 日以来的活动总数，你可以运行：
 
 ```sql
-SELECT count(*) FROM github_events 
-SETTINGS seek_to='2024-04-01'
+从 github_events 中选择计数 (*) 
+设置 seek_to='2024-04-01'
 ```
 
-If you want to get data 6 hours ago:
+如果你想在 6 小时前获取数据：
 
 ```sql
-SELECT count(*) FROM github_events 
-SETTINGS seek_to='-6h'
+从 github_events 中选择计数 (*) 
+设置 seek_to='-6h'
 ```
 
-## Save Kafka data in Timeplus
+## 在 Timeplus 中保存 Kafka 数据
 
-Using external streams to query data in Kafka won't consume any storage in Timeplus. In some cases, you may want to save the data in Timeplus, so that you can apply more sophisticated data processing, or avoid too many query load on Kafka, or want to set a small retention policy on Kafka but would keep more data in Timeplus.
+使用外部流在 Kafka 中查询数据不会占用 Timeplus 中的任何存储空间。 在某些情况下，你可能希望将数据保存在Timeplus中，这样你就可以应用更复杂的数据处理，或者避免在Kafka上加载过多的查询，或者想在Kafka上设置一个小的保留政策，但可以在Timeplus中保留更多的数据。
 
-You can create a materialized view to save data in Timeplus, e.g.
+你可以创建一个物化视图来在 Timeplus 中保存数据，例如
 
 ```sql
-CREATE MATERIALIZED VIEW mv AS
-SELECT * FROM github_events
+创建物化视图 mv 作为
+SELECT * 来自 github_events
 ```
 
-The materialized view is a long-running query to turn the streaming SQL results in its internal storage. You can also have the materialized view to write data to other streams, external streams, or external tables. This can build streaming pipelines.
+物化视图是一个长时间运行的查询，用于将流 SQL 结果传送到其内部存储中。 您也可以使用物化视图将数据写入其他流、外部流或外部表。 这可以建立流媒体管道。
 
-You can query data in the materialized view just like other streams, e.g.
+您可以像其他流一样在物化视图中查询数据，例如
 
 ```sql
-SELECT * FROM mv WHERE type='WatchEvent'
+从 mv 中选择 * 其中 type='watchEvent'
 ```
 
-## Learn More
+## 了解更多
 
-You can check [this blog](https://www.timeplus.com/post/github-real-time-app) for more details.
+你可以查看 [这个博客](https://www.timeplus.com/post/github-real-time-app) 了解更多详情。

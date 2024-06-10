@@ -1,106 +1,60 @@
-# Streaming ETL: Kafka to ClickHouse
+# 流式ETL：Kafka 到 ClickHouse
 
-This video demonstrates how to read live data from Redpanda, apply stream processing and send results to ClickHouse. [Related blog](https://www.timeplus.com/post/proton-clickhouse-integration).
+该视频演示了如何读取来自Redpanda的实时数据、应用流处理以及如何将结果发送到ClickHouse。 [相关博客](https://www.timeplus.com/post/proton-clickhouse-integration)。
 
-## Demo Video
+## 演示视频
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ga_DmCujEpw?si=ja2tmlcCbqa6HhwT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## 子查询
 
-A Docker Compose stack is provided at https://github.com/timeplus-io/proton/tree/develop/examples/clickhouse together with the sample SQL statements. When you start the stack, the latest version of Proton and ClickHouse, as well as Redpanda and data generator will be automatically started.
+https://github.com/timeplus-io/proton/tree/develop/examples/clickhouse 提供了 Docker Compose 堆栈以及示例 SQL 语句。 当你启动堆栈时，最新版本的Proton和ClickHouse以及Redpanda和数据生成器将自动启动。
 
-### Example: ETL with masked data
+### 示例：带有屏蔽数据的 ETL
 
-First, create a table with the regular MergeTree table engine in your ClickHouse.
-
-```sql
-CREATE TABLE events
-(
-    _tp_time DateTime64(3),
-    url String,
-    method String,
-    ip String
-)
-ENGINE=MergeTree()
-PRIMARY KEY (_tp_time, url);
-```
-
-This will serve as the destination of Proton External Table for ClickHouse. Later on, you can also read the data in Proton.
-
-In the demo docker compose stack, a Redpanda container is started, together with a data generator and Redpanda Console for you to easily explore live data. For example, go to [http://localhost:8080](http://localhost:8080/), you will see the live data in the **owlshop-frontend-events** topic.
-
-![data](https://static.wixstatic.com/media/3796d3_2bb403497c0b48fab5710bec35793ae0~mv2.png/v1/fill/w_1480,h_642,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/3796d3_2bb403497c0b48fab5710bec35793ae0~mv2.png)
-
-The goal of this tutorial is to read these access logs and turn the sensitive IP addresses into md5 and ingest them to ClickHouse for more business analysis.
-
-To read data from Kafka or Redpanda, you just need to create an [External Stream](proton-kafka) with the following DDL SQL:
+首先，在 ClickHouse 中使用常规 MergeTree 表格引擎创建一个表格。
 
 ```sql
-CREATE EXTERNAL STREAM frontend_events(raw string)
-SETTINGS type='kafka',
-         brokers='redpanda:9092',
-         topic='owlshop-frontend-events';
 ```
 
-Then run the following DDL SQL to setup the connection between Proton and ClickHouse. For local Clickhouse without security settings, it can be as simple as:
+这将成为 ClickHouse 的 Proton 外部表的目的地。 稍后，你还可以读取 Proton 中的数据。
+
+在演示面板撰写堆栈中，启动了Redpanda容器，以及数据生成器和Redpanda控制台，供您轻松浏览实时数据。 例如，前往 [http://localhost:8080](http://localhost:8080/)，你将在**owlshop-frontend-events**主题中看到实时数据。
+
+![数据](https://static.wixstatic.com/media/3796d3_2bb403497c0b48fab5710bec35793ae0~mv2.png/v1/fill/w_1480,h_642,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/3796d3_2bb403497c0b48fab5710bec35793ae0~mv2.png)
+
+本教程的目标是阅读这些访问日志，将敏感的IP地址转换为md5，然后将其提取到ClickHouse进行更多业务分析。
+
+要从 Kafka 或 Redpanda 读取数据，你只需要使用以下 DDL SQL 创建 [外部流]（Proton-kafka）：
 
 ```sql
-CREATE EXTERNAL TABLE ch_local
-SETTINGS type='clickhouse',
-         address='localhost:9000',
-         table='events';
 ```
 
-Then create a materialized view to read data from Redpanda, extract the values and turn the IP to masked md5, and send data to the external table. By doing so, the transformed data will be written to ClickHouse continuously.
+然后运行以下 DDL SQL 来设置 Proton 和 ClickHouse 之间的连接。 对于没有安全设置的本地 Clickhouse，可以这么简单：
 
 ```sql
-CREATE MATERIALIZED VIEW mv INTO ch_local AS
-    SELECT now64() AS _tp_time,
-           raw:requestedUrl AS url,
-           raw:method AS method,
-           lower(hex(md5(raw:ipAddress))) AS ip
-    FROM frontend_events;
 ```
 
-Once the materialized view is created, it will work as a background ETL job in Proton, to continuously read data from Kafka/Redpanda, apply transformations or aggregations, then send results to ClickHouse. To learn more about Materialized View in Proton, please refer to [this documentation](view#m_view).
+然后创建一个物化视图来从 Redpanda 读取数据，提取值并将 IP 转换为屏蔽的 md5，然后将数据发送到外部表。 这样，转换后的数据将持续写入ClickHouse。
 
-Now if you go back to ClickHouse and run `select * from events`, you will see new data coming at sub-second latency.
+```sql
+```
 
-![clickhouse UI](https://static.wixstatic.com/media/3796d3_804a80321d1a4219836203b83c19ae35~mv2.png/v1/fill/w_1480,h_996,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/3796d3_804a80321d1a4219836203b83c19ae35~mv2.png)
+创建物化视图后，它将用作 Proton 中的后台 ETL 作业，持续从 Kafka/Redpanda 读取数据，应用转换或聚合，然后将结果发送到 ClickHouse。 要了解有关 Proton 中物化视图的更多信息，请参阅 [此文档]（查看 #m_view）。
 
-You can do more with streaming SQL in Proton, such as late event processing, complex event processing, or leverage thousands of ClickHouse functions to customize the transformation/enrichment logics. Many of Proton’s functions are powered by ClickHouse. So if you are a ClickHouse user already, you can use Proton in a similar way.
+现在，如果你回到ClickHouse并运行 “从事件中选择\*”，你会看到新的数据以亚秒级的延迟出现。
 
-As mentioned above, the External Table in Proton can be used to read data from ClickHouse, or even apply data lookup in streaming JOIN. Simply run `SELECT .. FROM external_table_name` in Proton. It will read data from ClickHouse for the selected columns and apply the transformation or JOIN in Proton.
+![clickhouse 用户界面](https://static.wixstatic.com/media/3796d3_804a80321d1a4219836203b83c19ae35~mv2.png/v1/fill/w_1480,h_996,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/3796d3_804a80321d1a4219836203b83c19ae35~mv2.png)
 
-### Example: tumble + join
+您可以在 Proton 中使用流式处理 SQL 来完成更多操作，例如后期事件处理、复杂事件处理，或者利用数千个 ClickHouse 函数自定义转换/丰富逻辑。 Proton 的许多功能都由 ClickHouse 提供支持。 因此，如果你已经是ClickHouse的用户，你可以用类似的方式使用Proton。
 
-A typical use case, if you have static or slowly changing dimensions (SCD) in ClickHouse, you don’t need to duplicate them in Proton. Just create an external table in Proton, and you can enrich your live data by JOIN the stream with such an external table, then send the high quality data to ClickHouse.
+如上所述，Proton中的外部表可用于从ClickHouse读取数据，甚至可以在流媒体JOIN中应用数据查询。 只需运行 `SELECT.. 来自 Proton 中的 external_table_name`。 它将从ClickHouse读取所选列的数据，然后在Proton中应用转换或加入。
+
+### 示例：tumble + join
+
+一个典型的用例是，如果您在ClickHouse中有静态或缓慢变化的维度（SCD），则无需在Proton中复制它们。 只需在 Proton 中创建一个外部表，您就可以通过使用这样的外部表加入流来丰富您的实时数据，然后将高质量的数据发送到 ClickHouse。
 
 例如：
 
 ```sql
--- read the dimension table in ClickHouse without copying data to Proton
-CREATE EXTERNAL TABLE dim_path_to_title
-SETTINGS type='clickhouse',address='localhost:9000';
-
--- read Kafka data with subsecond latency
-CREATE EXTERNAL STREAM clickstream(
-  ts datetime64,
-  product_id int,
-  ip string
-)
-SETTINGS type='kafka',brokers='kafka:9092',topic='clickstream';
-
--- continuously write to ClickHouse
-CREATE EXTERNAL TABLE target_table
-SETTINGS type='clickhouse',address='localhost:9000',table='pageviews';
-
--- downsample the click events per 5 seconds and enrich URL paths with page titles
-CREATE MATERIALIZED VIEW mv INTO target_table AS
-  WITH pv AS(
-        SELECT window_start, path, count() AS views
-        FROM tumble(clickstream,ts,5s) GROUP BY window_start,path)
-  SELECT window_start AS ts,path,title,views
-  FROM pv JOIN dim_path_to_title USING(path);
 ```

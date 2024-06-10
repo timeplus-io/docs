@@ -1,4 +1,4 @@
-# Quickstart with Timeplus Cloud
+# 使用 Timeplus Cloud 快速入门
 
 Timeplus是一个融合流处理和历史数据处理的高性能平台， 让开发者能够以最快的速度和最高的效率构建最强大和最可靠的流分析应用。
 
@@ -13,80 +13,80 @@ Timeplus Cloud提供以下主要功能：
 
 ## 步骤 1：注册一个Timeplus账户 {#step1}
 
-目前，支持谷歌或微软单一登录 (SSO)。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 It usually takes less than 2 minutes to get the account set up and have the first [workspace](glossary#workspace) created.
+目前，支持谷歌或微软单一登录 (SSO)。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 设置账户并创建第一个 [工作空间](glossary#workspace) 通常需要不到 2 分钟。
 
-![Sign up for an account](/img/sign-up-page.png)
+![注册一个账户](/img/sign-up-page.png)
 
-## Step 2: Set up your account and workspace {#step2}
+## 第 2 步：设置您的账户和工作空间 {#step2}
 
-Tell us a bit about yourself by completing a quick account setup:
+通过快速完成账户设置，向我们介绍一下你自己：
 
-![Onboarding Survey](/img/onboarding-survey.png)
+![入职调查](/img/onboarding-survey.png)
 
-The final step of the setup is for naming your new workspace, the isolated storage and computing unit for you to run streaming data collection and analysis. Give it a name: Give it a name:
+设置的最后一步是命名您的新工作空间，这是一个独立的存储和计算单元，供您运行流式数据收集和分析。 给它起个名字：
 
 ![选择工作区名称](/img/workspace-name-setup.png)
 
-## Step 3: Load your streaming data {#step3}
+## 第 3 步：加载您的流数据 {#step3}
 
-If your streaming data resides in or a publicly accessible Kafka or Pulsar instance, follow one of following docs to create a source in Timeplus Cloud, then return here to complete the quickstart:
+如果你的流数据位于或可公开访问的 Kafka 或 Pulsar 实例中，请按照以下任一文档 在 Timeplus Cloud 中创建源，然后返回此处完成快速入门：
 
 - [Apache Kafka](kafka-source)
 - [Confluent Cloud](confluent-cloud-source)
 - [Apache Pulsar](pulsar-source)
-- [REST API, SDK, and others](ingestion)
+- [REST API、SDK 等](ingestion)
 
-If you don't yet have a streaming data source and would like test out how Timeplus works, Timeplus provides a built-in data source to generate streaming data for some common use cases.
+如果你还没有流式数据源并且想测试一下Timeplus的工作原理，Timeplus提供内置的 数据源，为一些常见用例生成流式数据。
 
-### Create a sample source
+### 创建示例源
 
-1. Create the first [source](glossary#source) in your workspace. Create the first [source](glossary#source) in your workspace. From the left side navigation menu, click **Data Ingestion**, then click the **Add Data** button in the top right corner.
+1. 在您的工作空间中创建第一个 [源](glossary#source) 。 在左侧导航菜单中，单击 **数据摄取**，然后单击右上角的 **添加数据** 按钮。
 
-   ![Data Ingestion page](/img/sample-source-button-1.png)
+   ![“数据提取” 页面](/img/sample-source-button-1.png)
 
-2. In this pop-up, click the **Sample Dataset** link.
+2. 在此弹出窗口中，单击 **示例数据集** 链接。
 
-   ![Add Data dialog](/img/sample-source-dialog-2.png)
+   ![“添加数据” 对话框](/img/sample-source-dialog-2.png)
 
-3. Choose from one of three templates:
+3. 从三个模板中选择一个：
 
-   1. **IoT**: Data for three devices
-   2. **User** logins: Data for two users and two cities
-   3. **DevOps**: Data for three hosts and three regions
+   1. **IoT**：三台设备的数据
+   2. **用户** 登录：两个用户和两个城市的数据
+   3. **DevOps**：三台主机和三个区域的数据
 
-   ![Sample dataset templates](/img/sample-source-template-3.png)
+   ![示例数据集模板](/img/sample-source-template-3.png)
 
-4. Preview your data and create a new stream to load your data into. For the stream name, it can contain only letters, numbers, or underscores, and must start with a letter. You can also give it an optional description. For the stream name, it can contain only letters, numbers, or underscores, and must start with a letter. You can also give it an optional description.
+4. 预览您的数据并创建一个新的数据流来加载数据。 对于流名称，它只能包含字母、 数字或下划线，并且必须以字母开头。 你也可以给它一个可选的描述。
 
-   ![IoT sample data, preview step](/img/sample-source-preview-4.png)
+   ![物联网示例数据，预览步骤](/img/sample-source-preview-4.png)
 
-5. Give your same source a name, such as `iot`, and review the JSON configuration.
+5. 给同一个源起一个名字，比如 `iot`，然后查看 JSON 配置。
 
-   ![IoT sample data, configuration step](/img/sample-source-configuration-5.png)
+   ![物联网示例数据，配置步骤](/img/sample-source-configuration-5.png)
 
-### Explore streaming data
+### 探索流媒体数据
 
-1. To check out the data in your newly created stream, you can either:
+1. 要查看新创建的流中的数据，您可以：
 
-   a. a. Go to the **Streams** page, and click on the **Explore** icon.
+   a。 前往 **Streams** 页面，点击 **Explore** 图标。
 
-   ![IoT sample data, preview step](/img/streams-list.png)
+   ![物联网示例数据，预览步骤](/img/streams-list.png)
 
-   b. b. Or, go to the **Query** page, and click on the name of the stream in the SQL helper below the SQL editor.
+   b。 或者，转到 **Query** 页面，然后在 SQL 编辑器下方的 SQL 帮助器中单击流的名称。
 
-   ![IoT sample data, preview step](/img/stream_name-in-list.png)
+   ![物联网示例数据，预览步骤](/img/stream_name-in-list.png)
 
-2. Timeplus generates a basic query for you, such as `SELECT * FROM iot`, or you can type your own query into the editor. Click the **Run Query** button (or press `Ctrl+Enter` on PC, `Cmd + Enter` on Mac) to run the query. Click the **Run Query** button (or press `Ctrl+Enter` on PC, `Cmd + Enter` on Mac) to run the query.
+2. Timeplus 会为你生成一个基本查询，例如 `SELECT * FROM iot`，或者你可以在 编辑器中键入自己的查询。 单击 **运行查询** 按钮（或在 PC 上按 `Ctrl+Enter` ，在 Mac 上按 `Cmd + Enter` ）运行查询。
 
-   ![Run Query in Query page](/img/run-query.png)
+   ![在 “查询” 页面中运行查询](/img/run-query.png)
 
-The streaming results table will now appear below the editor. The streaming results table will now appear below the editor. To create charts, click on the **Visualization** tab. \[Learn more about Dashboards and Charts\] \[Learn more about Dashboards and Charts\]
+流结果表现在将显示在编辑器下方。 要创建图表，请单击 **可视化** 选项卡。 [了解有关仪表板和图表的更多信息]
 
-![Example of visualization for sample dataset](/img/viz-sample-iot.png)
+![示例数据集的可视化示例](/img/viz-sample-iot.png)
 
-## What's next?
+## 下一步是什么？
 
-- [Ingest](ingestion) additional data streams
-- Write [streaming queries](query-syntax)
-- Create additional charts from streaming data with [visualizations](viz) and dashboards
-- Send the results of your queries to a [sink](destination)
+- [摄取](ingestion) 额外数据流
+- 写下 [流查询](query-syntax)
+- 使用 [可视化](viz) 和仪表板根据流数据创建其他图表
+- 将您的查询结果发送到 [数据下游](destination)

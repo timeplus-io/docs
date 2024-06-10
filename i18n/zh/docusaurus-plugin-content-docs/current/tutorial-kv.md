@@ -1,37 +1,37 @@
-# Use Primary Key For Update and Delete
+# 使用主键进行更新和删除
 
-By default, streams in Timeplus are in append-only mode. When you create a stream with the mode `versioned_kv`, you can update the data with same primary key(s). When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. 当您在与其他流的 JOIN 中将这个流用作 “右表” 时，Timeplus 会自动选择最接近的版本。
+默认情况下，Timeplus中的流处于仅追加模式。 当你创建模式为 “versioned_kv” 的流时，你可以使用相同的主键更新数据。 当你使用 `table`函数查询流时，只会显示相同主键的最新版本。 当您在与其他流的 JOIN 中将这个流用作 “右表” 时，Timeplus 会自动选择最接近的版本。
 
-[Versioned Stream](versioned-stream) supports INSERT and UPDATE. To delete data with certain primary key(s), please create a [Changelog Stream](changelog-stream).
+[版本化流]（版本流）支持 INSERT 和 UPDATE。 要删除具有特定主键的数据，请创建 [变更日志流]（变更日志流）。
 
-A HOWTO video:
+一段 HOWTO 视频：
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/6iplMdHJUMw?si=LGiBkw6QUjq0RGTL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## 查询单个流
 
-In this example, you create a stream `dim_products` in `versioned_kv` mode with the following columns:
+在此示例中，您在 versioned_kv 模式下创建了一个包含以下列的流 `dim_products`：
 
 | 列名                                                   | 数据类型                                   | 描述                                           |
 | ---------------------------------------------------- | -------------------------------------- | -------------------------------------------- |
-| \_tp_time | datetime64(3,'UTC') | 它是为所有在 Timeplus 中的流自动创建的，并且具有毫秒精度和UTC时区的事件时间 |
+| \ _tp_time | datetime64(3,'UTC') | 它是为所有在 Timeplus 中的流自动创建的，并且具有毫秒精度和UTC时区的事件时间 |
 | 产品名称                                                 | 字符串                                    | 产品的唯一 ID，作为主键                                |
 | 价格                                                   | float32                                | 当前价格                                         |
 
-This stream can be created using UI wizard on Timeplus Cloud or Timeplus Enterprise. You can also create it with SQL in Timeplus Proton:
+这个流可以在Timeplus Cloud或Timeplus Enterprise上使用用户界面向导创建。 你也可以在 Timeplus Proton 中使用 SQL 创建它：
 
 ```sql
-CREATE STREAM dim_products(product_id string, price float32)
-PRIMARY KEY (product_id)
-SETTINGS mode='versioned_kv'
+创建 STREAM dim_products（product_id 字符串，价格浮动32）
+主键 (product_id)
+设置模式='versioned_kv'
 ```
 
-If you don't add any data, query `SELECT * FROM dim_products` will return no results and keep waiting for the new results.
+如果你不添加任何数据，查询 “SELECT \* FROM dim_products” 将不返回任何结果并继续等待新的结果。
 
 现在取消此查询，再向流中添加几行。
 
 ```sql
-INSERT INTO dim_products(product_id,price) VALUES ('iPhone15',799),('iPhone15_Plus',899);
+在 dim_products（商品编号、价格）中插入值（'iPhone15',799），（'iPhone15_Plus',899）；
 ```
 
 | 产品名称                               | 价格  |
@@ -39,7 +39,7 @@ INSERT INTO dim_products(product_id,price) VALUES ('iPhone15',799),('iPhone15_Pl
 | iPhone15                           | 799 |
 | iPhone15_Plus | 899 |
 
-Running `SELECT * FROM dim_products` again will get those 2 rows.
+再次运行 `SELECT * FROM dim_products` 将获得这 2 行。
 
 现在，如果您再添加一行：
 
@@ -48,10 +48,10 @@ Running `SELECT * FROM dim_products` again will get those 2 rows.
 | iPhone15 | 800 |
 
 ```sql
-INSERT INTO dim_products(product_id,price) VALUES ('iPhone15',800);
+在 dim_products（商品编码、价格）中插入值（'iPhone15',800）；
 ```
 
-Then query `SELECT * FROM dim_products` again will get 2 rows (not 3, because the initial price of "iPhone15" is overwritten).
+然后再次查询 “SELECT \* FROM dim_products” 将获得 2 行（不是 3 行，因为 “iPhone15” 的初始价格已被覆盖）。
 
 | 产品名称                               | 价格  |
 | ---------------------------------- | --- |
@@ -62,128 +62,128 @@ Then query `SELECT * FROM dim_products` again will get 2 rows (not 3, because th
 
 :::info
 
-事实上，您可以指定一个表达式作为主键。 For example you can use `first_name||' '||last_name` to use the combined full name as the primary key, instead of using a single column. Or you can create a tuple as compound keys `PRIMARY KEY (first_name,last_name)`
+事实上，您可以指定一个表达式作为主键。 例如，你可以使用 `first_name||' '||last_name` 来使用组合的全名作为主键，而不是使用单列。 或者你可以创建一个元组作为复合键 `PRIMARY KEY (first_name, last_name) `
 
 :::
 
-You can also query the stream in the table mode, i.e. `select * from table(dim_products)`
+你也可以在表格模式下查询流，即 “从表中选择 \* (dim_products)”
 
 ## 在 INNER JOIN 中使用多版本流
 
-在上述示例中，您总是获得具有相同主键的事件的最新版本。 This works in the similar way as [Changelog Stream](changelog-stream). 这种流模式之所以被称为多版本流，是因为 Timeplus 将跟踪多个版本。 这主要在多版本流充当 JOIN 的 “右表” 时使用。
+在上述示例中，您总是获得具有相同主键的事件的最新版本。 其工作方式与 [变更日志流]（变更日志流）类似。 这种流模式之所以被称为多版本流，是因为 Timeplus 将跟踪多个版本。 这主要在多版本流充当 JOIN 的 “右表” 时使用。
 
-Imagine you have the other versioned stream for the `orders`:
+想象一下，你有另一个版本控制的 “订单” 流：
 
 ```sql
-CREATE STREAM orders(order_id int8, product_id string, quantity int8)
-PRIMARY KEY order_id
-SETTINGS mode='versioned_kv';
+创建 STREAM 订单（order_id int8、product_id 字符串、数量 int8）
+主键 order_id
+设置模式='versioned_kv'；
 ```
 
-| \_tp_time | 订单编号 | 产品名称 | 数量 |
+| \ _tp_time | 订单编号 | 产品名称 | 数量 |
 | ---------------------------------------------------- | ---- | ---- | -- |
 
 现在运行流式SQL：
 
 ```sql
-SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS revenue
-FROM orders JOIN dim_products USING(product_id)
+选择订单。_tp_time、订单编号、产品编号、数量、价格*数量作为收入
+来自订单加入 dim_products 使用 (product_id)
 ```
 
 然后添加两行：
 
 ```sql
-INSERT INTO orders(order_id, product_id, quantity)
-VALUES (1, 'iPhone15',1),(2, 'iPhone15_Plus',2);
+在订单中插入（订单编号、商品编号、数量）
+值 (1, 'iPhone15',1), (2, 'iPhone15_Plus',2)；
 ```
 
-| \_tp_time                     | 订单编号 | 产品名称                               | 数量 |
+| \ _tp_time                     | 订单编号 | 产品名称                               | 数量 |
 | ------------------------------------------------------------------------ | ---- | ---------------------------------- | -- |
 | 2023-04-20T10:00:00.000Z | 1    | iPhone15                           | 1  |
 | 2023-04-20T10:01:00.000Z | 2    | iPhone15_Plus | 1  |
 
 在查询控制台中，您将逐一看到这两行：
 
-| \_tp_time                     | 订单编号 | 产品名称                               | 数量 | revenue |
-| ------------------------------------------------------------------------ | ---- | ---------------------------------- | -- | ------- |
-| 2023-04-20T10:00:00.000Z | 1    | iPhone15                           | 1  | 800     |
-| 2023-04-20T10:01:00.000Z | 2    | iPhone15_Plus | 1  | 899     |
+| \ _tp_time                     | 订单编号 | 产品名称                               | 数量 | 收入  |
+| ------------------------------------------------------------------------ | ---- | ---------------------------------- | -- | --- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone15                           | 1  | 800 |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone15_Plus | 1  | 899 |
 
-Then you can change the price of iPhone15 back to 799, by adding a new row in `dim_products`
+然后你可以通过在 `dim_products`中添加新的一行将iPhone15的价格改回799美元
 
 | 产品名称     | 价格  |
 | -------- | --- |
 | iPhone15 | 799 |
 
-Also add a new row in `orders`
+还要在 “订单” 中添加新行
 
-| \_tp_time                     | 订单编号 | 产品名称     | 数量 |
+| \ _tp_time                     | 订单编号 | 产品名称     | 数量 |
 | ------------------------------------------------------------------------ | ---- | -------- | -- |
 | 2023-04-20T11:00:00.000Z | 3    | iPhone15 | 1  |
 
 您将在前一个流式 SQL 中获得第三行：
 
-| \_tp_time                     | 订单编号 | 产品名称                               | 数量 | revenue |
-| ------------------------------------------------------------------------ | ---- | ---------------------------------- | -- | ------- |
-| 2023-04-20T10:00:00.000Z | 1    | iPhone15                           | 1  | 800     |
-| 2023-04-20T10:01:00.000Z | 2    | iPhone15_Plus | 1  | 899     |
-| 2023-04-20T11:00:00.000Z | 3    | iPhone15                           | 1  | 799     |
+| \ _tp_time                     | 订单编号 | 产品名称                               | 数量 | 收入  |
+| ------------------------------------------------------------------------ | ---- | ---------------------------------- | -- | --- |
+| 2023-04-20T10:00:00.000Z | 1    | iPhone15                           | 1  | 800 |
+| 2023-04-20T10:01:00.000Z | 2    | iPhone15_Plus | 1  | 899 |
+| 2023-04-20T11:00:00.000Z | 3    | iPhone15                           | 1  | 799 |
 
-It shows that the latest price of iPhone15 is applied to the JOIN of new events.
+它表明，iPhone15的最新价格适用于新活动的加入。
 
-You can also run a streaming SQL `select sum(price) from dim_products`, it should show the number 1698, because the latest prices are 799 and 899.
+你也可以运行串流 SQL “从 dim_products 中选择总和（价格）”，它应该显示数字 1698，因为最新的价格是 799 和 899。
 
-If you add a new row to set iPhone15 to 800, cancel the previous query and run again, you will get 1699.
+如果你添加一个新行来将 iPhone15 设置为 800，取消之前的查询然后再次运行，你会得到 1699。
 
-## Use Versioned Stream in LEFT JOIN
+## 在 LEFT JOIN 中使用版本化流
 
-Since Proton 1.5.7, `LEFT JOIN` 2 versioned streams are also supported.
+自 Proton 1.5.7 版本起，还支持 `LEFT JOIN` 2 版本化流。
 
-For example, you run a streaming SQL:
-
-```sql
-SELECT orders._tp_time, order_id,product_id,
-       quantity, price*quantity AS revenue
-FROM dim_products LEFT JOIN orders USING(product_id);
-```
-
-Then add a new product:
+例如，你运行流式 SQL：
 
 ```sql
-INSERT INTO dim_products(product_id,price) VALUES ('Vision Pro',3000);
+选择订单。_tp_time、order_id、product_id、
+       数量、价格*数量作为收入
+来自 dim_products 向左加入订单使用 (product_id)；
 ```
 
-Because there is no order for this product, you will get revenue 0 with the `LEFT JOIN` (if you are using `INNER JOIN` or just `JOIN`, this new product won't be counted).
-
-Adding a new order:
+然后添加新产品：
 
 ```sql
-INSERT INTO orders(order_id, product_id, quantity)
-VALUES (4, 'Vision Pro',1);
+在 dim_products（产品编号、价格）中插入值（'Vision Pro',3000）；
 ```
 
-The LEFT JOIN SQL will updated the result.
+由于该产品没有订单，因此使用 “LEFT JOIN” 将获得0的收入（如果您使用的是 “INNER JOIN” 或仅使用 “JOIN”，则此新产品不计算在内）。
+
+添加新订单：
+
+```sql
+在订单中插入（订单编号、商品编号、数量）
+VALUES (4，'Vision Pro',1)；
+```
+
+LEFT JOIN SQL 将更新结果。
 
 ## 在 ASOF JOIN 中使用多版本流
 
-The best part of Versioned Stream is that in `ASOF JOIN` Timeplus is able to automatically choose the closest version.
+Versioned Stream最棒的地方在于，在 “ASOF JOIN” 中，Timeplus 能够自动选择最接近的版本。
 
 继续前面的场景。
 
 ```sql
-SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS revenue
-FROM orders ASOF JOIN dim_products
-ON orders.product_id=dim_products.product_id AND orders._tp_time >= dim_products._tp_time
+选择订单。_tp_time、订单编号、产品编号、数量、价格*数量作为收入
+来自订单 ASOF 在 orders.products.products.products.products.products 和订单上加入 dim_products.products
+。_tp_time >= dim_products。_tp_time
 ```
 
-If the current iPhone15 price is 800, and you add a new order for 1 iPhone15, then you will get a transaction amount of 800.
+如果当前iPhone15的价格为800美元，并且您添加了购买1部iPhone15的新订单，那么您将获得800美元的交易金额。
 
-Then you change the iPhone15 price to 799, and add a new order for 1 iPhone15, you will get a transaction amount of 799.
+然后，你将iPhone15的价格更改为799美元，然后添加1部iPhone15的新订单，你将获得799美元的交易金额。
 
-But if you add an order with \_tp_time before the price change, you will get the transaction amount as 800 again, because Timeplus keeps multiple versions for the price and chooses the older version that best matches the order time.
+但是，如果您在价格变动之前添加带有\ _tp_time 的订单，您将再次获得交易金额为800，因为Timeplus会保留多个价格版本，并选择与订单时间最匹配的旧版本。
 
 :::info
 
-If you are not familiar with `ASOF JOIN`, this special JOIN provides non-exact matching capabilities. 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
+如果你不熟悉 \`ASOF JOIN'，这个特殊的 JOIN 提供了非精确匹配功能。 如果两个流具有相同的id，但时间戳不完全相同，这也可以很好的运作。
 
 :::

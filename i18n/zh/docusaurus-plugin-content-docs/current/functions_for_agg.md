@@ -1,5 +1,3 @@
-
-
 # 聚合
 
 ### 计数
@@ -50,8 +48,6 @@
 
 `median(<column_name>)` 计算数值数据样本的中值。
 
-
-
 ### quantile
 
 `quantile(column,level)` 计算一个大致的数值数据序列。 例如： `quantile (a,0.9)` 获取列的 P90 和 `quantile (a,0.5)` 获取 [median](#median) 数字
@@ -80,7 +76,7 @@
 
 ### min_k
 
-`min_k(<column_name>,K [,context_column])`：列名中最小的 K 项。 返回一个数组。 您还可以添加列表，获取同行中值的更多上下文，例如 `min_k(price,3,product_id,last_updated)` 这将返回一个数组，每个元素作为元组，比如 `[(5.12,'c42664'),(5.12,'c42664'),(15.36,'c84068')]`
+`min_k(<column_name>,K [,context_column])`：列名中最小的 K 项。 返回一个数组。 您还可以添加列列表以获取同一行中值的更多上下文，例如 `min_k（price,3，product_id，last_updated）` 这将返回一个将每个元素作为元组的数组，例如 `[(5.12, 'c42664'), (5.12, 'c42664'), (15.36, 'c84068')]`
 
 在 [Top-N Query Pattern](sql-pattern-topn) 页上阅读更多内容。
 
@@ -104,31 +100,28 @@
 
 ### group_uniq_array
 
-`group_uniq_array(<column_name>)` to combine the values of the specific column as an array, making sure only unique values in it. For example, if there are 3 rows and the values for these columns are "a","a","c". This function will generate a single row and single column with value `['a','c']` For example, if there are 3 rows and the values for these columns are "a","a","c". This function will generate a single row and single column with value `['a','c']`
+`group_uniq_array(<column_name>)` to combine the values of the specific column as an array, making sure only unique values in it. For example, if there are 3 rows and the values for these columns are "a","a","c". This function will generate a single row and single column with value `['a','c']` 例如，如果有 3 行且这些列的值为 “a”、“a”、“c”。 此函数将生成值为 `['a', 'c'] 的单行和单列`
 
 ### moving_sum
 
 `moving_sum(column)` 返回一个数组与指定列的移动和和。 例如， `select moving_sum(a) from(select 1 as a union select 2 as a union select 3 as a)` 将返回[1,3,6]
 
-### any
+### 任何
 
-`any(column)` Selects the first encountered (non-NULL) value, unless all rows have NULL values in that column. The query can be executed in any order and even in a different order each time, so the result of this function is indeterminate. To get a determinate result, you can use the `min` or `max` function instead of `any`. The query can be executed in any order and even in a different order each time, so the result of this function is indeterminate. To get a determinate result, you can use the `min` or `max` function instead of `any`.
+`any(column)` Selects the first encountered (non-NULL) value, unless all rows have NULL values in that column. The query can be executed in any order and even in a different order each time, so the result of this function is indeterminate. To get a determinate result, you can use the `min` or `max` function instead of `any`. 查询可以按任何顺序执行，甚至每次都以不同的顺序执行，因此此函数的结果不确定。 要获得确定的结果，你可以使用 `min` 或 `max` 函数代替 `任意`。
 
-### last_value
+### 最后的值
 
-`last_value(column)` Selects the last encountered value.
+`last_value（列）` 选择上次遇到的值。
 
+### 随机线性回归状态
 
+`stochastic_linear_regression_state（数字、目标、参数 1、参数 2）`
 
-### stochastic_linear_regression_state
+此函数实现随机线性回归。 This function implements stochastic linear regression. It supports custom parameters for learning rate, L2 regularization coefficient, mini-batch size and has few methods for updating weights ([Adam](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam) (used by default), [simple SGD](https://en.wikipedia.org/wiki/Stochastic_gradient_descent), [Momentum](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum), [Nesterov](https://mipt.ru/upload/medialibrary/d7e/41-91.pdf)). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlinearregression). 要了解更多信息，请访问 [ClickHouse 文档](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlinearregression)。
 
-`stochastic_linear_regression_state(num, target, param1, param2)`
+### 随机逻辑回归
 
-This function implements stochastic linear regression. This function implements stochastic linear regression. It supports custom parameters for learning rate, L2 regularization coefficient, mini-batch size and has few methods for updating weights ([Adam](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam) (used by default), [simple SGD](https://en.wikipedia.org/wiki/Stochastic_gradient_descent), [Momentum](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum), [Nesterov](https://mipt.ru/upload/medialibrary/d7e/41-91.pdf)). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlinearregression). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlinearregression).
+`stochastic_logistic_regression（数字、数字、数字、字符串）`
 
-### stochastic_logistic_regression
-
-`stochastic_logistic_regression(num, num, num, string)`
-
-This function implements stochastic logistic regression. This function implements stochastic logistic regression. It can be used for binary classification problem, supports the same custom parameters as stochasticLinearRegression and works the same way. Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression). Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression).
-
+此函数实现随机逻辑回归。 This function implements stochastic logistic regression. It can be used for binary classification problem, supports the same custom parameters as stochasticLinearRegression and works the same way. Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression). 要了解更多信息，请访问 [ClickHouse 文档](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression)。

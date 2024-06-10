@@ -91,7 +91,7 @@ Airbyte 的 Timeplus 源插件处于早期阶段。 请联系我们来安排整�
 
 ## 通过 webhook{#webhook} 触发动作
 
-You can also add automation to trigger other systems to take actions when Timeplus finds any real-time insights. 只需选择**Webhook**作为操作类型，并可选地设置消息内容（默认情况下，整行将被编码为 JSON 文档并发送到 webhook）。 You can use this approach to perform rule-based automation without human interaction, such as swapping an overheated equipment, scaling up to scaling down the server farm, or reminder users on slack, etc. 请检查 [这个博客](https://www.timeplus.com/post/build-a-real-time-security-app-in-3-easy-steps) 来了解真实示例。
+您还可以添加自动功能，在Timeplus发现任何实时见解时触发其他系统采取行动。 只需选择**Webhook**作为操作类型，并可选地设置消息内容（默认情况下，整行将被编码为 JSON 文档并发送到 webhook）。 您可以使用这种方法来执行基于规则的自动化，无需人为干预，例如更换过热的设备、向上扩展到缩小服务器群的规模，或者提醒用户使用 slack 等。 请检查 [这个博客](https://www.timeplus.com/post/build-a-real-time-security-app-in-3-easy-steps) 来了解真实示例。
 
 
 ## Sink API
@@ -127,18 +127,18 @@ You can also add automation to trigger other systems to take actions when Timepl
 | paralism       | no  | 指定 paralism 参数架构         | `1`    |
 | retries        | no  | 指定重试次数                   | `0`    |
 | retry_interval | no  | 指定重试间隔                   | `10s`  |
-| timeout        | no  | http timeout interval    | `10s`  |
+| timeout        | no  | http 超时间隔                | `10s`  |
 
 
 #### oauth2
 
-| 属性            | 必填项 | 描述                       | 默认值     |
-| ------------- | --- | ------------------------ | ------- |
-| enabled       | no  | whether to enable oauth2 | `false` |
-| client_key    | no  | 客户端密钥                    |         |
-| client_secret | no  | 客户端机密                    |         |
-| token_url     | no  | 令牌网址                     |         |
-| scopes        | no  | 范围，字符串列表                 |         |
+| 属性            | 必填项 | 描述          | 默认值     |
+| ------------- | --- | ----------- | ------- |
+| enabled       | no  | 是否启用 oauth2 | `false` |
+| client_key    | no  | 客户端密钥       |         |
+| client_secret | no  | 客户端机密       |         |
+| token_url     | no  | 令牌网址        |         |
+| scopes        | no  | 范围，字符串列表    |         |
 
 
 ### slack
@@ -147,7 +147,7 @@ You can also add automation to trigger other systems to take actions when Timepl
 
 | 属性       | 必填项 | 描述                                                                                | 默认值  |
 | -------- | --- | --------------------------------------------------------------------------------- | ---- |
-| url      | yes | the webhook URL of the slack channel, which is considered as a secret             |      |
+| url      | yes | slack 频道的 webhook 网址，这被视为秘密                                                       |      |
 | template | no  | 用于向 slack 发送查询结果的模板，用于替换 `{{ .field_name }}` 要引用的查询结果字段。 如果需求是空的，则会将事件编码为 JSON 格式 |      |
 | header   | no  | http 标头                                                                           | `{}` |
 

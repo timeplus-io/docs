@@ -23,9 +23,9 @@
 
 您也可以通过 [to_timezone](#to_timezone) 转换时区
 
-It can parse string `2023-09-19 05:31:34` or `2023-09-19T05:31:34Z`.
+它可以解析字符串 `2023-09-19 05:31:34` 或 `2023-09-19T 05:31:34 Z`。
 
-This function is the alias to `parse_datetime_best_effort`.
+此函数是 `parse_datetime_best_effort`的别名。
 
 ### to_int
 
