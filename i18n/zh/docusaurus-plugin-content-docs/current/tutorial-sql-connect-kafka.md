@@ -110,7 +110,7 @@ SETTINGS type='kafka',
          password='..'
 ```
 
-`sasl_mechanism` can be either `PLAIN` or `SCRAM-SHA-512`, but cannot be `SCRAM-SHA-256`.
+sasl_mechanism 可以是 PLAIN 或 SCRAM-SHA-512，但不能是 SCRAM-SHA-256。
 
 ### 连接到 Upstash{#connect-upstash}
 
