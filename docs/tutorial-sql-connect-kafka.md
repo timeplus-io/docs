@@ -6,7 +6,7 @@ Example:
 
 ```sql
 CREATE EXTERNAL STREAM ext_github_events(raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='localhost:9092',
          topic='github_events'
 ```
@@ -17,11 +17,11 @@ Example:
 
 ```sql
 CREATE EXTERNAL STREAM ext_github_events(raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='pkc-1234.us-west-2.aws.confluent.cloud:9092',
          topic='github_events',
-         security_protocol='SASL_SSL', 
-         username='..', 
+         security_protocol='SASL_SSL',
+         username='..',
          password='..'
 ```
 
@@ -31,12 +31,12 @@ Example:
 
 ```sql
 CREATE EXTERNAL STREAM hello(raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='abc.any.us-east-1.mpx.prd.cloud.redpanda.com:9092',
          topic='hello-world',
-         security_protocol='SASL_SSL', 
+         security_protocol='SASL_SSL',
          sasl_mechanism='SCRAM-SHA-256',
-         username='..', 
+         username='..',
          password='..'
 ```
 
@@ -48,12 +48,12 @@ Example:
 
 ```sql
 CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='name.a.aivencloud.com:28864',
          topic='topic',
-         security_protocol='SASL_SSL', 
+         security_protocol='SASL_SSL',
          sasl_mechanism='SCRAM-SHA-256',
-         username='avnadmin', 
+         username='avnadmin',
          password='..',
          ssl_ca_cert_file='/kafka.cert'
 ```
@@ -69,12 +69,12 @@ Alternatively, you can put the full content of the CA pem file in the DDL SQL. T
 
 ```sql
 CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='name.a.aivencloud.com:28864',
          topic='topic',
-         security_protocol='SASL_SSL', 
+         security_protocol='SASL_SSL',
          sasl_mechanism='SCRAM-SHA-256',
-         username='avnadmin', 
+         username='avnadmin',
          password='..',
          ssl_ca_pem='-----BEGIN CERTIFICATE----\nMIIEQTCCAqmgAwIBAgIU..ph0szPew==\n-----END CERTIFICATE-----'
 ```
@@ -85,12 +85,12 @@ If you want to skip verifying the CA (not recommended), you can create the exter
 
 ```sql
 CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='name.a.aivencloud.com:28864',
          topic='topic',
-         security_protocol='SASL_SSL', 
+         security_protocol='SASL_SSL',
          sasl_mechanism='SCRAM-SHA-256',
-         username='avnadmin', 
+         username='avnadmin',
          password='..',
          skip_ssl_cert_check=true
 ```
@@ -103,13 +103,15 @@ Example:
 
 ```sql
 CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka', 
-         brokers='serverless.prod-z.us-east-1.warpstream.com:9092',
+SETTINGS type='kafka',
+         brokers='serverless.warpstream.com:9092',
          topic='topic',
-         security_protocol='SASL_SSL', 
-         username='..', 
+         security_protocol='SASL_SSL',
+         sasl_mechanism='PLAIN',
+         username='..',
          password='..'
 ```
+`sasl_mechanism` can be either `PLAIN` or `SCRAM-SHA-512`, but cannot be `SCRAM-SHA-256`.
 
 ### Connect to Upstash{#connect-upstash}
 
@@ -119,12 +121,12 @@ Example:
 
 ```sql
 CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='grizzly-1234-us1-kafka.upstash.io:9092',
          topic='topic',
-         security_protocol='SASL_SSL', 
+         security_protocol='SASL_SSL',
          sasl_mechanism='SCRAM-SHA-256',
-         username='..', 
+         username='..',
          password='..'
 ```
 
