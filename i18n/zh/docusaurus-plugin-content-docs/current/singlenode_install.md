@@ -16,7 +16,7 @@ curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.s
 
 - Linux（[英特尔/AMD 芯片](https://install.timeplus.com/latest-linux-amd64.tar.gz)、[ARM 芯片](https://install.timeplus.com/latest-linux-arm64.tar.gz)）
 - MacOS（[英特尔芯片](https://install.timeplus.com/latest-darwin-amd64.tar.gz)，[苹果芯片](https://install.timeplus.com/latest-darwin-arm64.tar.gz))
-- Windows（请 [通过 Docker 安装] (#docker)）
+- Windows（请 [通过 Docker 安装](#docker)）
 
 下载软件包后，将其放入所需的文件夹，解压缩文件，即可使用预先配置的设置运行 Timeplus Enterprise：
 
