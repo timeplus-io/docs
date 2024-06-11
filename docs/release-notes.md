@@ -7,6 +7,12 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 - [Private Beta 2](private-beta-2) (Aug 9 to Oct 2, 2022)
 - [Private Beta 1](private-beta-1) (Mar 8 to Aug 8, 2022)
 
+## Jun 11, 2024
+
+*Timeplus Core Engine (Proton v1.5.10):*
+  * Avro-Encoded Messages: Previously, Schema Registry must be enabled to read Avro-encoded messages. With this new version of Proton, SQL can be used to define the Avro schema and read these messages. [Learn more](proton-format-schema)
+  * Improved Proton Client: `-h 127.0.0.1` is no longer used when launching the proton-client. Proton v.1.5.10 listens on both IPv4 and IPv6 ports.
+
 ## May 28, 2024
 
 *Timeplus Core Engine (Proton v1.5.9):*
