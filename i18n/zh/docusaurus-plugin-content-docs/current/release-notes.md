@@ -7,6 +7,12 @@
 - [私人测试版 2](private-beta-2) （2022 年 8 月 9 日至 10 月 2 日）
 - [私人测试版 1](private-beta-1) （2022 年 3 月 8 日至 8 月 8 日）
 
+## Jun 11, 2024
+
+*Timeplus Core Engine (Proton v1.5.10):*
+  * Avro-Encoded Messages: Previously, Schema Registry must be enabled to read Avro-encoded messages. Now, SQL can be used to define the Avro schema and read these messages. [Learn more](proton-format-schema)
+  * Improved Proton Client: `-h 127.0.0.1` is no longer used when launching the proton-client. Proton v1.5.10 listens on both IPv4 and IPv6 ports.
+
 ## 2024 年 5 月 28 日
 
 *Timeplus 核心引擎（Proton v1.5.9）：*
