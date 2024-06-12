@@ -11,7 +11,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 
 *Timeplus Core Engine (Proton v1.5.10):*
   * Avro-Encoded Messages: Previously, Schema Registry must be enabled to read Avro-encoded messages. Now, SQL can be used to define the Avro schema and read these messages. [Learn more](proton-format-schema)
-  * Improved Proton Client: `-h 127.0.0.1` is no longer used when launching the proton-client. Proton v.1.5.10 listens on both IPv4 and IPv6 ports.
+  * Improved Proton Client: `-h 127.0.0.1` is no longer used when launching the proton-client. Proton v1.5.10 listens on both IPv4 and IPv6 ports.
 
 ## May 28, 2024
 
