@@ -7,7 +7,7 @@ Compared to [Timeplus Proton](proton), Timeplus Enterprise offers expanded capab
 - Multi-node cluster for high availability and horizontal scalability
 - Kubernetes Helm Chart
 - Logs/metrics/alerts with Timeplus or LGTM Grafana stack
-- Built-in user management or [Keycloak](https://www.keycloak.org/) based Identity and Access Management (IAM)
+- Built-in user management
 - Timeplus Web Console with SQL IDE, dashboards, alerts, data lineage, etc.
 - Extra data sources and destinations, such as NATS, WebSocket, and Slack
 - Advanced configuration and tuning, e.g. tier-storage, KV streams, etc.
