@@ -1,12 +1,16 @@
 # User-Defined Function
 
-At Timeplus, we leverage SQL to make powerful streaming analytics more accessible to a broad range of users. Without SQL, you have to learn and call low-level programming API, then compile/package/deploy them to get analytics results. This is a repetitive and tedious process, even for small changes. 
+At Timeplus, we leverage SQL to make powerful streaming analytics more accessible to a broad range of users. Without SQL, you have to learn and call low-level programming API, then compile/package/deploy them to get analytics results. This is a repetitive and tedious process, even for small changes.
 
 But some developers have concerns that complex logic or systems integrations are hard to express using SQL.
 
-That's why we add User-Defined Functions (UDF) support in Proton. This enables users to leverage existing programming libraries, integrate with external systems, or just make SQL easier to maintain.
+That's why we add User-Defined Functions (UDF) support in Timeplus. This enables users to leverage existing programming libraries, integrate with external systems, or just make SQL easier to maintain.
 
-Proton supports [Local UDF in JavaScript](js-udf). You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported. 
+Timeplus Proton supports [Local UDF in JavaScript](js-udf). You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported.
+
+:::info
+In Timeplus Enterprise, the Python UDF will be ready soon.
+:::
 
 ## CREATE OR REPLACE FUNCTION
 
@@ -15,8 +19,8 @@ You can create or replace a JavaScript UDF, by specifying the function name, inp
 The following example defines a new function `test_add_five_5`:
 
 ```sql showLineNumbers
-CREATE OR REPLACE FUNCTION test_add_five_5(value float32) 
-RETURNS float32 
+CREATE OR REPLACE FUNCTION test_add_five_5(value float32)
+RETURNS float32
 LANGUAGE JAVASCRIPT AS $$
   function test_add_five_5(values) {
     for(let i=0;i<values.length;i++) {
@@ -36,13 +40,17 @@ Note:
 * Line 8: return an array of new values
 * Line 10: close the code block.
 
+:::info
+In Timeplus Enterprise, you can add debug information via `console.log(..)` in the JavaScript UDF. The logs will be available in the server log files.
+:::
+
 ## CREATE AGGREGATE FUNCTION
 
 Creating a user-defined-aggregation function (UDAF) requires a bit more effort. Please check [this documentation](js-udf#udaf) for the 3 required and 3 optional functions.
 
 ```sql showLineNumbers
-CREATE AGGREGATE FUNCTION test_sec_large(value float32) 
-RETURNS float32 
+CREATE AGGREGATE FUNCTION test_sec_large(value float32)
+RETURNS float32
 LANGUAGE JAVASCRIPT AS $$
     {
       initialize: function() {
@@ -94,11 +102,10 @@ $$;
 
 ## DROP FUNCTION
 
-No matter UDF or UDAF, you can remove the function via `DROP FUNCTION `
+No matter UDF or UDAF, you can remove the function via `DROP FUNCTION`
 
 Example:
 
 ```sql
 DROP FUNCTION test_add_five_5;
 ```
-
