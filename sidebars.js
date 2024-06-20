@@ -46,6 +46,7 @@ const sidebars = {
       },
       items: [
         "quickstart",
+        "quickstart-selfhosted",
         "quickstart-confluent",
         "quickstart-ingest-api",
         "proton-howto",

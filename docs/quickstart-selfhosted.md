@@ -1,4 +1,4 @@
-# Timeplus Enterprise cloud
+# Timeplus Enterprise self-hosted
 
 Timeplus Enterprise is a high-performance converged platform that unifies streaming and historical data processing, to empower developers to build the most powerful and reliable streaming analytics applications, at speed and scale, anywhere.
 
@@ -9,23 +9,27 @@ Timeplus Enterprise provides the following major features:
 * [Streaming Visualization](viz)
 * [Streaming Alerts and Destinations](destination)
 
-The following section contains step-by-step instructions on how to easily get started with Timeplus Enterprise in the cloud.
+Timeplus Enterprise is available as a fully-managed cloud service with zero ops and elastic scaling, or as a self-hosted deployment, ideal for enterprise users requiring flexible and advanced configurations.
 
-## Step 1: Sign up for a Timeplus account {#step1}
+The following section contains step-by-step instructions on how to easily get started with a self-hosted Timeplus Enterprise.
 
-Let's start by creating an account for [Timeplus Cloud](https://us.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. Please choose a work email or Google/Microsoft account to sign up. It usually takes less than 2 minutes to get the account set up and have the first [workspace](glossary#workspace) created.
+## Step 1: install Timeplus Enterpise via a single command {#step1}
 
-![Sign up for an account](/img/sign-up-page.png)
+If your server or computer is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies. For Windows users, please follow [our guide](singlenode_install#docker) for running Timeplus Enterprise with Docker.
 
-## Step 2: Set up your account and workspace {#step2}
+```shell
+curl https://install.timeplus.com | sh
+```
 
-Tell us a bit about yourself by completing a quick account setup:
+This script will download the latest package (based on your operating system and CPU architecture) to the current folder. Uncompress the package and start the Timeplus Enterprise server.
 
-![Onboarding Survey](/img/onboarding-survey.png)
+## Step 2: Setup the user account {#step2}
+Access the Timeplus Enterprise web console via http://localhost:8000. On your first login, please create an account with a password to start the 30-day free trial.
 
-The final step of the setup is for naming your new workspace, the isolated storage and computing unit for you to run streaming data collection and analysis. Give it a name:
+![Create an account](/img/onprem-account.png)
 
-![Choose a workspace name](/img/workspace-name-setup.png)
+After creating the account, login with that username and password.
+![Login](/img/onprem-login.png)
 
 ## Step 3: Load your streaming data {#step3}
 
