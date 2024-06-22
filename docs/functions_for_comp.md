@@ -12,7 +12,7 @@ Get the length of the array.
 
 ### array\[index\] {#array_element}
 
-You can easily access any element in the array, just using arrayName[index], such as `topValues[2]` 
+You can easily access any element in the array, just using arrayName[index], such as `topValues[2]`
 
 :::info
 
@@ -179,15 +179,20 @@ For example `select array_join([10,20]) as v, 'text' as t` will get 2 rows
 
 `array_sum([func,] array)` returns the sum value in the array. For example, `array_sum([2,6])` return 8. You can pass a lambda function to it as the first argument to apply on each element before calculating the sum, such as `array_sum(x->x*x,[2,6])` to get the sum for 2*2 and 6\*6, which is 40.
 
+### array_fold
+`array_fold(lambda_function, arr1, arr2, ..., accumulator)` applies a lambda function to one or more equally-sized arrays and collects the result in an accumulator.
 
+For example, `array_fold(acc, x -> acc + (x * 2), [1, 2, 3, 4], to_int64(3))` will initialize the accumulator `acc` as value 3, then for each element in the `[1, 2, 3, 4]` array, assign it to `x` and accumlate them together with `x*2`. So the end result is 3+1*2+2*2+3*2+4*2=23.
+
+Make sure the return type of lambda function must be the same as the accumulator type.
 
 ### map\[key\] {#map-key}
 
-You can easily access any element in the map, just using mapName[keyName], such as `kv['key1']` 
+You can easily access any element in the map, just using mapName[keyName], such as `kv['key1']`
 
 ### map_cast
 
-`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` (these 2 arrays should be the same size). For example `map_cast(['k1','k2'],[91,95])` will get `{'k1':91,'k2':95} ` 
+`map_cast(array1, array2)` to generate a map with keys from `array1` and values from `array2` (these 2 arrays should be the same size). For example `map_cast(['k1','k2'],[91,95])` will get `{'k1':91,'k2':95} `
 
 Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 

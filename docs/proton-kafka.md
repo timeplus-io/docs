@@ -71,7 +71,11 @@ SETTINGS type='kafka',
          topic='github_events'
 ```
 
-Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted.
+Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted. By default `one_message_per_row` is `true`.
+
+:::info
+Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is available. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message, ensuring it won't exceed the `kafka_max_message_size` limit.
+:::
 
 #### Multiple columns to read from Kafka{#multi_col_read}
 
@@ -156,7 +160,11 @@ SETTINGS type='kafka', brokers='redpanda:9092', topic='masked-fe-event',
          data_format='JSONEachRow',one_message_per_row=true
 ```
 
-The default value of one_message_per_row, if not specified, is false.
+The default value of one_message_per_row, if not specified, is false for `data_format='JSONEachRow'` and true for `data_format='RawBLOB'`.
+
+:::info
+Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is available. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message and when to create new Kafka message, ensuring each message won't exceed the `kafka_max_message_size` limit.
+:::
 
 :::
 
