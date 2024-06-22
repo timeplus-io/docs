@@ -179,7 +179,12 @@
 
 `array_sum([func,] array)` 返回数组中的总值。 例如： `array_sum([2,6])` 返回 8。 你可以将lambda函数作为第一个参数传递给它，在计算和之前应用于每个元素，例如 `array_sum(x->x*x,[2,6])` 获得2*2 和 6\*6的总和，也就是40。
 
+### array_fold
+`array_fold(lambda_function, arr1, arr2, ..., accumulator)` applies a lambda function to one or more equally-sized arrays and collects the result in an accumulator.
 
+For example, `array_fold(acc, x -> acc + (x * 2), [1, 2, 3, 4], to_int64(3))` will initialize the accumulator `acc` as value 3, then for each element in the `[1, 2, 3, 4]` array, assign it to `x` and accumlate them together with `x*2`. So the end result is 3+1*2+2*2+3*2+4*2=23.
+
+Make sure the return type of lambda function must be the same as the accumulator type.
 
 ### map\[key\] {#map-key}
 
