@@ -62,7 +62,11 @@
 
 ```
 
-然后使用 `INSERT INTO <stream_name> VALUES (v)`或 [Ingest REST API](proton-ingest-api)，或者将其设置为物化视图向卡夫卡主题写入消息的目标流。 实际的 `data_format` 值为 `rawBlob` 但可以省略。
+然后使用 `INSERT INTO <stream_name> VALUES (v)`或 [Ingest REST API](proton-ingest-api)，或者将其设置为物化视图向卡夫卡主题写入消息的目标流。 实际的 `data_format` 值为 `rawBlob` 但可以省略。 By default `one_message_per_row` is `true`.
+
+:::info
+Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is available. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message, ensuring it won't exceed the `kafka_max_message_size` limit.
+:::
 
 #### 从 Kafka 中读取多列{#multi_col_read}
 
@@ -120,7 +124,11 @@ Since Proton v1.3.29, Protobuf messages can be read with all or partial columns.
 
 ```
 
-如果未指定，one_message_per_row 的默认值为 false。
+The default value of one_message_per_row, if not specified, is false for `data_format='JSONEachRow'` and true for `data_format='RawBLOB'`.
+
+:::info
+Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is available. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message and when to create new Kafka message, ensuring each message won't exceed the `kafka_max_message_size` limit.
+:::
 
 :::
 
