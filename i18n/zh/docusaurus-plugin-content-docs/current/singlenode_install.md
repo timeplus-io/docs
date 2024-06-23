@@ -82,3 +82,11 @@ curl https://install.timeplus.com/sp-demo | sh
 当你启动Timeplus Enterprise并首次访问网络控制台时，30天的免费试用开始。 当它结束时，软件将停止运行。
 
 请查看 [指南](server_config #license) 更新许可证。
+
+## Upgrade {#upgrade}
+
+To upgrade Timeplus Enterprise, run `timeplus stop` to stop all the servies. Then replace all the binaries to the higher version of Timepluse Enterprise release and then run `timeplus start`.
+
+## Uninstall {#uninstall}
+
+Timeplus Enterprise has no external dependencies. Just run `timeplus stop` then delete the timeplus folder.
