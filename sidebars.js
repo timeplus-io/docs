@@ -130,6 +130,7 @@ const sidebars = {
         "viz",
         "apikey",
         "terraform",
+        "enterprise-releases",
         "issues",
         {
           label: "REST API Reference",
