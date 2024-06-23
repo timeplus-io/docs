@@ -1,5 +1,7 @@
 # API 密钥
 
+The REST API of Timeplus Enterprise is secured by API key. Currently this is only enabled in Timeplus Enterprise SaaS edition and will be available for self-hosted deployment soon.
+
 您需要创建 API 密钥才能访问 Timeplus REST API。 以下是如何创建的步骤：
 
 1. 点击右上角的 **头像**。 在下拉列表中，单击 **个人设置**。
