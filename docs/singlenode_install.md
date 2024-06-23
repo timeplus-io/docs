@@ -72,3 +72,9 @@ This stack demonstrates how to run streaming ETL, getting data from Kafka API, a
 When you start Timeplus Enterprise and access the web console for the first time, the 30-day free trial starts. When it ends, the software stops working.
 
 Please check [the guide](server_config#license) to update licenses.
+
+## Upgrade {#upgrade}
+To upgrade Timeplus Enterprise, run `timeplus stop` to stop all the servies. Then replace all the binaries to the higher version of Timepluse Enterprise release and then run `timeplus start`.
+
+## Uninstall {#uninstall}
+Timeplus Enterprise has no external dependencies. Just run `timeplus stop` then delete the timeplus folder.
