@@ -10,4 +10,4 @@ Start a 14-day free trial at [us.timeplus.cloud](https://us.timeplus.cloud) – 
 - The disk size, starting from 50 GB
 - The size of the cluster, by default single node.
 
-For details and FAQs, visiting our (Pricing)[https://timeplus.com/pricing] page.
+For details and FAQs, visiting our [Pricing](https://timeplus.com/pricing) page.
