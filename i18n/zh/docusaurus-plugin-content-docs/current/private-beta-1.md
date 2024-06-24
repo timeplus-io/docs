@@ -1,4 +1,4 @@
-# 邀请制测试版 1
+# Timeplus Cloud Private Beta 1
 
 我们很高兴启动第一个邀请制测试版的TimePlus Cloud。 很多很酷的功能和无限的可能性。 我们将不时更新测试版，并在此页面列出关键的增强措施。
 
