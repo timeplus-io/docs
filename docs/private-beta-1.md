@@ -1,4 +1,4 @@
-# Private Beta 1
+# Timeplus Cloud Private Beta 1
 
 We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
 

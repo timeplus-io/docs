@@ -1,8 +1,6 @@
+# Timeplus Cloud Public Beta 1
 
-
-# Public Beta 1
-
-We are thrilled to launch the public beta of Timeplus cloud release. 
+We are thrilled to launch the public beta of Timeplus cloud release.
 
 We will update the beta version from time to time and list key enhancements in this page.
 
@@ -10,7 +8,7 @@ We will update the beta version from time to time and list key enhancements in t
 
 ## Biweekly Update 12/26-1/6
 
-* When the local disk is 90% full, Timeplus will stop writing new data. This threshold is configurable. 
+* When the local disk is 90% full, Timeplus will stop writing new data. This threshold is configurable.
 * In the Data Lineages page, sources are shown by default.
 * Applied unified UI look & feel in many pages.
 * Released [Timeplus Python SDK 1.1.1](https://pypi.org/project/timeplus/1.1.1/) with a more friendly API for create/ingest/query streams.
@@ -52,7 +50,7 @@ We will update the beta version from time to time and list key enhancements in t
   * In the signup/login page, we added the WeChat integration. You can scan the QR code with your phone and sign up or log in.
   * When a query is finished, canceled, or paused, you can download the current results as a CSV. This is helpful when there are multiple pages of results.
   * When you click an entity on a Data Lineages page, such as a stream or a view, a summary is now shown in the side panel, instead of a pop-up, allowing you to see more detailed information.
-  * We added an experimental UI for the alert manager. Want to be the first to try this feature? Get in touch with us! 
+  * We added an experimental UI for the alert manager. Want to be the first to try this feature? Get in touch with us!
 
 ## Biweekly Update 10/31-11/11
 
@@ -61,8 +59,8 @@ We will update the beta version from time to time and list key enhancements in t
   * A new `LIMIT <n> BY <column>` syntax is introduced. Combining with [emit_version()](functions#emit_version) function, you can show a limited number of results per emit. e.g.
 
     ```sql
-    SELECT cid,avg(speed_kmh) AS avgspeed, emit_version() 
-    FROM tumble(car_live_data,5s) GROUP BY window_start,cid 
+    SELECT cid,avg(speed_kmh) AS avgspeed, emit_version()
+    FROM tumble(car_live_data,5s) GROUP BY window_start,cid
     LIMIT 3 BY emit_version()
     ```
 
@@ -91,11 +89,11 @@ We will update the beta version from time to time and list key enhancements in t
 
   * The other enhancement of the [session](functions_for_streaming#session) time window: we introduced an intuitive way to express whether the events for startCondtion or endCondition should be included in the session window. Four combinations supported: `[startCondition, endCondition]`, `(startCondtion, endCondition)`, `[startCondition,endCondition)`,`(startCondition,endCondition]`
 
-  * We added the support of `<agg> FILTER(WHERE ..)` as a shortcut to run aggregation for data with certain condition, e.g. 
+  * We added the support of `<agg> FILTER(WHERE ..)` as a shortcut to run aggregation for data with certain condition, e.g.
 
     ```sql
     select count() filter(where action='add') as cnt_action_add,
-           count() filter(where action='cancel') as cnt_action_cancel 
+           count() filter(where action='cancel') as cnt_action_cancel
     from table(bookings)
     ```
 

@@ -1,6 +1,4 @@
-
-
-# Private Beta 2
+# Timeplus Cloud Private Beta 2
 
 We are thrilled to launch the second private beta of Timeplus cloud release. Comparing to the [Private Beta 1](private-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from [https://TENANT.beta.timeplus.com](https://tenant.beta.timeplus.com) to [https://beta.timeplus.cloud/TENANT](https://beta.timeplus.cloud/tenant)
 
@@ -11,10 +9,10 @@ We will update the beta version from time to time and list key enhancements in t
 ### Biweekly Update 9/19-9/30
 
 * Streaming engine
-  * Enhanced [dedup](functions#dedup) function to only cache the unique keys for a given time period. This is useful to suppress the same alerts in the short time period. 
-  * Support sub-stream, e.g. `select cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) as last_spd from car_live_data` 
+  * Enhanced [dedup](functions#dedup) function to only cache the unique keys for a given time period. This is useful to suppress the same alerts in the short time period.
+  * Support sub-stream, e.g. `select cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) as last_spd from car_live_data`
 * Source, sink, API and SDK
-  * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](glossary#workspace) 
+  * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](glossary#workspace)
   * Updated the [REST API](/rest) to show the optional description for source/sink, and replace "tenant" with "workspace-id" in the documentation.
   * The Kafka sink no longer auto-create the topics
 
@@ -55,10 +53,10 @@ We have migrated beta1 customers to the beta2. https://demo.timeplus.com is no l
 * Source, sink, API and SDK
   * Updated [datapm](https://datapm.io/docs/quick-start/) Timeplus sink to support beta2 multi-tenant API
   * Enhanced the snowflake sink to specify the dataware
-  * Published the sample Java code as [a public Github repo](https://github.com/timeplus-io/java-demo). You can easily get Timeplus query results and do other operations without directly handling the low level REST API 
+  * Published the sample Java code as [a public Github repo](https://github.com/timeplus-io/java-demo). You can easily get Timeplus query results and do other operations without directly handling the low level REST API
 * UI improvements
   * Separated the home page and dashboard page. In the future, you can create more than one dashboard
-  * Charting enhancements: show data value as tooltips for bar charts on hover, view the chart with in full page mode 
+  * Charting enhancements: show data value as tooltips for bar charts on hover, view the chart with in full page mode
   * Enhanced the SQL editor to support common query snippets, e.g. `group by window_start, window_end`
   * Enhanced the SQL editor to show auto-complete for User-Defined Function
   * Show the data size for the streams
