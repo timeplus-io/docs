@@ -15,9 +15,9 @@ Timeplus Enterprise v2 is now available for cloud or self-hosted deployment. [Se
 ### Timeplus Enterprise:
 *Self-Hosted:*
   * Account setup flow for self-hosted deployment: create account and login screens.
-  * License management: In Workspace Settings, see your existing licenses and entitlements, and upload new license files.
+  * License management: In Workspace Settings, see your existing licenses and entitlements. [Contact us](mailto:support@timeplus.com) to purchase a new license, then enter the license key and upload the license file in Workspace Settings.  
   * Usage monitoring: Also in Workspace Settings, see your daily usage for ingested data and scanned external stream data. 
-  * Preview: Python User-Defined Functions (UDF). [Contact us](mailto:support@timeplus.com) if you want to try this feature.
+  * Preview: Python User-Defined Functions (UDF). Create UDFs by leveraging Python libraries, such as pandas. [Contact us](mailto:support@timeplus.com) to try this feature.
 
 *Cloud:*
-  * When in debug mode, build times are now shown alongside version numbers in the Help side panel. 
+  * When in debug mode, build times are now shown alongside version information in the Help side panel. 
