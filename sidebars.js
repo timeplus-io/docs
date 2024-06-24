@@ -234,13 +234,15 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "What's New",
+      label: "Release Notes",
       //collapsed: false,
       link: {
         type: "doc",
         id: "release-notes",
       },
       items: [
+        "v2-release-notes",
+        "v1-release-notes",
         "public-beta-2",
         "public-beta-1",
         "private-beta-2",
