@@ -1,6 +1,4 @@
-
-
-# 邀请制测试版 2
+# Timeplus Cloud Private Beta 2
 
 我们很高兴地启动第二个邀请制测试版的TimePlus Cloud。 与 [邀请制测试版1](private-beta-1)相比，大多数后端和前端更改都是递增增强， 主要差别是入口点从 [https://.beta.timeplus.com](https://tenant.beta.timeplus.com) 改为 [https://beta.timeplus.cloud/TENANT/](https://beta.timeplus.cloud/tenant)
 
