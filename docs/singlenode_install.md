@@ -4,6 +4,8 @@ Timeplus Enterprise can be easily installed on a single node, with or without Do
 
 ## Bare Metal Install{#bare_metal}
 
+### Install Script
+
 If your server or computer is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies. For Windows users, please follow [our guide](#docker) for running Timeplus Enterprise with Docker.
 
 ```shell
@@ -12,6 +14,7 @@ curl https://install.timeplus.com | sh
 
 This script will download the latest package (based on your operating system and CPU architecture) to the current folder. Uncompress the package and start the Timeplus Enterprise server.
 
+### Manual Install
 You can also download packages manually with the following links:
 * Linux ([Intel/AMD chip](https://install.timeplus.com/latest-linux-amd64.tar.gz), [ARM chip](https://install.timeplus.com/latest-linux-arm64.tar.gz))
 * MacOS ([Intel chip](https://install.timeplus.com/latest-darwin-amd64.tar.gz), [Apple Silicon chip](https://install.timeplus.com/latest-darwin-arm64.tar.gz))
@@ -26,7 +29,7 @@ Then change directory to the `bin` folder and run
 ```shell
 ./timeplus start
 ```
-
+### Timeplus Enteprprise Processes
 This will start Timeplus Enterprise with a few key processes:
 * `timeplusd`: The core SQL engine, servering at port 8463 (TCP, for `timeplus client`) and 3218 (HTTP, for JDBC/ODBC drivers
 * `timeplus_appserver`: The application server, servering at HTTP port 8000
