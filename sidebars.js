@@ -104,7 +104,12 @@ const sidebars = {
             type: "doc",
             id: "timeplus-self-host",
           },
-          items: ["singlenode_install", "cluster_install", "server_config"],
+          items: [
+            "singlenode_install",
+            "cluster_install",
+            "k8s-helm",
+            "server_config",
+          ],
         },
         "timeplus-query-guide",
         {

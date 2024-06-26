@@ -5,7 +5,7 @@ Both bare metal and Kubernetes are supported.
 
 ## Bare Metal Install
 
-Follow the guide in [Single Node Install](singlenode_install) to grab the bare metal package and install on each node. 
+Follow the guide in [Single Node Install](singlenode_install) to grab the bare metal package and install on each node.
 
 Next, update the `config.yml` file to connect the nodes together:
 
@@ -32,11 +32,9 @@ You can also deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](http
 * Ensure you have [Kubernetes](https://kubernetes.io/) 1.24 or higher installed in your environment
 * Ensure you have allocated enough resources for the deployment
 
-### Install Timeplus Enterprise with Helm
+### Deploy Timeplus Enterprise with Helm
 
-Start a Kubernetes cluster.
-
-Please [contact us](mailto:support@timeplus.com) to get the Helm chart. We will make the Helm chart repository public soon.
+Follow the [guide](k8s-helm) to deploy Timeplus Enteprise on Kubernetes with Helm.
 
 ## License Management
 To activate or add new a license, please follow [our guide](server_config#license).
