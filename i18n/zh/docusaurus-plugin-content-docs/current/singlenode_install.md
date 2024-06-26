@@ -4,6 +4,8 @@
 
 ## 裸机安装{#bare_metal}
 
+### Install Script
+
 如果你的服务器或电脑运行的是 Linux 或 macOS，你可以运行以下命令来下载软件包并在没有任何其他依赖关系的情况下启动 Timeplus Enterprise。 对于 Windows 用户，请按照 [指南](#docker) 使用 Docker 运行 Timeplus Enterprise。
 
 ```shell
@@ -11,6 +13,8 @@ curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.s
 ```
 
 此脚本会将最新的软件包（基于您的操作系统和 CPU 架构）下载到当前文件夹。 解压缩包并启动 Timeplus 企业服务器。
+
+### Manual Install
 
 您也可以通过以下链接手动下载软件包：
 
@@ -29,6 +33,8 @@ tar xfv file.tar.gz
 ```shell
 ./timeplus start
 ```
+
+### Timeplus Enteprprise Processes
 
 这将通过几个关键流程启动Timeplus Enterprise：
 
