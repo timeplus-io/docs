@@ -1,15 +1,15 @@
-# 使用 Timeplus Cloud 快速入门
+# Timeplus Enterprise cloud
 
-Timeplus是一个融合流处理和历史数据处理的高性能平台， 让开发者能够以最快的速度和最高的效率构建最强大和最可靠的流分析应用。
+Timeplus Enterprise is a high-performance converged platform that unifies streaming and historical data processing, to empower developers to build the most powerful and reliable streaming analytics applications, at speed and scale, anywhere.
 
-Timeplus Cloud提供以下主要功能：
+Timeplus Enterprise provides the following major features:
 
 * [Streaming SQL](query-syntax)
 * [流数据收集](ingestion)
 * [流式可视化](viz)
 * [流式告警和数据导出](destination)
 
-下面章节教你如何开始使用 Timeplus Cloud。
+The following section contains step-by-step instructions on how to easily get started with Timeplus Enterprise in the cloud.
 
 ## 步骤 1：注册一个Timeplus账户 {#step1}
 

@@ -35,11 +35,9 @@ cluster:
 - 确保你的环境中安装了 [Kubernetes](https://kubernetes.io/) 1.24 或更高版本。
 - 确保为部署分配了足够的资源
 
-### 使用 Helm 安装 Timeplus 企业版
+### Deploy Timeplus Enterprise with Helm
 
-启动 Kubernetes 集群。
-
-请[联系我们](mailto:support@timeplus.com)获取Helm Chart。 我们将很快公开 Helm Chart库。
+Follow the [guide](k8s-helm) to deploy Timeplus Enteprise on Kubernetes with Helm.
 
 ## 许可管理
 

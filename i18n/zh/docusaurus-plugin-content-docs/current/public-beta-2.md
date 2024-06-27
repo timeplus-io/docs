@@ -1,4 +1,4 @@
-# 公开测试版 2
+# Timeplus Cloud Public Beta 2
 
 我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 相比 [公开测试版1](public-beta-1)，除了入口点从 https://beta.timeplus.cloud 更改为 https://us.timeplus.cloud 以外，大多数后端和前端更改都是递增式的。
 

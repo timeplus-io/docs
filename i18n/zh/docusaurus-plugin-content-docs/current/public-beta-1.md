@@ -1,6 +1,4 @@
-
-
-# 公开测试版 1
+# Timeplus Cloud Public Beta 1
 
 我们很高兴地启动Timeplus Cloud公开测试版。
 
@@ -60,8 +58,8 @@
   * 引入了一种新的 `LIMIT <n> BY <column>` 语法。 与 [emit_version()](functions#emit_version) 函数组合，您可以每次控制每次流式输出的行数。 例如
 
     ```sql
-    SELECT cid,avg(speed_kmh) AS avgspeed, emit_version() 
-    FROM tumble(car_live_data,5s) GROUP BY window_start,cid 
+    SELECT cid,avg(speed_kmh) AS avgspeed, emit_version()
+    FROM tumble(car_live_data,5s) GROUP BY window_start,cid
     LIMIT 3 BY emit_version()
     ```
 
@@ -94,7 +92,7 @@
 
     ```sql
     select count() filter(where action='add') as cnt_action_add,
-           count() filter(where action='cancel') as cnt_action_cancel 
+           count() filter(where action='cancel') as cnt_action_cancel
     from table(bookings)
     ```
 
