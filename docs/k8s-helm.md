@@ -13,7 +13,7 @@ This is the quickstart guide to install a 3 nodes Timeplus Enterprise cluster wi
 
 Although this guidance is focus on minikube, you should be able to install it on other k8s such as Amazon EKS or your own k8s cluster as well. You may need to update configurations accordingly to fit your k8s enviroment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
 
-## Get minikube ready
+### Get minikube ready
 
 Please follow https://minikube.sigs.k8s.io/docs/start/ to get the minikube ready. For Mac users, you may get it via:
 ```bash
