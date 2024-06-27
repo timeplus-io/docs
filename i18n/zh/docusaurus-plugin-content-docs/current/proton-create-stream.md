@@ -8,7 +8,7 @@
 
 ## 创建流
 
-[Stream](working-with-streams) 是 Timeplus Proton 中的一个关键 [概念](glossary) 。 所有数据都存在于流中，无论是静态数据还是动态数据。 我们不建议你在 Proton 中创建或管理 `TABLE` 。
+[Stream](working-with-streams) is a key [concept](glossary) in Timeplus. 所有数据都存在于流中，无论是静态数据还是动态数据。 We don't recommend you to create or manage `TABLE` in Timeplus.
 
 ### 仅限追加的流
 
@@ -80,9 +80,9 @@ Today it's not exposed in SQL to control the retention policies for streaming st
 [Versioned Stream](versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如： 例如：
 
 ```sql
-创建 STREAM versioned_kv（i int，k 字符串，k1 字符串） 
-主键 (k, k1) 
-设置模式 ='versioned_kv'，version_column='i'；
+CREATE STREAM versioned_kv(i int, k string, k1 string)
+PRIMARY KEY (k, k1)
+SETTINGS mode='versioned_kv', version_column='i';
 ```
 
 默认 `version_column` 是 `_tp_time`。 对于具有相同主键的数据，Proton 将使用最大值为  `version_column`的数据。 因此，默认情况下，它会跟踪相同主键的最新数据。 如果有延迟事件，您可以使用指定其他列来确定实时数据的结束状态。
@@ -92,9 +92,9 @@ Today it's not exposed in SQL to control the retention policies for streaming st
 [Changelog Stream](changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如： 例如：
 
 ```sql
-创建 STREAM changelog_kv（i int，k 字符串，k1 字符串） 
-主键（k，k1） 
-设置模式 ='changelog_kv'，version_column='i'；
+CREATE STREAM changelog_kv(i int, k string, k1 string)
+PRIMARY KEY (k, k1)
+SETTINGS mode='changelog_kv', version_column='i';
 ```
 
 默认 `version_column` 是 `_tp_time`。 对于具有相同主键的数据，Proton 将使用最大值为  `version_column`的数据。 因此，默认情况下，它会跟踪相同主键的最新数据。 如果有延迟事件，您可以使用指定其他列来确定实时数据的结束状态。
@@ -104,10 +104,10 @@ Today it's not exposed in SQL to control the retention policies for streaming st
 You may use this special stream to generate random data for tests. 例如： 例如：
 
 ```sql
-创建随机流设备 (
-  设备字符串默认 'device'||to_string (rand ()%4)， 
-  位置字符串默认 'city'|to_string (rand ()%10)，
-  温度浮动默认兰德 ()%1000/10)；
+CREATE RANDOM STREAM devices(
+  device string default 'device'||to_string(rand()%4),
+  location string default 'city'||to_string(rand()%10),
+  temperature float default rand()%1000/10);
 ```
 
 以下功能可供使用：
