@@ -45,3 +45,17 @@ By default, when you create a materialized view, an internal stream will be crea
 CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name>
 INTO <target_stream> AS <SELECT ...>
 ```
+
+## Settings
+
+The following settings are suppported when you creae a materialized view, with syntax:
+
+```sql
+CREATE MATERIALIZED VIEW <view_name>
+INTO <target_stream> AS <SELECT ...>
+SETTINGS <settings>
+```
+
+### pause_on_create
+
+By default, once the materialized view is created, the streaming query will start automatically. If you don't want to start the query immedicately, you can set `pause_on_create=true`. The default value is `false`.
