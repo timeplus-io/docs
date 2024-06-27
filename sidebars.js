@@ -135,6 +135,19 @@ const sidebars = {
         "viz",
         "apikey",
         "terraform",
+        {
+          type: "category",
+          label: "UDF",
+          link: { type: "doc", id: "udf" },
+          items: [
+            "remote-udf",
+            {
+              label: "Local UDF in JavaScript",
+              type: "link",
+              href: "https://docs.timeplus.com/js-udf",
+            },
+          ],
+        },
         "enterprise-releases",
         "issues",
         {
@@ -219,12 +232,7 @@ const sidebars = {
             "functions_for_streaming",
           ],
         },
-        {
-          type: "category",
-          label: "UDF",
-          link: { type: "doc", id: "udf" },
-          items: ["remote-udf", "js-udf"],
-        },
+        "js-udf",
         "joins",
       ],
     },
