@@ -233,6 +233,11 @@ const sidebars = {
             "sql-show-functions",
             "sql-drop-function",
             "sql-show-create",
+
+            "sql-system-pause",
+            "sql-system-unpause",
+            // "sql-system-abort",
+            // "sql-system-recover",
           ],
         },
         "query-settings",
