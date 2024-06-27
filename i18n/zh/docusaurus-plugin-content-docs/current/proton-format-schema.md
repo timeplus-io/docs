@@ -81,7 +81,7 @@ Timeplus 支持以 [Protobuf](https://protobuf.dev/) 或 [Avro](https://avro.apa
 
 ## 列出架构
 
-列出当前 Proton 部署中的架构：
+List schemas in the current Timeplus deployment:
 
 ```sql
 显示格式架构
