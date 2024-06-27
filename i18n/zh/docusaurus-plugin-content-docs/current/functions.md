@@ -1,4 +1,4 @@
-# 函数
+# SQL Functions
 
 Timeplus Proton supports ANSI-SQL standard syntax. 以下功能适用于各种使用案例。 以下功能适用于各种使用案例。 Most of the [functions in ClickHouse](https://clickhouse.com/docs/en/sql-reference/functions) are available in Proton, with different naming conventions (for example [array_join](functions_for_comp#array_join) instead of [arrayJoin](https://clickhouse.com/docs/en/sql-reference/functions/array-join)). [New functions are added](functions_for_streaming) for streaming processing. 如果您需要更多功能，请联系我们。 [添加了用于流式处理的新函数](functions_for_streaming) 。 如果您需要更多功能，请联系我们。
 
@@ -33,8 +33,3 @@ Please note, in Proton 1.3.27 or the earlier versions, SQL functions were case-s
 [地理位置](functions_for_geo)
 
 [流处理](functions_for_streaming)
-
-
-
-
-
