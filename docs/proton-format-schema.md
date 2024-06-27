@@ -77,7 +77,7 @@ SETTINGS type='kafka',
 
 ## List Schemas
 
-List schemas in the current Proton deployment:
+List schemas in the current Timeplus deployment:
 
 ```sql
 SHOW FORMAT SCHEMAS

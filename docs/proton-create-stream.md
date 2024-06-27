@@ -8,7 +8,7 @@ In Timeplus Cloud or Timeplus Enterprise deployments, we recommend you to create
 
 ## CREATE STREAM
 
-[Stream](working-with-streams) is a key [concept](glossary) in Timeplus Proton. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Proton.
+[Stream](working-with-streams) is a key [concept](glossary) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Timeplus.
 
 ### Append-only Stream
 
@@ -66,7 +66,7 @@ Proton supports retention policies to automatically remove out-of-date data from
 
 ##### For Historical Storage
 
-Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add ` TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period. 
+Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add ` TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
 
 ##### For Streaming Storage
 
@@ -80,24 +80,24 @@ Today it's not exposed in SQL to control the retention policies for streaming st
 [Versioned Stream](versioned-stream) allows you to specify the primary key(s) and focus on the latest value. For example:
 
 ```sql
-CREATE STREAM versioned_kv(i int, k string, k1 string) 
-PRIMARY KEY (k, k1) 
+CREATE STREAM versioned_kv(i int, k string, k1 string)
+PRIMARY KEY (k, k1)
 SETTINGS mode='versioned_kv', version_column='i';
 ```
 
-The default `version_column` is `_tp_time`. For the data with same primary key(s), Proton will use the ones with maximum value of  `version_column`. So by default, it tracks the most recent data for same primary key(s). If there are late events, you can use specify other column to determine the end state for your live data. 
+The default `version_column` is `_tp_time`. For the data with same primary key(s), Proton will use the ones with maximum value of  `version_column`. So by default, it tracks the most recent data for same primary key(s). If there are late events, you can use specify other column to determine the end state for your live data.
 
 ### Changelog Stream
 
 [Changelog Stream](changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. For example:
 
 ```sql
-CREATE STREAM changelog_kv(i int, k string, k1 string) 
-PRIMARY KEY (k, k1) 
+CREATE STREAM changelog_kv(i int, k string, k1 string)
+PRIMARY KEY (k, k1)
 SETTINGS mode='changelog_kv', version_column='i';
 ```
 
-The default `version_column` is `_tp_time`. For the data with same primary key(s), Proton will use the ones with maximum value of  `version_column`. So by default, it tracks the most recent data for same primary key(s). If there are late events, you can use specify other column to determine the end state for your live data. 
+The default `version_column` is `_tp_time`. For the data with same primary key(s), Proton will use the ones with maximum value of  `version_column`. So by default, it tracks the most recent data for same primary key(s). If there are late events, you can use specify other column to determine the end state for your live data.
 
 ## CREATE RANDOM STREAM
 
@@ -105,7 +105,7 @@ You may use this special stream to generate random data for tests. For example:
 
 ```sql
 CREATE RANDOM STREAM devices(
-  device string default 'device'||to_string(rand()%4), 
+  device string default 'device'||to_string(rand()%4),
   location string default 'city'||to_string(rand()%10),
   temperature float default rand()%1000/10);
 ```

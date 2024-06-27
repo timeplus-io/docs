@@ -208,11 +208,37 @@ const sidebars = {
         id: "query-syntax",
       },
       items: [
+        {
+          type: "category",
+          label: "SQL Commands",
+          link: {
+            type: "generated-index",
+          },
+          items: [
+            "sql-create-stream",
+            "sql-create-random-stream",
+            "sql-create-external-stream",
+            "sql-alter-stream",
+            "sql-show-streams",
+            "sql-drop-stream",
+            "sql-create-format-schema",
+            "sql-show-format-schemas",
+            "sql-drop-format-schema",
+
+            "sql-create-view",
+            "sql-create-materialized-view",
+            "sql-drop-view",
+            "sql-create-external-table",
+            "sql-create-function",
+            "sql-drop-function",
+            "sql-show-create",
+          ],
+        },
         "query-settings",
         "datatypes",
         {
           type: "category",
-          label: "Functions",
+          label: "SQL Functions",
           collapsed: true,
           link: { type: "doc", id: "functions" },
           items: [

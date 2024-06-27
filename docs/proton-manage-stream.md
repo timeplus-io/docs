@@ -14,7 +14,7 @@ SHOW CREATE <stream>
 
 ## ALTER STREAM
 
-Currently we don't recommend to alter the schema of streams in Proton. The only exception is you can modify the retention policy for historical store.
+Currently we don't recommend to alter the schema of streams in Timeplus. The only exception is you can modify the retention policy for historical store.
 
 ### MODIFY TTL
 
