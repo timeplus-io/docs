@@ -10,3 +10,9 @@ SHOW CREATE stream_name
 ```sql
 SHOW CREATE FORMAT SCHEMA schema_name
 ```
+
+## Show Details For A UDF
+
+```sql
+SHOW CREATE FUNCTION func_name
+```

@@ -230,6 +230,7 @@ const sidebars = {
             "sql-drop-view",
             "sql-create-external-table",
             "sql-create-function",
+            "sql-show-functions",
             "sql-drop-function",
             "sql-show-create",
           ],
