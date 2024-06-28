@@ -11,6 +11,18 @@ Each release of Timeplus Enterprise includes the following components:
 
 Each component tracks their changes with own version numbers. The version number for each Timeplus Enterprise release is a verfied combination of Timeplus components.
 
+## 2.3.3
+Built on 06-28-2024.
+* timeplusd 2.2.8
+* timeplus_appserver 1.4.33
+* timeplus_web 1.4.18
+* timeplus_connnector 1.5.3
+* timepuls cli 1.0.4 -> 1.0.5
+
+Changelog:
+* [cli] feat: commands for user management
+* [cli] feat: commands for cluster management
+
 ## 2.3.2
 Built on 06-25-2024.
 * timeplusd 2.2.7 -> 2.2.8
