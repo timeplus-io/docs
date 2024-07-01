@@ -76,3 +76,8 @@ SETTINGS type='kafka',
          data_format='Avro',
          format_schema='schema_name'
 ```
+
+## See also
+
+[SHOW FORMAT SCHEMA](sql-show-format-schema) - Show format schema
+[DROP FORMAT SCHEMA](sql-drop-format-schema) - Drop format schema
