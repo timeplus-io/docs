@@ -33,3 +33,9 @@ By default, the checkpoint will be updated every 15 minutes for materialized vie
 ```sql
 ALTER STREAM mv_with_inner_stream RESET QUERY SETTING checkpoint_interval
 ```
+
+## See also
+[CREATE STREAM](sql-create-stream) - Create streams
+[CREATE MATERIALIZED VIEW](sql-create-materialized-view) - Create materialized views
+[DROP STREAM](sql-drop-stream) - Drop streams
+[DROP VIEW](sql-drop-view) - Drop materialized views
