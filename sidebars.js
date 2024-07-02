@@ -132,7 +132,16 @@ const sidebars = {
         },
 
         /*"query-api",*/
-        "viz",
+        {
+          type: "category",
+          label: "Data Visualization",
+          //collapsed: false,
+          link: {
+            type: "doc",
+            id: "viz",
+          },
+          items: ["integration-grafana", "integration-metabase"],
+        },
         "apikey",
         "terraform",
         {

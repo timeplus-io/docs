@@ -74,7 +74,7 @@ Currently available on https://us.timeplus.cloud as a preview feature.
   * Update mode: append only, or show data points from the last timestamp, or choose a key column to show the latest data value for each key value.
 
 * Format settings:
-  * Map dots: color scheme, opacity, and size (fixed size, or set a min. and max size) 
+  * Map dots: color scheme, opacity, and size (fixed size, or set a min. and max size)
 
 ![Map chart](/img/map-chart.png)
 
@@ -87,8 +87,8 @@ This is a new chart type, currently in technical preview. The open-high-low-clos
 Please make sure there are 5 columns with names: time, open, close, high, low, e.g.
 
 ```sql
-SELECT window_start, earliest(price) AS open, latest(price) AS close, 
-       max(price) AS high, min(price) AS low 
+SELECT window_start, earliest(price) AS open, latest(price) AS close,
+       max(price) AS high, min(price) AS low
 FROM tumble(prices, 1s) GROUP BY window_start
 ```
 
@@ -100,11 +100,11 @@ Shows the data as a list table.
 
 * Data settings
   * Maximum row count.
-  * Update mode: 
+  * Update mode:
     * Show All: show all query results (limited by the maximum row count)
     * By Time: show data points from the last timestamp
     * By Key: choose a key column to show the latest row for each key value.
-  
+
 * Format settings
   * For each column, you can choose to show or hide it, or set column width and decimal for numeric columns.
   * Conditional formatting: highlight a cell or an entire row if the value meets a certain condition you've set
@@ -124,11 +124,11 @@ One or more charts can be added to the dashboard, with 3 size options:
 * Small: takes up 1/4 of the page width
 * Medium: takes up 1/2 of the page width
 * Large: takes up entire page width
-  
+
 
 ## Dashboard filters and query variables {#filter}
 
-As a new feature, you can add filters in dashboards. Here is an example if you want to list speeding vehicles. 
+As a new feature, you can add filters in dashboards. Here is an example if you want to list speeding vehicles.
 
 First, in the query page, to run a SQL with a fixed condition, e.g.
 
@@ -148,7 +148,7 @@ The query editor will show a text input for the value of `speed_limit`. You can 
 
 :::info
 
-Please make sure the SQL syntax is correct with query variables. For example if you are filtering with a string value, you should add quote around the variable placeholder, e.g. 
+Please make sure the SQL syntax is correct with query variables. For example if you are filtering with a string value, you should add quote around the variable placeholder, e.g.
 
 ```sql
 select * from car_live_data where cid='{{car_id}}'
@@ -163,10 +163,8 @@ After you save the dashboard, in the dashboard view mode, you can change the val
 
 
 ## Integration with External BI
+You can use [JDBC](https://github.com/timeplus-io/proton-java-driver) or [ODBC](https://github.com/timeplus-io/proton-odbc) drivers of Timeplus to run queries and visualized the results in various BI tools, such as [Metabase](https://github.com/timeplus-io/metabase-proton-driver).
 
-You can call Timeplus SDK to load the data and render the chart with 3rd party charting libraries.  
+We also released [a Grafana data source plugin](integration-grafana) to visualize streaming SQL without refreshing the dashboard.
 
-For Proton users, you can also try https://github.com/timeplus-io/proton-grafana-source It has been submitted to Grafana Inc and waiting for approval to list on its marketplace.
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=TzVpULg-B0b0T5GE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
+For highly customizable charts, you can also call Timeplus SDK to load the data and render the chart with 3rd party charting libraries.

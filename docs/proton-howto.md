@@ -126,9 +126,9 @@ FROM file('data/*.csv', 'CSV', 'timestamp datetime64(3), price float64, volume f
 SETTINGS max_insert_threads=8;
 ```
 
-## How to visualize Proton query results with Grafana or Metabase {#bi}
+## How to visualize Timeplus query results with Grafana or Metabase {#bi}
 
-The official Grafana plugin for Proton is available [here](https://grafana.com/grafana/plugins/timeplus-proton-datasource/). The source code is at https://github.com/timeplus-io/proton-grafana-source. You can run streaming SQL with the plugin and build live charts in Grafana, without having to refresh the dashboard. Check out [here](https://github.com/timeplus-io/proton/tree/develop/examples/grafana) for sample setup.
+The official Grafana plugin for Timeplus is available [here](https://grafana.com/grafana/plugins/timeplus-proton-datasource/). The source code is at https://github.com/timeplus-io/proton-grafana-source. You can run streaming SQL with the plugin and build live charts in Grafana, without having to refresh the dashboard. Check out [here](https://github.com/timeplus-io/proton/tree/develop/examples/grafana) for sample setup.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=U30K93FUVMyjUA--" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
