@@ -1,15 +1,26 @@
 # 改变流
 
-Currently we don't recommend to alter the schema of streams in Timeplus. You can modify the retention policy for historical store.
+Currently we don't recommend to alter the schema of streams in Timeplus. You can modify the retention policy for historical store via [MODIFY TTL](#ttl) and modify the retention policy for streaming storage via [MODIFY SETTING](#stream_ttl).
 
 You can also use `ALTER STREAM` to modify the setttings of materialized views (only available in Timeplus Enterprise).
 
-## 修改 TTL
+## MODIFY TTL{#ttl}
 
 You can add or modify the retention policy. 例如 例如
 
 ```sql
-ALTER STREAM stream_name MODIFY TTL to_datetime(created_at) + INTERVAL 48 HOUR
+ALTER STREAM stream_name MODIFY TTL
+to_datetime(created_at) + INTERVAL 48 HOUR
+```
+
+## MODIFY SETTING{#stream_ttl}
+
+You can add or modify the retention policy for streaming storage. 例如
+
+```sql
+ALTER STREAM stream_name MODIFY SETTING
+logstore_retention_ms = ...,
+logstore_retention_size = ...;
 ```
 
 ## MODIFY QUERY SETTING
