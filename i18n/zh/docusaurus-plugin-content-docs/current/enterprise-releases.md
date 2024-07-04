@@ -12,70 +12,37 @@ Each release of Timeplus Enterprise includes the following components:
 
 Each component tracks their changes with own version numbers. The version number for each Timeplus Enterprise release is a verfied combination of Timeplus components.
 
-## 2.3.4
+## Unreleased
 
-Built on 06-30-2024.
-
-- timeplusd 2.2.8
-- timeplus_appserver 1.4.33 -> 1.4.34
-- timeplus_web 1.4.18
-- timeplus_connnector 1.5.3
-- timepuls cli 1.0.5 -> 1.0.8
-
-Changelog:
-
-- [timeplus_appserver] feat: configuration items renaming, avoid using codenames
-- [cli] feat: use more formal product name in command line messages
-
-## 2.3.3
-
-Built on 06-28-2024.
-
-- timeplusd 2.2.8
-- timeplus_appserver 1.4.33
-- timeplus_web 1.4.18
-- timeplus_connnector 1.5.3
-- timepuls cli 1.0.4 -> 1.0.5
-
-Changelog:
-
-- [cli] feat: commands for user management
-- [cli] feat: commands for cluster management
-
-## 2.3.2
-
-Built on 06-25-2024.
+2.3.5
+Built on 07-02-2024.
 
 - timeplusd 2.2.7 -> 2.2.8
-- timeplus_appserver 1.4.33
-- timeplus_web 1.4.18
-- timeplus_connnector 1.5.3
-- timepuls cli 1.0.4
-
-Changelog:
-
-- [timeplusd] feat: new setting `allow_independent_shard_processing`, default false. When data is already sharded correctly on file system and if the aggregation is on the sharding key, set it to true to avoid re-shuffle the data
-- [timeplusd] feat: support modify materialized view query settings, e.g. `alter stream mv_with_inner_stream modify query setting checkpoint_interval=600`
-
-## 2.3.1
-
-Built on 06-25-2024.
-
-- timeplusd 2.2.7
-- timeplus_appserver 1.4.32 -> 1.4.33
+- timeplus_appserver 1.4.32 -> 1.4.34
 - timeplus_web 1.4.17 -> 1.4.18
 - timeplus_connnector 1.5.3
-- timepuls cli 1.0.4
+- timepuls cli 1.0.4 -> 1.0.9
 
 Changelog:
 
-- [timeplus_appserver] feat: disabled user provision on timeplusd cluster
-- [timeplus_appserver] feat: global metrics and dependencies
-- [timeplus_appserver] feat: improved mv stats
-- [timeplus_appserver] chore: updated onprem image name to timeplus-appserver
-- [timeplus_web] fix(query): timeplusd resouces do not refresh after DDL
-- [timeplus_web] feat(datalineage): show resouces stats on datalienage
-- [timeplus_web] feat: do not provision user on timeplusd cluster
+- timeplusd
+  - feat: new setting `allow_independent_shard_processing`, default false. When data is already sharded correctly on file system and if the aggregation is on the sharding key, set it to true to avoid re-shuffle the data.
+  - feat: support modify materialized view query settings, e.g. `alter stream mv_with_inner_stream modify query setting checkpoint_interval=600`
+- timeplus_appserver
+  - feat: configuration items renaming, avoid using codenames
+  - feat: disabled user provision on timeplusd cluster
+  - feat: global metrics and dependencies
+  - feat: improved mv stats
+  - chore: updated onprem image name to timeplus-appserver
+- timeplus_web
+  - fix(query): timeplusd resouces do not refresh after DDL
+  - feat(datalineage): show resouces stats on datalienage
+  - feat: do not provision user on timeplusd cluster
+- cli
+  - feat: use more formal product name in command line messages
+  - feat: use more formal product name in command line messages
+  - feat: commands for user management
+  - feat: commands for cluster management
 
 ## 2.3.0
 
