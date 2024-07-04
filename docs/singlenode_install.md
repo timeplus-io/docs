@@ -14,11 +14,23 @@ curl https://install.timeplus.com | sh
 
 This script will download the latest package (based on your operating system and CPU architecture) to the current folder. Uncompress the package and start the Timeplus Enterprise server.
 
+If you'd like to try the latest features or bugfixes, you can run the following command:
+
+```shell
+curl https://install.timeplus.com/latest | sh
+```
+
 ### Manual Install
 You can also download packages manually with the following links:
+
+Stable builds:
+* Linux ([Intel/AMD chip](https://install.timeplus.com/stable-linux-amd64.tar.gz), [ARM chip](https://install.timeplus.com/stable-linux-arm64.tar.gz))
+* MacOS ([Intel chip](https://install.timeplus.com/stable-darwin-amd64.tar.gz), [Apple Silicon chip](https://install.timeplus.com/stable-darwin-arm64.tar.gz))
+* Windows (Please [install via Docker](#docker))
+
+Latest builds:
 * Linux ([Intel/AMD chip](https://install.timeplus.com/latest-linux-amd64.tar.gz), [ARM chip](https://install.timeplus.com/latest-linux-arm64.tar.gz))
 * MacOS ([Intel chip](https://install.timeplus.com/latest-darwin-amd64.tar.gz), [Apple Silicon chip](https://install.timeplus.com/latest-darwin-arm64.tar.gz))
-* Windows (Please [install via Docker](#docker))
 
 After you download the package, put it in a desired folder, uncompress the file, and you can run Timeplus Enterprise with preconfigured settings:
 
