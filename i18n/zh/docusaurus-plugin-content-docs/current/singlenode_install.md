@@ -14,13 +14,26 @@ curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.s
 
 此脚本会将最新的软件包（基于您的操作系统和 CPU 架构）下载到当前文件夹。 解压缩包并启动 Timeplus 企业服务器。
 
+If you'd like to try the latest features or bugfixes, you can run the following command:
+
+```shell
+curl https://install.timeplus.com/latest | sh
+```
+
 ### Manual Install
 
 您也可以通过以下链接手动下载软件包：
 
+Stable builds:
+
+- Linux ([Intel/AMD chip](https://install.timeplus.com/stable-linux-amd64.tar.gz), [ARM chip](https://install.timeplus.com/stable-linux-arm64.tar.gz))
+- MacOS ([Intel chip](https://install.timeplus.com/stable-darwin-amd64.tar.gz), [Apple Silicon chip](https://install.timeplus.com/stable-darwin-arm64.tar.gz))
+- Windows（请 [通过 Docker 安装](#docker)）
+
+Latest builds:
+
 - Linux（[英特尔/AMD 芯片](https://install.timeplus.com/latest-linux-amd64.tar.gz)、[ARM 芯片](https://install.timeplus.com/latest-linux-arm64.tar.gz)）
 - MacOS（[英特尔芯片](https://install.timeplus.com/latest-darwin-amd64.tar.gz)，[苹果芯片](https://install.timeplus.com/latest-darwin-arm64.tar.gz))
-- Windows（请 [通过 Docker 安装](#docker)）
 
 下载软件包后，将其放入所需的文件夹，解压缩文件，即可使用预先配置的设置运行 Timeplus Enterprise：
 
