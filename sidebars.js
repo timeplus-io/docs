@@ -157,6 +157,14 @@ const sidebars = {
             },
           ],
         },
+        {
+          type: "category",
+          label: "SDK",
+          link: {
+            type: "generated-index",
+          },
+          items: ["jdbc"],
+        },
         "enterprise-releases",
         "issues",
         {
@@ -189,7 +197,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "SQL Engine (Proton)",
+      label: "SQL Engine",
       link: {
         type: "doc",
         id: "proton",

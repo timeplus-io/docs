@@ -1,4 +1,4 @@
-# Timeplus Terraform Provider
+# Terraform Provider
 
 HashiCorp Terraform is an Infrastructure as Code tool that lets you define both cloud and on-prem resources in human-readable configuration files.
 
@@ -21,7 +21,7 @@ A longer answer for why we built this Terraform Provider:
 
 1. Terraform allows users to manage resources in a declarative way. As a data engineer or administrator, you describe the end state in the Terraform file, without handling the complexities of how to reach that end state. If using SQL or REST API instead, users have to figure out whether to create new resources, or change existing resources, or delete then recreate resources, etc.
 2. Timeplus provides more than just streams and views. For example, it's hard to imagine defining and updating dashboard definitions (which is in JSON format) with SQL/dbt scripts.
-3. Regular SQL scripts don't manage the dependencies for you. You have to write a set of `CREATE.. IF NOT EXISTS`, or `DROP .. CREATE ..`. When you just want to make a small change to your SQL, you may end up recreating every resource and that can lead to data loss or inconsistency. 
+3. Regular SQL scripts don't manage the dependencies for you. You have to write a set of `CREATE.. IF NOT EXISTS`, or `DROP .. CREATE ..`. When you just want to make a small change to your SQL, you may end up recreating every resource and that can lead to data loss or inconsistency.
 4. Data engineers and platform engineers are the main target users for Timeplus. In the modern software development process, it’s a common requirement to track changes in version control systems, with branching, code review, and CICD. With the Terraform-based change management process, engineers can create a branch, make code changes, and ask for code review. At the same time, Terraform can generate the deployment plan for the code maintainer and reviewer to better understand which resources will be created, updated, or deleted, in addition to reviewing the code change itself. If the reviewer is okay with the code change and deployment plan, they can approve the code and deploy the exact change to the target environment, without any guess work.
 
 
