@@ -1,7 +1,100 @@
 # JDBC Drivers
 Timeplus provides 2 types of JDBC drivers:
-* [com.timeplus:proton-jdbc](https://github.com/timeplus-io/proton-java-driver) is the JDBC driver over HTTP, ideal for running batch queries.
-* [com.timeplus:timeplus-native-jdbc](https://github.com/timeplus-io/timeplus-native-jdbc) is the JDBC driver over the native TCP port, ideal for running streaming queries.
+* [com.timeplus:timeplus-native-jdbc](https://github.com/timeplus-io/timeplus-native-jdbc) is the JDBC driver over the native TCP port. It can run both streaming queries and batch queries, with high performance. It's recommended to use this driver with Timeplus Enterprise.
+* [com.timeplus:proton-jdbc](https://github.com/timeplus-io/proton-java-driver) is the JDBC driver over HTTP, ideal for running batch queries. It supports a bit more formats, but not as performant as the native jdbc driver.
+
+
+## JDBC over TCP {#native}
+
+### Use Case {#usecase_native}
+This JDBC driver is designed for running streaming queries and the performance is ususally higher than the JDBC over HTTP, but with [some limitations](https://github.com/timeplus-io/timeplus-native-jdbc?tab=readme-ov-file#limitations) on data types and compression methos.
+
+This library is available on maven central repository:
+
+### Maven {#maven_native}
+```xml
+<dependency>
+    <groupId>com.timeplus</groupId>
+    <artifactId>timeplus-native-jdbc</artifactId>
+    <version>2.0.1</version>
+</dependency>
+```
+
+### Gradle {#gradle_native}
+```groovy
+dependencies {
+    implementation 'com.timeplus:timeplus-native-jdbc:2.0.1'
+}
+```
+
+### Configuration {#config_native}
+* Driver class is `com.timeplus.jdbc.TimeplusDriver`
+* JDBC URL is `jdbc:timeplus://localhost:8463`
+* For Timeplus Proton, the username is `default` and password is an empty string. For Timeplus Enterprise, the username and password can be customized.
+
+Please note, by default Timeplus' query behavior is streaming SQL, looking for new data in the future and never ends. The `ResultSet.next()` can always return `true`.
+
+### Example {#example_native}
+
+```java
+package test_jdbc_driver;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class App {
+
+    public static void main(String[] args) throws Exception {
+        String url = "jdbc:timeplus://localhost:8463";
+        try (Connection connection = DriverManager.getConnection(url)) {
+            try (Statement stmt = connection.createStatement()) {
+                stmt.executeQuery(
+                    "create random stream if not exists simple_random(i int, s string) settings eps=3"
+                );
+                try (
+                    ResultSet rs = stmt.executeQuery(
+                        "SELECT * FROM simple_random"
+                    )
+                ) {
+                    while (rs.next()) {
+                        System.out.println(
+                            rs.getInt(1) + "\t" + rs.getString(2)
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+### DBeaver {#dbeaver_native}
+
+You can also connect to Timeplus from GUI tools that supports JDBC, such as DBeaver.
+
+First add the Timeplus Native JDBC driver to DBeaver. Taking DBeaver 23.2.3 as an example, choose "Driver Manager" from "Database" menu. Click the "New" button, and use the following settings:
+* Driver Name: Timeplus
+* Driver Type: Generic
+* Class Name: com.timeplus.jdbc.TimeplusDriver
+* URL Tempalte: jdbc:timeplus://localhost:8463
+
+![New Driver](/img/jdbc_native_new_driver.png)
+
+In the "Libaries" tab, click "Add Artifact" and type `com.timeplus:timeplus-native-jdbc:2.0.1`. Click the "Find Class" button to load the class.
+![Load Driver](/img/jdbc_native_load_driver.png)
+
+Create a new database connection, choose "Timeplus" and accept the default settings. Click the "Test Connection.." to verify the connection is okay.
+
+![Create Connection](/img/jdbc_native_new_conn.png)
+
+Open a SQL script for this connection, type the sample SQL `select 1` Ctrl+Enter to run the query and get the result.
+
+But it's more common to use this native JDBC driver in your Java program to process the results from streaming SQL.
+
 
 ## JDBC over HTTP {#http}
 
@@ -99,94 +192,3 @@ In the "Libaries" tab, click "Add Artifact" and type `com.timeplus:proton-jdbc:0
 Create a new database connection, choose "Timeplus Proton" and accept the default settings. Click the "Test Connection.." to verify the connection is okay.
 
 Open a SQL script for this connection, type the sample SQL `select 1` Ctrl+Enter to run the query and get the result.
-
-## JDGBC over TCP {#native}
-
-### Use Case {#usecase_native}
-This JDBC driver is designed for running streaming queries and the performance is ususally higher than the JDBC over HTTP, but with [some limitations](https://github.com/timeplus-io/timeplus-native-jdbc?tab=readme-ov-file#limitations) on data types and compression methos.
-
-This library is available on maven central repository:
-
-### Maven {#maven_native}
-```xml
-<dependency>
-    <groupId>com.timeplus</groupId>
-    <artifactId>timeplus-native-jdbc</artifactId>
-    <version>2.0.1</version>
-</dependency>
-```
-
-### Gradle {#gradle_native}
-```groovy
-dependencies {
-    implementation 'com.timeplus:timeplus-native-jdbc:2.0.1'
-}
-```
-
-### Configuration {#config_native}
-* Driver class is `com.timeplus.jdbc.TimeplusDriver`
-* JDBC URL is `jdbc:timeplus://localhost:8463`
-* For Timeplus Proton, the username is `default` and password is an empty string. For Timeplus Enterprise, the username and password can be customized.
-
-Please note, by default Timeplus' query behavior is streaming SQL, looking for new data in the future and never ends. The `ResultSet.next()` can always return `true`.
-
-### Example {#example_native}
-
-```java
-package test_jdbc_driver;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-public class App {
-
-    public static void main(String[] args) throws Exception {
-        String url = "jdbc:timeplus://localhost:8463";
-        try (Connection connection = DriverManager.getConnection(url)) {
-            try (Statement stmt = connection.createStatement()) {
-                stmt.executeQuery(
-                    "create random stream if not exists simple_random(i int, s string) settings eps=3"
-                );
-                try (
-                    ResultSet rs = stmt.executeQuery(
-                        "SELECT * FROM simple_random"
-                    )
-                ) {
-                    while (rs.next()) {
-                        System.out.println(
-                            rs.getInt(1) + "\t" + rs.getString(2)
-                        );
-                    }
-                }
-            }
-        }
-    }
-}
-```
-
-### DBeaver {#dbeaver_native}
-
-You can also connect to Timeplus from GUI tools that supports JDBC, such as DBeaver.
-
-First add the Timeplus Native JDBC driver to DBeaver. Taking DBeaver 23.2.3 as an example, choose "Driver Manager" from "Database" menu. Click the "New" button, and use the following settings:
-* Driver Name: Timeplus
-* Driver Type: Generic
-* Class Name: com.timeplus.jdbc.TimeplusDriver
-* URL Tempalte: jdbc:timeplus://localhost:8463
-
-![New Driver](/img/jdbc_native_new_driver.png)
-
-In the "Libaries" tab, click "Add Artifact" and type `com.timeplus:timeplus-native-jdbc:2.0.1`. Click the "Find Class" button to load the class.
-![Load Driver](/img/jdbc_native_load_driver.png)
-
-Create a new database connection, choose "Timeplus" and accept the default settings. Click the "Test Connection.." to verify the connection is okay.
-
-![Create Connection](/img/jdbc_native_new_conn.png)
-
-Open a SQL script for this connection, type the sample SQL `select 1` Ctrl+Enter to run the query and get the result.
-
-But it's more common to use this native JDBC driver in your Java program to process the results from streaming SQL.
