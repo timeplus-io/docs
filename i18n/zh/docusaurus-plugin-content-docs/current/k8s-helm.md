@@ -15,7 +15,7 @@ This is the quickstart guide to install a 3 nodes Timeplus Enterprise cluster wi
 
 Although this guidance is focus on minikube, you should be able to install it on other k8s such as Amazon EKS or your own k8s cluster as well. You may need to update configurations accordingly to fit your k8s enviroment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
 
-## Get minikube ready
+### Get minikube ready
 
 Please follow https://minikube.sigs.k8s.io/docs/start/ to get the minikube ready. For Mac users, you may get it via:
 
@@ -84,7 +84,7 @@ kv:
 Then make changes to better fit your need.
 
 1. Update the storage class name and size accordingly. You can check available storage class on your cluster by running `kubectl get storageclass`.
-2. Update the username and password of the `additionalUsers`. You will be able to login to Timeplus web with those users.
+2. Update the username and password of the `additionalUsers`. You will be able to login to Timeplus web with those users. See [User management](#user-management) section for advanced user management.
 3. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
 4. Optionally refer to [Configuration Guide](#configuration-guide) and add other configurations.
 
@@ -121,6 +121,41 @@ There are different ways to expose the services of Timeplus stack. In this step,
 To uninstall the helm release, just run `helm -n $NS uninstall $RELEASE` to uninstall it.
 
 Please note, by default, all the PVCs will not be deleted. You can use `kubectl get pvc -n $NS` and `kubectl delete pvc <pvc_name> -n $NS` to manually delete them.
+
+## Operations
+
+### User management
+
+Currently Timeplus web doesn't support user management yet. You will need to deploy the `timeplus cli` pod to run `timeplus cli` to manage users. In order to do so, please add the following section to `values.yaml ` and upgrade the helm chart.
+
+```yaml
+timeplusCli:
+  enabled: true
+```
+
+Once `timeplus-cli` pod is up and running, you can run `kubectl exec -it timeplus-cli -- /bin/bash -n $NS` to run commands in the pod. Please refer to the following commands to do the user management. Make sure you update the command accordingly to your own deployment.
+
+```bash
+# Get the IP of timeplusd pods
+export TIMEPLUSD_POD_IPS=$(kubectl get pods -n $NS -l app.kubernetes.io/component=timeplusd -o jsonpath='{.items[*].status.podIP}' | tr ' ' '\n' | sed "s/\$/:${TIMEPLUSD_TCP_PORT}/" | paste -sd ',' -)
+
+# List users
+timeplus user list --address ${TIMEPLUSD_POD_IPS}  --admin-password mypassword
+
+# Create an user with username "hello" and password "word"
+timeplus user create --address ${TIMEPLUSD_POD_IPS} --admin-password mypassword --user hello --password world
+
+# Delete the user "hello"
+timeplus user delete --address ${TIMEPLUSD_POD_IPS}  --admin-password mypassword --user hello
+```
+
+### Troubleshooting
+
+If something goes wrong, you can run the following commands to get more information.
+
+1. `kubectl get pods -n $NS`: Make sure all pods are in `Running` status and the `READY` is `1/1`.
+2. `kubectl logs <pod> -n $NS`: Try to check the logs of each pod to make sure there is no obvious errors.
+3. Run `kubectl cluster-info dump -n $NS` to dump all the information and send it to us.
 
 ## Configuration Guide
 
