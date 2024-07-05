@@ -130,7 +130,7 @@ dependencies {
 
 Please note, by default Timeplus' query behavior is streaming SQL, looking for new data in the future and never ends. The `ResultSet.next()` can always return `true`.
 
-### Example {#example}
+### Example {#example_native}
 
 ```java
 package test_jdbc_driver;
