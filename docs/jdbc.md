@@ -1,8 +1,7 @@
 # JDBC Drivers
 Timeplus provides 2 types of JDBC drivers:
 * [com.timeplus:timeplus-native-jdbc](https://github.com/timeplus-io/timeplus-native-jdbc) is the JDBC driver over the native TCP port. It can run both streaming queries and batch queries, with high performance. It's recommended to use this driver with Timeplus Enterprise.
-* [com.timeplus:proton-jdbc](https://github.com/timeplus-io/proton-java-driver) is the JDBC driver over HTTP, ideal for running batch queries. It supports some more formats, but it's not as performant as the native jdbc driver.
-
+* [com.timeplus:proton-jdbc](https://github.com/timeplus-io/proton-java-driver) is the JDBC driver over HTTP, ideal for running batch queries. It supports more formats, but it's not as performant as the native jdbc driver.
 
 ## JDBC over TCP {#native}
 
