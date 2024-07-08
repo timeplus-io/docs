@@ -16,7 +16,6 @@ A new [JDBC driver](https://github.com/timeplus-io/timeplus-native-jdbc) for Tim
     * `curl https://install.timeplus.com/latest | sh` downloads and installs the latest build for you to try newest features and bug fixes (currently v2.3.5).
     * See our [changelog](enterprise-releases) for each stable/latest version.
   * New SQL Commands: SYSTEM PAUSE and SYSTEM UNPAUSE. If you want to pause a materialized view, run `SYSTEM PAUSE MATERIALIZED VIEW mv`. To unpause it, run `SYSTEM UNPAUSE MATERIALIZED VIEW mv`. We added this feature based on user feedback and to improve troubleshooting efficiency. [Learn more](sql-system-pause)
-  * The version number and build time for each component in Timeplus Enterprise is shown in the Help side panel (click the ? in the top header).
 
 ## Jun 24, 2024
 
