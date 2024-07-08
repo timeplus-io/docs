@@ -64,6 +64,7 @@ timeplusd:
       className: <Your storage class name>
       size: 10Gi
       selector: null
+  defaultAdminPassword: timeplusd@t+
   additionalUsers:
     - username: timeplus_user
       password: changeme
@@ -85,8 +86,9 @@ Then make changes to better fit your need.
 
 1. Update the storage class name and size accordingly. You can check available storage class on your cluster by running `kubectl get storageclass`.
 2. Update the username and password of the `additionalUsers`. You will be able to login to Timeplus web with those users. See [User management](#user-management) section for advanced user management.
-3. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
-4. Optionally refer to [Configuration Guide](#configuration-guide) and add other configurations.
+3. Update `defaultAdminPassword`. This is the password for the default admin user `proton`. Noticed that due to the limitation, you cannot change this password once Timeplus Enterprise is provisioned.
+4. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
+5. Optionally refer to [Configuration Guide](#configuration-guide) and add other configurations.
 
 ### Install Helm chart
 
