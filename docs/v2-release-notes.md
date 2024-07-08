@@ -4,11 +4,11 @@ This page summarizes changes for each major update in Timeplus Enterprise v2 and
 
 ## Jul 8, 2024
 
-A new [JDBC driver](https://github.com/timeplus-io/timeplus-native-jdbc) for Timeplus is now available, supporting both streaming and batch queries. Compared to the JDBC driver we released last year, this new driver talks to Timeplus via the TCP native  protocol, with better performance. [Learn more](jdbc)
+A new [JDBC driver](https://github.com/timeplus-io/timeplus-native-jdbc) for Timeplus is now available, supporting both streaming and batch queries. Compared to the JDBC driver we released last year, this new driver talks to Timeplus via the TCP native protocol, with better performance. [Learn more](jdbc)
 
 ### Timeplus Proton v1.5.12
   * Updated the health check endpoint. Previously, http://localhost:8123/ping was used. Now, use either http://localhost:8123/timeplusd/ping or http://localhost:8123/proton/ping.
-  * Bug fix: We've fixed an issue where `select .. from table(kafka_ext_stream)` may become stuck if there are unexpected data in the topic.
+  * Bug fix: When querying an external stream, we've fixed an issue where `select .. from table(kafka_ext_stream)` may become stuck if there are unexpected data in the topic.
 
 ### Timeplus Enterprise
   * Different channels for stable builds and latest builds: 
