@@ -160,7 +160,7 @@ pvc-ff33a8a4-ed91-4192-8a4b-30e4368b6670
 
 Then you use this PV name to get the EBS volume ID
 ```bash
-kubectl get pv pvc-ff33a8a4-ed91-4192-8a4b-30e4368b6670 -o=jsonpath='{.spec.csi.volumeHandle}'
+kubectl describe pv pvc-ff33a8a4-ed91-4192-8a4b-30e4368b6670 -o=jsonpath='{.spec.csi.volumeHandle}'
 ```
 You will get the volume ID looks like this
 ```
