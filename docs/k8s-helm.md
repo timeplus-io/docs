@@ -4,7 +4,7 @@ You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://h
 
 ## Prerequisites
 * Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
-* Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment
+* Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, minikube and k3s. Other Kubernetes distributions should work in the similar way.
 * Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
 * Network access to Docker Hub
 
@@ -142,6 +142,117 @@ timeplus user create --address ${TIMEPLUSD_POD_IPS} --admin-password mypassword 
 # Delete the user "hello"
 timeplus user delete --address ${TIMEPLUSD_POD_IPS}  --admin-password mypassword --user hello
 ```
+
+### Recover from EBS snapshots
+If you deploy Timeplus Enterprise on Amazon EKS, assuming that you are using EBS volume for persistent volumes, you can use EBS snapshots to backup the volumes. Then in the case of data lost (for example, the EBS volume is broken, or someone accidentially delete the data on the volume ), you can restore the persistent volumes from EBS snapshots with the following steps:
+
+
+#### Step 1 - Find snapshots of a workspace
+
+First, we need to find out the PV name
+```bash
+kubectl get pvc -n $NS proton-data -o=jsonpath='{.spec.volumeName}'
+```
+You will get the PV name looks like this
+```
+pvc-ff33a8a4-ed91-4192-8a4b-30e4368b6670
+```
+
+Then you use this PV name to get the EBS volume ID
+```bash
+kubectl get pv pvc-ff33a8a4-ed91-4192-8a4b-30e4368b6670 -o=jsonpath='{.spec.csi.volumeHandle}'
+```
+You will get the volume ID looks like this
+```
+vol-01b243a849624a2be
+```
+
+Now you can use this volume ID to list the available snapshot
+```bash
+aws ec2 describe-snapshots --output json --no-cli-pager --filter 'Name=volume-id,Values=vol-01b243a849624a2be' | jq '.Snapshots | .[] | select(.State == "completed") | .SnapshotId + " " + .StartTime'
+```
+You will see the snapshot IDs with the time when the snapshot was created, like
+```
+"snap-064a198d977abf0d9 2022-10-13T09:22:15.188000+00:00"
+"snap-037248e84dcb666aa 2022-10-11T09:29:57.456000+00:00"
+"snap-0a92fb9ab6c976356 2022-10-09T09:23:19.104000+00:00"
+"snap-005ebf9d0c1006a5b 2022-10-06T09:23:42.775000+00:00"
+"snap-0e39d233cece1b015 2022-10-04T09:15:59.079000+00:00"
+"snap-04eb5d2ba8b50c432 2022-10-02T09:18:39.147000+00:00"
+```
+
+You will pick one snapshot from the list for the recovery (usually the latest one).
+
+#### Step 2 - Create an EBS volume with the snapshot
+
+Assume the snapshot ID you pick is `snap-064a198d977abf0d9`, now you create an EBS volume by
+```bash
+aws ec2 create-volume --output yaml --availability-zon us-west-2a --snapshot-id snap-064a198d977abf0d9 --volume-type gp3
+```
+
+:::info
+In this example, we didn't use `--iops` nor `--throughput`. But in real case, you might need to use them. So before running this command, run (replace `vol-01b243a849624a2be` with the volume ID you found in step 1 above):
+```bash
+aws ec2 describe-volumes --filters 'Name=volume-id,Values=vol-01b243a849624a2be'
+```
+And you will find the `Iops` and `Throughput` from the output, make sure the new volume you are going to create matches these values.
+:::
+
+After running the `create-volume` command, you will see output looks like
+```
+AvailabilityZone: us-west-2a
+CreateTime: '2022-10-13T20:05:53+00:00'
+Encrypted: false
+Iops: 3000
+MultiAttachEnabled: false
+Size: 80
+SnapshotId: snap-064a198d977abf0d9
+State: creating
+Tags: []
+Throughput: 125
+VolumeId: vol-0d628e0096371cb67
+VolumeType: gp3
+```
+The `VolumeId` is what you need for next step, in this example, it is `vol-0d628e0096371cb67`.
+
+#### Step 3 - Create a new PV
+
+Firstly, use the PV name you found in step 1 and the volume ID of volume you created in step 2 to run the following command to generate the YAML file for the new PV you are going to create:
+```bash
+kubectl get pv pvc-17510f7b-8e66-472d-a1dc-4245b2f51e1a -oyaml | yq 'del(.metadata.creationTimestamp) | del(.metadata.resourceVersion) | del(.metadata.uid) | del(.status) | .spec.csi.volumeHandle = "vol-0d628e0096371cb67" | .metadata.name = "pvc-manual-vol-0d628e0096371cb67"' > new-pv.yaml
+```
+
+Then use the YAML file to create the PV
+```bash
+kubectl apply -f new-pv.yaml
+```
+
+#### Step 4 - Make the proton pod use the new PV
+
+First, delete the existing PV
+```bash
+kubectl delete pv pvc-17510f7b-8e66-472d-a1dc-4245b2f51e1a
+```
+Even though it will show the PV is deleted, but the command will be blocked because the PV is currently in-use. So leave this along, and open a new terminal to run the next command.
+
+Next, delete the existing pvc
+```bash
+kubectl delete pvc -n $NS proton-data
+```
+Similarly, this command will also be blocked because the PVC is in-use. Leave it alone, and open a new terminal to run the next command.
+
+Finally, delete the proton pod
+```bash
+kubectl delete pod -n $NS proton-0
+```
+Once the pod is deleted, the previous commands will also be unblocked thus the existing PVC and PV will be deleted.
+
+Once the new pod is up and running, it will use the PV you previously created manually. You can double check by
+```bash
+kubectl get pvc -n $NS proton-data -o=jsonpath='{.spec.volumeName}'
+```
+It should return the name you used in your new PV, in this example it is `pvc-manual-vol-0d628e0096371cb67`.
+
 
 ### Troubleshooting
 
