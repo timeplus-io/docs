@@ -16,7 +16,7 @@
     "crowdin": "crowdin",
     "spellcheck": "spellchecker --config spellchecker/config.yml && junit2html spellchecker/report.junit.xml spellchecker/report.html",
     "en-pdf-list": "npx docusaurus-prince-pdf -u https://docs.timeplus.com --list-only",
-    "en-pdf-gen": "npx docusaurus-prince-pdf --pdf-only",
+    "en-pdf-gen": "npx docusaurus-prince-pdf -u https://docs.timeplus.com --pdf-only",
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
