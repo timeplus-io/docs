@@ -15,7 +15,8 @@
     "rest-doc": "redocly bundle external@latest --output external.yaml && redocly build-docs ./external.yaml -o static/rest.html && rm ./external.yaml",
     "crowdin": "crowdin",
     "spellcheck": "spellchecker --config spellchecker/config.yml && junit2html spellchecker/report.junit.xml spellchecker/report.html",
-    "pdf": "npx docusaurus-prince-pdf -u https://docs.timeplus.com/zh",
+    "en-pdf-list": "npx docusaurus-prince-pdf -u https://docs.timeplus.com --list-only",
+    "en-pdf-gen": "npx docusaurus-prince-pdf --pdf-only",
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
@@ -47,7 +48,11 @@
     "node": ">=18.0"
   },
   "browserslist": {
-    "production": [">0.5%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
