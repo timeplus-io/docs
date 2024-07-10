@@ -16,6 +16,24 @@ Generates a random uint32 number.
 
 Generates a random uint64 number.
 
+### rand_uniform
+
+`rand_uniform(min, max)`
+
+Generates a random `float64` drawn uniformly from interval [min, max].
+
+### rand_normal
+
+`rand_normal(mean, variance)`
+
+Generates a random `float64` drawn uniformly from a [normal distribution])(https://en.wikipedia.org/wiki/Normal_distribution).
+
+### rand_log_normal
+
+`rand_log_normal(mean, variance)`
+
+Generates a random `float64` drawn uniformly from a [log-normal distribution])(https://en.wikipedia.org/wiki/Log-normal_distribution).
+
 ## Strings
 
 ### random_printable_ascii
@@ -46,7 +64,7 @@ This function takes at least 1 parameter, can be 2, can be 3.
 
 Syntax:
 
-`random_in_type(datatype [,max_value] [,generator_lambda])` 
+`random_in_type(datatype [,max_value] [,generator_lambda])`
 
 When there is only one parameter specific, it generates a random value in that type, such as
 
@@ -71,3 +89,37 @@ The 2nd parameter can be a lambda function to customize the generation logic, su
 You can also specify the maximum value and lambda together, such as
 
 * `random_in_type('date32', 3, x -> to_date('2023-9-1') + interval x day)` returns a random date since 2023-09-01, for the first 3 days.
+
+## Generate multiple rows
+You can combine random functions with `numbers` table function to generate data with multiple columns and multiple rows.
+
+### numbers
+
+`numbers(N)` – Returns a table with the single `number` column (uint64) that contains integers from 0 to N-1.
+`numbers(N, M)` - Returns a table with the single `number` column (uint64) that contains integers from N to (N + M - 1).
+
+Similar to the `system.numbers` table, it can be used for testing and generating successive values, `numbers(N, M)` more efficient than `system.numbers`.
+
+The following queries are equivalent:
+
+``` sql
+SELECT * FROM numbers(10);
+SELECT * FROM numbers(0, 10);
+SELECT * FROM system.numbers LIMIT 10;
+SELECT * FROM system.numbers WHERE number BETWEEN 0 AND 9;
+SELECT * FROM system.numbers WHERE number IN (0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+```
+
+And the following queries are equivalent:
+
+``` sql
+SELECT number * 2 FROM numbers(10);
+SELECT (number - 10) * 2 FROM numbers(10, 10);
+```
+
+Examples:
+
+``` sql
+-- Generate a sequence of dates from 2010-01-01 to 2010-12-31
+select to_date('2010-01-01') + number as d FROM numbers(365);
+```
