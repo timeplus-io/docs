@@ -18,7 +18,7 @@ refer to [https://kafka.apache.org/](https://kafka.apache.org/)
 | topic                     | yes  | Specifies the Kafka topic to connect             | |
 | offset                    | yes  | Specifies the Kafka offset configuration.    support `latest,earliest`            ||
 | data_type                 | yes| Specifies the data type to use for creating the stream.   support `json`,`text`,`avro`,`debezium-json`,`debezium-json-upsert`     | | |
-| group                     | no  | Specifies the Kafka consumer group. use the source uuid with prefix `timeplus-source-` as the default value if user does not specify it                     | `timeplus-source-<uuid>`| 
+| group                     | no  | Specifies the Kafka consumer group. use the source uuid with prefix `timeplus-source-` as the default value if user does not specify it                     | `timeplus-source-<uuid>`|
 | sasl                      | no  | Specifies the Simple Authentication and Security Layer (SASL) mechanism for authentication. support `none`,`plain`,`scram-sha-256`,`scram-sha-512` | `none` | |
 | username                  | no  | Specifies the username for authentication               ||
 | password                  | no  | Specifies the password for authentication               ||
@@ -105,14 +105,3 @@ refer to [https://livepeer.org/](https://livepeer.org/)
 | interval    | yes      | Specifies the pulling interval to livepeer api. for example `300s`            |
 | api_key    | yes      | Specifies the API key of livepeer            |
 | data_type    | yes      | Specifies the data type to use for creating the stream.   support `json`,`text`|
-
-
-
-### ably
-
-refer to [https://ably.com/](https://ably.com/)
-
-| Property  | Required    | Description                                               | Default |
-|-----------|--------|-----------------------------------------------------------|---------|
-| api_key    | yes | The `api_key` property is a string used to authenticate and authorize access to the Ably service. It represents the API key associated with the Ably account, which is required for making authenticated requests to Ably's services |
-| channel   | yes | The `channel` property specifies the name of the channel to which messages will be sent or from which messages will be received. Channels in Ably are used to group and categorize messages. This property allows you to select the target channel for your interactions |
