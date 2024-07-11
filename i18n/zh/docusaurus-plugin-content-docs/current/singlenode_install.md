@@ -60,7 +60,7 @@ tar xfv file.tar.gz
 
 也可以通过运行 `timeplus start-s service_name` 来启动/停止单个进程。 例如，当你只想启动 Timeplus Core (SQL Engine) 时，运行 `timeplus start-s timeplusd`。
 
-欲了解更多信息，请运行 `timeplus start-h` 了解详情。
+For more information, please check the [CLI Reference](cli-reference).
 
 ## 通过Docker安装{#docker}
 
