@@ -47,12 +47,12 @@ tar xfv file.tar.gz
 ./timeplus start
 ```
 
-### Timeplus Enteprprise Processes
+### Timeplus Enterprise Processes
 
 这将通过几个关键流程启动Timeplus Enterprise：
 
-- `timeplusd`：核心 SQL 引擎，在端口 8463（TCP，用于 “timeplus 客户端”）和 3218（HTTP，用于 JDBC/ODBC 驱动程序）提供服务
-- `timeplus_appserver`：应用程序服务器，在 HTTP 端口 8000 上提供服务
+- `timeplusd`: The core SQL engine, severing at port 8463 (TCP, for `timeplus client`) and 3218 (HTTP, for JDBC/ODBC drivers
+- `timeplus_appserver`: The application server, severing at HTTP port 8000
 - `timeplus_web`：网页用户界面，由 `timeplus_appserver` 管理
 - `timeplus_connector`：提供额外源和接收器的服务，由 `timeplus_appserver` 管理
 
@@ -79,7 +79,7 @@ docker run -p 8000:8000 timeplus/timeplus-enterprise
 
 ## Docker Compose 快速入门 {#compose}
 
-要试用我们的演示套件，你可以使用 Docker Compose 启动 Timeplus Enterprise，以及 Redpanda（与 Kafka API 兼容的消息总线）、ClickHouse 和数据生成器。
+To try our demo kit, you can use Docker Compose to start Timeplus Enterprise, together with Redpanda (A Kafka API compatible message bus), ClickHouse and data generator.
 
 对于 Linux 或 Mac 用户，请运行以下命令：
 
@@ -104,7 +104,7 @@ curl https://install.timeplus.com/sp-demo | sh
 
 ## Upgrade {#upgrade}
 
-To upgrade Timeplus Enterprise, run `timeplus stop` to stop all the servies. Then replace all the binaries to the higher version of Timepluse Enterprise release and then run `timeplus start`.
+To upgrade Timeplus Enterprise, run `timeplus stop` to stop all the services. Then replace all the binaries to the higher version of Timeplus Enterprise release and then run `timeplus start`.
 
 ## Uninstall {#uninstall}
 
