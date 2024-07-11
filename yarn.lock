@@ -10,20 +10,20 @@
     "@algolia/autocomplete-plugin-algolia-insights" "1.9.3"
     "@algolia/autocomplete-shared" "1.9.3"
 
-"@algolia/autocomplete-core@^1.17.2":
-  version "1.17.2"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.17.2.tgz#dbdd0a57597b05f38d20d4de381ba446cc609001"
-  integrity sha512-Fi5cPV5pzEmJgTJ/KTcccJoR/v94OkBwJFyLTsmAx9jbBg5rlgoumRXQM41cgwzY1s/eBLNduUMak2KnZYofcA==
+"@algolia/autocomplete-core@^1.17.3":
+  version "1.17.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.17.3.tgz#2e8c5a3158eaeda37265ccb728efa636733f2bb5"
+  integrity sha512-gg7BoZt0ggsSqYnw4yIekRGd4ONOxpZzRI1Hm5aTcLn8ZQlAJPU+GyykH0xgqcBQubPjn2BxQY3CbjfijS8UyA==
   dependencies:
-    "@algolia/autocomplete-plugin-algolia-insights" "1.17.2"
-    "@algolia/autocomplete-shared" "1.17.2"
+    "@algolia/autocomplete-plugin-algolia-insights" "1.17.3"
+    "@algolia/autocomplete-shared" "1.17.3"
 
-"@algolia/autocomplete-plugin-algolia-insights@1.17.2":
-  version "1.17.2"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.17.2.tgz#af431f36d559ffdeb4bbcb6132d21ba63501bdc1"
-  integrity sha512-bgVuThYaY9NSQMHOE/GMvlEzQxFzqDH3Lbls7fWuei8iIfcBWGtRUH01m/w5LY1mAw1wv8SyZ9xwuvfdXt8XkA==
+"@algolia/autocomplete-plugin-algolia-insights@1.17.3":
+  version "1.17.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.17.3.tgz#62822071d18275876aaa6fd8af21df2f1da95c1a"
+  integrity sha512-kPeWKgRvowFn1UjBwNW4nNXXGh9UM+u3phuTT/X6nDuoa3xZaTYr20JKCgUN3d/byqNRqsSUUSOZtBUuLOVXhA==
   dependencies:
-    "@algolia/autocomplete-shared" "1.17.2"
+    "@algolia/autocomplete-shared" "1.17.3"
 
 "@algolia/autocomplete-plugin-algolia-insights@1.9.3":
   version "1.9.3"
@@ -39,10 +39,10 @@
   dependencies:
     "@algolia/autocomplete-shared" "1.9.3"
 
-"@algolia/autocomplete-shared@1.17.2":
-  version "1.17.2"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.17.2.tgz#62d91594eb6077a47a0709fd9410150d1eb3394f"
-  integrity sha512-L9gmDgv2J6cXXefV4tg/xlfomd+jjbzKmoc6kcvtS2USkxowoLNvqkLRNQP8bHvX+RXXGNLJBwJj+Ul7JIpv8A==
+"@algolia/autocomplete-shared@1.17.3":
+  version "1.17.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.17.3.tgz#24c91aacc795eca7944c3a166e1eb847be7cc51b"
+  integrity sha512-YeX/5s/tUOa9wDTOOcKnMBHVtmmGv7ng+DyxE9UD5wgO6VY+i3Pq9yiJdEUBSSa+X5jV0vxtzS+/VIaqdLxytA==
 
 "@algolia/autocomplete-shared@1.9.3":
   version "1.9.3"
@@ -10016,10 +10016,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@~5.5.2:
-  version "5.5.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.5.2.tgz#c26f023cb0054e657ce04f72583ea2d85f8d0507"
-  integrity sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==
+typescript@~5.5.3:
+  version "5.5.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.5.3.tgz#e1b0a3c394190838a0b168e771b0ad56a0af0faa"
+  integrity sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==
 
 unbzip2-stream@1.4.3:
   version "1.4.3"

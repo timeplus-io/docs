@@ -1,4 +1,4 @@
-# \_tp_time (Event time)
+# _tp_time (Event time)
 
 ## All data with an event time
 
