@@ -37,7 +37,7 @@ cluster:
 
 ### Deploy Timeplus Enterprise with Helm
 
-Follow the [guide](k8s-helm) to deploy Timeplus Enteprise on Kubernetes with Helm.
+Follow the [guide](k8s-helm) to deploy Timeplus Enterprise on Kubernetes with Helm.
 
 ## 许可管理
 
