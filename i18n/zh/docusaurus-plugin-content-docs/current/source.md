@@ -105,14 +105,3 @@ Timeplus与各种系统相结合，作为数据来源，例如Apache Kafka。
 | 间隔        | yes | 指定livepeer api的拉取间隔。 例如：`300s`  |     |
 | api_key   | yes | 指定livepeer的API 密钥               |     |
 | data_type | yes | 指定用于创建流的数据类型。   支持`json`，`text` |     |
-
-
-
-### ably
-
-参考[https://ably.com/](https://ably.com/)
-
-| 属性      | 必填项 | 描述                                                                                    | 默认值 |
-| ------- | --- | ------------------------------------------------------------------------------------- | --- |
-| api_key | yes | `api_key`的属性是一个字符串，用于对Ably服务进行身份验证和授权。 它代表与Ably账户关联的API密钥，是向Ably的服务发出经过身份验证的请求所需要的    |     |
-| channel | yes | `channel`的属性制定了向其发送消息或从中接收消息的channel的名称。 Ably中的channels用于对消息进行分组和分类。 这个属性允许你为互动选择目标渠道 |     |
