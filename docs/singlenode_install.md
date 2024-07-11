@@ -41,10 +41,10 @@ Then change directory to the `bin` folder and run
 ```shell
 ./timeplus start
 ```
-### Timeplus Enteprprise Processes
+### Timeplus Enterprise Processes
 This will start Timeplus Enterprise with a few key processes:
-* `timeplusd`: The core SQL engine, servering at port 8463 (TCP, for `timeplus client`) and 3218 (HTTP, for JDBC/ODBC drivers
-* `timeplus_appserver`: The application server, servering at HTTP port 8000
+* `timeplusd`: The core SQL engine, severing at port 8463 (TCP, for `timeplus client`) and 3218 (HTTP, for JDBC/ODBC drivers
+* `timeplus_appserver`: The application server, severing at HTTP port 8000
 * `timeplus_web`: The web UI, managed by `timeplus_appserver`
 * `timeplus_connnector`: The service to provide extra sources and sinks, managed by `timeplus_appserver`
 
@@ -68,7 +68,7 @@ A few optional parameters:
 * Add `-v "$(pwd)"/data:/timeplus/data -v "$(pwd)"/logs:/timeplus/logs` if you want to mount the data and log files to your host
 
 ## Quickstart with Docker Compose {#compose}
-To try our demo kit, you can use Docker Compose to start Timeplus Enterprise, together with Redpanda (A Kafka API compatiable message bus), ClickHouse and data generator.
+To try our demo kit, you can use Docker Compose to start Timeplus Enterprise, together with Redpanda (A Kafka API compatible message bus), ClickHouse and data generator.
 
 For Linux or Mac users, please run the command:
 ```bash
@@ -89,7 +89,7 @@ When you start Timeplus Enterprise and access the web console for the first time
 Please check [the guide](server_config#license) to update licenses.
 
 ## Upgrade {#upgrade}
-To upgrade Timeplus Enterprise, run `timeplus stop` to stop all the servies. Then replace all the binaries to the higher version of Timepluse Enterprise release and then run `timeplus start`.
+To upgrade Timeplus Enterprise, run `timeplus stop` to stop all the services. Then replace all the binaries to the higher version of Timeplus Enterprise release and then run `timeplus start`.
 
 ## Uninstall {#uninstall}
 Timeplus Enterprise has no external dependencies. Just run `timeplus stop` then delete the timeplus folder.

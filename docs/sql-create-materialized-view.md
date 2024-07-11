@@ -47,7 +47,7 @@ INTO <target_stream> AS <SELECT ...>
 
 ## Settings
 
-The following settings are suppported when you creae a materialized view, with syntax:
+The following settings are supported when you create a materialized view, with syntax:
 
 ```sql
 CREATE MATERIALIZED VIEW <view_name>

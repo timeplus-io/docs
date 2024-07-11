@@ -34,7 +34,7 @@ You can also deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](http
 
 ### Deploy Timeplus Enterprise with Helm
 
-Follow the [guide](k8s-helm) to deploy Timeplus Enteprise on Kubernetes with Helm.
+Follow the [guide](k8s-helm) to deploy Timeplus Enterprise on Kubernetes with Helm.
 
 ## License Management
 To activate or add new a license, please follow [our guide](server_config#license).

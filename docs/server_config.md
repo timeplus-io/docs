@@ -3,7 +3,7 @@
 When you run Timeplus Enterprise in a self-hosted environment, the default settings are designed to accommodate common use cases with ease and optimal performance. The server can be configured either by modifying the configuration file or via the web console.
 
 ## User Management {#users}
-By default, a system account will be created automatically to perform system level operations, such as managing user accounts and reading/writing metrics. The username is `proton`, with the password defaulting to `timeplus@t+`. This password can be overriden by setting `--password` flag when you run `timeplus start`.
+By default, a system account will be created automatically to perform system level operations, such as managing user accounts and reading/writing metrics. The username is `proton`, with the password defaulting to `timeplus@t+`. This password can be overridden by setting `--password` flag when you run `timeplus start`.
 
 When you launch the web console of Timeplus Enterprise for the first time, you will be prompted to create a new account with password.
 
@@ -43,6 +43,6 @@ To run Timeplus Enterprise as a service, you need a OS that supports `systemd`.
 To install it as a systemd service, run `sudo ./bin/timeplus service enable -u user -g user_group`.
 
 Note:
-1. Root privilage is required to enable the service
+1. Root privilege is required to enable the service
 2. Use the same user/user_group for uncompressing the Timeplus installation package
 3. This command will add a service into `/etc/systemd/system/timeplus.service`. When it is successfully installed, it will enable and start the service. Later on you can use `systemctl` command to manage the service.
