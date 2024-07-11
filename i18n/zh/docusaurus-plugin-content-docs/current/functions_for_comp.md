@@ -182,7 +182,7 @@
 ### array_fold
 `array_fold(lambda_function, arr1, arr2, ..., accumulator)` applies a lambda function to one or more equally-sized arrays and collects the result in an accumulator.
 
-For example, `array_fold(acc, x -> acc + (x * 2), [1, 2, 3, 4], to_int64(3))` will initialize the accumulator `acc` as value 3, then for each element in the `[1, 2, 3, 4]` array, assign it to `x` and accumlate them together with `x*2`. So the end result is 3+1*2+2*2+3*2+4*2=23.
+For example, `array_fold(acc, x -> acc + (x * 2), [1, 2, 3, 4], to_int64(3))` will initialize the accumulator `acc` as value 3, then for each element in the `[1, 2, 3, 4]` array, assign it to `x` and accumulate them together with `x*2`. So the end result is 3+1*2+2*2+3*2+4*2=23.
 
 Make sure the return type of lambda function must be the same as the accumulator type.
 
