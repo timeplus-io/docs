@@ -1,0 +1,23 @@
+# CLI Reference
+
+For [bare metal](singlenode_install) installation, the `timeplus` command line interface provides many handy features to help you manage the self-hosted deployments.
+
+## Commands
+
+The following table displays the available top-level `timeplus` commands.
+
+| Command                      | Description       |
+| ----------------------------- | ---------- |
+| [timeplus start](cli-start)             | Start Timeplus Enterprise services    |
+| [timeplus stop](cli-stop)             | Stop Timeplus Enterprise services    |
+| [timeplus restart](cli-restart)             | Restart Timeplus Enterprise services    |
+| [timeplus service](cli-service)             | Add Timeplus Enterprise services to systemd control  |
+| [timeplus config](cli-config)             |Manage Timeplus Enterprise configuration|
+| [timeplus license](cli-license)             |Manage Timeplus Enterprise licenses|
+| [timeplus user](cli-user)             |Manage Timeplus Enterprise users|
+| [timeplus diag](cli-diag)             |Run diagnostics of Timeplus Enterprise services|
+| [timeplus backup](cli-backup)             |Create a Timeplus enterprise backup|
+| [timeplus restore](cli-backup)             |Restore a Timeplus enterprise backup|
+| [timeplus sync](cli-sync)             |Synchronizes resources to Timeplus Enterprise|
+| [timeplus version](cli-version)             |Show Timeplus Enterprise version|
+| [timeplus help](cli-help)             |Help about any command|

@@ -52,7 +52,7 @@ Access the Timeplus Enterprise web console via http://localhost:8000. On your fi
 
 It is also possible to only start/stop single process by running `timeplus start -s service_name`. For example, when you only want to startup Timeplus Core (SQL Engine), run `timeplus start -s timeplusd`.
 
-For more information, please run  `timeplus start -h` for details.
+For more information, please check the [CLI Reference](cli-reference).
 
 ## Docker Install{#docker}
 
