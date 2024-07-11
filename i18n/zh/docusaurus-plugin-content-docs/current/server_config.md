@@ -4,7 +4,7 @@
 
 ## 用户管理 {#users}
 
-默认情况下，系统将自动创建系统帐户以执行系统级操作，例如管理用户帐户和读取/写入指标。 用户名是 `proton`，密码默认为 `timeplus @t +`。 当你运行 `timeplus start` 时，通过设置 `--password` 标志可以覆盖这个密码。
+默认情况下，系统将自动创建系统帐户以执行系统级操作，例如管理用户帐户和读取/写入指标。 用户名是 `proton`，密码默认为 `timeplus @t +`。 This password can be overridden by setting `--password` flag when you run `timeplus start`.
 
 当你首次启动Timeplus Enterprise的网络控制台时，系统将提示你使用密码创建一个新账户。
 
@@ -47,6 +47,6 @@ key: ../cert/ca.key
 
 备注：
 
-1. 需要根权限才能启用该服务
+1. Root privilege is required to enable the service
 2. 使用相同的用户/用户组解压缩 Timeplus 安装包
 3. 这个命令会在 `/etc/systemd/system/timeplus.service`中添加一个服务。 成功安装后，它将启用并启动该服务。 稍后你可以使用 systemctl 命令来管理该服务。
