@@ -28,8 +28,8 @@ For more details about the server configuration, please contact [support](mailto
 You can also deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://helm.sh/).
 
 ### Prerequisites
-* Ensure you have Helm 3.7 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
-* Ensure you have [Kubernetes](https://kubernetes.io/) 1.24 or higher installed in your environment
+* Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
+* Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment
 * Ensure you have allocated enough resources for the deployment
 
 ### Deploy Timeplus Enterprise with Helm
