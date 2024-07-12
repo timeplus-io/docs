@@ -27,14 +27,15 @@ Simply run the following commands to add the repo and list charts from the repo.
 
 ```bash
  helm repo add timeplus https://install.timeplus.com/charts
+ helm repo update
  helm search repo timeplus
 ```
 
 A sample output would be:
 
 ```bash
-NAME                            CHART VERSION   APP VERSION     DESCRIPTION
-timeplus/timeplus-enterprise	v2.3.2       	2.2.5      	A Helm chart for deploying a Timeplus enterpris...
+NAME                        	CHART VERSION	APP VERSION	DESCRIPTION
+timeplus/timeplus-enterprise	v2.4.2       	2.3.7      	A Helm chart for deploying a cluster of Timeplus...
 ```
 
 ### Create Namespace
@@ -51,6 +52,10 @@ kubectl create ns $NS
 Copy and paste the following sample yaml file into `values.yaml`.
 
 ```yaml
+provision:
+  users:
+    - username: timeplus_user
+      password: changeme
 timeplusd:
   storage:
     stream:
@@ -62,9 +67,6 @@ timeplusd:
       size: 10Gi
       selector: null
   defaultAdminPassword: timeplusd@t+
-  additionalUsers:
-    - username: timeplus_user
-      password: changeme
   resources:
     limits:
       cpu: "32"
@@ -80,8 +82,8 @@ kv:
 ```
 Then make changes to better fit your need.
 1. Update the storage class name and size accordingly. You can check available storage class on your cluster by running `kubectl get storageclass`.
-2. Update the username and password of the `additionalUsers`. You will be able to login to Timeplus web with those users. See [User management](#user-management) section for advanced user management.
-3. Update `defaultAdminPassword`. This is the password for the default admin user `proton`. Noticed that due to the limitation, you cannot change this password once Timeplus Enterprise is provisioned.
+2. Update the username and password of the `provision.users`. You will be able to login to Timeplus web with those users. See [User management](#user-management) section for advanced user management.
+3. Update `defaultAdminPassword`. This is the password for the default admin user `proton`.
 4. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
 5. Optionally refer to [Configuration Guide](#configuration-guide) and add other configurations.
 
@@ -93,6 +95,8 @@ In this step, we install the helm chart using release name `timeplus`.
 export RELEASE=timeplus
 helm -n $NS install -f values.yaml $RELEASE timeplus/timeplus-enterprise
 ```
+
+You can run `kubectl -n $NS get jobs` to check whether `timeplus-provision` is completed or not. Once this job is completed, you can start use Timeplus Enterprise.
 
 It will take 1 or 2 minutes to start the whole stack, run following `kubectl get pods -n $NS` to check the stack status, for example:
 
@@ -118,6 +122,8 @@ There are different ways to expose the services of Timeplus stack. In this step,
 To uninstall the helm release, just run `helm -n $NS uninstall $RELEASE` to uninstall it.
 
 Please note, by default, all the PVCs will not be deleted. You can use `kubectl get pvc -n $NS` and `kubectl delete pvc <pvc_name> -n $NS` to manually delete them.
+
+You can run `kubectl delete namespace $NS` to delete all PVCs and the namespace.
 
 ## Operations
 
