@@ -26,15 +26,15 @@ Built on 06-20-2024.
 
 ## Latest Releases {#latest}
 
-### 2.4.2 (Unreleased)
+### 2.4.3 (Unreleased)
 
-Built on 07-11-2024.
+Built on 07-13-2024.
 
 - timeplusd 2.2.8 -> 2.3.7
 - timeplus_appserver 1.4.34 -> 1.4.36
 - timeplus_web 1.4.18 -> 1.4.21
 - timeplus_connnector 1.5.3
-- timeplus cli 1.0.9 -> 1.0.12
+- timeplus cli 1.0.9 -> 1.0.13
 
 Changelog:
 
@@ -51,6 +51,7 @@ Changelog:
 - cli
   - feat: new command for backup/restore data and configuration
   - feat: new command for synchronizing resources to timeplusd
+  - feat(container): removed kubectl, added curl
 
 ### 2.3.5
 
