@@ -137,7 +137,7 @@ SETTINGS
     logstore_retention_ms=1800000; -- half an hour
 ```
 
-### Secondary Index
+### Secondary Index {#index}
 No matter you choose a single column or multiple columns as the primary key(s), Timeplus will build an index for those columns. Queries with filtering on those columns will take advantage of the index to boost the performance, and minimize the data scanning.
 
 For other columns, if they are frequently filtered, you can also define secondary indexes for them.
@@ -159,7 +159,7 @@ PRIMARY KEY (device_id, timestamp, batch_id)
 ```
 When you query data with filers on those columns, Timeplus will automatically leverage the indexed data to improve query performance.
 
-### Column Family
+### Column Family {#column_family}
 For One-Big-Table(OBT) or extra wide table with dozens or even hundreds of columns, it's not recommended to run `SELECT * FROM ..`, unless you need to export data.
 
 More commonly, you need to query a subset of the columns in different use cases. For those columns which are commonly queried together, you can define column families to group them, so that data for those columns will be saved together in the same file. Properly defining column family can optimize the disk i/o and avoid reading unnecessary data files.
@@ -186,7 +186,7 @@ CREATE MUTABLE STREAM device_metrics
 PRIMARY KEY (device_id, timestamp, batch_id)
 ```
 
-### Multi-shard
+### Multi-shard {#shards}
 Another optimization is to create multiple shards to partition the data when it scales. For example, to create 3 shards for `device_metrics`:
 ```sql
 CREATE MUTABLE STREAM device_metrics
@@ -204,4 +204,14 @@ CREATE MUTABLE STREAM device_metrics
 )
 PRIMARY KEY (device_id, timestamp, batch_id)
 SETTINGS shards=3
+```
+
+## Performance Tuning {#tuning}
+If you are facing performance challenges with massive data in mutable streams, please consider adding [secondary indexes](#index), [column families](#column_family) and use [multiple shards](#shards).
+
+### key_space_full_scan_threads
+Additionally, you can configure the number of threads for full-scan of the key space at the query time using the `key_space_full_scan_threads` setting, e.g.:
+```sql
+SELECT * FROM table(a_mutable_stream) WHERE num=166763.6691744028
+SETTINGS key_space_full_scan_threads=8;
 ```
