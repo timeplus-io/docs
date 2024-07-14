@@ -20,7 +20,7 @@
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "^1.17.3",
+    "@algolia/autocomplete-core": "^1.17.4",
     "@crowdin/cli": "^4.0.0",
     "@docusaurus/core": "^3.4.0",
     "@docusaurus/plugin-google-gtag": "^3.4.0",
