@@ -102,7 +102,7 @@
 
 请注意，在当前的实现中，所有行都将从ClickHouse提取到Proton，其中包含选定的列。 然后 Proton 在本地应用 SQL 函数和 LIMIT n。 不建议对大型的 ClickHouse 表格运行 `SELECT *`。
 
-另请注意，在查询外部表时使用Proton函数名称，例如 [to_int](functions_for_type #to_int)，而不是 ClickHouse 的命名规范，例如 [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256)。 在当前的实现中，SQL 函数应用于 Proton 引擎中。 我们计划在未来的版本中支持向ClickHouse下推一些功能。
+Also note, use the Proton function names when you query the external table, such as [to_int](functions_for_type#to_int), instead of ClickHouse's naming convention, e.g. [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256). 在当前的实现中，SQL 函数应用于 Proton 引擎中。 我们计划在未来的版本中支持向ClickHouse下推一些功能。
 
 :::
 
@@ -116,7 +116,7 @@
 
 你可以运行常规的 “INSERT INTO” 将数据添加到 ClickHouse 表中。 但是，使用物化视图将流式SQL结果发送到ClickHouse更为常见。
 
-假设你创建了一个外部表 `ch_table`。 你可以创建一个物化视图来读取 Kafka 数据（通过外部流），转换/聚合数据并发送到外部表：
+假设你创建了一个外部表 `ch_table`。 You can create a materialized view to read Kafka data(via an external stream) and transform/aggregate the data and send to the external table:
 
 ```sql
 — 通过物化视图设置 ETL 管道
