@@ -58,4 +58,4 @@ SETTINGS <settings>
 
 ### pause_on_create
 
-By default, once the materialized view is created, the streaming query will start automatically. If you don't want to start the query immedicately, you can set `pause_on_create=true`. The default value is `false`.
+By default, once the materialized view is created, the streaming query will start automatically. If you don't want to start the query immediately, you can set `pause_on_create=true`. The default value is `false`.
