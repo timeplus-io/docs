@@ -13,7 +13,7 @@ Timeplus Enterprise is available as a fully-managed cloud service with zero ops 
 
 The following section contains step-by-step instructions on how to easily get started with a self-hosted Timeplus Enterprise.
 
-## Step 1: install Timeplus Enterpise via a single command {#step1}
+## Step 1: install Timeplus Enterprise via a single command {#step1}
 
 如果你的服务器或电脑运行的是 Linux 或 macOS，你可以运行以下命令来下载软件包并在没有任何其他依赖关系的情况下启动 Timeplus Enterprise。 For Windows users, please follow [our guide](singlenode_install#docker) for running Timeplus Enterprise with Docker.
 
@@ -73,7 +73,7 @@ After creating the account, login with that username and password.
 
    ![IoT sample data, configuration step](/img/sample-source-configuration-5.png)
 
-### 探索流媒体数据
+### 探索流数据
 
 1. 要查看新创建的流中的数据，您可以：
 
