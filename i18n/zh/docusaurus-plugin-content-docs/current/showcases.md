@@ -118,7 +118,7 @@ Build real-time monitoring systems for container vulnerabilities with Timeplus. 
 
 2023 年 5 月，Livepeer 发布了这些 [参与度指标](https://docs.livepeer.org/guides/developing/viewer-engagement) 的版本，提供了有关您平台上的观众行为和播放质量的详细信息。 该API包括观看次数和观看时间等参与度指标，以及各种维度的性能指标，例如错误率、第一帧时间、再缓冲比率和开机前退出。
 
-在 [这篇博客](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engagement-metrics-with-timeplus)中，我们向你展示了如何使用Timeplus通过几个命令为Livepeer的参与度指标创建分析解决方案。
+In [this blog](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engagement-metrics-with-timeplus), we showed you how Timeplus can be used to create analytic solutions for Livepeer engagement metrics with a few commands.
 
 ![Timeplus 视频参与度分析的屏幕截图](https://static.wixstatic.com/media/2d747e_5c4f8e19e77e49f0aba59552cf6b6c3a~mv2.png/v1/fill/w_740,h_357,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2d747e_5c4f8e19e77e49f0aba59552cf6b6c3a~mv2.png)
 
