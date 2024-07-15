@@ -26,11 +26,11 @@ Built on 06-20-2024.
 
 ## Latest Releases {#latest}
 
-### 2.4.3 (Unreleased)
+### 2.4.4 (Unreleased)
 
-Built on 07-13-2024.
+Built on 07-15-2024.
 
-- timeplusd 2.2.8 -> 2.3.7
+- timeplusd 2.2.8 -> 2.3.8
 - timeplus_appserver 1.4.34 -> 1.4.36
 - timeplus_web 1.4.18 -> 1.4.21
 - timeplus_connnector 1.5.3
@@ -41,6 +41,9 @@ Changelog:
 - timeplusd
   - feat: [new mutable stream](mutable-stream) for fast UPSERT and high performance point or range query.
   - improve: better asof join performance
+  - feat: integrate system stream metrics with local stream
+  - feat: [parallel key space scan](mutable-stream#key_space_full_scan_threads)
+  - feat: force_full_scan for mutable stream
 - timeplus_appserver
   - feat: added mutable stream support
   - feat: more metrics for mv stats
