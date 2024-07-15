@@ -36,7 +36,7 @@ Timeplus restarted. Open http://localhost:8000 in your browser to access Timeplu
 
 ## timeplus restart -s [service]
 
-You can also use the `-s` or `--service` flag to retart a specific service, e.g.
+You can also use the `-s` or `--service` flag to restart a specific service, e.g.
 
 ```
 timeplus restart -s timeplusd
