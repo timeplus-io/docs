@@ -118,7 +118,7 @@ Video engagement metrics are important to video creators, which serve as valuabl
 
 In May 2023, Livepeer released their version of these [engagement metrics](https://docs.livepeer.org/guides/developing/viewer-engagement) offering detailed information on viewer behavior and playback quality on your platform. The API includes engagement metrics such as view counts and watch time, as well as performance metrics such as error rate, time to first frame, rebuffer ratio, and exit-before-starts across a variety of dimensions.
 
-In [this blog](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engagement-metrics-with-timeplus), we showed you how Timeplus can be used to create analytic solutions for Livepeer’s engagement metrics with a few commands.
+In [this blog](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engagement-metrics-with-timeplus), we showed you how Timeplus can be used to create analytic solutions for Livepeer engagement metrics with a few commands.
 
 ![screenshot of video engagement analysis with Timeplus](https://static.wixstatic.com/media/2d747e_5c4f8e19e77e49f0aba59552cf6b6c3a~mv2.png/v1/fill/w_740,h_357,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/2d747e_5c4f8e19e77e49f0aba59552cf6b6c3a~mv2.png)
 

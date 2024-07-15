@@ -247,9 +247,9 @@ Then you can add some events to both streams.
 | Add Data                                             | SQL Result                                                   |
 | ---------------------------------------------------- | ------------------------------------------------------------ |
 | Add one event to `append` (id=100, name=apple)       | (no result)                                                  |
-| Add one event to `versioned_kv` (id=100, amount=100) | 1. id=100, name=apple, amount=100, _tp_delta=1               |
-| Add one event to `versioned_kv` (id=100, amount=200) | (2 more rows)<br />2. id=100, name=apple, amount=100,_tp_delta =-1<br />3. id=100, name=apple, amount=200,_tp_delta =1 |
-| Add one event to `append` (id=100, name=appl)        | (2 more rows)<br />4. id=100, name =apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1 |
+| Add one event to `versioned_kv` (id=100, amount=100) | 1. id=100, name=apple, amount=100, _tp_delta = 1               |
+| Add one event to `versioned_kv` (id=100, amount=200) | (2 more rows)<br />2. id=100, name=apple, amount=100,_tp_delta =-1<br />3. id=100, name=apple, amount=200,_tp_delta = 1 |
+| Add one event to `append` (id=100, name =appl)        | (2 more rows)<br />4. id=100, name =apple, amount=200, _tp_delta =-1<br />5. id=100, name =appl, amount=200,_tp_delta = 1 |
 
 If you run an aggregation function, say `count(*)` with such INNER LATEST JOIN, the result will always be 1, no matter how many times the value with the same key is changed.
 

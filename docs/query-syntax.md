@@ -266,7 +266,7 @@ FROM (
 ) GROUP BY device;
 ```
 
-Vanilla subquery can be arbitrarily nested until Timeplus's system limit is hit. The outer parent query can be any normal vanilla query or windows aggregation or global aggregation.
+Vanilla subquery can be arbitrarily nested until Timeplus' system limit is hit. The outer parent query can be any normal vanilla query or windows aggregation or global aggregation.
 
 Users can also write the query by using Common Table Expression (CTE) style.
 

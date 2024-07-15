@@ -24,7 +24,7 @@ CREATE EXTERNAL STREAM my_stream (
 
 Please note:
 
-1. `kafka_schema_registry_credentials` is optional. Skip this if the schema registry server doesn't require authentication. 
+1. `kafka_schema_registry_credentials` is optional. Skip this if the schema registry server doesn't require authentication.
 2. Make sure to add `http://` or `https://` in the `kafka_schema_registry_url`. In Proton 1.5.3 or above, self-signed HTTPS certification is supported.
    1. One solution is to set `kafka_schema_registry_skip_cert_check` to `true`. This will completely skip the TLS certification verification. In this case, you don't need to specify the certification files.
    2. A more secure solution is to keep the default value of `kafka_schema_registry_skip_cert_check`, which is false. Omit this setting and specify the following 3 settings:
@@ -33,15 +33,14 @@ Please note:
       3. `kafka_schema_registry_ca_location`: the path to the file or directory containing the CA/root certificates.
 
 3. Make sure you define the columns matching the fields in the Avro schema. You don't have to define all top level fields in Avro schema as columns in the stream. For example, if there are 4 fields in Avro schema, you can choose only 2 of them as columns in the external stream. But make sure the data types match.
-4. `data_format` can be `Avro`, or `ProtobufSingle`. 
+4. `data_format` can be `Avro`, or `ProtobufSingle`.
 5. Schema reference is not supported yet.
 
 :::info
 
-For examples to read Avro message in various Kafka API compatitable messsage platforms, please check [this doc](tutorial-sql-read-avro).
+For examples to read Avro message in various Kafka API compatitable message platforms, please check [this doc](tutorial-sql-read-avro).
 
 :::
 ## Write Messages{#write}
 
 Writing Avro/Protobuf data with schema registry is not supported yet (coming soon).
-

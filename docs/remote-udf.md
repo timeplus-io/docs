@@ -1,10 +1,10 @@
 # Remote UDF
 
-Register a webhook as the UDF. You may use any programming language/framework to develop/deploy the webhook. A good starting point is using AWS Lambda. 
+Register a webhook as the UDF. You may use any programming language/framework to develop/deploy the webhook. A good starting point is using AWS Lambda.
 
 ## IP Lookup Example
 
-Let’s start with an example. It’s a common use case for IT admin or business analysts to turn a client IP address into a city or country, then get the total number of visitors per city or country. 
+Let’s start with an example. It’s a common use case for IT admin or business analysts to turn a client IP address into a city or country, then get the total number of visitors per city or country.
 
 This might be roughly doable with pure SQL, with a lot of regular expressions or case/when branches. Even so, the city/country won’t be very accurate, since there could be some edge cases that won’t be well-covered in such a static analysis.
 
@@ -17,7 +17,7 @@ select ip_lookup(ip) as data, data:country, data:timezone from test_udf
 
 ## Build the UDF with AWS Lambda
 
-In this example, the `ip_lookup` function is built as a “Remote UDF”, actually powered by a AWS Lambda function. I chose Node.js but you can also build it with other supported languages such as Python, Ruby, Go, Java, etc. 
+In this example, the `ip_lookup` function is built as a “Remote UDF”, actually powered by a AWS Lambda function. I chose Node.js but you can also build it with other supported languages such as Python, Ruby, Go, Java, etc.
 
 Here is the full source code for the Lambda function:
 
@@ -30,7 +30,7 @@ exports.handler = async (event) => {
     }
     let body = JSON.parse(event.body)
     let ip=body.ip||body.arg0 //ip is an array of string
-    
+
     const promise = new Promise(function(resolve, reject) {
         const dataString = JSON.stringify(ip);
         const options = {
@@ -111,7 +111,7 @@ The following data types in Timeplus are supported as Remote UDF arguments:
 
 | Timeplus Data Types     | Payload in UDF HTTP Request                                  |
 | ----------------------- | ------------------------------------------------------------ |
-| array(TYPE)             | \{"argument_name":[array1,arrary2]}                           |
+| array(TYPE)             | \{"argument_name":[array1,array2]}                           |
 | bool                    | \{"argument_name":[true,false]}                               |
 | date                    | \{"argument_name":["2023-07-27","2023-07-28"]}                |
 | datetime                | \{"argument_name":["2023-07-27 04:00:00","2023-07-28  04:00:00"]} |
@@ -135,7 +135,7 @@ Timeplus will take each element of the result array and convert back to Timeplus
 
 | UDF HTTP Response                    | Timeplus Data Types        |
 | ------------------------------------ | -------------------------- |
-| \{"result":[array1,arrary2]}          | array(TYPE)                |
+| \{"result":[array1,array2]}          | array(TYPE)                |
 | \{"result":[true,false]}              | bool                       |
 | \{"result":[dateString1,dateString2]} | date, datetime, datetime64 |
 | \{"result":[number1,number2]}         | float, float64, integer    |
@@ -147,7 +147,7 @@ Timeplus will take each element of the result array and convert back to Timeplus
 ## Other ways to build UDF
 
 You can also build the remote UDF with your own microservices or long-running application services to gain better control of the hardware resources, or gain even better performance or low latency.
-“Remote UDF” is the recommended solution for our Timeplus customers to extend the capabilities of built-in functionality, without introducing potential security risks for our cloud services. For our large customers with strong on-prem deployment needs, we also built a “Local UDF” mode which allows Timeplus to call local programs to process data. 
+“Remote UDF” is the recommended solution for our Timeplus customers to extend the capabilities of built-in functionality, without introducing potential security risks for our cloud services. For our large customers with strong on-prem deployment needs, we also built a “Local UDF” mode which allows Timeplus to call local programs to process data.
 
 
 
@@ -156,13 +156,11 @@ You can also build the remote UDF with your own microservices or long-running ap
 User-defined functions open the door for new possibilities to process and analyze the data with full programming capabilities within Timeplus. There are some additional factors to consider when building and using User-Defined Functions:
 
 1. For Timeplus Cloud customers, it’s highly recommended to enable Authentication for the UDF. For example, when you register the function, you can set the key as ‘passcode’ and the value as a random word. Timeplus will set this in the HTTP header while making requests to the remote UDF endpoints. In your endpoint code, be sure to check whether the key/value pairs in the HTTP header matches the setting in Timeplus. If not, return an error code to deny the UDF request.
-2. Calling a single UDF may only take 100ms or less, however, if you call a UDF for millions of rows, this could slow down the entire query. It’s recommended to aggregate the data first, then call the UDF with a lesser number of requests. E.g. `SELECT ip_lookup(ip):city as city, sum(cnt) FROM (SELECT ip, count(*) as cnt FROM access_log GROUP BY ip) GROUP BY city` 
-   instead of 
+2. Calling a single UDF may only take 100ms or less, however, if you call a UDF for millions of rows, this could slow down the entire query. It’s recommended to aggregate the data first, then call the UDF with a lesser number of requests. E.g. `SELECT ip_lookup(ip):city as city, sum(cnt) FROM (SELECT ip, count(*) as cnt FROM access_log GROUP BY ip) GROUP BY city`
+   instead of
    `SELECT ip_lookup(ip):city, count(*) as cnt FROM access_log GROUP BY city`
 3. The Remote UDF in Timeplus is not designed for aggregation. Please turn to [JavaScript based local UDF](js-udf) for User-Defined Aggregate Functions (UDAF).
 4. To improve performance, Timeplus automatically sends batched requests to the UDF endpoints. For example, if there are 1000 requests to the UDF in a single SQL execution, the framework may send 10 requests with 100 each for the input. That’s why in the sample code, I will process the `ip` as an array and also return the value in the other array. Please make sure the returned value matches the inputs.
 5. Properly adding logs to your UDF code can greatly help troubleshoot/tune the function code.
 6. Only the Timeplus workspace administrators can register new User-Defined Functions, while all members in the workspace can use the UDFs.
 7. Make sure the UDF name doesn’t conflict with the [built-in functions](functions) or other UDFs in the same workspace.
-
-

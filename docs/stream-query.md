@@ -2,9 +2,9 @@
 
 ## Query is unbounded by default
 
-By default, Timeplus’s query behavior is different from traditional SQL which answers the question of what had happened. Instead, Timeplus’ query tries to answer the question of what is happening now in real-time and continuously updates the answer when new events enter the system.
+By default, Timeplus query behavior is different from traditional SQL which answers the question of what had happened. Instead, Timeplus query tries to answer the question of what is happening now in real-time and continuously updates the answer when new events enter the system.
 
-Timeplus query is running on an unbounded stream. In most of the cases, the query won't stop unless the user cancels it. 
+Timeplus query is running on an unbounded stream. In most of the cases, the query won't stop unless the user cancels it.
 For example, the following query will return all the events in the stream that enter the Timeplus system in real-time after the query is executed. Each new event will trigger a new query result. And this query won't stop unless the user cancels the query.
 
 ```sql
@@ -54,9 +54,9 @@ select c1,c2 from weblogs where http_code>=400
 For each event, transform the data to remove sensitive information, or convert type, such as
 
 ```sql
-select 
+select
 concat(first_name,' ', last_name) as full_name,
-replace_regex(phone,'(\\d{3})-(\\d{3})-(\\d{4})','\\1-***-****') as phone 
+replace_regex(phone,'(\\d{3})-(\\d{3})-(\\d{4})','\\1-***-****') as phone
 from user_activities
 ```
 
@@ -80,7 +80,7 @@ from tumble(my_stream,order_time, 5s) group by window_start, window_end
 
 #### Window watermark
 
-Window aggregation is triggered per-window. There is an internal watermark mechanism in Timeplus to check if all the events in the specific window have arrived or not. Once the watermark has shown that all events in that window are available, the aggregated analysis result will be triggered and sent to the client. 
+Window aggregation is triggered per-window. There is an internal watermark mechanism in Timeplus to check if all the events in the specific window have arrived or not. Once the watermark has shown that all events in that window are available, the aggregated analysis result will be triggered and sent to the client.
 
 #### Watermark and delay
 
@@ -104,7 +104,7 @@ select count(*) from my_stream
 
 #### Set trigger interval
 
-Global aggregation is triggered periodically with an interval (by default, every 2 seconds). The user can specify the interval in the query statement. 
+Global aggregation is triggered periodically with an interval (by default, every 2 seconds). The user can specify the interval in the query statement.
 
 A more complex example is:
 
@@ -112,6 +112,3 @@ A more complex example is:
 select count(*) from my_stream where type='order'
 emit periodic 5s
 ```
-
-
-

@@ -273,8 +273,8 @@ public class Example {
 
         String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
         MediaType mediaType = MediaType.parse("text/plain");
-        String data = """ 
-          {"key1": "value11", "key2": "value12"} 
+        String data = """
+          {"key1": "value11", "key2": "value12"}
           """;
         RequestBody body = RequestBody.create(mediaType, data);
 
@@ -528,7 +528,7 @@ public class Example {
 
   </TabItem>
 </Tabs>
-The above method should work very well for most system integrations. However, the column names will be repeatedly mentioned in the requested body.
+The above method should work very well for most system integration. However, the column names will be repeatedly mentioned in the requested body.
 
 We also provide a more performant solution to only list the column names once.
 

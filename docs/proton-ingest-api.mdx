@@ -12,7 +12,7 @@ You can run `INSERT INTO [stream](column1, column2) VALUES (..)` SQL to insert d
 The Proton ingest REST API is on port 3218 by default. Please start the proton container with the 3218 port exposed. For example:
 
 ```shell
-docker run -d -p 3218:3218 --pull always --name proton ghcr.io/timeplus-io/proton:latest 
+docker run -d -p 3218:3218 --pull always --name proton ghcr.io/timeplus-io/proton:latest
 ```
 
 
@@ -150,7 +150,7 @@ public class Example {
 
   </TabItem>
 </Tabs>
-The above method should work very well for most system integrations. However, the column names will be repeatedly mentioned in the requested body.
+The above method should work very well for most system integration. However, the column names will be repeatedly mentioned in the requested body.
 
 We also provide a more performant solution to only list the column names once.
 

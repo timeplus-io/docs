@@ -11,7 +11,9 @@ ignore:
   - 2a02:aa08:e000:3100
   - c\d+
   - u\d+
+  - t\d+
   - \d+GB
+  - \d+MB
   - array_.*
   - to_.*
   - json_extract_.*
@@ -21,3 +23,12 @@ ignore:
   - user\d
   - scalar\d
   - \d+ms
+  - "[A-Z0-9]{6}"
+  - b\d{5}
+  - step\d
+  - array\d
+  - number\d
+  - string\d
+  - datestring\d
+  - json\d
+  - dateString\d

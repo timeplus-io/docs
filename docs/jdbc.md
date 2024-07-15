@@ -83,7 +83,7 @@ First add the Timeplus Native JDBC driver to DBeaver. Taking DBeaver 23.2.3 as a
 
 ![New Driver](/img/jdbc_native_new_driver.png)
 
-In the "Libaries" tab, click "Add Artifact" and type `com.timeplus:timeplus-native-jdbc:2.0.1`. Click the "Find Class" button to load the class.
+In the "Libraries" tab, click "Add Artifact" and type `com.timeplus:timeplus-native-jdbc:2.0.1`. Click the "Find Class" button to load the class.
 ![Load Driver](/img/jdbc_native_load_driver.png)
 
 Create a new database connection, choose "Timeplus" and accept the default settings. Click the "Test Connection.." to verify the connection is okay.
@@ -186,7 +186,7 @@ First add the Proton JDBC driver to DBeaver. Taking DBeaver 23.2.3 as an example
 * Default User: default
 * Allow Empty Password
 
-In the "Libaries" tab, click "Add Artifact" and type `com.timeplus:proton-jdbc:0.6.0`. Click the "Find Class" button to load the class.
+In the "Libraries" tab, click "Add Artifact" and type `com.timeplus:proton-jdbc:0.6.0`. Click the "Find Class" button to load the class.
 
 Create a new database connection, choose "Timeplus Proton" and accept the default settings. Click the "Test Connection.." to verify the connection is okay.
 

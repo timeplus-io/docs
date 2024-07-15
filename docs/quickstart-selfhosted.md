@@ -13,7 +13,7 @@ Timeplus Enterprise is available as a fully-managed cloud service with zero ops 
 
 The following section contains step-by-step instructions on how to easily get started with a self-hosted Timeplus Enterprise.
 
-## Step 1: install Timeplus Enterpise via a single command {#step1}
+## Step 1: install Timeplus Enterprise via a single command {#step1}
 
 If your server or computer is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies. For Windows users, please follow [our guide](singlenode_install#docker) for running Timeplus Enterprise with Docker.
 

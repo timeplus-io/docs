@@ -2,7 +2,7 @@
 
 At Timeplus, we leverage SQL to make powerful streaming analytics more accessible to a broad range of users. Without SQL, you have to learn and call low-level programming API, then compile/package/deploy them to get analytics results. This is a repetitive and tedious process, even for small changes.
 
-But some developers have concerns that complex logic or systems integrations are hard to express using SQL.
+But some developers have concerns that complex logic or systems integration are hard to express using SQL.
 
 That's why we add User-Defined Functions (UDF) support in Timeplus. This enables users to leverage existing programming libraries, integrate with external systems, or just make SQL easier to maintain.
 

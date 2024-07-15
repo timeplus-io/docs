@@ -63,7 +63,7 @@ To see more examples of using Timeplus Proton, check out the [examples](https://
 
 To access more features, such as sources, sinks, dashboards, alerts, and data lineage, create a workspace on [Timeplus Cloud](https://us.timeplus.cloud) or try our [live demo](https://demo.timeplus.cloud) with pre-built live data and dashboards.
 
-## 🧩 Integrations
+## 🧩 Integration
 
 The following drivers are available:
 
@@ -71,7 +71,7 @@ The following drivers are available:
 - https://github.com/timeplus-io/proton-go-driver
 - https://github.com/timeplus-io/proton-python-driver
 
-Integrations with other systems:
+Integration with other systems:
 
 - ClickHouse https://docs.timeplus.com/proton-clickhouse-external-table
 - Grafana https://github.com/timeplus-io/proton-grafana-source
