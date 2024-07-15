@@ -217,7 +217,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
   - Able to rename streams
   - (Experimental) Added `ORDER BY` support for streaming queries with aggregations
   - (Experimental) Added `EMIT TIMEOUT 5s` for streaming queries so that the window will be closed even there is no more event to progress the watermark
-  - (Experimental) Added [emit_verison()](functions#emit_version) to show an unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
+  - (Experimental) Added [emit_verison()](functions#emit_version) to show a unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
 - Source and sink
   - 10x throughput enhancement for the Kafka source
   - (Experimental) a [datapm](https://datapm.io/) sink to ingest batch/streaming data to Timeplus

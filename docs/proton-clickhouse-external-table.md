@@ -102,7 +102,7 @@ You can query it via the regular `select .. from table_name`.
 
 Please note, in the current implementation, all rows will be fetched from ClickHouse to Proton, with the selected columns. Then Proton applies the SQL functions and `LIMIT n` locally. It's not recommended to run `SELECT *` for a large ClickHouse table.
 
-Also note, use the Proton function names when you query the external table, such as [to_int](functions_for_type#to_int), instead of ClickHouse's naming convension, e.g. [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256). In current implementation, the SQL functions are applied in Proton engine. We plan to support some function push-down to ClickHouse in future versions.
+Also note, use the Proton function names when you query the external table, such as [to_int](functions_for_type#to_int), instead of ClickHouse's naming convention, e.g. [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256). In current implementation, the SQL functions are applied in Proton engine. We plan to support some function push-down to ClickHouse in future versions.
 
 :::
 
@@ -116,7 +116,7 @@ Limitations:
 
 You can run regular `INSERT INTO` to add data to ClickHouse table. However it's more common to use a Materialized View to send the streaming SQL results to ClickHouse.
 
-Say you have created an external table `ch_table`. You can create an materialized view to read Kafka data(via an external stream) and transform/aggregate the data and send to the external table:
+Say you have created an external table `ch_table`. You can create a materialized view to read Kafka data(via an external stream) and transform/aggregate the data and send to the external table:
 
 ```sql
 -- setup the ETL pipeline via a materialized view

@@ -10,7 +10,7 @@ Customers of Timeplus Enterprise can open support tickets by emailing [support@t
 For Timeplus Enterprise in the cloud, you can also use the "Talk to Us" button on the top bar to contact us.
 
 ### Diagnostic Bundle {#diag}
-For self-hosted Timeplus Enterprise deployments, run `timeplus diag` from the `timeplus/bin` folder to collect diagnostic information when Timeplus Enterprise is running. A diagnostic file will be generated under the `timeplus/logs` diretory. When creating a support ticket, you may package the logs directory as a zip and attach it in the support ticket.
+For self-hosted Timeplus Enterprise deployments, run `timeplus diag` from the `timeplus/bin` folder to collect diagnostic information when Timeplus Enterprise is running. A diagnostic file will be generated under the `timeplus/logs` directory. When creating a support ticket, you may package the logs directory as a zip and attach it in the support ticket.
 
 ### Timeplus Cloud Status Page
 

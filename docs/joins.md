@@ -49,7 +49,7 @@ This is also the default behaviour if you just use `JOIN`.
 
 ## Stream to Stream  Join {#stream_stream_join}
 
-In some cases, the real-time data flows to multiple data streams. For example, when the ads are presented to the end users, and when the users click the ads. 
+In some cases, the real-time data flows to multiple data streams. For example, when the ads are presented to the end users, and when the users click the ads.
 
 ### Correlated searches for multiple streams
 
@@ -106,34 +106,34 @@ Other types of JOINS are not supported in the current version of Timeplus. If yo
 3. `ASOF`, provides non-exact matching capabilities. This can work well if two streams have the same id, but not with exactly the same timestamps.
 4. range `ASOF`
 
-### Supported combinations 
+### Supported combinations
 
 At the high level, the JOIN syntax is
 
 ```sql
-SELECT <column list> 
-FROM <left-stream> 
-[join_type] [join_strictness] JOIN <right-stream> 
+SELECT <column list>
+FROM <left-stream>
+[join_type] [join_strictness] JOIN <right-stream>
 ON <on-clause>
 [WHERE .. GROUP BY .. HAVING ... ORDER BY ...]
 ```
 
 By default, the strictness is `ALL` and the join kind is `INNER`.
 
-As you can imagine, there could be 24 (3 x 2 x 4) combinations. Not all of them are meaningful or performant.  Please read on for the supported combinations. 
+As you can imagine, there could be 24 (3 x 2 x 4) combinations. Not all of them are meaningful or performant.  Please read on for the supported combinations.
 
 #### append JOIN append{#append-inner-append}
 
-This may look like the most easy-to-understand scenario. You can try this type of join if you have 2 streams with incoming new data. 
+This may look like the most easy-to-understand scenario. You can try this type of join if you have 2 streams with incoming new data.
 
 However, this is designed to be exploration purpose only, not recommended to for production use. Because both sides of the data streams are unbounded, it will consume more and more resources in the system. Internally there is a setting for max cached bytes to control the maximum source data it can buffer. Once the query reaches the limit, the streaming query will be aborted.
 
 Example:
 
 ```sql
-SELECT * FROM 
-left_append JOIN  right_append 
-ON left_append.k = right_append.kk 
+SELECT * FROM
+left_append JOIN  right_append
+ON left_append.k = right_append.kk
 ```
 
 
@@ -143,7 +143,7 @@ ON left_append.k = right_append.kk
 The above join may buffer too much data, range bidirectional join tries to mitigate this problem by bucketing the stream data in time ranges and try to join the data bidirectionally in appropriate range buckets. It requires a [date_diff_within](functions_for_streaming#date_diff_within) clause in the join condition and the general form of the syntax is like below.
 
 ```sql
-SELECT * FROM left_stream JOIN right_stream 
+SELECT * FROM left_stream JOIN right_stream
 ON left_stream.key = right_stream.key AND date_diff_within(2m)
 ```
 
@@ -156,8 +156,8 @@ This is a unique feature in Timeplus. You can setup [Versioned Stream](versioned
 Examples:
 
 ```sql
-SELECT k, count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii) 
-FROM left_vk JOIN right_vk 
+SELECT k, count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii)
+FROM left_vk JOIN right_vk
 ON left_vk.k = right_vk.kk
 ```
 
@@ -165,7 +165,7 @@ ON left_vk.k = right_vk.kk
 
 #### append INNER JOIN versioned{#append-versioned}
 
-This type of join and the following types enable you to dynamic data enrichment. Dynamic data enrichment join has special semantics as well compared to traditional databases since we don’t buffer any source data for the left stream, we let it keep flowing. It is similar to [stream to dimension table join](#stream_table_join), but the difference is we build a hash table for the right stream and **dynamically update the hash table** according to the join strictness semantics. 
+This type of join and the following types enable you to dynamic data enrichment. Dynamic data enrichment join has special semantics as well compared to traditional databases since we don’t buffer any source data for the left stream, we let it keep flowing. It is similar to [stream to dimension table join](#stream_table_join), but the difference is we build a hash table for the right stream and **dynamically update the hash table** according to the join strictness semantics.
 
 Example:
 
@@ -203,19 +203,19 @@ SELECT * FROM append LEFT JOIN changelog_kv USING(k)
 
 #### append ASOF JOIN versioned {#append-asof-versioned}
 
-ASOF enrichment join keeps multiple versions of values for the **same join key** in the hash table and the values are sorted by ASOF unequal join key. 
+ASOF enrichment join keeps multiple versions of values for the **same join key** in the hash table and the values are sorted by ASOF unequal join key.
 
 Example:
 
 ```sql
-SELECT * FROM append ASOF JOIN versioned_kv 
+SELECT * FROM append ASOF JOIN versioned_kv
 ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
 ```
 
 There is an optional setting to ask the query engine to keep the last N versions of the value for the same join key. Example:
 
 ```sql
-SELECT * FROM append ASOF JOIN versioned_kv 
+SELECT * FROM append ASOF JOIN versioned_kv
 ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
 SETTINGS keep_versions = 3
 ```
@@ -227,7 +227,7 @@ Similar to the above, but not INNER.
 Example:
 
 ```sql
-SELECT * FROM append LEFT ASOF JOIN versioned_kv 
+SELECT * FROM append LEFT ASOF JOIN versioned_kv
 ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
 ```
 
@@ -238,7 +238,7 @@ ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
 Only the latest version of value for **each join key** is kept. Example:
 
 ```sql
-SELECT *, _tp_delta FROM append ASOF LATEST JOIN versioned_kv 
+SELECT *, _tp_delta FROM append ASOF LATEST JOIN versioned_kv
 ON append.k = versioned_kv.k
 ```
 
@@ -248,8 +248,8 @@ Then you can add some events to both streams.
 | ---------------------------------------------------- | ------------------------------------------------------------ |
 | Add one event to `append` (id=100, name=apple)       | (no result)                                                  |
 | Add one event to `versioned_kv` (id=100, amount=100) | 1. id=100, name=apple, amount=100, _tp_delta=1               |
-| Add one event to `versioned_kv` (id=100, amount=200) | (2 more rows)<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
-| Add one event to `append` (id=100, name=appl)        | (2 more rows)<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1 |
+| Add one event to `versioned_kv` (id=100, amount=200) | (2 more rows)<br />2. id=100, name=apple, amount=100,_tp_delta =-1<br />3. id=100, name=apple, amount=200,_tp_delta =1 |
+| Add one event to `append` (id=100, name=appl)        | (2 more rows)<br />4. id=100, name =apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1 |
 
 If you run an aggregation function, say `count(*)` with such INNER LATEST JOIN, the result will always be 1, no matter how many times the value with the same key is changed.
 
@@ -260,7 +260,7 @@ Similar to the above, but not INNER.
 Example:
 
 ```sql
-SELECT * FROM append LEFT LATEST JOIN versioned_kv 
+SELECT * FROM append LEFT LATEST JOIN versioned_kv
 ON append.k = versioned_kv.k
 ```
 
@@ -271,7 +271,7 @@ This feature is enabled in Proton 1.5.7. You can setup [Versioned Stream](versio
 Examples:
 
 ```sql
-SELECT k, count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii) 
-FROM left_vk LEFT JOIN right_vk 
+SELECT k, count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii)
+FROM left_vk LEFT JOIN right_vk
 ON left_vk.k = right_vk.kk
 ```

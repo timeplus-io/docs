@@ -122,8 +122,8 @@ Sample output:
 ```
 
 ## Advanced Settings
-### Retension Policy for Streaming Storage
-Like normal streams in Timeplus, mutable streams use both streaming storage and historidal storage. New data are added to the stroage storage first, then continously write to the historial data with deduplication/merging process. When you create the mutable stream, you can configure the maxizum size of the streaming storage or Time-To-Live (TTL).
+### Retention Policy for Streaming Storage
+Like normal streams in Timeplus, mutable streams use both streaming storage and historical storage. New data are added to the streaming storage first, then continuously write to the historical data with deduplication/merging process. When you create the mutable stream, you can configure the maximum size of the streaming storage or Time-To-Live (TTL).
 
 For example, if you want to keep up to 8GB or half an hour data in the streaming storage, you can add the following settings in the DDL:
 ```sql

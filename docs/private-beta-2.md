@@ -52,7 +52,7 @@ We have migrated beta1 customers to the beta2. https://demo.timeplus.com is no l
   * Added experimental support for ARM chips
 * Source, sink, API and SDK
   * Updated [datapm](https://datapm.io/docs/quick-start/) Timeplus sink to support beta2 multi-tenant API
-  * Enhanced the snowflake sink to specify the dataware
+  * Enhanced the snowflake sink to specify the data warehouse
   * Published the sample Java code as [a public Github repo](https://github.com/timeplus-io/java-demo). You can easily get Timeplus query results and do other operations without directly handling the low level REST API
 * UI improvements
   * Separated the home page and dashboard page. In the future, you can create more than one dashboard

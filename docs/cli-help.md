@@ -1,7 +1,7 @@
 # timeplus help
 
 ## timeplus help
-When you run `timeplus help` without extra parameters, it will list all available commmands, e.g.
+When you run `timeplus help` without extra parameters, it will list all available commands, e.g.
 ```
 Timeplus Enterprise, a simple, powerful, and cost-efficient stream processing platform.
 

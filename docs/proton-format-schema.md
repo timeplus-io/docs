@@ -137,7 +137,7 @@ Please note:
 
 ### Enum
 
-Say in your Protobuf definition, there is a enum type:
+Say in your Protobuf definition, there is an enum type:
 
 ```protobuf
 enum Level {

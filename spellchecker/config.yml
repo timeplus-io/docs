@@ -5,3 +5,19 @@ dictionaries:
 reports:
   - spellchecker/report.json
   - spellchecker/report.junit.xml
+ignore:
+  - key\d
+  - 1f71acbf-59fc-427d-a634-1679b48029a9
+  - 2a02:aa08:e000:3100
+  - c\d+
+  - u\d+
+  - \d+GB
+  - array_.*
+  - to_.*
+  - json_extract_.*
+  - exp\d+
+  - log\d+
+  - option\d
+  - user\d
+  - scalar\d
+  - \d+ms

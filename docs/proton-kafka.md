@@ -83,7 +83,7 @@ If the keys in the JSON message never change, or you don't care about the new co
 
 You can pick up some top level keys in the JSON as columns, or all possible keys as columns.
 
-Please note the behaviors are changed in recent versions, based on user feedbacks:
+Please note the behaviors are changed in recent versions, based on user feedback:
 
 | Version         | Default Behavior                                                                                                                                                                                                                                                                           | How to overwrite                                                                                                                |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |

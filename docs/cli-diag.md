@@ -1,9 +1,9 @@
 # timeplus diag
 Run diagnostics of Timeplus Enterprise services.
 
-This command can be ran when the Timeplus Enterprise services are running or stopped. It will geneate a file in the "logs" folder with ".diag" as the file extension and "timeplus_" as the prefix, followed by the datetime.
+This command can be ran when the Timeplus Enterprise services are running or stopped. It will generate a file in the "logs" folder with ".diag" as the file extension and "timeplus_" as the prefix, followed by the datetime.
 
-When you contact Timeplus support team, pleaes run this command and compress the entire logs folder with current logs and the diag file, and send the compressed file to support team. This will help the support engineers better understand how Timeplus Enterprise is deployed.
+When you contact Timeplus support team, please run this command and compress the entire logs folder with current logs and the diag file, and send the compressed file to support team. This will help the support engineers better understand how Timeplus Enterprise is deployed.
 
 ## diag file
 The diag file, such as "timeplus/logs/timeplus_20240712100051.diag", is a JSON document without sensitive customer data. The key content of the diag file is:

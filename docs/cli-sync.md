@@ -6,7 +6,7 @@ It works like a database migration tool except that it does not store the migrat
 Features:
 
 * Runs migration scripts in dictionary order (by script file names).
-* Supports Go template. All migration scripts will be rendered as Go tempaltes.
+* Supports Go template. All migration scripts will be rendered as Go templates.
 * Function for extracting UDF/A Javascript from Javascript files.
 
 ## timeplus sync apply [file_or_folder]
@@ -61,7 +61,7 @@ CREATE EXTERNAL STREAM metrics (
   labels map[string]string
 ) SETTINGS type='kafka',brokers='{{ .values.kafka.brokers }}',topic='{{ .values.kafka.topic }}'
 ```
-The statemant does not hard-code the Kafka brokers and topic, so that it can be easily shared in different environements. There are several ways to speicy the values.
+The statement does not hard-code the Kafka brokers and topic, so that it can be easily shared in different environments. There are several ways to specify the values.
 
 #### Set variable value in the command
 Use command line argument `--set`.
