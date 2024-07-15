@@ -13,7 +13,7 @@ You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://h
 
 This is the quickstart guide to install a 3 nodes Timeplus Enterprise cluster with default configurations on [minikube](https://github.com/kubernetes/minikube) using Helm package manager.
 
-Although this guidance is focus on minikube, you should be able to install it on other k8s such as Amazon EKS or your own k8s cluster as well. You may need to update configurations accordingly to fit your k8s enviroment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
+Although this guidance is focus on minikube, you should be able to install it on other k8s such as Amazon EKS or your own k8s cluster as well. You may need to update configurations accordingly to fit your k8s environment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
 
 ### Get minikube ready
 
@@ -159,7 +159,7 @@ timeplus user delete --address ${TIMEPLUSD_POD_IPS}  --admin-password mypassword
 
 ### Recover from EBS snapshots
 
-If you deploy Timeplus Enterprise on Amazon EKS, assuming that you are using EBS volume for persistent volumes, you can use EBS snapshots to backup the volumes. Then in the case of data lost (for example, the EBS volume is broken, or someone accidentially delete the data on the volume ), you can restore the persistent volumes from EBS snapshots with the following steps:
+If you deploy Timeplus Enterprise on Amazon EKS, assuming that you are using EBS volume for persistent volumes, you can use EBS snapshots to backup the volumes. Then in the case of data lost (for example, the EBS volume is broken, or someone accidentally delete the data on the volume ), you can restore the persistent volumes from EBS snapshots with the following steps:
 
 #### Step 1 - Find snapshots of a workspace
 
@@ -391,4 +391,4 @@ If something goes wrong, you can run the following commands to get more informat
 | `kv.resources`                                       | Resource requests and limits for KV service                                                                | `{}`                          |
 | `kv.affinity`                                        | Affinity settings for KV service                                                                           | `{}`                          |
 | **ingress**                                          |                                                                                                            |                               |
-| `ingress.enabled`                                    | Enable ingr                                                                                                |                               |
+| `ingress.enabled`                                    | Enable ingress                                                                                             |                               |
