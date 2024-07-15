@@ -9,7 +9,7 @@ Timeplus provides 2 types of JDBC drivers:
 
 ### Use Case {#usecase_native}
 
-This JDBC driver is designed for running streaming queries and the performance is usually higher than the JDBC over HTTP, but with [some limitations](https://github.com/timeplus-io/timeplus-native-jdbc?tab=readme-ov-file#limitations) on data types and compression methos.
+This JDBC driver is designed for running streaming queries and the performance is usually higher than the JDBC over HTTP, but with [some limitations](https://github.com/timeplus-io/timeplus-native-jdbc?tab=readme-ov-file#limitations) on data types and compression methods.
 
 This library is available on maven central repository:
 
@@ -86,7 +86,7 @@ First add the Timeplus Native JDBC driver to DBeaver. Taking DBeaver 23.2.3 as a
 - Driver Name: Timeplus
 - Driver Type: Generic
 - Class Name: com.timeplus.jdbc.TimeplusDriver
-- URL Tempalte: jdbc:timeplus://localhost:8463
+- URL Template: jdbc:timeplus://localhost:8463
 
 ![New Driver](/img/jdbc_native_new_driver.png)
 
@@ -105,7 +105,7 @@ But it's more common to use this native JDBC driver in your Java program to proc
 
 ### Use Case {#usecase}
 
-This JDBC driver is designed for running batch queries and you can integate it with DBeaver and other tools.
+This JDBC driver is designed for running batch queries and you can integrate it with DBeaver and other tools.
 
 This library is available on maven central repository:
 
@@ -192,7 +192,7 @@ First add the Proton JDBC driver to DBeaver. Taking DBeaver 23.2.3 as an example
 - Driver Name: Timeplus Proton
 - Driver Type: Generic
 - Class Name: com.timeplus.proton.jdbc.ProtonDriver
-- URL Tempalte: jdbc:proton://\{host}:\{port}/\{database}
+- URL Template: jdbc:proton://\{host}:\{port}/\{database}
 - Default Port: 8123
 - Default Database: default
 - Default User: default
