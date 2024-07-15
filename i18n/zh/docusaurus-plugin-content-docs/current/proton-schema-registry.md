@@ -41,7 +41,7 @@
 
 :::info
 
-有关在各种与 Kafka API 兼容的消息平台上阅读 Avro 消息的示例，请查看 [此文档]（教程-sql-read-avro）。
+For examples to read Avro message in various Kafka API compatitable message platforms, please check [this doc](tutorial-sql-read-avro).
 
 :::
 
