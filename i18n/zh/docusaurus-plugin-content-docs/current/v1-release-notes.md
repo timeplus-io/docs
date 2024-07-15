@@ -142,7 +142,7 @@ _Timeplus Cloud:_
 
 _Proton (Current version: v1.4.2):_
 
-- Since Proton v1.4.2, we’ve added support to read or write ClickHouse tables. To do this, we’ve introduced a new concept in Proton: "External Table". Similar to [External Stream](external-stream), no data is persisted in Proton. In the future, we will support more integrations by introducing other types of External Table. [See our docs](proton-clickhouse-external-table) for use cases and more details.
+- Since Proton v1.4.2, we’ve added support to read or write ClickHouse tables. To do this, we’ve introduced a new concept in Proton: "External Table". Similar to [External Stream](external-stream), no data is persisted in Proton. In the future, we will support more integration by introducing other types of External Table. [See our docs](proton-clickhouse-external-table) for use cases and more details.
 - Based on user feedback, we’ve simplified the process of reading key/value pairs in the JSON document in a Kafka topic. You don’t need to define all keys as columns, and no need to set `input_format_skip_unknown_fields` in DDL or SQL. [Learn more](proton-kafka#multi_col_read)
 - For random streams, you can now define the EPS (event per second) as a number between 0 to 1. For example, eps=0.5 means generating an event every 2 seconds.
 - A new [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
