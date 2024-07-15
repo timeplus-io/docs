@@ -124,11 +124,11 @@
 
 ### is_ipv4_string
 
-如果是一个ipv4字符串，则`is_ipv4_string(string)`返回1，否则返回0。
+`is_ipv4_string(string)` returns 1 if it's an ipv4 string, otherwise 0.
 
 ### is_ipv6_string
 
-如果是一个ipv6字符串，则`is_ipv6_string(string)`返回1，否则返回0。
+`is_ipv6_string(string)` returns 1 if it's an ipv6 string, otherwise 0.
 
 ### is_ip_address_in_range
 
