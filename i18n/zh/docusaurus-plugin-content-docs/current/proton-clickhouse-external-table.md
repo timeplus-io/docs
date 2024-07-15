@@ -6,7 +6,7 @@
 - 使用ClickHouse中的静态或缓慢变化的数据来丰富实时数据。 申请流加入。
 - 使用 Proton 查询 ClickHouse 中的历史或近期数据
 
-这种集成是通过在 Proton 中引入一个新概念来完成的：“外部表”。 与 [外部流]（外部流）类似，Proton 中没有保留任何数据。 但是，由于ClickHouse中的数据是表格，而不是数据流的形式，因此我们将其称为外部表。 在路线图中，我们将通过引入其他类型的外部表来支持更多集成。
+这种集成是通过在 Proton 中引入一个新概念来完成的：“外部表”。 与 [外部流]（外部流）类似，Proton 中没有保留任何数据。 但是，由于ClickHouse中的数据是表格，而不是数据流的形式，因此我们将其称为外部表。 In the roadmap, we will support more integration by introducing other types of External Table.
 
 ## 演示视频 {#demo}
 
