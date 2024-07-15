@@ -52,7 +52,7 @@
   * 为ARM芯片添加实验支持
 * 源、 汇、 API 和 SDK
   * 更新 [datapm](https://datapm.io/docs/quick-start/) Timeplus sink 以支持测试2 多租户API
-  * 增强雪花吸收汇以指定数据
+  * Enhanced the snowflake sink to specify the data warehouse
   * 将示例Java 代码发布为 [是一个公开的 Github Repo](https://github.com/timeplus-io/java-demo)。 您可以轻松地获得Timeplus查询结果和执行其他操作，而不直接处理低级REST API
 * 界面改进
   * 分离主页和仪表板页面。 今后，您可以创建多个仪表板
