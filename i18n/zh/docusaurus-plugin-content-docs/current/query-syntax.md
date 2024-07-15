@@ -35,7 +35,7 @@ SQL 关键字和函数名不区分大小写，而列名和流名称区分大小�
 
 ## 流式传输优先查询行为 {#streaming_first}
 
-在我们研究查询语法的细节之前，我们想重点介绍一下 Timeplus Proton 中的默认查询行为是流媒体模式，即
+在我们研究查询语法的细节之前，我们想重点介绍一下 Timeplus Proton 中的默认查询行为是流模式，即
 
 - `选择... FROM stream` 将查询未来的事件。 运行查询后，它将处理新事件。 例如，如果流中已经有 1,000 个事件，则如果还有更多新事件，则运行 `SELECT count () FROM Stream` 可能会返回 0。
 - `选择... FROM 表（流）` 将查询历史数据，就像许多其他数据库一样。 在上面的示例流中，如果你运行 `SELECT count () FROM table (stream)`，你将得到 1000 作为结果并且查询完成。
@@ -292,7 +292,7 @@ FROM (
 ) GROUP BY device;
 ```
 
-Vanilla 子查询可以任意嵌套，直到达到Timeplus的系统限制。 外部父查询可以是任何正常的原版查询或窗口聚合或全局聚合。
+Vanilla subquery can be arbitrarily nested until Timeplus' system limit is hit. 外部父查询可以是任何正常的原版查询或窗口聚合或全局聚合。
 
 用户也可以通过使用通用表表达式(CTE)样式来写查询。
 
@@ -536,6 +536,6 @@ EMIT AFTER WATERMARK;
 
 上面的示例 SQL 持续聚合每个设备在表 `设备 _utils` 中的最大cpu 使用量。 每次关闭一个窗口，Timeplus号发布聚合结果。
 
-### 会话流媒体窗口聚合
+### 会话流窗口聚合
 
 这类似于 tumble and hop 窗口。 请查看 [session](functions_for_streaming#session) 函数。
