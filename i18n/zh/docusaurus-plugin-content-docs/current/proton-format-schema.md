@@ -141,7 +141,7 @@ List schemas in the current Timeplus deployment:
 
 ### 枚举
 
-假设在你的 Protobuf 定义中，有一个枚举类型：
+Say in your Protobuf definition, there is an enum type:
 
 ```protobuf
 枚举级别 {
