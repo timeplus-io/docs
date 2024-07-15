@@ -163,7 +163,7 @@ $$;
 
 ## Configure Python Runtime
 
-Timeplus Enterprise ships [CPython](https://github.com/python/cpython) 3.10 out-of-box. You can customize the `python_home` and `python_path` in the config.yaml. If you need to install new Python libaries, please install them in the specified `python_path`.
+Timeplus Enterprise ships [CPython](https://github.com/python/cpython) 3.10 out-of-box. You can customize the `python_home` and `python_path` in the config.yaml. If you need to install new Python libraries, please install them in the specified `python_path`.
 
 ```yaml
 python_home: /usr/bin/python
