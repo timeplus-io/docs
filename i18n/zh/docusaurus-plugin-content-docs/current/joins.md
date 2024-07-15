@@ -104,11 +104,11 @@ Timeplus 支持 3 种流类型：
 简而言之，JOIN 语法是
 
 ```sql
-SELECT <column list> 
-FROM <left-stream> 
-[join_type] [join_strictness] JOIN <right-stream> 
+SELECT <column list>
+FROM <left-stream>
+[join_type] [join_strictness] JOIN <right-stream>
 ON <on-clause>
-[WHERE .. GROUP BY .. HAVING ... ORDER BY ...] 分组依据... 有... 按... 订购]
+[WHERE .. 分组依据... 有... 按... 订购]
 ```
 
 默认情况下，严格度为 `ALL` ，连接种类为 `INNER`。
@@ -124,9 +124,9 @@ As you can imagine, there could be 24 (3 x 2 x 4) combinations. Not all of them 
 示例：
 
 ```sql
-选择 * 来自 
-left_append JOIN right_append 
-on left_append.k = right_append.kk = right_append.kk 
+SELECT * FROM
+left_append JOIN  right_append
+ON left_append.k = right_append.kk
 ```
 
 
@@ -136,8 +136,8 @@ on left_append.k = right_append.kk = right_append.kk
 上述联接可能会缓冲过多的数据，范围双向联接试图通过在时间范围内对流数据进行存储桶来缓解此问题，并尝试将数据双向加入到适当的范围存储桶中。 The above join may buffer too much data, range bidirectional join tries to mitigate this problem by bucketing the stream data in time ranges and try to join the data bidirectionally in appropriate range buckets. It requires a [date_diff_within](functions_for_streaming#date_diff_within) clause in the join condition and the general form of the syntax is like below.
 
 ```sql
-从 left_stream 中选择 * 在 left_stream.key = right_stream.key 和 date_diff_within (2m) 上加入 right_stream 
-
+SELECT * FROM left_stream JOIN right_stream
+ON left_stream.key = right_stream.key AND date_diff_within(2m)
 ```
 
 Actually we don’t even require a timestamp for the range, any integral columns are supposed to work. For instance, `AND left_stream.sequence_number < rightstream.sequence_number + 10`. 例如， `和 left_stream.sequence_number < rightstream.sequence_number + 10`。
@@ -149,9 +149,9 @@ Actually we don’t even require a timestamp for the range, any integral columns
 示例：
 
 ```sql
-选择 k、计数 (*)、最小值 (i)、最大值 (i)、平均值 (i)、最小值 (ii)、最大值 (ii)、平均值 (ii) 
-来自 left_vk 加入 right_vk 
-on left_vk.k = right_vk.kk
+SELECT k, count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii)
+FROM left_vk JOIN right_vk
+ON left_vk.k = right_vk.kk
 ```
 
 
@@ -201,13 +201,16 @@ ASOF 丰富联接在哈希表中保留 **相同联接密钥** 的多个版本的
 示例：
 
 ```sql
-
+SELECT * FROM append ASOF JOIN versioned_kv
+ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
 ```
 
 There is an optional setting to ask the query engine to keep the last N versions of the value for the same join key. 示例： 示例：
 
 ```sql
-
+SELECT * FROM append ASOF JOIN versioned_kv
+ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
+SETTINGS keep_versions = 3
 ```
 
 #### 向左追加 ASOF JOIN 版本控制 {#append-left-asof-versioned}
@@ -217,7 +220,8 @@ There is an optional setting to ask the query engine to keep the last N versions
 示例：
 
 ```sql
-
+SELECT * FROM append LEFT ASOF JOIN versioned_kv
+ON append.k = versioned_kv.k AND append.i <= versioned_kv.j
 ```
 
 
@@ -227,17 +231,18 @@ There is an optional setting to ask the query engine to keep the last N versions
 Only the latest version of value for **each join key** is kept. 示例： 示例：
 
 ```sql
-
+SELECT *, _tp_delta FROM append ASOF LATEST JOIN versioned_kv
+ON append.k = versioned_kv.k
 ```
 
 然后，您可以向两个流中添加一些事件。
 
-| 添加数据                                        | SQL 结果                                                                                                                         |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 向 `append` 添加一个事件 (id=100，name=apple)       | 没有结果                                                                                                                           |
-| 向 `versioned_kv` (id=100，amount=100) 添加一个事件 | 1. 1. id=100, name=apple, amount=100, _tp_delta=1                                                                            |
-| 向 `versioned_kv` (id=100，amount=200) 添加一个事件 | （新增2 行）<br />2. id=100, name=apple, amount=100,_tp_delta=-1<br />3. id=100, name=apple, amount=200,_tp_delta=1 |
-| 向 `append` (id=100, name=appl) 添加一个事件       | （新增2 行）<br />4. id=100, name=apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1  |
+| 添加数据                                        | SQL 结果                                                                                                                           |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 向 `append` 添加一个事件 (id=100，name=apple)       | 没有结果                                                                                                                             |
+| 向 `versioned_kv` (id=100，amount=100) 添加一个事件 | 1. 1. id=100, name=apple, amount=100, _tp_delta=1                                                                              |
+| 向 `versioned_kv` (id=100，amount=200) 添加一个事件 | （新增2 行）<br />2. id=100, name=apple, amount=100,_tp_delta =-1<br />3. id=100, name=apple, amount=200,_tp_delta =1 |
+| 向 `append` (id=100, name=appl) 添加一个事件       | （新增2 行）<br />4. id=100, name =apple, amount=200,_tp_delta=-1<br />5. id=100, name=appl, amount=200,_tp_delta=1   |
 
 如果您运行一个聚合函数，使用这种LATEST JOIN, 比如 `count(*)` 结果将永远是1，无论同一键值有多少次变化。
 
@@ -248,7 +253,8 @@ Only the latest version of value for **each join key** is kept. 示例： 示例
 示例：
 
 ```sql
-
+SELECT * FROM append LEFT LATEST JOIN versioned_kv
+ON append.k = versioned_kv.k
 ```
 
 #### 版本向左加入版本 {#version-left-version}
@@ -258,5 +264,7 @@ Only the latest version of value for **each join key** is kept. 示例： 示例
 示例：
 
 ```sql
-
+SELECT k, count(*), min(i), max(i), avg(i), min(ii), max(ii), avg(ii)
+FROM left_vk LEFT JOIN right_vk
+ON left_vk.k = right_vk.kk
 ```
