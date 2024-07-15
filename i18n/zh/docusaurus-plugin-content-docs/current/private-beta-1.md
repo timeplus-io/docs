@@ -128,7 +128,7 @@
 ### 6/13周
 
 - 流引擎
-  - 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。 这将解锁更多使用状态流处理的情况，例如 [流媒体通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
+  - 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。 这将解锁更多使用状态流处理的情况，例如 [流通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
   - 添加 [数组处理](functions#arrays)的其他函数，例如 [array_sum](functions#array_sum), [array_avg](functions#array_avg)
 - 源和汇：
   - Kafka 源支持无需认证的本地schema 注册表
@@ -217,7 +217,7 @@
   - 能够重命名流
   - (实验性) 添加 `ORDER BY` 支持流式查询与聚合
   - (实验性) 添加 `EMIT TIMEOUT 5s` 用于串流查询，这样窗口将被关闭，即使没有更多的事件来推进水印。
-  - （实验性）添加了 [emit_verison ()](functions#emit_version) 以显示每个发出的窗口的唯一数字（这样你就可以从流式传输结果中分辨出哪些行来自同一个窗口）
+  - (Experimental) Added [emit_verison()](functions#emit_version) to show a unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
 - 源和汇：
   - Kafka源的10倍通量提高
   - (实验性) a [datapm](https://datapm.io/) sink to ingest 批处理/流流数据到 Timeplus
