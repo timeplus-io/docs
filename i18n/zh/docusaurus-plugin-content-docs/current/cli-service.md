@@ -6,8 +6,17 @@ Add Timeplus Enterprise services to Linux systemd control. This feature is not a
 
 This command needs to be ran by the root user.
 
+Please get the current user and user group via command lines.
+
+```bash
+whoami
+groups
 ```
-sudo timeplus/bin/timeplus service enable
+
+Then use `sudo` to enable the service with the right user and group.
+
+```bash
+sudo timeplus/bin/timeplus service enable -u [user] -g [group]
 Timeplus serice config created at /etc/systemd/system/timeplus.service
 system daemon reloaded
 Timeplus service enabled
