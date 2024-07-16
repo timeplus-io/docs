@@ -23,12 +23,12 @@ Built on 06-20-2024.
 
 ## Latest Releases {#latest}
 
-### 2.4.4 (Unreleased)
-Built on 07-15-2024.
-* timeplusd 2.2.8 -> 2.3.8
-* timeplus_appserver 1.4.34 -> 1.4.36
-* timeplus_web 1.4.18 -> 1.4.21
-* timeplus_connnector 1.5.3
+### 2.4.6 (Unreleased)
+Built on 07-1?-2024.
+* timeplusd 2.2.8 -> 2.3.9
+* timeplus_appserver 1.4.34 -> 1.4.38
+* timeplus_web 1.4.18 -> 1.4.23
+* timeplus_connnector 1.5.3 -> 1.5.4
 * timeplus cli 1.0.9 -> 1.0.13
 
 Changelog:
@@ -39,13 +39,23 @@ Changelog:
   * feat: integrate system stream metrics with local stream
   * feat: [parallel key space scan](mutable-stream#key_space_full_scan_threads)
   * feat: force_full_scan for mutable stream
+  * feat: user management on cluster
+  * fix: [alter stream .. modify settings ..](sql-alter-stream#stream_ttl)
 * timeplus_appserver
   * feat: added mutable stream support
   * feat: more metrics for mv stats
+  * feat: stream and external stream metrics
+  * feat: adapted timeplusd cluster metrics
+  * fix(alert): kv has different host than timeplusd
 * timeplus_web
   * feat: show more resources stats
   * feat: update license UI
   * feat: show detailed version and build time for components
+  * feat: UI for mutable stream CRUD
+  * feat: show throughput on data lineage
+  * feat: show query pipeline(execution plan) on single node
+* timeplus_connnector
+  * fix: wrong build time
 * cli
   * feat: new command for backup/restore data and configuration
   * feat: new command for synchronizing resources to timeplusd
