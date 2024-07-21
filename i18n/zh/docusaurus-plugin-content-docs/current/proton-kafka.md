@@ -158,11 +158,14 @@ Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is availabl
 
 对于 Kafka 主题中的每条消息，其价值肯定至关重要。 密钥是可选的，但可以携带重要的元数据。
 
-**阅读：** 自 Proton 1.5.4 起，你可以通过 Kafka 外部流中的 `_message_key` 虚拟列读取消息密钥。 如果你运行 `SELECT * FROM ext_stream`，则不会查询这样的虚拟列。 你需要明确选择该列来检索消息密钥，例如 `SELECT _message_key，* FROM ext_stream`。
+#### _message_key {#_message_key}
 
-**写入：** 当你创建外部流并通过物化视图或 `INSERT`向其发送数据时，你可以指定如何生成消息密钥。
+:::warning
+`_message_key` is deprecated since Timeplus Proton 1.5.15 and timeplusd 2.3.10. Please use [_tp_message_key](#_tp_message_key)
 
-这是通过在 `CREATE` DDL 中设置 `message_key` 来完成的。 它是一个返回字符串值的表达式，该表达式返回的值将用作每条消息的密钥。
+From Timeplus Proton 1.5.4 to 1.5.14, it supports `_message_key` as a virtual column in Kafka external streams. 如果你运行 `SELECT * FROM ext_stream`，则不会查询这样的虚拟列。 你需要明确选择该列来检索消息密钥，例如 `SELECT _message_key，* FROM ext_stream`。
+
+To write the message key and value, you need to set the `message_key` in the `CREATE` DDL. 它是一个返回字符串值的表达式，该表达式返回的值将用作每条消息的密钥。
 
 示例：
 
@@ -171,6 +174,40 @@ Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is availabl
 ```
 
 `message_key` 可以与 `sharding_expr`（在 Kafka 主题中指定目标分区号）一起使用，而且 `sharding_expr` 将优先级更高。
+:::
+
+#### _tp_message_key
+
+Based on user feedback, we introduced a better way to read or write the message key. Starting from timeplusd 2.3.10, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuiative and flexible way to write any content as the message key, not necessarily mapping to a specify column or a set of columns.
+
+例如：
+```sql
+CREATE EXTERNAL STREAM foo (
+    id int32,
+    name string,
+    _tp_message_key string
+) SETTINGS type='kafka',...;
+```
+You can insert any data to the Kafka topic.
+
+When insert a row to the stream like:
+```sql
+INSERT INTO foo(id,name,_tp_message_key) VALUES (1, 'John', 'some-key');
+```
+`'some-key'` will be used for the message key for the Kafka message (and it will be exlcuded from the message body, so the message will be `{"id": 1, "name": "John"}` for the above SQL).
+
+When doing a SELECT query, the message key will be populated to the `_tp_message_key` column as well. `SELECT * FROM foo` will return `'some-key'` for the `_tp_message_key` message.
+
+`_tp_message_key` support the following types: `uint8`, `uint16`, `uint32`, `uint64`, `int8`, `int16`, `int32`, `int64`, `bool`, `float32`, `float64`, `string`, and `fixed_string`.
+
+`_tp_message_key` also support `nullable`. Thus we can create an external stream with optional message key. 例如：
+```sql
+CREATE EXTERNAL STREAM foo (
+    id int32,
+    name string,
+    _tp_message_key nullable(string) default null
+) SETTINGS type='kafka',...;
+```
 
 ## 删除外部流
 
@@ -259,7 +296,7 @@ When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in
 | 重试.backoff.ms                      | 1.。 1 .. 300000           |      | 重试协议请求之前的退避时间（以毫秒为单位）                                                                                                            |
 | 重试.backoff.max.ms                  | 1.。 1 .. 300000           |      | 重试协议请求之前的最大退避时间（以毫秒为单位），                                                                                                         |
 | batch.num.messages                 | 1.。 1000000               |      | 一个 MessageSet 中批处理的最大消息数。                                                                                                        |
-| 批次大小                               | 1.。 1 .. 2147483647       |      | 一个 MessageSet 中批处理的所有消息的最大大小（以字节为单位），包括协议帧开销。                                                                                    |
+| 批次大小                               | 1.。 2147483647            |      | 一个 MessageSet 中批处理的所有消息的最大大小（以字节为单位），包括协议帧开销。                                                                                    |
 | 压缩编解码器                             | 无、gzip、snappy、lz4、zstd、继承 |      | 用于压缩消息集的压缩编解码器。 Compression codec to use for compressing message sets. inherit = inherit global compression.codec configuration. |
 | 压缩类型                               | 无、gzip、snappy、lz4、zstd    |      | `compression.codec`的别名：用于压缩消息集的压缩编解码器。                                                                                           |
 | 压缩级别                               | -1。。 12                   |      | 由配置属性 `compression.codec`选择的算法的压缩级别参数。                                                                                           |
