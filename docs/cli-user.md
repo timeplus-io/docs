@@ -16,7 +16,7 @@ Available Commands:
   update      update password of a new Timeplus user
 ```
 ## timeplus user list
-This will list all users.
+This will list all users in the cluster.
 
 Sample output:
 ```

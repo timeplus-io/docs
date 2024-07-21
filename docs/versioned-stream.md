@@ -1,6 +1,10 @@
 # Versioned Stream
 
-When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus Proton will automatically choose the closest version.
+When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
+
+:::info
+For Timeplus Enterprise customers, we recommend to use [Mutable Streams](mutable-stream) with the enhanced performance for UPSERT and queries.
+:::
 
 A HOWTO video:
 
@@ -19,8 +23,8 @@ In this example, you create a stream `dim_products` in `versioned_kv` mode with 
 This stream can be created using UI wizard on Timeplus Cloud or Timeplus Enterprise. You can also create it with SQL in Timeplus Proton:
 
 ```sql
-CREATE STREAM dim_products(product_id string, price float32) 
-PRIMARY KEY (product_id) 
+CREATE STREAM dim_products(product_id string, price float32)
+PRIMARY KEY (product_id)
 SETTINGS mode='versioned_kv'
 ```
 
@@ -91,7 +95,7 @@ FROM orders JOIN dim_products USING(product_id)
 Then add 2 rows:
 
 ```sql
-INSERT INTO orders(order_id, product_id, quantity) 
+INSERT INTO orders(order_id, product_id, quantity)
 VALUES (1, 'iPhone15',1),(2, 'iPhone15_Plus',2);
 ```
 
@@ -137,7 +141,7 @@ If you add a new row to set iPhone15 to 800, cancel the previous query and run a
 
 ## Use Versioned Stream in LEFT JOIN
 
-Since Proton 1.5.7, `LEFT JOIN` 2 versioned streams are also supported. 
+Since Proton 1.5.7, `LEFT JOIN` 2 versioned streams are also supported.
 
 For example, you run a streaming SQL:
 
@@ -168,11 +172,11 @@ The LEFT JOIN SQL will updated the result.
 
 The best part of Versioned Stream is that in `ASOF JOIN` Timeplus is able to automatically choose the closest version.
 
-Continue on our previous scenario. 
+Continue on our previous scenario.
 
 ```sql
 SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS revenue
-FROM orders ASOF JOIN dim_products 
+FROM orders ASOF JOIN dim_products
 ON orders.product_id=dim_products.product_id AND orders._tp_time >= dim_products._tp_time
 ```
 
@@ -180,7 +184,7 @@ If the current iPhone15 price is 800, and you add a new order for 1 iPhone15, th
 
 Then you change the iPhone15 price to 799, and add a new order for 1 iPhone15, you will get a transaction amount of 799.
 
-But if you add an order with _tp_time before the price change, you will get the transaction amount as 800 again, because Timeplus keeps multiple versions for the price and chooses the older version that best matches the order time. 
+But if you add an order with _tp_time before the price change, you will get the transaction amount as 800 again, because Timeplus keeps multiple versions for the price and chooses the older version that best matches the order time.
 
 :::info
 

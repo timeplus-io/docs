@@ -23,30 +23,37 @@ Built on 06-20-2024.
 
 ## Latest Releases {#latest}
 
-### 2.4.6 (Unreleased)
-Built on 07-1?-2024.
-* timeplusd 2.2.8 -> 2.3.9
-* timeplus_appserver 1.4.34 -> 1.4.38
-* timeplus_web 1.4.18 -> 1.4.23
-* timeplus_connnector 1.5.3 -> 1.5.4
-* timeplus cli 1.0.9 -> 1.0.13
+### 2.4.7 (Unreleased)
+Built on 07-??-2024.
+* timeplusd 2.2.8 -> 2.3.10
+* timeplus_appserver 1.4.34 -> 1.4.39
+* timeplus_web 1.4.18 -> 1.4.26
+* timeplus_connnector 1.5.3 -> 1.5.5
+* timeplus cli 1.0.9 -> 1.0.16
 
 Changelog:
 
 * timeplusd
   * feat: [new mutable stream](mutable-stream) for fast UPSERT and high performance point or range query.
-  * improve: better asof join performance
+  * perf: better asof join performance
   * feat: integrate system stream metrics with local stream
   * feat: [parallel key space scan](mutable-stream#key_space_full_scan_threads)
   * feat: force_full_scan for mutable stream
   * feat: user management on cluster
   * fix: [alter stream .. modify settings ..](sql-alter-stream#stream_ttl)
+  * feat: support remote UDF on cluster
+  * feat: primary key columns in secondary key
+  * feat: _tp_message_key to [read/write message keys in Kafka](proton-kafka#messagekey)
+  * feat: Kafka schema registry support for Avro output format
+  * feat: support idempotent keys processing
 * timeplus_appserver
   * feat: added mutable stream support
   * feat: more metrics for mv stats
   * feat: stream and external stream metrics
   * feat: adapted timeplusd cluster metrics
   * fix(alert): kv has different host than timeplusd
+  * feat: remove ably source
+  * feat: improve stats on data lineage
 * timeplus_web
   * feat: show more resources stats
   * feat: update license UI
@@ -54,12 +61,18 @@ Changelog:
   * feat: UI for mutable stream CRUD
   * feat: show throughput on data lineage
   * feat: show query pipeline(execution plan) on single node
+  * feat: new AutoMQ external stream
+  * feat: refined GetStarted UI on home page
+  * feat: support multinode stats on data lineage
 * timeplus_connnector
   * fix: wrong build time
+  * feat: remove ably source
 * cli
   * feat: new command for backup/restore data and configuration
   * feat: new command for synchronizing resources to timeplusd
   * feat(container): removed kubectl, added curl
+  * feat: single service status check
+  * feat: when you start Timeplus Enterprise for the first time, auto-create a dashboard to show usage and stats. The template resides in `timeplus/bin/.dashboard`
 
 ### 2.3.5
 Built on 07-02-2024.
