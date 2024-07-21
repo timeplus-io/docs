@@ -20,7 +20,7 @@ Available Commands:
 
 ## timeplus user list
 
-This will list all users.
+This will list all users in the cluster.
 
 Sample output:
 
