@@ -1,6 +1,10 @@
 # 多版本流
 
-当您使用 `versioned_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 当您在与其他流的 JOIN 中将这个流用作 “右表” 时，Timeplus 会自动选择最接近的版本。
+当您使用 `versioned_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
+
+:::info
+For Timeplus Enterprise customers, we recommend to use [Mutable Streams](mutable-stream) with the enhanced performance for UPSERT and queries.
+:::
 
 一段 HOWTO 视频：
 
@@ -19,8 +23,8 @@
 这个流可以在Timeplus Cloud或Timeplus Enterprise上使用用户界面向导创建。 你也可以在 Timeplus Proton 中使用 SQL 创建它：
 
 ```sql
-创建 STREAM dim_products（product_id 字符串，价格浮动32） 
-主键 (product_id) 
+创建 STREAM dim_products（product_id 字符串，价格浮动32）
+主键 (product_id)
 设置模式='versioned_kv'
 ```
 
@@ -92,7 +96,7 @@
 然后添加两行：
 
 ```sql
-在订单中插入（订单编号、商品编号、数量） 
+在订单中插入（订单编号、商品编号、数量）
 值 (1, 'iPhone15',1), (2, 'iPhone15_Plus',2)；
 ```
 
@@ -172,9 +176,9 @@ LEFT JOIN SQL 将更新结果。
 继续前面的场景。
 
 ```sql
-选择订单。_tp_time、订单编号、产品编号、数量、价格*数量作为收入
-来自订单 ASOF 在 orders.products.products.products.products.products.products.products.products 和订单上加入 d 
-_tp_time >= dim_products。_tp_time
+SELECT orders._tp_time, order_id,product_id,quantity, price*quantity AS revenue
+FROM orders ASOF JOIN dim_products
+ON orders.product_id=dim_products.product_id AND orders._tp_time >= dim_products._tp_time
 ```
 
 如果当前iPhone15的价格为800美元，并且您添加了购买1部iPhone15的新订单，那么您将获得800美元的交易金额。
@@ -199,4 +203,4 @@ _tp_time >= dim_products。_tp_time
 
 您不应为 versioned_kv 流的历史存储设置 TTL（生存时间）。 因为只有同一主键的最后一个版本保存在历史存储中（通过自动压缩后台进程）。 手动设置 TTL 可能会删除最近未更新的那些事件。
 
-您可以为 versioned_kv 流的流存储设置基于时间或大小的保留政策。 但这是可选的。 默认情况下，使用 4GB 的分段文件作为流媒体存储。
+您可以为 versioned_kv 流的流存储设置基于时间或大小的保留政策。 但这是可选的。 默认情况下，使用 4GB 的分段文件作为流存储。
