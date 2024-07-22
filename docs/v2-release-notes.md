@@ -2,6 +2,16 @@
 
 This page summarizes changes for each major update in Timeplus Enterprise v2 and Timeplus Proton, including new features and important bug fixes.
 
+## Jul 22, 2024
+
+### Timeplus Proton v1.5.14
+  * New feature: Remote user-defined functions (UDFs) are now supported.
+    * Example: `CREATE REMOTE FUNCTION ip_lookup(ip string) RETURNS string URL 'https://abc.lambda-url.us-west-2.on.aws/'`
+
+### Timeplus Enterprise
+  * In the SQL Console, see a query's pipeline after running a query. Note: This is available for single-node on-prem deployments.
+  * New stream mode: mutable streams, where values with the same primary key(s) will be overwritten. More advanced configuration options will be available soon. 
+
 ## Jul 8, 2024
 
 A new [JDBC driver](https://github.com/timeplus-io/timeplus-native-jdbc) for Timeplus is now available, supporting both streaming and batch queries. Compared to the JDBC driver we released last year, this new driver talks to Timeplus via the TCP native protocol, with better performance. [Learn more](jdbc)
