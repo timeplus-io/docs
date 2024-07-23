@@ -258,7 +258,9 @@ message Test{
 Please make sure to add `.proto` as the suffix.
 
 ## Avro Data Types Mapping {#avro_types}
-The table below shows supported Avro data types and how they match Timeplus data types in INSERT and SELECT queries.
+
+### Avro Primitive Types
+The table below shows supported Avro primitive data types and how they match Timeplus data types in INSERT and SELECT queries.
 
 |Avro data type|Timeplus data type|
 |---|---|
@@ -284,3 +286,179 @@ The table below shows supported Avro data types and how they match Timeplus data
 |fixed(16)|int128, uint128|
 |fixed(32)|int256, uint256|
 |record|tuple|
+
+### Avro Logical Types
+
+Here is a list of supported logical types:
+
+* UUID: maps to uuid.
+* Date: maps to date.
+* Timestamp (millisecond precision): maps to datetime64(3).
+* Timestamp (microsecond precision): maps to datetime64(6).
+
+Other logical types are not implemented yet.
+
+### record
+There are two ways to map a `record`. The simple one is using `tuple`. Here is an example:
+
+First given a Avro schema like this
+```json
+{
+    "name": "Root",
+    "type": "record",
+    "fields": [{
+        "name": "a_record_field",
+        "type": "record",
+        "fields": [
+            {"name": "one", "type": "string"},
+            {"name": "two", "type": "int"}
+        ]
+    }]
+}
+```
+The external stream uses tuple will be like this:
+
+```sql
+CREATE EXTERNAL STREAM avro (
+    a_record_field tuple(one string, two int32)
+) SETTINGS ...;
+```
+And the other way is flatten the fields, i.e. we will create a column for each field. So the external stream will be:
+```sql
+CREATE EXTERNAL STREAM avro (
+    `a_record_field.one` string,
+    `a_record_field.two` int32
+) SETTINGS ...;
+```
+As you can see, the column name for each field will be the name of the record field itself (in this case a_record_field) followed by a dot (.), and followed by the field name (one and two in this example). This is how "flatten" works (exactly the same way as the nested type in timeplusd).
+
+### array of record
+
+To map an array of record, we can use either `array(tuple(...))` or `nested()`, they are the same. And note that, by default, Timeplus will fatten the columns. For example:
+
+Give an Avro schema:
+```json
+{
+    "name": "Root",
+    "type": "record",
+    "fields": [{
+        "name": "an_array_of_records",
+        "type": {
+            "type": "array",
+            "items": {
+                "name": "record_inside_an_array",
+                "type": "record",
+                "fields": [
+                    {"name": "one", "type": "string"},
+                    {"name": "two", "type": "int"}
+                ]
+            }
+        }
+    }]
+}
+```
+We would create a stream like this:
+```sql
+CREATE EXTERNAL STREAM avro (
+    an_array_of_records array(tuple(one string, two int32))
+) SETTINGS ...;
+```
+will become:
+```sql
+CREATE EXTERNAL STREAM avro (
+    `an_array_of_records.one` array(string),
+    `an_array_of_records.two` array(int32)
+) SETTINGS ...;
+```
+And the Avro output format can handle this properly (you can use SET flatten_nested = 0 to disable the flatten behavior, the Avro output format can handle it well too).
+
+### union
+Since Timeplus does not support native union, there is no "perfect" way to handl Avro unions, the limitation is that, one stream can only handle one of the union elements (except for null, more details later). That means, if you need to generate values for different element types, you will need to create multiple streams (things will get easier once we support dynamic schema in Kafka external streams).
+
+For example. Given an Avro schema:
+```json
+{
+    "name": "Root",
+    "type": "record",
+    "fields": [{
+        "name": "int_or_string",
+        "type": ["int", "string"]
+    }]
+}
+```
+When we create the stream, we can only map the int_or_string field to either int or string, for example:
+```sql
+CREATE EXTERNAL STREAM avro (
+    int_or_string int32
+) SETTINGS ...;
+```
+This stream can only write int values. If you want to write string values, you will need to create another stream like this:
+```sql
+CREATE EXTERNAL STREAM avro (
+    int_or_string string
+) SETTINGS ...;
+```
+Note, here, we can also use the flattern naming convention to map the union field. For this example, the streams will be:
+```sql
+-- using the `int` element
+CREATE EXTERNAL STREAM avro (
+    `int_or_string.int` int32
+) SETTINGS ...;
+
+-- using the `string` element
+CREATE EXTERNAL STREAM avro (
+    `int_or_string.string` string
+) SETTINGS ...;
+```
+For named types (record, fixed, and enum), use the name property instead of the type name. For example, given an Avro schema:
+```json
+{
+    "name": "Root",
+    "type": "record",
+    "fields": [{
+        "name": "int_or_record",
+        "type": ["int", {
+            "name": "details",
+            "type": "record",
+            "fields": [...]
+        }]
+    }]
+}
+```
+In order to map to the record element of the union, we need to use the name details, so the stream definition will be:
+```sql
+CREATE EXTERNAL STREAM avro (
+    `int_or_record.details` tuple(...) -- do not use `int_or_record.record`, this won't work
+) SETTINGS ...;
+```
+
+The Avro input format only supports the flattern naming convention, so, if you create the stream using the first method:
+```sql
+CREATE EXTERNAL STREAM avro (
+    int_or_string int32
+) SETTINGS ...;
+```
+then, `SELECT * FROM avro` won't work.
+
+### nullable
+
+There is a special case for union, which is, when the union has two elements, and one of it is null, then this union field will be mapped to a nullable column. Example:
+
+Avro schema:
+```json
+{
+    "name": "Root",
+    "type": "record",
+    "fields": [{
+        "name": "null_or_int",
+        "type": ["null", "int"]
+    }]
+}
+```
+Stream:
+```sql
+CREATE EXTERNAL STREAM avro (
+    null_or_int nullable(int32)
+) SETTINGS ...;
+```
+However, in Timeplus, `nullable` cannot be applied on all the types. For instance, nullable(tuple(...)) is invalid. Which means, if a field in the Avro schema is `"type": ["null", {"type": "record"}]`, then you can only map it to a `tuple`, and it can't be `null`.

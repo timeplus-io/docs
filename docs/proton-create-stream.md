@@ -119,7 +119,7 @@ The following functions are available to use:
 5. [random_fixed_string](functions_for_random#random_fixed_string) to generate string in fixed length
 7. [random_in_type](functions_for_random#random_in_type) to generate value with max value and custom logic
 
-The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
+When you run a Timeplus SQL query with a random stream, the data will be generated and analayzed by the query engine. Depending on the query, all generated data or the aggregated states can be kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
 
 By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second:
 
