@@ -68,7 +68,7 @@ Proton 支持保留政策，可自动从流中删除过时的数据。
 
 Proton利用ClickHouse TTL表达式来制定历史数据的保留政策。 Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add `TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
 
-##### 用于流媒体存储
+##### 用于流存储
 
 Today it's not exposed in SQL to control the retention policies for streaming storage. In Timeplus Cloud, you can set them via 在 Timeplus Cloud 中，你可以通过以下方式进行设置
 
@@ -119,7 +119,7 @@ CREATE RANDOM STREAM devices(
 5. [random_fixed_string](functions_for_random#random_fixed_string) 生成固定长度的字符串
 7. [random_in_type](functions_for_random#random_in_type) 生成具有最大值和自定义逻辑的值
 
-在查询期间，随机流的数据保存在内存中。 The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
+When you run a Timeplus SQL query with a random stream, the data will be generated and analayzed by the query engine. Depending on the query, all generated data or the aggregated states can be kept in memory during the query time. The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
 
 By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second: 如果你想（大致）控制数据的生成频率，你可以使用 `eps` 设置。 例如，以下 SQL 每秒生成 10 个事件：
 
