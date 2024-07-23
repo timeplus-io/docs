@@ -26,11 +26,11 @@ Built on 06-20-2024.
 
 ## Latest Releases {#latest}
 
-### 2.4.7 (Unreleased)
+### 2.4.9 (Unreleased)
 
 Built on 07-??-2024.
 
-- timeplusd 2.2.8 -> 2.3.10
+- timeplusd 2.2.8 -> 2.3.12
 - timeplus_appserver 1.4.34 -> 1.4.39
 - timeplus_web 1.4.18 -> 1.4.26
 - timeplus_connnector 1.5.3 -> 1.5.5
@@ -49,8 +49,10 @@ Changelog:
   - feat: support remote UDF on cluster
   - feat: primary key columns in secondary key
   - feat: _tp_message_key to [read/write message keys in Kafka](proton-kafka#messagekey)
-  - feat: Kafka schema registry support for Avro output format
+  - feat: [Kafka schema registry support for Avro output format](proton-schema-registry#write)
   - feat: support idempotent keys processing
+  - feat: collect node free memory usage. You can get it via `select cluster_id, node_id, os_memory_total_mb, os_memory_free_mb, memory_used_mb, disk_total_mb, disk_free_mb, timestamp from system.cluster`
+  - fix: nullptr access in window function
 - timeplus_appserver
   - feat: added mutable stream support
   - feat: more metrics for mv stats
