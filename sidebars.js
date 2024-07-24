@@ -113,6 +113,7 @@ const sidebars = {
         },
         "timeplus-query-guide",
         "mutable-stream",
+        "timeplus-external-stream",
         {
           type: "category",
           label: "Data Ingestion",

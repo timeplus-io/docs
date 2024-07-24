@@ -6,6 +6,7 @@
 30m
 30min
 30s
+_tp_message_key
 Abiola
 ack
 ack_wait
@@ -223,6 +224,7 @@ geohash-encoded
 geohash_decode
 geohash_encode
 geohashes_in_box
+GetStarted
 ghcr
 gib
 GiB
@@ -375,6 +377,7 @@ mouseover
 MQ
 mqtt
 MQTT
+multinode
 mv
 mview
 mysql
@@ -399,6 +402,7 @@ now64
 nullable
 nullable
 Nullable
+nullptr
 num-cars
 num_of_events
 num_of_trips
@@ -591,6 +595,7 @@ timeplus_web
 timeplusAppserver
 timeplusConnector
 timeplusd
+Timeplusd
 TimeplusSinkConnector
 timeplusWeb
 timezones
@@ -609,6 +614,7 @@ tooltips
 top10cars
 TopN
 tp_delta
+tp_message_key
 tp_time
 tripA
 tripB

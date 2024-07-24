@@ -1,16 +1,30 @@
 # Kafka External Stream
 
-You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Proton with [External Stream](external-stream). Combining with [Materialized View](proton-create-view#m_view) and [Target Stream](proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
+You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus Proton with [External Stream](external-stream). Combining with [Materialized View](proton-create-view#m_view) and [Target Stream](proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
 
 ## CREATE EXTERNAL STREAM
 
-Currently Timeplus external stream only supports Kafka API as the only type.
+In Timeplus Proton, the external stream supports Kafka API as the only type. In Timeplus Enterprise, it also [supports the connection to the other Timeplus deployment](timeplus-external-stream).
 
-To create an external stream in Proton:
+To create an external stream:
 
 ```sql
-CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
-SETTINGS type='kafka', brokers='ip:9092',topic='..',security_protocol='..',username='..',password='..',sasl_mechanism='..',data_format='..',kafka_schema_registry_url='..',kafka_schema_registry_credentials='..',ssl_ca_cert_file='..',ss_ca_pem='..',skip_ssl_cert_check=..
+CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
+    (<col_name1> <col_type>)
+SETTINGS
+    type='kafka',
+    brokers='ip:9092',
+    topic='..',
+    security_protocol='..',
+    username='..',
+    password='..',
+    sasl_mechanism='..',
+    data_format='..',
+    kafka_schema_registry_url='..',
+    kafka_schema_registry_credentials='..',
+    ssl_ca_cert_file='..',
+    ss_ca_pem='..',
+    skip_ssl_cert_check=..
 ```
 
 The supported values for `security_protocol` are:
@@ -232,7 +246,7 @@ CREATE EXTERNAL STREAM example_two (
 
 #### _tp_message_key
 
-Based on user feedback, we introduced a better way to read or write the message key. Starting from timeplusd 2.3.10, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuiative and flexible way to write any content as the message key, not necessarily mapping to a specify column or a set of columns.
+Based on user feedback, we introduced a better way to read or write the message key. Starting from timeplusd 2.3.10, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuitive and flexible way to write any content as the message key, not necessarily mapping to a specify column or a set of columns.
 
 For example:
 ```sql
@@ -248,7 +262,7 @@ When insert a row to the stream like:
 ```sql
 INSERT INTO foo(id,name,_tp_message_key) VALUES (1, 'John', 'some-key');
 ```
-`'some-key'` will be used for the message key for the Kafka message (and it will be exlcuded from the message body, so the message will be `{"id": 1, "name": "John"}` for the above SQL).
+`'some-key'` will be used for the message key for the Kafka message (and it will be excluded from the message body, so the message will be `{"id": 1, "name": "John"}` for the above SQL).
 
 When doing a SELECT query, the message key will be populated to the `_tp_message_key` column as well.
 `SELECT * FROM foo` will return `'some-key'` for the `_tp_message_key` message.
