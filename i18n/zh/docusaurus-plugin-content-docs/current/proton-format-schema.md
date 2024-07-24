@@ -283,13 +283,7 @@ The table below shows supported Avro primitive data types and how they match Tim
 | int（日期）                       | 日期，日期32                                                  |
 | 长（时间戳毫秒）                      | datetime64 (3)                        |
 | 长（时间戳微秒）                      | datetime64 (6)                        |
-| 字节（十进制）                       | datetime64 (N)                        |
-| 整数                            | ipv4                                                     |
-| 已修复 (16)   | ipv6                                                     |
-| 字节（十进制）                       | 十进制（P、S）                                                 |
 | 字符串 (uuid) | uuid                                                     |
-| 已修复 (16)   | int128，uint128                                           |
-| 已修复 (32)   | int256，uint256                                           |
 | 记录                            | 元组                                                       |
 
 ### Avro Logical Types
@@ -307,7 +301,7 @@ Other logical types are not implemented yet.
 
 There are two ways to map a `record`. The simple one is using `tuple`. Here is an example:
 
-First given a Avro schema like this
+First given a Avro schema like this:
 
 ```json
 {
@@ -332,7 +326,7 @@ CREATE EXTERNAL STREAM avro (
 ) SETTINGS ...;
 ```
 
-And the other way is flatten the fields, i.e. we will create a column for each field. So the external stream will be:
+The other way is flatting the fields, i.e. we will create a column for each field. The external stream can be defined as:
 
 ```sql
 CREATE EXTERNAL STREAM avro (
@@ -341,11 +335,11 @@ CREATE EXTERNAL STREAM avro (
 ) SETTINGS ...;
 ```
 
-As you can see, the column name for each field will be the name of the record field itself (in this case a_record_field) followed by a dot (.), and followed by the field name (one and two in this example). This is how "flatten" works (exactly the same way as the nested type in timeplusd).
+The column name for each field will be the name of the record field itself (in this case a_record_field) followed by a dot (.), and followed by the field name. This is how "flatten" works.
 
 ### array of record
 
-To map an array of record, we can use either `array(tuple(...))` or `nested()`, they are the same. And note that, by default, Timeplus will fatten the columns. 例如：
+To map an array of record, you can use either `array(tuple(...))` or `nested()`, they are the same. By default, Timeplus will flatten the columns. 例如：
 
 Give an Avro schema:
 
@@ -387,11 +381,13 @@ CREATE EXTERNAL STREAM avro (
 ) SETTINGS ...;
 ```
 
-And the Avro output format can handle this properly (you can use SET flatten_nested = 0 to disable the flatten behavior, the Avro output format can handle it well too).
+The Avro output format can handle this properly.
+
+You can use `SET flatten_nested = 0` to disable the flatten behavior. The Avro output format can handle it well too.
 
 ### union
 
-Since Timeplus does not support native union, there is no "perfect" way to handl Avro unions, the limitation is that, one stream can only handle one of the union elements (except for null, more details later). That means, if you need to generate values for different element types, you will need to create multiple streams (things will get easier once we support dynamic schema in Kafka external streams).
+Since Timeplus does not support native union, there is no "perfect" way to handle Avro unions. One stream can only handle one of the union elements (except for `null`, more details later). If you need to generate values for different element types, you will need to create multiple streams.
 
 例如： Given an Avro schema:
 
@@ -406,7 +402,7 @@ Since Timeplus does not support native union, there is no "perfect" way to handl
 }
 ```
 
-When we create the stream, we can only map the int_or_string field to either int or string, for example:
+When we create the stream, we can only map the `int_or_string` field to either int or string, for example:
 
 ```sql
 CREATE EXTERNAL STREAM avro (
@@ -414,7 +410,7 @@ CREATE EXTERNAL STREAM avro (
 ) SETTINGS ...;
 ```
 
-This stream can only write int values. If you want to write string values, you will need to create another stream like this:
+This stream can only write `int` values. If you want to write string values, you will need to create another stream like this:
 
 ```sql
 CREATE EXTERNAL STREAM avro (
@@ -422,7 +418,7 @@ CREATE EXTERNAL STREAM avro (
 ) SETTINGS ...;
 ```
 
-Note, here, we can also use the flattern naming convention to map the union field. For this example, the streams will be:
+We can also use the flattern naming convention to map the union field. For this example, the streams will be:
 
 ```sql
 -- using the `int` element
@@ -473,7 +469,7 @@ then, `SELECT * FROM avro` won't work.
 
 ### nullable
 
-There is a special case for union, which is, when the union has two elements, and one of it is null, then this union field will be mapped to a nullable column. 示例：
+There is a special case for union, which is, when the union has two elements, and one of it is `null`, then this union field will be mapped to a nullable column. 示例：
 
 Avro schema:
 
@@ -496,4 +492,4 @@ CREATE EXTERNAL STREAM avro (
 ) SETTINGS ...;
 ```
 
-However, in Timeplus, `nullable` cannot be applied on all the types. For instance, nullable(tuple(...)) is invalid. Which means, if a field in the Avro schema is `"type": ["null", {"type": "record"}]`, then you can only map it to a `tuple`, and it can't be `null`.
+However, in Timeplus, `nullable` cannot be applied on all the types. For instance, `nullable(tuple(...))` is invalid. If a field in the Avro schema is `"type": ["null", {"type": "record"}]`, you can only map it to a `tuple`, and it can't be `null`.
