@@ -30,7 +30,7 @@ Settings:
 - **user**: the user name for the remote Timeplusd, default value is 'default'.
 - **password**: the password for the remote Timeplusd, default value is an empty string.
 - **secure**: a bool for whether to use secure connection to the remote Timeplusd, default value is false.
-- **stream**: the stream name in the remote Timeplusd. If it's omitted, then use the external stream name.
+- **stream**: the stream name in the remote Timeplusd. It's required and no default value.
 
 ## 限制
 
