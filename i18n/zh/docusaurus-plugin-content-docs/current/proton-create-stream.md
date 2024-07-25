@@ -119,7 +119,7 @@ CREATE RANDOM STREAM devices(
 5. [random_fixed_string](functions_for_random#random_fixed_string) 生成固定长度的字符串
 7. [random_in_type](functions_for_random#random_in_type) 生成具有最大值和自定义逻辑的值
 
-When you run a Timeplus SQL query with a random stream, the data will be generated and analayzed by the query engine. Depending on the query, all generated data or the aggregated states can be kept in memory during the query time. The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
+When you run a Timeplus SQL query with a random stream, the data will be generated and analyzed by the query engine. Depending on the query, all generated data or the aggregated states can be kept in memory during the query time. The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
 
 By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second: 如果你想（大致）控制数据的生成频率，你可以使用 `eps` 设置。 例如，以下 SQL 每秒生成 10 个事件：
 
