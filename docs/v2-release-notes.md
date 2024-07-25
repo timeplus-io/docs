@@ -3,19 +3,22 @@
 This page summarizes changes for each major update in Timeplus Enterprise v2 and Timeplus Proton, including new features and important bug fixes.
 
 ## Jul 22, 2024
+[Timeplus-native-jdbc](https://github.com/timeplus-io/timeplus-native-jdbc) is updated (v2.0.2), with bigint and decimal types are now supported, and a bugfix for invalid version for low cardinality key.
 
 ### Timeplus Proton v1.5.14
   * Remote user-defined functions (UDFs) can now be created via SQL.
     * Example: `CREATE REMOTE FUNCTION ip_lookup(ip string) RETURNS string URL 'https://abc.lambda-url.us-west-2.on.aws/'`
-  * Timeplus-native-jdbc is updated (v2.0.2):
-    * bigint and decimal types are now supported
-    * Bugfix: Invalid version for low cardinality keys
   * (v1.5.13) Bugfix: When the format schema is dropped, the format schema cache is now properly cleared
   * (v1.5.13) Bugfix: A null pointer access before type cast
 
 ### Timeplus Enterprise
   * In the SQL Console, see a query's pipeline after running a query. Note: This is available for single-node on-prem deployments.
-  * New stream mode: mutable streams, where values with the same primary key(s) will be overwritten. More advanced configuration options will be available soon. 
+  * New external stream: AutoMQ. A configuration wizard is available in the console UI.
+  * New stream mode: mutable streams, where values with the same primary key(s) will be overwritten. More advanced configuration options will be available soon.
+  * In the Help side panel, see detailed version and build times for components.
+
+*Self-Hosted*
+  * A new "Get Started" section on the homepage, with links to a demo video, docs, and support. 
 
 ## Jul 8, 2024
 
