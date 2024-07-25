@@ -167,7 +167,6 @@ const sidebars = {
           },
           items: ["jdbc"],
         },
-        "enterprise-releases",
         "issues",
         {
           label: "REST API Reference",
@@ -330,6 +329,8 @@ const sidebars = {
       },
       items: [
         "v2-release-notes",
+        "enterprise-releases",
+        "enterprise-v2.3",
         "v1-release-notes",
         "public-beta-2",
         "public-beta-1",
