@@ -1,6 +1,6 @@
-# Timeplus Enterprise v2 and Proton
+# Biweekly Updates
 
-This page summarizes changes for each major update in Timeplus Enterprise v2 and Timeplus Proton, including new features and important bug fixes.
+This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
 ## Jul 8, 2024
 
