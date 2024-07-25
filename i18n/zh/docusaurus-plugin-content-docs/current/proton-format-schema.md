@@ -418,7 +418,7 @@ CREATE EXTERNAL STREAM avro (
 ) SETTINGS ...;
 ```
 
-We can also use the flattern naming convention to map the union field. For this example, the streams will be:
+We can also use the flatten naming convention to map the union field. For this example, the streams will be:
 
 ```sql
 -- using the `int` element
@@ -457,7 +457,7 @@ CREATE EXTERNAL STREAM avro (
 ) SETTINGS ...;
 ```
 
-The Avro input format only supports the flattern naming convention, so, if you create the stream using the first method:
+The Avro input format only supports the flatten naming convention, so, if you create the stream using the first method:
 
 ```sql
 CREATE EXTERNAL STREAM avro (
