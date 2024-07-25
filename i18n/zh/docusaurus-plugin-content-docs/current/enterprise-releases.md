@@ -1,6 +1,4 @@
-# Enterprise Releases
-
-This page lists the release history of Timeplus Enterprise.
+# Timeplus Enterprise 2.4
 
 Each release of Timeplus Enterprise includes the following components:
 
@@ -12,36 +10,38 @@ Each release of Timeplus Enterprise includes the following components:
 
 Each component tracks their changes with own version numbers. The version number for each Timeplus Enterprise release is a verified combination of Timeplus components.
 
+## Key Highlights
+
+Key highlights of this release:
+
+- [Mutable Streams](mutable-stream) for fast UPSERT and high performance point or range query.
+- [External Streams](timeplus-external-stream) to query or write to remote Timeplus
+- Read/write Kafka message keys via [_tp_message_key column](proton-kafka#messagekey)
+- [Kafka schema registry support for Avro output format](proton-schema-registry#write)
+- [Timeplus Native JDBC](jdbc) with streaming SQL and fast insert
+
 ## Stable Releases {#stable}
 
-### 2.3.0
-
-Built on 06-20-2024.
-
-- timeplusd 2.2.7
-- timeplus_appserver 1.4.32
-- timeplus_web 1.4.17
-- timeplus_connnector 1.5.3
-- timeplus cli 1.0.4
+Timeplus Enterprise 2.4 stable build is not released yet.
 
 ## Latest Releases {#latest}
 
-### 2.4.9 (Unreleased)
+### 2.4.10 (Unreleased)
 
-Built on 07-??-2024.
+Built on 07-2?-2024.
 
-- timeplusd 2.2.8 -> 2.3.12
-- timeplus_appserver 1.4.34 -> 1.4.39
-- timeplus_web 1.4.18 -> 1.4.26
+- timeplusd 2.2.8 -> 2.3.13
+- timeplus_appserver 1.4.34 -> 1.4.41
+- timeplus_web 1.4.18 -> 1.4.28
 - timeplus_connnector 1.5.3 -> 1.5.5
-- timeplus cli 1.0.9 -> 1.0.16
+- timeplus cli 1.0.9 -> 1.0.17
 
 Changelog:
 
 - timeplusd
   - feat: [new mutable stream](mutable-stream) for fast UPSERT and high performance point or range query.
   - perf: better asof join performance
-  - feat: integrate system stream metrics with local stream
+  - feat: [external stream to read data from the remote timeplusd](timeplus-external-stream)
   - feat: [parallel key space scan](mutable-stream#key_space_full_scan_threads)
   - feat: force_full_scan for mutable stream
   - feat: user management on cluster
@@ -80,34 +80,4 @@ Changelog:
   - feat(container): removed kubectl, added curl
   - feat: single service status check
   - feat: when you start Timeplus Enterprise for the first time, auto-create a dashboard to show usage and stats. The template resides in `timeplus/bin/.dashboard`
-
-### 2.3.5
-
-Built on 07-02-2024.
-
-- timeplusd 2.2.7 -> 2.2.8
-- timeplus_appserver 1.4.32 -> 1.4.34
-- timeplus_web 1.4.17 -> 1.4.18
-- timeplus_connnector 1.5.3
-- timeplus cli 1.0.4 -> 1.0.9
-
-Changelog:
-
-- timeplusd
-  - feat: new setting `allow_independent_shard_processing`, default false. When data is already sharded correctly on file system and if the aggregation is on the sharding key, set it to true to avoid re-shuffle the data.
-  - feat: support modify materialized view query settings, e.g. `alter stream mv_with_inner_stream modify query setting checkpoint_interval=600`
-- timeplus_appserver
-  - feat: configuration items renaming, avoid using codenames
-  - feat: disabled user provision on timeplusd cluster
-  - feat: global metrics and dependencies
-  - feat: improved mv stats
-  - chore: updated onprem image name to timeplus-appserver
-- timeplus_web
-  - fix(query): timeplusd resources do not refresh after DDL
-  - feat(datalineage): show resources stats on datalineage
-  - feat: do not provision user on timeplusd cluster
-- cli
-  - feat: use more formal product name in command line messages
-  - feat: use more formal product name in command line messages
-  - feat: commands for user management
-  - feat: commands for cluster management
+  - feat: enable diag CLI on remote timeplusd
