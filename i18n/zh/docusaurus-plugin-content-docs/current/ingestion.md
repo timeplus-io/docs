@@ -1,9 +1,13 @@
 # 流传数据
 
-Timeplus 支持两种向系统加载数据的方法：
+Timeplus supports multiple ways to load data into the system:
 
-- [External Stream](external-stream) 适用于 Apache Kafka、Confluent、Redpanda 和其他与 Kafka API 兼容的数据流平台。 Timeplus Core Engine (Proton) 也提供此功能。
-- [来源](source) 用于更广泛的数据源。 这仅在 Timeplus Enterprise 中可用。
+- [External Stream](external-stream) 适用于 Apache Kafka、Confluent、Redpanda 和其他与 Kafka API 兼容的数据流平台。 This feature is also available in Timeplus Proton.
+- [来源](source) 用于更广泛的数据源。 这仅在 Timeplus Enterprise 中可用。 This integrates with [Redpanda Connect](https://redpanda.com/connect), supporting 200+ connectors.
+- On Timeplus web console, you can also [upload CSV files](#csv) and import them into streams.
+- For Timeplus Enterprise, [REST API](ingest-api) and SDKs are provided to push data to Timeplus programmatically.
+- On top of the REST API and SDKs, Timeplus Enterprise adds integrations with [Kafka Connect](kafka-connect), [AirByte](https://airbyte.com/connectors/timeplus), [Sling](sling), seatunnel and [datapm](datapm).
+- Last but not the least, if you are not ready to load your real data into Timeplus, or just want to play with the system, you can use the web console to [create sample streaming data](#streamgen), or [use SQL to create random streams](proton-create-stream#create-random-stream).
 
 ## 通过 web 控制台添加新源
 
@@ -35,7 +39,7 @@ flowchart LR
   Timeplus -->KafkaTopic
 ```
 
-### 上传本地文件
+### 上传本地文件 {#csv}
 
 如果您有一些静态数据集或查找CSV格式的表，您可以直接上传文件到Timeplus。
 
@@ -45,7 +49,7 @@ flowchart LR
 4. 为流指定一个名称，并可选择提供一个可读的描述。
 5. 单击按钮开始上传数据，然后单击 **查看导入的数据** 按钮运行查询以查看导入的数据。
 
-### 加载示例流数据
+### 加载示例流数据 {#streamgen}
 
 如果您没有准备好将您的真实数据加载到Timeplus中，或者只是想要与系统一起玩， 您可以使用此功能加载一些采样流数据。 我们提供了三个典型的流数据。
 
