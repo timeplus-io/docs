@@ -129,6 +129,7 @@ const sidebars = {
             "pulsar-source",
             "ingest-api",
             "automq-kafka-source",
+            "sling",
             "datapm",
           ],
         },

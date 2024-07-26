@@ -11,8 +11,8 @@ Each component tracks their changes with own version numbers. The version number
 
 ## Key Highlights
 Key highlights of this release:
-* [Mutable Streams](mutable-stream) for fast UPSERT and high performance point or range query.
-* [External Streams](timeplus-external-stream) to query or write to remote Timeplus
+* [Mutable Streams](mutable-stream) for fast UPSERT and high performance point or range queries
+* [External Streams](timeplus-external-stream) to query or write to remote Timeplus, designed for data migration or hybird deployment
 * Read/write Kafka message keys via [_tp_message_key column](proton-kafka#messagekey)
 * [Kafka schema registry support for Avro output format](proton-schema-registry#write)
 * [Timeplus Native JDBC](jdbc) with streaming SQL and fast insert
@@ -22,9 +22,9 @@ Timeplus Enterprise 2.4 stable build is not released yet.
 
 ## Latest Releases {#latest}
 
-### 2.4.10 (Unreleased)
-Built on 07-2?-2024.
-* timeplusd 2.2.8 -> 2.3.13
+### 2.4.11 (Unreleased)
+Built on 07-25-2024.
+* timeplusd 2.2.8 -> 2.3.14
 * timeplus_appserver 1.4.34 -> 1.4.41
 * timeplus_web 1.4.18 -> 1.4.28
 * timeplus_connnector 1.5.3 -> 1.5.5

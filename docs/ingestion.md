@@ -1,9 +1,13 @@
 # Data Ingestion
 
-Timeplus supports 2 ways to load data into the system:
+Timeplus supports multiple ways to load data into the system:
 
-- [External Stream](external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Core Engine (Proton).
-- [Source](source) for extra wide range of data sources. This is only available in Timeplus Enterprise.
+- [External Stream](external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Proton.
+- [Source](source) for extra wide range of data sources. This is only available in Timeplus Enterprise. This integrates with [Redpanda Connect](https://redpanda.com/connect), supporting 200+ connectors.
+- On Timeplus web console, you can also [upload CSV files](#csv) and import them into streams.
+- For Timeplus Enterprise, [REST API](ingest-api) and SDKs are provided to push data to Timeplus programmatically.
+- On top of the REST API and SDKs, Timeplus Enterprise adds integrations with [Kafka Connect](kafka-connect), [AirByte](https://airbyte.com/connectors/timeplus), [Sling](sling), seatunnel and [datapm](datapm).
+- Last but not the least, if you are not ready to load your real data into Timeplus, or just want to play with the system, you can use the web console to [create sample streaming data](#streamgen), or [use SQL to create random streams](proton-create-stream#create-random-stream).
 
 ## Add new sources via web console
 
@@ -35,7 +39,7 @@ flowchart LR
   Timeplus -->KafkaTopic
 ```
 
-### Upload local files
+### Upload local files {#csv}
 
 If you have some static dataset or lookup tables in the CSV format, you can upload the files directly to Timeplus.
 
@@ -45,7 +49,7 @@ If you have some static dataset or lookup tables in the CSV format, you can uplo
 4. Specify a name for the stream, and optionally provide a readable description.
 5. Click the button to start uploading data and click the **View Imported Data** button to run a query to review imported data.
 
-### Load sample streaming data
+### Load sample streaming data {#streamgen}
 
 If you are not ready to load your real data into Timeplus, or just want to play with the system, you can use this feature to load some sampling streaming data. We provide 3 typical streaming data.
 
