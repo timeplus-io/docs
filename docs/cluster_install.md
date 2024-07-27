@@ -7,21 +7,26 @@ Both bare metal and Kubernetes are supported.
 
 Follow the guide in [Single Node Install](singlenode_install) to grab the bare metal package and install on each node.
 
-Next, update the `config.yml` file to connect the nodes together:
+There are multiple ways to setup a cluster without Kubernetes. One easy solution is to run all components in one node, and the rest of nodes running the timeplusd only. For other deployment options, please contact [support](mailto:support@timeplus.com) or message us in our [Slack Community](timeplus.com/slack).
 
-```yaml
-node:
-  # cluster id this node belongs to. Only nodes in the same cluster id can form a cluster
-  cluster_id: timeplus_cluster
-  advertised_host:
-  roles:
-    role: #Supported roles : Metadata, Data, Ingest, Query.`Data` role contains both `Ingest and Query` roles
-      - Metadata
-      - Data
-cluster:
-  metadata_node_quorum: localhost:8464
+Choose one node as the lead node, say its hostname is `timeplus-server1`. Stop all services via `timeplus stop` command. Then configure environment variables.
+```bash
+export ADVERTISED_HOST=timeplus-server1
+export METADATA_NODE_QUORUM=timeplus-server1:8464,timeplus-server2:8464,timeplus-server3:8464
+export TIMEPLUSD_REPLICAS=3
 ```
-For more details about the server configuration, please contact [support](mailto:support@timeplus.com) or message us in our [Slack Community](timeplus.com/slack).
+Then run `timeplus start` to start all services, including timeplusd, timeplus_web, timeplus_appserver and timeplus_connector.
+
+On the second node, first make sure all services are stopped via `timeplus stop`.
+Then configure environment variables.
+```bash
+export ADVERTISED_HOST=timeplus-server2
+export METADATA_NODE_QUORUM=timeplus-server1:8464,timeplus-server2:8464,timeplus-server3:8464
+```
+Then run `timeplus start -s timeplusd` to only start timeplusd services.
+
+Similarly on the third node, set `export ADVERTISED_HOST=timeplus-server3` and the same `METADATA_NODE_QUORUM` and only start timeplusd.
+
 
 ## Kubernetes Install {#k8s}
 
