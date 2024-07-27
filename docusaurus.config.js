@@ -104,7 +104,7 @@ const config = {
           alt: "Timeplus",
           src: "img/Option1_B.png",
           srcDark: "img/Option1_W.png",
-          href: "https://timeplus.com",
+          href: "https://docs.timeplus.com",
         },
         items: [
           {

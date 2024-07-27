@@ -22,13 +22,13 @@ Timeplus Enterprise 2.4 stable build is not released yet.
 
 ## Latest Releases {#latest}
 
-### 2.4.11 (Unreleased)
-Built on 07-25-2024.
-* timeplusd 2.2.8 -> 2.3.14
-* timeplus_appserver 1.4.34 -> 1.4.41
-* timeplus_web 1.4.18 -> 1.4.28
+### 2.4.12 (Unreleased)
+Built on 07-26-2024.
+* timeplusd 2.2.8 -> 2.3.15
+* timeplus_appserver 1.4.34 -> 1.4.42
+* timeplus_web 1.4.18 -> 1.4.29
 * timeplus_connnector 1.5.3 -> 1.5.5
-* timeplus cli 1.0.9 -> 1.0.17
+* timeplus cli 1.0.9 -> 1.0.18
 
 Changelog:
 
@@ -55,6 +55,7 @@ Changelog:
   * fix(alert): kv has different host than timeplusd
   * feat: remove ably source
   * feat: improve stats on data lineage
+  * fix: wrap column name for schema infer
 * timeplus_web
   * feat: show more resources stats
   * feat: update license UI
@@ -65,6 +66,7 @@ Changelog:
   * feat: new AutoMQ external stream
   * feat: refined GetStarted UI on home page
   * feat: support multinode stats on data lineage
+  * feat: use fixed font size for single value chart
 * timeplus_connnector
   * fix: wrong build time
   * feat: remove ably source
@@ -75,3 +77,4 @@ Changelog:
   * feat: single service status check
   * feat: when you start Timeplus Enterprise for the first time, auto-create a dashboard to show usage and stats. The template resides in `timeplus/bin/.dashboard`
   * feat: enable diag CLI on remote timeplusd
+  * feat: for stop command, terminate the service if graceful stop times out
