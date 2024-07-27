@@ -1,6 +1,6 @@
 # API Key
 
-The REST API of Timeplus Enterprise is secured by API key. Currently this is only enabled in Timeplus Enterprise SaaS edition and will be available for self-hosted deployment soon.
+The REST API of Timeplus Enterprise is secured by API key. Currently this is only enabled in Timeplus Enterprise SaaS edition. For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorization header to be `Basic [Base64 encoded user:password]`.
 
 You need to create an API key to access the Timeplus REST API. Here’s how to create one:
 
