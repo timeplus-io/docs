@@ -17,7 +17,9 @@ import TabItem from '@theme/TabItem';
 
 :::info
 
-如果你想利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义 HTTP 标头，那么你可以使用标准的 `Authorization`标头，其值为 `apiKey $KEY`
+If you would like to leverage a 3rd party system/tool to push data to Timeplus but it doesn't allow custom HTTP Header, then you can use the standard `Authorization` Header, with value `ApiKey $KEY`.
+
+For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorization header to be `Basic [Base64 encoded user:password]`.
 
 :::
 
