@@ -5,20 +5,25 @@ This page summarizes changes for each major update in Timeplus Enterprise v2 and
 ## Jul 22, 2024
 [Timeplus-native-jdbc](https://github.com/timeplus-io/timeplus-native-jdbc) is updated (v2.0.2), with bigint and decimal types are now supported, and a bugfix for invalid version for low cardinality key.
 
-### Timeplus Proton v1.5.14
+### Timeplus Proton (v1.5.14 and v1.5.13)
   * Remote user-defined functions (UDFs) can now be created via SQL.
     * Example: `CREATE REMOTE FUNCTION ip_lookup(ip string) RETURNS string URL 'https://abc.lambda-url.us-west-2.on.aws/'`
+  * Mutable streams performance tuning: added [key_space_full_scan_threads](mutable-stream#key_space_full_scan_threads) setting.
+  * Improved asof join performance.
+  * Added support for primary key columns in secondary key.
   * (v1.5.13) Bugfix: When the format schema is dropped, the format schema cache is now properly cleared
   * (v1.5.13) Bugfix: A null pointer access before type cast
 
 ### Timeplus Enterprise
+  * When launching Timeplus Enterprise for the first time, a system dashboard will be created to show usage and workspace stats. 
   * In the SQL Console, see a query's pipeline after running a query. Note: This is available for single-node on-prem deployments.
-  * New external stream: AutoMQ. A configuration wizard is available in the console UI.
+  * New external stream: AutoMQ. A configuration wizard is available in the console UI. [Learn more](automq-kafka-source)
   * New stream mode: mutable streams, where values with the same primary key(s) will be overwritten. More advanced configuration options will be available soon.
   * In the Help side panel, see detailed version and build times for components.
-
-*Self-Hosted*
-  * A new "Get Started" section on the homepage, with links to a demo video, docs, and support. 
+  * A new "Get Started" section on the homepage for on-prem deployments, with links to a demo video, docs, and support.
+  * Added additional metrics for materialized views.
+  * Updated license UI for on-prem deployments.
+  * Ably data source is now removed. 
 
 ## Jul 8, 2024
 
