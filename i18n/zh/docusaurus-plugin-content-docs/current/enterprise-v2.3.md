@@ -24,7 +24,13 @@ Key highlights of this release:
 
 ### 2.3.0
 
-Built on 06-20-2024.
+Built on 06-20-2024. You can get it via:
+
+- For Linux or Mac users: `curl https://install.timeplus.com | sh`
+- For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 2.3.0 ..`
+- For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.3.0`
+
+Components:
 
 - timeplusd 2.2.7
 - timeplus_appserver 1.4.32
@@ -36,7 +42,12 @@ Built on 06-20-2024.
 
 ### 2.3.5
 
-Built on 07-02-2024.
+Built on 07-02-2024. You can get it via:
+
+- For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.3.5 ..`
+- For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.3.5`
+
+Comparing to [2.3.0](#230):
 
 - timeplusd 2.2.7 -> 2.2.8
 - timeplus_appserver 1.4.32 -> 1.4.34
