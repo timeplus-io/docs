@@ -60,10 +60,6 @@
 
 ## 安全合规
 
-### SOC2 合规仪表板&警报 {#soc2}
-
-Timeplus has achieved SOC2 Type 1 compliance [since April 2023](https://www.timeplus.com/post/soc2-type1). We chose [Drata](https://drata.com/) to help us automates the compliance journey. We setup a process to call [Drata Open API](https://drata.com/product/api), and send the compliance findings to Timeplus as a JSON document. We then set up dashboards and a Slack sink to help us monitor the compliance to-do items. 我们选择 [Drata](https://drata.com/) 来帮助我们自动化合规之旅。 我们设置了一个调用 [Drata Open API](https://drata.com/product/api)的流程，并将合规调查结果作为 JSON 文档发送给 Timeplus。 然后，我们设置了仪表板和 Slack 数据旅游，以帮助我们监控合规待办事项。
-
 ### 容器漏洞监控 {#container}
 
 Build real-time monitoring systems for container vulnerabilities with Timeplus. Eric Guo, DevOps Director of Aurora Health Science & Technology Co., shares how his team set up a system to provide actionable insights to keep their system secure at all times. Aurora Health Science & Technology Co. 的开发运营总监 Eric Guo 分享了他的团队如何建立一个系统，以提供切实可行的见解，从而始终保持系统安全。
