@@ -56,6 +56,6 @@ INTO <target_stream> AS <SELECT ...>
 SETTINGS <settings>
 ```
 
-### pause_on_create
+### pause_on_start
 
-By default, once the materialized view is created, the streaming query will start automatically. If you don't want to start the query immediately, you can set `pause_on_create=true`. The default value is `false`.
+By default, once the materialized view is created, the streaming query will start automatically. If you don't want to start the query immediately, you can set `pause_on_start=true`. The default value is `false`.
