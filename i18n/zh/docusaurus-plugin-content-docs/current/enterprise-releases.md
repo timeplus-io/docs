@@ -26,13 +26,19 @@ Timeplus Enterprise 2.4 stable build is not released yet.
 
 ## Latest Releases {#latest}
 
-### 2.4.12 (Unreleased)
+### 2.4.15
 
-Built on 07-26-2024.
+Built on 07-31-2024. You can get it via:
 
-- timeplusd 2.2.8 -> 2.3.15
-- timeplus_appserver 1.4.34 -> 1.4.42
-- timeplus_web 1.4.18 -> 1.4.29
+- For Linux or Mac users: `curl https://install.timeplus.com/latest | sh`
+- For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.4.15 ..`
+- For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.15`
+
+Comparing to the last `latest` release [2.3.5](enterprise-v2.3#235):
+
+- timeplusd 2.2.8 -> 2.3.20
+- timeplus_appserver 1.4.34 -> 1.4.43
+- timeplus_web 1.4.18 -> 1.4.30
 - timeplus_connnector 1.5.3 -> 1.5.5
 - timeplus cli 1.0.9 -> 1.0.18
 
@@ -53,6 +59,9 @@ Changelog:
   - feat: support idempotent keys processing
   - feat: collect node free memory usage. You can get it via `select cluster_id, node_id, os_memory_total_mb, os_memory_free_mb, memory_used_mb, disk_total_mb, disk_free_mb, timestamp from system.cluster`
   - fix: nullptr access in window function
+  - feat: timeplusd listen for ipv4 and ipv6 port. No need to set `-h 127.0.0.1` for `timeplusd client`
+  - feat: added `num_of_logical_cpu_cores` for telemetry (based on cgroup limit for Linux, otherwise get the hardware concurrency)
+  - feat: changed the logging level for JavaScript UDF from DEBUG to INFO, also automatically convert data types to string
 - timeplus_appserver
   - feat: added mutable stream support
   - feat: more metrics for mv stats
