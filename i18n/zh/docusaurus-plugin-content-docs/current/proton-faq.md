@@ -8,7 +8,7 @@ Timeplus Proton 是 [Timeplus Enterprise](https://www.timeplus.com)的核心引�
 
 Timeplus Proton建立在广受欢迎的开源项目 [ClickHouse项目](https://github.com/ClickHouse/ClickHouse) 之上，其历史数据、存储、计算功能和部分查询引擎是其历史数据、存储、计算功能和部分查询引擎的。
 
-通过利用ClickHouse的成熟技术，Timeplus Proton为开源社区带来了更成熟的在线分析处理（OLAP）功能，并进行了许多新开发以统一流媒体和处理引擎。 你可以将Timeplus Proton与现有的ClickHouse部署一起使用，以启用其他功能。
+通过利用ClickHouse的成熟技术，Timeplus Proton为开源社区带来了更成熟的在线分析处理（OLAP）功能，并进行了许多新开发以统一流和处理引擎。 你可以将Timeplus Proton与现有的ClickHouse部署一起使用，以启用其他功能。
 
 ## Timeplus Proton 是如何获得许可的？ {#license}
 
@@ -22,9 +22,9 @@ Apache 许可证 2.0 是一个 [许可证](https://fossa.com/blog/open-source-li
 
 - **我们希望看到 Timeplus Proton 在独特而异国情调的环境中突破流和数据处理的极限**. 尽管Timeplus Proton已经为企业级Timeplus Cloud提供了支持，但开发者或其他最终用户可以下载和部署Timeplus Proton或在本地修改代码以用于私有云基础架构。 使用Timeplus Proton不需要您采用Timeplus Enterprise或与我们的销售团队会面。
 
-- **我们渴望看看 _免费_ 流媒体和历史数据处理引擎能带来什么价值**。 通过向开源社区发布 Timeplus Proton 的单节点版本，我们为开发者、业余爱好者、发烧友以及任何想尝试新技术的人提供了一条完全免费的新途径。
+- **我们渴望看看 _免费_ 流和历史数据处理引擎能带来什么价值**。 通过向开源社区发布 Timeplus Proton 的单节点版本，我们为开发者、业余爱好者、发烧友以及任何想尝试新技术的人提供了一条完全免费的新途径。
 
-- **我们正在围绕统一流和批数据处理** 建立一个新的社区。 ClickHouse 为处理铺平了道路，但围绕流计算，我们还有很多东西要一起实验和发现。 我们迫不及待地想从各种规模和流媒体成熟度的组织中获得开发者和用户的反馈。
+- **我们正在围绕统一流和批数据处理** 建立一个新的社区。 ClickHouse 为处理铺平了道路，但围绕流计算，我们还有很多东西要一起实验和发现。 我们迫不及待地想从各种规模和流成熟度的组织中获得开发者和用户的反馈。
 
 ## Timeplus Proton 项目允许哪些商业用途及其他用途？ {#use}
 
@@ -36,12 +36,12 @@ Apache License 2.0还防止Timeplus Proton的任何贡献者（Timeplus团队的
 
 ## Timeplus Proton 与 Timeplus Enterprise 有哪些功能可用？ {#compare}
 
-Timeplus Proton 在单个数据库节点上为统一的流媒体和数据处理提供支持。 它的商业版本支持高级部署策略，并包括企业就绪功能。 我们还想澄清其他一些差异。
+Timeplus Proton 在单个数据库节点上为统一的流和数据处理提供支持。 它的商业版本支持高级部署策略，并包括企业就绪功能。 我们还想澄清其他一些差异。
 
 |               | **Timeplus Proton**       | **Timeplus 企业版**          |
 | ------------- | ------------------------- | ------------------------- |
-| **部署**        | <ul><li>单节点 Docker 镜像</li><li>Mac/Linux 上的单一二进制</li></ul> | <ul><li>单节点</li><li>集群</li><li>基于 Kubernetes 的 “自带云” (BYOC)</li><li>使用 SOC2 实现完全托管的云服务</li></ul> |
-| **数据来源**      | <ul><li>随机流</li><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li><li>[通过 REST API 进行流媒体采集（仅限紧凑模式）]（Proton摄取 API）</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>WebSocket 和 HTTP 流</li><li>Apache Pulsar</li><li>上传 CSV</li><li>[通过 REST API 进行流式提取（使用 API 密钥和灵活模式）]（收录 API）</li></ul> |
+| **部署**        | <ul><li>单节点 Docker 镜像</li><li>Mac/Linux 上的单一二进制</li></ul> | <ul><li>单节点</li><li>集群</li><li>基于 Kubernetes 的 “自带云” (BYOC)</li><li>Fully-managed cloud service</li></ul> |
+| **数据来源**      | <ul><li>随机流</li><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li><li>[通过 REST API 进行流采集（仅限紧凑模式）]（Proton摄取 API）</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>WebSocket 和 HTTP 流</li><li>Apache Pulsar</li><li>上传 CSV</li><li>[通过 REST API 进行流式提取（使用 API 密钥和灵活模式）]（收录 API）</li></ul> |
 | **数据目的地（汇点）** | <ul><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>Apache Pulsar</li><li>Slack</li><li>网络挂钩</li><li>Timeplus 流</li></ul> |
 | **支持**        | <ul><li>来自 GitHub 和 Slack 的社区支持</li></ul> | <ul><li>通过电子邮件、Slack 和 Zoom 提供企业支持，并附有 SLA</li></ul> |
 
