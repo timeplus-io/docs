@@ -20,7 +20,9 @@ Available Commands:
 
 ## timeplus user list
 
-This will list all users in the cluster.
+:::warning Known issue for [Timeplus Enterprise 2.4.15](enterprise-releases#known_issue_2_4_15)
+You need to add `--verbose` to this command to get the user list.
+:::
 
 Sample output:
 
