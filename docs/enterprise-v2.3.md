@@ -22,7 +22,6 @@ Key highlights of this release:
 
 ### 2.3.5
 Built on 07-02-2024. You can get it via:
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.3.5 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.3.5`
 
 Component versions:
@@ -57,7 +56,6 @@ Changelog (comparing to [2.3.0](#230)):
 
 ### 2.3.0
 Built on 06-20-2024. You can get it via:
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 2.3.0 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.3.0`
 
 Components:
