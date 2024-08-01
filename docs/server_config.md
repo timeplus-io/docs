@@ -3,11 +3,11 @@
 When you run Timeplus Enterprise in a self-hosted environment, the default settings are designed to accommodate common use cases with ease and optimal performance. The server can be configured either by modifying the configuration file or via the web console.
 
 ## User Management {#users}
-By default, a system account will be created automatically to perform system level operations, such as managing user accounts and reading/writing metrics. The username is `proton`, with the password defaulting to `timeplus@t+`. This password can be overridden by setting `--password` flag when you run `timeplus start`.
+For single node deployments, when you launch the web console of Timeplus Enterprise for the first time, you will be prompted to create a new account with password.
 
-When you launch the web console of Timeplus Enterprise for the first time, you will be prompted to create a new account with password.
+For multi-node clusters deployed via [Helm Chart](k8s-helm), please set the system account and user accounts in the values.yaml. The system account is created automatically for internal components to communicate to each other. The username is `proton`, with the password defaulting to `timeplusd@t+`.
 
-To edit or add new users, you can edit the conf/users.yaml, then restart the server. A web UI for managing users will be provided soon.
+To edit or add new users, you can use the [timeplus user](cli-user) CLI or container, which supports bare metal and Kubernetes, both single node and multi-node.
 
 ## License Management{#license}
 Your 30-day free trial starts when you start Timeplus Enterprise and access the web console for the first time. When your free trial ends, Timeplus Enterprise will stop working.
