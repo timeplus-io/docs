@@ -22,19 +22,19 @@ Key highlights of this release:
 
 ## Stable Releases {#stable}
 
-Timeplus Enterprise 2.4 stable build is not released yet.
-
-## Latest Releases {#latest}
+Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
 ### 2.4.15
 
 Built on 07-31-2024. You can get it via:
 
-- For Linux or Mac users: `curl https://install.timeplus.com/latest | sh`
+- For Linux or Mac users: `curl https://install.timeplus.com | sh`
 - For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.4.15 ..`
 - For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.15`
 
-Comparing to the last `latest` release [2.3.5](enterprise-v2.3#235):
+#### Changelog {#changelog_2_4_15}
+
+Comparing to the last `stable` release [2.3.5](enterprise-v2.3#235):
 
 - timeplusd 2.2.8 -> 2.3.20
 - timeplus_appserver 1.4.34 -> 1.4.43
@@ -42,7 +42,7 @@ Comparing to the last `latest` release [2.3.5](enterprise-v2.3#235):
 - timeplus_connnector 1.5.3 -> 1.5.5
 - timeplus cli 1.0.9 -> 1.0.18
 
-Changelog:
+Components:
 
 - timeplusd
   - feat: [new mutable stream](mutable-stream) for fast UPSERT and high performance point or range query.
@@ -93,3 +93,17 @@ Changelog:
   - feat: when you start Timeplus Enterprise for the first time, auto-create a dashboard to show usage and stats. The template resides in `timeplus/bin/.dashboard`
   - feat: enable diag CLI on remote timeplusd
   - feat: for stop command, terminate the service if graceful stop times out
+
+#### Known issues {#known_issue_2_4_15}
+
+1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migeration.
+2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
+3. For [timeplus user](cli-user) CLI, you need to add `--verbose` to `timeplus user list` command, in order to list users.
+
+## Latest Releases {#latest}
+
+The stable build 2.4.15 is also the latest release.
+
+## Other Releases {#other}
+
+Older releaess of 2.4.x will be listed here.
