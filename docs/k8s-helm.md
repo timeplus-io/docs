@@ -155,16 +155,16 @@ helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
 Once `timeplus-cli` pod is up and running, you can run `kubectl exec -n $NS -it timeplus-cli -- /bin/bash` to run commands in the pod. Please refer to the following commands to do the user management. Make sure you update the command accordingly to your own deployment.
 ```bash
 # Get the IP of timeplusd pods
-export TIMEPLUSD_POD_IPS=$(kubectl get pods -n $NS -l app.kubernetes.io/component=timeplusd -o jsonpath='{.items[*].status.podIP}' | tr ' ' '\n' | sed "s/\$/:8463/" | paste -sd ',' -)
+export TIMEPLUSD_POD_IPS=timeplusd-0.timeplusd-svc.timeplus.svc.cluster.local:8463
 
 # List users
-timeplus user list --address ${TIMEPLUSD_POD_IPS}  --admin-password timeplusd@t+
+timeplus user list --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+
 
 # Create an user with username "hello" and password "word"
 timeplus user create --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+ --user hello --password world
 
 # Delete the user "hello"
-timeplus user delete --address ${TIMEPLUSD_POD_IPS}  --admin-password timeplusd@t+ --user hello
+timeplus user delete --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+ --user hello
 ```
 
 ### Recover from EBS snapshots
