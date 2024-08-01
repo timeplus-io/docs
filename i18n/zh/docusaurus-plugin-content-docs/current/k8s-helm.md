@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Deploy on Kubernetes with Helm
 
 You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://helm.sh/).
@@ -9,20 +12,30 @@ You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://h
 - Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
 - Network access to Docker Hub
 
-## Quickstart with minikube
+## Quickstart with minikube or kind
 
-This is the quickstart guide to install a 3 nodes Timeplus Enterprise cluster with default configurations on [minikube](https://github.com/kubernetes/minikube) using Helm package manager.
+This is the quickstart guide to install a 3 nodes Timeplus Enterprise cluster with default configurations on [minikube](https://github.com/kubernetes/minikube) or [kind](https://kind.sigs.k8s.io/) using Helm package manager.
 
-Although this guidance is focus on minikube, you should be able to install it on other k8s such as Amazon EKS or your own k8s cluster as well. You may need to update configurations accordingly to fit your k8s environment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
+Although this guidance is focus on minikube or kind, you should be able to install it on other Kubernetes, such as Amazon EKS or your own Kubernetes cluster as well. You may need to update configurations accordingly to fit your Kubernetes environment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
 
-### Get minikube ready
+### Get minikube or kind ready
 
+<Tabs defaultValue="minikube">
+<TabItem value="minikube" label="minikube" default>
 Please follow https://minikube.sigs.k8s.io/docs/start/ to get the minikube ready. For Mac users, you may get it via:
-
 ```bash
 brew install minikube
 minikube start
 ```
+</TabItem>
+<TabItem value="kind" label="kind" default>
+Please follow https://kind.sigs.k8s.io/ to get the kind ready. For Mac users, you may get it via:
+```bash
+brew install kind
+kind create cluster
+```
+</TabItem>
+</Tabs>
 
 ### Add Timeplus Helm chart repository
 
@@ -38,8 +51,10 @@ A sample output would be:
 
 ```bash
 NAME                        	CHART VERSION	APP VERSION	DESCRIPTION
-timeplus/timeplus-enterprise	v2.4.2       	2.3.7      	A Helm chart for deploying a cluster of Timeplus...
+timeplus/timeplus-enterprise	v2.4.15      	2.3.20     	Helm chart for deploying a cluster of Timeplus ...
 ```
+
+The latest helm chart version is 2.4.15. It is the same version as [Timeplus Enterprise 2.4.15](enterprise-releases#2415). The `APP VERSION` is 2.3.20, based on the core engine(timeplusd) version.
 
 ### Create Namespace
 
@@ -60,6 +75,8 @@ provision:
     - username: timeplus_user
       password: changeme
 timeplusd:
+  # -- Current only support replicas 1 or 3
+  replicas: 3
   storage:
     stream:
       className: <Your storage class name>
@@ -77,20 +94,16 @@ timeplusd:
     requests:
       cpu: "2"
       memory: 4Gi
-kv:
-  storage:
-    className: <Your storage class name>
-    size: 10Gi
-    selector: null
 ```
 
 Then make changes to better fit your need.
 
-1. Update the storage class name and size accordingly. You can check available storage class on your cluster by running `kubectl get storageclass`.
+1. Update the storage class name and size accordingly. You can check available storage classes on your cluster by running `kubectl get storageclass`. Common values are `local`, `standard`, etc.
 2. Update the username and password of the `provision.users`. You will be able to login to Timeplus web with those users. See [User management](#user-management) section for advanced user management.
-3. Update `defaultAdminPassword`. This is the password for the default admin user `proton`.
-4. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
-5. Optionally refer to [Configuration Guide](#configuration-guide) and add other configurations.
+3. Update `defaultAdminPassword`. This is the password for the default admin user `proton`, which is used internally in the system.
+4. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload.
+5. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cpu and 16GB memory.
+6. Optionally refer to [Configuration Guide](#configuration-guide) and add other configurations.
 
 ### Install Helm chart
 
@@ -107,16 +120,16 @@ It will take 1 or 2 minutes to start the whole stack, run following `kubectl get
 
 ```bash
 NAME                                  READY   STATUS    RESTARTS   AGE
-kv-0                                  1/1     Running   0          118s
 timeplus-appserver-75dff8f964-g4fl9   1/1     Running   0          118s
 timeplus-connector-7c85b7c9c9-gwdtn   1/1     Running   0          118s
+timeplus-provision-pqdjj              0/1     Completed 0          118s
 timeplus-web-58bcb4f486-s8wmx         1/1     Running   0          118s
 timeplusd-0                           1/1     Running   0          118s
 timeplusd-1                           1/1     Running   0          118s
 timeplusd-2                           1/1     Running   0          118s
 ```
 
-If all the pods status are in `Running` status, then the stack is ready to access. If some pods cannot turn to `Running` status, you can run `kubectl describe pod <pod_name> -n $NS` to get more information.
+If all the pods status are in `Running` status, except `timplus-provision-..`, then the stack is ready to access. If some pods cannot turn to `Running` status, you can run `kubectl describe pod <pod_name> -n $NS` to get more information.
 
 ### Expose the Timeplus Console
 
@@ -134,27 +147,33 @@ You can run `kubectl delete namespace $NS` to delete all PVCs and the namespace.
 
 ### User management
 
-Currently Timeplus web doesn't support user management yet. You will need to deploy the `timeplus cli` pod to run `timeplus cli` to manage users. In order to do so, please add the following section to `values.yaml ` and upgrade the helm chart.
+Currently Timeplus web doesn't support user management yet. You will need to deploy the `timeplus cli` pod to run `timeplus cli` to manage users. In order to do so, please add the following section to `values.yaml `:
 
 ```yaml
 timeplusCli:
   enabled: true
 ```
 
-Once `timeplus-cli` pod is up and running, you can run `kubectl exec -it timeplus-cli -- /bin/bash -n $NS` to run commands in the pod. Please refer to the following commands to do the user management. Make sure you update the command accordingly to your own deployment.
+Then upgrade the helm chart via:
+
+```bash
+helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
+```
+
+Once `timeplus-cli` pod is up and running, you can run `kubectl exec -n $NS -it timeplus-cli -- /bin/bash` to run commands in the pod. Please refer to the following commands to do the user management. Make sure you update the command accordingly to your own deployment.
 
 ```bash
 # Get the IP of timeplusd pods
-export TIMEPLUSD_POD_IPS=$(kubectl get pods -n $NS -l app.kubernetes.io/component=timeplusd -o jsonpath='{.items[*].status.podIP}' | tr ' ' '\n' | sed "s/\$/:${TIMEPLUSD_TCP_PORT}/" | paste -sd ',' -)
+export TIMEPLUSD_POD_IPS=$(kubectl get pods -n $NS -l app.kubernetes.io/component=timeplusd -o jsonpath='{.items[*].status.podIP}' | tr ' ' '\n' | sed "s/\$/:8463/" | paste -sd ',' -)
 
 # List users
-timeplus user list --address ${TIMEPLUSD_POD_IPS}  --admin-password mypassword
+timeplus user list --address ${TIMEPLUSD_POD_IPS}  --admin-password timeplusd@t+
 
 # Create an user with username "hello" and password "word"
-timeplus user create --address ${TIMEPLUSD_POD_IPS} --admin-password mypassword --user hello --password world
+timeplus user create --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+ --user hello --password world
 
 # Delete the user "hello"
-timeplus user delete --address ${TIMEPLUSD_POD_IPS}  --admin-password mypassword --user hello
+timeplus user delete --address ${TIMEPLUSD_POD_IPS}  --admin-password timeplusd@t+ --user hello
 ```
 
 ### Recover from EBS snapshots
@@ -301,94 +320,401 @@ If something goes wrong, you can run the following commands to get more informat
 
 ## Configuration Guide
 
-| Key                                                  | 描述                                                                                                         | Default Value                 |
-| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| **global**                                           |                                                                                                            |                               |
-| `global.nodeSelector`                                | Node selector for scheduling pods                                                                          | `{}`                          |
-| `global.tolerations`                                 | Tolerations for scheduling pods                                                                            | `[]`                          |
-| `global.affinity`                                    | Affinity settings for scheduling pods                                                                      | `{}`                          |
-| `global.imageRegistry`                               | Image registry for pulling images                                                                          | `""`                          |
-| `global.imagePullPolicy`                             | Image pull policy                                                                                          | `"IfNotPresent"`              |
-| `global.pvcDeleteOnStsDelete`                        | Delete PVCs when StatefulSet is deleted (K8s >= 1.27.0) | `false`                       |
-| `global.pvcDeleteOnStsScale`                         | Delete PVCs when StatefulSet is scaled (K8s >= 1.27.0)  | `false`                       |
-| **timeplus**                                         |                                                                                                            |                               |
-| `timeplus.publicDomain`                              | Public domain or IP address of the cluster                                                                 | `timeplus.local`              |
-| `timeplus.port`                                      | Port for accessing the service, should be quoted                                                           | `"80"`                        |
-| **timeplusWeb**                                      |                                                                                                            |                               |
-| `timeplusWeb.enabled`                                | Enable Timeplus Web service                                                                                | `true`                        |
-| `timeplusWeb.imageRegistry`                          | Image registry for Timeplus Web                                                                            | `""`                          |
-| `timeplusWeb.imagePullPolicy`                        | Image pull policy for Timeplus Web                                                                         | `"IfNotPresent"`              |
-| `timeplusWeb.image`                                  | Image name for Timeplus Web                                                                                | `timeplus/timeplus-web`       |
-| `timeplusWeb.tag`                                    | Image tag for Timeplus Web                                                                                 | `1.4.17`                      |
-| `timeplusWeb.labels`                                 | Labels for Timeplus Web pods and deployment                                                                | `{}`                          |
-| `timeplusWeb.affinity`                               | Affinity settings for Timeplus Web                                                                         | `{}`                          |
-| `timeplusWeb.resources`                              | Resource requests and limits for Timeplus Web                                                              | `{}`                          |
-| **timeplusAppserver**                                |                                                                                                            |                               |
-| `timeplusAppserver.enabled`                          | Enable Timeplus Appserver                                                                                  | `true`                        |
-| `timeplusAppserver.imageRegistry`                    | Image registry for Timeplus Appserver                                                                      | `""`                          |
-| `timeplusAppserver.imagePullPolicy`                  | Image pull policy for Timeplus Appserver                                                                   | `"IfNotPresent"`              |
-| `timeplusAppserver.image`                            | Image name for Timeplus Appserver                                                                          | `timeplus/timeplus-appserver` |
-| `timeplusAppserver.tag`                              | Image tag for Timeplus Appserver                                                                           | `1.4.32`                      |
-| `timeplusAppserver.labels`                           | Labels for Timeplus Appserver pods and deployment                                                          | `{}`                          |
-| `timeplusAppserver.replicas`                         | Number of replicas for Timeplus Appserver                                                                  | `1`                           |
-| `timeplusAppserver.configs`                          | Custom configurations for Timeplus Appserver                                                               | `{}`                          |
-| `timeplusAppserver.affinity`                         | Affinity settings for Timeplus Appserver                                                                   | `{}`                          |
-| `timeplusAppserver.resources`                        | Resource requests and limits for Timeplus Appserver                                                        | `{}`                          |
-| **timeplusd**                                        |                                                                                                            |                               |
-| `timeplusd.enabled`                                  | Enable Timeplus Daemon                                                                                     | `true`                        |
-| `timeplusd.imageRegistry`                            | Image registry for Timeplus Daemon                                                                         | `""`                          |
-| `timeplusd.imagePullPolicy`                          | Image pull policy for Timeplus Daemon                                                                      | `"IfNotPresent"`              |
-| `timeplusd.image`                                    | Image name for Timeplus Daemon                                                                             | `timeplus/timeplusd`          |
-| `timeplusd.tag`                                      | Image tag for Timeplus Daemon                                                                              | `2.2.7`                       |
-| `timeplusd.labels`                                   | Labels for Timeplus Daemon pods and StatefulSet                                                            | `{}`                          |
-| `timeplusd.replicas`                                 | Number of replicas for Timeplus Daemon                                                                     | `3`                           |
-| `timeplusd.affinity`                                 | Affinity settings for Timeplus Daemon                                                                      | `{}`                          |
-| `timeplusd.defaultAdminUsername`                     | Default admin username                                                                                     | `admin`                       |
-| `timeplusd.defaultAdminPassword`                     | Default admin password                                                                                     | `timeplusd@t+`                |
-| `timeplusd.initJob.imageRegistry`                    | Image registry for initialization job                                                                      | `""`                          |
-| `timeplusd.initJob.imagePullPolicy`                  | Image pull policy for initialization job                                                                   | `"IfNotPresent"`              |
-| `timeplusd.initJob.image`                            | Image name for initialization job                                                                          | `timeplus/boson`              |
-| `timeplusd.initJob.tag`                              | Image tag for initialization job                                                                           | `0.0.2`                       |
-| `timeplusd.initJob.resources`                        | Resource requests and limits for initialization job                                                        | `{}`                          |
-| `timeplusd.ingress.enabled`                          | Enable ingress for Timeplus Daemon                                                                         | `false`                       |
-| `timeplusd.ingress.restPath`                         | Path for REST API calls to Timeplus Daemon                                                                 | `"/timeplusd"`                |
-| `timeplusd.service.type`                             | Service type for Timeplus Daemon                                                                           | `ClusterIP`                   |
-| `timeplusd.storage.log.enabled`                      | Enable separate PV for logs                                                                                | `false`                       |
-| `timeplusd.storage.log.className`                    | Storage class for logs                                                                                     | `local-storage`               |
-| `timeplusd.storage.log.size`                         | Size of PV for logs                                                                                        | `10Gi`                        |
-| `timeplusd.storage.log.selector.matchLabels.app`     | Selector labels for log PV                                                                                 | `timeplusd-log`               |
-| `timeplusd.storage.stream.className`                 | Storage class for stream data                                                                              | `local-storage`               |
-| `timeplusd.storage.stream.size`                      | Size of PV for stream data                                                                                 | `10Gi`                        |
-| `timeplusd.storage.stream.selector.matchLabels.app`  | Selector labels for stream data PV                                                                         | `timeplusd-data-stream`       |
-| `timeplusd.storage.history.className`                | Storage class for historical data                                                                          | `local-storage`               |
-| `timeplusd.storage.history.size`                     | Size of PV for historical data                                                                             | `10Gi`                        |
-| `timeplusd.storage.history.selector.matchLabels.app` | Selector labels for historical data PV                                                                     | `timeplusd-data-history`      |
-| `timeplusd.resources.limits.cpu`                     | CPU limits for Timeplus Daemon                                                                             | `"32"`                        |
-| `timeplusd.resources.limits.memory`                  | Memory limits for Timeplus Daemon                                                                          | `"60Gi"`                      |
-| `timeplusd.resources.requests.cpu`                   | CPU requests for Timeplus Daemon                                                                           | `"2"`                         |
-| `timeplusd.resources.requests.memory`                | Memory requests for Timeplus Daemon                                                                        | `4Gi`                         |
-| `timeplusd.config`                                   | Custom configurations for Timeplus Daemon                                                                  | `{}`                          |
-| `timeplusd.livenessProbe`                            | Liveness probe settings for Timeplus Daemon                                                                | See `values.yaml`             |
-| **timeplusConnector**                                |                                                                                                            |                               |
-| `timeplusConnector.enabled`                          | Enable Timeplus Connector                                                                                  | `true`                        |
-| `timeplusConnector.imageRegistry`                    | Image registry for Timeplus Connector                                                                      | `""`                          |
-| `timeplusConnector.imagePullPolicy`                  | Image pull policy for Timeplus Connector                                                                   | `"IfNotPresent"`              |
-| `timeplusConnector.image`                            | Image name for Timeplus Connector                                                                          | `timeplus/timeplus-connector` |
-| `timeplusConnector.tag`                              | Image tag for Timeplus Connector                                                                           | `1.5.3`                       |
-| `timeplusConnector.labels`                           | Labels for Timeplus Connector pods and deployment                                                          | `{}`                          |
-| `timeplusConnector.affinity`                         | Affinity settings for Timeplus Connector                                                                   | `{}`                          |
-| `timeplusConnector.resources`                        | Resource requests and limits for Timeplus Connector                                                        | `{}`                          |
-| **kv**                                               |                                                                                                            |                               |
-| `kv.enabled`                                         | Enable KV service                                                                                          | `true`                        |
-| `kv.imageRegistry`                                   | Image registry for KV service                                                                              | `""`                          |
-| `kv.imagePullPolicy`                                 | Image pull policy for KV service                                                                           | `"IfNotPresent"`              |
-| `kv.image`                                           | Image name for KV service                                                                                  | `timeplus/timeplusd`          |
-| `kv.tag`                                             | Image tag for KV service                                                                                   | `2.2.7`                       |
-| `kv.labels`                                          | Labels for KV service pods and StatefulSet                                                                 | `{}`                          |
-| `kv.storage.className`                               | Storage class for KV service                                                                               | `local-storage`               |
-| `kv.storage.size`                                    | Size of PV for KV service                                                                                  | `10Gi`                        |
-| `kv.storage.selector.matchLabels.app`                | Selector labels for KV service PV                                                                          | `kv`                          |
-| `kv.resources`                                       | Resource requests and limits for KV service                                                                | `{}`                          |
-| `kv.affinity`                                        | Affinity settings for KV service                                                                           | `{}`                          |
-| **ingress**                                          |                                                                                                            |                               |
-| `ingress.enabled`                                    | Enable ingress                                                                                             |                               |
+<table>
+	<thead>
+		<tr><th>Key</th>
+		<th>类型</th>
+		<th>默认值</th>
+		<th>描述</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+			<td>global.affinity</td>
+			<td>object</td>
+			<td><pre lang="json">{}
+</pre>
+</td>
+			<td>This is the global affinity settings. Once set, it will be applied to every single component. If you'd like to set affinitiy for each component, you can set `affinity` under component name. For example you can use `timeplusd.affinity` to control the affinity of timeplusd Refer to https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/</td>
+		</tr>
+		<tr>
+			<td>global.imagePullPolicy</td>
+			<td>字符串</td>
+			<td><pre lang="json">"IfNotPresent"
+</pre>
+</td>
+			<td>This setting is available for each component as well.</td>
+		</tr>
+		<tr>
+			<td>global.imageRegistry</td>
+			<td>字符串</td>
+			<td><pre lang="json">""
+</pre>
+</td>
+			<td>This setting is available for each component as well.</td>
+		</tr>
+		<tr>
+			<td>global.nodeSelector</td>
+			<td>object</td>
+			<td><pre lang="json">{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>global.pvcDeleteOnStsDelete</td>
+			<td>布尔值</td>
+			<td><pre lang="json">false
+</pre>
+</td>
+			<td>These two options are only valid with k8s >= 1.27.0</td>
+		</tr>
+		<tr>
+			<td>global.pvcDeleteOnStsScale</td>
+			<td>布尔值</td>
+			<td><pre lang="json">false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>global.tolerations</td>
+			<td>list</td>
+			<td><pre lang="json">[]
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.domain</td>
+			<td>字符串</td>
+			<td><pre lang="json">null
+</pre>
+</td>
+			<td>If you want use an ip, pls remove it. it's will match all (equal *).</td>
+		</tr>
+		<tr>
+			<td>ingress.enabled</td>
+			<td>布尔值</td>
+			<td><pre lang="json">false
+</pre>
+</td>
+			<td>You will need to manually create ingress if you don't want to enable it here.</td>
+		</tr>
+		<tr>
+			<td>provision.dashboards</td>
+			<td>布尔值</td>
+			<td><pre lang="json">true
+</pre>
+</td>
+			<td>Monitoring dashboards</td>
+		</tr>
+		<tr>
+			<td>provision.enabled</td>
+			<td>布尔值</td>
+			<td><pre lang="json">true
+</pre>
+</td>
+			<td>Once enabled, a Job will be created to provision default resources such as users, licenses, and etc. This Job shares the same configurations (e.g. resource limit) as `timeplusCli` below</td>
+		</tr>
+		<tr>
+			<td>provision.users</td>
+			<td>list</td>
+			<td><pre lang="json">[
+  \{
+    "password": "changeme",
+    "username": "timeplus_user"
+  }
+]
+</pre>
+</td>
+			<td>The users that you can use to login Timeplus web. You will need to provision at least one user if you want to use Timeplus web and Timeplus appserver.</td>
+		</tr>
+		<tr>
+			<td>timeplusAppserver.configs</td>
+			<td>object</td>
+			<td><pre lang="json">{}
+</pre>
+</td>
+			<td>e.g. `enable-authentication: true`</td>
+		</tr>
+		<tr>
+			<td>timeplusAppserver.enabled</td>
+			<td>布尔值</td>
+			<td><pre lang="json">true
+</pre>
+</td>
+			<td>Timeplus web, Timeplus connector will not work properly if Timeplus appserver is not enabled.</td>
+		</tr>
+		<tr>
+			<td>timeplusAppserver.extraContainers</td>
+			<td>list</td>
+			<td><pre lang="json">[]
+</pre>
+</td>
+			<td>Extra containers that to be run together with the main container.</td>
+		</tr>
+		<tr>
+			<td>timeplusAppserver.extraVolumes</td>
+			<td>list</td>
+			<td><pre lang="json">[]
+</pre>
+</td>
+			<td>Extra volumes that to be mounted</td>
+		</tr>
+		<tr>
+			<td>timeplusAppserver.image</td>
+			<td>字符串</td>
+			<td><pre lang="json">"timeplus/timeplus-appserver"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusCli.enabled</td>
+			<td>布尔值</td>
+			<td><pre lang="json">false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusCli.image</td>
+			<td>字符串</td>
+			<td><pre lang="json">"timeplus/timeplus-cli"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusConnector.enabled</td>
+			<td>布尔值</td>
+			<td><pre lang="json">true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusConnector.extraContainers</td>
+			<td>list</td>
+			<td><pre lang="json">[]
+</pre>
+</td>
+			<td>Extra containers that to be run together with the main container.</td>
+		</tr>
+		<tr>
+			<td>timeplusConnector.extraVolumes</td>
+			<td>list</td>
+			<td><pre lang="json">[]
+</pre>
+</td>
+			<td>Extra volumes that to be mounted</td>
+		</tr>
+		<tr>
+			<td>timeplusConnector.image</td>
+			<td>字符串</td>
+			<td><pre lang="json">"timeplus/timeplus-connector"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusWeb.enabled</td>
+			<td>布尔值</td>
+			<td><pre lang="json">true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusWeb.image</td>
+			<td>字符串</td>
+			<td><pre lang="json">"timeplus/timeplus-web"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusd.config</td>
+			<td>object</td>
+			<td><pre lang="json">{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusd.defaultAdminPassword</td>
+			<td>字符串</td>
+			<td><pre lang="json">"timeplusd@t+"
+</pre>
+</td>
+			<td>Timeplus appserver will use this username and password to connect to timeplusd to perform some administration operations such as user management.</td>
+		</tr>
+		<tr>
+			<td>timeplusd.enabled</td>
+			<td>布尔值</td>
+			<td><pre lang="json">true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusd.extraContainers</td>
+			<td>list</td>
+			<td><pre lang="json">[]
+</pre>
+</td>
+			<td>Extra containers that to be run together with the main container.</td>
+		</tr>
+		<tr>
+			<td>timeplusd.extraVolumes</td>
+			<td>list</td>
+			<td><pre lang="json">[]
+</pre>
+</td>
+			<td>Extra volumes that to be mounted</td>
+		</tr>
+		<tr>
+			<td>timeplusd.image</td>
+			<td>字符串</td>
+			<td><pre lang="json">"timeplus/timeplusd"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusd.ingress.enabled</td>
+			<td>布尔值</td>
+			<td><pre lang="json">false
+</pre>
+</td>
+			<td>Enable ingress if you want to connect to timeplusd directly</td>
+		</tr>
+		<tr>
+			<td>timeplusd.ingress.restPath</td>
+			<td>字符串</td>
+			<td><pre lang="json">"/timeplusd"
+</pre>
+</td>
+			<td>To send REST API call to timeplusd, the URL will be http(s)://publicDomain:port/restPath e.g.   - curl http://timeplus.local/timeplusd/info   - curl http://timeplus.local/timeplusd/v1/ddl/streams</td>
+		</tr>
+		<tr>
+			<td>timeplusd.initJob.image</td>
+			<td>字符串</td>
+			<td><pre lang="json">"timeplus/boson"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>timeplusd.livenessProbe</td>
+			<td>object</td>
+			<td><pre lang="json">\{
+  "failureThreshold": 20,
+  "httpGet": \{
+    "path": "/timeplusd/ping",
+    "port": "http-streaming",
+    "scheme": "HTTP"
+  },
+  "initialDelaySeconds": 30,
+  "periodSeconds": 30,
+  "successThreshold": 1,
+  "timeoutSeconds": 1
+}
+</pre>
+</td>
+			<td>K8s liveness probe for timeplusd. Please refer to https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/</td>
+		</tr>
+		<tr>
+			<td>timeplusd.replicas</td>
+			<td>整数</td>
+			<td><pre lang="json">3
+</pre>
+</td>
+			<td>Current only support replicas 1 or 3</td>
+		</tr>
+		<tr>
+			<td>timeplusd.resources</td>
+			<td>object</td>
+			<td><pre lang="json">\{
+  "limits": \{
+    "cpu": "32",
+    "memory": "60Gi"
+  },
+  "requests": \{
+    "cpu": "2",
+    "memory": "4Gi"
+  }
+}
+</pre>
+</td>
+			<td>Make sure at least 2 cores are assigned to each timeplusd</td>
+		</tr>
+		<tr>
+			<td>timeplusd.service</td>
+			<td>object</td>
+			<td><pre lang="json">\{
+  "type": "ClusterIP"
+}
+</pre>
+</td>
+			<td>Update this section if you want to expose timeplusd directly</td>
+		</tr>
+		<tr>
+			<td>timeplusd.service.type</td>
+			<td>字符串</td>
+			<td><pre lang="json">"ClusterIP"
+</pre>
+</td>
+			<td>Update type to `NodePort` and then all timeplusd ports (rest API, metrics, and etc.) will be exposed.</td>
+		</tr>
+		<tr>
+			<td>timeplusd.storage.history</td>
+			<td>object</td>
+			<td><pre lang="json">\{
+  "className": "local-storage",
+  "selector": \{
+    "matchLabels": \{
+      "app": "timeplusd-data-history"
+    }
+  },
+  "size": "10Gi"
+}
+</pre>
+</td>
+			<td>PV settings for historical strogae.</td>
+		</tr>
+		<tr>
+			<td>timeplusd.storage.log</td>
+			<td>object</td>
+			<td><pre lang="json">\{
+  "className": "local-storage",
+  "enabled": false,
+  "selector": \{
+    "matchLabels": \{
+      "app": "timeplusd-log"
+    }
+  },
+  "size": "10Gi"
+}
+</pre>
+</td>
+			<td>PV settings for logs. It is disabled by default so you don't need a separate PV for it.</td>
+		</tr>
+		<tr>
+			<td>timeplusd.storage.stream</td>
+			<td>object</td>
+			<td><pre lang="json">\{
+  "className": "local-storage",
+  "selector": \{
+    "matchLabels": \{
+      "app": "timeplusd-data-stream"
+    }
+  },
+  "size": "10Gi"
+}
+</pre>
+</td>
+			<td>PV settings for streaming strogae.</td>
+		</tr>
+	</tbody>
+</table>
