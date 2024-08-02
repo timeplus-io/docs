@@ -76,10 +76,9 @@ Components:
   - feat: update license UI
   - feat: show detailed version and build time for components
   - feat: UI for mutable stream CRUD
-  - feat: show throughput on data lineage
-  - feat: show query pipeline(execution plan) on single node
+  - feat: show query pipeline (execution plan) on single node
   - feat: new AutoMQ external stream
-  - feat: refined GetStarted UI on home page
+  - feat: refined Get Started UI on home page
   - feat: support multinode stats on data lineage
   - feat: use fixed font size for single value chart
 - timeplus_connnector
@@ -96,7 +95,7 @@ Components:
 
 #### Known issues {#known_issue_2_4_15}
 
-1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migeration.
+1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
 2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
 3. For [timeplus user](cli-user) CLI, you need to add `--verbose` to `timeplus user list` command, in order to list users.
 
