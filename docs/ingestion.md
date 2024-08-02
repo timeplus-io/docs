@@ -1,6 +1,6 @@
-# Data Ingestion
+# Data Collection
 
-Timeplus supports multiple ways to load data into the system:
+Timeplus supports multiple ways to load data into the system, or access the external data without copying them in Timeplus:
 
 - [External Stream](external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Proton.
 - [Source](source) for extra wide range of data sources. This is only available in Timeplus Enterprise. This integrates with [Redpanda Connect](https://redpanda.com/connect), supporting 200+ connectors.

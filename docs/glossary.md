@@ -22,7 +22,7 @@ CTEs can be thought of as alternatives to derived tables ([subquery](https://en.
 
 Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
 
-You can create multiple dashboards in a workspace, and add multiple charts to a dashboard. You can also add [filters](viz#filter) or Markdown (experimental). 
+You can create multiple dashboards in a workspace, and add multiple charts to a dashboard. You can also add [filters](viz#filter) or Markdown (experimental).
 
 ## event time
 
@@ -58,23 +58,23 @@ Learn more: [Destination](destination).
 
 A source is a background job in Timeplus Cloud or Timeplus Enterprise to load data into a [stream](#stream). For Kafka API compatible streaming data platform, you need to create external streams.
 
-Learn more: [Data Ingestion](ingestion) 
+Learn more: [Data Collection](ingestion)
 
 ## stream {#stream}
 
 Timeplus is a streaming analytics platform and data lives in streams. Timeplus `streams` are similar to `tables` in the traditional SQL databases. Both of them are essentially datasets. The key difference is that Timeplus stream is an append-only, unbounded, constantly changing events group.
 
-Learn more: [Stream](working-with-streams) 
+Learn more: [Stream](working-with-streams)
 
 ## external stream {#external_stream}
 
 You can create external streams to read data from Kafka API compatible streaming data platform.
 
-Learn more: [External Stream](external-stream) 
+Learn more: [External Stream](external-stream)
 
 ## timestamp column
 
-When you create a source and preview the data, you can choose a column as the timestamp column. Timeplus will use this column as the [event time](#event_time) and track the lifecycle of the event and process it for all time related computation/aggregation. 
+When you create a source and preview the data, you can choose a column as the timestamp column. Timeplus will use this column as the [event time](#event_time) and track the lifecycle of the event and process it for all time related computation/aggregation.
 
 ## view {#view}
 
