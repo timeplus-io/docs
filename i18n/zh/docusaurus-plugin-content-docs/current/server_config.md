@@ -4,11 +4,11 @@
 
 ## 用户管理 {#users}
 
-默认情况下，系统将自动创建系统帐户以执行系统级操作，例如管理用户帐户和读取/写入指标。 用户名是 `proton`，密码默认为 `timeplus @t +`。 This password can be overridden by setting `--password` flag when you run `timeplus start`.
+For single node deployments, when you launch the web console of Timeplus Enterprise for the first time, you will be prompted to create a new account with password.
 
-当你首次启动Timeplus Enterprise的网络控制台时，系统将提示你使用密码创建一个新账户。
+For multi-node clusters deployed via [Helm Chart](k8s-helm), please set the system account and user accounts in the values.yaml. The system account is created automatically for internal components to communicate to each other. The username is `proton`, with the password defaulting to `timeplusd@t+`.
 
-要编辑或添加新用户，你可以编辑 conf/users.yaml，然后重新启动服务器。 不久将提供用于管理用户的 Web 用户界面。
+To edit or add new users, you can use the [timeplus user](cli-user) CLI or container, which supports bare metal and Kubernetes, both single node and multi-node.
 
 ## 许可证管理{#license}
 
