@@ -4,23 +4,22 @@
 
 You can also create **external streams** in Timeplus to query data in the external systems without loading the data into Timeplus. The main benefit for doing so is to keep a single source of truth in the external systems (e.g. Apache Kafka), without duplicating them. In many cases, this can also achieve even lower latency to process Kafka data, because the data is read by Timeplus, without other components.
 
-:::info
+You can run streaming analytics with the external streams in the similar way as other streams, with some limitations.
 
-Starting from Proton 1.3.18, you can also write data to Apache Kafka via the external streams and materialized views. [Learn More](proton-kafka#write-to-kafka-with-sql)
-
-:::
-
-You can run streaming analytics with the external streams in the similar way as other streams, with some limitations. 
+Timeplus supports 3 types of external streams:
+* [Kafka External Stream](proton-kafka)
+* [Timeplus External Stream](timeplus-external-stream), only available in Timeplus Enterprise
+* Log External Stream (experimental)
 
 ## Create an external stream
 
 :::info
 
-The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the external stream with DDL. [Learn more](proton-kafka)
+The rest of this page assumes you are using Timeplus Console. You can also create the external stream with DDL. [Learn more](proton-kafka)
 
 :::
 
-To create an external stream, go to the **Data Ingestion** page, then choose one of the supported system with **External Stream** as the data type. Set the stream name, Kafka broker(s) and topic name. Choose the right authentication method and click **Create**. For the **Read as** option, if you choose **JSON**, then Timeplus will create multiple columns with the top level JSON key/value pairs in the sample Kafka message. If you choose **Text**, then a single `raw` column will be created in the stream to capture the value of the messages in Kafka.
+To create an external stream, go to the **Data Collection** page, then choose one of the supported system with **External Stream** as the data type. Set the stream name, Kafka broker(s) and topic name. Choose the right authentication method and click **Create**. For the **Read as** option, if you choose **JSON**, then Timeplus will create multiple columns with the top level JSON key/value pairs in the sample Kafka message. If you choose **Text**, then a single `raw` column will be created in the stream to capture the value of the messages in Kafka.
 
 ## Query external streams
 
