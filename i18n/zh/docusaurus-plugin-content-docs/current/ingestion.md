@@ -1,6 +1,6 @@
-# 流传数据
+# Data Collection
 
-Timeplus supports multiple ways to load data into the system:
+Timeplus supports multiple ways to load data into the system, or access the external data without copying them in Timeplus:
 
 - [External Stream](external-stream) 适用于 Apache Kafka、Confluent、Redpanda 和其他与 Kafka API 兼容的数据流平台。 This feature is also available in Timeplus Proton.
 - [来源](source) 用于更广泛的数据源。 这仅在 Timeplus Enterprise 中可用。 This integrates with [Redpanda Connect](https://redpanda.com/connect), supporting 200+ connectors.
