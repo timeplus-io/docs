@@ -56,9 +56,9 @@ Timeplus使您能够将实时的洞察力发送到其他系统，以通知个人
 
 ## 数据源 Source {#source}
 
-源是 Timeplus Cloud 或 Timeplus Enterprise 中的后台作业，用于将数据加载到 [流](#stream)中。 对于兼容 Kafka API 的流媒体数据平台，你需要创建外部流。
+源是 Timeplus Cloud 或 Timeplus Enterprise 中的后台作业，用于将数据加载到 [流](#stream)中。 对于兼容 Kafka API 的流数据平台，你需要创建外部流。
 
-了解更多： [数据接收](http://localhost:3030/docs/ingestion)
+Learn more: [Data Collection](ingestion)
 
 ## 流 Stream {#stream}
 
@@ -68,7 +68,7 @@ Timeplus是一个流式分析平台和数据流中的生命值。 Timeplus中的
 
 ## 外部流 {#external_stream}
 
-您可以创建外部流，从与 Kafka API 兼容的流媒体数据平台读取数据。
+您可以创建外部流，从与 Kafka API 兼容的流数据平台读取数据。
 
 了解更多： [外部流](external-stream)
 
