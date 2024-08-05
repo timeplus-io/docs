@@ -17,3 +17,9 @@ jobs:
         run: |
           grep -v -F -f "pdf/docs.timeplus.com.excludes.txt" "pdf/docs.timeplus.com.txt" > a
           mv a "pdf/docs.timeplus.com.txt"
+      - name: Regeneate PDF
+        run: yarn run en-pdf-gen
+      - name: Share PDF
+        uses: actions/upload-artifact@v4
+        with:
+          path: pdf/docs.timeplus.com.pdf
