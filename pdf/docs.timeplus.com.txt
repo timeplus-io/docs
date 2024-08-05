@@ -27,6 +27,8 @@ https://docs.timeplus.com/cluster_install
 https://docs.timeplus.com/k8s-helm
 https://docs.timeplus.com/server_config
 https://docs.timeplus.com/timeplus-query-guide
+https://docs.timeplus.com/mutable-stream
+https://docs.timeplus.com/timeplus-external-stream
 https://docs.timeplus.com/ingestion
 https://docs.timeplus.com/kafka-source
 https://docs.timeplus.com/confluent-cloud-source
@@ -34,6 +36,7 @@ https://docs.timeplus.com/kafka-connect
 https://docs.timeplus.com/pulsar-source
 https://docs.timeplus.com/ingest-api
 https://docs.timeplus.com/automq-kafka-source
+https://docs.timeplus.com/sling
 https://docs.timeplus.com/datapm
 https://docs.timeplus.com/viz
 https://docs.timeplus.com/integration-grafana
@@ -44,7 +47,6 @@ https://docs.timeplus.com/udf
 https://docs.timeplus.com/remote-udf
 https://docs.timeplus.com/category/sdk
 https://docs.timeplus.com/jdbc
-https://docs.timeplus.com/enterprise-releases
 https://docs.timeplus.com/issues
 https://docs.timeplus.com/category/tutorials-and-examples
 https://docs.timeplus.com/tutorial-github
@@ -76,6 +78,7 @@ https://docs.timeplus.com/category/sql-commands
 https://docs.timeplus.com/sql-create-stream
 https://docs.timeplus.com/sql-create-random-stream
 https://docs.timeplus.com/sql-create-external-stream
+https://docs.timeplus.com/sql-create-mutable-stream
 https://docs.timeplus.com/sql-alter-stream
 https://docs.timeplus.com/sql-show-streams
 https://docs.timeplus.com/sql-drop-stream
@@ -111,8 +114,24 @@ https://docs.timeplus.com/functions_for_geo
 https://docs.timeplus.com/functions_for_streaming
 https://docs.timeplus.com/js-udf
 https://docs.timeplus.com/joins
+https://docs.timeplus.com/cli-reference
+https://docs.timeplus.com/cli-backup
+https://docs.timeplus.com/cli-diag
+https://docs.timeplus.com/cli-help
+https://docs.timeplus.com/cli-license
+https://docs.timeplus.com/cli-restart
+https://docs.timeplus.com/cli-restore
+https://docs.timeplus.com/cli-service
+https://docs.timeplus.com/cli-start
+https://docs.timeplus.com/cli-status
+https://docs.timeplus.com/cli-stop
+https://docs.timeplus.com/cli-sync
+https://docs.timeplus.com/cli-user
+https://docs.timeplus.com/cli-version
 https://docs.timeplus.com/faq
 https://docs.timeplus.com/proton-faq
 https://docs.timeplus.com/release-notes
 https://docs.timeplus.com/v2-release-notes
+https://docs.timeplus.com/enterprise-releases
+https://docs.timeplus.com/enterprise-v2.3
 https://docs.timeplus.com/getting-help
