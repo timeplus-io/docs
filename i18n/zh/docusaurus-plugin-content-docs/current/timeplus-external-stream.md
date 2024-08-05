@@ -37,6 +37,9 @@ Settings:
 ### Migrate data from Timeplus Proton to Timeplus Enterprise
 
 If you have deployed [Timeplus Proton](https://github.com/timeplus-io/proton) and want to load those data to a Timeplus Enterprise deployment, you cannot upgrade in place. You can use the Timeplus External Stream to migrate data.
+:::info
+The Timeplus Proton need to be 1.5.15 or above.
+:::
 
 For example, there is a stream `streamA` in Timeplus Proton, running on host1.
 
