@@ -51,7 +51,7 @@ Note:
 2. Use the same user/user_group for uncompressing the Timeplus installation package
 3. This command will add a service into `/etc/systemd/system/timeplus.service`. When it is successfully installed, it will enable and start the service. Later on you can use `systemctl` command to manage the service.
 
-## Timeplus Appserver configurations
+## Timeplus Appserver configurations {#appserver}
 
 ```yaml
 # The maximum number of tcp connections to timeplusd in the idle connection pool
@@ -73,7 +73,7 @@ appserver-user-timeplusd-username: "default"
 appserver-user-timeplusd-password: ""
 ```
 
-## Timeplusd configurations
+## Timeplusd configurations {#timeplusd}
 
 ```yaml
 logger:
