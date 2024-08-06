@@ -2,6 +2,17 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Aug 6, 2024
+ * Timeplus Enterprise v2.4.15 is released. [See full changelog](enterprise-releases)
+ * Timeplus Proton v1.5.15 is released, allowing Timeplus Enterprise v2.4 to read or write via external streams. [Learn more](timeplus-external-stream)
+ * [timeplus-natve-jdbc](jdbc) v2.0.3 and v2.0.4 now available.
+    * Bug fix: For low_cardiality(nullable), nullable(uuid), map(low_cardinality) and tuple(low_cardinality)
+    * Bug fix: Fixed logging problem in some datatypes
+    * Bug fix: For the map defaultValue()
+ * Improved error handling in the SQL Console: if errors occur when executing the query, runtime errors and intermediate query results are shown.
+ * With the new [mutable stream](mutable-stream) in Timeplus Enterprise, versioned stream and changelog stream are now deprecated. We now have two types of streams: append-only and mutable.
+ * Stream “mode” is renamed to stream “type” in the web console UI. 
+
 ## Jul 22, 2024
 [Timeplus-native-jdbc](https://github.com/timeplus-io/timeplus-native-jdbc) is updated (v2.0.2), with bigint and decimal types are now supported, and a bugfix for invalid version for low cardinality key.
 
