@@ -2,10 +2,8 @@
 
 当您使用 `changelog_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 数据可以更新或删除。 您可以在左侧或右侧的 JOIN 中使用更新日志流。 Timeplus 将自动选择最新版本。
 
-:::info
-
-我们最近引入了一个新的表函数 [changelog](functions_for_streaming#changelog) ，通过指定主键列和版本列，基于仅追加流动态创建变更日志流，或者基于 [版本控制流](versioned-stream)创建变更日志流。 它专为高级用例而设计，例如按主键处理迟到事件。 详细信息请检查 [更新日志](functions_for_streaming#changelog) 的文档。
-
+:::warning
+For Timeplus Enterprise customers, we recommend to use [Mutable Streams](mutable-stream) with the enhanced performance for UPSERT and queries. The changelog streams are not supported in Timeplus Enterprise, and will be removed in Timeplus Proton.
 :::
 
 以下是一些例子：
@@ -424,8 +422,8 @@ union
 select -1::int8 as _tp_delta, before:product_id as product_id, before:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='d'
 union
 select -1::int8 as _tp_delta, before:product_id as product_id, before:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'
-union 
-select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'      
+union
+select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'
 ```
 
 点击 **作为数据下游发送** 按钮，并选择 Timeplus 类型，将结果发送到现有的流 `dim_products`。
@@ -444,9 +442,6 @@ union
 select -1::int8 as _tp_delta, before:order_id as order_id, before:product_id as product_id, before:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='d'
 union
 select -1::int8 as _tp_delta, before:order_id as order_id, before:product_id as product_id, before:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='u'
-union 
-select 1::int8 as _tp_delta, after:order_id as order_id, after:product_id as product_id, after:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='u' 
+union
+select 1::int8 as _tp_delta, after:order_id as order_id, after:product_id as product_id, after:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='u'
 ```
-
-
-
