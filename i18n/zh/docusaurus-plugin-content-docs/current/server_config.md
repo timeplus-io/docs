@@ -50,3 +50,49 @@ key: ../cert/ca.key
 1. Root privilege is required to enable the service
 2. 使用相同的用户/用户组解压缩 Timeplus 安装包
 3. 这个命令会在 `/etc/systemd/system/timeplus.service`中添加一个服务。 成功安装后，它将启用并启动该服务。 稍后你可以使用 systemctl 命令来管理该服务。
+
+## Timeplus Appserver configurations {#appserver}
+
+```yaml
+# The maximum number of tcp connections to timeplusd in the idle connection pool
+timeplusd-max-idle-conns: 10
+
+# The maximum interval (in millisecond) between two flushes to the query SSE channel.
+query-buffer-interval: 100
+
+# The maximum number of rows buffered in memory before flushing to the query SSE channel.
+query-buffer-max: 100
+
+# If disabled, you will not be required to login appserver. Appserver will always behaviour as the timeplusd user configured in `appserver-user-timeplusd-username`
+enable-authentication: true
+
+# Required only if `enable-authentication` is set to be `false`.
+appserver-user-timeplusd-username: "default"
+
+# Required only if `enable-authentication` is set to be `false`.
+appserver-user-timeplusd-password: ""
+```
+
+## Timeplusd configurations {#timeplusd}
+
+```yaml
+logger:
+  # Possible levels [1]:
+  # - none (turns off logging)
+  # - fatal
+  # - critical
+  # - error
+  # - warning
+  # - notice
+  # - information
+  # - debug
+  # - trace
+  level: information
+
+# Maximum number of concurrent queries.
+max_concurrent_queries: 100
+# Maximum number of concurrent insert queries.
+max_concurrent_insert_queries: 100
+# Maximum number of concurrent select queries.
+max_concurrent_select_queries: 100
+```
