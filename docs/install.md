@@ -21,14 +21,13 @@ curl https://install.timeplus.com/oss | sh
 Once the `proton` binary is available, you can run Timeplus Proton in different modes:
 
 - **Local Mode.** You run `proton local` to start it for fast processing on local and remote files using SQL without having to install a full server
-- **Config-less Mode.** You run `proton server` to start the server and put the config/logs/data in the current folder. Then use `proton client -h 127.0.0.1` in the other terminal to start the SQL client.
-- **Server Mode.** You run `sudo proton install` to install the server in predefined path and a default configuration file. Then you can run `sudo proton server -C/etc/proton-server/config.yaml` to start the server and use `proton client` in the other terminal to start the SQL client.
+- **Config-less Mode.** You run `proton server` to start the server and put the config/logs/data in the current folder `proton-data`. Then use `proton client` in the other terminal to start the SQL client.
+- **Server Mode.** You run `sudo proton install` to install the server in predefined path and a default configuration file. Then you can run `sudo proton server -C /etc/proton-server/config.yaml` to start the server and use `proton client` in the other terminal to start the SQL client.
 
 For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
 
 ```shell
-brew tap timeplus-io/timeplus
-brew install proton
+brew install timeplus-io/timeplus/proton
 ```
 
 ### As a Docker container{#docker}
