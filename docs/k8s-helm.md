@@ -42,16 +42,17 @@ Simply run the following commands to add the repo and list charts from the repo.
 ```bash
 helm repo add timeplus https://install.timeplus.com/charts
 helm repo update
-helm search repo timeplus
+helm search repo timeplus -l
 ```
 
 A sample output would be:
 
 ```bash
 NAME                        	CHART VERSION	APP VERSION	DESCRIPTION
-timeplus/timeplus-enterprise	v2.4.15      	2.3.20     	Helm chart for deploying a cluster of Timeplus ...
+timeplus/timeplus-enterprise	v3.0.0       	2.4.16     	Helm chart for deploying a cluster of Timeplus ...
+timeplus/timeplus-enterprise	v2.4.16      	2.3.21     	Helm chart for deploying a cluster of Timeplus ...
 ```
-The latest helm chart version is 2.4.15. It is the same version as [Timeplus Enterprise 2.4.15](enterprise-releases#2415). The `APP VERSION` is 2.3.20, based on the core engine(timeplusd) version.
+Please choose the latest `CHART VERSION`. Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](enterprise-releases).
 
 ### Create Namespace
 
@@ -93,7 +94,7 @@ timeplusd:
       memory: 4Gi
 ```
 Then make changes to better fit your need.
-1. Update the storage class name and size accordingly. You can check available storage classes on your cluster by running `kubectl get storageclass`. Common values are `local`, `standard`, etc.
+1. Update the storage class name and size accordingly. You can check available storage classes on your cluster by running `kubectl get storageclass`. Common values are `local`, `standard`, `ebs-gp3-basic-auto-delete`, `ebs-gp3-basic-encrypted`, etc.
 2. Update the username and password of the `provision.users`. You will be able to login to Timeplus web with those users. See [User management](#user-management) section for advanced user management.
 3. Update `defaultAdminPassword`. This is the password for the default admin user `proton`, which is used internally in the system.
 4. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload.
