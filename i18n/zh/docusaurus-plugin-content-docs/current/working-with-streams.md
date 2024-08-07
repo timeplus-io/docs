@@ -4,26 +4,15 @@
 
 Timeplus 是一个流分析平台，数据存在于流中。 Timeplus 中的 `stream` 类似传统 SQL 数据库中的 `tables`。 两者基本上都是数据集。 关键的区别在于 Timeplus 流是一个只能附加的（默认情况下）、无界的、不断变化的事件组。
 
-:::info
-
 Timeplus 支持多种类型的流：
 
 1. 默认情况下，这些流是仅限附加且不可变的（可以通过设置保留策略自动清除较旧的数据）。
-2. 如果您想要创建一个流来追踪主键的最新值，您可以创建 [变更日志流](changelog-stream)。 它非常适合与 CDC（更改数据捕获）数据源配合使用，例如适用于 PostgreSQL，MongoDB 或其他数据库的 [Debezium](https://debezium.io/) 。 可以将插入，更新，删除这些操作转换并更新到变更日志流，并且您总是可以获得任何主键的最新行。
-3. 如果需要保留比最新值更多的值，您也可以创建 [多版本流](versioned-stream)。 当您运行 SQL 将仅限附加的流与此类版本化流连接时，Timeplus 将自动使用时间戳最接近的版本来匹配仅限附加的流。
-4. 您也可以定义 [外部流](external-stream) 来对远程的 Kafka/Redpanda 代理运行 SQL 。
-
-:::
+2. If you want to create a stream to track the latest value for a primary key or a set of keys, you can create [Mutable Streams](mutable-stream). 这仅在 Timeplus Enterprise 中可用。
+3. In [Timeplus Proton](proton), you can also create [Versioned Streams](versioned-stream) and [Changelog Stream](changelog-stream). But those 2 stream modes will be deprecated and replaced by mutable streams.
+4. You can also define [External Streams](external-stream) to run SQL against remote Kafka/Redpanda brokers, or the other Timeplus/Proton server.
 
 ## 创建一个流
-
-在大多数情况下，您不需要在 Timeplus 中明确创建一个流。 当您从 Kafka 或文件来源 [摄取数据](ingestion) 到 Timeplus 中，可以自动创建数据流以匹配数据模式。
-
-:::info
-
-此页面的其余部分均假设您正在使用 TimePlus 控制台。 如果您使用的是 Proton，则可以使用 DDL 创建流。 [点击此处，了解更多](proton-create-stream)
-
-:::
+You can create a stream via the Timeplus Console UI, or via [SQL](sql-create-stream). 当您从 Kafka 或文件来源 [摄取数据](ingestion) 到 Timeplus 中，可以自动创建数据流以匹配数据模式。
 
 ## 查询流
 
@@ -36,4 +25,3 @@ Timeplus 支持多种类型的流：
 ## 删除流
 
 您可以从网页控制台删除该流。 这将永久删除流中的所有数据并删除流本身。 删除后无法恢复数据。
-
