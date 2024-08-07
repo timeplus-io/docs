@@ -2,10 +2,8 @@
 
 When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. Data can be updated or deleted. You can use Changelog Stream in JOIN either on the left or on the right. Timeplus will automatically choose the latest version.
 
-:::info
-
-We recently introduced a new table function [changelog](functions_for_streaming#changelog) to dynamically create a changelog stream based on an append-only stream by specifying the primary key column(s) and the version column, or create a changelog stream based on a [versioned stream](versioned-stream). This is designed for advanced use cases, such as per-key late event processing. Please check the documentation of [changelog](functions_for_streaming#changelog) for details. 
-
+:::warning
+For Timeplus Enterprise customers, we recommend to use [Mutable Streams](mutable-stream) with the enhanced performance for UPSERT and queries. The changelog streams are not supported in Timeplus Enterprise, and will be removed in Timeplus Proton.
 :::
 
 Here are some examples:
@@ -40,7 +38,7 @@ Keep the query running and add a few more rows to the stream (via REST API or cr
 | 1         | iPhone14      | 799   |
 | 1         | iPhone14_Plus | 899   |
 
-The query console will show those 2 rows automatically. 
+The query console will show those 2 rows automatically.
 
 ### Delete data
 
@@ -299,8 +297,8 @@ localhost:8083/connectors \
 This will add a new connector with the name `pg-connector`, connecting to a PostgreSQL database in a remote server (in this case, Aiven Cloud). A few notes to the configuration items:
 
 * `publication.autocreate.mode` is `filtered`, and `table.include.list` is a list of tables you want to apply CDC. Sometimes you don't have permissions to enable publications for all tables. So `filtered` is recommended.
-* `plugin.name` is `pgoutput`. This works well with new versions of PostgreSQL (10+). The default value is `decoderbufs`, which is required to be installed separately. 
-* `topic.prefix` is set to `doc`. As the name implies, it will be the prefix for Kafka topics. Since the schema is `public`, the topics to be used will be `doc.public.dim_products` and `doc.public.orders` 
+* `plugin.name` is `pgoutput`. This works well with new versions of PostgreSQL (10+). The default value is `decoderbufs`, which is required to be installed separately.
+* `topic.prefix` is set to `doc`. As the name implies, it will be the prefix for Kafka topics. Since the schema is `public`, the topics to be used will be `doc.public.dim_products` and `doc.public.orders`
 
 Make sure you create those 2 topics in Kafka/Redpanda. Then in a few seconds, new messages should be available in the topics.
 
@@ -422,8 +420,8 @@ union
 select -1::int8 as _tp_delta, before:product_id as product_id, before:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='d'
 union
 select -1::int8 as _tp_delta, before:product_id as product_id, before:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'
-union 
-select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'      
+union
+select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'
 ```
 
 Click the **Send as Sink** button and choose Timeplus type, to send the results to an existing stream `dim_products` .
@@ -442,9 +440,6 @@ union
 select -1::int8 as _tp_delta, before:order_id as order_id, before:product_id as product_id, before:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='d'
 union
 select -1::int8 as _tp_delta, before:order_id as order_id, before:product_id as product_id, before:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='u'
-union 
-select 1::int8 as _tp_delta, after:order_id as order_id, after:product_id as product_id, after:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='u' 
+union
+select 1::int8 as _tp_delta, after:order_id as order_id, after:product_id as product_id, after:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='u'
 ```
-
-
-

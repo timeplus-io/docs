@@ -4,26 +4,15 @@
 
 Timeplus is a streaming analytics platform and data lives in streams. Timeplus `streams` are similar to `tables` in the traditional SQL databases. Both of them are essentially datasets. The key difference is that Timeplus stream is an append-only (by default), unbounded, constantly changing events group.
 
-:::info
-
 Timeplus supports multiple types of streams:
 
 1. By default, the streams are append-only and immutable (older data can be purged automatically by setting a retention policy).
-2. If you want to create a stream to track the latest value for a primary key, you can create [Changelog Streams](changelog-stream). It works great with CDC(Change Data Capture) data sources, such as [Debezium](https://debezium.io/) for PostgreSQL, MongoDB or other databases. The INSERT, UPDATE, DELETE operations can be converted to update to the Changelog Stream, and you can always get the latest row for any primary key.
-3. You can also create [Versioned Streams](versioned-stream) if you need to keep more than the latest value. When you run SQL to join an append-only stream with such a versioned stream, Timeplus will automatically use the version with the closest timestamp to match the append-only stream.
-4. You can also define [External Streams](external-stream) to run SQL against remote Kafka/Redpanda brokers.
-
-:::
+2. If you want to create a stream to track the latest value for a primary key or a set of keys, you can create [Mutable Streams](mutable-stream). This is only available in Timeplus Enterprise.
+3. In [Timeplus Proton](proton), you can also create [Versioned Streams](versioned-stream) and [Changelog Stream](changelog-stream). But those 2 stream modes will be deprecated and replaced by mutable streams.
+4. You can also define [External Streams](external-stream) to run SQL against remote Kafka/Redpanda brokers, or the other Timeplus/Proton server.
 
 ## Create a stream
-
-In most cases, you don't need to explicitly create a stream in Timeplus. When you [ingest data](ingestion) into Timeplus from Kafka or file sources, streams can be created automatically to match the schema of the data.
-
-:::info
-
-The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](proton-create-stream)
-
-:::
+You can create a stream via the Timeplus Console UI, or via [SQL](sql-create-stream). When you [ingest data](ingestion) into Timeplus from Kafka or file sources, streams can be created automatically to match the schema of the data.
 
 ## Query a stream
 
@@ -36,4 +25,3 @@ If you only want to analyze the existing data and need an immediate response, yo
 ## Delete a stream
 
 From the web console, you can delete the stream. This will permanently delete all data in the stream and delete the stream itself. Data cannot be recovered after deletion.
-
