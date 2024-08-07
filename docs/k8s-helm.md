@@ -40,9 +40,9 @@ kind create cluster
 Simply run the following commands to add the repo and list charts from the repo.
 
 ```bash
- helm repo add timeplus https://install.timeplus.com/charts
- helm repo update
- helm search repo timeplus
+helm repo add timeplus https://install.timeplus.com/charts
+helm repo update
+helm search repo timeplus
 ```
 
 A sample output would be:
