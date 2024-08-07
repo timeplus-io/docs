@@ -28,16 +28,52 @@ Key highlights of this release:
 ## Stable Releases {#stable}
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
+### 2.4.16
+
+Built on 08-04-2024. You can get it via:
+* For Linux or Mac users: `curl https://install.timeplus.com | sh`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.4.16 ..`
+* For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.16`
+
+#### Changelog {#changelog_2_4_16}
+
+Comparing to the release [2.4.15](#2415) release:
+* timeplusd 2.3.20 -> 2.3.21
+* timeplus_appserver 1.4.43 -> 1.4.44
+* timeplus_web 1.4.30 -> 1.4.31
+* timeplus cli 1.0.18 -> 1.0.19
+
+Components:
+* timeplusd
+  * improvement: refine the health check for materialized views
+* timeplus_appserver
+  * fix: refine the SQL for checking the latest state of materialized views
+* timeplus_web
+  * improvement: renamed "Data Ingestion" top level menu item to "Data Collection"
+  * feat: show last update time on data lineage
+* cli
+  * fix: list users properly
+
+#### Known issues {#known_issue_2_4_16}
+1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
+2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
+
+## Latest Releases {#latest}
+
+[2.4.16](#2416) is also the latest release.
+
+## Other Releases {#other}
+Older releaess of 2.4.x are listed here.
+
 ### 2.4.15
 
 Built on 07-31-2024. You can get it via:
-* For Linux or Mac users: `curl https://install.timeplus.com | sh`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.4.15 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.15`
 
 #### Changelog {#changelog_2_4_15}
 
-Comparing to the last `stable` release [2.3.5](enterprise-v2.3#235):
+Comparing to the [2.3.5](enterprise-v2.3#235) release :
 * timeplusd 2.2.8 -> 2.3.20
 * timeplus_appserver 1.4.34 -> 1.4.43
 * timeplus_web 1.4.18 -> 1.4.30
@@ -98,37 +134,3 @@ Components:
 1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
 2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
 3. For [timeplus user](cli-user) CLI, you need to add `--verbose` to `timeplus user list` command, in order to list users.
-
-## Latest Releases {#latest}
-
-### 2.4.16
-Built on 08-04-2024. You can get it via:
-* For Linux or Mac users: `curl https://install.timeplus.com/latest | sh`
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.4.16 ..`
-* For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.16`
-
-#### Changelog {#changelog_2_4_16}
-
-Comparing to the last `stable` release [2.4.15](#2415):
-* timeplusd 2.3.20 -> 2.3.21
-* timeplus_appserver 1.4.43 -> 1.4.44
-* timeplus_web 1.4.30 -> 1.4.31
-* timeplus cli 1.0.18 -> 1.0.19
-
-Components:
-* timeplusd
-  * improvement: refine the health check for materialized views
-* timeplus_appserver
-  * fix: refine the SQL for checking the latest state of materialized views
-* timeplus_web
-  * improvement: renamed "Data Ingestion" top level menu item to "Data Collection"
-  * feat: show last update time on data lineage
-* cli
-  * fix: list users properly
-
-#### Known issues {#known_issue_2_4_16}
-1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
-2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
-
-## Other Releases {#other}
-Older releaess of 2.4.x will be listed here.
