@@ -37,7 +37,7 @@ Please use the stable releases for production deployment, while we also provide 
 Built on 08-04-2024. You can get it via:
 
 - For Linux or Mac users: `curl https://install.timeplus.com | sh`
-- For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.4.16 ..`
+- For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.0 ..`
 - For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.16`
 
 #### Changelog {#changelog_2_4_16}
