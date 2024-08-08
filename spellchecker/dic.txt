@@ -1,3 +1,4 @@
+.dbt
 .sql
 100x
 10x
@@ -29,6 +30,7 @@ append-left-asof-versioned
 append-left-changelog
 appl
 Appserver
+appserver
 Araujo
 arg_max
 arg_min
@@ -42,6 +44,7 @@ asin
 ASOF
 asof
 async
+Async
 atan
 AuroraPrime
 auth0
@@ -74,9 +77,12 @@ Benthos-based
 beta1
 beta2
 beta2.
+bigint
+BigTable
 Binance
 bool
 broker_url
+bugfix
 bugfixes
 BZip2
 camelcase
@@ -84,9 +90,13 @@ cardinality
 carsharing
 cbrt
 cdc
+cgroup
 changelog
 Changelog
+changelog_2_4_15
+changelog_2_4_16
 changelog_kv
+checkpointing
 CICD
 cid
 cidr
@@ -102,6 +112,7 @@ clickhouse-server
 clickstream
 closable
 cloud_sla
+Cloudflare
 cloudtrail
 Cloudtrail
 CloudWatch
@@ -143,6 +154,7 @@ Datapm
 datasize
 datasource
 datasources
+datatypes
 date32
 date_trunc
 datetime
@@ -165,11 +177,13 @@ debezium
 decode_url_component
 dedup
 deduplication
+defaultValue
 denormalized
 deserialize
 destination-timeplus
 DevOps
 diag
+DigitalOcean
 Downsample
 downsample
 downsampled
@@ -193,6 +207,7 @@ enum
 Enum
 enum16
 enum8
+env
 eps
 EPS
 ETL
@@ -247,6 +262,9 @@ HashiCorp
 highlevel
 homebrew
 Homebrew
+host1
+host1:port1
+host2:port2
 hostname
 HOWTO
 http
@@ -444,6 +462,8 @@ PEM
 performant
 pid
 PII
+Postgres
+postgres
 posttrade
 Pre-aggregation
 pre-built
@@ -474,6 +494,7 @@ quickstart
 quickstart
 QuickStart
 Quickstart
+R2
 RabbitMQ
 rand64
 random_printable_ascii
@@ -520,6 +541,7 @@ scram-sha-512
 SDK
 sdk
 SDKs
+seatunnel
 Serverless
 ServiceNow
 SFTP
@@ -553,6 +575,7 @@ StatefulSet
 stochasticLinearRegression
 str
 stream_ttl
+streamgen
 streamlit
 Streamlit
 StreamNative
@@ -588,14 +611,17 @@ Tigergraph
 Timeplus
 timeplus
 timeplus-appserver
+Timeplus-native-jdbc
+timeplus-native-jdbc
 timeplus-target
 timeplus_appserver
-timeplus_connnector
+timeplus_connector
 timeplus_web
 timeplusAppserver
 timeplusConnector
 timeplusd
 Timeplusd
+timeplusd-client
 TimeplusSinkConnector
 timeplusWeb
 timezones
@@ -616,6 +642,7 @@ TopN
 tp_delta
 tp_message_key
 tp_time
+Trino
 tripA
 tripB
 ttl
@@ -662,9 +689,12 @@ uuid
 UUID
 v1
 v1.4
+v1.5
 v1beta1
 v1beta2
 v2
+v2.4
+v2.x
 V8
 vCPU
 vectorized

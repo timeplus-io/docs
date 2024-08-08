@@ -46,7 +46,7 @@ This will start Timeplus Enterprise with a few key processes:
 * `timeplusd`: The core SQL engine, severing at port 8463 (TCP, for `timeplus client`) and 3218 (HTTP, for JDBC/ODBC drivers
 * `timeplus_appserver`: The application server, severing at HTTP port 8000
 * `timeplus_web`: The web UI, managed by `timeplus_appserver`
-* `timeplus_connnector`: The service to provide extra sources and sinks, managed by `timeplus_appserver`
+* `timeplus_connector`: The service to provide extra sources and sinks, managed by `timeplus_appserver`
 
 Access the Timeplus Enterprise web console via http://localhost:8000. On your first login, please create an account with a password to start the 30-day free trial.
 

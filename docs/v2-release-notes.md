@@ -6,8 +6,8 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 
 ### Timeplus Enterprise v2.4
  * Timeplus Enterprise v2.4.15 is released. [See full changelog](enterprise-releases)
- * [timeplus-natve-jdbc](jdbc) v2.0.3 and v2.0.4 now available.
-    * Bug fix: For low_cardiality(nullable), nullable(uuid), map(low_cardinality) and tuple(low_cardinality)
+ * [timeplus-native-jdbc](jdbc) v2.0.3 and v2.0.4 now available.
+    * Bug fix: For low_cardinality(nullable), nullable(uuid), map(low_cardinality) and tuple(low_cardinality)
     * Bug fix: Fixed logging problem in some datatypes
     * Bug fix: For the map defaultValue()
  * Improved error handling in the SQL Console: if errors occur when executing the query, runtime errors and intermediate query results are shown.
@@ -31,7 +31,7 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
   * (v1.5.13) Bugfix: A null pointer access before type cast
 
 ### Timeplus Enterprise
-  * When launching Timeplus Enterprise for the first time, a system dashboard will be created to show usage and workspace stats. 
+  * When launching Timeplus Enterprise for the first time, a system dashboard will be created to show usage and workspace stats.
   * In the SQL Console, see a query's pipeline after running a query. Note: This is available for single-node on-prem deployments.
   * New external stream: AutoMQ. A configuration wizard is available in the console UI. [Learn more](automq-kafka-source)
   * New stream mode: mutable streams, where values with the same primary key(s) will be overwritten. More advanced configuration options will be available soon.
@@ -39,7 +39,7 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
   * A new "Get Started" section on the homepage for on-prem deployments, with links to a demo video, docs, and support.
   * Added additional metrics for materialized views.
   * Updated license UI for on-prem deployments.
-  * Ably data source is now removed. 
+  * Ably data source is now removed.
 
 ## Jul 8, 2024
 

@@ -63,7 +63,7 @@ SETTINGS
 Settings:
 * **hosts**: the IP or host for the remote timeplusd. When you set a set of hosts with ports, e.g. 'host1:port1,host2:port2', this will treat each host as a shard. `hosts` is required and there is no default value.
 * **db**: the database name in the remote Timeplusd. The default value is 'default'.
-* **user**: the user name for the remote Timeplusd. The dfault value is 'default'.
+* **user**: the user name for the remote Timeplusd. The default value is 'default'.
 * **password**: the password for the remote Timeplusd. The default value is an empty string.
 * **secure**: a bool for whether to use secure connection to the remote Timeplusd. The default value is false. Use port 9440 when `secure` is set to true, otherwise use port 8463.
 * **stream**: the stream name in the remote Timeplusd. It's required and there is no default value.
@@ -78,7 +78,7 @@ The Timeplus Proton need to be 1.5.15 or above.
 
 For example, there is a stream `streamA` in Timeplus Proton, running on host1.
 
-In your Timeplus Enterprise, you can create the stream with the same name and same schema. Then use a materiailzed view to load all data from Timeplus Proton to Timeplus Enterprise.
+In your Timeplus Enterprise, you can create the stream with the same name and same schema. Then use a materialized view to load all data from Timeplus Proton to Timeplus Enterprise.
 
 ```sql
 CREATE STREAM streamA(..);
@@ -94,7 +94,7 @@ When all data in Proton has been imported into Timeplus Enterprise, you can drop
 #### Upload data from edge server to the cloud
 If you deploy Timeplus Proton or Timeplus Enterprise at edge servers, it can collect and process live data with high performance and low footprint. The important data can be uploaded to the other Timeplus Enterprise in the cloud when the internet is available.
 
-For example, on the edge server, you collect the real-time web access log and only want to uplaod error logs to the server.
+For example, on the edge server, you collect the real-time web access log and only want to upload error logs to the server.
 
 ```sql
 CREATE EXTERNAL STREAM stream_in_cloud

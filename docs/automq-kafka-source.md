@@ -19,7 +19,7 @@ Access the web console of Timeplus Enterprise and go the "Data Collection" page.
 
 ![AutoMQ in Data Collection Page](/img/automq_tile.png)
 
-Set the broker(s) for AutoMQ. For example, for standalone deployment of AutoMQ on your local host, the hosts are `localhost:9094,localhost:9095`. Diable authentication and TLS if needed.
+Set the broker(s) for AutoMQ. For example, for standalone deployment of AutoMQ on your local host, the hosts are `localhost:9094,localhost:9095`. Disable authentication and TLS if needed.
 ![AutoMQ in Data Collection Page](/img/automq_broker.png)
 
 Click **Next**. Timeplus will connect to the server and list all topics. Choose one topic and set whether you want to read it as JSON or Text.
