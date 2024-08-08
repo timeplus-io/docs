@@ -4,11 +4,11 @@
 
 ## 用户管理 {#users}
 
-默认情况下，系统将自动创建系统帐户以执行系统级操作，例如管理用户帐户和读取/写入指标。 用户名是 `proton`，密码默认为 `timeplus @t +`。 当你运行 `timeplus start` 时，通过设置 `--password` 标志可以覆盖这个密码。
+For single node deployments, when you launch the web console of Timeplus Enterprise for the first time, you will be prompted to create a new account with password.
 
-当你首次启动Timeplus Enterprise的网络控制台时，系统将提示你使用密码创建一个新账户。
+For multi-node clusters deployed via [Helm Chart](k8s-helm), please set the system account and user accounts in the values.yaml. The system account is created automatically for internal components to communicate to each other. The username is `proton`, with the password defaulting to `timeplusd@t+`.
 
-要编辑或添加新用户，你可以编辑 conf/users.yaml，然后重新启动服务器。 不久将提供用于管理用户的 Web 用户界面。
+To edit or add new users, you can use the [timeplus user](cli-user) CLI or container, which supports bare metal and Kubernetes, both single node and multi-node.
 
 ## 许可证管理{#license}
 
@@ -47,6 +47,52 @@ key: ../cert/ca.key
 
 备注：
 
-1. 需要根权限才能启用该服务
+1. Root privilege is required to enable the service
 2. 使用相同的用户/用户组解压缩 Timeplus 安装包
 3. 这个命令会在 `/etc/systemd/system/timeplus.service`中添加一个服务。 成功安装后，它将启用并启动该服务。 稍后你可以使用 systemctl 命令来管理该服务。
+
+## Timeplus Appserver configurations {#appserver}
+
+```yaml
+# The maximum number of tcp connections to timeplusd in the idle connection pool
+timeplusd-max-idle-conns: 10
+
+# The maximum interval (in millisecond) between two flushes to the query SSE channel.
+query-buffer-interval: 100
+
+# The maximum number of rows buffered in memory before flushing to the query SSE channel.
+query-buffer-max: 100
+
+# If disabled, you will not be required to login appserver. Appserver will always behaviour as the timeplusd user configured in `appserver-user-timeplusd-username`
+enable-authentication: true
+
+# Required only if `enable-authentication` is set to be `false`.
+appserver-user-timeplusd-username: "default"
+
+# Required only if `enable-authentication` is set to be `false`.
+appserver-user-timeplusd-password: ""
+```
+
+## Timeplusd configurations {#timeplusd}
+
+```yaml
+logger:
+  # Possible levels [1]:
+  # - none (turns off logging)
+  # - fatal
+  # - critical
+  # - error
+  # - warning
+  # - notice
+  # - information
+  # - debug
+  # - trace
+  level: information
+
+# Maximum number of concurrent queries.
+max_concurrent_queries: 100
+# Maximum number of concurrent insert queries.
+max_concurrent_insert_queries: 100
+# Maximum number of concurrent select queries.
+max_concurrent_select_queries: 100
+```

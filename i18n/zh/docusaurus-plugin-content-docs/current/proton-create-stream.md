@@ -8,7 +8,7 @@
 
 ## 创建流
 
-[Stream](working-with-streams) 是 Timeplus Proton 中的一个关键 [概念](glossary) 。 所有数据都存在于流中，无论是静态数据还是动态数据。 我们不建议你在 Proton 中创建或管理 `TABLE` 。
+[Stream](working-with-streams) is a key [concept](glossary) in Timeplus. 所有数据都存在于流中，无论是静态数据还是动态数据。 We don't recommend you to create or manage `TABLE` in Timeplus.
 
 ### 仅限追加的流
 
@@ -68,7 +68,7 @@ Proton 支持保留政策，可自动从流中删除过时的数据。
 
 Proton利用ClickHouse TTL表达式来制定历史数据的保留政策。 Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add `TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
 
-##### 用于流媒体存储
+##### 用于流存储
 
 Today it's not exposed in SQL to control the retention policies for streaming storage. In Timeplus Cloud, you can set them via 在 Timeplus Cloud 中，你可以通过以下方式进行设置
 
@@ -80,9 +80,9 @@ Today it's not exposed in SQL to control the retention policies for streaming st
 [Versioned Stream](versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如： 例如：
 
 ```sql
-创建 STREAM versioned_kv（i int，k 字符串，k1 字符串） 
-主键 (k, k1) 
-设置模式 ='versioned_kv'，version_column='i'；
+CREATE STREAM versioned_kv(i int, k string, k1 string)
+PRIMARY KEY (k, k1)
+SETTINGS mode='versioned_kv', version_column='i';
 ```
 
 默认 `version_column` 是 `_tp_time`。 对于具有相同主键的数据，Proton 将使用最大值为  `version_column`的数据。 因此，默认情况下，它会跟踪相同主键的最新数据。 如果有延迟事件，您可以使用指定其他列来确定实时数据的结束状态。
@@ -92,9 +92,9 @@ Today it's not exposed in SQL to control the retention policies for streaming st
 [Changelog Stream](changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如： 例如：
 
 ```sql
-创建 STREAM changelog_kv（i int，k 字符串，k1 字符串） 
-主键（k，k1） 
-设置模式 ='changelog_kv'，version_column='i'；
+CREATE STREAM changelog_kv(i int, k string, k1 string)
+PRIMARY KEY (k, k1)
+SETTINGS mode='changelog_kv', version_column='i';
 ```
 
 默认 `version_column` 是 `_tp_time`。 对于具有相同主键的数据，Proton 将使用最大值为  `version_column`的数据。 因此，默认情况下，它会跟踪相同主键的最新数据。 如果有延迟事件，您可以使用指定其他列来确定实时数据的结束状态。
@@ -104,10 +104,10 @@ Today it's not exposed in SQL to control the retention policies for streaming st
 You may use this special stream to generate random data for tests. 例如： 例如：
 
 ```sql
-创建随机流设备 (
-  设备字符串默认 'device'||to_string (rand ()%4)， 
-  位置字符串默认 'city'|to_string (rand ()%10)，
-  温度浮动默认兰德 ()%1000/10)；
+CREATE RANDOM STREAM devices(
+  device string default 'device'||to_string(rand()%4),
+  location string default 'city'||to_string(rand()%10),
+  temperature float default rand()%1000/10);
 ```
 
 以下功能可供使用：
@@ -119,7 +119,7 @@ You may use this special stream to generate random data for tests. 例如： 例
 5. [random_fixed_string](functions_for_random#random_fixed_string) 生成固定长度的字符串
 7. [random_in_type](functions_for_random#random_in_type) 生成具有最大值和自定义逻辑的值
 
-在查询期间，随机流的数据保存在内存中。 The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
+When you run a Timeplus SQL query with a random stream, the data will be generated and analyzed by the query engine. Depending on the query, all generated data or the aggregated states can be kept in memory during the query time. The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
 
 By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second: 如果你想（大致）控制数据的生成频率，你可以使用 `eps` 设置。 例如，以下 SQL 每秒生成 10 个事件：
 

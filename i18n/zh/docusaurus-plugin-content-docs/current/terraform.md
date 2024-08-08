@@ -1,4 +1,4 @@
-# Timeplus Terraform Provider
+# Terraform Provider
 
 HashiCorp Terraform是一个基础设施即代码（IaC: Infrastructure-as-Code）工具，它允许你在可读的配置文件中定义云和本地资源。
 

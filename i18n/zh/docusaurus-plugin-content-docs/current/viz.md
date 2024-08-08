@@ -87,9 +87,9 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
 请确保有 5 个列的名称：时间、开盘价、收盘价、最高价、最低价，例如
 
 ```sql
-选择 window_start，最早（价格）为开盘价，最新（价格）为收盘价， 
-       最高（价格）为最高，最低（价格）为低 
-FROM TUMBLE（价格，1 秒）GROUP BY window_start
+SELECT window_start, earliest(price) AS open, latest(price) AS close,
+       max(price) AS high, min(price) AS low
+FROM tumble(prices, 1s) GROUP BY window_start
 ```
 
 
@@ -163,10 +163,8 @@ select * from car_live_data where cid='{{car_id}}'
 
 
 ## 与外部BI集成
+You can use [JDBC](https://github.com/timeplus-io/proton-java-driver) or [ODBC](https://github.com/timeplus-io/proton-odbc) drivers of Timeplus to run queries and visualized the results in various BI tools, such as [Metabase](https://github.com/timeplus-io/metabase-proton-driver).
 
-你可以调用 Timeplus SDK 来加载数据并使用第三方图表库呈现图表。
+We also released [a Grafana data source plugin](integration-grafana) to visualize streaming SQL without refreshing the dashboard.
 
-对于Proton用户，你也可以试试 https://github.com/timeplus-io/proton-grafana-source 它已提交给Grafana Inc，正在等待批准在其市场上市。
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=TzVpULg-B0b0T5GE" title="优酷视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
+For highly customizable charts, you can also call Timeplus SDK to load the data and render the chart with 3rd party charting libraries.

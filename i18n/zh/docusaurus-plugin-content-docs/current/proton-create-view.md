@@ -6,7 +6,7 @@ Timeplus 有两种类型的视图：逻辑视图（或普通View）和物化视�
 
 您可以为所有类型的查询创建视图，并在其他查询中引用视图。
 
-- 如果基于串流查询创建视图，您可以将视图视为虚拟流。 例如， `create view view1 as select * from my_stream where c1='a'` 将创建一个视图（就像一个虚拟的数据流）来筛选所有满足 c1='a' 条件的事件。 您可以把这个视图当作另一个流来使用，例如 `select count(*) from tumble(view1,1m) group by window_start` 创建一个视图本身并不会执行查询。 只有当其他查询引用这个视图时才能会展开视图对应的查询。
+- 如果基于串流查询创建视图，您可以将视图视为虚拟流。 For example, `create view view1 as select * from my_stream where c1 = 'a'` will create a virtual stream to filter all events with c1 = 'a'. 您可以把这个视图当作另一个流来使用，例如 `select count(*) from tumble(view1,1m) group by window_start` 创建一个视图本身并不会执行查询。 只有当其他查询引用这个视图时才能会展开视图对应的查询。
 - 如果视图是使用 [table ()](functions_for_streaming#table) 函数使用有界查询创建的，例如 `以从表中选择 * 的形式创建视图 view2 (my_stream)` 则每次运行 `select count (*) 时从视图2中选择计数 (*)` 将立即返回 my_stream 的当前行号，无需等待将来的事件。
 
 请注意，基于流查询而创建的视图，不能通过 `table(streaming_view)` 将视图转换为历史查询

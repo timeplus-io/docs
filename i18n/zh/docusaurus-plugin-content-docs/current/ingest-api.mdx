@@ -17,7 +17,9 @@ import TabItem from '@theme/TabItem';
 
 :::info
 
-如果你想利用第三方系统/工具将数据推送到Timeplus，但它不允许自定义 HTTP 标头，那么你可以使用标准的 `Authorization`标头，其值为 `apiKey $KEY`
+If you would like to leverage a 3rd party system/tool to push data to Timeplus but it doesn't allow custom HTTP Header, then you can use the standard `Authorization` Header, with value `ApiKey $KEY`.
+
+For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorization header to be `Basic [Base64 encoded user:password]`.
 
 :::
 
@@ -159,7 +161,38 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw\
   <TabItem value="java" label="Java">
 
 ```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = """
+          {"key1": "value11", "key2": "value12"}
+          """;
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "text/plain")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
 ```
 
 </TabItem>
@@ -240,7 +273,7 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw\
 
 </TabItem>
 </Tabs>
-上述方法应该适用于大多数系统集成。 但是，将在请求的正文中反复提及这些列的名称。
+The above method should work very well for most system integration. 但是，将在请求的正文中反复提及这些列的名称。
 
 我们还提供了一种性能更高的解决方案，只列出一次列名。
 

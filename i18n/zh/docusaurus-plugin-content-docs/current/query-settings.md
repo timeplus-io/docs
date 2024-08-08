@@ -39,7 +39,7 @@ Timeplus 支持一些高级 “设置” 来微调流式查询处理行为，如
 
 ## 恢复政策
 
-`recovery_policy=<strict|best_effort>`。 默认情况下，如果省略它，则为 “严格”。 物化视图的主要用例是，如果新事件处理失败，例如将字符串转换为 int32，则默认行为将使物化视图不可用。 你可以监视Timeplus日志，对脏数据采取行动。 但是，如果你设置了 “SETTINGS recovery_policy=best_effort”，那么Timeplus将尝试从检查点恢复并尝试最多3次，然后跳过脏数据继续处理其余数据。
+`recovery_policy=<strict|best_effort>`。 默认情况下，如果省略它，则为 “严格”。 The main use case for materialized views, if new events fail to process, such as converting a string to an int32, the default behavior will make the materialized view unusable. 你可以监视Timeplus日志，对脏数据采取行动。 但是，如果你设置了 “SETTINGS recovery_policy=best_effort”，那么Timeplus将尝试从检查点恢复并尝试最多3次，然后跳过脏数据继续处理其余数据。
 
 ## replay_speed
 

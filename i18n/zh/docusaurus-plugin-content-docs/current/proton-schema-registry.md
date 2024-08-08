@@ -41,10 +41,41 @@
 
 :::info
 
-有关在各种与 Kafka API 兼容的消息平台上阅读 Avro 消息的示例，请查看 [此文档]（教程-sql-read-avro）。
+For examples to read Avro message in various Kafka API compatitable message platforms, please check [this doc](tutorial-sql-read-avro).
 
 :::
 
-## 写消息{#write}
+## Write Messages in Avro Schema{#write}
 
-尚不支持使用架构注册表写入 Avro/Protobuf 数据（即将推出）。
+Writing Avro/Protobuf data with schema registry is not supported in Timeplus Proton.
+
+Since Timeplus Enterprise 2.4.7 (with timeplusd 2.3.10), it can produce Kafka messages using the Avro schema registry output format.
+
+You need to set `data_format='Avro'`, and also specify the schema registry related settings while creating the external stream. 例如：
+
+```sql
+CREATE EXTERNAL STREAM my_ex_stream (
+    -- columns ...
+) SETTINGS
+    type = 'kafka',
+    brokers = '...',
+    topic = '...',
+    data_format = 'Avro',
+    kafka_schema_registry_url = '...',
+    kafka_schema_registry_credentials = '...',
+...;
+```
+
+When you run a INSERT query like `INSERT INTO my_ex_stream ...`, it will call the schema registry API to fetch the latest schema set on the topic ( currently, it does not support specifying the schema ID directly). And then, it will cache the schema in memory for that topic.
+
+:::info About the caching
+
+To force the query to refresh the schema (for example, the schema gets evolved ), you can use the force_refresh_schema setting:
+
+```sql
+INSERT INTO my_ex_stream SETTINGS force_refresh_schema=true ...
+```
+
+:::
+
+For the data type mappings between Avro and Timeplus data type, please check [this doc](proton-format-schema#avro_types).

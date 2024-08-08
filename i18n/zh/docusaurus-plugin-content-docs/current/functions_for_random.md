@@ -16,6 +16,24 @@
 
 生成一个随机的uint64数字。
 
+### rand_uniform
+
+`rand_uniform(min, max)`
+
+Generates a random `float64` drawn uniformly from interval [min, max].
+
+### rand_normal
+
+`rand_normal(mean, variance)`
+
+Generates a random `float64` drawn uniformly from a [normal distribution])(https://en.wikipedia.org/wiki/Normal_distribution).
+
+### rand_log_normal
+
+`rand_log_normal(mean, variance)`
+
+Generates a random `float64` drawn uniformly from a [log-normal distribution])(https://en.wikipedia.org/wiki/Log-normal_distribution).
+
 ## 字符串
 
 ### random_printable_ascii
@@ -71,3 +89,36 @@ Timeplus还提供了`random_in_type`函数，用于使用任何自定义逻辑�
 你也可以同时指定最大值和lambda ，例如：
 
 * `random_in_type('date32', 3, x -> to_date('2023-9-1') + interval x day)`返回自2023-09-01以来的前3天的随机日期。
+
+## Generate multiple rows
+You can combine random functions with `numbers` table function to generate data with multiple columns and multiple rows.
+
+### numbers
+
+`numbers(N)` – Returns a table with the single `number` column (uint64) that contains integers from 0 to N-1. `numbers(N, M)` - Returns a table with the single `number` column (uint64) that contains integers from N to (N + M - 1).
+
+Similar to the `system.numbers` table, it can be used for testing and generating successive values, `numbers(N, M)` more efficient than `system.numbers`.
+
+The following queries are equivalent:
+
+``` sql
+SELECT * FROM numbers(10);
+SELECT * FROM numbers(0, 10);
+SELECT * FROM system.numbers LIMIT 10;
+SELECT * FROM system.numbers WHERE number BETWEEN 0 AND 9;
+SELECT * FROM system.numbers WHERE number IN (0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+```
+
+And the following queries are equivalent:
+
+``` sql
+SELECT number * 2 FROM numbers(10);
+SELECT (number - 10) * 2 FROM numbers(10, 10);
+```
+
+示例：
+
+``` sql
+-- Generate a sequence of dates from 2010-01-01 to 2010-12-31
+select to_date('2010-01-01') + number as d FROM numbers(365);
+```

@@ -12,7 +12,7 @@
 
 ## 改变流
 
-目前我们不建议更改Proton中的流模式。 唯一的例外是您可以修改历史存储的保留政策。
+Currently we don't recommend to alter the schema of streams in Timeplus. 唯一的例外是您可以修改历史存储的保留政策。
 
 ### 修改 TTL
 

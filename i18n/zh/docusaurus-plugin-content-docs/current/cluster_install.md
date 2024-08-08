@@ -8,22 +8,29 @@ Timeplus 企业版可以以多节点集群模式安装，以实现高可用性�
 
 安装[单节点安装](singlenode_install)指南在每个物理机格子安装一个节点。
 
-接下来，更新 config.yml 文件以将节点连接在一起：
+There are multiple ways to setup a cluster without Kubernetes. One easy solution is to run all components in one node, and the rest of nodes running the timeplusd only. For other deployment options, please contact [support](mailto:support@timeplus.com) or message us in our [Slack Community](timeplus.com/slack).
 
-```yaml
-node:
-  # cluster id this node belongs to. Only nodes in the same cluster id can form a cluster
-  cluster_id: timeplus_cluster
-  advertised_host:
-  roles:
-    role: #Supported roles : Metadata, Data, Ingest, Query.`Data` role contains both `Ingest and Query` roles
-      - Metadata
-      - Data
-cluster:
-  metadata_node_quorum: localhost:8464
+Choose one node as the lead node, say its hostname is `timeplus-server1`. Stop all services via `timeplus stop` command. Then configure environment variables.
+
+```bash
+export ADVERTISED_HOST=timeplus-server1
+export METADATA_NODE_QUORUM=timeplus-server1:8464,timeplus-server2:8464,timeplus-server3:8464
+export TIMEPLUSD_REPLICAS=3
 ```
 
-欲了解服务器配置的更多详情，请联系 [support](mailto:support@timeplus.com) 或在 [Slack Community](timeplus.com/slack)与我们讨论。
+Then run `timeplus start` to start all services, including timeplusd, timeplus_web, timeplus_appserver and timeplus_connector.
+
+On the second node, first make sure all services are stopped via `timeplus stop`.
+Then configure environment variables.
+
+```bash
+export ADVERTISED_HOST=timeplus-server2
+export METADATA_NODE_QUORUM=timeplus-server1:8464,timeplus-server2:8464,timeplus-server3:8464
+```
+
+Then run `timeplus start -s timeplusd` to only start timeplusd services.
+
+Similarly on the third node, set `export ADVERTISED_HOST=timeplus-server3` and the same `METADATA_NODE_QUORUM` and only start timeplusd.
 
 ## 在Kubernetes安装{#k8s}
 
@@ -31,15 +38,13 @@ cluster:
 
 ### 先决条件
 
-- 确保你的环境中安装了 Helm 3.7+。 有关如何安装 Helm 的详细信息，请参阅 [Helm 文档](https://helm.sh/docs/intro/install/)。
-- 确保你的环境中安装了 [Kubernetes](https://kubernetes.io/) 1.24 或更高版本。
+- Ensure you have Helm 3.12 + installed in your environment. 有关如何安装 Helm 的详细信息，请参阅 [Helm 文档](https://helm.sh/docs/intro/install/)。
+- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment
 - 确保为部署分配了足够的资源
 
-### 使用 Helm 安装 Timeplus 企业版
+### Deploy Timeplus Enterprise with Helm
 
-启动 Kubernetes 集群。
-
-请[联系我们](mailto:support@timeplus.com)获取Helm Chart。 我们将很快公开 Helm Chart库。
+Follow the [guide](k8s-helm) to deploy Timeplus Enterprise on Kubernetes with Helm.
 
 ## 许可管理
 

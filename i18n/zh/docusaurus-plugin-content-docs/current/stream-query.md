@@ -2,7 +2,7 @@
 
 ## 查询默认不受限制
 
-默认情况下，Timeplus 的查询行为不同于传统的 SQL ，后者回答了已经发生的问题。 相反，Timeplus 的查询试图回答目前正在实时发生的事情的问题，并在新事件进入系统时不断更新答案。
+By default, Timeplus query behavior is different from traditional SQL which answers the question of what had happened. Instead, Timeplus query tries to answer the question of what is happening now in real-time and continuously updates the answer when new events enter the system.
 
 Timeplus 查询正在运行于一个无边界流中。 在大多数情况下，除非用户取消查询，否则查询不会停止。 例如，下面的查询将在执行查询后实时返回输入 Timeplus 系统的流中的所有事件。 每个新事件将触发一个新的查询结果。 除非用户取消查询，否则这个查询不会停止。
 
@@ -53,9 +53,9 @@ select c1,c2 from weblogs where http_code>=400
 对于每个事件，转换数据以删除敏感信息，或转换类型，如：
 
 ```sql
-select 
+select
 concat(first_name,' ', last_name) as full_name,
-replace_regex(phone,'(\\d{3})-(\\d{3})-(\\d{4})','\\1-***-****') as phone 
+replace_regex(phone,'(\\d{3})-(\\d{3})-(\\d{4})','\\1-***-****') as phone
 from user_activities
 ```
 
@@ -111,6 +111,3 @@ select count(*) from my_stream
 select count(*) from my_stream where type='order'
 emit periodic 5s
 ```
-
-
-
