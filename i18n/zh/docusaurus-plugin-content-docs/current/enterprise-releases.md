@@ -5,7 +5,7 @@ Each release of Timeplus Enterprise includes the following components:
 - timeplusd: The core SQL engine
 - timeplus_appserver: The application server to provide web console access and REST API
 - timeplus_web: The web console static resources, managed by timeplus_appserver
-- timeplus_connnector: The service to provide extra sources and sinks, managed by timeplus_appserver
+- timeplus_connector: The service to provide extra sources and sinks, managed by timeplus_appserver
 - timeplus: The CLI (Command Line Interface) to start/stop/manage the deployment.
 
 Each component tracks their changes with own version numbers. The version number for each Timeplus Enterprise release is a verified combination of Timeplus components.
@@ -15,7 +15,7 @@ Each component tracks their changes with own version numbers. The version number
 Key highlights of this release:
 
 - [Distributed Mutable Streams](mutable-stream) for high performance query and UPSERT (UPDATE or INSERT), with primary keys, secondary keys, column families, sorting columns, parallel full scan and many more
-- [External Streams](timeplus-external-stream) to query or write to remote Timeplus, designed for data migration or hybird deployment
+- [External Streams](timeplus-external-stream) to query or write to remote Timeplus, designed for data migration or hybrid deployment
 - Built-in system observability. Your workspace now comes with a system dashboard to monitor your cluster, including charts for running nodes and failed nodes, read/write throughput and EPS, used disk storage, and more. See additional metrics for resources in the details side panel, accessed via the data lineage or resource list pages, including status and any last errors
 - [Kafka schema registry support for Avro output format](proton-schema-registry#write)
 - Read/write Kafka message keys via [_tp_message_key column](proton-kafka#messagekey)
@@ -72,7 +72,7 @@ Components:
 
 ## Other Releases {#other}
 
-Older releaess of 2.4.x are listed here.
+Older releases of 2.4.x are listed here.
 
 ### 2.4.15
 
@@ -88,7 +88,7 @@ Comparing to the [2.3.5](enterprise-v2.3#235) release :
 - timeplusd 2.2.8 -> 2.3.20
 - timeplus_appserver 1.4.34 -> 1.4.43
 - timeplus_web 1.4.18 -> 1.4.30
-- timeplus_connnector 1.5.3 -> 1.5.5
+- timeplus_connector 1.5.3 -> 1.5.5
 - timeplus cli 1.0.9 -> 1.0.18
 
 Components:
@@ -130,7 +130,7 @@ Components:
   - feat: refined Get Started UI on home page
   - feat: support multinode stats on data lineage
   - feat: use fixed font size for single value chart
-- timeplus_connnector
+- timeplus_connector
   - fix: wrong build time
   - feat: remove ably source
 - cli
