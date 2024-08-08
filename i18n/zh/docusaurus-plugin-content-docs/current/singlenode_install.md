@@ -54,7 +54,7 @@ tar xfv file.tar.gz
 - `timeplusd`: The core SQL engine, severing at port 8463 (TCP, for `timeplus client`) and 3218 (HTTP, for JDBC/ODBC drivers
 - `timeplus_appserver`: The application server, severing at HTTP port 8000
 - `timeplus_web`：网页用户界面，由 `timeplus_appserver` 管理
-- `timeplus_connector`：提供额外源和接收器的服务，由 `timeplus_appserver` 管理
+- `timeplus_connector`: The service to provide extra sources and sinks, managed by `timeplus_appserver`
 
 通过 http://localhost:8000 访问 Timeplus Enterprise 网络控制台。 首次登录时，请使用密码创建一个帐户以开始 30 天免费试用。
 
