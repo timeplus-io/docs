@@ -7,8 +7,8 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 ### Timeplus Enterprise v2.4
 
 - Timeplus Enterprise v2.4.15 is released. [See full changelog](enterprise-releases)
-- [timeplus-natve-jdbc](jdbc) v2.0.3 and v2.0.4 now available.
-  - Bug fix: For low_cardiality(nullable), nullable(uuid), map(low_cardinality) and tuple(low_cardinality)
+- [timeplus-native-jdbc](jdbc) v2.0.3 and v2.0.4 now available.
+  - Bug fix: For low_cardinality(nullable), nullable(uuid), map(low_cardinality) and tuple(low_cardinality)
   - Bug fix: Fixed logging problem in some datatypes
   - Bug fix: For the map defaultValue()
 - Improved error handling in the SQL Console: if errors occur when executing the query, runtime errors and intermediate query results are shown.
