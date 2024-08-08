@@ -247,6 +247,7 @@ const sidebars = {
 
             "sql-create-view",
             "sql-create-materialized-view",
+            "sql-alter-view",
             "sql-drop-view",
             "sql-create-external-table",
             "sql-create-function",
