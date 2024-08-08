@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.17.4",
-    "@crowdin/cli": "^4.0.0",
+    "@crowdin/cli": "^4.1.1",
     "@docusaurus/core": "^3.4.0",
     "@docusaurus/plugin-google-gtag": "^3.4.0",
     "@docusaurus/plugin-google-tag-manager": "^3.4.0",
@@ -42,7 +42,7 @@
     "@docusaurus/tsconfig": "3.4.0",
     "@docusaurus/types": "3.4.0",
     "@types/react": "^18.3.3",
-    "typescript": "~5.5.3"
+    "typescript": "~5.5.4"
   },
   "engines": {
     "node": ">=18.0"
