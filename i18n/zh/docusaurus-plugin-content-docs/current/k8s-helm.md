@@ -136,6 +136,25 @@ If all the pods status are in `Running` status, except `timplus-provision-..`, t
 
 There are different ways to expose the services of Timeplus stack. In this step, we use port forward of kubectl to get a quick access. Run `kubectl port-forward svc/timeplus-appserver 8000:8000 -n $NS --address 0.0.0.0` and then open the address `http://localhost:8000` in your browser to visit Timeplus Console web UI. After finishing the onboarding, you should be able to login with the username and password which you set in `additionalUsers`.
 
+### Upgrade Timeplus Enterprise
+
+Please check the [release notes](enterprise-releases) to confirm the target version of Timeplus Enterprise can be upgraded in-place, by reusing the current data and configuration. For example [2.3](enterprise-v2.3) and [2.4](enterprise-releases) are incompatible and you have to use migration tools.
+
+If you confirm you can upgrade to the new version, you can run the following commands to upgrade to the latest version:
+
+```bash
+helm repo update
+helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise
+```
+
+You can also check the available versions and upgrade to a specific version:
+
+```bash
+helm repo update
+helm search repo timeplus -l
+helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise --version va.b.c
+```
+
 ### Uninstall and cleanup
 
 To uninstall the helm release, just run `helm -n $NS uninstall $RELEASE` to uninstall it.
