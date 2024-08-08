@@ -7,7 +7,7 @@ Each release of Timeplus Enterprise includes the following components:
 - timeplusd: The core SQL engine
 - timeplus_appserver: The application server to provide web console access and REST API
 - timeplus_web: The web console static resources, managed by timeplus_appserver
-- timeplus_connnector: The service to provide extra sources and sinks, managed by timeplus_appserver
+- timeplus_connector: The service to provide extra sources and sinks, managed by timeplus_appserver
 - timeplus: The CLI (Command Line Interface) to start/stop/manage the deployment.
 
 Each component tracks their changes with own version numbers. The version number for each Timeplus Enterprise release is a verified combination of Timeplus components.
@@ -33,7 +33,7 @@ Component versions:
 - timeplusd 2.2.8
 - timeplus_appserver 1.4.34
 - timeplus_web 1.4.18
-- timeplus_connnector 1.5.3
+- timeplus_connector 1.5.3
 - timeplus cli 1.0.9
 
 Changelog (comparing to [2.3.0](#230)):
@@ -70,5 +70,5 @@ Components:
 - timeplusd 2.2.7
 - timeplus_appserver 1.4.32
 - timeplus_web 1.4.17
-- timeplus_connnector 1.5.3
+- timeplus_connector 1.5.3
 - timeplus cli 1.0.4
