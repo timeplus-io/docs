@@ -51,7 +51,7 @@ PRIMARY KEY (device_id, timestamp, batch_id)
 
 备注：
 
-- The compound primary key is a combination of device_id, timestamp and the batch_id. Data with exactly same value for those 3 columns will be overridden.
+- The compound primary key is a combination of device_id, timestamp and the batch_id. Data with exactly the same value for those 3 columns will be overridden.
 - Searching data with any column in the primary key is very fast.
 - By default there is only 1 shard and no extra index or optimization.
 
@@ -175,13 +175,13 @@ CREATE MUTABLE STREAM device_metrics
 PRIMARY KEY (device_id, timestamp, batch_id)
 ```
 
-When you query data with filers on those columns, Timeplus will automatically leverage the indexed data to improve query performance.
+When you query data with filters on those columns, Timeplus will automatically leverage the indexed data to improve query performance.
 
 ### Column Family {#column_family}
 
 For One-Big-Table(OBT) or extra wide table with dozens or even hundreds of columns, it's not recommended to run `SELECT * FROM ..`, unless you need to export data.
 
-More commonly, you need to query a subset of the columns in different use cases. For those columns which are commonly queried together, you can define column families to group them, so that data for those columns will be saved together in the same file. Properly defining column family can optimize the disk i/o and avoid reading unnecessary data files.
+More commonly, you need to query a subset of the columns in different use cases. For those columns which are commonly queried together, you can define column families to group them, so that data for those columns will be saved together in the same file. Properly defining column families can optimize the disk i/o and avoid reading unnecessary data files.
 
 Please note, one column can appear up to one column family. The columns as primary keys are in a special column family. There should be no overlapping for the column families or primary keys.
 
