@@ -25,10 +25,10 @@ Key highlights of this release:
 * After running a streaming query in the SQL console, you can check out the its query pipeline, or execution plan. Click "View Query Pipeline" under the SQL editor, and mouseover on the throughput boxes to see processing times
 * [Timeplus Native JDBC](jdbc) with streaming SQL and fast insert
 
-## Stable Releases {#stable}
+## Releases
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
-### 2.4.16
+### 2.4.16 (Stable) {#2416}
 
 Built on 08-04-2024. You can get it via:
 * For Linux or Mac users: `curl https://install.timeplus.com | sh`
@@ -58,12 +58,6 @@ Components:
 1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
 2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
 
-## Latest Releases {#latest}
-
-[2.4.16](#2416) is also the latest release.
-
-## Other Releases {#other}
-Older releases of 2.4.x are listed here.
 
 ### 2.4.15
 

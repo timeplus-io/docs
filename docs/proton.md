@@ -74,6 +74,7 @@ The following drivers are available:
 Integration with other systems:
 
 - ClickHouse https://docs.timeplus.com/proton-clickhouse-external-table
+- [Sling](sling)
 - Grafana https://github.com/timeplus-io/proton-grafana-source
 - Metabase https://github.com/timeplus-io/metabase-proton-driver
 - Pulse UI https://github.com/timeplus-io/pulseui/tree/proton

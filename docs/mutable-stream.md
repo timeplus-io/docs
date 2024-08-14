@@ -39,11 +39,11 @@ CREATE MUTABLE STREAM device_metrics
   batch_id uint32,
   region string,
   city string,
-  lat float32 CODEC(Gorilla, LZ4HC(9)),
-  lon float32 CODEC(Gorilla, LZ4HC(9)),
-  battery float32 CODEC(Gorilla, LZ4HC(0)),
-  humidity uint16 CODEC(Delta(2), LZ4HC(0)),
-  temperature float32 CODEC(Delta(2), LZ4HC(0))
+  lat float32,
+  lon float32,
+  battery float32,
+  humidity uint16,
+  temperature float32
 )
 PRIMARY KEY (device_id, timestamp, batch_id)
 ```
@@ -176,11 +176,11 @@ CREATE MUTABLE STREAM device_metrics
   batch_id uint32,
   region string,
   city string,
-  lat float32 CODEC(Gorilla, LZ4HC(9)),
-  lon float32 CODEC(Gorilla, LZ4HC(9)),
-  battery float32 CODEC(Gorilla, LZ4HC(0)),
-  humidity uint16 CODEC(Delta(2), LZ4HC(0)),
-  temperature float32 CODEC(Delta(2), LZ4HC(0)),
+  lat float32,
+  lon float32,
+  battery float32,
+  humidity uint16,
+  temperature float32,
   FAMILY cf1 (lat,lon)
 )
 PRIMARY KEY (device_id, timestamp, batch_id)
@@ -196,11 +196,11 @@ CREATE MUTABLE STREAM device_metrics
   batch_id uint32,
   region string,
   city string,
-  lat float32 CODEC(Gorilla, LZ4HC(9)),
-  lon float32 CODEC(Gorilla, LZ4HC(9)),
-  battery float32 CODEC(Gorilla, LZ4HC(0)),
-  humidity uint16 CODEC(Delta(2), LZ4HC(0)),
-  temperature float32 CODEC(Delta(2), LZ4HC(0))
+  lat float32,
+  lon float32,
+  battery float32,
+  humidity uint16,
+  temperature float32
 )
 PRIMARY KEY (device_id, timestamp, batch_id)
 SETTINGS shards=3
