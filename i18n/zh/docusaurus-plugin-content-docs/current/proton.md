@@ -73,6 +73,7 @@ SELECT 设备，计数 (*)、最小（温度）、最大值（温度）
 Integration with other systems:
 
 - ClickHouse https://docs.timeplus.com/proton-clickhouse-external-table
+- [Sling](sling)
 - Grafana https://github.com/timeplus-io/proton-grafana-source
 - Metabase https://github.com/timeplus-io/metabase-proton-driver
 - Pulse 用户界面 https://github.com/timeplus-io/pulseui/tree/proton
