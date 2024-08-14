@@ -70,10 +70,13 @@ Proton利用ClickHouse TTL表达式来制定历史数据的保留政策。 Proto
 
 ##### 用于流存储
 
-Today it's not exposed in SQL to control the retention policies for streaming storage. In Timeplus Cloud, you can set them via 在 Timeplus Cloud 中，你可以通过以下方式进行设置
+You can set the retention policies for streaming storage when you create the stream or update the setting after creation.
 
-* logstore_retention_bytes
-* logstore_retention_ms
+```sql
+CREATE STREAM .. SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
+
+ALTER STREAM .. MODIFY SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
+```
 
 ### 多版本流
 
@@ -124,13 +127,13 @@ When you run a Timeplus SQL query with a random stream, the data will be generat
 By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second: 如果你想（大致）控制数据的生成频率，你可以使用 `eps` 设置。 例如，以下 SQL 每秒生成 10 个事件：
 
 ```sql
-创建随机流 rand_stream (i int 默认 rand ()%5) 设置 eps=10
+CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=10
 ```
 
 您可以通过 `interval_time` 设置进一步自定义数据生成速率。 You can further customize the rate of data generation via the `interval_time` setting. For example, you want to generate 1000 events each second, but don't want all 1000 events are generated at once, you can use the following sample SQL to generate events every 200 ms. The default interval is 5ms (in Proton 1.3.27 or the earlier versions, the default value is 100ms) 默认间隔为 5 毫秒（在 Proton 1.3.27 或更早版本中，默认值为 100 毫秒）
 
 ```sql
-创建随机流 rand_stream (i int 默认 rand ()%5) 设置 eps=1000，interval_time=200
+CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=1000, interval_time=200
 ```
 
 请注意，为了平衡性能和流量控制，数据生成率不准确。
