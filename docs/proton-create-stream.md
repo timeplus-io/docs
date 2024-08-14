@@ -66,14 +66,17 @@ Proton supports retention policies to automatically remove out-of-date data from
 
 ##### For Historical Storage
 
-Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add ` TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
+Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add `TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
 
 ##### For Streaming Storage
 
-Today it's not exposed in SQL to control the retention policies for streaming storage. In Timeplus Cloud, you can set them via
+You can set the retention policies for streaming storage when you create the stream or update the setting after creation.
 
-* logstore_retention_bytes
-* logstore_retention_ms
+```sql
+CREATE STREAM .. SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
+
+ALTER STREAM .. MODIFY SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
+```
 
 ### Versioned Stream
 

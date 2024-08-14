@@ -17,7 +17,7 @@ You can add or modify the retention policy for streaming storage. e.g.
 ```sql
 ALTER STREAM stream_name MODIFY SETTING
 logstore_retention_ms = ...,
-logstore_retention_size = ...;
+logstore_retention_bytes = ...;
 ```
 
 ## MODIFY QUERY SETTING
