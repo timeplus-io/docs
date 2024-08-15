@@ -6,6 +6,8 @@ As the name implies, the data in the stream is mutable. Value with the same prim
 
 The primary use case of mutable streams is serving as the lookup/dimensional data in [Streaming JOIN](joins), supporting millions or even billions of unique keys. You can also use mutable streams as the "fact table" to efficiently do range queries or filtering for denormalized data model, a.k.a. OBT (One Big Table).
 
+Learn more about why we introduced Mutable Streams by checking [this blog](https://www.timeplus.com/post/introducing-mutable-streams).
+
 ## 语法
 
 ```sql
@@ -40,11 +42,11 @@ CREATE MUTABLE STREAM device_metrics
   batch_id uint32,
   region string,
   city string,
-  lat float32 CODEC(Gorilla, LZ4HC(9)),
-  lon float32 CODEC(Gorilla, LZ4HC(9)),
-  battery float32 CODEC(Gorilla, LZ4HC(0)),
-  humidity uint16 CODEC(Delta(2), LZ4HC(0)),
-  temperature float32 CODEC(Delta(2), LZ4HC(0))
+  lat float32,
+  lon float32,
+  battery float32,
+  humidity uint16,
+  temperature float32
 )
 PRIMARY KEY (device_id, timestamp, batch_id)
 ```
@@ -133,6 +135,16 @@ Sample output:
 50 rows in set. Elapsed: 0.015 sec.
 ```
 
+You can also query the mutable stream in the streaming SQL.
+
+```sql
+SELECT .. FROM mutable_stream
+```
+
+This will query all existing data and accept new incoming data.
+
+Mutable stream can also be used in [JOINs](joins).
+
 ## Advanced Settings
 
 ### Retention Policy for Streaming Storage
@@ -195,11 +207,11 @@ CREATE MUTABLE STREAM device_metrics
   batch_id uint32,
   region string,
   city string,
-  lat float32 CODEC(Gorilla, LZ4HC(9)),
-  lon float32 CODEC(Gorilla, LZ4HC(9)),
-  battery float32 CODEC(Gorilla, LZ4HC(0)),
-  humidity uint16 CODEC(Delta(2), LZ4HC(0)),
-  temperature float32 CODEC(Delta(2), LZ4HC(0)),
+  lat float32,
+  lon float32,
+  battery float32,
+  humidity uint16,
+  temperature float32,
   FAMILY cf1 (lat,lon)
 )
 PRIMARY KEY (device_id, timestamp, batch_id)
@@ -217,11 +229,11 @@ CREATE MUTABLE STREAM device_metrics
   batch_id uint32,
   region string,
   city string,
-  lat float32 CODEC(Gorilla, LZ4HC(9)),
-  lon float32 CODEC(Gorilla, LZ4HC(9)),
-  battery float32 CODEC(Gorilla, LZ4HC(0)),
-  humidity uint16 CODEC(Delta(2), LZ4HC(0)),
-  temperature float32 CODEC(Delta(2), LZ4HC(0))
+  lat float32,
+  lon float32,
+  battery float32,
+  humidity uint16,
+  temperature float32
 )
 PRIMARY KEY (device_id, timestamp, batch_id)
 SETTINGS shards=3
