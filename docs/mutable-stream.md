@@ -6,6 +6,8 @@ As the name implies, the data in the stream is mutable. Value with the same prim
 
 The primary use case of mutable streams is serving as the lookup/dimensional data in [Streaming JOIN](joins), supporting millions or even billions of unique keys. You can also use mutable streams as the "fact table" to efficiently do range queries or filtering for denormalized data model, a.k.a. OBT (One Big Table).
 
+Learn more about why we introduced Mutable Streams by checking [this blog](https://www.timeplus.com/post/introducing-mutable-streams).
+
 ## Syntax
 ```sql
 CREATE MUTABLE STREAM [IF NOT EXISTS] stream_name (
@@ -120,6 +122,14 @@ Sample output:
 
 50 rows in set. Elapsed: 0.015 sec.
 ```
+
+You can also query the mutable stream in the streaming SQL.
+```sql
+SELECT .. FROM mutable_stream
+```
+This will query all existing data and accept new incoming data.
+
+Mutable stream can also be used in [JOINs](joins).
 
 ## Advanced Settings
 ### Retention Policy for Streaming Storage

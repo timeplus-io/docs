@@ -28,6 +28,49 @@ Key highlights of this release:
 ## Releases
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
+### 2.4.18 (Latest) {#2418}
+Built on 08-15-2024. You can get it via:
+* For Linux or Mac users: `curl https://install.timeplus.com/latest | sh`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.2 ..`
+* For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.18`
+
+#### Changelog {#changelog_2_4_18}
+
+Comparing to the release [2.4.17](#2417) release:
+* timeplusd 2.3.23 -> 2.3.24
+* timeplus_web 1.4.31 -> 1.4.32
+
+Components:
+* timeplusd
+  * improvement: bug fixes and error handling
+* timeplus_web
+  * feat(ingest): use username:password for ingest API wizard
+
+#### Known issues {#known_issue_2_4_18}
+1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
+2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
+
+### 2.4.17 {#2417}
+Built on 08-14-2024. You can get it via:
+* For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.17`
+
+#### Changelog {#changelog_2_4_17}
+
+Comparing to the release [2.4.16](#2416) release:
+* timeplusd 2.3.21 -> 2.3.23
+
+Components:
+* timeplusd
+  * feat: support running [table function](functions_for_streaming#table) on [Timeplus External Stream](timeplus-external-stream)
+  * improvement: track more stats: external_stream_read_failed, external_stream_written_failed, mv_recover_times, mv_memory_usage.
+  * improvement: better track memory usage in macOS and Docker container.
+  * feat: allow you to [drop streams](sql-drop-stream#force_drop_big_stream) with `force_drop_big_stream=true` setting.
+  * improvement: default listen for 0.0.0.0 instead 127.1 (localhost)
+
+#### Known issues {#known_issue_2_4_17}
+1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
+2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
+
 ### 2.4.16 (Stable) {#2416}
 
 Built on 08-04-2024. You can get it via:
