@@ -1,8 +1,14 @@
 # API 密钥
 
-The REST API of Timeplus Enterprise is secured by API key. Currently this is only enabled in Timeplus Enterprise SaaS edition. For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorization header to be `Basic [Base64 encoded user:password]`.
+The [REST API](https://docs.timeplus.com/rest) of Timeplus Enterprise is secured by API keys in Timeplus Cloud.
 
-您需要创建 API 密钥才能访问 Timeplus REST API。 以下是如何创建的步骤：
+:::info
+For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorization header to be `Basic [Base64 encoded user:password]`.
+
+For example, if the username is `admin` and the password is `password` (not recommended to set this in production), you can generate the based64 encoded string for `admin:password` as `YWRtaW46cGFzc3dvcmQ`, via the command line `echo -n "admin:password" | base64`. Then set the HTTP header `Authorization` as `Basic YWRtaW46cGFzc3dvcmQ`. This also can be set in `curl` via `-u admin:password` flag.
+:::
+
+You need to create an API key to access the Timeplus REST API in the cloud. 以下是如何创建的步骤：
 
 1. 点击右上角的 **头像**。 在下拉列表中，单击 **个人设置**。
 
