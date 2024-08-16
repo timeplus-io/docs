@@ -34,7 +34,9 @@ Please use the stable releases for production deployment, while we also provide 
 
 ### 2.4.18 (Latest) {#2418}
 
-Built on 08-15-2024. You can get it via:
+:::warning
+Please wait for 2.4.19 release, because 2.4.18 unexpectedly introduced a breaking change comparing to 2.4.16.
+:::
 
 - For Linux or Mac users: `curl https://install.timeplus.com/latest | sh`
 - For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.2 ..`
