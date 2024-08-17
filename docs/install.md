@@ -33,16 +33,9 @@ brew install timeplus-io/timeplus/proton
 ### As a Docker container{#docker}
 
 ```bash
-docker run -d --pull always --name proton ghcr.io/timeplus-io/proton:latest
+docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
 ```
-
-In case you cannot access ghcr, you can pull the image from `public.ecr.aws/timeplus/proton`
-
-You may need to expose ports from the Proton container so that other tools can connect to it, such as DBeaver. Please check [Server Ports](proton-ports) for each port to expose. For example:
-
-```shell
-docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton ghcr.io/timeplus-io/proton:latest
-```
+Please check [Server Ports](proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
 
 ### Docker Compose {#compose}
 
