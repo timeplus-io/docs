@@ -12,7 +12,7 @@ A Docker Compose stack is provided at https://github.com/timeplus-io/proton/tree
 
 ### Example: ETL with masked data
 
-First, create a table with the regular MergeTree table engine in your ClickHouse.
+First, create a table with ClickHouse MergeTree table engine by running `clickhouse client` in the ClickHouse container.
 
 ```sql
 CREATE TABLE events
@@ -26,15 +26,15 @@ ENGINE=MergeTree()
 PRIMARY KEY (_tp_time, url);
 ```
 
-This will serve as the destination of Proton External Table for ClickHouse. Later on, you can also read the data in Proton.
+This will serve as the destination of Proton External Table for ClickHouse. Later on, you can also read the data in Timeplus.
 
 In the demo docker compose stack, a Redpanda container is started, together with a data generator and Redpanda Console for you to easily explore live data. For example, go to [http://localhost:8080](http://localhost:8080/), you will see the live data in the **owlshop-frontend-events** topic.
 
 ![data](https://static.wixstatic.com/media/3796d3_2bb403497c0b48fab5710bec35793ae0~mv2.png/v1/fill/w_1480,h_642,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/3796d3_2bb403497c0b48fab5710bec35793ae0~mv2.png)
 
-The goal of this tutorial is to read these access logs and turn the sensitive IP addresses into md5 and ingest them to ClickHouse for more business analysis. 
+The goal of this tutorial is to read these access logs and turn the sensitive IP addresses into md5 and ingest them to ClickHouse for more business analysis.
 
-To read data from Kafka or Redpanda, you just need to create an [External Stream](proton-kafka) with the following DDL SQL:
+To read data from Kafka or Redpanda, you just need to create an [Kafka External Stream](proton-kafka) with the following DDL SQL:
 
 ```sql
 CREATE EXTERNAL STREAM frontend_events(raw string)
@@ -43,12 +43,12 @@ SETTINGS type='kafka',
          topic='owlshop-frontend-events';
 ```
 
-Then run the following DDL SQL to setup the connection between Proton and ClickHouse. For local Clickhouse without security settings, it can be as simple as:
+Then run the following DDL SQL to setup the connection between Timeplus and ClickHouse. For local Clickhouse without security settings, it can be as simple as:
 
 ```sql
 CREATE EXTERNAL TABLE ch_local
 SETTINGS type='clickhouse',
-         address='localhost:9000',
+         address='clickhouse:9000',
          table='events';
 ```
 
@@ -71,7 +71,7 @@ Now if you go back to ClickHouse and run `select * from events`, you will see ne
 
 You can do more with streaming SQL in Proton, such as late event processing, complex event processing, or leverage thousands of ClickHouse functions to customize the transformation/enrichment logics. Many of Proton’s functions are powered by ClickHouse. So if you are a ClickHouse user already, you can use Proton in a similar way.
 
-As mentioned above, the External Table in Proton can be used to read data from ClickHouse, or even apply data lookup in streaming JOIN. Simply run `SELECT .. FROM external_table_name` in Proton. It will read data from ClickHouse for the selected columns and apply the transformation or JOIN in Proton. 
+As mentioned above, the External Table in Proton can be used to read data from ClickHouse, or even apply data lookup in streaming JOIN. Simply run `SELECT .. FROM external_table_name` in Proton. It will read data from ClickHouse for the selected columns and apply the transformation or JOIN in Proton.
 
 ### Example: tumble + join
 
@@ -82,7 +82,7 @@ For example:
 ```sql
 -- read the dimension table in ClickHouse without copying data to Proton
 CREATE EXTERNAL TABLE dim_path_to_title
-SETTINGS type='clickhouse',address='localhost:9000';
+SETTINGS type='clickhouse',address='clickhouse:9000';
 
 -- read Kafka data with subsecond latency
 CREATE EXTERNAL STREAM clickstream(
@@ -90,11 +90,11 @@ CREATE EXTERNAL STREAM clickstream(
   product_id int,
   ip string
 )
-SETTINGS type='kafka',brokers='kafka:9092',topic='clickstream';
+SETTINGS type='kafka',brokers='redpanda:9092',topic='clickstream';
 
 -- continuously write to ClickHouse
 CREATE EXTERNAL TABLE target_table
-SETTINGS type='clickhouse',address='localhost:9000',table='pageviews';
+SETTINGS type='clickhouse',address='clickhouse:9000',table='pageviews';
 
 -- downsample the click events per 5 seconds and enrich URL paths with page titles
 CREATE MATERIALIZED VIEW mv INTO target_table AS
