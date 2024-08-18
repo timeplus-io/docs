@@ -32,7 +32,7 @@ Please use the stable releases for production deployment, while we also provide 
 Built on 08-15-2024. You can get it via:
 * For Linux or Mac users: `curl https://install.timeplus.com/latest | sh`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.3 ..`
-* For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.19`
+* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.19`
 
 #### Changelog {#changelog_2_4_19}
 
@@ -53,7 +53,7 @@ Components:
 :::
 Built on 08-15-2024. You can get it via:
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.2 ..`
-* For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.18`
+* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.18`
 
 #### Changelog {#changelog_2_4_18}
 
@@ -73,7 +73,7 @@ Components:
 
 ### 2.4.17 {#2417}
 Built on 08-14-2024. You can get it via:
-* For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.17`
+* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.17`
 
 #### Changelog {#changelog_2_4_17}
 
@@ -97,7 +97,7 @@ Components:
 Built on 08-04-2024. You can get it via:
 * For Linux or Mac users: `curl https://install.timeplus.com | sh`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.0 ..`
-* For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.16`
+* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.16`
 
 #### Changelog {#changelog_2_4_16}
 
@@ -127,7 +127,7 @@ Components:
 
 Built on 07-31-2024. You can get it via:
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.4.15 ..`
-* For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.15`
+* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.15`
 
 #### Changelog {#changelog_2_4_15}
 
