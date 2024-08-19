@@ -32,17 +32,17 @@ Key highlights of this release:
 
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
-### 2.4.19 (Latest) {#2419}
+### 2.4.19 (Stable) {#2419}
 
-Built on 08-15-2024. You can get it via:
+Built on 08-15-2024. You can install via:
 
-- For Linux or Mac users: `curl https://install.timeplus.com/latest | sh`
+- For Linux or Mac users: `curl https://install.timeplus.com | sh`
 - For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.3 ..`
 - For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.19`
 
 #### Changelog {#changelog_2_4_19}
 
-Comparing to the release [2.4.18](#2418) release:
+Compared to the [2.4.18](#2418) release:
 
 - timeplusd 2.3.24 -> 2.3.25
 
@@ -86,13 +86,13 @@ Components:
 
 ### 2.4.17 {#2417}
 
-Built on 08-14-2024. You can get it via:
+Built on 08-14-2024. You can install via:
 
 - For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.17`
 
 #### Changelog {#changelog_2_4_17}
 
-Comparing to the release [2.4.16](#2416) release:
+Compared to the [2.4.16](#2416) release:
 
 - timeplusd 2.3.21 -> 2.3.23
 
@@ -110,9 +110,9 @@ Components:
 1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
 2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
 
-### 2.4.16 (Stable) {#2416}
+### 2.4.16 {#2416}
 
-Built on 08-04-2024. You can get it via:
+Built on 08-04-2024. You can install via:
 
 - For Linux or Mac users: `curl https://install.timeplus.com | sh`
 - For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.0 ..`
@@ -120,7 +120,7 @@ Built on 08-04-2024. You can get it via:
 
 #### Changelog {#changelog_2_4_16}
 
-Comparing to the release [2.4.15](#2415) release:
+Compared to the [2.4.15](#2415) release:
 
 - timeplusd 2.3.20 -> 2.3.21
 - timeplus_appserver 1.4.43 -> 1.4.44
@@ -146,14 +146,14 @@ Components:
 
 ### 2.4.15
 
-Built on 07-31-2024. You can get it via:
+Built on 07-31-2024. You can install via:
 
 - For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.4.15 ..`
 - For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.15`
 
 #### Changelog {#changelog_2_4_15}
 
-Comparing to the [2.3.5](enterprise-v2.3#235) release :
+Compared to the [2.3.5](enterprise-v2.3#235) release :
 
 - timeplusd 2.2.8 -> 2.3.20
 - timeplus_appserver 1.4.34 -> 1.4.43
