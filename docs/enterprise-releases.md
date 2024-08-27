@@ -28,9 +28,9 @@ Key highlights of this release:
 ## Releases
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
-### 2.4.23 (Latest) {#2_4_23}
+### 2.4.23 (Stable) {#2_4_23}
 Built on 08-22-2024. You can install via:
-* For Linux or Mac users: `curl https://install.timeplus.com/latest | sh`
+* For Linux or Mac users: `curl https://install.timeplus.com/stable | sh`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.7 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.23`
 
@@ -94,9 +94,15 @@ Components:
 ### 2.4.16 (Stable) {#2416}
 
 Built on 08-04-2024. You can install via:
-* For Linux or Mac users: `curl https://install.timeplus.com | sh`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.0 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.16`
+
+Component verions:
+* timeplusd 2.3.21
+* timeplus_appserver 1.4.44
+* timeplus_web 1.4.31
+* timeplus_connector 1.5.5
+* timeplus cli 1.0.19
 
 #### Changelog {#changelog_2_4_16}
 
