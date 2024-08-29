@@ -72,7 +72,7 @@
 
 **其他改进**
 
-- 对于流，您现在可以为流媒体和历史数据设置单独的保留策略。 例如，对于包含 IoT 数据的流，您可以为流数据设置 1 天的保留时间，为历史数据设置 90 天的保留时限。
+- 对于流，您现在可以为流和历史数据设置单独的保留策略。 例如，对于包含 IoT 数据的流，您可以为流数据设置 1 天的保留时间，为历史数据设置 90 天的保留时限。
 - 请注意：REST API v1beta1 现已废弃，将在几个月后被删除。 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). 请查看我们的v1beta2的[API文档](https://docs.timeplus.com/rest). [Python SDK](https://pypi.org/project/timeplus/)、 [Java 示例代码](https://github.com/timeplus-io/java-demo) 和 [Streamlit 演示应用程序](https://github.com/timeplus-io/streamlit_apps) 已更新。
 
 ## 2023年5月29日
