@@ -6,8 +6,8 @@ https://github.com/timeplus-io/proton/tree/develop/examples/cdc 提供了 Docker
 
 克隆 [proton](https://github.com/timeplus-io/proton) 存储库或者直接将 docker-compose.yml 下载到一个文件夹中。 在文件夹中运行 docker compose up。 堆栈中有六个 docker 容器：
 
-1. ghcr.io/timeplus-io/proton: latest，作为流媒体数据库。
-2. docker.redpanda.com/redpandadata/redpanda，作为兼容 Kafka 的流媒体消息总线
+1. ghcr.io/timeplus-io/proton: latest，作为流数据库。
+2. docker.redpanda.com/redpandadata/redpanda，作为兼容 Kafka 的流消息总线
 3. docker.redpanda.com/redpandadata/console，作为在 Kafka/Redpanda 中浏览数据的 Web 用户界面
 4. debezium/connect，作为 CDC 引擎，用于从 OLTP 读取更改并将数据发送到 Kafka/Redpanda
 5. debezium/example-mysql，一个预先配置的 MySQL，作为管道源
