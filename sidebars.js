@@ -106,6 +106,7 @@ const sidebars = {
             "cluster_install",
             "k8s-helm",
             "server_config",
+            "rbac",
           ],
         },
         "timeplus-query-guide",
