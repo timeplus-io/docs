@@ -74,15 +74,6 @@ Able to run `INSERT` on the specified streams, e.g.
 GRANT INSERT ON test1 TO user1;
 ```
 
-### ALTER COLUMN
-Able to run `ALTER STREAM .. ADD COLUMN` or `ALTER STREAM .. DROP COLUMN`  on the specified streams, e.g.
-```sql
-GRANT ALTER COLUMN ON test1 TO user1;
-
-ALTER STREAM test1 ADD COLUMN col2 string AFTER col1;
-ALTER STREAM test1 DROP COLUMN col2;
-```
-
 ### CREATE
 Able to create new streams, views or materialized views, e.g.
 ```sql
