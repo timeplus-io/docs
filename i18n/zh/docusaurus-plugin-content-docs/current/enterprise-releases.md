@@ -55,6 +55,7 @@ Compared to the [2.4.19](#2419) release:
 - timeplusd 2.3.25 -> 2.3.30
   - support dropping partitions on cluster
   - add additional query_type in sql analyzer, fixing the known issue
+  - enhanced historical asof joins with a performance improvement of over 30%
   - bugfixes and performance enhancements
 
 #### Known issues {#known_issue_2_4_23}
