@@ -1,6 +1,6 @@
 # Query Syntax
 
-Timeplus Proton introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
+Timeplus introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
 
 ```sql
 [WITH common_table_expression ..]
