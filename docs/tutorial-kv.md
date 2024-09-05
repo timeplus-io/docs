@@ -1,8 +1,8 @@
 # Use Primary Key For Update and Delete
 
-By default, streams in Timeplus are in append-only mode. When you create a stream with the mode `versioned_kv`, you can update the data with same primary key(s). When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus Proton will automatically choose the closest version.
+By default, streams in Timeplus are in append-only mode. When you create a stream with the mode `versioned_kv`, you can update the data with same primary key(s). When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
 
-[Versioned Stream](versioned-stream) supports INSERT and UPDATE. To delete data with certain primary key(s), please create a [Changelog Stream](changelog-stream).
+[Versioned Stream](versioned-stream) and [Mutable Stream](mutable-stream) support INSERT and UPDATE. To delete data with certain primary key(s), please create a [Changelog Stream](changelog-stream).
 
 A HOWTO video:
 

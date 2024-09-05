@@ -108,10 +108,37 @@ const config = {
         },
         items: [
           {
-            href: "https://www.timeplus.com/product",
-            position: "left",
+            type: "dropdown",
             label: "Product",
+            position: "left",
             className: "navbar__link--active",
+            items: [
+              {
+                href: "https://www.timeplus.com/product",
+                label: "Timeplus Enterprise",
+                className: "navbar__link--active",
+              },
+              {
+                href: "https://www.timeplus.com/pricing",
+                label: "Pricing",
+                className: "navbar__link--active",
+              },
+              {
+                type: "html",
+                value:
+                  "<span style='font-size: 14px;color: #AEACB0;'>WHY TIMEPLUS?</span>",
+              },
+              {
+                href: "https://www.timeplus.com/timeplus-vs-ksqldb",
+                label: "Timeplus vs. ksqlDB",
+                className: "navbar__link--active",
+              },
+              {
+                href: "https://www.timeplus.com/timeplus-vs-flink",
+                label: "Timeplus vs. Apache Flink",
+                className: "navbar__link--active",
+              },
+            ],
           },
           {
             type: "dropdown",
@@ -172,10 +199,22 @@ const config = {
             ],
           },
           {
-            href: "https://www.timeplus.com/pricing",
+            type: "dropdown",
+            label: "About Us",
             position: "left",
-            label: "Pricing",
             className: "navbar__link--active",
+            items: [
+              {
+                href: "https://www.timeplus.com/our-team",
+                label: "Our Team",
+                className: "navbar__link--active",
+              },
+              {
+                href: "https://www.timeplus.com/media-kit",
+                label: "Media Kit",
+                className: "navbar__link--active",
+              },
+            ],
           },
           {
             href: "https://www.timeplus.com/blog",
