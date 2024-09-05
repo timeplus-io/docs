@@ -2,6 +2,28 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Sep 2, 2024
+
+### Timeplus Enterprise v2.4.23
+ * Timeplus Enterprise [v2.4.23](enterprise-releases#2_4_23) is released as the latest stable build.
+ * The key changes are:
+    * (timeplusd) support dropping partitions on cluster
+    * (timeplusd) add additional query_type in sql analyzer, fixing the known issue
+    * (timeplusd) enhanced historical asof joins with a performance improvement of over 30%
+    * (timeplus_web) use username:password for ingest API wizard
+
+### Timeplus C++ SDK
+https://github.com/timeplus-io/timeplus-cpp is a public repo for integrating Timeplus with your C++ code.
+
+You can run DDL, streaming queries, or data ingestion with this C++ client. Both sync and async inserts are supported, with idempotent_id support.
+
+### Metabase Driver v0.50.4
+The [v0.50.4 Metabase Proton Driver](https://github.com/timeplus-io/metabase-proton-driver/releases/tag/v0.50.4) supports metabase 0.50.x.
+
+However it is verified to work with Proton 1.5.6, not the latest version of Timeplus Proton (currently 1.5.16) or Timeplus Enterprise yet.
+
+We are actively working on the refinement to support latest Timeplus core engine.
+
 ## Aug 19, 2024
 
 ### Timeplus Enterprise v2.4.18
