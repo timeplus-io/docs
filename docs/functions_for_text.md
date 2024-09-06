@@ -26,7 +26,7 @@ For example, `format('{} {}', 'Hello', 'World')`gets `Hello World`
 
 ### substr
 
-`substr(str,index [,length])` Returns the substring of `str` from `index` (starting from 1). `length` is optional. 
+`substr(str,index [,length])` Returns the substring of `str` from `index` (starting from 1). `length` is optional.
 
 ### trim
 
@@ -36,7 +36,7 @@ Removes all specified characters from the start or end of a string. By default r
 
 ### split_by_string
 
-`split_by_string(sep,string)`  
+`split_by_string(sep,string)`
 
 Splits a string into substrings separated by a string. It uses a constant string `sep` of multiple characters as the separator. If the string `sep` is empty, it will split the string `string` into an array of single characters.
 
@@ -76,12 +76,12 @@ This can be used to mask data, e.g. to hide the full phone number, you can run `
 
 ### extract
 
-Process plain text with regular expression and extract the content. For example, `extract('key1=value1, key2=value2','key1=(\\w+)')`, this will get “value1”.  If the log lines are put into a single text column, you can create a view with the extracted fields, e.g. 
+Process plain text with regular expression and extract the content. For example, `extract('key1=value1, key2=value2','key1=(\\w+)')`, this will get “value1”.  If the log lines are put into a single text column, you can create a view with the extracted fields, e.g.
 
 ```sql
-create view logs as 
+create view logs as
 select extract(value, 'key1=(\\w+)') as key1,
-       extract(value, 'key2=(\\w+)') as key2 
+       extract(value, 'key2=(\\w+)') as key2
        from log_stream
 ```
 
@@ -94,7 +94,7 @@ select extract(value, 'key1=(\\w+)') as key1,
 Matches all groups of the `haystack` string using the `pattern` regular expression. Returns an array of arrays, where the first array includes keys and the second array includes all values.
 
 ```sql
-SELECT 
+SELECT
  extract_all_groups('v1=111, v2=222, v3=333', '("[^"]+"|\\w+)=("[^"]+"|\\w+)') as groups
  -- return [ [ "v1", "v2", "v3" ], [ "111", "222", "333" ] ]
 ```
@@ -108,14 +108,14 @@ SELECT
 Matches all groups of the `haystack` string using the `pattern` regular expression. Returns an array of arrays, where the first array includes all fragments matching the first group, the second array matching the second group, etc.
 
 ```sql
-SELECT 
+SELECT
  extract_all_groups_horizontal('v1=111, v2=222, v3=333', '("[^"]+"|\\w+)=("[^"]+"|\\w+)') as groups
  -- [ [ "v1", "111" ], [ "v2", "222" ], [ "v3", "333" ] ]
 ```
 
 ### extract_key_value_pairs
 
-`extract_key_value_pairs(string)` 
+`extract_key_value_pairs(string)`
 
 Extract key value pairs from the string and return a map. For example, `extract_key_value_pairs('name:neymar, age:31 team:psg,nationality:brazil') ` will return a map with keys: name, age, team, ad nationality.
 
@@ -125,7 +125,7 @@ For the advanced usage of the function, please check the [doc](https://clickhous
 
 `grok(string,pattern)`
 
-Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years old.','My name is %{DATA:name}. I am %{INT:age} years old.') as m` will get `{"name":"Jack","age":"23"}` as the `m`. 
+Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years old.','My name is %{DATA:name}. I am %{INT:age} years old.') as m` will get `{"name":"Jack","age":"23"}` as the `m`.
 
 Please note all keys and values in the returned map are in string type. You can convert them to other type, e.g. `(m['age'])::int`
 
@@ -137,9 +137,13 @@ Please note all keys and values in the returned map are in string type. You can 
 
 `hex(argument)`Returns a string containing the argument’s hexadecimal representation.` argument` can be any type.
 
+### unhex
+
+`unhex(string)` Performs the opposite operation of [hex](#hex). It interprets each pair of hexadecimal digits (in the argument) as a number and converts it to the byte represented by the number. The return value is a binary string (BLOB).
+
 ### uuid
 
-`uuid()` or `uuid(x)` Generates a universally unique identifier (UUID) which is a 16-byte number used to identify records. In order to generate multiple UUID in one row, pass a parameter in each function call, such as `SELECT uuid(1) as a, uuid(2) as b` Otherwise if there is no parameter while calling multiple `uuid` functions in one SQL statement, the same UUID value will be returned.	
+`uuid()` or `uuid(x)` Generates a universally unique identifier (UUID) which is a 16-byte number used to identify records. In order to generate multiple UUID in one row, pass a parameter in each function call, such as `SELECT uuid(1) as a, uuid(2) as b` Otherwise if there is no parameter while calling multiple `uuid` functions in one SQL statement, the same UUID value will be returned.
 
 ### base64_encode
 
