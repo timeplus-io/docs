@@ -78,7 +78,7 @@ When you create a source and preview the data, you can choose a column as the ti
 
 ## view {#view}
 
-You can define reusable SQL statements as views, so that you can query them as if they are streams `select .. from view1 ..` By default, views don't take any extra computing or storage resources. They are expected to the SQL definition when they are queried. You can also create materialized views to 'materialize' them (keeping running them in the background and saving the results to the disk).
+You can define reusable SQL statements as views, so that you can query them as if they are streams `select .. from view1 ..` By default, views don't take any extra computing or storage resources. They are expanded to the SQL definition when they are queried. You can also create materialized views to 'materialize' them (keeping running them in the background and saving the results to the disk).
 
 Learn more: [View](view) and [Materialized View](view#m_view)
 
