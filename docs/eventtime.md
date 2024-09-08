@@ -37,18 +37,18 @@ Taking an example for taxi passengers. The data stream can be
 | ------ | ------- | ------------------- | ------------------- | --- |
 | c001   | u001    | 2022-03-01 10:00:00 | 2022-03-01 10:30:00 | 45  |
 
-The data may come from a Kafka topic. When it's configured, we may set `trip_start` as the (default) event time. So that if we want to figure out how many passengers in each hour, we can run query like this
+The data may come from a Kafka topic. When it's configured, we may set `trip_end` as the (default) event time. So that if we want to figure out how many passengers in each hour, we can run query like this
 
 ```sql
-select count(*) from tumble(taxi_data,trip_start,1h) group by window_end
+select count(*) from tumble(taxi_data,1h) group by window_end
 ```
 
-This query uses `trip_start` , the default event time, to run the aggregation. If the passenger ends the trip on 00:01 at midnight, it will be included in the 00:00-00:59 time window.
+This query uses `trip_end` , the default event time, to run the aggregation. If the passenger ends the trip on 00:01 at midnight, it will be included in the 00:00-00:59 time window.
 
-In some cases, you as the analyst, may want to focus on how many passengers get in the taxi, instead of leaving the taxi, in each hour, then you can set `trip_end` as the event time for the query via `tumble(taxi_data,trip_end,1h)`
+In some cases, you as the analyst, may want to focus on how many passengers get in the taxi, instead of leaving the taxi, in each hour, then you can set `trip_start` as the event time for the query via `tumble(taxi_data,trip_start,1h)`
 
 Full query:
 
 ```sql
-select count(*) from tumble(taxi_data,trip_end,1h) group by window_end
+select count(*) from tumble(taxi_data,trip_start,1h) group by window_end
 ```
