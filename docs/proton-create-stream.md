@@ -35,20 +35,23 @@ If you omit the database name, `default` will be used. Stream name can be any ut
 
 #### Data types
 
-Proton supports the following column types
+Timeplus Proton supports the following column types:
 
 1. int8/16/32/64/128/256
 2. uint8/16/32/64/128/256
-3. boolean
+3. bool
 4. decimal(precision, scale) : valid range for precision is [1: 76], valid range for scale is [0: precision]
 5. float32/64
 6. date
-7. dateTime
-8. dateTime64(precision, [time_zone])
+7. datetime
+8. datetime64(precision, [time_zone])
 9. string
 10. fixed_string(N)
 11. array(T)
 12. uuid
+13. ipv4/ipv6
+
+For more details, please check [Data Types](datatypes).
 
 #### Event Time
 
