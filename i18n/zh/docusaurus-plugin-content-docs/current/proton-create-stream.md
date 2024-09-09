@@ -35,20 +35,23 @@
 
 #### 数据类型
 
-Proton 支持以下列类型
+Timeplus Proton supports the following column types:
 
 1. int8/16/32/64/128/256
 2. uint8/16/32/64/128/256
-3. boolean
+3. 布尔值
 4. 十进制（精度、小数位数）：精度的有效范围是 [1：76]，小数位数的有效范围是 [0：精度]
 5. float32/64
 6. 日期
 7. 日期时间
-8. dateTime64（精度，[time_zone]）
+8. datetime64(precision, [time_zone])
 9. 字符串
 10. fixed_string (N)
 11. 数组 (T)
 12. uuid
+13. ipv4/ipv6
+
+For more details, please check [Data Types](datatypes).
 
 #### 活动时间
 
