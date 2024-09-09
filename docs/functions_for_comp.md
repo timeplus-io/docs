@@ -220,18 +220,6 @@ If the second argument is a number `index`, it is the column index, starting fro
 
 The function implements operators `x.index` and `x.name`.
 
-### dict_get
-
-`dict_get('dict_name', attr_names, id_expr)`
-
-Retrieves values from a dictionary.
-
-### dict_get_or_default
-
-`dict_get_or_default('dict_name', attr_names, id_expr,default_value)`
-
-Retrieves values from a dictionary. If not found, return the default value.
-
 ### columns
 
 Not really for arrays, maps, or tuples.
