@@ -17,5 +17,5 @@ DROP STREAM <stream_name> SETTINGS force_drop_big_stream=true;
 ```
 
 :::info
-`force_drop_big_stream` is available in Timeplus Enterprise, since 2.4.17.
+`force_drop_big_stream` is available since Timeplus Enterprise 2.4.17 and Timeplus Proton 1.5.17.
 :::
