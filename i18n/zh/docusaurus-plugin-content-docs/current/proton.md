@@ -33,7 +33,7 @@ Don't want to setup by yourself? Try Timeplus Proton in [Cloud](https://us.timep
 SQL is the main interface. You can start a new terminal window with `proton client` to start the SQL shell.
 
 :::info
-You can also integrate Timeplus Proton with Python/Java/Go SDK, REST API, or BI plugins. Please check [Integrations](#integration).
+You can also integrate Timeplus Proton with Python/Java/Go SDK, REST API, or BI plugins. Please check [Integration](#integration).
 :::
 
 In the `proton client`, you can write SQL to create [External Stream for Kafka](proton-kafka) or [External Table for ClickHouse](proton-clickhouse-external-table). You can also run the following SQL to create a stream of random data:
