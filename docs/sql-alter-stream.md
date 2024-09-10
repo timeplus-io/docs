@@ -25,7 +25,7 @@ logstore_retention_bytes = ...;
 :::info
 This feature is available in Timeplus Enterprise v2.2.8 or above. Not available in Timeplus Proton.
 
-Please use [ALTER VIEW](sql-alter-view) for this use cases. Altering views or materialized views will be depreicated and removed from the `ALTER STREAM` SQL command.
+Please use [ALTER VIEW](sql-alter-view) for this use cases. Altering views or materialized views will be deprecated and removed from the `ALTER STREAM` SQL command.
 :::
 
 By default, the checkpoint will be updated every 15 minutes for materialized views. You can change the checkpoint interval without recreating the materialized views.
@@ -39,7 +39,7 @@ ALTER STREAM mv_with_inner_stream MODIFY QUERY SETTING checkpoint_interval=600
 :::info
 This feature is available in Timeplus Enterprise v2.2.8 or above. Not available in Timeplus Proton.
 
-Please use [ALTER VIEW](sql-alter-view) for this use cases. Altering views or materialized views will be depreicated and removed from the `ALTER STREAM` SQL command.
+Please use [ALTER VIEW](sql-alter-view) for this use cases. Altering views or materialized views will be deprecated and removed from the `ALTER STREAM` SQL command.
 :::
 
 By default, the checkpoint will be updated every 15 minutes for materialized views. After you change the interval you can reset it.

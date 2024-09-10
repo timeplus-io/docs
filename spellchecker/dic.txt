@@ -178,7 +178,9 @@ decode_url_component
 dedup
 deduplication
 defaultValue
+denormalization
 denormalized
+deployable
 deserialize
 destination-timeplus
 DevOps
@@ -229,6 +231,7 @@ frontend
 Fullscreen
 fullscreen
 GCS
+GDPR
 geo
 geo_distance
 geofencing
@@ -397,6 +400,7 @@ mqtt
 MQTT
 multinode
 mv
+mv_memory_usage
 mview
 mysql
 nak_delay
@@ -469,6 +473,7 @@ Pre-aggregation
 pre-built
 pre-computed
 pre-configured
+pre-existing
 pre-filled
 pre-made
 preconfigured
@@ -498,6 +503,7 @@ R2
 RabbitMQ
 rand64
 random_printable_ascii
+RBAC
 re2
 read_avro_aiven
 read_avro_confluent_cloud
@@ -645,6 +651,7 @@ tp_time
 Trino
 tripA
 tripB
+TSV
 ttl
 TTL
 tz
@@ -671,6 +678,7 @@ uncomment
 uncompress
 Uncompress
 uncompressing
+unhex
 unpause
 UNPAUSE
 untrusted
@@ -678,6 +686,7 @@ untuple
 upsert
 UPSERT
 Upsert
+UPSERTs
 Upstash
 url
 usecase
@@ -700,6 +709,7 @@ vCPU
 vectorized
 versioned_kv
 VPC
+WAL
 WarpStream
 Webhook
 webhook
@@ -722,4 +732,5 @@ YY
 YYYY-MM-DD
 zendesk
 Zendesk
+ZK
 zstd

@@ -35,7 +35,7 @@ We are actively working on the refinement to support latest Timeplus core engine
     * use username:password for ingest API wizard
 
 ### Timeplus Proton v1.5.16
- * When you start with `proton server`, it will listen on 0.0.0.0 (instead of 127.0.0.1 in previous verions), so you can connect to Proton from any host. This is not recommended for production deployment but is useful when you start Proton in a container and what to access it from the host.
+ * When you start with `proton server`, it will listen on 0.0.0.0 (instead of 127.0.0.1 in previous versions), so you can connect to Proton from any host. This is not recommended for production deployment but is useful when you start Proton in a container and what to access it from the host.
  * Fix an issue, you can run `SELECT * FROM information_schema.tables`
  * Support append-only LEFT ALL JOIN append-only.
 

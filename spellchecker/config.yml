@@ -32,3 +32,5 @@ ignore:
   - datestring\d
   - json\d
   - dateString\d
+  - changelog_[_\d]+
+  - v[\.\d]+
