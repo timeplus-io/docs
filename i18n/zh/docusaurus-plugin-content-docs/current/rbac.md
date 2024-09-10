@@ -153,7 +153,7 @@ SELECT * FROM table(test1);
 
 ## Quota
 
-Quota limits resource usage. Quota contains a set of limits for some durations, as well as a list of roles and/or users which should use this quota.
+Quota limits resource usage. Quota contains a set of limits for some duration, as well as a list of roles and/or users which should use this quota.
 
 Management queries:
 
