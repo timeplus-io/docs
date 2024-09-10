@@ -40,7 +40,7 @@ Built on 08-22-2024. You can install via:
 - For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.7 ..`
 - For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.23`
 
-Component verions:
+Component versions:
 
 - timeplusd 2.3.30
 - timeplus_appserver 1.4.44
@@ -116,7 +116,7 @@ Built on 08-04-2024. You can install via:
 - For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.0 ..`
 - For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.16`
 
-Component verions:
+Component versions:
 
 - timeplusd 2.3.21
 - timeplus_appserver 1.4.44
