@@ -220,18 +220,6 @@ If the second argument is a number `index`, it is the column index, starting fro
 
 该函数实现了运算符 `x.index` 和 `x.name`。
 
-### dict_get
-
-`dict_get ('dict_name'、attr_names、id_expr)`
-
-从字典中检索值。
-
-### dict_get_or_default
-
-`dict_get_or_default（'dict_name'、attr_names、id_expr、default_value）`
-
-从字典中检索值。 Retrieves values from a dictionary. If not found, return the default value.
-
 ### 列
 
 实际上不适用于数组、地图或元组。

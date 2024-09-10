@@ -22,15 +22,21 @@ Timeplus Proton 是 Timeplus Enterprise 的核心引擎，是 ksqlDB 或 Apache 
 curl https://install.timeplus.com/oss | sh
 ```
 
-如需更多指南，请查看 [安装指南](install#proton)。
+For more guidelines, please check the [installation guide](install#proton) for Docker or Homebrew.
 
 ### Timeplus 云服务
 
-在 [Timeplus Cloud](https://us.timeplus.cloud/)中试用 Timeplus Proton 的第一步
+Don't want to setup by yourself? Try Timeplus Proton in [Cloud](https://us.timeplus.cloud/).
 
 ### 🔎 用法
 
-From `proton-client`, run the following SQL to create a stream of random data:
+SQL is the main interface. You can start a new terminal window with `proton client` to start the SQL shell.
+
+:::info
+You can also integrate Timeplus Proton with Python/Java/Go SDK, REST API, or BI plugins. Please check [Integration](#integration).
+:::
+
+In the `proton client`, you can write SQL to create [External Stream for Kafka](proton-kafka) or [External Table for ClickHouse](proton-clickhouse-external-table). You can also run the following SQL to create a stream of random data:
 
 ```sql
 --使用随机数据创建流
@@ -62,7 +68,7 @@ SELECT 设备，计数 (*)、最小（温度）、最大值（温度）
 
 要访问更多功能，例如来源、接收器、仪表板、警报和数据沿袭，请在 [Timeplus Cloud](https://us.timeplus.cloud) 上创建工作空间，或尝试我们的 [实时演示](https://demo.timeplus.cloud) 以及预建的实时数据和仪表板。
 
-## 🧩 Integration
+## 🧩 Integration {#integration}
 
 以下驱动程序可用：
 
@@ -73,6 +79,7 @@ SELECT 设备，计数 (*)、最小（温度）、最大值（温度）
 Integration with other systems:
 
 - ClickHouse https://docs.timeplus.com/proton-clickhouse-external-table
+- [Sling](sling)
 - Grafana https://github.com/timeplus-io/proton-grafana-source
 - Metabase https://github.com/timeplus-io/metabase-proton-driver
 - Pulse 用户界面 https://github.com/timeplus-io/pulseui/tree/proton

@@ -64,7 +64,7 @@ The following section contains step-by-step instructions on how to easily get st
 
    ![物联网示例数据，配置步骤](/img/sample-source-configuration-5.png)
 
-### 探索流媒体数据
+### 探索流数据
 
 1. 要查看新创建的流中的数据，您可以：
 

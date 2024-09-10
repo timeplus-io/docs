@@ -1,8 +1,8 @@
 # 使用主键进行更新和删除
 
-默认情况下，Timeplus中的流处于仅追加模式。 当你创建模式为 “versioned_kv” 的流时，你可以使用相同的主键更新数据。 当你使用 `table`函数查询流时，只会显示相同主键的最新版本。 当您在与其他流的 JOIN 中将这个流用作 “右表” 时，Timeplus 会自动选择最接近的版本。
+默认情况下，Timeplus中的流处于仅追加模式。 当你创建模式为 “versioned_kv” 的流时，你可以使用相同的主键更新数据。 当你使用 `table`函数查询流时，只会显示相同主键的最新版本。 When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
 
-[版本化流]（版本流）支持 INSERT 和 UPDATE。 要删除具有特定主键的数据，请创建 [变更日志流]（变更日志流）。
+[Versioned Stream](versioned-stream) and [Mutable Stream](mutable-stream) support INSERT and UPDATE. 要删除具有特定主键的数据，请创建 [变更日志流]（变更日志流）。
 
 一段 HOWTO 视频：
 

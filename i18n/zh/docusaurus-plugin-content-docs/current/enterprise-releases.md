@@ -28,21 +28,105 @@ Key highlights of this release:
 - After running a streaming query in the SQL console, you can check out the its query pipeline, or execution plan. Click "View Query Pipeline" under the SQL editor, and mouseover on the throughput boxes to see processing times
 - [Timeplus Native JDBC](jdbc) with streaming SQL and fast insert
 
-## Stable Releases {#stable}
+## Releases
 
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
-### 2.4.16
+### 2.4.23 (Stable) {#2_4_23}
 
-Built on 08-04-2024. You can get it via:
+Built on 08-22-2024. You can install via:
 
-- For Linux or Mac users: `curl https://install.timeplus.com | sh`
+- For Linux or Mac users: `curl https://install.timeplus.com/stable | sh`
+- For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.7 ..`
+- For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.23`
+
+Component versions:
+
+- timeplusd 2.3.30
+- timeplus_appserver 1.4.44
+- timeplus_web 1.4.33
+- timeplus_connector 1.5.5
+- timeplus cli 1.0.19
+
+#### Changelog {#changelog_2_4_23}
+
+Compared to the [2.4.19](#2419) release:
+
+- timeplusd 2.3.25 -> 2.3.30
+  - support dropping partitions on cluster
+  - add additional query_type in sql analyzer, fixing the known issue
+  - enhanced historical asof joins with a performance improvement of over 30%
+  - bugfixes and performance enhancements
+
+#### Known issues {#known_issue_2_4_23}
+
+1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
+
+### 2.4.19 {#2419}
+
+Built on 08-15-2024. You can install via:
+
+- For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.3 ..`
+- For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.19`
+
+#### Changelog {#changelog_2_4_19}
+
+Compared to the [2.4.17](#2417) release:
+
+- timeplusd 2.3.23 -> 2.3.25
+  - improvement: bug fixes and error handling
+- timeplus_web 1.4.31 -> 1.4.32
+  - feat(ingest): use username:password for ingest API wizard
+
+#### Known issues {#known_issue_2_4_19}
+
+1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
+2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
+
+### 2.4.17 {#2417}
+
+Built on 08-14-2024. You can install via:
+
+- For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.17`
+
+#### Changelog {#changelog_2_4_17}
+
+Compared to the [2.4.16](#2416) release:
+
+- timeplusd 2.3.21 -> 2.3.23
+
+Components:
+
+- timeplusd
+  - feat: support running [table function](functions_for_streaming#table) on [Timeplus External Stream](timeplus-external-stream)
+  - improvement: track more stats: external_stream_read_failed, external_stream_written_failed, mv_recover_times, mv_memory_usage.
+  - improvement: better track memory usage in macOS and Docker container.
+  - feat: allow you to [drop streams](sql-drop-stream#force_drop_big_stream) with `force_drop_big_stream=true` setting.
+  - improvement: default listen for 0.0.0.0 instead 127.1 (localhost)
+
+#### Known issues {#known_issue_2_4_17}
+
+1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
+2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
+
+### 2.4.16 (Stable) {#2416}
+
+Built on 08-04-2024. You can install via:
+
 - For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.0 ..`
-- For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.16`
+- For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.16`
+
+Component versions:
+
+- timeplusd 2.3.21
+- timeplus_appserver 1.4.44
+- timeplus_web 1.4.31
+- timeplus_connector 1.5.5
+- timeplus cli 1.0.19
 
 #### Changelog {#changelog_2_4_16}
 
-Comparing to the release [2.4.15](#2415) release:
+Compared to the [2.4.15](#2415) release:
 
 - timeplusd 2.3.20 -> 2.3.21
 - timeplus_appserver 1.4.43 -> 1.4.44
@@ -66,24 +150,16 @@ Components:
 1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
 2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
 
-## Latest Releases {#latest}
-
-[2.4.16](#2416) is also the latest release.
-
-## Other Releases {#other}
-
-Older releases of 2.4.x are listed here.
-
 ### 2.4.15
 
-Built on 07-31-2024. You can get it via:
+Built on 07-31-2024. You can install via:
 
 - For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v2.4.15 ..`
-- For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.4.15`
+- For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.15`
 
 #### Changelog {#changelog_2_4_15}
 
-Comparing to the [2.3.5](enterprise-v2.3#235) release :
+Compared to the [2.3.5](enterprise-v2.3#235) release :
 
 - timeplusd 2.2.8 -> 2.3.20
 - timeplus_appserver 1.4.34 -> 1.4.43

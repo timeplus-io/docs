@@ -25,7 +25,7 @@ SETTINGS
 
 Settings:
 
-- **hosts**: the IP or host for the remote timeplusd. When you set a set of hosts with ports, e.g. 'host1:port1,host2:port2', this will treat each host as a shard. `hosts` is required and there is no default value.
+- **hosts**: the IP or host for the remote timeplusd. You can set `10.1.2.3` or `10.1.2.3:8463`. When you set a set of hosts with ports, e.g. `host1:port1,host2:port2`, this will treat each host as a shard. `hosts` is required and there is no default value.
 - **db**: the database name in the remote Timeplusd. The default value is 'default'.
 - **user**: the user name for the remote Timeplusd. The default value is 'default'.
 - **password**: the password for the remote Timeplusd. The default value is an empty string.
@@ -87,6 +87,6 @@ SYSTEM UNPAUSE MATERIALIZED VIEW edge_to_cloud;
 
 This is a relatively new feature. There are some known limitations which we plan to improve later on.
 
-- [table function](functions_for_streaming#table) is not supported. In order to query all or part of the historical data, you can start a streaming query with `WHERE _tp_time>earliest_ts()` or `WHERE _tp_time>now()-2d`.
 - [window functions](functions_for_streaming) like tumble/hop are not working yet.
 - can't read virtual columns on remote streams.
+- [table function](functions_for_streaming#table) is not supported in timeplusd 2.3.21 or earlier version. This has been enhanced since timeplusd 2.3.22.

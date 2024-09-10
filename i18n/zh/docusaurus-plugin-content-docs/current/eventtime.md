@@ -43,12 +43,12 @@
 select count(*) from tumble(taxi_data,1h) group by window_end
 ```
 
-此查询使用 `行程开始` ，默认事件时间来运行聚合。 如果旅客在午夜时00时01分结束行程，则行程将包括在00时00分-00时59时窗内。
+This query uses `trip_end` , the default event time, to run the aggregation. 如果旅客在午夜时00时01分结束行程，则行程将包括在00时00分-00时59时窗内。
 
-在某些情况下，作为分析师，您可能想关注每小时有多少乘客上了出租车，而不是离开出租车，您可以设置 `行程结束` 作为查询的事件时间，通过 `tumblet(taxi_data,trip_end,1h)`
+In some cases, you as the analyst, may want to focus on how many passengers get in the taxi, instead of leaving the taxi, in each hour, then you can set `trip_start` as the event time for the query via `tumble(taxi_data,trip_start,1h)`
 
 完整查询：
 
 ```sql
-select count(*) from tumble(taxi_data,trip_end,1h) group by window_end
+select count(*) from tumble(taxi_data,trip_start,1h) group by window_end
 ```
