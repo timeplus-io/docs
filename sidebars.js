@@ -92,7 +92,8 @@ const sidebars = {
     "install",
     {
       type: "category",
-      label: "Timeplus Enterprise",
+      label: "Timeplus",
+      customProps: { tag: "Enterprise" },
       //collapsed: false,
       link: {
         type: "doc",
@@ -307,6 +308,7 @@ const sidebars = {
     {
       type: "category",
       label: "CLI Reference",
+      customProps: { tag: "Enterprise" },
       link: {
         type: "doc",
         id: "cli-reference",
