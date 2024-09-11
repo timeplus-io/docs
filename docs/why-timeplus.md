@@ -1,9 +1,9 @@
 # Why Timeplus?
 
-Timeplus unifies real-time streaming and historical data in a single binary, implementing mission-critical workloads to act on fast changing events and insights, deployable from the edge to the cloud.
+Timeplus simplifies stateful stream processing and analytics with a fast, single-binary engine. Using SQL as a domain-specific language and both row and column-based state stores, it enables developers to build real-time applications, data pipelines, and analytical dashboards at the edge or in the cloud, reducing the cost, time, and complexity of multi-component stacks.
 
 ## Architecture: The Best of Both Worlds {#architecture}
-![overview](/img/overview.png)
+![overview](/img/product_diagram_web.png)
 
 ## Unified streaming and historical data processing {#unified}
 

@@ -1,6 +1,6 @@
 # 为什么选择 Timeplus？
 
-![概览](/img/overview.png)
+![概览](/img/high_level_diagram.png)
 
 Timeplus是一个简单、强大且经济的流处理平台。
 
