@@ -35,7 +35,14 @@ const sidebars = {
         type: "doc",
         id: "index",
       },
-      items: ["why-timeplus", "showcases"],
+      items: [
+        {
+          type: "doc",
+          id: "why-timeplus",
+          customProps: { tag: "Popular" },
+        },
+        "showcases",
+      ],
     },
     {
       type: "category",
@@ -110,7 +117,10 @@ const sidebars = {
           ],
         },
         "timeplus-query-guide",
-        "mutable-stream",
+        {
+          type: "doc",
+          id: "mutable-stream",
+        },
         "timeplus-external-stream",
         {
           type: "category",
@@ -238,7 +248,11 @@ const sidebars = {
             "sql-create-stream",
             "sql-create-random-stream",
             "sql-create-external-stream",
-            "sql-create-mutable-stream",
+            {
+              type: "doc",
+              id: "sql-create-mutable-stream",
+              customProps: { tag: "Enterprise" },
+            },
             "sql-alter-stream",
             "sql-show-streams",
             "sql-drop-stream",
