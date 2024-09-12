@@ -53,8 +53,8 @@ export default function DocSidebarItemLink({
           <span
             style={{
               marginLeft: "8px",
-              backgroundColor: tag === "Enterprise" ? "#8934D9" : "#FF4A71",
-              color: "white",
+              backgroundColor: tag === "Enterprise" ? "#242227" : "#FF4A71",
+              color: tag === "Enterprise" ? "#AEACB0" : "white",
               padding: "2px 6px",
               fontSize: "0.8em",
               borderRadius: "4px",
