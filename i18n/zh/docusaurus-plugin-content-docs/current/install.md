@@ -2,7 +2,7 @@
 
 ## 云端的 Timeplus 企业版{#cloud}
 
-开始使用Timeplus的最快、最简单的方法是在完全托管的 [us.timeplus.cloud](https://us.timeplus.cloud) 注册一个免费账户。
+The quickest and easiest way to get started with Timeplus is to sign up a free account on our fully-managed platform at [us-west-2.timeplus.cloud](https://us-west-2.timeplus.cloud).
 
 只需使用谷歌或微软单点登录进行注册，或创建用户名和密码即可。 接下来，创建一个新的工作区并开始您的流式分析旅程。
 
