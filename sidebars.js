@@ -85,8 +85,7 @@ const sidebars = {
     "install",
     {
       type: "category",
-      label: "Timeplus",
-      customProps: { tag: "Enterprise" },
+      label: "Timeplus Enterprise",
       //collapsed: false,
       link: {
         type: "doc",
