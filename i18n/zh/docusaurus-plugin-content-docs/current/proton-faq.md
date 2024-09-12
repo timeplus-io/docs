@@ -125,4 +125,4 @@ JDBC 驱动程序可在 https://github.com/timeplus-io/proton-java-driver 获得
 
 在我们的 [文档](proton#get-started)中学习如何提取和运行 Timeplus Proton 镜像以及查询测试流。 要查看使用 Timeplus Proton、Redpanda 和示例实时数据的更完整用例，请查看我们利用 Docker Compose 的 [教程](proton-kafka#tutorial) 。
 
-如果你需要高级部署策略或功能，让Timeplus Proton在幕后运行，那就使用 [Timeplus Cloud](https://us.timeplus.cloud/)创建你的第一个工作空间。
+If you need advanced deployment strategies or features, with Timeplus Proton running behind the scenes, create your first workspace with [Timeplus Cloud](https://us-west-2.timeplus.cloud/).
