@@ -108,22 +108,18 @@ const sidebars = {
               type: "doc",
               label: "Data Visualization",
               id: "viz",
-              customProps: { tag: "Enterprise" },
             },
             {
               type: "doc",
               id: "destination",
-              customProps: { tag: "Enterprise" },
             },
             {
               type: "doc",
               id: "alert",
-              customProps: { tag: "Enterprise" },
             },
             {
               type: "doc",
               id: "apikey",
-              customProps: { tag: "Enterprise" },
             },
           ],
         },
