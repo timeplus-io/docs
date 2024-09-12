@@ -1,6 +1,6 @@
 # 入门开始
 
-本教程指导您如何将数据加载到Timeplus并通过数据运行分析查询。 要执行此教程，您需要一个 Timeplus 帐户。 如果您没有Timeplus账户，可以登录 https://cloud.timeplus.com.cn/ 并免费注册。
+本教程指导您如何将数据加载到Timeplus并通过数据运行分析查询。 要执行此教程，您需要一个 Timeplus 帐户。 If you don't have a Timeplus account, go to https://us-west-2.timeplus.cloud/ and sign up for free.
 
 ## 添加数据
 
