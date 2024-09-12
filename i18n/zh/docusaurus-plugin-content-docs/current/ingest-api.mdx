@@ -27,15 +27,15 @@ For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorizat
 
 ### 端点
 
-实时数据摄取的端点是 `https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
+The endpoint for real-time data ingestion is `https://us-west-2.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
 
 :::info
 
-确保你使用的是 “工作空间 ID”，而不是 “工作空间名称”。 Workspace-id 是一个包含8个字符的随机字符串。 你可以从浏览器的地址栏中找到这个 id：https://us.timeplus.cloud/workspace/console。 Workspace-name 是您在创建工作区时设置的名称。 目前，此名称是只读的，但我们将在将来将其设为可编辑。
+确保你使用的是 “工作空间 ID”，而不是 “工作空间名称”。 Workspace-id 是一个包含8个字符的随机字符串。 You can get it from the browser address bar: `https://us-west-2.timeplus.cloud/<workspace-id>/console`. Workspace-name 是您在创建工作区时设置的名称。 目前，此名称是只读的，但我们将在将来将其设为可编辑。
 
 :::
 
-你需要向这个端点发送 POST 请求，例如 https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest
+You need to send `POST` request to this endpoint, e.g. `https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest`
 
 ### 选项
 
@@ -58,28 +58,100 @@ For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorizat
 <TabItem value="js" label="Node.js" default>
 
 ```js
+const https = require("https");
+const options = {
+  hostname: "us-west-2.timeplus.cloud",
+  path: "/ws123456/api/v1beta2/streams/foo/ingest?format=streaming",
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-ndjson",
+    "X-Api-Key": "<your_api_key>",
+  },
+};
 
+const data = `
+{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
 ```
 
 </TabItem>
   <TabItem value="curl" label="curl">
 
 ```bash
-
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: application/x-ndjson" \
+https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming \
+-d '
+{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+'
 ```
 
 </TabItem>
   <TabItem value="py" label="Python">
 
 ```python
+import requests
 
+url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "application/x-ndjson"
+}
+data = '''
+{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+'''
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
 ```
 
 </TabItem>
   <TabItem value="java" label="Java">
 
 ```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming";
+        MediaType mediaType = MediaType.parse("application/x-ndjson");
+        String data = """
+          {"key1": "value11", "key2": "value12"}
+          {"key1": "value21", "key2": "value22"}
+          """;
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "application/x-ndjson")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
 ```
 
 </TabItem>
@@ -135,18 +207,35 @@ For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorizat
 <TabItem value="js" label="Node.js" default>
 
 ```js
+const https = require("https");
+const options = {
+  hostname: "us-west-2.timeplus.cloud",
+  path: "/ws123456/api/v1beta2/streams/foo/ingest?format=raw",
+  method: "POST",
+  headers: {
+    "Content-Type": "text/plain",
+    "X-Api-Key": "<your_api_key>",
+  },
+};
 
+const data = `{"key1": "value11", "key2": "value12"}`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
 ```
 
 </TabItem>
   <TabItem value="curl" label="curl">
 
 ```bash
-curl-s-X POST-H “X-Api-Key：your_api_key”\
--H “内容类型：文本/纯文本”\
-https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw\
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: text/plain" \
+https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
 -d '
-{“key1"：“value11”，“key2：“value12”}
+{"key1": "value11", "key2": "value12"}
 '
 ```
 
@@ -154,7 +243,20 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw\
   <TabItem value="py" label="Python">
 
 ```python
+import requests
 
+url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "text/plain"
+}
+data = '''
+{"key1": "value11", "key2": "value12"}
+'''
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
 ```
 
 </TabItem>
@@ -173,7 +275,7 @@ public class Example {
     public static void main(String[] args) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
+        String url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
         MediaType mediaType = MediaType.parse("text/plain");
         String data = """
           {"key1": "value11", "key2": "value12"}
@@ -210,28 +312,97 @@ public class Example {
 <TabItem value="js" label="Node.js" default>
 
 ```js
+const https = require("https");
+const options = {
+  hostname: "us-west-2.timeplus.cloud",
+  path: "/ws123456/api/v1beta2/streams/foo/ingest?format=lines",
+  method: "POST",
+  headers: {
+    "Content-Type": "text/plain",
+    "X-Api-Key": "<your_api_key>",
+  },
+};
 
+const data = `{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
 ```
 
 </TabItem>
   <TabItem value="curl" label="curl">
 
 ```bash
-
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: text/plain" \
+https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines \
+-d '{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+'
 ```
 
 </TabItem>
   <TabItem value="py" label="Python">
 
 ```python
+import requests
 
+url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "text/plain"
+}
+data = '''{"key1": "value11", "key2": "value12"}
+{"key1": "value21", "key2": "value22"}
+'''
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
 ```
 
 </TabItem>
   <TabItem value="java" label="Java">
 
 ```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = """
+          {"key1": "value11", "key2": "value12"}
+          {"key1": "value21", "key2": "value22"}
+""";
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "text/plain")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
 ```
 
 </TabItem>
@@ -247,28 +418,120 @@ public class Example {
 <TabItem value="js" label="Node.js" default>
 
 ```js
+const https = require("https");
+const options = {
+  hostname: "us-west-2.timeplus.cloud",
+  path: "/ws123456/api/v1beta2/streams/foo/ingest",
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "X-Api-Key": "<your_api_key>",
+  },
+};
 
+const data = `
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+`;
+const request = https.request(options, (resp) => {});
+request.on("error", (error) => {
+  console.error(error);
+});
+request.write(data);
+request.end();
 ```
 
 </TabItem>
   <TabItem value="curl" label="curl">
 
 ```bash
-
+curl -s -X POST -H "X-Api-Key: your_api_key" \
+-H "Content-Type: application/json" \
+https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest \
+-d '
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+'
 ```
 
 </TabItem>
   <TabItem value="py" label="Python">
 
 ```python
+import requests
 
+url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest"
+headers = {
+    "X-Api-Key": "your_api_key",
+    "Content-Type": "application/json"
+}
+data = '''
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+'''
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)
 ```
 
 </TabItem>
   <TabItem value="java" label="Java">
 
 ```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = """
+{
+  "columns": ["key1","key2"],
+  "data": [
+    ["value11","value12"],
+    ["value21","value22"],
+  ]
+}
+          """;
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "application/json")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
 ```
 
 </TabItem>
@@ -277,7 +540,7 @@ The above method should work very well for most system integration. 但是，将
 
 我们还提供了一种性能更高的解决方案，只列出一次列名。
 
-相同的端点 URL：`https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
+Same endpoint URL: `https://us-west-2.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
 
 但是你需要将 HTTP 标头设置为以下其中之一：
 
