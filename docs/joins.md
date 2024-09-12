@@ -1,4 +1,4 @@
-# Multi-JOINs and ASOF JOINs
+# Joins
 
 JOIN is a key feature in Timeplus to combine data from different sources and freshness into a new stream. Please refer to https://en.wikipedia.org/wiki/Join_(SQL) for general introduction.
 
