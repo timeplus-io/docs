@@ -236,6 +236,7 @@ const sidebars = {
         "proton-create-stream",
         "proton-manage-stream",
         "proton-ingest-api",
+        "proton-faq",
       ],
     },
     {
@@ -344,11 +345,7 @@ const sidebars = {
         "datapm",
       ],
     },
-    {
-      type: "category",
-      label: "Frequently Asked Questions",
-      items: ["faq", "proton-faq"],
-    },
+    /*"faq" */
     {
       type: "category",
       label: "Release Notes",
