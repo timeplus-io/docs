@@ -303,7 +303,6 @@ const sidebars = {
     {
       type: "category",
       label: "CLI Reference",
-      customProps: { tag: "Enterprise" },
       link: {
         type: "doc",
         id: "cli-reference",
