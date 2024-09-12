@@ -1,13 +1,11 @@
 # Timeplus Proton
 
-Follow the compact guides that help you work with common Timeplus Proton functionality.
-
-## How to install Timeplus Proton {#install}
+## Install {#install}
 
 Proton can be installed as a single binary on Linux or Mac, via:
 
 ```shell
-curl https://install.timeplus.com | sh
+curl https://install.timeplus.com/oss | sh
 ```
 
 For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
@@ -20,8 +18,10 @@ brew install proton
 You can also install Proton in Docker, Docker Compose or Kubernetes.
 
 ```bash
-docker run -d --pull always --name proton ghcr.io/timeplus-io/proton:latest
+docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
 ```
+
+Please check [Server Ports](proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
 
 The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
 

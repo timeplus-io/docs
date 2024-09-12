@@ -47,17 +47,10 @@ const sidebars = {
     {
       type: "category",
       label: "Quickstart",
-      //collapsed: false,
       link: {
         type: "generated-index",
       },
-      items: [
-        "quickstart",
-        "quickstart-selfhosted",
-        "quickstart-confluent",
-        "quickstart-ingest-api",
-        "proton-howto",
-      ],
+      items: ["quickstart", "proton-howto"],
     },
     {
       type: "category",
@@ -195,6 +188,8 @@ const sidebars = {
         type: "generated-index",
       },
       items: [
+        "quickstart-confluent",
+        "quickstart-ingest-api",
         "tutorial-github",
         "tutorial-sql-connect-kafka",
         "tutorial-sql-kafka",
