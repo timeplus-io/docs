@@ -21,7 +21,7 @@
 
 如果您保持 IP 白名单，则需要将我们的静态 IP 列入白名单：
 
-`52.83.159.13` 对于 cloud.timeplus.com.cn
+`44.232.236.191` for us-west-2.timeplus.cloud
 
 :::
 
