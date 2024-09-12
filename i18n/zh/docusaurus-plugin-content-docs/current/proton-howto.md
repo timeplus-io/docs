@@ -1,13 +1,11 @@
-# 使用 Timeplus Proton 快速入门
+# Timeplus Proton
 
-按照简要指南进行操作，这些指南可帮助您使用Timeplus Proton的常见功能。
-
-## 如何安装 Timeplus Proton {#install}
+## Install {#install}
 
 Proton 可以通过以下方式作为单个二进制文件安装在 Linux 或 Mac 上：
 
 ```shell
-curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.sh | sh
+curl https://install.timeplus.com/oss | sh
 ```
 
 对于 Mac 用户，你还可以使用 [Homebrew](https://brew.sh/) 来管理安装/升级/卸载：
@@ -20,12 +18,14 @@ brew inst
 你也可以在 Docker、Docker Compose 或 Kubernetes 中安装 Proton。
 
 ```bash
-docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
+docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
 ```
+
+Please check [Server Ports](proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
 
 [Docker Compose 堆栈](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) 演示了如何使用外部流在 Kafka/Redpanda 中读取/写入数据。
 
-你也可以在完全托管的 [Timeplus Cloud](https://us.timeplus.cloud/) 中试用 Proton。
+You can also try Proton in the fully-managed [Timeplus Cloud](https://us-west-2.timeplus.cloud/).
 
 ## 如何读/写 Kafka 或 Redpanda {#kafka}
 
