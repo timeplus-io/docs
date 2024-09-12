@@ -1,4 +1,4 @@
-# Timeplus Proton 常见问题解答
+# FAQ
 
 2023 年 9 月 21 日，Timeplus 宣布了开源项目： [Timeplus Proton](https://github.com/timeplus-io/proton/)。 我们使用这个常见问题作为主要参考来了解什么是Timeplus Proton，我们如何许可代码开源，今天如何使用Timeplus Proton等等。
 
