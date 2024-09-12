@@ -206,7 +206,7 @@ export default function DocSidebarItemCategory({
               backgroundColor: tag === "Enterprise" ? "#8934D9" : "#FF4A71",
               color: "white",
               padding: "2px 6px",
-              fontSize: "1em",
+              fontSize: "0.8em",
               borderRadius: "4px",
             }}
           >
