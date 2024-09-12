@@ -127,30 +127,6 @@ const sidebars = {
             },
           ],
         },
-        {
-          type: "category",
-          label: "Timeplus CLI",
-          customProps: { tag: "Enterprise" },
-          link: {
-            type: "doc",
-            id: "cli-reference",
-          },
-          items: [
-            "cli-backup",
-            "cli-diag",
-            "cli-help",
-            "cli-license",
-            "cli-restart",
-            "cli-restore",
-            "cli-service",
-            "cli-start",
-            "cli-status",
-            "cli-stop",
-            "cli-sync",
-            "cli-user",
-            "cli-version",
-          ],
-        },
       ],
     },
     /*"timeplus-enterprise",*/
@@ -178,6 +154,30 @@ const sidebars = {
           type: "doc",
           id: "server_config",
           customProps: { tag: "Enterprise" },
+        },
+        {
+          type: "category",
+          label: "Timeplus CLI",
+          customProps: { tag: "Enterprise" },
+          link: {
+            type: "doc",
+            id: "cli-reference",
+          },
+          items: [
+            "cli-backup",
+            "cli-diag",
+            "cli-help",
+            "cli-license",
+            "cli-restart",
+            "cli-restore",
+            "cli-service",
+            "cli-start",
+            "cli-status",
+            "cli-stop",
+            "cli-sync",
+            "cli-user",
+            "cli-version",
+          ],
         },
         "proton-ports",
         {
@@ -330,7 +330,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "API & SDK",
+      label: "APIs & SDKs",
       items: [
         "jdbc",
         {
