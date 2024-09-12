@@ -240,12 +240,9 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Timeplus Proton",
-      link: {
-        type: "doc",
-        id: "proton",
-      },
+      label: "Open Source",
       items: [
+        "proton",
         "proton-architecture",
         "proton-create-stream",
         "proton-manage-stream",
