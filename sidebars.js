@@ -168,7 +168,7 @@ const sidebars = {
         {
           type: "category",
           //collapsed: false,
-          label: "Self-hosted",
+          label: "Timeplus Enterprise Self-hosted",
           link: {
             type: "doc",
             id: "timeplus-self-host",

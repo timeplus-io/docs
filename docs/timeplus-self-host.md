@@ -1,4 +1,4 @@
-# Self-hosted
+# Timeplus Enterprise Self-hosted
 
 Timeplus Enterprise is easy to deploy from edge devices to your data center. It is ideal for enterprise users with flexible deployment needs with advanced configurations needs.
 
