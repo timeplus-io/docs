@@ -26,7 +26,7 @@ For more guidelines, please check the [installation guide](install#proton) for D
 
 ### Timeplus 云服务
 
-Don't want to setup by yourself? Try Timeplus Proton in [Cloud](https://us.timeplus.cloud/).
+Don't want to setup by yourself? Try Timeplus Proton in [Cloud](https://us-west-2.timeplus.cloud/).
 
 ### 🔎 用法
 
@@ -66,7 +66,7 @@ SELECT 设备，计数 (*)、最小（温度）、最大值（温度）
 
 要查看更多使用 Timeplus Proton 的示例，请查看 [示例](https://github.com/timeplus-io/proton/tree/develop/examples) 文件夹。
 
-要访问更多功能，例如来源、接收器、仪表板、警报和数据沿袭，请在 [Timeplus Cloud](https://us.timeplus.cloud) 上创建工作空间，或尝试我们的 [实时演示](https://demo.timeplus.cloud) 以及预建的实时数据和仪表板。
+To access more features, such as sources, sinks, dashboards, alerts, and data lineage, create a workspace on [Timeplus Cloud](https://us-west-2.timeplus.cloud) or try our [live demo](https://demo.timeplus.cloud) with pre-built live data and dashboards.
 
 ## 🧩 Integration {#integration}
 
