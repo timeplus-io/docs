@@ -128,16 +128,6 @@ const sidebars = {
           ],
         },
         {
-          type: "doc",
-          id: "query-api",
-          customProps: { tag: "Enterprise" },
-        },
-        {
-          label: "REST API Reference",
-          type: "link",
-          href: "https://docs.timeplus.com/rest.html",
-        },
-        {
           type: "category",
           label: "Timeplus CLI",
           customProps: { tag: "Enterprise" },
@@ -246,7 +236,6 @@ const sidebars = {
         "proton-architecture",
         "proton-create-stream",
         "proton-manage-stream",
-        "proton-ingest-api",
         "proton-faq",
       ],
     },
@@ -341,6 +330,39 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "API & SDK",
+      items: [
+        "jdbc",
+        {
+          label: "Python Driver",
+          type: "link",
+          href: "https://github.com/timeplus-io/proton-python-driver",
+        },
+        {
+          label: "Go Driver",
+          type: "link",
+          href: "https://github.com/timeplus-io/proton-go-driver",
+        },
+        {
+          label: "C++ Client",
+          type: "link",
+          href: "https://github.com/timeplus-io/timeplus-cpp",
+        },
+        {
+          label: "Timeplus REST API",
+          type: "link",
+          href: "https://docs.timeplus.com/rest",
+        },
+        "proton-ingest-api",
+        {
+          type: "doc",
+          id: "query-api",
+          customProps: { tag: "Enterprise" },
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Third-party Tools",
       //collapsed: false,
       link: {
@@ -348,7 +370,6 @@ const sidebars = {
         id: "glossary",
       },
       items: [
-        "jdbc",
         "integration-grafana",
         "integration-metabase",
         "sling",
