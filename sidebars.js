@@ -90,37 +90,46 @@ const sidebars = {
             type: "doc",
             id: "udf",
           },
-          items: ["remote-udf", "js-udf"],
+          items: [
+            {
+              type: "doc",
+              id: "remote-udf",
+              customProps: { tag: "Enterprise" },
+            },
+            "js-udf",
+          ],
         },
         {
-          type: "doc",
-          id: "rbac",
+          type: "category",
+          label: "Web Console",
           customProps: { tag: "Enterprise" },
-        },
-        {
-          type: "doc",
-          label: "Data Visualization",
-          id: "viz",
-          customProps: { tag: "Enterprise" },
-        },
-        {
-          type: "doc",
-          id: "destination",
-          customProps: { tag: "Enterprise" },
-        },
-        {
-          type: "doc",
-          id: "alert",
-          customProps: { tag: "Enterprise" },
+          items: [
+            {
+              type: "doc",
+              label: "Data Visualization",
+              id: "viz",
+              customProps: { tag: "Enterprise" },
+            },
+            {
+              type: "doc",
+              id: "destination",
+              customProps: { tag: "Enterprise" },
+            },
+            {
+              type: "doc",
+              id: "alert",
+              customProps: { tag: "Enterprise" },
+            },
+            {
+              type: "doc",
+              id: "apikey",
+              customProps: { tag: "Enterprise" },
+            },
+          ],
         },
         {
           type: "doc",
           id: "query-api",
-          customProps: { tag: "Enterprise" },
-        },
-        {
-          type: "doc",
-          id: "apikey",
           customProps: { tag: "Enterprise" },
         },
         {
@@ -130,7 +139,7 @@ const sidebars = {
         },
         {
           type: "category",
-          label: "CLI Reference",
+          label: "Timeplus CLI",
           customProps: { tag: "Enterprise" },
           link: {
             type: "doc",
@@ -181,6 +190,11 @@ const sidebars = {
           customProps: { tag: "Enterprise" },
         },
         "proton-ports",
+        {
+          type: "doc",
+          id: "rbac",
+          customProps: { tag: "Enterprise" },
+        },
         {
           type: "doc",
           id: "terraform",
