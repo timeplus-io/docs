@@ -37,9 +37,9 @@ select raw:key1 as k1, raw:key2::int as k2 from foo
 
 根据哪种工具或编程语言最适合您，您可以通过不同的方式向 Timeplus 发送数据。
 
-ingestion API 的基础端点是 `https://cloud.timeplus.com.cn/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest` ::: info
+The base endpoint for the ingestion API is `https://us-west-2.timeplus.cloud/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest` :::info
 
-请确保您使用的是 `workspace-id`，而不是 `workspace-name`。 Workspace-id 是一个包含8个字符的随机字符串。 您可以点击以下链接获取：`https://us.timeplus.cloud/<workspace-id>/console`。 Workspace-name 是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
+请确保您使用的是 `workspace-id`，而不是 `workspace-name`。 Workspace-id 是一个包含8个字符的随机字符串。 You can get it from the browser address bar: `https://us-west-2.timeplus.cloud/<workspace-id>/console`. Workspace-name 是您在创建工作区时设置的名称。 虽然目前此名称是只读的，但我们将在未来将其设为可编辑的。
 
 :::
 
@@ -48,7 +48,7 @@ ingestion API 的基础端点是 `https://cloud.timeplus.com.cn/WORKSPACE_ID/api
 ```bash
 curl -s -X POST -H "X-Api-Key: your_api_key" \
 -H "Content-Type: text/plain" \
-https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
+https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
 -d '
 {"key1": "value11", "key2": 12}
 '
@@ -59,7 +59,7 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
 ```js
 const https = require("https");
 const options = {
-  hostname: "us.timeplus.cloud",
+  hostname: "us-west-2.timeplus.cloud",
   path: "/ws123456/api/v1beta2/streams/foo/ingest?format=raw",
   method: "POST",
   headers: {
@@ -82,7 +82,7 @@ request.end();
 ```python
 import requests
 
-url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw"
+url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw"
 headers = {
     "X-Api-Key": "your_api_key",
     "Content-Type": "text/plain"
@@ -107,5 +107,36 @@ implementation("com.squareup.okhttp3:okhttp:4.10.0")
 ```
 
 ```java
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
+import java.io.IOException;
+
+public class Example {
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        String url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
+        MediaType mediaType = MediaType.parse("text/plain");
+        String data = """
+          {"key1": "value11", "key2": 12}
+          """;
+        RequestBody body = RequestBody.create(mediaType, data);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Api-Key", "your_api_key")
+                .header("Content-Type", "text/plain")
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println(response.code());
+            System.out.println(response.body().string());
+        }
+    }
+}
 ```
