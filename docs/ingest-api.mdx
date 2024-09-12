@@ -27,15 +27,15 @@ For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorizat
 
 ### Endpoint
 
-The endpoint for real-time data ingestion is `https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
+The endpoint for real-time data ingestion is `https://us-west-2.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
 
 :::info
 
-Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is read only but we will make it editable in the future.
+Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us-west-2.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is read only but we will make it editable in the future.
 
 :::
 
-You need to send `POST` request to this endpoint, e.g. `https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest`
+You need to send `POST` request to this endpoint, e.g. `https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest`
 
 ### Options
 
@@ -59,7 +59,7 @@ Request samples
 ```js
 const https = require("https");
 const options = {
-  hostname: "us.timeplus.cloud",
+  hostname: "us-west-2.timeplus.cloud",
   path: "/ws123456/api/v1beta2/streams/foo/ingest?format=streaming",
   method: "POST",
   headers: {
@@ -86,7 +86,7 @@ request.end();
 ```bash
 curl -s -X POST -H "X-Api-Key: your_api_key" \
 -H "Content-Type: application/x-ndjson" \
-https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming \
+https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming \
 -d '
 {"key1": "value11", "key2": "value12"}
 {"key1": "value21", "key2": "value22"}
@@ -99,7 +99,7 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streami
 ```python
 import requests
 
-url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming"
+url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming"
 headers = {
     "X-Api-Key": "your_api_key",
     "Content-Type": "application/x-ndjson"
@@ -130,7 +130,7 @@ public class Example {
     public static void main(String[] args) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming";
+        String url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=streaming";
         MediaType mediaType = MediaType.parse("application/x-ndjson");
         String data = """
           {"key1": "value11", "key2": "value12"}
@@ -207,7 +207,7 @@ Request samples
 ```js
 const https = require("https");
 const options = {
-  hostname: "us.timeplus.cloud",
+  hostname: "us-west-2.timeplus.cloud",
   path: "/ws123456/api/v1beta2/streams/foo/ingest?format=raw",
   method: "POST",
   headers: {
@@ -231,7 +231,7 @@ request.end();
 ```bash
 curl -s -X POST -H "X-Api-Key: your_api_key" \
 -H "Content-Type: text/plain" \
-https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
+https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
 -d '
 {"key1": "value11", "key2": "value12"}
 '
@@ -243,7 +243,7 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
 ```python
 import requests
 
-url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw"
+url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw"
 headers = {
     "X-Api-Key": "your_api_key",
     "Content-Type": "text/plain"
@@ -273,7 +273,7 @@ public class Example {
     public static void main(String[] args) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
+        String url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
         MediaType mediaType = MediaType.parse("text/plain");
         String data = """
           {"key1": "value11", "key2": "value12"}
@@ -310,7 +310,7 @@ Request samples
 ```js
 const https = require("https");
 const options = {
-  hostname: "us.timeplus.cloud",
+  hostname: "us-west-2.timeplus.cloud",
   path: "/ws123456/api/v1beta2/streams/foo/ingest?format=lines",
   method: "POST",
   headers: {
@@ -336,7 +336,7 @@ request.end();
 ```bash
 curl -s -X POST -H "X-Api-Key: your_api_key" \
 -H "Content-Type: text/plain" \
-https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines \
+https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines \
 -d '{"key1": "value11", "key2": "value12"}
 {"key1": "value21", "key2": "value22"}
 '
@@ -348,7 +348,7 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines \
 ```python
 import requests
 
-url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines"
+url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines"
 headers = {
     "X-Api-Key": "your_api_key",
     "Content-Type": "text/plain"
@@ -378,7 +378,7 @@ public class Example {
     public static void main(String[] args) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines";
+        String url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=lines";
         MediaType mediaType = MediaType.parse("text/plain");
         String data = """
           {"key1": "value11", "key2": "value12"}
@@ -414,7 +414,7 @@ Request samples
 ```js
 const https = require("https");
 const options = {
-  hostname: "us.timeplus.cloud",
+  hostname: "us-west-2.timeplus.cloud",
   path: "/ws123456/api/v1beta2/streams/foo/ingest",
   method: "POST",
   headers: {
@@ -446,7 +446,7 @@ request.end();
 ```bash
 curl -s -X POST -H "X-Api-Key: your_api_key" \
 -H "Content-Type: application/json" \
-https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest \
+https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest \
 -d '
 {
   "columns": ["key1","key2"],
@@ -464,7 +464,7 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest \
 ```python
 import requests
 
-url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest"
+url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest"
 headers = {
     "X-Api-Key": "your_api_key",
     "Content-Type": "application/json"
@@ -500,7 +500,7 @@ public class Example {
     public static void main(String[] args) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest";
+        String url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest";
         MediaType mediaType = MediaType.parse("text/plain");
         String data = """
 {
@@ -534,7 +534,7 @@ The above method should work very well for most system integration. However, the
 
 We also provide a more performant solution to only list the column names once.
 
-Same endpoint URL: `https://us.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
+Same endpoint URL: `https://us-west-2.timeplus.cloud/{workspace-id}/api/v1beta2/streams/{name}/ingest`
 
 But you need to set the HTTP Header to one of these:
 

@@ -1,4 +1,4 @@
-# Quickstart with Timeplus Proton
+# Timeplus Proton
 
 Follow the compact guides that help you work with common Timeplus Proton functionality.
 
@@ -25,7 +25,7 @@ docker run -d --pull always --name proton ghcr.io/timeplus-io/proton:latest
 
 The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
 
-You can also try Proton in the fully-managed [Timeplus Cloud](https://us.timeplus.cloud/).
+You can also try Proton in the fully-managed [Timeplus Cloud](https://us-west-2.timeplus.cloud/).
 
 ## How to read/write Kafka or Redpanda {#kafka}
 

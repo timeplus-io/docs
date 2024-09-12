@@ -66,7 +66,7 @@ Similar to the Column chart, with data points shown as horizontal bars instead o
 
 ### Map chart
 
-Currently available on https://us.timeplus.cloud as a preview feature.
+Currently available on https://us-west-2.timeplus.cloud as a preview feature.
 
 * Data settings:
   * Set columns for longitude and latitude.

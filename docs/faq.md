@@ -18,7 +18,7 @@ Timeplus Cloud went GA on August 2023, ready for production workload. There is n
 
 If you maintain an IP whitelist, you'll need to whitelist our static IP:
 
-`44.232.236.191` for us.timeplus.cloud
+`44.232.236.191` for us-west-2.timeplus.cloud
 
 ## Self-hosted Timeplus Enterprise {#self_host}
 

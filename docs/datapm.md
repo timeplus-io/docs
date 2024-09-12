@@ -80,7 +80,7 @@ Source Selection
 ❯   Twitter
 ```
 
-Use UP or DOWN key to choose the data source and press Enter to confirm. 
+Use UP or DOWN key to choose the data source and press Enter to confirm.
 
 For example, if you choose `Local File`
 ```
@@ -119,19 +119,19 @@ Timeplus Connection
 By default, there is no repository for Timeplus yet. Press Enter to create one.
 ```
 ✔ Repository? › New Repository
-? Base URL? › https://us.timeplus.cloud/workspace-id
+? Base URL? › https://us-west-2.timeplus.cloud/workspace-id
 ```
-Set the base URL for your Timeplus workspace, making sure it includes `https` or `http`, as well as the workspaceID, without the ending `/`, e.g. `https://us.timeplus.cloud/d335214`
+Set the base URL for your Timeplus workspace, making sure it includes `https` or `http`, as well as the workspaceID, without the ending `/`, e.g. `https://us-west-2.timeplus.cloud/d335214`
 
 Press Enter.
 ```
 Timeplus Connection
 ✔ Repository? › New Repository
-✔ Base URL? … https://us.timeplus.cloud/d335214
+✔ Base URL? … https://us-west-2.timeplus.cloud/d335214
 ✔ Connection successful
 
 Timeplus Credentials
-? API Key? › 
+? API Key? ›
 ```
 
 You need to set the API key. You can get one from the web console. (by visiting BASE_URL/console/settings/apiKey, or choose "Personal Settings" on the top-left corner, then switch to the "API Key Management" and click "Create API Key" button).
@@ -145,7 +145,7 @@ datapm will save the configuration, including the Timeplus baseURL and the API k
 ✔ Authentication succeeded
 
 Timeplus Configuration
-? Stream for ... records? › 
+? Stream for ... records? ›
 ```
 Next step, choose a stream name in Timeplus and press Enter.
 ```

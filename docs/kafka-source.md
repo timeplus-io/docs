@@ -11,7 +11,7 @@ As of today, Apache Kafka is the primary data source (and sink) for Timeplus. Yo
    2. If you choose AVRO, there is an option for 'Auto Extraction'. By default, this is toggled off, meaning the entire message will be saved as a string. If you toggle it on, then the top level attribute in the AVRO message will be put into different columns. This would be more convenient for you to query, but won't support schema evolution. When AVRO is selected, you also need to specify the address, API key, and secret key for the schema registry.
 4. In the next “Preview” step, we will show you at least one event from your specified Apache Kafka source.
 5. By default, your new source will create a new stream in Timeplus. Give this new stream a name and verify the columns information (column name and data type). You can also set a column as the event time column. If you don’t, we will use the ingestion time as the event time. Alternatively, you can select an existing stream from the dropdown.
-6. After previewing your data, you can give the source a name and an optional description, and review the configuration. Once you click Finish, your streaming data will be available in the specified stream immediately. 
+6. After previewing your data, you can give the source a name and an optional description, and review the configuration. Once you click Finish, your streaming data will be available in the specified stream immediately.
 
 ## Custom Kafka Deployment
 
@@ -21,7 +21,7 @@ Similar steps as above. Please make sure Timeplus can reach out to your Kafka br
 
 If you maintain an IP whitelist, you'll need to whitelist our static IP:
 
-`44.232.236.191` for us.timeplus.cloud
+`44.232.236.191` for us-west-2.timeplus.cloud
 
 :::
 

@@ -27,7 +27,7 @@ For more guidelines, please check the [installation guide](install#proton) for D
 
 ### Timeplus Cloud
 
-Don't want to setup by yourself? Try Timeplus Proton in [Cloud](https://us.timeplus.cloud/).
+Don't want to setup by yourself? Try Timeplus Proton in [Cloud](https://us-west-2.timeplus.cloud/).
 
 ### 🔎 Usage
 
@@ -67,7 +67,7 @@ You should see data like the following:
 
 To see more examples of using Timeplus Proton, check out the [examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder.
 
-To access more features, such as sources, sinks, dashboards, alerts, and data lineage, create a workspace on [Timeplus Cloud](https://us.timeplus.cloud) or try our [live demo](https://demo.timeplus.cloud) with pre-built live data and dashboards.
+To access more features, such as sources, sinks, dashboards, alerts, and data lineage, create a workspace on [Timeplus Cloud](https://us-west-2.timeplus.cloud) or try our [live demo](https://demo.timeplus.cloud) with pre-built live data and dashboards.
 
 ## 🧩 Integration {#integration}
 

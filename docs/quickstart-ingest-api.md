@@ -37,10 +37,10 @@ You need to create an API key to access Timeplus REST API. To do so:
 
 Depending on which tool or programming language works best for you, you can send data to Timeplus in different ways.
 
-The base endpoint for the ingestion API is `https://us.timeplus.cloud/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest`
+The base endpoint for the ingestion API is `https://us-west-2.timeplus.cloud/WORKSPACE_ID/api/v1beta2/streams/STREAM_NAME/ingest`
 :::info
 
-Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is read only but we will make it editable in the future.
+Make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us-west-2.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is read only but we will make it editable in the future.
 
 :::
 
@@ -49,7 +49,7 @@ Make sure you are using the `workspace-id`, instead of `workspace-name`. The wor
 ```bash
 curl -s -X POST -H "X-Api-Key: your_api_key" \
 -H "Content-Type: text/plain" \
-https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
+https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
 -d '
 {"key1": "value11", "key2": 12}
 '
@@ -60,7 +60,7 @@ https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw \
 ```js
 const https = require("https");
 const options = {
-  hostname: "us.timeplus.cloud",
+  hostname: "us-west-2.timeplus.cloud",
   path: "/ws123456/api/v1beta2/streams/foo/ingest?format=raw",
   method: "POST",
   headers: {
@@ -83,7 +83,7 @@ request.end();
 ```python
 import requests
 
-url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw"
+url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw"
 headers = {
     "X-Api-Key": "your_api_key",
     "Content-Type": "text/plain"
@@ -120,7 +120,7 @@ public class Example {
     public static void main(String[] args) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://us.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
+        String url = "https://us-west-2.timeplus.cloud/ws123456/api/v1beta2/streams/foo/ingest?format=raw";
         MediaType mediaType = MediaType.parse("text/plain");
         String data = """
           {"key1": "value11", "key2": 12}

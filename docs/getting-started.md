@@ -1,6 +1,6 @@
 # Getting started
 
-This tutorial guides you how to load data into Timeplus and run analytics queries over the data. To perform this tutorial, you need an active Timeplus account. If you don't have a Timeplus account, go to https://us.timeplus.cloud/ and sign up for free.
+This tutorial guides you how to load data into Timeplus and run analytics queries over the data. To perform this tutorial, you need an active Timeplus account. If you don't have a Timeplus account, go to https://us-west-2.timeplus.cloud/ and sign up for free.
 
 ## Add Data
 
@@ -19,7 +19,7 @@ To add some filter conditions or change other parts of the query, you can either
 
 ## Query Data
 
-SQL is the most common tool for data analysts. Timeplus supports powerful yet easy-to-use [query syntax](query-syntax) and [functions](functions). You can also follow the samples in [Demo Scenario](usecases) to query data. 
+SQL is the most common tool for data analysts. Timeplus supports powerful yet easy-to-use [query syntax](query-syntax) and [functions](functions). You can also follow the samples in [Demo Scenario](usecases) to query data.
 
 ## Visualize Data
 

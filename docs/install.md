@@ -2,7 +2,7 @@
 
 ## Timeplus Enterprise in the cloud{#cloud}
 
-The quickest and easiest way to get started with Timeplus is to sign up a free account on our fully-managed platform at [us.timeplus.cloud](https://us.timeplus.cloud).
+The quickest and easiest way to get started with Timeplus is to sign up a free account on our fully-managed platform at [us-west-2.timeplus.cloud](https://us-west-2.timeplus.cloud).
 
 Simply sign up with Google or Microsoft Single Sign-On, or create a username and password. Next, create a new workspace and start your streaming analytics journey.
 
