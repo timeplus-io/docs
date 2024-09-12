@@ -18,7 +18,7 @@
 
 如果您保持 IP 白名单，则需要将我们的静态 IP 列入白名单：
 
-`44.232.236.191` for us.timeplus.cloud
+`44.232.236.191` for us-west-2.timeplus.cloud
 
 ## 自托管 Timeplus 企业版 {#self_host}
 
