@@ -66,7 +66,7 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
 
 ### 地图
 
-目前可在 https://us.timeplus.cloud 上作为预览功能提供。
+Currently available on https://us-west-2.timeplus.cloud as a preview feature.
 
 * 数据设置：
   * 设置经度和纬度列。
