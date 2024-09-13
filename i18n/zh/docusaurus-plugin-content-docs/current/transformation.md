@@ -1,6 +1,6 @@
 # 数据转换
 
-您可以使用 [流 SQL](https://www.timeplus.com/post/top-10-streaming-sql-patterns) 来转换数据。 [可以通过 SQL 在 Timeplus 或使用 dbt 插件手动创建视图](view)。
+您可以使用 [流 SQL](https://www.timeplus.com/post/top-10-streaming-sql-patterns) 来转换数据。 [Views](/view) can be created manually via SQL in Timeplus, or with the dbt plugin.
 
 :::info
 
