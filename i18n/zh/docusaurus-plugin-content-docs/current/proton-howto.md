@@ -21,7 +21,7 @@ brew inst
 docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
 ```
 
-Please check [Server Ports](proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
+Please check [Server Ports](/proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
 
 [Docker Compose 堆栈](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) 演示了如何使用外部流在 Kafka/Redpanda 中读取/写入数据。
 
@@ -29,7 +29,7 @@ You can also try Proton in the fully-managed [Timeplus Cloud](https://us-west-2.
 
 ## 如何读/写 Kafka 或 Redpanda {#kafka}
 
-您可以使用 [外部流](proton-kafka)从 Kafka 主题中读取数据或向主题写入数据。 我们验证了与 Apache Kafka、Confluent Cloud、Confluent Platform、Redpanda、WarpStream、Upstash 等的集成。
+You use [External Stream](/proton-kafka) to read from Kafka topics or write data to the topics. 我们验证了与 Apache Kafka、Confluent Cloud、Confluent Platform、Redpanda、WarpStream、Upstash 等的集成。
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
@@ -46,17 +46,17 @@ username='..',password='..',sasl_mechanism='..'
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j6FpXg5cfsA?si=Mo5UrviidxqkkXSb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-如果你在本地的ClickHouse或ClickHouse云中有数据，你也可以使用 [外部表](proton-clickhouse-external-table) 来读取数据。
+If you have data in local ClickHouse or ClickHouse Cloud, you can also use [External Table](/proton-clickhouse-external-table) to read data.
 
 ## 如何读/写 ClickHouse {#clickhouse}
 
-你可以使用 [外部表]（proton-clickhouse-external-table）从 ClickHouse 表格中读取数据或向 ClickHouse 表格写入数据。 我们验证了与自托管的ClickHouse、ClickHouse Cloud、适用于ClickHouse的Aiven等的集成。
+You use [External Table](/proton-clickhouse-external-table) to read from ClickHouse tables or write data to the ClickHouse tables. 我们验证了与自托管的ClickHouse、ClickHouse Cloud、适用于ClickHouse的Aiven等的集成。
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ga_DmCujEpw?si=ja2tmlcCbqa6HhwT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## 如何处理 UPSERT 或 DELETE {#upsert}
 
-默认情况下，Timeplus 中的流仅限追加。 但是你可以使用 “versioned_kv” 或 “changelog_kv” 模式创建流来支持数据变更或删除。 [版本化流]（版本流）支持 UPSERT（更新或插入），[变更日志流]（变更日志流）支持 UPSERT 和 DELETE。
+默认情况下，Timeplus 中的流仅限追加。 但是你可以使用 “versioned_kv” 或 “changelog_kv” 模式创建流来支持数据变更或删除。 The [Versioned Stream](/versioned-stream) supports UPSERT (Update or Insert) and [Changelog Stream](/changelog-stream) supports UPSERT and DELETE.
 
 你可以使用像 Debezium 这样的工具向 Timeplus 发送 CDC 消息，也可以直接使用 `INSERT` SQL来添加数据。 具有相同主键的值将被覆盖。 欲了解更多详情，请观看此视频：
 
@@ -64,7 +64,7 @@ username='..',password='..',sasl_mechanism='..'
 
 ## 如何使用 JSON {#json}
 
-Proton 支持强大且易于使用的 JSON 处理。 你可以将整个 JSON 文档保存为 “字符串” 类型的 “原始” 列。 然后使用 JSON 路径作为快捷方式以字符串形式访问这些值。 例如 “raw: a.b.c”。 如果你的数据是整数/浮点数/布尔值或其他类型，你也可以使用 `::` 来转换它们。 例如 `raw: a.b.c:: int`。 如果你想读取 Kafka 主题中的 JSON 文档，你可以选择将每个 JSON 作为 “原始” 字符串读取，也可以将每个顶级键/值对作为列读取。 请查看 [doc](proton-kafka#multi_col_read) 了解详情。
+Proton 支持强大且易于使用的 JSON 处理。 你可以将整个 JSON 文档保存为 “字符串” 类型的 “原始” 列。 然后使用 JSON 路径作为快捷方式以字符串形式访问这些值。 例如 “raw: a.b.c”。 如果你的数据是整数/浮点数/布尔值或其他类型，你也可以使用 `::` 来转换它们。 例如 `raw: a.b.c:: int`。 如果你想读取 Kafka 主题中的 JSON 文档，你可以选择将每个 JSON 作为 “原始” 字符串读取，也可以将每个顶级键/值对作为列读取。 Please check the [doc](/proton-kafka#multi_col_read) for details.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dTKr1-B5clg?si=eaeQ21SjY8JpUXID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
@@ -82,7 +82,7 @@ CREATE STREAM stream
 SETTINGS event_time_column = 'timestamp';
 ```
 
-请注意，流中将有第 4 列，即\ _tp_time 作为 [事件时间]（事件时间）。
+Please note there will be the 4th column in the stream, which is \_tp_time as the [Event Time](/eventtime).
 
 要导入 CSV 内容，请使用 [文件](https://clickhouse.com/docs/en/sql-reference/table-functions/file) 表函数来设置文件路径、标题和数据类型。
 
@@ -136,7 +136,7 @@ The official Grafana plugin for Timeplus is available [here](https://grafana.com
 
 ## 如何以编程方式访问 Timeplus Proton {#sdk}
 
-SQL 是使用 Proton 的主要接口。 [采集 REST API](proton-ingest-api) 允许您使用任何语言将实时数据推送到 Proton。
+SQL 是使用 Proton 的主要接口。 The [Ingest REST API](/proton-ingest-api) allows you to push realtime data to Proton with any language.
 
 以下驱动程序可用：
 
