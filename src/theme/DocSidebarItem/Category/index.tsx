@@ -1,23 +1,23 @@
-import React, { type ComponentProps, useEffect, useMemo } from "react";
-import clsx from "clsx";
+import Link from "@docusaurus/Link";
 import {
-  ThemeClassNames,
-  useThemeConfig,
-  usePrevious,
-  Collapsible,
-  useCollapsible,
-} from "@docusaurus/theme-common";
-import { isSamePath } from "@docusaurus/theme-common/internal";
-import {
-  isActiveSidebarItem,
   findFirstSidebarItemLink,
+  isActiveSidebarItem,
   useDocSidebarItemsExpandedState,
 } from "@docusaurus/plugin-content-docs/client";
-import Link from "@docusaurus/Link";
+import {
+  Collapsible,
+  ThemeClassNames,
+  useCollapsible,
+  usePrevious,
+  useThemeConfig,
+} from "@docusaurus/theme-common";
+import { isSamePath } from "@docusaurus/theme-common/internal";
 import { translate } from "@docusaurus/Translate";
 import useIsBrowser from "@docusaurus/useIsBrowser";
-import DocSidebarItems from "@theme/DocSidebarItems";
 import type { Props } from "@theme/DocSidebarItem/Category";
+import DocSidebarItems from "@theme/DocSidebarItems";
+import clsx from "clsx";
+import React, { type ComponentProps, useEffect, useMemo } from "react";
 
 // If we navigate to a category and it becomes active, it should automatically
 // expand itself
@@ -198,21 +198,22 @@ export default function DocSidebarItemCategory({
           {...props}
         >
           {label}
+          {tag && (
+            <span
+              style={{
+                marginLeft: "8px",
+                backgroundColor: tag === "Enterprise" ? "#42186D" : "#FF4A71",
+                color: tag === "Enterprise" ? "#AEACB0" : "white",
+                padding: "2px 6px",
+                fontSize: "0.8em",
+                borderRadius: "4px",
+              }}
+            >
+              {tag}
+            </span>
+          )}
         </Link>
-        {tag && (
-          <span
-            style={{
-              marginLeft: "8px",
-              backgroundColor: tag === "Enterprise" ? "#8934D9" : "#FF4A71",
-              color: "white",
-              padding: "2px 6px",
-              fontSize: "1em",
-              borderRadius: "4px",
-            }}
-          >
-            {tag}
-          </span>
-        )}
+
         {href && collapsible && (
           <CollapseButton
             collapsed={collapsed}
