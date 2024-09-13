@@ -9,7 +9,7 @@
 ### 每两周更新 9/19-9/30
 
 * 流引擎
-  * Enhanced [dedup](/functions#dedup) function to only cache the unique keys for a given time period. 这有助于在短时间内消除同样的警报。
+  * Enhanced `dedup` function to only cache the unique keys for a given time period. 这有助于在短时间内消除同样的警报。
   * 支持子串流，例如 `选择 cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) 作为从car_live_data 的 last_spd`
 * 源、 汇、 API 和 SDK
   * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](/glossary#workspace)
@@ -27,7 +27,7 @@
 ### 每两周更新 9/5-9/16
 
 * 流引擎
-  * Added a [round](/functions#round) function to round a value to a specified number of decimal places.
+  * Added a `round` function to round a value to a specified number of decimal places.
   * 改进了对集群的支持。
 * 源、 汇、 API 和 SDK
   * 为仪表板添加新的 CRUD API。 升级期间将自动删除主页上的上一个图表。
@@ -66,7 +66,7 @@
 
 * 流引擎
   * (Experimental) enhanced the [session window](/functions_for_streaming#session) aggregation to create substreams based on customized logic for window start and window end
-  * Added a new function [extract_all_groups](/functions#extract_all_groups) to process text with regular expressions.
+  * Added a new function `extract_all_groups` to process text with regular expressions.
 * 源、 汇、 API 和 SDK
   * Webhook sink 得到增强，以支持自定义的 HTTP 方法、内容类型和头部。
 * 界面改进
@@ -79,8 +79,8 @@
 私人测试版2中的第一个产品更新。
 
 * 流引擎
-  * Introduced a new data type [uuid](/datatypes) to identify records with a 16-byte number. A new function [uuid](/functions#uuid) is added to generate such uuid.
-  * Added a new function [extract_all_groups_horizontal](/functions#extract_all_groups_horizontal) to process text with regular expressions.
+  * Introduced a new data type [uuid](/datatypes) to identify records with a 16-byte number. A new function `uuid` is added to generate such uuid.
+  * Added a new function `extract_all_groups_horizontal` to process text with regular expressions.
 
 * 源、 汇、 API 和 SDK
   * 已发布的 https://pypi.org/project/timeplus/0.2.0/ 可选的租户ID支持。
