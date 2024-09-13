@@ -15,11 +15,11 @@
 
 您可以创建视图，如 `create view histrical_view as select * from table(stream_name)`, 如果您想要多次查询表模式中的数据。 对于静态数据，例如查找信息(城市名称及其邮政编码)，这种方法可能很有效。
 
-:: info  
-Proton v1.5.9 的新增功能，你还可以在适用于 Kafka 的 [External Stream](proton-kafka) 上运行 `table` 函数。 这将读取指定 Kafka 主题中的现有数据。 请避免通过 `select * from table (ext_stream)`扫描所有数据。 应用一些筛选条件，或者运行优化的 `从表 (ext_stream)` 中选择计数 (*) 来获取当前的消息数量。
+:::info
+New in Proton v1.5.9, you can also run `table` function on an [External Stream](/proton-kafka) for Kafka. 这将读取指定 Kafka 主题中的现有数据。 请避免通过 `select * from table (ext_stream)`扫描所有数据。 应用一些筛选条件，或者运行优化的 `从表 (ext_stream)` 中选择计数 (*) 来获取当前的消息数量。
 :::
 
-了解更多关于 [非流式查询](history) 的信息。
+Learn more about [Non-streaming queries](/history).
 
 ### tumble
 
@@ -47,7 +47,7 @@ Proton v1.5.9 的新增功能，你还可以在适用于 Kafka 的 [External Str
 
 参数：
 
-- `stream` 数据流、视图或 [CTE](glossary#cte)/子查询
+- `stream` a data stream, a view, or a [CTE](/glossary#cte)/subquery
 - `timeCol` 可选，默认情况下将是 `_tp_time` （记录的事件时间）
 - `idle` 事件会自动拆分为 2 个 session 窗口多长时间
 - `maxLength` 会话窗口最大长度。 可选的。 默认值是 `idle`的 5 倍
@@ -110,7 +110,7 @@ Proton v1.5.9 的新增功能，你还可以在适用于 Kafka 的 [External Str
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1, time2)` 返回 true 或 false。 此函数只能在 [stream-to-stream join](query-syntax#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
+`date_diff_within(timegap,time1, time2)` 返回 true 或 false。 This function only works in [stream-to-stream join](/joins#stream_stream_join). 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
 
 ✅ 流查询
 
@@ -183,8 +183,8 @@ For example, if you run `select emit_version(),count(*) from car_live_data` the 
 
 `变更日志（stream [，[key_col1 [，key_col2，[...]]，version_column]，drop_late_rows])` 用于将流（无论是仅附加流还是版本化流）转换为具有给定主键的变更日志流。
 
-- 如果数据源流是常规流，即仅附加流，则可以选择一个或多个列作为主键列。 `变更日志 (append_stream，key_col1)` 例如， [car_live_data](usecases#car_live_data) 流包含 `cid` 作为汽车 ID， `speed_kmh` 作为最近报告的速度。 运行下面的 SQL 来为每辆车创建一个更新日志流以跟踪速度变化 `select * from changelog(car_live_data,cid)` 。 一个新列 `_tp_delta` 包含在流查询结果中。 `-1` 表示行已被重新编辑(移除)。 \_tp_delta = 1 with the new value.
-- 如果源流是 [版本流](versioned-stream)，因为在版本流中已经指定了主键和版本列， `changelog` 函数可以直接这样使用 `changelog(versioned_kv)`
+- 如果数据源流是常规流，即仅附加流，则可以选择一个或多个列作为主键列。 `changelog(append_stream, key_col1)` For example, the [car_live_data](/usecases#car_live_data) stream contains `cid` as car id, `speed_kmh` as the recently reported speed. 运行下面的 SQL 来为每辆车创建一个更新日志流以跟踪速度变化 `select * from changelog(car_live_data,cid)` 。 一个新列 `_tp_delta` 包含在流查询结果中。 `-1` 表示行已被重新编辑(移除)。 \_tp_delta = 1 with the new value.
+- If the source stream is a [Versioned Stream](/versioned-stream), since the primary key(s) and version columns are specified in the versioned stream, the `changelog` function can be as simple as `changelog(versioned_kv)`
 - 默认情况下， `drop_late_rows` 为 false。 但是，如果你确实想删除同一个主键的延迟事件，那么你需要将 drop_late_rows 设置为 true，并指定 version_column。 版本_列值越大，它意味着的最新版本。 在大多数情况下，您可以将事件时间 (\ _tp_time) 设置为版本列。 删除 car_live_data 的迟到事件的示例：
 
 ```sql
