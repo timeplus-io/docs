@@ -6,7 +6,7 @@
 
 ## Timeplus Proton
 
-您可以按照 [前面的教程]（tutorial-sql-kafka）设置示例数据，并运行以下 SQL 来构建管道。
+You can follow [the previous tutorial](/tutorial-sql-kafka) to setup the sample data and run the following SQL to build the pipeline.
 
 ```sql
 ```
