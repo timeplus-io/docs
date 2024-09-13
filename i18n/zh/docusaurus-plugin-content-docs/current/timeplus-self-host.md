@@ -1,11 +1,11 @@
-# 自托管
+# Timeplus Enterprise Self-hosted
 
 Timeplus 企业版易于从边缘设备部署到您的数据中心。 它非常适合具有灵活部署需求和高级配置需求的企业用户。
 
 Timeplus Enterprise自托管版与云端Timeplus Enterprise共享许多功能。 与 Timeplus Proton 相比，你可以使用 Timeplus Enterprise 做更多的事情，例如
 
 - 多节点集群可实现高可用性和水平可扩展性
-- [Kubernetes Helm Chart](cluster_install #k8s)
+- [Kubernetes Helm Chart](/cluster_install#k8s)
 - 使用 Timeplus 或 LGTM Grafana 堆栈进行日志/指标/警报
 - Built-in user management
 - 带有 SQL IDE、仪表板、警报、数据沿袭的 Timeplus Web 控制台
