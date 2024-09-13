@@ -3,7 +3,7 @@
 
 
 Timeplus 产品的部分功能基于开源项目。
-* 核心引擎（[Proton](proton)，Apache 许可证 2.0）使用 [ClickHouse](https://clickhouse.com) （Apache 许可证 2.0）中的代码来实现 SQL 函数和历史存储。
+* Core engine ([Proton](/proton), Apache License 2.0) uses code from [ClickHouse](https://clickhouse.com) (Apache License 2.0) for SQL functions and the historical storage.
 * 源代码和接收器由 [Redpanda Connect](https://github.com/redpanda-data/connect) （Apache 许可证 2.0）和 [Benthos Framework](https://github.com/redpanda-data/benthos) （麻省理工学院许可证）提供支持。
 * JavaScript UDF 基于[V8](https://v8.dev/)（BSD License)
 * 由 [ClickHouse](https://clickhouse.com) 引入的[其他第三方库](https://clickhouse.com/docs/en/development/contrib)，可以通过以下查询获取：
