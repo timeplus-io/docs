@@ -2,6 +2,23 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Sep 16, 2024
+
+The new cloud service available at https://us-west-2.timeplus.cloud. The previous cloud (https://us.timeplus.cloud) will be sunset. The new cloud service ships the latest Timeplus features, such as [mutable streams](/mutable-stream).
+
+### Timeplus Proton v1.5.17 and v1.5.18
+ * New feature: drop large streams via `SETTINGS force_drop_big_stream=true`. [Learn more](/sql-drop-stream#force_drop_big_stream)
+ * New feature: support `EXPLAIN SELECT ..` as a sub-query
+ * Fix the problem of multi-shard incorrect result on distinct
+ * Improvement for telemetry service to exclude system level queries and make interval configurable
+ * New feature: allow to set timeout for [Remote UDF](/sql-create-remote-function)
+
+### Timeplus Destination Connector for Airbyte v0.1.20
+Support us-west-2.timeplus.cloud as the default endpoint. Dependencies are updated. This is avilable for both Airbyte Cloud and Airbyte OSS.
+
+### Timeplus Native JDBC v2.0.5
+Support JDK 8, per customer feedback.
+
 ## Sep 2, 2024
 
 ### Timeplus Enterprise v2.4.23

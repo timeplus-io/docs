@@ -144,7 +144,7 @@ Timeplus will take each element of the result array and convert back to Timeplus
 
 ## Register the UDF via SQL
 
-You can also create the UDF in Timeplus Proton or Timeplus Enterprise via SQL.
+You can also create the UDF in Timeplus Proton or Timeplus Enterprise via SQL. [The detailed SQL reference](/sql-create-remote-function).
 
 ```sql
 CREATE REMOTE FUNCTION udf_name(ip string) RETURNS string
