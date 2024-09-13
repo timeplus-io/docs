@@ -1,4 +1,4 @@
-# 视图{#views}
+# 视图
 
 Timeplus 有两种类型的视图：逻辑视图（或普通View）和物化视图（Materialized View）。
 
