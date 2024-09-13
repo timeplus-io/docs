@@ -143,7 +143,7 @@ Timeplus 将获取结果数组的每个元素并转换回 Timeplus 数据类型�
 
 ## Register the UDF via SQL
 
-You can also create the UDF in Timeplus Proton or Timeplus Enterprise via SQL.
+You can also create the UDF in Timeplus Proton or Timeplus Enterprise via SQL. [The detailed SQL reference](/sql-create-remote-function).
 
 ```sql
 CREATE REMOTE FUNCTION udf_name(ip string) RETURNS string
