@@ -10,7 +10,7 @@
 
 ## 数据存储
 
-Users can create a stream by using `CREATE STREAM ...` [DDL SQL](proton-create-stream). Every stream has 2 parts at storage layer by default: 默认情况下，每个流在存储层有 2 个部分：
+Users can create a stream by using `CREATE STREAM ...` [DDL SQL](/proton-create-stream). 默认情况下，每个流在存储层有 2 个部分：
 
 1. 实时流数据部分，由 Timeplus NativeLog 提供支持
 2. 历史数据部分，由ClickHouse历史数据存储支持。
@@ -25,7 +25,7 @@ Users can create a stream by using `CREATE STREAM ...` [DDL SQL](proton-create-s
 
 ## 外部流
 
-在很多情况下，数据已经在 Kafka/Redpanda 或其他流数据中心中，用户可以创建 [外部流](external-stream) 以指向流数据中心并直接进行流式查询处理，然后在 Proton 中实现它们或将查询结果发送到外部系统。
+In quite lots of scenarios, data is already in Kafka / Redpanda or other streaming data hubs, users can create [external streams](/external-stream) to point to the streaming data hub and do streaming query processing directly and then either materialize them in Proton or send the query results to external systems.
 
 
 
