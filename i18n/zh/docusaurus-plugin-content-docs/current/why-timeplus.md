@@ -15,8 +15,8 @@ This architecture transparently serves data to users based on query type from bo
 
 Configure types of streams to optimize performance.
 
-* [Append-only streams:](proton-create-stream#append-only-stream) Excel at complex aggregations, storing data in a columnar format for faster access and processing.
-* [Mutable streams:](mutable-stream) Support UPSERTs and DELETEs, ideal for applications like Materialized Caches or GDPR compliance, using a row-based store optimized for fast data retrieval and query consistency.
+* [Append-only streams:](/proton-create-stream#append-only-stream) Excel at complex aggregations, storing data in a columnar format for faster access and processing.
+* [Mutable streams:](/mutable-stream) Support UPSERTs and DELETEs, ideal for applications like Materialized Caches or GDPR compliance, using a row-based store optimized for fast data retrieval and query consistency.
 
 ## Single Binary {#binary}
 Timeplus is a fast, powerful, and efficient SQL stream processing platform with no dependencies, JVM, or ZK. It runs in bare-metal or Kubernetes environments, from edge to cloud, using a single binary (~150MB).
@@ -25,17 +25,17 @@ Timeplus scales easily from edge devices to multi-node clusters, and with its Ap
 
 ## Multi-JOINs and ASOF JOINs {#join}
 
-Stream processing involves combining multiple data sources, and [MULTI-JOINs](joins) are essential for enriching and correlating events in streaming queries. Timeplus allows you to run ad-hoc historical queries on the same data, reducing the need for denormalization in downstream data warehouses.
+Stream processing involves combining multiple data sources, and [MULTI-JOINs](/joins) are essential for enriching and correlating events in streaming queries. Timeplus allows you to run ad-hoc historical queries on the same data, reducing the need for denormalization in downstream data warehouses.
 
-In many cases, Business Intelligence and analytical queries can be executed directly in Timeplus, eliminating the need for a separate data warehouse. [ASOF JOINs](joins#append-asof-versioned) enable approximate time-based lookups for comparing recent versus historical data.
+In many cases, Business Intelligence and analytical queries can be executed directly in Timeplus, eliminating the need for a separate data warehouse. [ASOF JOINs](/joins#append-asof-versioned) enable approximate time-based lookups for comparing recent versus historical data.
 
 ## Python and JavaScript UDF {#udf}
-We understand that SQL may not be able to express all business logic for streaming or querying. [JavaScript](js-udf) and Python User Defined Functions (UDFs) and User Defined Aggregate Functions (UDAFs) can be used to extend Timeplus to encapsulate custom logic for both stateless and stateful queries.
+We understand that SQL may not be able to express all business logic for streaming or querying. [JavaScript](/js-udf) and Python User Defined Functions (UDFs) and User Defined Aggregate Functions (UDAFs) can be used to extend Timeplus to encapsulate custom logic for both stateless and stateful queries.
 
 With Python UDFs in preview, this opens up the possibility to bring in pre-existing and popular libraries, including data science and machine learning libraries!
 
 ## External Stream, External Table {#external}
-We want to simplify the experience of joining data from Apache Kafka and writing results out to data warehouses such as Clickhouse, or another Timeplus instance. Timeplus implements native integration to these systems in timeplusd via EXTERNAL STREAM (with [Kafka](proton-kafka) and [Timeplus](timeplus-external-stream)) and [EXTERNAL TABLE (with ClickHouse)](proton-clickhouse-external-table). No need for deploying yet another Connector component.
+We want to simplify the experience of joining data from Apache Kafka and writing results out to data warehouses such as Clickhouse, or another Timeplus instance. Timeplus implements native integration to these systems in timeplusd via EXTERNAL STREAM (with [Kafka](/proton-kafka) and [Timeplus](/timeplus-external-stream)) and [EXTERNAL TABLE (with ClickHouse)](/proton-clickhouse-external-table). No need for deploying yet another Connector component.
 
 We understand that we cannot do this for all systems and for that, we have Timeplus Connector which can be configured to integrate with hundreds of other systems if needed.
 
