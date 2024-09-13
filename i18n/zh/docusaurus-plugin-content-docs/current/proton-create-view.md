@@ -7,7 +7,7 @@ Timeplus 有两种类型的视图：逻辑视图（或普通View）和物化视�
 您可以为所有类型的查询创建视图，并在其他查询中引用视图。
 
 - 如果基于串流查询创建视图，您可以将视图视为虚拟流。 For example, `create view view1 as select * from my_stream where c1 = 'a'` will create a virtual stream to filter all events with c1 = 'a'. 您可以把这个视图当作另一个流来使用，例如 `select count(*) from tumble(view1,1m) group by window_start` 创建一个视图本身并不会执行查询。 只有当其他查询引用这个视图时才能会展开视图对应的查询。
-- 如果视图是使用 [table ()](functions_for_streaming#table) 函数使用有界查询创建的，例如 `以从表中选择 * 的形式创建视图 view2 (my_stream)` 则每次运行 `select count (*) 时从视图2中选择计数 (*)` 将立即返回 my_stream 的当前行号，无需等待将来的事件。
+- a view could be a bounded stream if the view is created with a bounded query using [table()](/functions_for_streaming#table) function, e.g. `create view view2 as select * from table(my_stream)` then each time you run `select count(*) from view2` will return the current row number of the my_stream immediately without waiting for the future events.
 
 请注意，基于流查询而创建的视图，不能通过 `table(streaming_view)` 将视图转换为历史查询
 
@@ -54,7 +54,7 @@ By default, when you create a materialized view, an internal stream will be crea
 指定目标流的用例：
 
 1. In some cases, you may want to build multiple materialized views to write data to the same stream. In this case, each materialized view serves as a real-time data pipeline. 在这种情况下，每个物化视图都充当实时数据管道。
-2. 或者你可能需要使用 [Changelog Stream](proton-create-stream#changelog-stream) 或 [Versioned Stream](proton-create-stream#versioned-stream) 来构建查询。
+2. Or you may need to use [Changelog Stream](/proton-create-stream#changelog-stream) or [Versioned Stream](/proton-create-stream#versioned-stream) to build lookups.
 3. 或者，您可能需要为物化视图设置保留策略。
 4. 您还可以使用物化视图通过外部流向 Apache Kafka 写入数据。
 
@@ -73,10 +73,4 @@ INTO <target_stream> AS <SELECT ...>
 删除视图 [如果存在] 数据库。<view_name>;
 ```
 
-像 [CREATE STREAM](proton-create-stream)一样，流删除是一个异步过程。
-
-::: Timeplus Cloud 用户须知
-
-在 Timeplus Cloud 或私有云部署中，我们建议您使用 GUI 或 [Terraform Provider](terraform)删除视图，以便更好地跟踪世系和权限。
-
-:::
+Like [CREATE STREAM](/proton-create-stream), stream deletion is an async process.
