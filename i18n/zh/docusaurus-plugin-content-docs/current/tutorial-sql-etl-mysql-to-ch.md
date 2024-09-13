@@ -33,9 +33,9 @@ https://github.com/timeplus-io/proton/tree/develop/examples/cdc 提供了 Docker
 
 复制 “mysql-to-clickhouse.sql” 的内容并粘贴到 Proton Client 中并一起运行。 会发生什么：
 
-1. 将创建一个 [Timeplus 外部流]（外部流）来读取 Kafka/Redpanda 主题中的 MySQL CDC 数据。
-2. 将创建一个 [外部表]（proton-clickhouse-external-table），用于将数据从Timeplus写入ClickHouse。
-3. 将创建一个 [物化视图]（视图 #m_view），用于持续从 Kafka 读取数据并写入 ClickHouse。
+1. One [Timeplus External Stream](/external-stream) will be created to read the MySQL CDC data from the Kafka/Redpanda topic.
+2. One [External Table](/proton-clickhouse-external-table) will be created to write data from Timeplus to ClickHouse.
+3. One [Materialized View](/view#m_view) will be created to continuously read data from Kafka and write to ClickHouse.
 
 mysql-to-clickhouse.sql 的内容是：
 
