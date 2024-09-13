@@ -2,8 +2,8 @@
 
 :::info
 
-1. 本教程主要面向 Timeplus Proton 用户。 对于Timeplus Cloud用户，请查看 [指南]（quickstart），以使用网页界面将Timeplus与Confluent Cloud连接起来。 本指南中的SQL可以在Timeplus Proton和Timeplus Cloud/Enterprise中运行。
-2. 查看 [前面的教程]（tutorial-sql-kafka）来设置示例数据。
+1. 本教程主要面向 Timeplus Proton 用户。 For Timeplus Cloud users, please check the [guide](/quickstart) for connecting Timeplus with Confluent Cloud with web UI. 本指南中的SQL可以在Timeplus Proton和Timeplus Cloud/Enterprise中运行。
+2. Check [the previous tutorial](/tutorial-sql-kafka) to setup the sample data.
 
 :::
 
@@ -31,7 +31,7 @@
 - 定义了两个 CTE 以将 JSON 属性解析为列
 - `SETTINGS seek_to='earliest'` 是从 Kafka 主题中获取最早数据的特殊设置
 - `USING (id) `与 `ON left.id=right.id` 相同
-- 选中 [JOIN]（连接）以获取更多连接动态和静态数据的选项
+- Check [JOIN](/joins) for more options to join dynamic and static data
 
 :::info
 
