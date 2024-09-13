@@ -55,7 +55,7 @@ timeplus/timeplus-enterprise	v3.0.3       	2.4.25     	Helm chart for deploying 
 timeplus/timeplus-enterprise	v3.0.2       	2.4.18     	Helm chart for deploying a cluster of Timeplus ...
 ```
 
-Please choose the latest `CHART VERSION`. Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](enterprise-releases).
+Please choose the latest `CHART VERSION`. Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](/enterprise-releases).
 
 ### Create Namespace
 
@@ -138,7 +138,7 @@ There are different ways to expose the services of Timeplus stack. In this step,
 
 ### Upgrade Timeplus Enterprise
 
-Please check the [release notes](enterprise-releases) to confirm the target version of Timeplus Enterprise can be upgraded in-place, by reusing the current data and configuration. For example [2.3](enterprise-v2.3) and [2.4](enterprise-releases) are incompatible and you have to use migration tools.
+Please check the [release notes](/enterprise-releases) to confirm the target version of Timeplus Enterprise can be upgraded in-place, by reusing the current data and configuration. For example [2.3](/enterprise-v2.3) and [2.4](/enterprise-releases) are incompatible and you have to use migration tools.
 
 If you confirm you can upgrade to the new version, you can run the following commands to upgrade to the latest version:
 
