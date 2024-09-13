@@ -1,10 +1,10 @@
 # Kafka 外部流
 
-You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus Proton with [External Stream](external-stream). 结合 [物化视图](proton-create-view#m_view) 和 [目标流](proton-create-view#target-stream)，你还可以使用外部流向 Apache Kafka 写入数据。
+You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus Proton with [External Stream](/external-stream). Combining with [Materialized View](/proton-create-view#m_view) and [Target Stream](/proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
 
 ## 创建外部流
 
-In Timeplus Proton, the external stream supports Kafka API as the only type. In Timeplus Enterprise, it also [supports the connection to the other Timeplus deployment](timeplus-external-stream).
+In Timeplus Proton, the external stream supports Kafka API as the only type. In Timeplus Enterprise, it also [supports the connection to the other Timeplus deployment](/timeplus-external-stream).
 
 To create an external stream:
 
@@ -51,7 +51,7 @@ SETTINGS
 
 :::info
 
-有关连接各种 Kafka API 兼容消息平台的示例，请查看 [此文档](tutorial-sql-connect-kafka)。
+For examples to connect to various Kafka API compatitable message platforms, please check [this doc](/tutorial-sql-connect-kafka).
 
 :::
 
@@ -67,7 +67,7 @@ SETTINGS
 
 ```
 
-然后使用查询时间 [JSON 提取函数](functions_for_json) 或快捷方式来访问这些值，例如 `raw: id`。
+Then use query time [JSON extraction functions](/functions_for_json) or shortcut to access the values, e.g. `raw:id`.
 
 #### 以纯文本写入 Kafka {#single_col_write}
 
@@ -77,7 +77,7 @@ SETTINGS
 
 ```
 
-然后使用 `INSERT INTO <stream_name> VALUES (v)`或 [Ingest REST API](proton-ingest-api)，或者将其设置为物化视图向卡夫卡主题写入消息的目标流。 实际的 `data_format` 值为 `rawBlob` 但可以省略。 By default `one_message_per_row` is `true`.
+Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](/proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. 实际的 `data_format` 值为 `rawBlob` 但可以省略。 By default `one_message_per_row` is `true`.
 
 :::info
 Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is available. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message, ensuring it won't exceed the `kafka_max_message_size` limit.
@@ -85,7 +85,7 @@ Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is availabl
 
 #### 从 Kafka 中读取多列{#multi_col_read}
 
-如果 JSON 消息中的键从未更改，或者您不关心新列，则还可以创建包含多列的外部流（仅适用于 Proton v1.3.24+）。
+If the keys in the JSON message never change, or you don't care about the new columns, you can also create the external stream with multiple columns.
 
 您可以在 JSON 中选取一些顶级键作为列，或将所有可能的键选为列。
 
@@ -107,13 +107,13 @@ Please note the behaviors are changed in recent versions, based on user feedback
 
 :::info
 
-Since Proton v1.3.29, Protobuf messages can be read with all or partial columns. Please check [this page](proton-format-schema). 请查看 [此页面](proton-format-schema)。
+Protobuf messages can be read with all or partial columns. Please check [this page](/proton-format-schema).
 
 :::
 
 #### 要写入 Kafka 的多列{#multi_col_write}
 
-要通过 Kafka API 写入数据（仅适用于 Proton v1.3.18+），你可以选择不同的数据格式：
+To write data via Kafka API, you can choose different data formats:
 
 ##### jsoneaChrow
 
@@ -131,7 +131,7 @@ Since Proton v1.3.29, Protobuf messages can be read with all or partial columns.
 
 :::info
 
-请注意，自 1.3.25 版本起，默认情况下，将在同一 Kafka 消息中插入多个 JSON 文档。 每行/每行一个 JSON 文档。 这种默认行为旨在为Kafka/Redpanda获得最大的写入性能。 但是你需要确保下游应用程序能够正确拆分每条 Kafka 消息的 JSON 文档。
+Please note, by default multiple JSON documents will be inserted to the same Kafka message. 每行/每行一个 JSON 文档。 这种默认行为旨在为Kafka/Redpanda获得最大的写入性能。 但是你需要确保下游应用程序能够正确拆分每条 Kafka 消息的 JSON 文档。
 
 如果你需要每条 Kafka 消息的有效的 JSON，而不是 JSONL，请设置 `one_message_per_row=true` 例如
 
@@ -141,9 +141,7 @@ Since Proton v1.3.29, Protobuf messages can be read with all or partial columns.
 
 The default value of one_message_per_row, if not specified, is false for `data_format='JSONEachRow'` and true for `data_format='RawBLOB'`.
 
-:::info
 Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is available. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message and when to create new Kafka message, ensuring each message won't exceed the `kafka_max_message_size` limit.
-:::
 
 :::
 
@@ -163,11 +161,11 @@ Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is availabl
 
 ##### ProtobufSingle
 
-你可以在 Proton中定义 [Protobuf 格式](proton-format-schema)，也可以在创建外部流时指定 [Kafka 架构注册表](proton-schema-registry) 。
+You can either define the [Protobuf Schema in Proton](/proton-format-schema), or specify the [Kafka Schema Registry](/proton-schema-registry) when you create the external stream.
 
 ##### Avro
 
-从 Proton 1.5.2 开始，在创建外部流时指定 [Kafka 架构注册表](proton-schema-registry) 时，可以使用 Avro 格式。
+Starting from Proton 1.5.2, you can use Avro format when you specify the [Kafka Schema Registry](/proton-schema-registry) when you create the external stream.
 
 ### 读/写 Kafka 消息密钥 {#messagekey}
 
@@ -282,9 +280,9 @@ When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in
 
 请查看教程：
 
-- [使用 SQL 查询 Kafka](tutorial-sql-kafka)
-- [流加入](tutorial-sql-join)
-- [流 ETL](tutorial-sql-etl)
+- [使用 SQL 查询 Kafka](/tutorial-sql-kafka)
+- [流加入](/tutorial-sql-join)
+- [流 ETL](/tutorial-sql-etl)
 
 ## Kafka 客户端的属性 {#properties}
 
@@ -316,3 +314,12 @@ When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in
 | 压缩类型                               | 无、gzip、snappy、lz4、zstd    |      | `compression.codec`的别名：用于压缩消息集的压缩编解码器。                                                                                           |
 | 压缩级别                               | -1。。 12                   |      | 由配置属性 `compression.codec`选择的算法的压缩级别参数。                                                                                           |
 | topic.metadata.refresh.interval.ms | -1。。 3600000              |      | 刷新主题和代理元数据以便主动发现任何新的代理、主题、分区或分区领导变更的时间段（以毫秒为单位）。                                                                                 |
+
+## 限制
+
+There are some limitations for the Kafka-based external streams, because Timeplus doesn’t control the storage or the data format for the external stream.
+
+1. The UI wizard only support JSON or TEXT. To use Avro, Protobuf, or schema registry service, you need the SQL DDL.
+2. `_tp_time` is available in the external streams (since Proton 1.3.30). `_tp_append_time` is set only when message timestamp is an append time.
+3. Unlike normal streams, there is no historical storage for the external streams. Hence you cannot run `table(my_ext_stream)`or `settings query_mode='table'` To access data even before you create the external stream, you can use `WHERE _tp_time >'2023-01-15'` to travel to a specific timestamp in the past, or use `SETTINGS seek_to='earliest'`.
+4. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Kafka/Confluent/Redpanda. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
