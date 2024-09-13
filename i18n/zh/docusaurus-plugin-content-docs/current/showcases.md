@@ -44,7 +44,7 @@
 
 ### 计量基于使用量的定价
 
-通过利用流 SQL、 [版本化流](versioned-stream)、 [HTTP 提取](ingest-api)、 [HTTP sink](destination#http) 和许多其他功能，我们收集每个租户的实时基础设施使用情况，应用查询和聚合，并将数据发送给基于使用量的定价供应商 ([Paigo](https://paigo.tech/))。
+By leveraging streaming SQL, [Versioned Stream](/versioned-stream), [HTTP ingestion](/ingest-api), [HTTP sink](/destination#http) and many other features, we collect real-time infrastructure usage per tenants, apply lookup and aggregation, and send data to our usage-based pricing vendor, ([Paigo](https://paigo.tech/)).
 
 [阅读案例研究](https://www.timeplus.com/post/usage-based-pricing-with-timeplus-and-paigo).
 
@@ -100,7 +100,7 @@ Build real-time monitoring systems for container vulnerabilities with Timeplus. 
 
 ### 来自手机的实时传感器数据 {#phone}
 
-[Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger#live-data-streaming) is a free, easy-to-use, cross-platform data logger that logs readings from common motion-related sensors on smartphones. It can push data to Timeplus via the [Ingest API](ingest-api), allowing you to build real-time dashboards. 它可以通过 [Ingest API](ingest-api)将数据推送到Timeplus，从而允许你构建实时仪表板。
+[Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger#live-data-streaming) is a free, easy-to-use, cross-platform data logger that logs readings from common motion-related sensors on smartphones. It can push data to Timeplus via the [Ingest API](ingest-api), allowing you to build real-time dashboards. It can push data to Timeplus via the [Ingest API](/ingest-api), allowing you to build real-time dashboards.
 
 [观看演示视频](https://www.youtube.com/watch?v=iWA8FHjyatE)
 
@@ -122,7 +122,7 @@ In [this blog](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engag
 
 ### 新注册的 Auth0 通知 {#signup}
 
-像许多其他公司一样，我们选择 [Auth0](https://auth0.com/) 作为我们云产品的身份验证和授权平台。 Like many other companies, we chose [Auth0](https://auth0.com/) as the authentication and authorization platform for our cloud offering. With our powerful [Ingestion API](ingest-api), we can easily route all Auth0 new user signup events to Timeplus with webhook, then build real-time slack notifications to one private channels for Product Manager to engage with new users at real-time.
+像许多其他公司一样，我们选择 [Auth0](https://auth0.com/) 作为我们云产品的身份验证和授权平台。 With our powerful [Ingestion API](/ingest-api), we can easily route all Auth0 new user signup events to Timeplus with webhook, then build real-time slack notifications to one private channels for Product Manager to engage with new users at real-time.
 
 ### HubSpot 自定义仪表板/警报 {#hubspot}
 
@@ -130,7 +130,7 @@ In [this blog](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engag
 
 ### Jitsu 点击流分析
 
-We use the open source [Jitsu](https://jitsu.com/) platform to collect event data from every source - web, email, chatbot, CRM - into our choice of data stack: Timeplus. The free version of Jitsu Cloud allows you to send events out via a webhook. With our powerful [Ingestion API](ingest-api), those page view data arrive in Timeplus workspace in real-time and help us to understand the usage pattern, from past 0.6 second to past 6 months. 免费版的 Jitsu Cloud 允许你通过网络挂钩发送事件。 借助我们强大的 [Ingestion API](ingest-api)，这些页面视图数据可以实时到达Timeplus工作空间，并帮助我们了解从过去0.6秒到过去6个月的使用模式。
+We use the open source [Jitsu](https://jitsu.com/) platform to collect event data from every source - web, email, chatbot, CRM - into our choice of data stack: Timeplus. The free version of Jitsu Cloud allows you to send events out via a webhook. With our powerful [Ingestion API](ingest-api), those page view data arrive in Timeplus workspace in real-time and help us to understand the usage pattern, from past 0.6 second to past 6 months. 免费版的 Jitsu Cloud 允许你通过网络挂钩发送事件。 With our powerful [Ingestion API](/ingest-api), those page view data arrive in Timeplus workspace in real-time and help us to understand the usage pattern, from past 0.6 second to past 6 months.
 
 ### 实时推特营销 {#twitter}
 
