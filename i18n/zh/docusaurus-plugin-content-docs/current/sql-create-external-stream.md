@@ -36,8 +36,8 @@ The supported values for `sasl_mechanism` are:
 
 The supported values for `data_format` are:
 
-- jsoneAchrow：每条 Kafka 消息可以是一个 JSON 文档，也可以每行都是一个 JSON 文档。 [Learn More](#jsoneachrow).
-- CSV：不太常用。 [Learn More](#csv).
+- jsoneAchrow：每条 Kafka 消息可以是一个 JSON 文档，也可以每行都是一个 JSON 文档。 [Learn More](/proton-kafka#jsoneachrow).
+- CSV：不太常用。 [Learn More](/proton-kafka#csv).
 - protobufSingle：为每条 Kafka 消息提供一条 Protobuf 消息
 - Protobuf：一条 Kafka 消息中可能有多条 Protobuf 消息。
 - Avro：在 Proton 1.5.2 中添加
