@@ -1,6 +1,6 @@
 # CREATE FORMAT
 
-Timeplus 支持以 [Protobuf](https://protobuf.dev/) 或 [Avro](https://avro.apache.org) 格式读取或写入消息。 本文档介绍如何在没有架构注册表的情况下处理数据。 如果您的 Kafka 主题是否与架构注册表关联，请查看 [此页面]（Proton架构注册表）。
+Timeplus 支持以 [Protobuf](https://protobuf.dev/) 或 [Avro](https://avro.apache.org) 格式读取或写入消息。 本文档介绍如何在没有架构注册表的情况下处理数据。 Check [this page](/proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
 
 如果没有架构注册表，则需要使用 SQL 定义 Protobuf 或 Avro 架构。
 
@@ -79,5 +79,5 @@ SETTINGS type='kafka',
 
 ## See also
 
-[SHOW FORMAT SCHEMA](sql-show-format-schema) - Show format schema
-[DROP FORMAT SCHEMA](sql-drop-format-schema) - Drop format schema
+[SHOW FORMAT SCHEMA](/sql-show-format-schemas) - Show format schema
+[DROP FORMAT SCHEMA](/sql-drop-format-schema) - Drop format schema
