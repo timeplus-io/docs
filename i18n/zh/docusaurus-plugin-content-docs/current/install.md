@@ -8,7 +8,7 @@ The quickest and easiest way to get started with Timeplus is to sign up a free a
 
 ## Timeplus 企业版自托管{#self-hosted}
 
-Install Timeplus Enterprise with high availability and scalability in your own data center or cloud account, using the [bare metal installer](/singlenode_install#bare-metal-install) or the official Timeplus [Kubernetes Helm Chart](/cluster_install#k8s).
+Install Timeplus Enterprise with high availability and scalability in your own data center or cloud account, using the [bare metal installer](/singlenode_install#bare_metal) or the official Timeplus [Kubernetes Helm Chart](/cluster_install#k8s).
 
 ## Timeplus Proton，核心引擎{#proton}
 
