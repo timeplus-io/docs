@@ -55,7 +55,7 @@
 
 * 流引擎
 
-  * 引入了一种新的 `LIMIT <n> BY <column>` 语法。 Combining with [emit_version()](/functions#emit_version) function, you can show a limited number of results per emit. 例如
+  * 引入了一种新的 `LIMIT <n> BY <column>` 语法。 Combining with `emit_version` function, you can show a limited number of results per emit. 例如
 
     ```sql
     SELECT cid,avg(speed_kmh) AS avgspeed, emit_version()
