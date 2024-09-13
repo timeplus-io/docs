@@ -1,6 +1,6 @@
 # 本地JavaScript自定义函数
 
-除了 [远程 UDF](remote-udf)之外，Timeplus 还支持在数据库引擎中运行基于 JavaScript 的 UDF。 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
+In addition to [Remote UDF](/remote-udf), Timeplus Proton also supports JavaScript-based UDF running in the sql engine. 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
 :::info
 
@@ -190,7 +190,7 @@ function magic_number(values){
 要注册此函数，Timeplus Cloud 和 Proton 中的步骤有所不同：
 
 * With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 在 `float` 类型中添加一个参数，并将返回类型也设置为 `float` 。 Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。
-* 在 Proton Client 中使用 SQL：在此处查看 [中的示例](proton-create-udf#create-aggregate-function)。
+* With SQL in Proton Client: check the example at [here](/proton-create-udf#create-aggregate-function).
 
 ### 复杂事件处理的高级示例 {#adv_udaf}
 
