@@ -6,7 +6,7 @@
 DROP STREAM [IF EXISTS] db.<stream_name>;
 ```
 
-Like [CREATE STREAM](sql-create-stream), stream deletion is an async process.
+Like [CREATE STREAM](/sql-create-stream), stream deletion is an async process.
 
 ## force_drop_big_stream
 
