@@ -8,7 +8,7 @@ The quickest and easiest way to get started with Timeplus is to sign up a free a
 
 ## Timeplus 企业版自托管{#self-hosted}
 
-使用 [裸机安装程序](singlenode_install #bare-metal-install)或官方 Timeplus [Kubernetes Helm Chart](cluster_install #k8s)在自己的数据中心或云账户中安装具有高可用性和可扩展性的 Timeplus 企业版。
+Install Timeplus Enterprise with high availability and scalability in your own data center or cloud account, using the [bare metal installer](/singlenode_install#bare-metal-install) or the official Timeplus [Kubernetes Helm Chart](/cluster_install#k8s).
 
 ## Timeplus Proton，核心引擎{#proton}
 
@@ -36,7 +36,7 @@ brew install timeplus-io/timeplus/proton
 docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
 ```
 
-Please check [Server Ports](proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
+Please check [Server Ports](/proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
 
 ### Docker 撰写 {#compose}
 
