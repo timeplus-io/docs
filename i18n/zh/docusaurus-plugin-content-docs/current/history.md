@@ -10,7 +10,7 @@ SELECT * FROM device_utils 设置 TTINGS query_mode='table';
 
 
 
-2. 使用 [table](functions_for_streaming#table) 函数对每个流运行历史查询。 这种模式比较灵活的，比如在某些情景中，你需要对某个数据集做流式查询，而同时JOIN一个维度表，这个维度表就可以用table(..)方式在固化下来。
+2. Run historical query per stream by wrapping stream with [table](/functions_for_streaming#table) function. 这种模式比较灵活的，比如在某些情景中，你需要对某个数据集做流式查询，而同时JOIN一个维度表，这个维度表就可以用table(..)方式在固化下来。
 
 ```sql
 SELECT * FROM table(device_utils)；
