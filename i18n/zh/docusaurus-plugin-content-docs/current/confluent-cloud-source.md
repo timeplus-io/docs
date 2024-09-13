@@ -1,6 +1,6 @@
 # 从 Confluent Cloud 中加载流数据
 
-我们很高兴与 [Confluent Cloud](https://www.confluent.io/confluent-cloud/?utm_campaign=tm.pmm_cd.2023_partner_cwc_timeplus_generic&utm_source=timeplus&utm_medium=partnerref)合作，让您在不移动数据的情况下通过 [外部流](working-with-streams#external_stream) 轻松连接流数据。
+We are pleased to partner with [Confluent Cloud](https://www.confluent.io/confluent-cloud/?utm_campaign=tm.pmm_cd.2023_partner_cwc_timeplus_generic&utm_source=timeplus&utm_medium=partnerref), allowing you to easily connect your streaming data via [external streams](/external-stream) without moving data.
 
 ## Confluent Cloud 资源
 
