@@ -39,7 +39,7 @@
 * 主题名称：已存在的主题或指定要创建的 Timeplus 的新主题名称。
 * 认证
 
-参数详情请参考 [Kafka 源](ingestion#kafka)。 您可以向 Confluent Cloud、Confluent Platform 或自定义的 Apache Kafka 发送数据。 事件将被编码为 JSON 文档。
+Please refer to the [Kafka source](/ingestion#kafka) for details of the parameters. 您可以向 Confluent Cloud、Confluent Platform 或自定义的 Apache Kafka 发送数据。 事件将被编码为 JSON 文档。
 
 ## 发送数据到 Snowflake{#snowflake}
 
