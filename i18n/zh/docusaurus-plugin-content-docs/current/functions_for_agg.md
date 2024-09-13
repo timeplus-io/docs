@@ -72,19 +72,19 @@
 
 如果您不需要事件计数，您可以设置第三个参数的 false，例如： `top_k(cid, 3, false)` 可能得到 `['c01','c02','c03']`
 
-在 [Top-N Query Pattern](sql-pattern-topn) 页上阅读更多内容。
+Read more on [Top-N Query Pattern](/sql-pattern-topn) page.
 
 ### min_k
 
 `min_k(<column_name>,K [,context_column])`：列名中最小的 K 项。 返回一个数组。 您还可以添加列列表以获取同一行中值的更多上下文，例如 `min_k（price,3，product_id，last_updated）` 这将返回一个将每个元素作为元组的数组，例如 `[(5.12, 'c42664'), (5.12, 'c42664'), (15.36, 'c84068')]`
 
-在 [Top-N Query Pattern](sql-pattern-topn) 页上阅读更多内容。
+Read more on [Top-N Query Pattern](/sql-pattern-topn) page.
 
 ### max_k
 
 `max_k(<column_name>,K[,context_column])`：列名中最大的 K 项。 您还可以添加列表，获取同一行中更多值的上下文，例如 `max_k(price，3，product_id，last_updated)`
 
-在 [Top-N Query Pattern](sql-pattern-topn) 页上阅读更多内容。
+Read more on [Top-N Query Pattern](/sql-pattern-topn) page.
 
 ### arg_min
 
