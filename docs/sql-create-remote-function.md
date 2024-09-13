@@ -5,7 +5,7 @@ But some developers have concerns that complex logic or systems integration are 
 
 That's why we add User-Defined Functions (UDF) support in Timeplus. This enables users to leverage existing programming libraries, integrate with external systems, or just make SQL easier to maintain.
 
-Timeplus Proton supports [Local UDF in JavaScript](js-udf). You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported.
+Timeplus Proton supports [Local UDF in JavaScript](/js-udf). You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported.
 
 :::info
 In Timeplus Enterprise, the Python UDF will be ready soon.
@@ -18,4 +18,4 @@ CREATE REMOTE FUNCTION udf_name(arg_name data_type) RETURNS data_type
  AUTH_METHOD 'none'
 ```
 
-Pleaes refer to [the example](remote-udf) for how to build a IP lookup service via AWS Lambda and register it as a remote UDF in Timeplus.
+Pleaes refer to [the example](/remote-udf) for how to build a IP lookup service via AWS Lambda and register it as a remote UDF in Timeplus.

@@ -22,19 +22,19 @@ CTEs can be thought of as alternatives to derived tables ([subquery](https://en.
 
 Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
 
-You can create multiple dashboards in a workspace, and add multiple charts to a dashboard. You can also add [filters](viz#filter) or Markdown (experimental).
+You can create multiple dashboards in a workspace, and add multiple charts to a dashboard. You can also add [filters](/viz#filter) or Markdown (experimental).
 
 ## event time
 
 Event time is used to identify when the event is generated, like a birthday to a human being. It can be the exact timestamp when the order is placed, when the user logins a system, when an error occurs, or when an IoT device reports its status. If no suitable timestamp attribute in the event, Timeplus will generate the event time based on the data ingestion time.
 
-Learn more: [Event time](eventtime)
+Learn more: [Event time](/eventtime)
 
 ## generator {#generator}
 
 Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
 
-Learn more [Streaming Generator](stream-generator)
+Learn more [Streaming Generator](/stream-generator)
 
 ## materialized view {#mview}
 
@@ -42,9 +42,9 @@ A special view that is kept running in the background and persistent the query r
 
 ## query {#query}
 
-Timeplus provides powerful streaming analytics capabilities through the enhanced SQL. By default, queries are unbounded and keep pushing the latest results to the client. The unbounded query can be converted to a bounded query by applying the function [table()](functions_for_streaming#table), when the user wants to ask the question about what has happened like the traditional SQL.
+Timeplus provides powerful streaming analytics capabilities through the enhanced SQL. By default, queries are unbounded and keep pushing the latest results to the client. The unbounded query can be converted to a bounded query by applying the function [table()](/functions_for_streaming#table), when the user wants to ask the question about what has happened like the traditional SQL.
 
-Learn more: [Streaming Query](stream-query) and [Non-Streaming Query](history)
+Learn more: [Streaming Query](/stream-query) and [Non-Streaming Query](/history)
 
 ## sink {#sink}
 
@@ -52,25 +52,25 @@ a.k.a. destination. Only available in Timeplus Cloud and Timeplus Enterprise, no
 
 Timeplus enables you to send real-time insights to other systems, either to notify individuals or power up downstream applications.
 
-Learn more: [Destination](destination).
+Learn more: [Destination](/destination).
 
 ## source {#source}
 
 A source is a background job in Timeplus Cloud or Timeplus Enterprise to load data into a [stream](#stream). For Kafka API compatible streaming data platform, you need to create external streams.
 
-Learn more: [Data Collection](ingestion)
+Learn more: [Data Collection](/ingestion)
 
 ## stream {#stream}
 
 Timeplus is a streaming analytics platform and data lives in streams. Timeplus `streams` are similar to `tables` in the traditional SQL databases. Both of them are essentially datasets. The key difference is that Timeplus stream is an append-only, unbounded, constantly changing events group.
 
-Learn more: [Stream](working-with-streams)
+Learn more: [Stream](/working-with-streams)
 
 ## external stream {#external_stream}
 
 You can create external streams to read data from Kafka API compatible streaming data platform.
 
-Learn more: [External Stream](external-stream)
+Learn more: [External Stream](/external-stream)
 
 ## timestamp column
 
@@ -80,7 +80,7 @@ When you create a source and preview the data, you can choose a column as the ti
 
 You can define reusable SQL statements as views, so that you can query them as if they are streams `select .. from view1 ..` By default, views don't take any extra computing or storage resources. They are expanded to the SQL definition when they are queried. You can also create materialized views to 'materialize' them (keeping running them in the background and saving the results to the disk).
 
-Learn more: [View](view) and [Materialized View](view#m_view)
+Learn more: [View](/view) and [Materialized View](/view#m_view)
 
 ## workspace {#workspace}
 

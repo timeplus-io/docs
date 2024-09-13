@@ -5,14 +5,14 @@ But some developers have concerns that complex logic or systems integration are 
 
 That's why we add User-Defined Functions (UDF) support in Timeplus. This enables users to leverage existing programming libraries, integrate with external systems, or just make SQL easier to maintain.
 
-Timeplus Proton supports [Local UDF in JavaScript](js-udf). You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported.
+Timeplus Proton supports [Local UDF in JavaScript](/js-udf). You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported.
 
 :::info
 In Timeplus Enterprise, the Python UDF will be ready soon.
 :::
 
 ## CREATE OR REPLACE FUNCTION
-You can create or replace a JavaScript UDF, by specifying the function name, input and output data types. Please check the mapping of data types for [input](js-udf#arguments) and [output](js-udf#returned-value).
+You can create or replace a JavaScript UDF, by specifying the function name, input and output data types. Please check the mapping of data types for [input](/js-udf#arguments) and [output](/js-udf#returned-value).
 
 The following example defines a new function `test_add_five_5`:
 
@@ -44,7 +44,7 @@ In Timeplus Enterprise, you can add debug information via `console.log(..)` in t
 
 ## CREATE AGGREGATE FUNCTION
 
-Creating a user-defined-aggregation function (UDAF) requires a bit more effort. Please check [this documentation](js-udf#udaf) for the 3 required and 3 optional functions.
+Creating a user-defined-aggregation function (UDAF) requires a bit more effort. Please check [this documentation](/js-udf#udaf) for the 3 required and 3 optional functions.
 
 ```sql showLineNumbers
 CREATE AGGREGATE FUNCTION test_sec_large(value float32)

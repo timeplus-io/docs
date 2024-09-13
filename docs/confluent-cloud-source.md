@@ -1,6 +1,6 @@
 # Load streaming data from Confluent Cloud
 
-We are pleased to partner with [Confluent Cloud](https://www.confluent.io/confluent-cloud/?utm_campaign=tm.pmm_cd.2023_partner_cwc_timeplus_generic&utm_source=timeplus&utm_medium=partnerref), allowing you to easily connect your streaming data via [external streams](working-with-streams#external_stream) without moving data.
+We are pleased to partner with [Confluent Cloud](https://www.confluent.io/confluent-cloud/?utm_campaign=tm.pmm_cd.2023_partner_cwc_timeplus_generic&utm_source=timeplus&utm_medium=partnerref), allowing you to easily connect your streaming data via [external streams](/external-stream) without moving data.
 
 ## Confluent Cloud Source
 

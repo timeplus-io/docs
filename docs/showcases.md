@@ -44,7 +44,7 @@ At Timeplus, we collect various logs, metrics and usage data and send them to ou
 
 ### Metering for usage-based pricing
 
-By leveraging streaming SQL, [Versioned Stream](versioned-stream), [HTTP ingestion](ingest-api), [HTTP sink](destination#http) and many other features, we collect real-time infrastructure usage per tenants, apply lookup and aggregation, and send data to our usage-based pricing vendor, ([Paigo](https://paigo.tech/)).
+By leveraging streaming SQL, [Versioned Stream](/versioned-stream), [HTTP ingestion](/ingest-api), [HTTP sink](/destination#http) and many other features, we collect real-time infrastructure usage per tenants, apply lookup and aggregation, and send data to our usage-based pricing vendor, ([Paigo](https://paigo.tech/)).
 
 [Read case study](https://www.timeplus.com/post/usage-based-pricing-with-timeplus-and-paigo).
 
@@ -100,7 +100,7 @@ Gain real-time visibility into fleet operations using only SQL. Based on real-wo
 
 ### Real-time sensor data from your phone {#phone}
 
-[Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger#live-data-streaming) is a free, easy-to-use, cross-platform data logger that logs readings from common motion-related sensors on smartphones. It can push data to Timeplus via the [Ingest API](ingest-api), allowing you to build real-time dashboards.
+[Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger#live-data-streaming) is a free, easy-to-use, cross-platform data logger that logs readings from common motion-related sensors on smartphones. It can push data to Timeplus via the [Ingest API](/ingest-api), allowing you to build real-time dashboards.
 
 [Watch demo video](https://www.youtube.com/watch?v=iWA8FHjyatE)
 
@@ -122,7 +122,7 @@ In [this blog](https://www.timeplus.com/post/how-to-analyze-livepeer-video-engag
 
 ### Auth0 notifications for new signups {#signup}
 
-Like many other companies, we chose [Auth0](https://auth0.com/) as the authentication and authorization platform for our cloud offering. With our powerful [Ingestion API](ingest-api), we can easily route all Auth0 new user signup events to Timeplus with webhook, then build real-time slack notifications to one private channels for Product Manager to engage with new users at real-time.
+Like many other companies, we chose [Auth0](https://auth0.com/) as the authentication and authorization platform for our cloud offering. With our powerful [Ingestion API](/ingest-api), we can easily route all Auth0 new user signup events to Timeplus with webhook, then build real-time slack notifications to one private channels for Product Manager to engage with new users at real-time.
 
 ### HubSpot custom dashboards/alerts {#hubspot}
 
@@ -130,7 +130,7 @@ We use [HubSpot](https://hubspot.com/) as our CRM system. We have built sink con
 
 ### Jitsu clickstream analysis
 
-We use the open source [Jitsu](https://jitsu.com/) platform to collect event data from every source - web, email, chatbot, CRM - into our choice of data stack: Timeplus. The free version of Jitsu Cloud allows you to send events out via a webhook. With our powerful [Ingestion API](ingest-api), those page view data arrive in Timeplus workspace in real-time and help us to understand the usage pattern, from past 0.6 second to past 6 months.
+We use the open source [Jitsu](https://jitsu.com/) platform to collect event data from every source - web, email, chatbot, CRM - into our choice of data stack: Timeplus. The free version of Jitsu Cloud allows you to send events out via a webhook. With our powerful [Ingestion API](/ingest-api), those page view data arrive in Timeplus workspace in real-time and help us to understand the usage pattern, from past 0.6 second to past 6 months.
 
 ### Real-time Twitter marketing {#twitter}
 

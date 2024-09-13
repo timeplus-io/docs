@@ -21,7 +21,7 @@ You can also install Proton in Docker, Docker Compose or Kubernetes.
 docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
 ```
 
-Please check [Server Ports](proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
+Please check [Server Ports](/proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
 
 The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
 
@@ -29,7 +29,7 @@ You can also try Proton in the fully-managed [Timeplus Cloud](https://us-west-2.
 
 ## How to read/write Kafka or Redpanda {#kafka}
 
-You use [External Stream](proton-kafka) to read from Kafka topics or write data to the topics. We verified the integration with Apache Kafka, Confluent Cloud, Confluent Platform, Redpanda, WarpStream, Upstash and many more.
+You use [External Stream](/proton-kafka) to read from Kafka topics or write data to the topics. We verified the integration with Apache Kafka, Confluent Cloud, Confluent Platform, Redpanda, WarpStream, Upstash and many more.
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
@@ -46,17 +46,17 @@ For PostgreSQL, MySQL or other OLTP databases, you can apply the CDC (Change Dat
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j6FpXg5cfsA?si=Mo5UrviidxqkkXSb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-If you have data in local ClickHouse or ClickHouse Cloud, you can also use [External Table](proton-clickhouse-external-table) to read data.
+If you have data in local ClickHouse or ClickHouse Cloud, you can also use [External Table](/proton-clickhouse-external-table) to read data.
 
 ## How to read/write ClickHouse {#clickhouse}
 
-You use [External Table](proton-clickhouse-external-table) to read from ClickHouse tables or write data to the ClickHouse tables. We verified the integration with self-hosted ClickHouse, ClickHouse Cloud, Aiven for ClickHouse and many more.
+You use [External Table](/proton-clickhouse-external-table) to read from ClickHouse tables or write data to the ClickHouse tables. We verified the integration with self-hosted ClickHouse, ClickHouse Cloud, Aiven for ClickHouse and many more.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ga_DmCujEpw?si=ja2tmlcCbqa6HhwT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## How to handle UPSERT or DELETE {#upsert}
 
-By default, streams in Timeplus are append-only. But you can create a stream with `versioned_kv` or `changelog_kv` mode to support data mutation or deletion. The [Versioned Stream](versioned-stream) supports UPSERT (Update or Insert) and [Changelog Stream](changelog-stream) supports UPSERT and DELETE.
+By default, streams in Timeplus are append-only. But you can create a stream with `versioned_kv` or `changelog_kv` mode to support data mutation or deletion. The [Versioned Stream](/versioned-stream) supports UPSERT (Update or Insert) and [Changelog Stream](/changelog-stream) supports UPSERT and DELETE.
 
 You can use tools like Debezium to send CDC messages to Timeplus, or just use `INSERT` SQL to add data. Values with same primary key(s) will be overwritten. For more details, please check this video:
 
@@ -64,7 +64,7 @@ You can use tools like Debezium to send CDC messages to Timeplus, or just use `I
 
 ## How to work with JSON {#json}
 
-Proton supports powerful, yet easy-to-use JSON processing. You can save the entire JSON document as a `raw` column in `string` type. Then use JSON path as the shortcut to access those values as string. For example `raw:a.b.c`. If your data is in int/float/bool or other type, you can also use `::` to convert them. For example `raw:a.b.c::int`. If you want to read JSON documents in Kafka topics, you can choose to read each JSON as a `raw` string, or read each top level key/value pairs as columns. Please check the [doc](proton-kafka#multi_col_read) for details.
+Proton supports powerful, yet easy-to-use JSON processing. You can save the entire JSON document as a `raw` column in `string` type. Then use JSON path as the shortcut to access those values as string. For example `raw:a.b.c`. If your data is in int/float/bool or other type, you can also use `::` to convert them. For example `raw:a.b.c::int`. If you want to read JSON documents in Kafka topics, you can choose to read each JSON as a `raw` string, or read each top level key/value pairs as columns. Please check the [doc](/proton-kafka#multi_col_read) for details.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dTKr1-B5clg?si=eaeQ21SjY8JpUXID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
@@ -82,7 +82,7 @@ CREATE STREAM stream
 SETTINGS event_time_column = 'timestamp';
 ```
 
-Please note there will be the 4th column in the stream, which is \_tp_time as the [Event Time](eventtime).
+Please note there will be the 4th column in the stream, which is \_tp_time as the [Event Time](/eventtime).
 
 To import CSV content, use the [file](https://clickhouse.com/docs/en/sql-reference/table-functions/file) table function to set the file path and header and data types.
 
@@ -136,7 +136,7 @@ We also provide a plugin for Metabase: https://github.com/timeplus-io/metabase-p
 
 ## How to access Timeplus Proton programmatically {#sdk}
 
-SQL is the main interface to work with Proton. The [Ingest REST API](proton-ingest-api) allows you to push realtime data to Proton with any language.
+SQL is the main interface to work with Proton. The [Ingest REST API](/proton-ingest-api) allows you to push realtime data to Proton with any language.
 
 The following drivers are available:
 

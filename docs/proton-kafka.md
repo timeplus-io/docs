@@ -1,10 +1,10 @@
 # Kafka External Stream
 
-You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus Proton with [External Stream](external-stream). Combining with [Materialized View](proton-create-view#m_view) and [Target Stream](proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
+You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus Proton with [External Stream](/external-stream). Combining with [Materialized View](/proton-create-view#m_view) and [Target Stream](/proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
 
 ## CREATE EXTERNAL STREAM
 
-In Timeplus Proton, the external stream supports Kafka API as the only type. In Timeplus Enterprise, it also [supports the connection to the other Timeplus deployment](timeplus-external-stream).
+In Timeplus Proton, the external stream supports Kafka API as the only type. In Timeplus Enterprise, it also [supports the connection to the other Timeplus deployment](/timeplus-external-stream).
 
 To create an external stream:
 
@@ -51,7 +51,7 @@ The supported values for `data_format` are:
 
 :::info
 
-For examples to connect to various Kafka API compatitable message platforms, please check [this doc](tutorial-sql-connect-kafka).
+For examples to connect to various Kafka API compatitable message platforms, please check [this doc](/tutorial-sql-connect-kafka).
 
 :::
 
@@ -71,7 +71,7 @@ SETTINGS type='kafka',
          topic='github_events'
 ```
 
-Then use query time [JSON extraction functions](functions_for_json) or shortcut to access the values, e.g. `raw:id`.
+Then use query time [JSON extraction functions](/functions_for_json) or shortcut to access the values, e.g. `raw:id`.
 
 #### Write to Kafka in Plain Text {#single_col_write}
 
@@ -85,7 +85,7 @@ SETTINGS type='kafka',
          topic='github_events'
 ```
 
-Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted. By default `one_message_per_row` is `true`.
+Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](/proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted. By default `one_message_per_row` is `true`.
 
 :::info
 Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is available. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message, ensuring it won't exceed the `kafka_max_message_size` limit.
@@ -126,7 +126,7 @@ If there are nested complex JSON in the message, you can define the column as a 
 
 :::info
 
-Protobuf messages can be read with all or partial columns. Please check [this page](proton-format-schema).
+Protobuf messages can be read with all or partial columns. Please check [this page](/proton-format-schema).
 
 :::
 
@@ -204,11 +204,11 @@ The messages will be generated in the specific topic as
 
 ##### ProtobufSingle
 
-You can either define the [Protobuf Schema in Proton](proton-format-schema), or specify the [Kafka Schema Registry](proton-schema-registry) when you create the external stream.
+You can either define the [Protobuf Schema in Proton](/proton-format-schema), or specify the [Kafka Schema Registry](/proton-schema-registry) when you create the external stream.
 
 ##### Avro
 
-Starting from Proton 1.5.2, you can use Avro format when you specify the [Kafka Schema Registry](proton-schema-registry) when you create the external stream.
+Starting from Proton 1.5.2, you can use Avro format when you specify the [Kafka Schema Registry](/proton-schema-registry) when you create the external stream.
 
 ### Read/Write Kafka Message Key {#messagekey}
 
@@ -359,9 +359,9 @@ CREATE MATERIALIZED VIEW mv INTO target AS
 
 Please check the tutorials:
 
-- [Query Kafka with SQL](tutorial-sql-kafka)
-- [Streaming JOIN](tutorial-sql-join)
-- [Streaming ETL](tutorial-sql-etl)
+- [Query Kafka with SQL](/tutorial-sql-kafka)
+- [Streaming JOIN](/tutorial-sql-join)
+- [Streaming ETL](/tutorial-sql-etl)
 
 ## Properties for Kafka client {#properties}
 

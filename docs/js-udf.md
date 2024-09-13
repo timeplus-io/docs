@@ -1,6 +1,6 @@
 # Local UDF in JavaScript
 
-In addition to [Remote UDF](remote-udf), Timeplus Proton also supports JavaScript-based UDF running in the sql engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
+In addition to [Remote UDF](/remote-udf), Timeplus Proton also supports JavaScript-based UDF running in the sql engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
 
 :::info
 
@@ -190,7 +190,7 @@ The full source code for this JS UDAF is
 To register this function, steps are different in Timeplus Cloud and Proton:
 
 * With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too. Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
-* With SQL in Proton Client: check the example at [here](proton-create-udf#create-aggregate-function).
+* With SQL in Proton Client: check the example at [here](/proton-create-udf#create-aggregate-function).
 
 ### Advanced Example for Complex Event Processing {#adv_udaf}
 

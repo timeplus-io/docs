@@ -108,7 +108,7 @@ It can parse string `2023-09-19 05:31:34` but not `2023-09-19T05:31:34Z`. Please
 
 ### to_time
 
-Please refer to [to_time](functions_for_type#to_time)
+Please refer to [to_time](/functions_for_type#to_time)
 
 ### today
 
@@ -189,7 +189,7 @@ Supported unit:
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1, time2)` returns true or false. This function only works in [stream-to-stream join](query-syntax#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
+`date_diff_within(timegap,time1, time2)` returns true or false. This function only works in [stream-to-stream join](/joins#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
 
 ### date_trunc
 

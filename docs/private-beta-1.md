@@ -10,7 +10,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
 
-  - Added 2 geo related functions: [point_in_polygon](functions#point_in_polygon) and [geo_distance](functions#geo_distance).
+  - Added 2 geo related functions: [point_in_polygon](/functions#point_in_polygon) and [geo_distance](/functions#geo_distance).
 
 - Source, sink, API and SDK
   - Updated the layout of the "Sources" page to leave more space for the source definitions.
@@ -21,8 +21,8 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 ### Week of 7/25
 
 - Streaming engine
-  - Enhanced [json_extract_array](functions#json_extract_array) function to return clean string values. `select '{"a":1,"tags":["x","y"]}' as raw, json_extract_array(raw:tags)`now returns ` [ "x", "y" ]` , instead of ` [ "\"x\"", "\"y\"" ]` in the previous releases.
-  - Added a new shortcut to access json arrays without having to use the [json_extract_array](functions#json_extract_array) function. The above query can be simplified as `select '{"a":1,"tags":["x","y"]}' as raw, raw:tags[*]`
+  - Enhanced [json_extract_array](/functions#json_extract_array) function to return clean string values. `select '{"a":1,"tags":["x","y"]}' as raw, json_extract_array(raw:tags)`now returns ` [ "x", "y" ]` , instead of ` [ "\"x\"", "\"y\"" ]` in the previous releases.
+  - Added a new shortcut to access json arrays without having to use the [json_extract_array](/functions#json_extract_array) function. The above query can be simplified as `select '{"a":1,"tags":["x","y"]}' as raw, raw:tags[*]`
   - Refined typing system and logical comparisons return `bool` instead of `uint8`
 - Source, sink, API and SDK
   - All Timeplus sinks now use the `{{.columnName}}` syntax to access the column value in the sink title or body. Numbers and other primitive types are supported (previously only string columns are supported).
@@ -38,12 +38,12 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
 
-  - Refined the behavior of [materialized views](view#m_view), to keep it consistent with the other Timeplus queries. `SELECT * FROM table(a_materialized_view)` will get all past results, instead of the recent one.
-  - Added the [count_if](functions#count_if) function and [unique_exact_if](functions#unique_exact_if) function to count the number of rows or unique value matching certain conditions.
-  - Added [json_extract_keys](functions#json_extract_keys) function to get the keys for the JSON map object.
-  - Added the [to_bool](functions_for_type#to_bool) function to convert other types to `bool`
-  - Added [is_nan](functions#is_nan), [is_infinite](functions#is_infinite), [is_finite](functions#is_finite) functions to detect the edge cases when a number column contains infinite numbers, etc.
-  - Added [to_type_name](functions_for_type#to_type_name) function to show the data type name, mainly for troubleshooting purposes.
+  - Refined the behavior of [materialized views](/view#m_view), to keep it consistent with the other Timeplus queries. `SELECT * FROM table(a_materialized_view)` will get all past results, instead of the recent one.
+  - Added the [count_if](/functions#count_if) function and [unique_exact_if](/functions#unique_exact_if) function to count the number of rows or unique value matching certain conditions.
+  - Added [json_extract_keys](/functions#json_extract_keys) function to get the keys for the JSON map object.
+  - Added the [to_bool](/functions_for_type#to_bool) function to convert other types to `bool`
+  - Added [is_nan](/functions#is_nan), [is_infinite](/functions#is_infinite), [is_finite](/functions#is_finite) functions to detect the edge cases when a number column contains infinite numbers, etc.
+  - Added [to_type_name](/functions_for_type#to_type_name) function to show the data type name, mainly for troubleshooting purposes.
 
 - Source, sink, API and SDK
   - Updated the [Python SDK](https://pypi.org/project/timeplus/0.1.10/) to show the metrics
@@ -56,8 +56,8 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
 
-  - Fixed an issue of [lags](functions#lags) function to get a range of past results for the specific column
-  - Exposed the [coalesce](functions#coalesce) function to skip null value and return the first non-`NULL` value. Many functions expect the arguments cannot be `NULL`
+  - Fixed an issue of [lags](/functions#lags) function to get a range of past results for the specific column
+  - Exposed the [coalesce](/functions#coalesce) function to skip null value and return the first non-`NULL` value. Many functions expect the arguments cannot be `NULL`
 
 - Source, sink, API and SDK
   - Updated the [Python SDK](https://pypi.org/project/timeplus/0.1.10/) to support the new source API and add authentication to websockets
@@ -89,7 +89,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
 
-  - At this point, [session window](functions_for_streaming#session) aggregation only supports streaming queries. Properly reject the query if the `session(..)` is used together with `table(..)` function.
+  - At this point, [session window](/functions_for_streaming#session) aggregation only supports streaming queries. Properly reject the query if the `session(..)` is used together with `table(..)` function.
 
 - Source, sink and API
 
@@ -108,9 +108,9 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
 
-  - [Session window](functions_for_streaming#session) now supports millisecond for window_start/window_end.
-  - Added a new [lags](functions#lags) function to get a range of past results. This could help the pure-SQL based ML/prediction.
-  - Added a new [grok](functions#grok) function to parse a line of text into key/value pairs, without having to write regular expressions.
+  - [Session window](/functions_for_streaming#session) now supports millisecond for window_start/window_end.
+  - Added a new [lags](/functions#lags) function to get a range of past results. This could help the pure-SQL based ML/prediction.
+  - Added a new [grok](/functions#grok) function to parse a line of text into key/value pairs, without having to write regular expressions.
 
 - Source and sink
 
@@ -128,8 +128,8 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 ### Week of 6/13
 
 - Streaming engine
-  - Added new function [moving_sum](functions#moving_sum) to calculate the moving sum for a column. This unlocks more use cases of stateful streaming processing, such as [streaming over](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py).
-  - Added other functions for [array processing](functions#arrays), such as [array_sum](functions#array_sum), [array_avg](functions#array_avg)
+  - Added new function [moving_sum](/functions#moving_sum) to calculate the moving sum for a column. This unlocks more use cases of stateful streaming processing, such as [streaming over](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py).
+  - Added other functions for [array processing](/functions#arrays), such as [array_sum](/functions#array_sum), [array_avg](/functions#array_avg)
 - Source and sink
   - Kafka source supports local schema registry without authentication
 - UI improvements
@@ -139,8 +139,8 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 ### Week of 6/6
 
 - Streaming engine
-  - More [math functions](functions#math) are exposed. This can help you to run SQL-based simple ML/prediction models.
-  - (Experimental) [stream-to-stream join](query-syntax#stream_stream_join) no longer requires a ` date_diff_within(..)`, although it's still recommended to add timestamp constraints to improve performance.
+  - More [math functions](/functions#math) are exposed. This can help you to run SQL-based simple ML/prediction models.
+  - (Experimental) [stream-to-stream join](/query-syntax#stream_stream_join) no longer requires a ` date_diff_within(..)`, although it's still recommended to add timestamp constraints to improve performance.
   - (Experimental) able to set a retention policy for each stream, either time-based (say only keep recent 7 days' data), or size based(say only keep recent 1GB data)
 - Source and sink
   - (Experimental) support Personal Access Token (PAT) in the REST API, which is long-living (or set an expiration date) and per-user. Tenant-level access token will be deprecated.
@@ -152,7 +152,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
   - (Experimental) able to use the external Kafka/Confluent/Redpanda as Timeplus stream storage.
-  - (Experimental) the [table](functions#table) function now works with [seek_to](query-syntax) You can query historical data by combining `table(streamName)` and `settings seek_to='..'`
+  - (Experimental) the [table](/functions#table) function now works with [seek_to](/query-syntax) You can query historical data by combining `table(streamName)` and `settings seek_to='..'`
 - Source and sink
   - Worked with [datapm](https://datapm.io/docs/quick-start/) to send live Twitter data to https://demo.timeplus.com
   - Updated the [REST API doc](https://docs.timeplus.com/rest.html), the `/exec` endpoint has been removed. Send `POST` requests to `/queries` instead.
@@ -162,9 +162,9 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 ### Week of 5/23
 
 - Streaming engine
-  - (Experimental) new UI and API to create and query [external streams](working-with-streams#external_stream). You can query real-time data in Confluent Cloud, Apache Kafka or Redpanda immediately, without loading the data into Timeplus.
-  - (Experimental) [stream-to-stream join](query-syntax#stream_stream_join) is ready to test for beta customers, e.g. `SELECT .. FROM stream1 INNER JOIN stream2 ON stream1.id=stream2.id AND date_diff_within(10s)`
-  - New function [date_diff_within](functions#date_diff_within) to determine whether 2 datetime are within the specified range. This is necessary for stream to stream join. You can also use more flexible expressions like `date_diff('second',left.time,right.time) between -3 and 5`
+  - (Experimental) new UI and API to create and query [external streams](/working-with-streams#external_stream). You can query real-time data in Confluent Cloud, Apache Kafka or Redpanda immediately, without loading the data into Timeplus.
+  - (Experimental) [stream-to-stream join](/query-syntax#stream_stream_join) is ready to test for beta customers, e.g. `SELECT .. FROM stream1 INNER JOIN stream2 ON stream1.id=stream2.id AND date_diff_within(10s)`
+  - New function [date_diff_within](/functions#date_diff_within) to determine whether 2 datetime are within the specified range. This is necessary for stream to stream join. You can also use more flexible expressions like `date_diff('second',left.time,right.time) between -3 and 5`
 - Source and sink
   - Enhanced the [datapm](https://datapm.io/docs/quick-start/) Timeplus sink to support loading JSON data from PostgreSQL.
   - When you are previewing data from Kafka, you can choose the timezone if the time zone is not included in the raw data.
@@ -176,7 +176,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
   - (Experimental) greatly simplified how to query JSON documents. Now you can use `json_doc:json_path` as a shortcut to extract value in the JSON document. For example `select '{"c":"hello"}' as j, j:c`, you will get "hello" as the value. In the past, you have to call `json_extract_string(j,'c')` Nested structures are support too, such as `select '{"a":{"b":1}}' as j, j:a.b` will get `1` as a string value. To convert to int, you can use `::` as the shortcut, e.g. `select '{"a":{"b":1}}' as j, j:a.b::int`
-  - Added a function [is_valid_json](functions#is_valid_json) to check whether the specific string is a valid JSON document, e.g. `select j:a where is_valid_json(j)`
+  - Added a function [is_valid_json](/functions#is_valid_json) to check whether the specific string is a valid JSON document, e.g. `select j:a where is_valid_json(j)`
   - Added `varchar` as an alias for `string` data type. This could improve the compatibility with other SQL tools.
 - Source and sink
   - Enhanced the authentication for Kafka/Redpanda source: added new SASL mechanisms: scram-sha-256 and scram-sha-512, added config to disable TLS, added config to skip verifying server when TLS is enabled, fixed a bug that the source will hang if authentication fails.
@@ -188,8 +188,8 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 ### Week of 5/9
 
 - Streaming engine
-  - New [array_join](functions#array_join) function to generate a set of rows based on the value in the array, joining with other columns
-  - (Experimental) add a new [dedup](functions#dedup) table function, which can remove duplicated events from streaming queries or historical queries.
+  - New [array_join](/functions#array_join) function to generate a set of rows based on the value in the array, joining with other columns
+  - (Experimental) add a new [dedup](/functions#dedup) table function, which can remove duplicated events from streaming queries or historical queries.
 - Source and sink
   - enhanced the [datapm](https://datapm.io/docs/quick-start/) Timeplus sink to support loading data from PostgreSQL
   - (Experimental) a new source to load data from [ably](https://ably.com/hub)
@@ -202,7 +202,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 - Published Python SDK 0.1.1 with token auto-refresh
 - Published the REST API Doc at https://docs.timeplus.com/rest
 - Streaming engine
-  - (Experimental) added a new [xirr](functions#xirr) function to calculate the internal rate of return of an investment based on a specified series of potentially irregularly spaced cash flows.
+  - (Experimental) added a new [xirr](/functions#xirr) function to calculate the internal rate of return of an investment based on a specified series of potentially irregularly spaced cash flows.
 - UI improvements
   - Resume the queries on dashboards after server restart
   - Better SQL auto-complete, with function description, usage and examples
@@ -217,7 +217,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
   - Able to rename streams
   - (Experimental) Added `ORDER BY` support for streaming queries with aggregations
   - (Experimental) Added `EMIT TIMEOUT 5s` for streaming queries so that the window will be closed even there is no more event to progress the watermark
-  - (Experimental) Added [emit_verison()](functions#emit_version) to show a unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
+  - (Experimental) Added [emit_verison()](/functions#emit_version) to show a unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
 - Source and sink
   - 10x throughput enhancement for the Kafka source
   - (Experimental) a [datapm](https://datapm.io/) sink to ingest batch/streaming data to Timeplus
@@ -232,10 +232,10 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 ### Week of 4/18
 
 - Improved the API token UI
-- Experimental [session](functions_for_streaming#session) window for streaming processing. Many new use cases will be unlocked.
-- Enhanced the [top_k](functions#top_k) function to show event counts by default
-- Added new functions for array and map: [map_cast](functions#map_cast) , [group_array](functions#group_array)
-- Added new streaming functions [earliest](functions#earliest) and [latest](functions#latest) and to show the first or last event in the streaming window.
+- Experimental [session](/functions_for_streaming#session) window for streaming processing. Many new use cases will be unlocked.
+- Enhanced the [top_k](/functions#top_k) function to show event counts by default
+- Added new functions for array and map: [map_cast](/functions#map_cast) , [group_array](/functions#group_array)
+- Added new streaming functions [earliest](/functions#earliest) and [latest](/functions#latest) and to show the first or last event in the streaming window.
 
 ### Week of 4/11
 
@@ -261,7 +261,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 ### Week of 3/21
 
-- Refined the [data type](datatypes) to consistently use lower case type names. `bool` is officially supported.
+- Refined the [data type](/datatypes) to consistently use lower case type names. `bool` is officially supported.
 - Added new UI for Redpanda data source and sink.
 - Added new single-sign-on provider: Microsoft.
 

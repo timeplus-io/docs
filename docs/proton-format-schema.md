@@ -1,5 +1,5 @@
 # Protobuf/Avro Schema
-Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. This document covers how to process data without a Schema Registry. Check [this page](proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
+Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. This document covers how to process data without a Schema Registry. Check [this page](/proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
 
 ## Create A Schema {#create}
 

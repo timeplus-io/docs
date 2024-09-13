@@ -24,10 +24,10 @@ If you maintain an IP whitelist, you'll need to whitelist our static IP:
 
 ### Can I run Timeplus Enterprise in our own cloud VPC or on-prem? {#deployment}
 
-Certainly! [Timeplus Enterprise](timeplus-enterprise) can be installed in your local data center or cloud VPC, with similar features as Timeplus Cloud. You can download the 30-day free trial at timeplus.com or [contact us](mailto:info@timeplus.com) to get more details or schedule a demo.
+Certainly! [Timeplus Enterprise](/timeplus-enterprise) can be installed in your local data center or cloud VPC, with similar features as Timeplus Cloud. You can download the 30-day free trial at timeplus.com or [contact us](mailto:info@timeplus.com) to get more details or schedule a demo.
 
 ## General
 
 ### What's relationship for Timeplus Enterprise and Timeplus Proton? {#compare}
 
-Timeplus Proton is the core engine of Timeplus Enterprise and open-sourced on September 2023. Timeplus Enterprise provides external features and support. Please check the [Proton FAQ](proton-faq#compare) for details.
+Timeplus Proton is the core engine of Timeplus Enterprise and open-sourced on September 2023. Timeplus Enterprise provides external features and support. Please check the [Proton FAQ](/proton-faq#compare) for details.

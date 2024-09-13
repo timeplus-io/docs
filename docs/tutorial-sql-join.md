@@ -2,8 +2,8 @@
 
 :::info
 
-1. This tutorial is mainly for Timeplus Proton users. For Timeplus Cloud users, please check the [guide](quickstart) for connecting Timeplus with Confluent Cloud with web UI. SQL in this guide can be ran both in Timeplus Proton and Timeplus Cloud/Enterprise.
-2. Check [the previous tutorial](tutorial-sql-kafka) to setup the sample data.
+1. This tutorial is mainly for Timeplus Proton users. For Timeplus Cloud users, please check the [guide](/quickstart) for connecting Timeplus with Confluent Cloud with web UI. SQL in this guide can be ran both in Timeplus Proton and Timeplus Cloud/Enterprise.
+2. Check [the previous tutorial](/tutorial-sql-kafka) to setup the sample data.
 
 :::
 
@@ -46,7 +46,7 @@ Note:
 * Two CTE are defined to parse the JSON attribute as columns
 * `SETTINGS seek_to='earliest'` is the special settings to fetch earliest data from the Kafka topic
 * `USING(id)` is same as `ON left.id=right.id`
-* Check [JOIN](joins) for more options to join dynamic and static data
+* Check [JOIN](/joins) for more options to join dynamic and static data
 
 :::info
 

@@ -14,9 +14,9 @@ Each component tracks their changes with own version numbers. The version number
 
 ## Key Highlights
 Key highlights of this release:
-* KV Stream, later on renamed to [Mutable Streams](mutable-stream)
-* Able to [modify materialized view settings](sql-alter-stream)
-* New `timeplus` CLI commands to manage [users](cli-user)
+* KV Stream, later on renamed to [Mutable Streams](/mutable-stream)
+* Able to [modify materialized view settings](/sql-alter-stream)
+* New `timeplus` CLI commands to manage [users](/cli-user)
 
 ## Stable Releases {#stable}
 

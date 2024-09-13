@@ -1,6 +1,6 @@
 # CREATE FORMAT
 
-Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. This document covers how to process data without a Schema Registry. Check [this page](proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
+Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. This document covers how to process data without a Schema Registry. Check [this page](/proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
 
 Without a Schema Registry, you need to define the Protobuf or Avro schema using SQL.
 
@@ -75,5 +75,5 @@ SETTINGS type='kafka',
 ```
 
 ## See also
-[SHOW FORMAT SCHEMA](sql-show-format-schema) - Show format schema
-[DROP FORMAT SCHEMA](sql-drop-format-schema) - Drop format schema
+[SHOW FORMAT SCHEMA](/sql-show-format-schemas) - Show format schema
+[DROP FORMAT SCHEMA](/sql-drop-format-schema) - Drop format schema

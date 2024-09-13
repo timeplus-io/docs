@@ -1,6 +1,6 @@
 # Local UDF in Python
 
-In addition to [Remote UDF](remote-udf) and [JavaScript UDF](js-udf), Timeplus Enterprise also supports Python-based UDF running in the sql engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with your local Python runtime with required dependencies. No need to deploy extra server/service for the UDF. More languages will be supported in the future.
+In addition to [Remote UDF](/remote-udf) and [JavaScript UDF](/js-udf), Timeplus Enterprise also supports Python-based UDF running in the sql engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with your local Python runtime with required dependencies. No need to deploy extra server/service for the UDF. More languages will be supported in the future.
 
 :::info
 
@@ -19,7 +19,7 @@ Python excels in writing complex parsing and data transformation logic, especial
 
 ## Data type mapping
 
-This is the mapping for [Timeplus data type](datatypes) and Python data type:
+This is the mapping for [Timeplus data type](/datatypes) and Python data type:
 | Timeplus Data Type                      | Python Type   |
 | ----------------------------- | ---------- |
 | uint8, uint16, uint32, uint64               | int    |

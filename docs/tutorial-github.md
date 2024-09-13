@@ -10,7 +10,7 @@ You can write a script to call [GitHub Events API](https://docs.github.com/en/re
 
 Here is a [sample Python script](https://github.com/timeplus-io/github_liveview/blob/develop/github_demo.py) for your reference. But we have made the live data accessible via Kafka API.
 
-In Timeplus, you read data from Kafka via an [External Stream](external-stream). Here is the SQL to create such an external stream to read from our Kafka clusters on Aiven:
+In Timeplus, you read data from Kafka via an [External Stream](/external-stream). Here is the SQL to create such an external stream to read from our Kafka clusters on Aiven:
 
 ```sql
 CREATE EXTERNAL STREAM github_events
@@ -66,7 +66,7 @@ SELECT count(*) FROM github_events
 
 This will show how many new events received, since the query is started. So you may see a number like 158, then a couple seconds later, 334.
 
-This is so-called [Global Aggregation](query-syntax#global).
+This is so-called [Global Aggregation](/query-syntax#global).
 
 #### Tumble Aggregation
 

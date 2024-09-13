@@ -4,7 +4,7 @@ This type of stream is only available in Timeplus Enterprise, with high performa
 
 As the name implies, the data in the stream is mutable. Value with the same primary key(s) will be overwritten.
 
-The primary use case of mutable streams is serving as the lookup/dimensional data in [Streaming JOIN](joins), supporting millions or even billions of unique keys. You can also use mutable streams as the "fact table" to efficiently do range queries or filtering for denormalized data model, a.k.a. OBT (One Big Table).
+The primary use case of mutable streams is serving as the lookup/dimensional data in [Streaming JOIN](/joins), supporting millions or even billions of unique keys. You can also use mutable streams as the "fact table" to efficiently do range queries or filtering for denormalized data model, a.k.a. OBT (One Big Table).
 
 Learn more about why we introduced Mutable Streams by checking [this blog](https://www.timeplus.com/post/introducing-mutable-streams).
 
@@ -25,7 +25,7 @@ SETTINGS
     shards=..
 ```
 
-[Learn more](sql-create-mutable-stream)
+[Learn more](/sql-create-mutable-stream)
 
 ## Example
 
@@ -57,7 +57,7 @@ Note:
 
 ### Load millions of rows
 
-You can use [CREATE RANDOM STREAM](sql-create-random-stream) and a Materialized View to generate data and send to the mutable stream. But since we are testing massive historical data with duplicated keys, we can also use `INSERT INTO .. SELECT` to load data.
+You can use [CREATE RANDOM STREAM](/sql-create-random-stream) and a Materialized View to generate data and send to the mutable stream. But since we are testing massive historical data with duplicated keys, we can also use `INSERT INTO .. SELECT` to load data.
 
 ```sql
 INSERT INTO device_metrics
@@ -129,7 +129,7 @@ SELECT .. FROM mutable_stream
 ```
 This will query all existing data and accept new incoming data.
 
-Mutable stream can also be used in [JOINs](joins).
+Mutable stream can also be used in [JOINs](/joins).
 
 ## Advanced Settings
 ### Retention Policy for Streaming Storage

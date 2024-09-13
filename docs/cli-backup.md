@@ -7,4 +7,4 @@ Open a terminal window and change directory to the `timeplus/bin` folder, and ru
 You can also customize the file name with `-f` or `--backup-file` flag. If your working directory is not the bin folder, you can also specify the Timeplus Enterprise base folder via `-d` or `--timeplus-home` flag.
 
 ## See Also
-[timeplus restore](cli-restore)
+[timeplus restore](/cli-restore)

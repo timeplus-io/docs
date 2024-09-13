@@ -2,7 +2,7 @@
 
 :::info
 
-This tutorial is mainly for Timeplus Proton users. For Timeplus Cloud users, please check the [guide](quickstart) for connecting Timeplus with Confluent Cloud with web UI. SQL in this guide can be ran both in Timeplus Proton and Timeplus Cloud/Enterprise.
+This tutorial is mainly for Timeplus Proton users. For Timeplus Cloud users, please check the [guide](/quickstart) for connecting Timeplus with Confluent Cloud with web UI. SQL in this guide can be ran both in Timeplus Proton and Timeplus Cloud/Enterprise.
 
 :::
 
@@ -127,7 +127,7 @@ group by raw:method order by cnt desc limit 5 by emit_version()
 Note:
 
 * This is a global aggregation, emitting results every 2 seconds (configurable).
-* [emit_version()](functions_for_streaming#emit_version) function to show an auto-increasing number for each emit of streaming query result
+* [emit_version()](/functions_for_streaming#emit_version) function to show an auto-increasing number for each emit of streaming query result
 * `limit 5 by emit_version()` to get the first 5 rows with the same emit_version(). This is a special syntax in Proton. The regular `limit 5` will cancel the entire SQL once 5 results are returned. But in this streaming SQL, we'd like to show 5 rows for each emit interval.
 
 ### Create a materialized view to save notable events in Proton

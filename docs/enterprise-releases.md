@@ -11,11 +11,11 @@ Each component tracks their changes with own version numbers. The version number
 
 ## Key Highlights
 Key highlights of this release:
-* [Distributed Mutable Streams](mutable-stream) for high performance query and UPSERT (UPDATE or INSERT), with primary keys, secondary keys, column families, sorting columns, parallel full scan and many more
-* [External Streams](timeplus-external-stream) to query or write to remote Timeplus, designed for data migration or hybrid deployment
+* [Distributed Mutable Streams](/mutable-stream) for high performance query and UPSERT (UPDATE or INSERT), with primary keys, secondary keys, column families, sorting columns, parallel full scan and many more
+* [External Streams](/timeplus-external-stream) to query or write to remote Timeplus, designed for data migration or hybrid deployment
 * Built-in system observability. Your workspace now comes with a system dashboard to monitor your cluster, including charts for running nodes and failed nodes, read/write throughput and EPS, used disk storage, and more. See additional metrics for resources in the details side panel, accessed via the data lineage or resource list pages, including status and any last errors
-* [Kafka schema registry support for Avro output format](proton-schema-registry#write)
-* Read/write Kafka message keys via [_tp_message_key column](proton-kafka#messagekey)
+* [Kafka schema registry support for Avro output format](/proton-schema-registry#write)
+* Read/write Kafka message keys via [_tp_message_key column](/proton-kafka#messagekey)
 * More performance enhancements, including:
   * Concurrent and idempotent data ingestion
   * Memory efficiency improvement for window processing
@@ -23,7 +23,7 @@ Key highlights of this release:
   * Async query state and materialized view checkpointing
   * JOIN performance enhancements
 * After running a streaming query in the SQL console, you can check out the its query pipeline, or execution plan. Click "View Query Pipeline" under the SQL editor, and mouseover on the throughput boxes to see processing times
-* [Timeplus Native JDBC](jdbc) with streaming SQL and fast insert
+* [Timeplus Native JDBC](/jdbc) with streaming SQL and fast insert
 
 ## Releases
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
@@ -51,7 +51,7 @@ Compared to the [2.4.19](#2419) release:
   * bugfixes and performance enhancements
 
 #### Known issues {#known_issue_2_4_23}
-1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
+1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
 
 
 ### 2.4.19 {#2419}
@@ -68,8 +68,8 @@ Compared to the [2.4.17](#2417) release:
   * feat(ingest): use username:password for ingest API wizard
 
 #### Known issues {#known_issue_2_4_19}
-1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
-2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
+1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](/sql-show-format-schemas) or [SHOW FUNCTIONS](/sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
 
 ### 2.4.17 {#2417}
 Built on 08-14-2024. You can install via:
@@ -82,15 +82,15 @@ Compared to the [2.4.16](#2416) release:
 
 Components:
 * timeplusd
-  * feat: support running [table function](functions_for_streaming#table) on [Timeplus External Stream](timeplus-external-stream)
+  * feat: support running [table function](/functions_for_streaming#table) on [Timeplus External Stream](/timeplus-external-stream)
   * improvement: track more stats: external_stream_read_failed, external_stream_written_failed, mv_recover_times, mv_memory_usage.
   * improvement: better track memory usage in macOS and Docker container.
-  * feat: allow you to [drop streams](sql-drop-stream#force_drop_big_stream) with `force_drop_big_stream=true` setting.
+  * feat: allow you to [drop streams](/sql-drop-stream#force_drop_big_stream) with `force_drop_big_stream=true` setting.
   * improvement: default listen for 0.0.0.0 instead 127.1 (localhost)
 
 #### Known issues {#known_issue_2_4_17}
-1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
-2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
+1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](/sql-show-format-schemas) or [SHOW FUNCTIONS](/sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
 
 ### 2.4.16 (Stable) {#2416}
 
@@ -125,8 +125,8 @@ Components:
   * fix: list users properly
 
 #### Known issues {#known_issue_2_4_16}
-1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
-2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
+1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](/sql-show-format-schemas) or [SHOW FUNCTIONS](/sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
 
 
 ### 2.4.15
@@ -137,7 +137,7 @@ Built on 07-31-2024. You can install via:
 
 #### Changelog {#changelog_2_4_15}
 
-Compared to the [2.3.5](enterprise-v2.3#235) release :
+Compared to the [2.3.5](/enterprise-v2.3#235) release :
 * timeplusd 2.2.8 -> 2.3.20
 * timeplus_appserver 1.4.34 -> 1.4.43
 * timeplus_web 1.4.18 -> 1.4.30
@@ -146,17 +146,17 @@ Compared to the [2.3.5](enterprise-v2.3#235) release :
 
 Components:
 * timeplusd
-  * feat: [new mutable stream](mutable-stream) for fast UPSERT and high performance point or range query.
+  * feat: [new mutable stream](/mutable-stream) for fast UPSERT and high performance point or range query.
   * perf: better asof join performance
-  * feat: [external stream to read data from the remote timeplusd](timeplus-external-stream)
-  * feat: [parallel key space scan](mutable-stream#key_space_full_scan_threads)
+  * feat: [external stream to read data from the remote timeplusd](/timeplus-external-stream)
+  * feat: [parallel key space scan](/mutable-stream#key_space_full_scan_threads)
   * feat: force_full_scan for mutable stream
   * feat: user management on cluster
-  * fix: [alter stream .. modify settings ..](sql-alter-stream#stream_ttl)
+  * fix: [alter stream .. modify settings ..](/sql-alter-stream#stream_ttl)
   * feat: support remote UDF on cluster
   * feat: primary key columns in secondary key
-  * feat: _tp_message_key to [read/write message keys in Kafka](proton-kafka#messagekey)
-  * feat: [Kafka schema registry support for Avro output format](proton-schema-registry#write)
+  * feat: _tp_message_key to [read/write message keys in Kafka](/proton-kafka#messagekey)
+  * feat: [Kafka schema registry support for Avro output format](/proton-schema-registry#write)
   * feat: support idempotent keys processing
   * feat: collect node free memory usage. You can get it via `select cluster_id, node_id, os_memory_total_mb, os_memory_free_mb, memory_used_mb, disk_total_mb, disk_free_mb, timestamp from system.cluster`
   * fix: nullptr access in window function
@@ -195,6 +195,6 @@ Components:
   * feat: for stop command, terminate the service if graceful stop times out
 
 #### Known issues {#known_issue_2_4_15}
-1. If you have deployed one of the [2.3.x releases](enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](cli-sync) CLI or [Timeplus External Stream](timeplus-external-stream) for migration.
-2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](sql-show-format-schemas) or [SHOW FUNCTIONS](sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
-3. For [timeplus user](cli-user) CLI, you need to add `--verbose` to `timeplus user list` command, in order to list users.
+1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+2. In Timeplus Console, no result will be shown for SQL [SHOW FORMAT SCHEMAS](/sql-show-format-schemas) or [SHOW FUNCTIONS](/sql-show-functions). This only impacts the web interface. Running such SQL via `timeplusd client` CLI or JDBC/ODBC will get the expected results.
+3. For [timeplus user](/cli-user) CLI, you need to add `--verbose` to `timeplus user list` command, in order to list users.

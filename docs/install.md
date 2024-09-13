@@ -8,7 +8,7 @@ Simply sign up with Google or Microsoft Single Sign-On, or create a username and
 
 ## Timeplus Enterprise self-hosted{#self-hosted}
 
-Install Timeplus Enterprise with high availability and scalability in your own data center or cloud account, using the [bare metal installer](singlenode_install#bare-metal-install) or the official Timeplus [Kubernetes Helm Chart](cluster_install#k8s).
+Install Timeplus Enterprise with high availability and scalability in your own data center or cloud account, using the [bare metal installer](/singlenode_install#bare-metal-install) or the official Timeplus [Kubernetes Helm Chart](/cluster_install#k8s).
 
 ## Timeplus Proton, the core engine{#proton}
 
@@ -35,7 +35,7 @@ brew install timeplus-io/timeplus/proton
 ```bash
 docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
 ```
-Please check [Server Ports](proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
+Please check [Server Ports](/proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
 
 ### Docker Compose {#compose}
 

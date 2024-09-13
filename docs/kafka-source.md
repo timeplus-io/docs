@@ -1,6 +1,6 @@
 # Load streaming data from Apache Kafka
 
-As of today, Apache Kafka is the primary data source (and sink) for Timeplus. You can also create [external streams](working-with-streams#external_stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
+As of today, Apache Kafka is the primary data source (and sink) for Timeplus. You can also create [external streams](/working-with-streams#external_stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
 
 ## Apache Kafka Source
 
@@ -30,6 +30,6 @@ If you maintain an IP whitelist, you'll need to whitelist our static IP:
 Please note:
 
 1. Currently we support JSON and AVRO formats for the messages in Kafka topics
-2. The topic level JSON attributes will be converted to stream columns. For nested attributes, the element will be saved as a `String` column and later you can query them with one of the [JSON functions](functions_for_json).
+2. The topic level JSON attributes will be converted to stream columns. For nested attributes, the element will be saved as a `String` column and later you can query them with one of the [JSON functions](/functions_for_json).
 3. Values in number or boolean types in the JSON message will be converted to corresponding types in the stream.
-4. Datetime or timestamp will be saved as a String column. You can convert them back to DateTime via [to_time function](functions_for_type#to_time).
+4. Datetime or timestamp will be saved as a String column. You can convert them back to DateTime via [to_time function](/functions_for_type#to_time).

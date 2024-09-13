@@ -39,7 +39,7 @@ To send data to Kafka, submit a streaming query, then click the icon to send str
 * Topic name: either an existing topic or specify the new topic name for Timeplus to create.
 * Authentication
 
-Please refer to the [Kafka source](ingestion#kafka) for details of the parameters. You can send data to Confluent Cloud, Confluent Platform, or custom managed Apache Kafka. The events will be encoded as JSON documents.
+Please refer to the [Kafka source](/ingestion#kafka) for details of the parameters. You can send data to Confluent Cloud, Confluent Platform, or custom managed Apache Kafka. The events will be encoded as JSON documents.
 
 ## Send Data to Snowflake{#snowflake}
 

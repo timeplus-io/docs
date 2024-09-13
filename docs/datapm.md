@@ -33,7 +33,7 @@ The following archive formats are supported:
 
 ## Instructions
 
-You may check the [blog]( https://www.timeplus.com/post/real-time-twitter-marketing) for how to use datapm to load real-time twitter data into Timeplus.
+You may check the [blog](https://www.timeplus.com/post/real-time-twitter-marketing) for how to use datapm to load real-time twitter data into Timeplus.
 
 ### Download and Install datapm
 

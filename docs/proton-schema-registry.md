@@ -36,7 +36,7 @@ Please note:
 
 :::info
 
-For examples to read Avro message in various Kafka API compatitable message platforms, please check [this doc](tutorial-sql-read-avro).
+For examples to read Avro message in various Kafka API compatitable message platforms, please check [this doc](/tutorial-sql-read-avro).
 
 :::
 ## Write Messages in Avro Schema{#write}
@@ -70,4 +70,4 @@ INSERT INTO my_ex_stream SETTINGS force_refresh_schema=true ...
 ```
 :::
 
-For the data type mappings between Avro and Timeplus data type, please check [this doc](proton-format-schema#avro_types).
+For the data type mappings between Avro and Timeplus data type, please check [this doc](/proton-format-schema#avro_types).

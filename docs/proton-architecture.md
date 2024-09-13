@@ -10,7 +10,7 @@ All of the components / functionalities are built into one single binary.
 
 ## Data Storage
 
-Users can create a stream by using `CREATE STREAM ...` [DDL SQL](proton-create-stream). Every stream has 2 parts at storage layer by default: 
+Users can create a stream by using `CREATE STREAM ...` [DDL SQL](/proton-create-stream). Every stream has 2 parts at storage layer by default: 
 
 1. the real-time streaming data part, backed by Timeplus NativeLog 
 2. the historical data part, backed by ClickHouse historical data store. 
@@ -25,7 +25,7 @@ In background, there is a separate thread tailing the delta data from NativeLog 
 
 ## External Stream
 
-In quite lots of scenarios, data is already in Kafka / Redpanda or other streaming data hubs, users can create [external streams](external-stream) to point to the streaming data hub and do streaming query processing directly and then either materialize them in Proton or send the query results to external systems.
+In quite lots of scenarios, data is already in Kafka / Redpanda or other streaming data hubs, users can create [external streams](/external-stream) to point to the streaming data hub and do streaming query processing directly and then either materialize them in Proton or send the query results to external systems.
 
 
 

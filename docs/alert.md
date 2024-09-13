@@ -6,7 +6,7 @@ The alert system and UI are experimental. Please share your feedback to help us 
 
 :::
 
-Timeplus provides out-of-box charts and dashboards. You can also create [sinks](destination) to send downsampled data to Kafka or other message buses, or notify others via email/slack. You can even send new messages to Kafka, then consume such messages timely in the downstream system. This could be a solution for alerting and automation.
+Timeplus provides out-of-box charts and dashboards. You can also create [sinks](/destination) to send downsampled data to Kafka or other message buses, or notify others via email/slack. You can even send new messages to Kafka, then consume such messages timely in the downstream system. This could be a solution for alerting and automation.
 
 Since it's a common use case to define and manage alerts, Timeplus started supporting alerts out-of-box.
 
@@ -23,7 +23,7 @@ You can check the button to create a new alert. Parameters:
 * Clear SQL: optional. Another streaming SQL. Once there is any new result from the query, Timeplus will set this alert as resolved.
 * Output: currently we support Slack and PagerDuty to notify the users.
   * Slack: 
-    * Webhook URL: required. Please follow the [guide](destination#slack) to create one from slack.com.
+    * Webhook URL: required. Please follow the [guide](/destination#slack) to create one from slack.com.
     * (Trigger) message body: optional. The message title is `New Alert alert on ALERT_NAME is triggered!` By default the message is ` Event: JSON` You can customize the default template. Refer to the value for each column using the `{{.column}}` expression.
     * (Clear) message body: optional. The message title is ` Alert alert on ALERT_NAME is resolved!` By default the message is ` Event: JSON` You can customize the default template. Refer to the value for each column using the `{{.column}}` expression.
   * PagerDuty:

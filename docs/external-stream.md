@@ -7,6 +7,6 @@ You can also create **external streams** in Timeplus to query data in the extern
 You can run streaming analytics with the external streams in the similar way as other streams, with some limitations.
 
 Timeplus supports 3 types of external streams:
-* [Kafka External Stream](proton-kafka)
-* [Timeplus External Stream](timeplus-external-stream), only available in Timeplus Enterprise
+* [Kafka External Stream](/proton-kafka)
+* [Timeplus External Stream](/timeplus-external-stream), only available in Timeplus Enterprise
 * Log External Stream (experimental)

@@ -2,7 +2,7 @@
 
 By default, streams in Timeplus are in append-only mode. When you create a stream with the mode `versioned_kv`, you can update the data with same primary key(s). When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
 
-[Versioned Stream](versioned-stream) and [Mutable Stream](mutable-stream) support INSERT and UPDATE. To delete data with certain primary key(s), please create a [Changelog Stream](changelog-stream).
+[Versioned Stream](/versioned-stream) and [Mutable Stream](/mutable-stream) support INSERT and UPDATE. To delete data with certain primary key(s), please create a [Changelog Stream](/changelog-stream).
 
 A HOWTO video:
 
@@ -70,7 +70,7 @@ You can also query the stream in the table mode, i.e. `select * from table(dim_p
 
 ## Use Versioned Stream in INNER JOIN
 
-In the above example, you always get the latest version of the event with the same primary key. This works in the similar way as [Changelog Stream](changelog-stream). The reason why this stream mode is called Versioned Stream is that multiple versions will be tracked by Timeplus. This is mainly used when the Versioned Stream acts as the "right-table" for the JOIN.
+In the above example, you always get the latest version of the event with the same primary key. This works in the similar way as [Changelog Stream](/changelog-stream). The reason why this stream mode is called Versioned Stream is that multiple versions will be tracked by Timeplus. This is mainly used when the Versioned Stream acts as the "right-table" for the JOIN.
 
 Imagine you have the other versioned stream for the `orders`:
 

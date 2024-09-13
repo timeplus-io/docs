@@ -44,8 +44,8 @@ service timeplusd started
 ```
 ## See Also
 
-[timeplus start](cli-start)
+[timeplus start](/cli-start)
 
-[timeplus stop](cli-stop)
+[timeplus stop](/cli-stop)
 
-[timeplus status](cli-status)
+[timeplus status](/cli-status)

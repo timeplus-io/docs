@@ -1,6 +1,6 @@
 # Timeplus Cloud Private Beta 2
 
-We are thrilled to launch the second private beta of Timeplus cloud release. Comparing to the [Private Beta 1](private-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from [https://TENANT.beta.timeplus.com](https://tenant.beta.timeplus.com) to [https://beta.timeplus.cloud/TENANT](https://beta.timeplus.cloud/tenant)
+We are thrilled to launch the second private beta of Timeplus cloud release. Comparing to the [Private Beta 1](/private-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from [https://TENANT.beta.timeplus.com](https://tenant.beta.timeplus.com) to [https://beta.timeplus.cloud/TENANT](https://beta.timeplus.cloud/tenant)
 
 We will update the beta version from time to time and list key enhancements in this page.
 
@@ -9,10 +9,10 @@ We will update the beta version from time to time and list key enhancements in t
 ### Biweekly Update 9/19-9/30
 
 * Streaming engine
-  * Enhanced [dedup](functions#dedup) function to only cache the unique keys for a given time period. This is useful to suppress the same alerts in the short time period.
+  * Enhanced [dedup](/functions#dedup) function to only cache the unique keys for a given time period. This is useful to suppress the same alerts in the short time period.
   * Support sub-stream, e.g. `select cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) as last_spd from car_live_data`
 * Source, sink, API and SDK
-  * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](glossary#workspace)
+  * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](/glossary#workspace)
   * Updated the [REST API](/rest) to show the optional description for source/sink, and replace "tenant" with "workspace-id" in the documentation.
   * The Kafka sink no longer auto-create the topics
 
@@ -27,7 +27,7 @@ We will update the beta version from time to time and list key enhancements in t
 ### Biweekly Update 9/5-9/16
 
 * Streaming engine
-  * Added a [round](functions#round) function to round a value to a specified number of decimal places.
+  * Added a [round](/functions#round) function to round a value to a specified number of decimal places.
   * Improved cluster support.
 * Source, sink, API and SDK
   * Added new CRUD API for dashboards. The previous charts on the homepage will be removed automatically during upgrade.
@@ -65,8 +65,8 @@ We have migrated beta1 customers to the beta2. https://demo.timeplus.com is no l
 ###  Week of 8/15
 
 * Streaming engine
-  * (Experimental) enhanced the [session window](functions_for_streaming#session) aggregation to create substreams based on customized logic for window start and window end
-  * Added a new function [extract_all_groups](functions#extract_all_groups) to process text with regular expressions.
+  * (Experimental) enhanced the [session window](/functions_for_streaming#session) aggregation to create substreams based on customized logic for window start and window end
+  * Added a new function [extract_all_groups](/functions#extract_all_groups) to process text with regular expressions.
 * Source, sink, API and SDK
   * Webhook sink is enhanced to support customized HTTP method, content type and headers.
 * UI improvements
@@ -79,12 +79,12 @@ We have migrated beta1 customers to the beta2. https://demo.timeplus.com is no l
 First product update in the Private Beta 2.
 
 * Streaming engine
-  * Introduced a new data type [uuid](datatypes) to identify records with a 16-byte number. A new function [uuid](functions#uuid) is added to generate such uuid.
-  * Added a new function [extract_all_groups_horizontal](functions#extract_all_groups_horizontal) to process text with regular expressions.
+  * Introduced a new data type [uuid](/datatypes) to identify records with a 16-byte number. A new function [uuid](/functions#uuid) is added to generate such uuid.
+  * Added a new function [extract_all_groups_horizontal](/functions#extract_all_groups_horizontal) to process text with regular expressions.
 
 * Source, sink, API and SDK
   * Released https://pypi.org/project/timeplus/0.2.0/ with optional tenant ID support.
-  * Supported Apache Pulsar and StreamNative Cloud as a data source or a data sink. You can load real-time data from Pulsar into Timeplus with REST API (web UI will be ready soon). [Learn more](ingestion#pulsar)
+  * Supported Apache Pulsar and StreamNative Cloud as a data source or a data sink. You can load real-time data from Pulsar into Timeplus with REST API (web UI will be ready soon). [Learn more](/ingestion#pulsar)
   * Added an experimental sink for Snowflake. You can send Timeplus real-time query results to Snowflake.
 * UI improvements
   * New login screen.

@@ -27,7 +27,7 @@ Result:
 
 This query lists the most common `action` in the `bookings` stream since `1d` (one day) ago. It also shows the number of appearance for the value. For example, "add" action shows 86342 times, and "service" action shows 82013 times, etc. 
 
-If you don't need the number of appearance, you can pass false as the 3rd parameter for the [top_k](functions_for_agg#top_k) function, e.g.
+If you don't need the number of appearance, you can pass false as the 3rd parameter for the [top_k](/functions_for_agg#top_k) function, e.g.
 
 Sample query:
 
@@ -42,7 +42,7 @@ Result:
 | [ "add", "service", "cancel" ] |
 | [ "add", "service", "cancel" ] |
 
-Please note, this sample query is a [Global Aggregation](query-syntax#global), which calculate and emit results every 2 seconds. You can also use various time windows to run the aggregation, e.g.
+Please note, this sample query is a [Global Aggregation](/query-syntax#global), which calculate and emit results every 2 seconds. You can also use various time windows to run the aggregation, e.g.
 
 ```sql
 select window_start, top_k(action,3) 
@@ -68,7 +68,7 @@ Result:
 | [ 55, 54, 54, 53, 53, 53, 53, 53, 53, 53 ] |
 | [ 55, 55, 55, 55, 54, 54, 54, 54, 54, 54 ] |
 
-In many cases, you need to know the value of other columns with such max value. You can add any number of column name as the optional parameters in the [max_k](functions_for_agg#max_k) function.
+In many cases, you need to know the value of other columns with such max value. You can add any number of column name as the optional parameters in the [max_k](/functions_for_agg#max_k) function.
 
 ```sql
 select max_k(speed_kmh,3,cid,_tp_time) from car_live_data

@@ -4,10 +4,10 @@ Timeplus Enterprise is a high-performance converged platform that unifies stream
 
 Timeplus Enterprise provides the following major features:
 
-* [Streaming SQL](query-syntax)
-* [Streaming Data Collection](ingestion)
-* [Streaming Visualization](viz)
-* [Streaming Alerts and Destinations](destination)
+* [Streaming SQL](/query-syntax)
+* [Streaming Data Collection](/ingestion)
+* [Streaming Visualization](/viz)
+* [Streaming Alerts and Destinations](/destination)
 
 Timeplus Enterprise is available as a fully-managed cloud service with zero ops and elastic scaling, or as a self-hosted deployment, ideal for enterprise users requiring flexible and advanced configurations.
 
@@ -17,7 +17,7 @@ The following section contains step-by-step instructions on how to easily get st
 
 ### Step 1: install Timeplus Enterprise via a single command {#step1}
 
-If your server or computer is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies. For Windows users, please follow [our guide](singlenode_install#docker) for running Timeplus Enterprise with Docker.
+If your server or computer is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies. For Windows users, please follow [our guide](/singlenode_install#docker) for running Timeplus Enterprise with Docker.
 
 ```shell
 curl https://install.timeplus.com | sh
@@ -38,17 +38,17 @@ After creating the account, login with that username and password.
 If your streaming data resides in or a publicly accessible Kafka or Pulsar instance, follow one of following docs to
 create a source in Timeplus Cloud, then return here to complete the quickstart:
 
-- [Apache Kafka](kafka-source)
-- [Confluent Cloud](confluent-cloud-source)
-- [Apache Pulsar](pulsar-source)
-- [REST API, SDK, and others](ingestion)
+- [Apache Kafka](/kafka-source)
+- [Confluent Cloud](/confluent-cloud-source)
+- [Apache Pulsar](/pulsar-source)
+- [REST API, SDK, and others](/ingestion)
 
 If you don't yet have a streaming data source and would like test out how Timeplus works, Timeplus provides a built-in
 data source to generate streaming data for some common use cases.
 
 #### Create a sample source
 
-1. Create the first [source](glossary#source) in your workspace. From the left side navigation menu, click **Data
+1. Create the first [source](/glossary#source) in your workspace. From the left side navigation menu, click **Data
    Ingestion**, then click the **Add Data** button in the top right corner.
 
    ![Data Ingestion page](/img/sample-source-button-1.png)
@@ -102,7 +102,7 @@ The following section contains step-by-step instructions on how to easily get st
 
 ### Step 1: Sign up for a Timeplus account {#cloud_step1}
 
-Let's start by creating an account for [Timeplus Cloud](https://us-west-2.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. Please choose a work email or Google/Microsoft account to sign up. It usually takes less than 2 minutes to get the account set up and have the first [workspace](glossary#workspace) created.
+Let's start by creating an account for [Timeplus Cloud](https://us-west-2.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. Please choose a work email or Google/Microsoft account to sign up. It usually takes less than 2 minutes to get the account set up and have the first [workspace](/glossary#workspace) created.
 
 ![Sign up for an account](/img/sign-up-page.png)
 
@@ -122,7 +122,7 @@ Please refer to [Step 3](#step3) of the previous section.
 
 ## What's next?
 
-- [Ingest](ingestion) additional data streams
-- Write [streaming queries](query-syntax)
-- Create additional charts from streaming data with [visualizations](viz) and dashboards
-- Send the results of your queries to a [sink](destination)
+- [Ingest](/ingestion) additional data streams
+- Write [streaming queries](/query-syntax)
+- Create additional charts from streaming data with [visualizations](/viz) and dashboards
+- Send the results of your queries to a [sink](/destination)

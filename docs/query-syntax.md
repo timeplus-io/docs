@@ -29,7 +29,7 @@ Before we look into the details of the query syntax, we'd like to highlight the 
 
 ## SETTINGS{#settings}
 
-Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors. Check [Query Settings](query-settings).
+Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors. Check [Query Settings](/query-settings).
 
 ## EMIT{#emit}
 
@@ -58,7 +58,7 @@ FROM tumble(device_utils, 5s)
 GROUP BY device, window_end
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](stream-query#window-watermark), which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
+The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](/stream-query#window-watermark), which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
 
 ### EMIT AFTER WATERMARK WITH DELAY {#emit_after_wm_with_delay}
 
@@ -235,7 +235,7 @@ Similarly, we can apply the last X on hopping window.
 
 ## PARTITION BY
 
-`PARTITION BY` in Streaming SQL is to create [substreams](substream).
+`PARTITION BY` in Streaming SQL is to create [substreams](/substream).
 
 ## GROUP BY and HAVING {#group_having}
 
@@ -245,7 +245,7 @@ When `GROUP BY` is applied, `HAVING` is optional to filter the aggregation resul
 
 ## JOINs
 
-Please check [Joins](joins).
+Please check [Joins](/joins).
 
 ## WITH cte
 
@@ -499,4 +499,4 @@ The above example SQL continuously aggregates max cpu usage per device per hop w
 
 ### Session Streaming Window Aggregation
 
-This is similar to tumble and hop window. Please check the [session](functions_for_streaming#session) function.
+This is similar to tumble and hop window. Please check the [session](/functions_for_streaming#session) function.

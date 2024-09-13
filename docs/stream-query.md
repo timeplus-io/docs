@@ -11,7 +11,7 @@ For example, the following query will return all the events in the stream that e
 select * from my_stream
 ```
 
-The unbounded query can be converted to a bounded query by applying the function [table()](functions_for_streaming#table), when the user wants to ask the question about what has happened like the traditional SQL. The table() function could be used to decorate the stream. For example, the following query will return all the events that have already existed in the stream at the moment of the query execution. The query will terminate once all results have been returned to the user and it won't wait for a new event coming.
+The unbounded query can be converted to a bounded query by applying the function [table()](/functions_for_streaming#table), when the user wants to ask the question about what has happened like the traditional SQL. The table() function could be used to decorate the stream. For example, the following query will return all the events that have already existed in the stream at the moment of the query execution. The query will terminate once all results have been returned to the user and it won't wait for a new event coming.
 
 ```sql
 select * from table(my_stream)
@@ -69,7 +69,7 @@ Window based aggregation is a typical analytic method in stream analysis. Each w
 
 When using the window function for aggregation, the event time is used to decide whether the event is in that window. In the case the user does not specify the timestamp, the default one will be used. The user can also use any field in that event which is a datetime type as timestamp or dynamically generate a datetime field as timestamp.
 
-Two typical window functions are [tumble](functions_for_streaming#tumble) and [hop](functions_for_streaming#hop).
+Two typical window functions are [tumble](/functions_for_streaming#tumble) and [hop](/functions_for_streaming#hop).
 
 For example:
 

@@ -4,7 +4,7 @@ You can call the ingestion REST API to push data to Timeplus, with any preferred
 
 With the recent enhancements of the ingest API, in many cases, you can configure other systems to push data directly to Timeplus via webhook, without writing code.
 
-In this quickstart guide, you will push JSON documents one by one to the targeted stream `foo`. Please check [this document](ingest-api) for more details.
+In this quickstart guide, you will push JSON documents one by one to the targeted stream `foo`. Please check [this document](/ingest-api) for more details.
 
 ## Step 1: Create the target stream
 

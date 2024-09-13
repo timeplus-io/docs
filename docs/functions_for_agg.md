@@ -72,19 +72,19 @@ e.g. `top_k(cid, 3)` may get `[('c01',1200),('c02,800)',('c03',700)]` if these 3
 
 If you don't need the event count, you can set false for the 3rd parameter, e.g. `top_k(cid, 3, false)` may get `['c01','c02','c03']`
 
-Read more on [Top-N Query Pattern](sql-pattern-topn) page.
+Read more on [Top-N Query Pattern](/sql-pattern-topn) page.
 
 ### min_k
 
 `min_k(<column_name>,K [,context_column])`: The least K items in column_name. Return an array. You can also add a list of columns to get more context of the values in same row, such as `min_k(price,3,product_id,last_updated)` This will return an array with each element as a tuple, such as `[(5.12,'c42664'),(5.12,'c42664'),(15.36,'c84068')]`
 
-Read more on [Top-N Query Pattern](sql-pattern-topn) page.
+Read more on [Top-N Query Pattern](/sql-pattern-topn) page.
 
 ### max_k
 
 `max_k(<column_name>,K[,context_column])`: The greatest K items in column_name. You can also add a list of columns to get more context of the values in same row, such as `max_k(price,3,product_id,last_updated)`
 
-Read more on [Top-N Query Pattern](sql-pattern-topn) page.
+Read more on [Top-N Query Pattern](/sql-pattern-topn) page.
 
 ### arg_min
 
