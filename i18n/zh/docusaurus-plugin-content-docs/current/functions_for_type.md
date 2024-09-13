@@ -43,7 +43,7 @@ You can also convert the time between time zones via [to_timezone](/functions_fo
 
 ### to_string
 
-Convert any data type to a string, so that you can do other string operations, such as [concat](/functions_for_type#concat)
+Convert any data type to a string, so that you can do other string operations, such as [concat](/functions_for_text#concat)
 
 ### to_bool
 
