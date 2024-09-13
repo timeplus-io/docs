@@ -1,9 +1,9 @@
-# Ingest REST API
+# Proton Ingest REST API
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-你可以运行 \`INSERT INTO [stream](column1, column2) VALUES (..) SQL 将数据插入到 Proton。 您还可以使用任何首选语言调用摄取 REST API 将数据推送到 Proton。 这可能更适合将 Proton 与其他系统或实时数据源（例如物联网传感器）集成。
+You can run `INSERT INTO [stream](/column1, column2) VALUES (..)` SQL to insert data to Proton. 您还可以使用任何首选语言调用摄取 REST API 将数据推送到 Proton。 这可能更适合将 Proton 与其他系统或实时数据源（例如物联网传感器）集成。
 
 ## 先决条件
 
@@ -17,7 +17,7 @@ docker run -d -p 3218:3218 --pull always --name proton ghcr.io/timeplus-io/proto
 
 ### 在 Proton 中创建流
 
-你需要通过 [CREATE STREAM]（Proton创建流）在 Timeplus 中创建流。 应设置具有正确名称和类型的列。
+You need to create a stream in Timeplus via [CREATE STREAM](/proton-create-stream). 应设置具有正确名称和类型的列。
 
 首先运行 SQL 客户端
 
