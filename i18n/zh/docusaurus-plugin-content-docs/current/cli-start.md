@@ -39,8 +39,8 @@ If you are using macOS and fail to start Timeplus Enterprise, please check the "
 
 ## See Also
 
-[timeplus stop](cli-stop)
+[timeplus stop](/cli-stop)
 
-[timeplus restart](cli-restart)
+[timeplus restart](/cli-restart)
 
-[timeplus status](cli-status)
+[timeplus status](/cli-status)
