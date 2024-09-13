@@ -196,7 +196,7 @@ Make sure the return type of lambda function must be the same as the accumulator
 
 或者，您可以使用 `map_cast(key1,value1,key2,value2...)`
 
-自 Proton v1.4.2 起，添加了一个新的 [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) 函数，用于将键值对从字符串提取到地图。
+Since Proton v1.4.2, a new [extract_key_value_pairs](/functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
 
 ### tuple_cast
 
