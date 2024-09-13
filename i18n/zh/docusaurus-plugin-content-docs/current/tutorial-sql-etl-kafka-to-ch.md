@@ -25,7 +25,7 @@ First, create a table with ClickHouse MergeTree table engine by running `clickho
 
 本教程的目标是阅读这些访问日志，将敏感的IP地址转换为md5，然后将其提取到ClickHouse进行更多业务分析。
 
-To read data from Kafka or Redpanda, you just need to create an [Kafka External Stream](proton-kafka) with the following DDL SQL:
+To read data from Kafka or Redpanda, you just need to create an [Kafka External Stream](/proton-kafka) with the following DDL SQL:
 
 ```sql
 ```
@@ -44,7 +44,7 @@ SETTINGS type='clickhouse',
 ```sql
 ```
 
-创建物化视图后，它将用作 Proton 中的后台 ETL 作业，持续从 Kafka/Redpanda 读取数据，应用转换或聚合，然后将结果发送到 ClickHouse。 要了解有关 Proton 中物化视图的更多信息，请参阅 [此文档]（查看 #m_view）。
+创建物化视图后，它将用作 Proton 中的后台 ETL 作业，持续从 Kafka/Redpanda 读取数据，应用转换或聚合，然后将结果发送到 ClickHouse。 To learn more about Materialized View in Proton, please refer to [this documentation](/view#m_view).
 
 现在，如果你回到ClickHouse并运行 “从事件中选择\*”，你会看到新的数据以亚秒级的延迟出现。
 
