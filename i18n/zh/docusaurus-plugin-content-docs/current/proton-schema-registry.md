@@ -1,7 +1,5 @@
 # Kafka 架构注册表
 
-从 Proton 1.5.2 开始，支持 Kafka 架构注册表。
-
 ## 在 Protobuf 或 Avro 架构中读取消息 {#read}
 
 要使用架构注册表读取 Protobuf 或 Avro 架构中的 Kafka 数据，你可以使用 kafka_schema_registry_url 设置创建外部流，例如
@@ -41,7 +39,7 @@
 
 :::info
 
-For examples to read Avro message in various Kafka API compatitable message platforms, please check [this doc](tutorial-sql-read-avro).
+For examples to read Avro message in various Kafka API compatitable message platforms, please check [this doc](/tutorial-sql-read-avro).
 
 :::
 
@@ -78,4 +76,4 @@ INSERT INTO my_ex_stream SETTINGS force_refresh_schema=true ...
 
 :::
 
-For the data type mappings between Avro and Timeplus data type, please check [this doc](proton-format-schema#avro_types).
+For the data type mappings between Avro and Timeplus data type, please check [this doc](/proton-format-schema#avro_types).
