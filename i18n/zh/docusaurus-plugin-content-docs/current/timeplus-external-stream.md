@@ -1,6 +1,6 @@
 # Timeplus External Stream
 
-In addition to [Kafka External Stream](proton-kafka), Timeplus Enterprise also supports the other type of external stream to read or write data for the other Timeplus Enterprise deployment.
+In addition to [Kafka External Stream](/proton-kafka), Timeplus Enterprise also supports the other type of external stream to read or write data for the other Timeplus Enterprise deployment.
 
 ## 用例
 
@@ -87,6 +87,6 @@ SYSTEM UNPAUSE MATERIALIZED VIEW edge_to_cloud;
 
 This is a relatively new feature. There are some known limitations which we plan to improve later on.
 
-- [window functions](functions_for_streaming) like tumble/hop are not working yet.
+- [window functions](/functions_for_streaming) like tumble/hop are not working yet.
 - can't read virtual columns on remote streams.
-- [table function](functions_for_streaming#table) is not supported in timeplusd 2.3.21 or earlier version. This has been enhanced since timeplusd 2.3.22.
+- [table function](/functions_for_streaming#table) is not supported in timeplusd 2.3.21 or earlier version. This has been enhanced since timeplusd 2.3.22.
