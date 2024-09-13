@@ -13,7 +13,7 @@ Timeplus supports multiple ways to load data into the system, or access the exte
 
 ### 从Apache Kafka加载流数据 {#kafka}
 
-截至今天，Kafka是Timeplus的主要数据集成。 通过与Confluent的强大伙伴关系，我们可以将来自Confluent Cloud、Confluent Platform或Apache Kafka的实时数据加载到TimePlus流式引擎。 You can also create [external streams](/working-with-streams#external_stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
+截至今天，Kafka是Timeplus的主要数据集成。 通过与Confluent的强大伙伴关系，我们可以将来自Confluent Cloud、Confluent Platform或Apache Kafka的实时数据加载到TimePlus流式引擎。 You can also create [external streams](/external-stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
 
 [了解更多。](/kafka-source)
 
