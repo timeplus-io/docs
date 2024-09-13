@@ -7,29 +7,6 @@
 您可以以与其他流类似的方式对外部流运行流分析，但有一些限制。
 
 Timeplus supports 3 types of external streams:
-* [Kafka 外部流](proton-kafka)
-* [Timeplus External Stream](timeplus-external-stream), only available in Timeplus Enterprise
+* [Kafka 外部流](/proton-kafka)
+* [Timeplus External Stream](/timeplus-external-stream), only available in Timeplus Enterprise
 * Log External Stream (experimental)
-
-## 创建外部流
-
-:::info
-
-此页面的其余部分均假设您正在使用 TimePlus 控制台。 You can also create the external stream with DDL. [了解更多](proton-kafka)
-
-:::
-
-To create an external stream, go to the **Data Collection** page, then choose one of the supported system with **External Stream** as the data type. 设置流名称，Kafka 经纪人和主题名称。 选择正确的身份验证方法，然后点击 **创建**。 对于 **Read as** 选项，如果你选择 **JSON**，那么 Timeplus 将在示例 Kafka 消息中使用顶级 JSON 键/值对创建多列。 如果你选择 **文本**，则将在流中创建一个 `原始` 列来捕获 Kafka 中消息的价值。
-
-## 查询外部流
-
-要查询外部系统中的数据，请以类似的方式运行流式 SQL，比如： `SELECT count(*) FROM my_external_stream` 您也可以根据外部流创建 [视图](view) 或 [实际化视图](view#materialized-view)。
-
-## 限制
-
-基于 Kafka 的外部流有一些限制，因为 TimePlus 不控制外部流的储存或数据格式。
-
-1. 用户界面向导仅支持 JSON 或文本。 要使用 Avro、Protobuf 或架构注册表服务，你需要 [使用 SQL](proton-kafka)创建外部流。
-2. `_tp_time` 可在外部流中使用（自 Proton 1.3.30 起）。 `_tp_time` is available in the external streams (since Proton 1.3.30). `_tp_append_time` is set only when message timestamp is an append time.
-3. 与正常流不同的是，外部流没有历史存储。 因此，你无法运行 `table (my_ext_stream)`或 `设置 query_mode='table'` 要在创建外部流之前访问数据，你可以使用 `WHERE _tp_time >'2023-01-15'` 前往过去的特定时间戳，或者使用 `SETTINGS seek_to='earliest'`。
-4. 在 Timeplus 中没有关于外部流的保留政策。 您需要在 Kafka/Confluent/Redpanda 配置保留政策。 如果外部系统不再提供数据，则不能在 Timeplus 搜索。
