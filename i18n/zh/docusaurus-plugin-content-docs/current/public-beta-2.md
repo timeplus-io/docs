@@ -127,7 +127,7 @@
 **流数据库和流式SQL**
 
 - For stateful time window aggregations ([tumble](/functions_for_streaming#tumble)/[hop](/functions_for_streaming#hop)/[session](/functions_for_streaming#session)), Timeplus now supports sub-second intervals: `ms` for milliseconds, `us` for microseconds, and `ns` for nanoseconds. 例如，您可以通过运行流式SQL，在过去1秒的滑动窗口中每10毫秒显示结果： `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. 两个月前，我们还增加了亚秒级间隔运行全局聚合的能力。 例如 `select sum(price) from stocks emit periodic 50m`
-- Added new functions [md5](/functions#md5), [md4](/functions#md4), and [hex](/functions#hex), which can help you generate hash keys.
+- Added new functions `md5`, `md4`, and `hex`, which can help you generate hash keys.
 
 **图表和仪表盘**
 
@@ -147,7 +147,7 @@
 
 **流数据库和流式SQL**
 
-- Added 2 new functions: [arg_min](/functions#arg_min) and [arg_max](/functions#arg_max). 使用它们，您可以快速找到关于某一列最小值或最大值的行，然后获取特定列的值。 To access more rows or columns, please use [min_k](/functions#min_k) and [max_k](/functions#max_k).
+- Added 2 new functions: `arg_min` and `arg_max`. 使用它们，您可以快速找到关于某一列最小值或最大值的行，然后获取特定列的值。 To access more rows or columns, please use `min_k` and `max_k`.
 - （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 如果您想试用此功能，请联系我们。
 
 **图表和仪表盘**
@@ -169,7 +169,7 @@
 
 **查询**
 
-- 简化了 `LATEST JOIN` 语法。 无须写 `INNER LATEST JOIN`。 [Learn more](/query-syntax#latest-join).
+- 简化了 `LATEST JOIN` 语法。 无须写 `INNER LATEST JOIN`。 [Learn more](/joins#append-left-latest-versioned).
 - 对于使用 tumble window 聚合的历史查询，如果窗口中没有事件，则该窗口将不会出现在结果中。 显示一个缺省值的窗口(0表示数字类型，空字符串表示), 您可以通过 window_start 添加排序，填充步骤 \<window _size\>。
 - 自动清理最近的查询日志：如果超过 500 个，则删除较旧的查询。
 
@@ -202,11 +202,11 @@
 
 - 增强功能
   - 增强并优化每种图表类型的各种功能。 [Learn more.](/viz#chart)
-  - Able to run [table()](/functions#table) function for a view with streaming sql, e.g. `with c as(select col1,col2 from a_stream where b>0) select * from table(c)` Please note the streaming SQL in the view cannot contain any aggregation. 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
+  - Able to run `table()` function for a view with streaming sql, e.g. `with c as(select col1,col2 from a_stream where b>0) select * from table(c)` Please note the streaming SQL in the view cannot contain any aggregation. 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
   - 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 `earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
   - 你也可以在一个包括JOIN/UNION多个流的SQL中多次使用 `where _tp_time >..` 为不同的流穿越到不同的起点。
   - 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
-  - Added a new [LATEST JOIN](/query-syntax#latest-join) for streaming SQL. 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。 无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
+  - Added a new [LATEST JOIN](/joins#append-left-latest-versioned) for streaming SQL. 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。 无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
 ## 2023年2月17日
 
@@ -224,7 +224,7 @@
   - 流列表页面显示最早和最新的事件时间，帮助您更好地了解每个数据流有多新鲜。
   - 如果你开始运行流式传输 SQL 然后转到 Timeplus 控制台中的另一个页面，查询将自动停止。 这将减少不必要的服务器工作量和并发查询的数量。
   - 提高了列表模式下查询结果的性能。
-  - Performance tuning for [external streams](/working-with-streams#external_stream) and [materialized views](/view#m_view).
+  - Performance tuning for [external streams](/external-stream) and [materialized views](/view#m_view).
 
 ## 2023年2月3日
 
