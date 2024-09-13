@@ -2,26 +2,26 @@
 
 Timeplus supports multiple ways to load data into the system, or access the external data without copying them in Timeplus:
 
-- [External Stream](external-stream) 适用于 Apache Kafka、Confluent、Redpanda 和其他与 Kafka API 兼容的数据流平台。 This feature is also available in Timeplus Proton.
-- [来源](source) 用于更广泛的数据源。 这仅在 Timeplus Enterprise 中可用。 This integrates with [Redpanda Connect](https://redpanda.com/connect), supporting 200+ connectors.
+- [External Stream](/external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Proton.
+- [Source](/source) for extra wide range of data sources. 这仅在 Timeplus Enterprise 中可用。 This integrates with [Redpanda Connect](https://redpanda.com/connect), supporting 200+ connectors.
 - On Timeplus web console, you can also [upload CSV files](#csv) and import them into streams.
-- For Timeplus Enterprise, [REST API](ingest-api) and SDKs are provided to push data to Timeplus programmatically.
-- On top of the REST API and SDKs, Timeplus Enterprise adds integrations with [Kafka Connect](kafka-connect), [AirByte](https://airbyte.com/connectors/timeplus), [Sling](sling), seatunnel and [datapm](datapm).
-- Last but not the least, if you are not ready to load your real data into Timeplus, or just want to play with the system, you can use the web console to [create sample streaming data](#streamgen), or [use SQL to create random streams](proton-create-stream#create-random-stream).
+- For Timeplus Enterprise, [REST API](/ingest-api) and SDKs are provided to push data to Timeplus programmatically.
+- On top of the REST API and SDKs, Timeplus Enterprise adds integrations with [Kafka Connect](/kafka-connect), [AirByte](https://airbyte.com/connectors/timeplus), [Sling](/sling), seatunnel and [datapm](/datapm).
+- Last but not the least, if you are not ready to load your real data into Timeplus, or just want to play with the system, you can use the web console to [create sample streaming data](#streamgen), or [use SQL to create random streams](/proton-create-stream#create-random-stream).
 
 ## 通过 web 控制台添加新源
 
 ### 从Apache Kafka加载流数据 {#kafka}
 
-截至今天，Kafka是Timeplus的主要数据集成。 通过与Confluent的强大伙伴关系，我们可以将来自Confluent Cloud、Confluent Platform或Apache Kafka的实时数据加载到TimePlus流式引擎。 (最近引入了一个新功能来创建 [个外部流](working-with-streams#external_stream) 来分析Confluent/Kafka/Redpanda 中的数据而不移动数据)
+截至今天，Kafka是Timeplus的主要数据集成。 通过与Confluent的强大伙伴关系，我们可以将来自Confluent Cloud、Confluent Platform或Apache Kafka的实时数据加载到TimePlus流式引擎。 You can also create [external streams](/working-with-streams#external_stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
 
-[了解更多。](kafka-source)
+[了解更多。](/kafka-source)
 
 ### 从 Apache Pulsar 加载流数据 {#pulsar}
 
 Apache® PulsarTM 是一个云端、分发、开源消息和流式平台，用于实时工作量。 Timeplus增加了对Apache Pulsar的集成，它既是数据源又是数据下游。
 
-[了解更多。](pulsar-source)
+[了解更多。](/pulsar-source)
 
 ### 从 Kinesis 加载流式数据 {#kinesis}
 
@@ -63,7 +63,7 @@ flowchart LR
 
 Timeplus 提供数据导入REST API 和相关的不同的编程语言软件开发工具包SDK。 开发人员可以利用这些 REST API 或 SDK 将实时数据推送到 Timeplus。
 
-[了解更多。](ingest-api)
+[了解更多。](/ingest-api)
 
 ## 通过第三方工具加载其他数据到 Timeplus
 
@@ -73,7 +73,7 @@ Timeplus可与数据生态系统合作，并可利用各种工具加载数据，
 
 Data Package Manager (datapm) 是一个[开源](https://github.com/big-armor/datapm)数据发布平台，供私人和公共使用。 datapm 命令行工具使得在系统之间无缝移动数据，而且易于重复。 我们为datapm开发了一个特殊的Timeplus sink，可以开箱即用发送各种数据到Timeplus。
 
-[了解更多。](datapm)
+[了解更多。](/datapm)
 
 ### Airbyte
 
