@@ -40,7 +40,7 @@ SETTINGS type='kafka',
 1. 如果你想确保每条 Kafka 消息只有一条 Protobuf 消息，请将 data_format 设置为 protobufSingle。 如果你将其设置为 Protobuf，那么在一条 Kafka 消息中可能会有多条 Protobuf 消息。
 2. `format_schema`设置包含两部分：注册的架构名称（在本示例中：架构名称）和消息类型（在本示例中：SearchRequest）。 用分号将它们组合在一起。
 3. 你可以使用这个外部流在目标 Kafka/Confluent 主题中读取或写入 Protobuf 消息。
-4. 有关更高级的用例，请查看 [复杂架构示例](#complex)。
+4. For more advanced use cases, please check the [examples for complex schema](/proton-format-schema#protobuf_complex).
 
 ## Avro
 
