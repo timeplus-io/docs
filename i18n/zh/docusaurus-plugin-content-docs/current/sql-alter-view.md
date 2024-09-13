@@ -28,8 +28,8 @@ ALTER VIEW mv_with_inner_stream RESET QUERY SETTING checkpoint_interval
 
 ## See also
 
-- [ALTER STREAM](sql-alter-stream) - Alter streams
-- [CREATE STREAM](sql-create-stream) - Create streams
-- [CREATE MATERIALIZED VIEW](sql-create-materialized-view) - Create materialized views
-- [DROP STREAM](sql-drop-stream) - Drop streams
-- [DROP VIEW](sql-drop-view) - Drop materialized views
+- [ALTER STREAM](/sql-alter-stream) - Alter streams
+- [CREATE STREAM](/sql-create-stream) - Create streams
+- [CREATE MATERIALIZED VIEW](/sql-create-materialized-view) - Create materialized views
+- [DROP STREAM](/sql-drop-stream) - Drop streams
+- [DROP VIEW](/sql-drop-view) - Drop materialized views
