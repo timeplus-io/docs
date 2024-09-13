@@ -1,6 +1,6 @@
 # Timeplus Proton
 
-Timeplus Proton 是 Timeplus Enterprise 的核心引擎，是 ksqlDB 或 Apache Flink 的快速、轻量级替代品。 它使开发人员能够解决来自Apache Kafka、Redpanda和更多来源的流数据处理、路由和分析挑战，并将聚合数据发送到下游系统。 Timeplus Proton 正在 Apache 2.0 许可下积极开发，支持 [Timeplus Enterprise](timeplus-enterprise)。
+Timeplus Proton 是 Timeplus Enterprise 的核心引擎，是 ksqlDB 或 Apache Flink 的快速、轻量级替代品。 它使开发人员能够解决来自Apache Kafka、Redpanda和更多来源的流数据处理、路由和分析挑战，并将聚合数据发送到下游系统。 Timeplus Proton is under active development under Apache 2.0 license and powers [Timeplus Enterprise](/timeplus-enterprise).
 
 ## 💪 为何使用 Timeplus Proton？
 
@@ -22,7 +22,7 @@ Timeplus Proton 是 Timeplus Enterprise 的核心引擎，是 ksqlDB 或 Apache 
 curl https://install.timeplus.com/oss | sh
 ```
 
-For more guidelines, please check the [installation guide](install#proton) for Docker or Homebrew.
+For more guidelines, please check the [installation guide](/install#proton) for Docker or Homebrew.
 
 ### Timeplus 云服务
 
@@ -36,7 +36,7 @@ SQL is the main interface. You can start a new terminal window with `proton clie
 You can also integrate Timeplus Proton with Python/Java/Go SDK, REST API, or BI plugins. Please check [Integration](#integration).
 :::
 
-In the `proton client`, you can write SQL to create [External Stream for Kafka](proton-kafka) or [External Table for ClickHouse](proton-clickhouse-external-table). You can also run the following SQL to create a stream of random data:
+In the `proton client`, you can write SQL to create [External Stream for Kafka](/proton-kafka) or [External Table for ClickHouse](/proton-clickhouse-external-table). You can also run the following SQL to create a stream of random data:
 
 ```sql
 --使用随机数据创建流
@@ -79,7 +79,7 @@ To access more features, such as sources, sinks, dashboards, alerts, and data li
 Integration with other systems:
 
 - ClickHouse https://docs.timeplus.com/proton-clickhouse-external-table
-- [Sling](sling)
+- [Sling](/sling)
 - Grafana https://github.com/timeplus-io/proton-grafana-source
 - Metabase https://github.com/timeplus-io/metabase-proton-driver
 - Pulse 用户界面 https://github.com/timeplus-io/pulseui/tree/proton
