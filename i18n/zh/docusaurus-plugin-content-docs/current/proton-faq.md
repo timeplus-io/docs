@@ -123,6 +123,6 @@ JDBC 驱动程序可在 https://github.com/timeplus-io/proton-java-driver 获得
 
 ## 我怎样才能开始？
 
-Learn how to pull and run the Timeplus Proton image and query a test stream in our [documentation](/proton#get-started). To see a more complete use case in action, using Timeplus Proton, Redpanda, and sample live data, check out our [tutorial](/proton-kafka#tutorial) that leverages Docker Compose.
+Learn how to pull and run the Timeplus Proton image and query a test stream in our [documentation](/proton#-deployment). To see a more complete use case in action, using Timeplus Proton, Redpanda, and sample live data, check out our [tutorial](/proton-kafka#tutorial) that leverages Docker Compose.
 
 If you need advanced deployment strategies or features, with Timeplus Proton running behind the scenes, create your first workspace with [Timeplus Cloud](https://us-west-2.timeplus.cloud/).
