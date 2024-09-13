@@ -130,7 +130,7 @@ The [Meltano plugin for Timeplus](https://github.com/timeplus-io/target-timeplus
 **Streaming Database and SQL**
 
 - For stateful time window aggregations ([tumble](/functions_for_streaming#tumble)/[hop](/functions_for_streaming#hop)/[session](/functions_for_streaming#session)), Timeplus now supports sub-second intervals: `ms` for milliseconds, `us` for microseconds, and `ns` for nanoseconds. For example, you can run a streaming SQL to show results every 10 milliseconds for the past 1 second sliding window: `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. Two months ago, we also added the capability to run global aggregations with fixed interval at sub-second level, such as `select sum(price) from stocks emit periodic 50ms`
-- Added new functions [md5](/functions#md5), [md4](/functions#md4), and [hex](/functions#hex), which can help you generate hash keys.
+- Added new functions `md5`, `md4`, and `hex`, which can help you generate hash keys.
 
 **Dashboards**
 
@@ -150,7 +150,7 @@ The [Meltano plugin for Timeplus](https://github.com/timeplus-io/target-timeplus
 
 **Streaming Database and SQL**
 
-- Added 2 new functions: [arg_min](/functions#arg_min) and [arg_max](/functions#arg_max). With them, you can quickly locate the row with the minimum or maximum value for one column, and get the value for the specific column. To access more rows or columns, please use [min_k](/functions#min_k) and [max_k](/functions#max_k).
+- Added 2 new functions: `arg_min` and `arg_max`. With them, you can quickly locate the row with the minimum or maximum value for one column, and get the value for the specific column. To access more rows or columns, please use `min_k` and `max_k`.
 - (Experimental) In addition to the default append-only data streams, you can now create streams with mutations and versions. Contact us if you want to try this feature.
 
 **Dashboards**
@@ -172,7 +172,7 @@ Enhancements:
 
 **Query**
 
-- Simplified the `LATEST JOIN` syntax. No need to write `INNER LATEST JOIN`. [Learn more](/query-syntax#latest-join).
+- Simplified the `LATEST JOIN` syntax. No need to write `INNER LATEST JOIN`. [Learn more](/joins#append-left-latest-versioned).
 - For historical queries with tumble window aggregation, if there is no event in a window, such window won't be in the results. To show an empty window with default value(0 for numeric types and empty string for string), you can add order by window_start with fill step \<window_size\> .
 - Auto-cleanup recent query logs: if there are more than 500, older queries are removed.
 
@@ -205,11 +205,11 @@ Enhancements:
 
 - Enhancements
   - Various enhancements for each chart type. [Learn more.](/viz#chart)
-  - Able to run [table()](/functions#table) function for a view with streaming sql, e.g. `with c as(select col1,col2 from a_stream where b>0) select * from table(c)` Please note the streaming SQL in the view cannot contain any aggregation. For example, you can define the field extract from a raw JSON stream as a view, then query the view either in streaming mode or in historical mode.
+  - Able to run `table()` function for a view with streaming sql, e.g. `with c as(select col1,col2 from a_stream where b>0) select * from table(c)` Please note the streaming SQL in the view cannot contain any aggregation. For example, you can define the field extract from a raw JSON stream as a view, then query the view either in streaming mode or in historical mode.
   - Introduce a new function `earliest_timestamp()` to return `1970-1-1 00:00:00`(UTC) You can also call this with `earliest_ts()`. A typical usage is `select * from stream where _tp_time>earliest_ts()` to list all data in the past and future. Again, the previous syntax `settings seek_to='earliest'` has been deprecated and will be removed soon.
   - You can also use `where _tp_time >..` multiple times in a query with JOIN/UNION, to time travel to different starting points for different streams.
   - To improve readability, you can use numeric literals with underscores, e.g. `select * from iot where age_second > 86_400 `. Underscores `_` inside numeric literals are ignored.
-  - Added a new [LATEST JOIN](/query-syntax#latest-join) for streaming SQL. For two append-only streams, if you use `a LEFT INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either stream, the previous join result will be canceled and a new result will be added.
+  - Added a new [LATEST JOIN](/joins#append-left-latest-versioned) for streaming SQL. For two append-only streams, if you use `a LEFT INNER LATEST JOIN b on a.key=b.key`, any time when the key changes on either stream, the previous join result will be canceled and a new result will be added.
 
 ## February 17, 2023
 
@@ -227,7 +227,7 @@ Enhancements:
   - Stream list page shows the earliest and latest event time, helping you better understand the freshness for each data stream.
   - If you start running a streaming SQL then go to another page in Timeplus console, the query will be stopped automatically. This will reduce unnecessary server workload and the number of concurrent queries.
   - Improved the performance of query results in list mode.
-  - Performance tuning for [external streams](/working-with-streams#external_stream) and [materialized views](/view#m_view).
+  - Performance tuning for [external streams](/external-stream) and [materialized views](/view#m_view).
 
 ## February 3, 2023
 

@@ -74,7 +74,7 @@ Learn more: [External Stream](/external-stream)
 
 ## timestamp column
 
-When you create a source and preview the data, you can choose a column as the timestamp column. Timeplus will use this column as the [event time](/glossary#event_time) and track the lifecycle of the event and process it for all time related computation/aggregation.
+When you create a source and preview the data, you can choose a column as the timestamp column. Timeplus will use this column as the [event time](/glossary#event-time) and track the lifecycle of the event and process it for all time related computation/aggregation.
 
 ## view {#view}
 

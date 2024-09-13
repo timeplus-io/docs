@@ -56,7 +56,7 @@ We will update the beta version from time to time and list key enhancements in t
 
 * Streaming engine
 
-  * A new `LIMIT <n> BY <column>` syntax is introduced. Combining with [emit_version()](/functions#emit_version) function, you can show a limited number of results per emit. e.g.
+  * A new `LIMIT <n> BY <column>` syntax is introduced. Combining with `emit_version` function, you can show a limited number of results per emit. e.g.
 
     ```sql
     SELECT cid,avg(speed_kmh) AS avgspeed, emit_version()

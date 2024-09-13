@@ -9,7 +9,7 @@ We will update the beta version from time to time and list key enhancements in t
 ### Biweekly Update 9/19-9/30
 
 * Streaming engine
-  * Enhanced [dedup](/functions#dedup) function to only cache the unique keys for a given time period. This is useful to suppress the same alerts in the short time period.
+  * Enhanced `dedup` function to only cache the unique keys for a given time period. This is useful to suppress the same alerts in the short time period.
   * Support sub-stream, e.g. `select cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) as last_spd from car_live_data`
 * Source, sink, API and SDK
   * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](/glossary#workspace)
@@ -27,7 +27,7 @@ We will update the beta version from time to time and list key enhancements in t
 ### Biweekly Update 9/5-9/16
 
 * Streaming engine
-  * Added a [round](/functions#round) function to round a value to a specified number of decimal places.
+  * Added a `round` function to round a value to a specified number of decimal places.
   * Improved cluster support.
 * Source, sink, API and SDK
   * Added new CRUD API for dashboards. The previous charts on the homepage will be removed automatically during upgrade.
@@ -66,7 +66,7 @@ We have migrated beta1 customers to the beta2. https://demo.timeplus.com is no l
 
 * Streaming engine
   * (Experimental) enhanced the [session window](/functions_for_streaming#session) aggregation to create substreams based on customized logic for window start and window end
-  * Added a new function [extract_all_groups](/functions#extract_all_groups) to process text with regular expressions.
+  * Added a new function `extract_all_groups` to process text with regular expressions.
 * Source, sink, API and SDK
   * Webhook sink is enhanced to support customized HTTP method, content type and headers.
 * UI improvements
@@ -79,8 +79,8 @@ We have migrated beta1 customers to the beta2. https://demo.timeplus.com is no l
 First product update in the Private Beta 2.
 
 * Streaming engine
-  * Introduced a new data type [uuid](/datatypes) to identify records with a 16-byte number. A new function [uuid](/functions#uuid) is added to generate such uuid.
-  * Added a new function [extract_all_groups_horizontal](/functions#extract_all_groups_horizontal) to process text with regular expressions.
+  * Introduced a new data type [uuid](/datatypes) to identify records with a 16-byte number. A new function `uuid` is added to generate such uuid.
+  * Added a new function `extract_all_groups_horizontal` to process text with regular expressions.
 
 * Source, sink, API and SDK
   * Released https://pypi.org/project/timeplus/0.2.0/ with optional tenant ID support.

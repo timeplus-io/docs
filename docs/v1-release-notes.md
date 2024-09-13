@@ -160,7 +160,7 @@ _Proton:_
 - Proton v1.4.1 is now released. Please note: you cannot use an older version of Proton client to connect to the new v1.4 Proton server — be sure to update your Proton client. All existing JDBC, ODBC, Go, and Python drivers will still work as usual.
 - (v1.3.31) We've added a new external stream setting `message_key`, an expression that returns a string value used as the message key for each row. `message_key` can be used together with `sharding_expr` (which specifies the target partition number in the Kafka topic), with `sharding_expr` taking higher priority. [Learn more](/proton-kafka#messagekey)
 - (v1.3.31) Write to Kafka in plain text: you can now [produce raw format data](/proton-kafka#single_col_write) to a Kafka external stream with a single column.
-- (v1.3.31) By default, we disable sort for historical backfill. [Learn more](/query-syntax#query-settings) in our query guide, including how to enable.
+- (v1.3.31) By default, we disable sort for historical backfill. [Learn more](/query-settings) in our query guide, including how to enable.
 - Introducing our integration with Upstash: create a Kafka cluster and topics using Upstash, then create a data source or sink in Timeplus. Available for both [Timeplus Cloud](https://upstash.com/docs/kafka/integrations/timeplus) and [Proton](https://upstash.com/docs/kafka/integrations/proton).
 
 _Timeplus Cloud:_
@@ -175,7 +175,7 @@ _Timeplus Cloud:_
 _Proton:_
 
 - We've added a new example in the [proton/examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder for [Coinbase](https://github.com/timeplus-io/proton/tree/develop/examples/coinbase).
-- (v1.3.30) New functions for aggregation: [stochastic_linear_regression_state](/functions_for_agg#stochastic_linear_regression_state) and [stochastic_linear_regression](/functions_for_agg#stochastic_linear_regression).
+- (v1.3.30) New functions for aggregation: [stochastic_linear_regression_state](/functions_for_agg#stochastic_linear_regression_state) and [stochastic_logistic_regression](/functions_for_agg#stochastic_logistic_regression).
 - (v1.3.30) New functions for processing text: [base64_encode](/functions_for_text#base64_encode), [base64_decode](/functions_for_text#base64_decode), [base58_encode](/functions_for_text#base58_encode), and [base58_decode](/functions_for_text#base58_decode),
 - (v1.3.30) When creating an external stream, you can set sasl_mechanism to SCRAM-SHA-512, SCRAM-SHA-256, or PLAIN (default value). Learn more with [examples](/proton-kafka#create-external-stream) in our docs.
 
@@ -229,7 +229,7 @@ _Proton:_
 - [Metabase driver](https://github.com/timeplus-io/metabase-proton-driver) for Proton is now open source.
 - Proton JDBC driver is now available via [Maven](https://central.sonatype.com/artifact/com.timeplus/proton-jdbc).
 - You can now connect Proton to [Pulse](https://www.timestored.com/pulse/) for OHLC charts.
-- New functions added: [untuple](/functions_for_comp#untuple), [tuple_element](/functions_for_comp#tuple_element), [dict_get](/functions_for_comp#dict_get), [dict_get_or_default](/functions_for_comp#dict_get_or_default), [columns](/functions_for_comp#columns), [apply](/functions_for_comp#apply), [any](/functions_for_agg#any), and [last_value](/functions_for_agg#last_value).
+- New functions added: [untuple](/functions_for_comp#untuple), [tuple_element](/functions_for_comp#tuple_element), [columns](/functions_for_comp#columns), [apply](/functions_for_comp#apply), [any](/functions_for_agg#any), and [last_value](/functions_for_agg#last_value).
 - You can now create an external stream with multiple columns while reading Kafka. [Learn more](/proton-kafka#multi_col_read)
 
 _Timeplus Cloud:_
