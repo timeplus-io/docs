@@ -8,7 +8,7 @@
 
 当然，您可以加载自己的数据，例如：
 
-* [上传一个 CSV 文件](/ingestion#load-sample-streaming-data)
+* [上传一个 CSV 文件](/ingestion#streamgen)
 * [Create a Kafka source](/ingestion#kafka) to load JSON documents from Confluent Cloud or Apache Kafka cluster.
 
 ## 探索数据
