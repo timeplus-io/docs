@@ -3,7 +3,7 @@
 当您使用 `changelog_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 数据可以更新或删除。 您可以在左侧或右侧的 JOIN 中使用更新日志流。 Timeplus 将自动选择最新版本。
 
 :::warning
-For Timeplus Enterprise customers, we recommend to use [Mutable Streams](mutable-stream) with the enhanced performance for UPSERT and queries. The changelog streams are not supported in Timeplus Enterprise, and will be removed in Timeplus Proton.
+For Timeplus Enterprise customers, we recommend to use [Mutable Streams](/mutable-stream) with the enhanced performance for UPSERT and queries. The changelog streams are not supported in Timeplus Enterprise, and will be removed in Timeplus Proton.
 :::
 
 以下是一些例子：
@@ -21,7 +21,7 @@ For Timeplus Enterprise customers, we recommend to use [Mutable Streams](mutable
 
 :::info
 
-此页面的其余部分均假设您正在使用 TimePlus 控制台。 如果您使用的是 Proton，则可以使用 DDL 创建流。 [点击此处，了解更多](proton-create-stream#changelog-stream)
+此页面的其余部分均假设您正在使用 TimePlus 控制台。 如果您使用的是 Proton，则可以使用 DDL 创建流。 [Learn more](/proton-create-stream#changelog-stream)
 
 :::
 
@@ -409,7 +409,7 @@ Debezium 也会读取所有现有的行并生成这样的消息。
 
 ### 将数据加载到 Timeplus
 
-您可以按照这个 [指南](kafka-source) 添加两个数据源来从 Kafka 或 Redpanda 加载数据。  例如：
+You can follow this [guide](/kafka-source) to add 2 data sources to load data from Kafka or Redpanda.  例如：
 
 * 数据源名称 `s1` 从主题 `doc.public.dim_products` 中加载数据并放入新流 `rawcdc_dim_products`
 * 数据源名称 `s2` 从主题 `doc.public.orders` 中加载数据并放入新流 `rawcdc_orders`
