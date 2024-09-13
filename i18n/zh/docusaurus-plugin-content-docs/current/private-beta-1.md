@@ -10,7 +10,7 @@
 
 - 流引擎
 
-  - 添加了2个与地理位置相关的函数： [point_in_polygon](functions#point_in_polygon) and [geo_distance](functions#geo_distance)。
+  - Added 2 geo related functions: [point_in_polygon](/functions#point_in_polygon) and [geo_distance](/functions#geo_distance).
 
 - 源、 汇、 API 和 SDK
   - 更新“源”页面的布局，以便为源定义留出更多空间。
@@ -21,8 +21,8 @@
 ### 7/25周
 
 - 流引擎
-  - 增强了 [json_extrac_array](functions#json_extract_array) 函数返回干净的字符串值。 `选择 '{"a":1,"tags":["x","y"]}' 为raw, json_extract_array(raw:tags)`现在返回 `[ "x", "y" ]` , 而不是 `[ "\"x\"", "\"y\"" ]` 在以前的版本中。
-  - 添加了一个新的快捷方式来访问 json 数组，而无需使用 [json_extract_array](functions#json_extract_array) 功能。 上面的查询可以简化为 `选择 '{"a":1, "tags":["x","y"]}" 为原生, raw:tags[*]`
+  - Enhanced [json_extract_array](/functions#json_extract_array) function to return clean string values. `选择 '{"a":1,"tags":["x","y"]}' 为raw, json_extract_array(raw:tags)`现在返回 `[ "x", "y" ]` , 而不是 `[ "\"x\"", "\"y\"" ]` 在以前的版本中。
+  - Added a new shortcut to access json arrays without having to use the [json_extract_array](/functions#json_extract_array) function. 上面的查询可以简化为 `选择 '{"a":1, "tags":["x","y"]}" 为原生, raw:tags[*]`
   - 精炼打字系统和逻辑比较返回 `bool` 而不是 `uint8`
 - 源、 汇、 API 和 SDK
   - 所有计时器汇现在都使用 `{{.columnName}}` 语法来访问汇主标题或正文中的列值。 支持数字和其他原始类型(以前只支持字符串列)。
@@ -38,12 +38,12 @@
 
 - 流引擎
 
-  - 精炼 [实际化视图](view#m_view)的行为，使其与其他Timeplus查询保持一致。 `SELECT * FROM table(a_possiblealized_view)` 将获得所有过去的结果，而不是最近的结果。
-  - 添加 [count_if](functions#count_if) 函数和 [唯一的](functions#unique_exact_if) 函数来计数匹配某些条件的行数或唯一值。
-  - 添加 [json_extract_key_](functions#json_extract_keys) 函数来获取JSON 映射对象的键值。
-  - 添加 [to_bool](functions_for_type#to_bool) 函数来将其他类型转换为 `bool`
-  - 添加 [is_nan](functions#is_nan), [is_infinite](functions#is_infinite), [is_finite](functions#is_finite) 函数用于检测边缘案例的数字列包含无限数字等。
-  - 添加 [to_type_name](functions_for_type#to_type_name) 函数来显示数据类型名称，主要用于故障排除目的。
+  - Refined the behavior of [materialized views](/view#m_view), to keep it consistent with the other Timeplus queries. `SELECT * FROM table(a_possiblealized_view)` 将获得所有过去的结果，而不是最近的结果。
+  - Added the [count_if](/functions#count_if) function and [unique_exact_if](/functions#unique_exact_if) function to count the number of rows or unique value matching certain conditions.
+  - Added [json_extract_keys](/functions#json_extract_keys) function to get the keys for the JSON map object.
+  - Added the [to_bool](/functions_for_type#to_bool) function to convert other types to `bool`
+  - Added [is_nan](/functions#is_nan), [is_infinite](/functions#is_infinite), [is_finite](/functions#is_finite) functions to detect the edge cases when a number column contains infinite numbers, etc.
+  - Added [to_type_name](/functions_for_type#to_type_name) function to show the data type name, mainly for troubleshooting purposes.
 
 - 源、 汇、 API 和 SDK
   - 更新 [Python SDK](https://pypi.org/project/timeplus/0.1.10/) 以显示指标
@@ -56,8 +56,8 @@
 
 - 流引擎
 
-  - 修复了 [滞后](functions#lags) 函数的问题，以获得特定列过去结果的范围
-  - 暴露 [coalesce](functions#coalesce) 函数以跳过空值，然后返回第一个非-`NULL` 值。 许多函数期望参数不能是 `NULL`
+  - Fixed an issue of [lags](/functions#lags) function to get a range of past results for the specific column
+  - Exposed the [coalesce](/functions#coalesce) function to skip null value and return the first non-`NULL` value. 许多函数期望参数不能是 `NULL`
 
 - 源、 汇、 API 和 SDK
   - 更新 [Python SDK](https://pypi.org/project/timeplus/0.1.10/) 以支持新源 API 并添加身份验证到 websocket
@@ -89,7 +89,7 @@
 
 - 流引擎
 
-  - 在这一点上， [session window](functions_for_streaming#session) 聚合仅支持串流查询。 正确拒绝查询 `session(...)` 与 `table(...)` 函数一起使用。
+  - At this point, [session window](/functions_for_streaming#session) aggregation only supports streaming queries. 正确拒绝查询 `session(...)` 与 `table(...)` 函数一起使用。
 
 - 源、 sink 和 API
 
@@ -108,9 +108,9 @@
 
 - 流引擎
 
-  - [Session window](functions_for_streaming#session) 现在支持毫秒的 window_start/window_end。
-  - 添加新的 [滞后](functions#lags) 函数来获得一系列过去的结果。 这可以帮助基于纯 SQL 的 ML/预配。
-  - 添加了一个新的 [grok](functions#grok) 函数来解析一行文本到键/值对等符号，而无需写正则表达式。
+  - [Session window](/functions_for_streaming#session) now supports millisecond for window_start/window_end.
+  - Added a new [lags](/functions#lags) function to get a range of past results. 这可以帮助基于纯 SQL 的 ML/预配。
+  - Added a new [grok](/functions#grok) function to parse a line of text into key/value pairs, without having to write regular expressions.
 
 - 源和汇：
 
@@ -128,8 +128,8 @@
 ### 6/13周
 
 - 流引擎
-  - 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 添加了新函数 [移动和](functions#moving_sum) 来计算一列的移动和 这将解锁更多使用具有状态的流式处理程序，例如 [流式通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。 这将解锁更多使用状态流处理的情况，例如 [流通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
-  - 添加 [数组处理](functions#arrays)的其他函数，例如 [array_sum](functions#array_sum), [array_avg](functions#array_avg)
+  - Added new function [moving_sum](/functions#moving_sum) to calculate the moving sum for a column. 这将解锁更多使用状态流处理的情况，例如 [流通过](https://share.streamlit.io/timeplus-io/github_liveview/develop/stream_over.py)。
+  - Added other functions for [array processing](/functions#arrays), such as [array_sum](/functions#array_sum), [array_avg](/functions#array_avg)
 - 源和汇：
   - Kafka 源支持无需认证的本地schema 注册表
 - 界面改进
@@ -139,8 +139,8 @@
 ### 6/6周
 
 - 流引擎
-  - 更多 [的数学函数](functions#math) 被曝光。 这可以帮助您运行基于 SQL 的简单ML/预测模型。
-  - (实验性) [流到流加入](query-syntax#stream_stream_join) 不再需要 `date_diff_within (...)`，尽管仍然建议添加时间戳约束以提高性能。
+  - More [math functions](/functions#math) are exposed. 这可以帮助您运行基于 SQL 的简单ML/预测模型。
+  - (Experimental) [stream-to-stream join](/query-syntax#stream_stream_join) no longer requires a `date_diff_within(..)`, although it's still recommended to add timestamp constraints to improve performance.
   - (试验性的)能够为每一流制定保留政策， 基于时间的(说只保持最近的7天数据)，或基于大小(说只保持最近的1GB数据)
 - 源和汇：
   - (实验性) 支持 REST API中的个人访问令牌(PAT)，该令牌为长寿(或设定过期日期)和每个用户。 租户级别的访问令牌将被弃用。
@@ -152,7 +152,7 @@
 
 - 流引擎
   - （实验性）能够使用外部的 Kakfa/Confluent/Redpanda 作为 Timeplus 流存储。
-  - （实验性） [表格](functions#table) 函数现在可以与 [search_to](query-syntax) 一起。 您可以通过合并 `表格(流名)` 和 `设置来查询历史数据。 `
+  - (Experimental) the [table](/functions#table) function now works with [seek_to](/query-syntax) You can query historical data by combining `table(streamName)` and `settings seek_to='..'`
 - 源和汇：
   - 使用 [datapm](https://datapm.io/docs/quick-start/) 发送实时Twitter 数据到 https://demo.timeplus.com
   - 更新 [REST API doc](https://docs.timeplus.com/rest.html), `/exec` 端点已被删除。 发送 `POST` 请求给 `/查询` 替代。
@@ -162,9 +162,9 @@
 ### 5/23周
 
 - 流引擎
-  - (实验性) 新的 UI 和 API 以创建和查询 [外部流](working-with-streams#external_stream)。 您可以立即在 Confluent Cloud, Apache Kafka 或 Redpanda 查询实时数据，而不需要将数据加载到 Timeplus 中。
-  - (实验性) [流到流加入](query-syntax#stream_stream_join) 准备测试测试对象，例如 `SELECT ... 从流 1 INNER JOIN 串流到串流。 id=stream2.id 和 date_diff_within(10s)`
-  - 新函数 [date_diff_witter 在](functions#date_diff_within) 范围内确定是否有 2 个日期时间。 这是串流加入所必需的。 您也可以使用更灵活的表达式，如 `date_diff('second',left.time,right.time) 介于 -3 和 5` 之间。
+  - (Experimental) new UI and API to create and query [external streams](/working-with-streams#external_stream). 您可以立即在 Confluent Cloud, Apache Kafka 或 Redpanda 查询实时数据，而不需要将数据加载到 Timeplus 中。
+  - (Experimental) [stream-to-stream join](/query-syntax#stream_stream_join) is ready to test for beta customers, e.g. `SELECT .. id=stream2.id 和 date_diff_within(10s)`
+  - New function [date_diff_within](/functions#date_diff_within) to determine whether 2 datetime are within the specified range. 这是串流加入所必需的。 您也可以使用更灵活的表达式，如 `date_diff('second',left.time,right.time) 介于 -3 和 5` 之间。
 - 源和汇：
   - 升级 [datapm](https://datapm.io/docs/quick-start/) Timeplus sink 以支持从 PostgreSQL 加载 JSON 数据。
   - 当您正在预览Kafka的数据时，如果时区未包括在原始数据中，您可以选择时区。
@@ -176,7 +176,7 @@
 
 - 流引擎
   - (实验性)大大简化了如何查询JSON文件的程序。 现在你可以使用 `json_doc:json_path` 作为在JSON 文档中提取值的快捷键。 例如， `选择 '{"c":"hello"}" 为 j, j:c`, 你会得到"hello" 作为值。 在过去，您必须调用 `json_extract_string(j, c')` 嵌套结构也是支持的，例如 `选择 '{"a":{"b":1}} 为 j, j:a。 ` 将获得 `1` 字符串值。 若要转换为 int，您可以使用 `:` 作为快捷方式，例如： `选择 '{"a":{"b":1}} 为 j, j:a.b:int`
-  - 添加函数 [is_valid_json](functions#is_valid_json) 来检查特定字符串是否是一个有效的 JSON 文档，例如 `选择 j:a 哪里是有效的 json(j)`
+  - Added a function [is_valid_json](/functions#is_valid_json) to check whether the specific string is a valid JSON document, e.g. `select j:a where is_valid_json(j)`
   - 添加 `varchar` 作为 `字符串` 数据类型的别名。 这可以提高与其他SQL工具的兼容性。
 - 源和汇：
   - 增强Kafka/Redpanda源的身份验证：添加新的 SASL 机制：打乱架-sha-256 和打乱架-sha-512，增加配置以禁用TLS。 在 TLS 启用时添加配置到跳过验证服务器，修复了当身份验证失败时源将挂断的错误。
@@ -188,8 +188,8 @@
 ### 5/9周
 
 - 流引擎
-  - 新 [array_join](functions#array_join) 函数根据数组中的值生成一组行，并与其他列合并
-  - (实验性) 添加一个新的 [dept](functions#dedup) 表函数，这个函数可以从串流查询或历史查询中删除重复的事件。
+  - New [array_join](/functions#array_join) function to generate a set of rows based on the value in the array, joining with other columns
+  - (Experimental) add a new [dedup](/functions#dedup) table function, which can remove duplicated events from streaming queries or historical queries.
 - 源和汇：
   - 升级 [datapm](https://datapm.io/docs/quick-start/) Timeplus sink 来支持从 PostgreSQL 加载数据
   - (实验性) 一个能够从 [加载数据的新源](https://ably.com/hub)
@@ -202,7 +202,7 @@
 - 发布的 Python SDK 0.1.1 带令牌自动刷新
 - 在 https://docs.timeplus.com/rest上发布了REST API Doc
 - 流引擎
-  - (实验性) 添加了一个新的 [xirr](functions#xirr) 功能，以根据指定的一系列潜在不定期的现金流量计算投资的内部回报率。
+  - (Experimental) added a new [xirr](/functions#xirr) function to calculate the internal rate of return of an investment based on a specified series of potentially irregularly spaced cash flows.
 - 界面改进
   - 服务器重启后在仪表板上恢复查询
   - 更好的 SQL 自动完成，包含函数描述、使用和示例
@@ -217,7 +217,7 @@
   - 能够重命名流
   - (实验性) 添加 `ORDER BY` 支持流式查询与聚合
   - (实验性) 添加 `EMIT TIMEOUT 5s` 用于串流查询，这样窗口将被关闭，即使没有更多的事件来推进水印。
-  - (Experimental) Added [emit_verison()](functions#emit_version) to show a unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
+  - (Experimental) Added [emit_verison()](/functions#emit_version) to show a unique number for each emitted window (so that you can tell from the streaming results which rows are from the same window)
 - 源和汇：
   - Kafka源的10倍通量提高
   - (实验性) a [datapm](https://datapm.io/) sink to ingest 批处理/流流数据到 Timeplus
@@ -232,10 +232,10 @@
 ### 每周4/18
 
 - 改进了 API 令牌界面
-- 用于串流处理的测试 [session](functions_for_streaming#session) 窗口。 许多新的使用案例将解锁。
-- 增强 [top_k](functions#top_k) 函数默认显示事件计数
-- 为数组和地图添加了新功能： [map_cast](functions#map_cast) , [group_array](functions#group_array)
-- 添加了新的流式功能 [最早的](functions#earliest) 和 [最新的](functions#latest) 并在流式窗口中显示第一个或最后一个事件。
+- Experimental [session](/functions_for_streaming#session) window for streaming processing. 许多新的使用案例将解锁。
+- Enhanced the [top_k](/functions#top_k) function to show event counts by default
+- Added new functions for array and map: [map_cast](/functions#map_cast) , [group_array](/functions#group_array)
+- Added new streaming functions [earliest](/functions#earliest) and [latest](/functions#latest) and to show the first or last event in the streaming window.
 
 ### 4/11周
 
@@ -261,7 +261,7 @@
 
 ### 3/21周
 
-- 精炼 [数据类型](datatypes) 以便始终使用小写类型名称。 `官方支持 bool`。
+- Refined the [data type](/datatypes) to consistently use lower case type names. `官方支持 bool`。
 - 为Redpanda数据源和汇添加了新的 UI。
 - 添加新的单点登录提供商：微软。
 
