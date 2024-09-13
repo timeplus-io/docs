@@ -35,7 +35,7 @@ By default, when you create a materialized view, an internal stream will be crea
 指定目标流的用例：
 
 1. In some cases, you may want to build multiple materialized views to write data to the same stream. In this case, each materialized view serves as a real-time data pipeline. 在这种情况下，每个物化视图都充当实时数据管道。
-2. Or you may need to use [Changelog Stream](proton-create-stream#changelog-stream) or [Versioned Stream](proton-create-stream#versioned-stream) to build lookups.
+2. Or you may need to use [Changelog Stream](/proton-create-stream#changelog-stream) or [Versioned Stream](/proton-create-stream#versioned-stream) to build lookups.
 3. 或者，您可能需要为物化视图设置保留策略。
 4. 您还可以使用物化视图通过外部流向 Apache Kafka 写入数据。
 
