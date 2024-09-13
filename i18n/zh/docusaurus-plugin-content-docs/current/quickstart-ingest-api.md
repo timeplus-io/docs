@@ -4,7 +4,7 @@
 
 借助Ingest API的最新增强，在许多情况下，您可以通过webhook配置其他系统来将数据直接推送到Timeplus，而无需编写代码。
 
-在本快速入门指南中，您会将 JSON 文档逐个推送到目标流 `foo`。 更多详细信息，请查看 [这个文档](ingest-api) 。
+在本快速入门指南中，您会将 JSON 文档逐个推送到目标流 `foo`。 Please check [this document](/ingest-api) for more details.
 
 ## 第 1 步：创建目标流
 
