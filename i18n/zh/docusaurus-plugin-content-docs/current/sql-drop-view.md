@@ -6,9 +6,9 @@
 DROP VIEW [IF EXISTS] db.<view_name>;
 ```
 
-像 [CREATE STREAM]（Proton创建流）一样，流删除是一个异步过程。
+Like [CREATE STREAM](/proton-create-stream), stream deletion is an async process.
 
-Like [CREATE STREAM](sql-create-stream), stream deletion is an async process.
+Like [CREATE STREAM](/sql-create-stream), stream deletion is an async process.
 
 ## force_drop_big_stream
 
