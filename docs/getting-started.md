@@ -8,7 +8,7 @@ To help you quickly get started, we setup each workspace with the demo dataset. 
 
 Of course, you can load your own data, such as
 
-* [Upload a CSV file](/ingestion#load-sample-streaming-data)
+* [Upload a CSV file](/ingestion#streamgen)
 * [Create a Kafka source](/ingestion#kafka) to load JSON documents from Confluent Cloud or Apache Kafka cluster.
 
 ## Explore Data

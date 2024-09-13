@@ -10,7 +10,7 @@ The JavaScript-based UDF can run in both Timeplus and Proton local deployments. 
 
 ## Register a JS UDF {#register}
 
-1. Open "UDFs" from the navigation menu on the left, and click the 'Register New Function' button. 
+1. Open "UDFs" from the navigation menu on the left, and click the 'Register New Function' button.
 2. Specify a function name, such as `second_max`. Make sure the name won't conflict with built-in functions or other UDF. Description is optional.
 3. Choose the data type for input parameters and return value.
 4. Choose "JavaScript" as the UDF type.
@@ -93,7 +93,7 @@ function email_not_in(emails,lists){
     for(let i=0;i<list.length;i++){
       if(email.endsWith('@'+list[i]))
         return false; // if the email ends with any of the domain, return false, otherwise continue
-    }                
+    }
     return true; // no match, return true confirming the email is in none of the provided domains
   });
 }
@@ -115,7 +115,7 @@ function magic_number(values){
 }
 ```
 
-In this case, the function will return `42` no matter what parameter is specified. 
+In this case, the function will return `42` no matter what parameter is specified.
 
 ## Develop an aggregate function {#udaf}
 
@@ -190,21 +190,21 @@ The full source code for this JS UDAF is
 To register this function, steps are different in Timeplus Cloud and Proton:
 
 * With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too. Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
-* With SQL in Proton Client: check the example at [here](/proton-create-udf#create-aggregate-function).
+* With SQL in Proton Client: check the example at [here](/js-udf#udaf).
 
 ### Advanced Example for Complex Event Processing {#adv_udaf}
 
 User-Defined Aggregation Function can be used for Complex Event Processing (CEP). Here is an example to count the number of failed login attempts for the same user. If there are more than 5 failed logins, create an alert message. If there is a successful login, reset the counter. Assuming the stream name is `logins` , with timestamp, user, login_status_code, this SQL can continuously monitor the login attempts:
 
 ```sql
-SELECT window_start, user, login_fail_event(login_status_code) 
+SELECT window_start, user, login_fail_event(login_status_code)
 FROM hop(logins, 1m, 1h) GROUP BY window_start, user
 ```
 
 The UDAF is registered in this way:
 
 ```sql
-CREATE AGGREGATE FUNCTION login_fail_event(msg string) 
+CREATE AGGREGATE FUNCTION login_fail_event(msg string)
 RETURNS string LANGUAGE JAVASCRIPT AS $$
 {
   has_customized_emit: true,
@@ -264,7 +264,7 @@ There is an advanced setting `has_customized_emit`. When this is set to `true`:
 
 Caveats:
 
-1. One streaming SQL supports up to 1 UDAF with `has_customized_emit=true` 
+1. One streaming SQL supports up to 1 UDAF with `has_customized_emit=true`
 2. If there are 1 million unique key, there will be 1 million UDAF invocations and each of them handles its own partitioned data.
 3. If one key has aggregation results to emit, but other keys don't have, then Proton only emit results for that key.
 
@@ -276,4 +276,3 @@ This is an advanced feature. Please contact us or discuss your use case in [Comm
 
 * We will provide better testing tools in the future.
 * The custom JavaScript code is running in a sandbox with V8 engine. It won't impact other workspaces.
-

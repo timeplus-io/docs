@@ -35,8 +35,8 @@ The supported values for `sasl_mechanism` are:
 
 The supported values for `data_format` are:
 
-- JSONEachRow: each Kafka message can be a single JSON document, or each row is a JSON document. [Learn More](#jsoneachrow).
-- CSV: less commonly used. [Learn More](#csv).
+- JSONEachRow: each Kafka message can be a single JSON document, or each row is a JSON document. [Learn More](sql-create-external-stream#jsoneachrow).
+- CSV: less commonly used. [Learn More](sql-create-external-stream#csv).
 - ProtobufSingle: for single Protobuf message per Kafka message
 - Protobuf: there could be multiple Protobuf messages in a single Kafka message.
 - Avro: added in Proton 1.5.2

@@ -8,7 +8,7 @@ Query bookmarks, only available in Timeplus Cloud and Timeplus Enterprise, not i
 
 You can save the common SQL statements as bookmarks. They can be run quickly in the web console by a single click. You can create, list, edit, remove bookmarks in the query page.
 
-Both bookmarks and [views](#view) can help you easily re-run a query. However views are defined in the streaming database and you can query the view directly via `select .. from ..` But bookmarks are just UI shortcuts. When you click the bookmark, the original SQL statement will be pre-filled in the query console. You cannot run `select .. from my_bookmark`
+Both bookmarks and [views](/glossary#view) can help you easily re-run a query. However views are defined in the streaming database and you can query the view directly via `select .. from ..` But bookmarks are just UI shortcuts. When you click the bookmark, the original SQL statement will be pre-filled in the query console. You cannot run `select .. from my_bookmark`
 
 
 
@@ -74,7 +74,7 @@ Learn more: [External Stream](/external-stream)
 
 ## timestamp column
 
-When you create a source and preview the data, you can choose a column as the timestamp column. Timeplus will use this column as the [event time](#event_time) and track the lifecycle of the event and process it for all time related computation/aggregation.
+When you create a source and preview the data, you can choose a column as the timestamp column. Timeplus will use this column as the [event time](/glossary#event_time) and track the lifecycle of the event and process it for all time related computation/aggregation.
 
 ## view {#view}
 

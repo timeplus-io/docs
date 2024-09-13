@@ -43,7 +43,7 @@ For example `to_decimal('3.1415926',2)` to get 3.14
 
 ### to_string
 
-Convert any data type to a string, so that you can do other string operations, such as [concat](/functions_for_type#concat)
+Convert any data type to a string, so that you can do other string operations, such as [concat](/functions_for_text#concat)
 
 ### to_bool
 

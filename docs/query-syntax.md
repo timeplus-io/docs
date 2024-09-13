@@ -16,7 +16,7 @@ FROM <table_function>(<stream_name>, [<time_column>], [<window_size>], ...)
 [SETTINGS <key1>=<value1>, <key2>=<value2>, ...]
 ```
 
-Only `SELECT` and `FROM` clauses are required (you can even omit `FORM`, such as `SELECT now()`, but it's less practical). Other clauses in `[..]` are optional. We will talk about them one by one in the reverse order, i.e. [SETTINGS](#settings), then [EMIT](#emit), [LIMIT](#limit), etc.
+Only `SELECT` and `FROM` clauses are required (you can even omit `FORM`, such as `SELECT now()`, but it's less practical). Other clauses in `[..]` are optional. We will talk about them one by one in the reverse order, i.e. [SETTINGS](/query-syntax#settings), then [EMIT](/query-syntax#emit), [LIMIT](/query-syntax#limit), etc.
 
 SQL keywords and function names are case-insensitive, while the column names and stream names are case-sensitive.
 
@@ -242,6 +242,9 @@ Similarly, we can apply the last X on hopping window.
 `GROUP BY` applies aggregations for 1 or more columns.
 
 When `GROUP BY` is applied, `HAVING` is optional to filter the aggregation results. The difference between `WHERE` and`HAVING` is data will be filtered by `WHERE` clause first, then apply `GROUP BY`, and finally apply `HAVING`.
+
+## LIMIT
+`LIMIT n` When the nth result is emited, the query will stop, even it's a streaming SQL.
 
 ## JOINs
 

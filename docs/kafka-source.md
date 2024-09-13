@@ -1,6 +1,6 @@
 # Load streaming data from Apache Kafka
 
-As of today, Apache Kafka is the primary data source (and sink) for Timeplus. You can also create [external streams](/working-with-streams#external_stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
+As of today, Apache Kafka is the primary data source (and sink) for Timeplus. You can also create [external streams](/external-stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
 
 ## Apache Kafka Source
 
