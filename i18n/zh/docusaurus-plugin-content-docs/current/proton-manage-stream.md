@@ -28,10 +28,10 @@ Currently we don't recommend to alter the schema of streams in Timeplus. 唯一�
 ```sql
 ```
 
-像 [CREATE STREAM]（Proton创建流）一样，流删除是一个异步过程。
+Like [CREATE STREAM](/proton-create-stream), stream deletion is an async process.
 
 :::info Timeplus Cloud 用户注意事项
 
-在Timeplus云或私有云部署中，我们建议您使用GUI或 [Terraform提供商]（terraform）删除流，以更好地跟踪血统和权限。
+In Timeplus Cloud or Private Cloud deployments, we recommend you to drop streams with GUI or [Terraform Provider](/terraform), to better tracking the lineage and permission.
 
 :::
