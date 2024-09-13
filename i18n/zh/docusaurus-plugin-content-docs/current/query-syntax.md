@@ -29,7 +29,7 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 [设置 <key1>=<value1>, <key2>=<value2>,...]
 ```
 
-只有 `SELECT` 和 `FROM` 条款是必填的（你甚至可以省略 `FORM`，比如 `SELECT now ()`，但它不太实用）。 `[...] 中的其他条款` 是可选的。 我们将按照相反的顺序逐一讨论它们，即 [设置](#settings)，然后 [EMIT](#emit)、 [LIMIT](#limit)等。
+只有 `SELECT` 和 `FROM` 条款是必填的（你甚至可以省略 `FORM`，比如 `SELECT now ()`，但它不太实用）。 `[...] 中的其他条款` 是可选的。 We will talk about them one by one in the reverse order, i.e. [SETTINGS](/query-syntax#settings), then [EMIT](/query-syntax#emit), [LIMIT](/query-syntax#limit), etc.
 
 SQL 关键字和函数名不区分大小写，而列名和流名称区分大小写。
 
@@ -268,6 +268,9 @@ SETTTINGS max_keep_windows=720;
 `GROUP BY` 对 1 个或更多列应用聚合。
 
 当应用 `GROUP BY` 时，可以选择 `HAVING` 来筛选聚合结果。 `WHERE` 和`HAVING` 的区别在于，数据将首先按 `WHERE` 子句过滤，然后应用 `GROUP BY`，最后应用 `HAVING`。
+
+## LIMIT
+`LIMIT n` When the nth result is emited, the query will stop, even it's a streaming SQL.
 
 ## JOINs
 
