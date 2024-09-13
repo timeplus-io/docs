@@ -4,10 +4,10 @@ Timeplus Enterprise is a high-performance converged platform that unifies stream
 
 Timeplus Enterprise provides the following major features:
 
-* [Streaming SQL](query-syntax)
-* [流数据收集](ingestion)
-* [流式可视化](viz)
-* [流式告警和数据导出](destination)
+* [Streaming SQL](/query-syntax)
+* [流数据收集](/ingestion)
+* [流式可视化](/viz)
+* [流式告警和数据导出](/destination)
 
 Timeplus Enterprise is available as a fully-managed cloud service with zero ops and elastic scaling, or as a self-hosted deployment, ideal for enterprise users requiring flexible and advanced configurations.
 
@@ -17,7 +17,7 @@ The following section contains step-by-step instructions on how to easily get st
 
 ### Step 1: install Timeplus Enterprise via a single command {#step1}
 
-如果你的服务器或电脑运行的是 Linux 或 macOS，你可以运行以下命令来下载软件包并在没有任何其他依赖关系的情况下启动 Timeplus Enterprise。 For Windows users, please follow [our guide](singlenode_install#docker) for running Timeplus Enterprise with Docker.
+如果你的服务器或电脑运行的是 Linux 或 macOS，你可以运行以下命令来下载软件包并在没有任何其他依赖关系的情况下启动 Timeplus Enterprise。 For Windows users, please follow [our guide](/singlenode_install#docker) for running Timeplus Enterprise with Docker.
 
 ```shell
 curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.sh | sh
@@ -36,16 +36,16 @@ After creating the account, login with that username and password. ![Login](/img
 
 如果你的流数据位于或可公开访问的 Kafka 或 Pulsar 实例中，请按照以下任一文档 在 Timeplus Cloud 中创建源，然后返回此处完成快速入门：
 
-- [Apache Kafka](kafka-source)
-- [Confluent Cloud](confluent-cloud-source)
-- [Apache Pulsar](pulsar-source)
-- [REST API、SDK 等](ingestion)
+- [Apache Kafka](/kafka-source)
+- [Confluent Cloud](/confluent-cloud-source)
+- [Apache Pulsar](/pulsar-source)
+- [REST API、SDK 等](/ingestion)
 
 如果你还没有流式数据源并且想测试一下Timeplus的工作原理，Timeplus提供内置的 数据源，为一些常见用例生成流式数据。
 
 #### 创建示例源
 
-1. 在您的工作空间中创建第一个 [源](glossary#source) 。 在左侧导航菜单中，单击 **数据摄取**，然后单击右上角的 **添加数据** 按钮。
+1. Create the first [source](/glossary#source) in your workspace. 在左侧导航菜单中，单击 **数据摄取**，然后单击右上角的 **添加数据** 按钮。
 
    ![“数据提取” 页面](/img/sample-source-button-1.png)
 
@@ -95,7 +95,7 @@ The following section contains step-by-step instructions on how to easily get st
 
 ### 步骤 1：注册一个Timeplus账户 {#cloud_step1}
 
-Let's start by creating an account for [Timeplus Cloud](https://us-west-2.timeplus.cloud/). 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 设置账户并创建第一个 [工作空间](glossary#workspace) 通常需要不到 2 分钟。
+Let's start by creating an account for [Timeplus Cloud](https://us-west-2.timeplus.cloud/). 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 It usually takes less than 2 minutes to get the account set up and have the first [workspace](/glossary#workspace) created.
 
 ![注册一个账户](/img/sign-up-page.png)
 
@@ -115,7 +115,7 @@ Please refer to [Step 3](#step3) of the previous section.
 
 ## 下一步是什么？
 
-- [摄取](ingestion) 额外数据流
-- 写下 [流查询](query-syntax)
-- 使用 [可视化](viz) 和仪表板根据流数据创建其他图表
-- 将您的查询结果发送到 [数据下游](destination)
+- [Ingest](/ingestion) additional data streams
+- Write [streaming queries](/query-syntax)
+- Create additional charts from streaming data with [visualizations](/viz) and dashboards
+- Send the results of your queries to a [sink](/destination)
