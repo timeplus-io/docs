@@ -10,7 +10,7 @@
 
 这里有一个 [Python 脚本示例](https://github.com/timeplus-io/github_liveview/blob/develop/github_demo.py) 供你参考。 但是我们已经允许通过Kafka API访问实时数据。
 
-在 Timeplus 中，你可以通过 [外部流]（外部流）从 Kafka 读取数据。 以下是创建这样的外部流以从 Aiven 上的 Kafka 集群读取内容的 SQL：
+In Timeplus, you read data from Kafka via an [External Stream](/external-stream). 以下是创建这样的外部流以从 Aiven 上的 Kafka 集群读取内容的 SQL：
 
 ```sql
 创建外部流 github_events
@@ -66,7 +66,7 @@ COMMENT '要阅读的外部流来自 Aiven for Apache Kafka 的 JSON 格式的 G
 
 这将显示自查询开始以来收到了多少新事件。 因此，你可能会看到像158这样的数字，然后在几秒钟后看到334这样的数字。
 
-这就是所谓的 [全局聚合]（查询语法 #global）。
+This is so-called [Global Aggregation](/query-syntax#global).
 
 #### 滚动聚合
 
