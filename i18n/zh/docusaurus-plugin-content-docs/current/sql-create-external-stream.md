@@ -1,6 +1,6 @@
 # 创建外部流
 
-External stream for Kafka is official supported. The external stream for local log files is at technical preview. In Timeplus Enterprise, it also supports [another type of External Stream](timeplus-external-stream) to read/write data for a remote Timeplus Enterprise.
+External stream for Kafka is official supported. The external stream for local log files is at technical preview. In Timeplus Enterprise, it also supports [another type of External Stream](/timeplus-external-stream) to read/write data for a remote Timeplus Enterprise.
 
 ## Kafka 外部流
 
@@ -45,7 +45,7 @@ The supported values for `data_format` are:
 
 :::info
 
-For examples to connect to various Kafka API compatitable message platforms, please check [this doc](tutorial-sql-connect-kafka).
+For examples to connect to various Kafka API compatitable message platforms, please check [this doc](/tutorial-sql-connect-kafka).
 
 :::
 
@@ -127,6 +127,6 @@ SYSTEM UNPAUSE MATERIALIZED VIEW edge_to_cloud;
 
 This is a relatively new feature. There are some known limitations which we plan to improve later on.
 
-- [table function](functions_for_streaming#table) is not supported. In order to query all or part of the historical data, you can start a streaming query with `WHERE _tp_time>earliest_ts()` or `WHERE _tp_time>now()-2d`.
-- [window functions](functions_for_streaming) like tumble/hop are not working yet.
+- [table function](/functions_for_streaming#table) is not supported. In order to query all or part of the historical data, you can start a streaming query with `WHERE _tp_time>earliest_ts()` or `WHERE _tp_time>now()-2d`.
+- [window functions](/functions_for_streaming) like tumble/hop are not working yet.
 - can't read virtual columns on remote streams.
