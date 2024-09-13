@@ -165,6 +165,6 @@ select * from car_live_data where cid='{{car_id}}'
 ## 与外部BI集成
 You can use [JDBC](https://github.com/timeplus-io/proton-java-driver) or [ODBC](https://github.com/timeplus-io/proton-odbc) drivers of Timeplus to run queries and visualized the results in various BI tools, such as [Metabase](https://github.com/timeplus-io/metabase-proton-driver).
 
-We also released [a Grafana data source plugin](integration-grafana) to visualize streaming SQL without refreshing the dashboard.
+We also released [a Grafana data source plugin](/integration-grafana) to visualize streaming SQL without refreshing the dashboard.
 
 For highly customizable charts, you can also call Timeplus SDK to load the data and render the chart with 3rd party charting libraries.
