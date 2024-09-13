@@ -1,6 +1,6 @@
 # 从Apache Kafka加载流数据
 
-当前Kafka是Timeplus最主要的实时数据来源(和下游)。 You can also create [external streams](/working-with-streams#external_stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
+当前Kafka是Timeplus最主要的实时数据来源(和下游)。 You can also create [external streams](/external-stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
 
 ## Apache Kafka数据源
 
