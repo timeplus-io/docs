@@ -31,7 +31,7 @@ DESCRIBE name
 
 :::info
 
-输出中的数据类型将是 Proton 数据类型，例如 `uint8`，而不是 ClickHouse 类型的 `Uint8`。 Proton 维护着这些类型的映射。 [了解更多。](#datatype)
+输出中的数据类型将是 Proton 数据类型，例如 `uint8`，而不是 ClickHouse 类型的 `Uint8`。 Proton 维护着这些类型的映射。 [Learn more.](/datatypes)
 
 :::
 
