@@ -1,6 +1,6 @@
 # 创建流
 
-[Stream](working-with-streams) is a key [concept](glossary) in Timeplus. 所有数据都存在于流中，无论是静态数据还是动态数据。 We don't recommend you to create or manage `TABLE` in Timeplus.
+[Stream](/working-with-streams) is a key [concept](/glossary) in Timeplus. 所有数据都存在于流中，无论是静态数据还是动态数据。 We don't recommend you to create or manage `TABLE` in Timeplus.
 
 语法：
 
@@ -23,7 +23,7 @@ If you omit the database name, `default` will be used. If you omit the database 
 
 ### 多版本流
 
-[Versioned Stream](versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如：
+[Versioned Stream](/versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如：
 
 ```sql
 CREATE STREAM versioned_kv(i int, k string, k1 string)
@@ -35,7 +35,7 @@ The default `version_column` is `_tp_time`. For the data with same primary key(s
 
 ### 变更日志流
 
-[Changelog Stream](changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如：
+[Changelog Stream](/changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如：
 
 ```sql
 CREATE STREAM changelog_kv(i int, k string, k1 string)
