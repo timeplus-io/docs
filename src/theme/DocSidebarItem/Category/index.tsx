@@ -48,7 +48,7 @@ function useAutoExpandActiveCategory({
  * see https://github.com/facebook/docusaurus/issues/3030
  */
 function useCategoryHrefWithSSRFallback(
-  item: Props["item"]
+  item: Props["item"],
 ): string | undefined {
   const isBrowser = useIsBrowser();
   return useMemo(() => {
@@ -83,7 +83,7 @@ function CollapseButton({
                 message: "Expand sidebar category '{label}'",
                 description: "The ARIA label to expand the sidebar category",
               },
-              { label: categoryLabel }
+              { label: categoryLabel },
             )
           : translate(
               {
@@ -91,7 +91,7 @@ function CollapseButton({
                 message: "Collapse sidebar category '{label}'",
                 description: "The ARIA label to collapse the sidebar category",
               },
-              { label: categoryLabel }
+              { label: categoryLabel },
             )
       }
       aria-expanded={!collapsed}
@@ -160,7 +160,7 @@ export default function DocSidebarItemCategory({
         {
           "menu__list-item--collapsed": collapsed,
         },
-        className
+        className,
       )}
     >
       <div
@@ -192,7 +192,9 @@ export default function DocSidebarItemCategory({
           aria-current={isCurrentPage ? "page" : undefined}
           role={collapsible && !href ? "button" : undefined}
           aria-expanded={collapsible && !href ? !collapsed : undefined}
-          href={collapsible ? hrefWithSSRFallback ?? "#" : hrefWithSSRFallback}
+          href={
+            collapsible ? (hrefWithSSRFallback ?? "#") : hrefWithSSRFallback
+          }
           {...props}
         >
           {label}
@@ -200,7 +202,7 @@ export default function DocSidebarItemCategory({
             <span
               style={{
                 marginLeft: "8px",
-                backgroundColor: tag === "Enterprise" ? "#242227" : "#FF4A71",
+                backgroundColor: tag === "Enterprise" ? "#42186D" : "#FF4A71",
                 color: tag === "Enterprise" ? "#AEACB0" : "white",
                 padding: "2px 6px",
                 fontSize: "0.8em",
