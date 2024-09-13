@@ -21,7 +21,7 @@
 
 对于可能的时区的完整列表，请检查 [维基百科页面](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) 中的“TZ 数据库名称”栏。
 
-您也可以通过 [to_timezone](#to_timezone) 转换时区
+You can also convert the time between time zones via [to_timezone](/functions_for_datetime#to_timezone)
 
 它可以解析字符串 `2023-09-19 05:31:34` 或 `2023-09-19T 05:31:34 Z`。
 
@@ -43,7 +43,7 @@
 
 ### to_string
 
-将任何数据类型转换为字符串，以便您可以执行其他字符串操作，如 [concat](#concat)
+Convert any data type to a string, so that you can do other string operations, such as [concat](/functions_for_type#concat)
 
 ### to_bool
 
