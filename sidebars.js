@@ -94,7 +94,6 @@ const sidebars = {
             {
               type: "doc",
               id: "remote-udf",
-              customProps: { tag: "Enterprise" },
             },
             "js-udf",
           ],
@@ -238,6 +237,7 @@ const sidebars = {
     {
       type: "category",
       label: "Query & SQL Reference",
+      customProps: { tag: "Popular" },
       items: [
         "query-syntax",
         "query-settings",
@@ -269,6 +269,7 @@ const sidebars = {
             "sql-create-function",
             "sql-show-functions",
             "sql-drop-function",
+            "sql-create-remote-function",
             "sql-show-create",
 
             "sql-system-pause",

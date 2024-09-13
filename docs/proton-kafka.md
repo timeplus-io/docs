@@ -93,7 +93,7 @@ Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is availabl
 
 #### Multiple columns to read from Kafka{#multi_col_read}
 
-If the keys in the JSON message never change, or you don't care about the new columns, you can also create the external stream with multiple columns (only available to Proton v1.3.24+).
+If the keys in the JSON message never change, or you don't care about the new columns, you can also create the external stream with multiple columns.
 
 You can pick up some top level keys in the JSON as columns, or all possible keys as columns.
 
@@ -126,13 +126,13 @@ If there are nested complex JSON in the message, you can define the column as a 
 
 :::info
 
-Since Proton v1.3.29, Protobuf messages can be read with all or partial columns. Please check [this page](proton-format-schema).
+Protobuf messages can be read with all or partial columns. Please check [this page](proton-format-schema).
 
 :::
 
 #### Multiple columns to write to Kafka{#multi_col_write}
 
-To write data via Kafka API (only available to Proton v1.3.18+), you can choose different data formats:
+To write data via Kafka API, you can choose different data formats:
 
 ##### JSONEachRow
 
@@ -164,7 +164,7 @@ The messages will be generated in the specific topic as
 
 :::info
 
-Please note, since 1.3.25, by default multiple JSON documents will be inserted to the same Kafka message. One JSON document each row/line. Such default behavior aims to get the maximum writing performance to Kafka/Redpanda. But you need to make sure the downstream applications are able to properly split the JSON documents per Kafka message.
+Please note, by default multiple JSON documents will be inserted to the same Kafka message. One JSON document each row/line. Such default behavior aims to get the maximum writing performance to Kafka/Redpanda. But you need to make sure the downstream applications are able to properly split the JSON documents per Kafka message.
 
 If you need a valid JSON per each Kafka message, instead of a JSONL, please set `one_message_per_row=true` e.g.
 
@@ -176,9 +176,7 @@ SETTINGS type='kafka', brokers='redpanda:9092', topic='masked-fe-event',
 
 The default value of one_message_per_row, if not specified, is false for `data_format='JSONEachRow'` and true for `data_format='RawBLOB'`.
 
-:::info
 Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is available. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message and when to create new Kafka message, ensuring each message won't exceed the `kafka_max_message_size` limit.
-:::
 
 :::
 
@@ -399,3 +397,12 @@ Please note, not all properties in [librdkafka](https://github.com/confluentinc/
 | compression.type                   | none, gzip, snappy, lz4, zstd          |         | Alias for `compression.codec`: compression codec to use for compressing message sets.                                                                                            |
 | compression.level                  | -1 .. 12                               |         | Compression level parameter for algorithm selected by configuration property `compression.codec`.                                                                                |
 | topic.metadata.refresh.interval.ms | -1 .. 3600000                          |         | Period of time in milliseconds at which topic and broker metadata is refreshed in order to proactively discover any new brokers, topics, partitions or partition leader changes. |
+
+## Limitations
+
+There are some limitations for the Kafka-based external streams, because Timeplus doesn’t control the storage or the data format for the external stream.
+
+1. The UI wizard only support JSON or TEXT. To use Avro, Protobuf, or schema registry service, you need the SQL DDL.
+2. `_tp_time` is available in the external streams (since Proton 1.3.30). `_tp_append_time` is set only when message timestamp is an append time.
+3. Unlike normal streams, there is no historical storage for the external streams. Hence you cannot run `table(my_ext_stream)`or `settings query_mode='table'` To access data even before you create the external stream, you can use `WHERE _tp_time >'2023-01-15'` to travel to a specific timestamp in the past, or use `SETTINGS seek_to='earliest'`.
+4. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Kafka/Confluent/Redpanda. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.

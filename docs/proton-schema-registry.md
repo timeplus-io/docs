@@ -1,7 +1,5 @@
 # Kafka Schema Registry
 
-Since Proton 1.5.2, Kafka schema registry is supported.
-
 ## Read Messages in Protobuf or Avro Schema {#read}
 
 To read Kafka data in Protobuf or Avro schema with a schema registry, you can create an external stream with `kafka_schema_registry_url` settings, e.g.
