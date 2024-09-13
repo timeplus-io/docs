@@ -10,4 +10,4 @@ You can also customize the file name with `-f` or `--backup-file` flag. If your 
 
 ## See Also
 
-[timeplus restore](cli-restore)
+[timeplus restore](/cli-restore)
