@@ -1,6 +1,6 @@
 # Timeplus Cloud Public Beta 2
 
-我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 相比 [公开测试版1](public-beta-1)，除了入口点从 https://beta.timeplus.cloud 更改为 https://us.timeplus.cloud 以外，大多数后端和前端更改都是递增式的。
+我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 Compared to our [Public Beta 1](/public-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from https://beta.timeplus.cloud to https://us.timeplus.cloud
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
@@ -15,15 +15,15 @@
 
 **其他用户界面的改进**
 
-- 在查询页面的结果表中，对于日期/时间列，我们现在显示原始时间戳（不再显示浏览器的本地时区）。 在 Timeplus 中，默认情况下，\ _tp_time 列是在 UTC 时区创建的。 有关详细信息，请查看 [\ _tp_time（事件时间）](eventtime) 。
+- 在查询页面的结果表中，对于日期/时间列，我们现在显示原始时间戳（不再显示浏览器的本地时区）。 在 Timeplus 中，默认情况下，\ _tp_time 列是在 UTC 时区创建的。 Please check the [\_tp_time (Event time)](/eventtime) for details.
 - 改进了在个人设置中显示 API 密钥到期日期的方式。
 
 **流数据库和流式SQL**
 
 - 极大地提高了源和下游的性能。
 - `JOIN`的改进：
-  - 以前，如果你对带有 [多版本流](versioned-stream) 的普通流（仅附加）运行 `JOIN`，那么多版本流的所有主键列都需要在 `ON` 子句中。 现在，只要选择了所有主键列，就可以在 `ON` 子句中使用一个或多个主键列。
-  - (实验性) 我们还添加了对 [变更日志流](changelog-stream) `JOIN` [变更日志流](changelog-stream) 或 [变更日志](changelog-stream) 的 `JOIN` [多版本流](versioned-stream) 的支持。
+  - Previously, if you run `JOIN` for a normal stream (append-only) with a [Versioned Stream](/versioned-stream), all primary key columns of the Versioned Stream need to be in the `ON` clause. 现在，只要选择了所有主键列，就可以在 `ON` 子句中使用一个或多个主键列。
+  - (Experimental) We also added support for [Changelog Stream](/changelog-stream) `JOIN` [Changelog Stream](/changelog-stream), or [Changelog Stream](/changelog-stream) `JOIN` [Versioned Stream](/versioned-stream).
 
 ## 2023年7月10日
 
@@ -97,7 +97,7 @@
 
 **增强功能：数据提取**
 
-- 我们使您可以更轻松地通过 Ingest REST API 推送数据。 我们在控制台中添加了一个向导页面，用于指导您对目标流、请求模板和API密钥的选择，然后为您的推送请求生成示例代码。 [了解更多](ingest-api)
+- 我们使您可以更轻松地通过 Ingest REST API 推送数据。 我们在控制台中添加了一个向导页面，用于指导您对目标流、请求模板和API密钥的选择，然后为您的推送请求生成示例代码。 [Learn more.](/ingest-api)
 - 我们的CSV文件上传向导外观焕然一新，它全新的用户界面风格变得与其他向导相同了。
 
 **增强功能：仪表板和图表**
@@ -109,7 +109,7 @@
 
 **流数据库和流式SQL**
 
-- （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 你可以利用 [Debezium](https://debezium.io/)等工具加载来自不同来源的CDC（变更数据捕获）数据，并跟踪Timeplus中的插入、更新、删除操作。 您可以随时获得任意主键的最新数据。 [了解更多](working-with-streams)
+- （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 你可以利用 [Debezium](https://debezium.io/)等工具加载来自不同来源的CDC（变更数据捕获）数据，并跟踪Timeplus中的插入、更新、删除操作。 您可以随时获得任意主键的最新数据。 [Learn more.](/working-with-streams)
 
 **图表和仪表盘**
 
@@ -126,8 +126,8 @@
 
 **流数据库和流式SQL**
 
-- 对于状态时间窗口聚合([tumble](functions_for_streaming#tumble)/[hop](functions_for_streaming#hop)/[session](functions_for_streaming#session)), Timeplus现在支持亚秒间隔： `ms` 表示毫秒。 `us` 表示微秒 `ns` 表示纳秒。 例如，您可以通过运行流式SQL，在过去1秒的滑动窗口中每10毫秒显示结果： `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. 两个月前，我们还增加了亚秒级间隔运行全局聚合的能力。 例如 `select sum(price) from stocks emit periodic 50m`
-- 添加了新功能来 [md5](functions#md5), [md4](functions#md4), and [hex](functions#hex)，可以帮助您生成哈希键。
+- For stateful time window aggregations ([tumble](/functions_for_streaming#tumble)/[hop](/functions_for_streaming#hop)/[session](/functions_for_streaming#session)), Timeplus now supports sub-second intervals: `ms` for milliseconds, `us` for microseconds, and `ns` for nanoseconds. 例如，您可以通过运行流式SQL，在过去1秒的滑动窗口中每10毫秒显示结果： `select window_start, stock, avg(price) from hop(stocks,10ms,1s) group by window_start, stock`. 两个月前，我们还增加了亚秒级间隔运行全局聚合的能力。 例如 `select sum(price) from stocks emit periodic 50m`
+- Added new functions [md5](/functions#md5), [md4](/functions#md4), and [hex](/functions#hex), which can help you generate hash keys.
 
 **图表和仪表盘**
 
@@ -141,13 +141,13 @@
 - 在查询历史记录页面中，SQL 列变得更宽了，方便您查看更多内容。
 - 在查询编辑器页面中，函数描述被添加到自动提示框中。
 - 我们通过允许您打开新的浏览器选项卡，使您在 Timeplus 中进行多任务处理变得更加容易。 例如，当您在 **Query** 页面中编写 SQL 并需要创建新视图时，可以在左侧导航菜单中右键单击 **Views** 并打开一个浏览器窗口。
-- 我们完善了 [Ingest API](ingest-api) 的文档，并添加了 Node/curl/Python/Java 的代码示例。 Ingest API的也添加了[新快速入门](quickstart-ingest-api) 。
+- We refined the documentation of [Ingest API](/ingest-api) and added code examples for Node/curl/Python/Java. [A new quickstart](/quickstart-ingest-api) for the Ingest API is added too.
 
 ## 2023年4月3日
 
 **流数据库和流式SQL**
 
-- 添加了 2 个新函数： [arg_min](functions#arg_min) 和 [arg_max](functions#arg_max)。 使用它们，您可以快速找到关于某一列最小值或最大值的行，然后获取特定列的值。 要访问更多行或列，请使用 [min_k](functions#min_k) 和 [max_k](functions#max_k)。
+- Added 2 new functions: [arg_min](/functions#arg_min) and [arg_max](/functions#arg_max). 使用它们，您可以快速找到关于某一列最小值或最大值的行，然后获取特定列的值。 To access more rows or columns, please use [min_k](/functions#min_k) and [max_k](/functions#max_k).
 - （实验性新功能）除了仅限追加的数据流外，现在您还可以创建包含变更和多版本的数据流。 如果您想试用此功能，请联系我们。
 
 **图表和仪表盘**
@@ -169,7 +169,7 @@
 
 **查询**
 
-- 简化了 `LATEST JOIN` 语法。 无须写 `INNER LATEST JOIN`。 [点击此处，了解更多](query-syntax#latest-join).
+- 简化了 `LATEST JOIN` 语法。 无须写 `INNER LATEST JOIN`。 [Learn more](/query-syntax#latest-join).
 - 对于使用 tumble window 聚合的历史查询，如果窗口中没有事件，则该窗口将不会出现在结果中。 显示一个缺省值的窗口(0表示数字类型，空字符串表示), 您可以通过 window_start 添加排序，填充步骤 \<window _size\>。
 - 自动清理最近的查询日志：如果超过 500 个，则删除较旧的查询。
 
@@ -196,23 +196,23 @@
 
 - 新功能
 
-  - 您可以在仪表板中添加筛选器。 例如，查看最近 5 分钟或最近 1 小时的服务器状态。 [了解更多](viz#filter)
+  - 您可以在仪表板中添加筛选器。 例如，查看最近 5 分钟或最近 1 小时的服务器状态。 [Learn more.](/viz#filter)
   - 之前当您打开面板时，您可以随时调整面板大小，删除面板。 设置会自动保存。 我们在不断增强仪表板添加更多功能，所以决定引入了显式的视图模式和编辑模式。
   - （实验性）你可以使用 [Markdown](https://en.wikipedia.org/wiki/Markdown)的面板进一步装饰仪表板，你可以添加样式化文本甚至图像。 可选配置，默认情况下关闭. 如果您想试用此功能，请联系我们。
 
 - 增强功能
-  - 增强并优化每种图表类型的各种功能。 [了解更多](viz#chart)
-  - 能够对使用流式 sql 的视图运行 [table ()](functions#table) 函数，例如 `将 c 设置为（从 a_stream 中选择 col1，col2 其中 b>0）从表 (c) 中选择 *` 请注意，视图中的流 SQL 不能包含任何聚合。 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
+  - 增强并优化每种图表类型的各种功能。 [Learn more.](/viz#chart)
+  - Able to run [table()](/functions#table) function for a view with streaming sql, e.g. `with c as(select col1,col2 from a_stream where b>0) select * from table(c)` Please note the streaming SQL in the view cannot contain any aggregation. 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
   - 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 `earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
   - 你也可以在一个包括JOIN/UNION多个流的SQL中多次使用 `where _tp_time >..` 为不同的流穿越到不同的起点。
   - 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
-  - 为流式查询添加 [LATEST JOIN](query-syntax#latest-join) 。 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。 无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
+  - Added a new [LATEST JOIN](/query-syntax#latest-join) for streaming SQL. 对于两个仅限追加的流，您可以使用 `a LEFT INNER LATEST JOIN b on a.key=b.key`。 无论何时任一流的数据发生变化，先前的JOIN结果都将被取消并添加新结果。
 
 ## 2023年2月17日
 
 - 新功能
 
-  - [全局聚合](query-syntax#global) 现在支持亚秒级的输出间隔。 比如. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
+  - [Global aggregation](/query-syntax#global) now supports sub-second emit intervals. 比如. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
   - 现在，您可以创建多个物化视图来将数据写入同一个流。 此功能的典型用法是在相同的原始数据上应用多个处理逻辑，然后发送到同一个数据流以获得聚合结果。 对于物化视图，Timeplus 会维护查询的状态，这将更适合长时间运行的查询和故障恢复。
   - (实验性) 在创建新流后，您可以选择直接在控制台界面中添加少量数据，而不用通过REST API或创建源。 如果您想试用此功能，请联系我们。
   - （实验性）Timeplus 后端添加了对CDC（[Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)）的内置支持，用户界面将很快准备就绪。 您可以在不同的模式下创建数据流。 默认情况下，它是仅限追加的。 您也可以创建流来接受INSERT、UPDATE和DELETE从 [Debezium](https://debezium.io/) 的更改日志。 流式聚合结果将反映最新的数据变化。 如果您想试用此功能，请联系我们。
@@ -224,7 +224,7 @@
   - 流列表页面显示最早和最新的事件时间，帮助您更好地了解每个数据流有多新鲜。
   - 如果你开始运行流式传输 SQL 然后转到 Timeplus 控制台中的另一个页面，查询将自动停止。 这将减少不必要的服务器工作量和并发查询的数量。
   - 提高了列表模式下查询结果的性能。
-  - [外部流](working-with-streams#external_stream) 和 [物化视图](view#m_view)的性能调整。
+  - Performance tuning for [external streams](/working-with-streams#external_stream) and [materialized views](/view#m_view).
 
 ## 2023年2月3日
 
@@ -251,4 +251,4 @@
 - 更多图表类型和选项。 您可以选择折线图、面积图、柱形图、条形图、单值图和图表作为可视化类型。 每个图表都支持基本设置和高级设置。
 - 添加了一种内置的针对`json`优化的数据类型，与将 JSON 另存为 `string` 并在查询时动态提取相比，查询性能更好。 适合于同一结构的 JSON 文档。 通过 `column.jsonpath` 访问该值（而不是用文本列的方式 `column:jsonpath` ）
 - 我们开始弃用 `settings seek_to=..` 仍然支持时空旅行，你只需要在 WHERE 条件下使用 `_tp_time` 列，例如 `WHERE _tp_time>=now () -1h` 即可在 1 小时前进行时空旅行并显示此后的数据。 或者 `WHERE _tp_time >= '2023-01-14'` Timeplus 中的所有数据流都包含 `_tp_time` 作为事件时间。
-- （实验性）除了 [Remote UDF](remote-udf)之外，现在你还可以使用 JavaScript 来定义新函数。 支持标量函数和聚合函数。 请查看 [JS UDF](js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。
+- (Experimental) In addition to the [Remote UDF](/remote-udf), now you can define new functions with JavaScript. 支持标量函数和聚合函数。 Please check the [JS UDF](/js-udf) documentation for details and contact us if you want to try this.
