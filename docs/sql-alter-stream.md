@@ -48,6 +48,21 @@ By default, the checkpoint will be updated every 15 minutes for materialized vie
 ALTER STREAM mv_with_inner_stream RESET QUERY SETTING checkpoint_interval
 ```
 
+## ADD COLUMN
+
+:::info
+This feature is available in single-node of [Timeplus Enterprise v2.4.15](/enterprise-releases#2415) or above. Not available in cluster or Timeplus Proton.
+:::
+
+You can add a column to an existing stream. The value of the new column in the existing rows will be set to the default value of the data type, such as 0 for integer.
+
+Syntax:
+```sql
+ALTER STREAM stream_name ADD COLUMN column_name data_type
+```
+
+`DELETE COLUMN` or `RENAME COLUMN` are not supported yet. Contact us if you have strong use cases.
+
 ## See also
 * [CREATE STREAM](/sql-create-stream) - Create streams
 * [CREATE MATERIALIZED VIEW](/sql-create-materialized-view) - Create materialized views
