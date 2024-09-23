@@ -176,9 +176,10 @@ Components:
   - feat: [parallel key space scan](/mutable-stream#key_space_full_scan_threads)
   - feat: force_full_scan for mutable stream
   - feat: user management on cluster
-  - fix: [alter stream .. modify settings ..](/sql-alter-stream#stream_ttl)
+  - fix: [ALTER STREAM .. MODIFY SETTINGS ..](/sql-alter-stream#stream_ttl)
   - feat: support remote UDF on cluster
   - feat: primary key columns in secondary key
+  - feat: support [ALTER STREAM .. ADD COLUMN ..](sql-alter-stream#add-column)
   - feat: _tp_message_key to [read/write message keys in Kafka](/proton-kafka#messagekey)
   - feat: [Kafka schema registry support for Avro output format](/proton-schema-registry#write)
   - feat: support idempotent keys processing
