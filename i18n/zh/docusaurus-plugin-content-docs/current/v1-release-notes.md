@@ -288,7 +288,7 @@ _Proton:_
 - [Python Driver](https://github.com/timeplus-io/proton-python-driver) 0.2.10 now supports Python 3.11 and 3.12.
 - [Go Driver](https://github.com/timeplus-io/proton-go-driver) is now open source.
 - Our [Grafana data source plugin](https://github.com/timeplus-io/proton-grafana-source), to connect to Proton and visualize streaming or batch queries, is now open source. Stay tuned for our upcoming blog and demo!
-- We've added [User-Defined Functions](/proton-create-udf) support in Proton v1.3.15 (create/delete), allowing you to leverage existing programming libraries, integrate with external systems, or make SQL easier to maintain.
+- We've added User-Defined Functions support in Proton v1.3.15 (create/delete), allowing you to leverage existing programming libraries, integrate with external systems, or make SQL easier to maintain.
 
 _Timeplus Cloud:_
 
