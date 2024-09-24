@@ -1,6 +1,6 @@
 # CLI Reference
 
-Besides [timesplud-client](/timeplusd-client), Timeplus also provide the `timeplus` command line interface to help you manage the self-hosted deployments.
+Besides [timeplusd-client](/timeplusd-client), Timeplus also provide the `timeplus` command line interface to help you manage the self-hosted deployments.
 
 ## Commands
 
