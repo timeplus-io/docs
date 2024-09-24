@@ -244,7 +244,7 @@ Similarly, we can apply the last X on hopping window.
 When `GROUP BY` is applied, `HAVING` is optional to filter the aggregation results. The difference between `WHERE` and`HAVING` is data will be filtered by `WHERE` clause first, then apply `GROUP BY`, and finally apply `HAVING`.
 
 ## LIMIT
-`LIMIT n` When the nth result is emited, the query will stop, even it's a streaming SQL.
+`LIMIT n` When the nth result is emitted, the query will stop, even it's a streaming SQL.
 
 ## JOINs
 
