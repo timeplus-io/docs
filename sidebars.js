@@ -337,6 +337,11 @@ const sidebars = {
         },
         "jdbc",
         {
+          label: "ODBC Driver",
+          type: "link",
+          href: "https://github.com/timeplus-io/proton-odbc",
+        },
+        {
           label: "Python Driver",
           type: "link",
           href: "https://github.com/timeplus-io/proton-python-driver",
@@ -377,6 +382,16 @@ const sidebars = {
         "integration-metabase",
         "sling",
         "kafka-connect",
+        {
+          label: "Push data to Timeplus via Airbyte",
+          type: "link",
+          href: "https://airbyte.com/connectors/timeplus",
+        },
+        {
+          label: "Push data to Timeplus via Meltano",
+          type: "link",
+          href: "https://www.timeplus.com/post/meltano-timeplus-target",
+        },
         "datapm",
       ],
     },
