@@ -1,6 +1,6 @@
 # CLI Reference
 
-For [bare metal](/singlenode_install) installation, the `timeplus` command line interface provides many handy features to help you manage the self-hosted deployments.
+Besides [timesplud-client](/timeplusd-client), Timeplus also provide the `timeplus` command line interface to help you manage the self-hosted deployments.
 
 ## Commands
 
