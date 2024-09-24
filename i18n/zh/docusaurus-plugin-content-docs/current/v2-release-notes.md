@@ -16,7 +16,7 @@ The new cloud service available at https://us-west-2.timeplus.cloud. The previou
 
 ### Timeplus Destination Connector for Airbyte v0.1.20
 
-Support us-west-2.timeplus.cloud as the default endpoint. Dependencies are updated. This is avilable for both Airbyte Cloud and Airbyte OSS.
+Support us-west-2.timeplus.cloud as the default endpoint. Dependencies are updated. This is available for both Airbyte Cloud and Airbyte OSS.
 
 ### Timeplus Native JDBC v2.0.5
 
