@@ -20,7 +20,7 @@ CREATE REMOTE FUNCTION udf_name(arg_name data_type) RETURNS data_type
  AUTH_METHOD 'none'
 ```
 
-Pleaes refer to [the example](/remote-udf) for how to build a IP lookup service via AWS Lambda and register it as a remote UDF in Timeplus.
+Please refer to [the example](/remote-udf) for how to build a IP lookup service via AWS Lambda and register it as a remote UDF in Timeplus.
 
 ## Authentication with HTTP Header
 
