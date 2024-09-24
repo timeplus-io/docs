@@ -61,7 +61,7 @@ The command-line client allows passing external data (external temporary tables)
 You can create a query with parameters and pass values to them from client application. This allows to avoid formatting query with specific dynamic values on client side. 例如：
 
 ```bash
-$ timeplusd-client --param_parName="[1, 2]"  -q "SELECT * FROM table WHERE a = {parName:Array(UInt16)}"
+$ timeplusd-client --param_parName="[1, 2]"  -q "SELECT * FROM stream WHERE a = {parName:array(uint16)}"
 ```
 
 It is also possible to set parameters from within an interactive session:
@@ -69,7 +69,7 @@ It is also possible to set parameters from within an interactive session:
 ```bash
 $ timeplusd-client -nq "
   SET param_parName='[1, 2]';
-  SELECT {parName:Array(UInt16)}"
+  SELECT {parName:array(uint16)}"
 ```
 
 #### Query Syntax {#cli-queries-with-parameters-syntax}
@@ -81,13 +81,13 @@ Format a query as usual, then place the values that you want to pass from the ap
 ```
 
 - `name` — Placeholder identifier. In the console client it should be used in app parameters as `--param_<name> = value`.
-- `data type` — [Data type](../sql-reference/data-types/index.md) of the app parameter value. For example, a data structure like `(integer, ('string', integer))` can have the `Tuple(UInt8, Tuple(String, UInt8))` data type (you can also use another [integer](../sql-reference/data-types/int-uint.md) types). It's also possible to pass table, database, column names as a parameter, in that case you would need to use `Identifier` as a data type.
+- `data type` — [Data type](/datatypes) of the app parameter value. For example, a data structure like `(integer, ('string', integer))` can have the `tuple(uint8, tuple(string, uint8))` data type (you can also use another integer types). It's also possible to pass table, database, column names as a parameter, in that case you would need to use `identifier` as a data type.
 
 #### Example {#example}
 
 ```bash
-$ timeplusd-client --param_tuple_in_tuple="(10, ('dt', 10))" -q "SELECT * FROM table WHERE val = {tuple_in_tuple:Tuple(UInt8, Tuple(String, UInt8))}"
-$ timeplusd-client --param_tbl="numbers" --param_db="system" --param_col="number" --query "SELECT {col:Identifier} FROM {db:Identifier}.{tbl:Identifier} LIMIT 10"
+$ timeplusd-client --param_tuple_in_tuple="(10, ('dt', 10))" -q "SELECT * FROM stream WHERE val = {tuple_in_tuple:tuple(uint8, tuple(string, uint8))}"
+$ timeplusd-client --param_tbl="numbers" --param_db="system" --param_col="number" --query "SELECT {col:identifier} FROM {db:identifier}.{tbl:identifier} LIMIT 10"
 ```
 
 ## Configuring {#interfaces_cli_configuration}
