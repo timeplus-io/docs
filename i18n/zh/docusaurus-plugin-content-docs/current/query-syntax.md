@@ -270,7 +270,7 @@ SETTTINGS max_keep_windows=720;
 当应用 `GROUP BY` 时，可以选择 `HAVING` 来筛选聚合结果。 `WHERE` 和`HAVING` 的区别在于，数据将首先按 `WHERE` 子句过滤，然后应用 `GROUP BY`，最后应用 `HAVING`。
 
 ## LIMIT
-`LIMIT n` When the nth result is emited, the query will stop, even it's a streaming SQL.
+`LIMIT n` When the nth result is emitted, the query will stop, even it's a streaming SQL.
 
 ## JOINs
 
