@@ -405,9 +405,10 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
-        "v2-release-notes",
-        "enterprise-releases",
+        // "enterprise-v2.5",
+        "enterprise-v2.4",
         "enterprise-v2.3",
+        "v2-release-notes",
         "v1-release-notes",
         "public-beta-2",
         "public-beta-1",
