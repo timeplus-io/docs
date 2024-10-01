@@ -167,9 +167,11 @@ const sidebars = {
       type: "category",
       label: "Guides & Tutorials",
       items: [
+        "tutorial-sql-kafka",
+        "tutorial-sql-connect-kafka",
         {
           type: "category",
-          label: "Data Collection",
+          label: "More Data Collection Guides",
           //collapsed: false,
           link: {
             type: "doc",
@@ -178,23 +180,28 @@ const sidebars = {
           items: [
             "kafka-source",
             "confluent-cloud-source",
-            "pulsar-source",
-            "ingest-api",
-            /*"automq-kafka-source",*/
+            /*"pulsar-source",*/
+            {
+              type: "doc",
+              id: "ingest-api",
+              customProps: { tag: "Enterprise" },
+            },
           ],
         },
-        "quickstart-confluent",
-        "quickstart-ingest-api",
-        "tutorial-github",
-        "tutorial-sql-connect-kafka",
-        "tutorial-sql-kafka",
-        "tutorial-sql-join",
-        "tutorial-sql-etl",
-        "tutorial-sql-etl-kafka-to-ch",
-        "tutorial-sql-etl-mysql-to-ch",
-        "tutorial-sql-read-avro",
+        {
+          type: "category",
+          label: "Streaming ETL",
+          items: [
+            "tutorial-sql-etl",
+            "tutorial-sql-etl-kafka-to-ch",
+            "tutorial-sql-etl-mysql-to-ch",
+          ],
+        },
         "tutorial-sql-connect-ch",
         "tutorial-kv",
+        "tutorial-sql-join",
+        "tutorial-sql-read-avro",
+        "tutorial-github",
         "sql-pattern-topn",
         "usecases",
       ],
@@ -355,6 +362,11 @@ const sidebars = {
           label: "C++ Client",
           type: "link",
           href: "https://github.com/timeplus-io/timeplus-cpp",
+        },
+        {
+          label: "Rust Client",
+          type: "link",
+          href: "https://crates.io/crates/proton_client",
         },
         {
           label: "Timeplus REST API",

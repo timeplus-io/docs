@@ -1,10 +1,10 @@
 # Load streaming data from Apache Kafka
 
-As of today, Apache Kafka is the primary data source (and sink) for Timeplus. You can also create [external streams](/external-stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
+Apache Kafka is the primary data source (and sink) for Timeplus. You can also create [external streams](/external-stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
 
 ## Apache Kafka Source
 
-1. From the left side navigation menu, click **Data Ingestion**. Here, you’ll see ways to connect a source or external stream. Click **Apache Kafka** (external stream).
+1. From the left side navigation menu, click **Data Collection**. Here, you’ll see ways to connect a source or external stream. Click **Apache Kafka** (external stream).
 2. Enter the broker URL. You can also enable TLS or authentication, if needed.
 3. Enter the name of the Kafka topic, and specify the ‘read as’ data format. We currently support JSON, AVRO and Text formats.
    1. If the data in the Kafka topic is in JSON format, but the schema may change over time, we recommend you choose Text. This way, the entire JSON document will be saved as a string, and you can apply JSON related functions to extract value, even if the schema changes.

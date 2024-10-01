@@ -2,7 +2,13 @@
 
 We are pleased to partner with [Confluent Cloud](https://www.confluent.io/confluent-cloud/?utm_campaign=tm.pmm_cd.2023_partner_cwc_timeplus_generic&utm_source=timeplus&utm_medium=partnerref), allowing you to easily connect your streaming data via [external streams](/external-stream) without moving data.
 
-## Confluent Cloud Source
+## Video Tutorial
+
+We recorded a video to explain the details.
+
+<iframe width="1253" height="697" src="https://www.youtube.com/embed/vf8uYJtoXAA" title="Getting Started with Timeplus and Confluent Cloud" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Detailed Steps
 
 1. From the left side navigation menu, click **Data Collection**. Here, you’ll see ways to connect a source or external stream. Click **Confluent Cloud** (external stream).
 2. Enter the bootstrap UR for your Confluent Cloud cluster, and set the Kafka API key and secret. Click **Next**.
