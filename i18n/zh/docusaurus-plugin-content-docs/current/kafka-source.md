@@ -1,10 +1,10 @@
 # 从Apache Kafka加载流数据
 
-当前Kafka是Timeplus最主要的实时数据来源(和下游)。 You can also create [external streams](/external-stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
+Apache Kafka is the primary data source (and sink) for Timeplus. You can also create [external streams](/external-stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
 
 ## Apache Kafka数据源
 
-1. 在左侧导航菜单中，单击 **数据提取**。 在这里，您将看到连接源或外部流的方法。 单击 **Apache Kafka** （外部流）。
+1. From the left side navigation menu, click **Data Collection**. 在这里，您将看到连接源或外部流的方法。 单击 **Apache Kafka** （外部流）。
 2. 输入经纪商 URL。 如果需要，您还可以启用 TLS 或身份验证。
 3. 输入 Kafka 主题的名称，并指定 “读取为” 数据格式。 我们目前支持 JSON、AVRO 和文本格式。
    1. 如果 Kafka 主题中的数据采用 JSON 格式，但架构可能会随时间而变化，我们建议您选择文本。 这样，整个 JSON 文档将保存为字符串，即使架构发生变化，您也可以应用 JSON 相关函数来提取值。
