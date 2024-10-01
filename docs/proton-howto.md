@@ -29,7 +29,7 @@ You can also try Proton in the fully-managed [Timeplus Cloud](https://us-west-2.
 
 ## How to read/write Kafka or Redpanda {#kafka}
 
-You use [External Stream](/proton-kafka) to read from Kafka topics or write data to the topics. We verified the integration with Apache Kafka, Confluent Cloud, Confluent Platform, Redpanda, WarpStream, Upstash and many more.
+You use [External Stream](/proton-kafka) to read from Kafka topics or write data to the topics. We verified the integration with Apache Kafka, Confluent Cloud, Confluent Platform, Redpanda, WarpStream and many more.
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
