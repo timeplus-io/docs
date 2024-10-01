@@ -2,7 +2,13 @@
 
 We are pleased to partner with [Confluent Cloud](https://www.confluent.io/confluent-cloud/?utm_campaign=tm.pmm_cd.2023_partner_cwc_timeplus_generic&utm_source=timeplus&utm_medium=partnerref), allowing you to easily connect your streaming data via [external streams](/external-stream) without moving data.
 
-## Confluent Cloud 资源
+## Video Tutorial
+
+我们录制了一个视频来解释细节。
+
+<iframe width="1253" height="697" src="https://www.youtube.com/embed/vf8uYJtoXAA" title="Timeplus 和 Confluent Cloud 入门" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Detailed Steps
 
 1. From the left side navigation menu, click **Data Collection**. 在这里，您将看到连接源或外部流的方法。 单击 **Confluent Cloud** （外部流）。
 2. 输入 Confluent Cloud 集群的引导 URL，然后设置 Kafka API 密钥和密钥。 点击 **下一步**。
