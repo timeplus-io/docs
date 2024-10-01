@@ -2,6 +2,32 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Sep 30, 2024
+
+Say good-bye to https://us.timeplus.cloud. It's redirected to https://us-west-2.timeplus.cloud. All workspaces have been migrated and if you create a workspace via https://demo.timeplus.cloud, you will be redirected to https://us-west-2.timeplus.cloud too. Latest Timeplus Enterprise features are available in the new site. Let us know if you prefer using a different cloud region.
+
+### Timeplus Enterprise v2.4.24
+
+- Timeplus Enterprise [v2.4.24](/enterprise-v2.4#2_4_24) is released as the latest build. The only change is to generate a unique ID via [timeplus](/cli-license#id) CLI for license granting and validation.
+
+### Timeplus Web Console v2.0.1
+
+We upgraded the `timeplus_web` component in https://us-west-2.timeplus.cloud. Comparing to the v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancements are:
+
+- You can set a timezone in the dashboards to display the datetime or timestamp in your preferred time zone.
+- Show more metrics in the side panel when you view the stream, materialized view, external stream, or other resources in data lineage or listing page.
+- Refined the error or warning messages. Avoid showing two messages for the same resource.
+- Move the 'Send Data to' to the 'Save As' drop down.
+- Able to render large numbers such as int256 or uint256.
+- Wizard UI to create [Timeplus External Stream](/timeplus-external-stream).
+- Wizard UI to create [Mutable Stream](/mutable-stream).
+- Fix the issue that scrollbar is too thin.
+- In SQL Console, you can write multiple SQL statements and select one to run the statement.
+
+### Timeplus Rust Client v0.1.2
+
+A maintaince release to include latest dependencies. No new features or bug fix. Please get it via https://crates.io/crates/proton_client
+
 ## Sep 16, 2024
 
 The new cloud service available at https://us-west-2.timeplus.cloud. The previous cloud (https://us.timeplus.cloud) will be sunset. The new cloud service ships the latest Timeplus features, such as [mutable streams](/mutable-stream).
@@ -26,7 +52,7 @@ Support JDK 8, per customer feedback.
 
 ### Timeplus Enterprise v2.4.23
 
-- Timeplus Enterprise [v2.4.23](/enterprise-releases#2_4_23) is released as the latest stable build.
+- Timeplus Enterprise [v2.4.23](/enterprise-v2.4#2_4_23) is released as the latest stable build.
 - The key changes are:
   - (timeplusd) support dropping partitions on cluster
   - (timeplusd) add additional query_type in sql analyzer, fixing the known issue
@@ -51,7 +77,7 @@ We are actively working on the refinement to support latest Timeplus core engine
 
 ### Timeplus Enterprise v2.4.18
 
-- Timeplus Enterprise [v2.4.17](/enterprise-releases#2417) and [v2.4.19](/enterprise-releases#2419) are released.
+- Timeplus Enterprise [v2.4.17](/enterprise-v2.4#2417) and [v2.4.19](/enterprise-v2.4#2419) are released.
 - The key changes are:
   - support running [table function](/functions_for_streaming#table) on [Timeplus External Stream](/timeplus-external-stream)
   - better track memory usage in macOS and Docker container.
@@ -68,7 +94,7 @@ We are actively working on the refinement to support latest Timeplus core engine
 
 ### Timeplus Enterprise v2.4.15
 
-- Timeplus Enterprise v2.4.15 is released. [See full changelog](/enterprise-releases)
+- Timeplus Enterprise v2.4.15 is released. [See full changelog](/enterprise-v2.4)
 - Improved error handling in the SQL Console: if errors occur when executing the query, runtime errors and intermediate query results are shown.
 - With the new [mutable stream](/mutable-stream) in Timeplus Enterprise, versioned stream and changelog stream are now deprecated. We now have two types of streams: append-only and mutable.
 - Stream “mode” is renamed to stream “type” in the web console UI.
@@ -122,7 +148,7 @@ bigint and decimal types are now supported, and a bugfix for invalid version for
 - Different channels for stable builds and latest builds:
   - `curl https://install.timeplus.com | sh` downloads and installs the stable build (currently v2.3.0).
   - `curl https://install.timeplus.com/latest | sh` downloads and installs the latest build for you to try newest features and bug fixes (currently v2.3.5).
-  - See our [changelog](/enterprise-releases) for each stable/latest version.
+  - See our [changelog](/enterprise-v2.4) for each stable/latest version.
 - New SQL Commands: SYSTEM PAUSE and SYSTEM UNPAUSE. If you want to pause a materialized view, run `SYSTEM PAUSE MATERIALIZED VIEW mv`. To unpause it, run `SYSTEM UNPAUSE MATERIALIZED VIEW mv`. We added this feature based on user feedback and to improve troubleshooting efficiency. [Learn more](/sql-system-pause)
 
 ### Timeplus Proton v1.5.12
