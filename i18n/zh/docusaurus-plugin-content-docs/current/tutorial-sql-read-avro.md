@@ -57,21 +57,21 @@ confluent kafka 话题生成 $TOPIC --schema ~/Dev/schema.txt\
 现在让我们在 Proton 中创建一个外部流来读取这样的消息：
 
 ```sql
-创建外部流 avro_stream (
-  my_field1 int8、
-  my_field2 float32、
-  my_field3 字符串、
+CREATE EXTERNAL STREAM avro_stream(
+  my_field1 int8,
+  my_field2 float32,
+  my_field3 string,
   my_field4 int64
 )
-设置
-  type = “kafka”，
-  brokers = “pkc-ab123.us-east-2.confluent.cloud: 9092”，
-  security_protocol='sasl_SSL'， 
-  username='$KEY'， 
-  password='$SECRET'，
-  topic = '$TOPIC'，
-  data_format = 'Avro'，
-  kafka_schema_registry_url = 'https://psrc-ab123.us-east-2.aws.confluent.cloud'，
+SETTINGS
+  type = 'kafka',
+  brokers = 'pkc-ab123.us-east-2.aws.confluent.cloud:9092',
+  security_protocol='SASL_SSL',
+  username='$KEY',
+  password='$SECRET',
+  topic = '$TOPIC',
+  data_format = 'Avro',
+  kafka_schema_registry_url = 'https://psrc-ab123.us-east-2.aws.confluent.cloud',
   kafka_schema_registry_credentials = '$API_KEY:$API_SECRET';
 ```
 
@@ -155,40 +155,19 @@ mvn exec: java-dexec.mainclass=io.confluent.examples.clients.basicavro.producerE
 Aiven 上的架构注册表端点是使用 CA 签名的，但你需要为代理提供 `ssl_ca_cert_file`。
 
 ```sql
-创建外部流交易（
-  id 字符串，
-  金额翻倍
-）
-设置类型='kafka'， 
-         brokers='name.aivencloud.com: 28864'，
-         topic='transactions'，
-         secury_protocol='sasl_SSL'， 
-         sasl_mechanism='scram-SHA-256'，
-         username='avnadmin'， 
-         password='password'，
-         ssl_ca_cert_file='/kafka.cert'，
-         data_format =' Avro '，
-         kafka_schema_registry_url =' https://name.a.aivencloud.com:28856 '，
-         kafka_schema_registry_certencials =' avnadmin: Password '
-```
-
-### 示例：在 Upstash Kafka 中读取 Avro 编码的数据{#read_avro_upstash}
-
-从 Proton 1.5.3 开始，支持带路径的架构注册表。 这使得 Proton 用户能够在启用架构注册表时从 Upstash Serverless Kafka 加载数据。
-
-```sql
-创建外部流交易（
-  id 字符串，
-  金额翻倍
-）
-设置类型='kafka'， 
-         brokers='abc-us1-kafka.upstash.io: 9092'，
-         topic='transactions'，
-         secury_protocol='sl_SSL'， 
-         sasl_Mechanism='scram-SHA-256'，
-         Username='User'， 
-         password='pwd'，
-         data_format = 'Avro'，
-         kafka_schema_registry_url = 'https://abc-us1-rest-kafka.upstash.io/schema-registry'，
-         kafka_schema_registry_credentials = '用户:PWD'
+CREATE EXTERNAL STREAM transactions(
+  id string,
+  amount double
+)
+SETTINGS type='kafka',
+         brokers='name.a.aivencloud.com:28864',
+         topic='transactions',
+         security_protocol='SASL_SSL',
+         sasl_mechanism='SCRAM-SHA-256',
+         username='avnadmin',
+         password='PASSWORD',
+         ssl_ca_cert_file='/kafka.cert',
+         data_format = 'Avro',
+         kafka_schema_registry_url = 'https://name.a.aivencloud.com:28856',
+         kafka_schema_registry_credentials = 'avnadmin:PASSWORD'
 ```
