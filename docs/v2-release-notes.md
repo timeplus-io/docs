@@ -11,13 +11,13 @@ Say good-bye to https://us.timeplus.cloud. It's redirected to https://us-west-2.
 
 ### Timeplus Web Console v2.0.1
 We upgraded the `timeplus_web` component in https://us-west-2.timeplus.cloud. Comparing to the v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancements are:
-* You can set a timezone in the dashboards to display the datetime or timestamp in your preferred time zone.
+* You can set a timezone in the dashboards to display the datetime or timestamp in your preferred timezone.
 * Show more metrics in the side panel when you view the stream, materialized view, external stream, or other resources in data lineage or listing page.
 * Refined the error or warning messages. Avoid showing two messages for the same resource.
-* Move the 'Send Data to' to the 'Save As' drop down.
+* Move the 'Send as Sink' button to the 'Save As' dropdown.
 * Able to render large numbers such as int256 or uint256.
-* Wizard UI to create [Timeplus External Stream](/timeplus-external-stream).
-* Wizard UI to create [Mutable Stream](/mutable-stream).
+* Wizard UI to create [Timeplus External Streams](/timeplus-external-stream).
+* Wizard UI to create [Mutable Streams](/mutable-stream).
 * Fix the issue that scrollbar is too thin.
 * In SQL Console, you can write multiple SQL statements and select one to run the statement.
 
@@ -47,9 +47,9 @@ Support JDK 8, per customer feedback.
 ### Timeplus Enterprise v2.4.23
  * Timeplus Enterprise [v2.4.23](/enterprise-v2.4#2_4_23) is released as the latest stable build.
  * The key changes are:
-    * (timeplusd) support dropping partitions on cluster
-    * (timeplusd) add additional query_type in sql analyzer, fixing the known issue
-    * (timeplusd) enhanced historical asof joins with a performance improvement of over 30%
+    * (timeplusd) support for dropping partitions on cluster
+    * (timeplusd) add additional query_type in sql analyzer
+    * (timeplusd) enhanced historical asof joins, with a performance improvement of over 30%
     * (timeplus_web) use username:password for ingest API wizard
 
 ### Timeplus C++ SDK
