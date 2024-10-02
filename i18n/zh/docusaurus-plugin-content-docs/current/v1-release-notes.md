@@ -164,7 +164,6 @@ _Proton:_
 - (v1.3.31) We've added a new external stream setting `message_key`, an expression that returns a string value used as the message key for each row. `message_key` can be used together with `sharding_expr` (which specifies the target partition number in the Kafka topic), with `sharding_expr` taking higher priority. [Learn more](/proton-kafka#messagekey)
 - (v1.3.31) Write to Kafka in plain text: you can now [produce raw format data](/proton-kafka#single_col_write) to a Kafka external stream with a single column.
 - (v1.3.31) By default, we disable sort for historical backfill. [Learn more](/query-settings) in our query guide, including how to enable.
-- Introducing our integration with Upstash: create a Kafka cluster and topics using Upstash, then create a data source or sink in Timeplus. Available for both [Timeplus Cloud](https://upstash.com/docs/kafka/integrations/timeplus) and [Proton](https://upstash.com/docs/kafka/integrations/proton).
 
 _Timeplus Cloud:_
 
