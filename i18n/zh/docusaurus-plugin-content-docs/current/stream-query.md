@@ -1,4 +1,4 @@
-# 流查询
+# Streaming Query
 
 ## 查询默认不受限制
 
