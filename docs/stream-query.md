@@ -1,4 +1,4 @@
-# Streaming query
+# Streaming Query
 
 ## Query is unbounded by default
 
