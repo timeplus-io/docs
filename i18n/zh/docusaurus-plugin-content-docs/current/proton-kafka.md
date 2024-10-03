@@ -1,12 +1,14 @@
 # Kafka 外部流
 
-You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus Proton with [External Stream](/external-stream). Combining with [Materialized View](/proton-create-view#m_view) and [Target Stream](/proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
+You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus with [External Stream](/external-stream). Combining with [Materialized View](/proton-create-view#m_view) and [Target Stream](/proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
 
 ## 创建外部流
 
-In Timeplus Proton, the external stream supports Kafka API as the only type. In Timeplus Enterprise, it also [supports the connection to the other Timeplus deployment](/timeplus-external-stream).
+In Timeplus Proton, the external stream supports Kafka API as the only type.
 
-To create an external stream:
+In Timeplus Enterprise, it also supports [External Stream for Apache Pulsar](/pulsar-external-stream) and [External Stream for other Timeplus deployment](/timeplus-external-stream).
+
+To create an external stream for Apache Kafka or Kafka-compatiable messaging platforms, you can run the following DDL SQL:
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
@@ -23,31 +25,31 @@ SETTINGS
     kafka_schema_registry_url='..',
     kafka_schema_registry_credentials='..',
     ssl_ca_cert_file='..',
-    ss_ca_pem='..',
+    ssl_ca_pem='..',
     skip_ssl_cert_check=..
 ```
 
-`security_protocol` 的支持值为：
+The supported values for `security_protocol` are:
 
 - 纯文本：省略此选项时，这是默认值。
 - SASL_SSL：设置此值时，应指定用户名和密码。
   - 如果你需要指定自己的 SSL 认证文件，可以添加另一个设置 `ssl_ca_cert_file='/ssl/ca.pem'` Proton 1.5.5 中的新增内容，如果你不想或无法使用文件路径，例如在 Timeplus Cloud 或 Docker/Kuker/Kup 中，也可以将 pem 文件的全部内容作为字符串放入 `ssl_ca_pem` 设置中伯内特斯环境。
   - 可以通过 `设置 skip_ssl_cert_check=true`来跳过 SSL 认证验证。
 
-`sasl_mechanmic` 的支持值为：
+The supported values for `sasl_mechanism` are:
 
 - PLAIN：当你将 security_protocol 设置为 SASL_SSL 时，这是 sasl_mechanmic 的默认值。
 - SCRAM-SHA-256
 - SCRAM-SHA-512
 
-`data_format` 的支持值为：
+The supported values for `data_format` are:
 
-- jsoneAchrow：每条 Kafka 消息可以是一个 JSON 文档，也可以每行都是一个 JSON 文档。 [了解更多](#jsoneachrow).
+- JSONEachRow: parse each row of the message as a single JSON document. The top level JSON key/value pairs will be parsed as the columns. [了解更多](#jsoneachrow).
 - CSV：不太常用。 [了解更多](#csv).
-- protobufSingle：为每条 Kafka 消息提供一条 Protobuf 消息
-- Protobuf：一条 Kafka 消息中可能有多条 Protobuf 消息。
+- ProtobufSingle: for single Protobuf message per message
+- Protobuf: there could be multiple Protobuf messages in a single message.
 - Avro：在 Proton 1.5.2 中添加
-- rawBlob：默认值。 以纯文本形式读取/写入 Kafka 消息。
+- rawBlob：默认值。 Read/write message as plain text.
 
 :::info
 
@@ -57,7 +59,7 @@ For examples to connect to various Kafka API compatitable message platforms, ple
 
 ### 定义列
 
-#### 从 Kafka 读取的单列 {#single_col_read}
+#### Single column to read {#single_col_read}
 
 如果 Kafka 主题中的消息是纯文本格式或 JSON，则可以创建只有 `字符串` 类型的 `原始` 列的外部流。
 
@@ -113,11 +115,11 @@ Protobuf messages can be read with all or partial columns. Please check [this pa
 
 #### 要写入 Kafka 的多列{#multi_col_write}
 
-To write data via Kafka API, you can choose different data formats:
+To write data to Kafka topics, you can choose different data formats:
 
 ##### jsoneaChrow
 
-你可以使用 `data_format='jsoneachrow'，one_message_per_row=true` 通知 Proton 将每个事件写成 JSON 文档。 外部流的列将转换为 JSON 文档中的密钥。 例如：
+You can use `data_format='JSONEachRow',one_message_per_row=true` to inform Timeplus to write each event as a JSON document. 外部流的列将转换为 JSON 文档中的密钥。 例如：
 
 ```sql
 
@@ -147,7 +149,7 @@ Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is availabl
 
 ##### CSV
 
-你可以使用 `data_format='csv'` 来通知 Proton 将每个事件写成 JSON 文档。 外部流的列将转换为 JSON 文档中的密钥。 例如：
+You can use `data_format='CSV'` to inform Timeplus to write each event as a JSON document. 外部流的列将转换为 JSON 文档中的密钥。 例如：
 
 ```sql
 
@@ -225,7 +227,7 @@ CREATE EXTERNAL STREAM foo (
 ## 删除外部流
 
 ```sql
-删除外部流 [如果存在] stream_name
+DROP STREAM [IF EXISTS] stream_name
 ```
 
 ## 使用 SQL 查询 Kafka 数据
@@ -238,7 +240,7 @@ CREATE EXTERNAL STREAM foo (
 
 ### 阅读现有消息 {#rewind}
 
-When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in the topics, not the existing ones. If you need to read all existing messages, you can use the following settings: 如果您需要阅读所有现有消息，则可以使用以下设置：
+When you run `SELECT raw FROM ext_stream`, Timeplus will read the new messages in the topics, not the existing ones. 如果您需要阅读所有现有消息，则可以使用以下设置：
 
 ```sql
 
@@ -403,7 +405,7 @@ When you run `SELECT raw FROM ext_stream` , Proton will read the new messages in
 
 There are some limitations for the Kafka-based external streams, because Timeplus doesn’t control the storage or the data format for the external stream.
 
-1. The UI wizard only support JSON or TEXT. To use Avro, Protobuf, or schema registry service, you need the SQL DDL.
+1. The UI wizard to setup Kafka External Stream only supports JSON or TEXT. To use Avro, Protobuf, or schema registry service, you need the SQL DDL.
 2. `_tp_time` is available in the external streams (since Proton 1.3.30). `_tp_append_time` is set only when message timestamp is an append time.
-3. Unlike normal streams, there is no historical storage for the external streams. Hence you cannot run `table(my_ext_stream)`or `settings query_mode='table'` To access data even before you create the external stream, you can use `WHERE _tp_time >'2023-01-15'` to travel to a specific timestamp in the past, or use `SETTINGS seek_to='earliest'`.
+3. Unlike normal streams, there is no historical storage for the external streams. In recent versions, you can run `table(kafka_ext_stream)` but it will scan all messages in the topic, unless you are running a `count()`. If you need to frequently run query for historical data, you can use a Materialized View to query the Kafka External Stream and save the data in Timeplus columnar or row storage. This will improve the query performance.
 4. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Kafka/Confluent/Redpanda. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
