@@ -15,6 +15,7 @@ The following table displays the available top-level `timeplus` commands.
 | [timeplus license](/cli-license)             |Manage Timeplus Enterprise licenses|
 | [timeplus user](/cli-user)             |Manage Timeplus Enterprise users|
 | [timeplus diag](/cli-diag)             |Run diagnostics of Timeplus Enterprise services|
+| [timeplus migrate](/cli-migrate) | Migrate data and resources between Timeplus Enterprise deployments |
 | [timeplus backup](/cli-backup)             |Create a Timeplus enterprise backup|
 | [timeplus restore](/cli-backup)             |Restore a Timeplus enterprise backup|
 | [timeplus sync](/cli-sync)             |Synchronizes resources to Timeplus Enterprise|
