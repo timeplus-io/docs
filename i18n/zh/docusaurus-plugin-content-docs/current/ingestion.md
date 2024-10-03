@@ -2,7 +2,8 @@
 
 Timeplus supports multiple ways to load data into the system, or access the external data without copying them in Timeplus:
 
-- [External Stream](/external-stream) for Apache Kafka, Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Proton.
+- [External Stream for Apache Kafka](/external-stream), Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Proton.
+- [External Stream for Apache Pulsar](/pulsar-external-stream) is available in Timeplus Enterprise 2.5 and above.
 - [Source](/source) for extra wide range of data sources. 这仅在 Timeplus Enterprise 中可用。 This integrates with [Redpanda Connect](https://redpanda.com/connect), supporting 200+ connectors.
 - On Timeplus web console, you can also [upload CSV files](#csv) and import them into streams.
 - For Timeplus Enterprise, [REST API](/ingest-api) and SDKs are provided to push data to Timeplus programmatically.
