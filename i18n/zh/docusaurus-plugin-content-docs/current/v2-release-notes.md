@@ -12,7 +12,7 @@ Say good-bye to https://us.timeplus.cloud. It's redirected to https://us-west-2.
 
 ### Timeplus Web Console v2.0.1
 
-We upgraded the `timeplus_web` component in https://us-west-2.timeplus.cloud. Comparing to the v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancements are:
+We upgraded the `timeplus_web` component in https://us-west-2.timeplus.cloud. Compared to the v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancements are:
 
 - You can set a timezone in the dashboards to display the datetime or timestamp in your preferred timezone.
 - Show more metrics in the side panel when you view the stream, materialized view, external stream, or other resources in data lineage or listing page.
@@ -26,7 +26,7 @@ We upgraded the `timeplus_web` component in https://us-west-2.timeplus.cloud. Co
 
 ### Timeplus Rust Client v0.1.2
 
-A maintaince release to include latest dependencies. No new features or bug fix. Please get it via https://crates.io/crates/proton_client
+A maintenance release to include latest dependencies. No new features or bug fix. Please get it via https://crates.io/crates/proton_client
 
 ## Sep 16, 2024
 
