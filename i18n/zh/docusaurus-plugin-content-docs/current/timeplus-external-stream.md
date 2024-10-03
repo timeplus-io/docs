@@ -1,6 +1,6 @@
 # Timeplus External Stream
 
-In addition to [Kafka External Stream](/proton-kafka), Timeplus Enterprise also supports the other type of external stream to read or write data for the other Timeplus Enterprise deployment.
+In addition to [Kafka External Stream](/proton-kafka), Timeplus Enterprise also supports another type of external stream to read/write data from/to another Timeplus Enterprise deployment.
 
 ## 用例
 
