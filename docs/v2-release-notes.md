@@ -13,7 +13,7 @@ Timeplus Cloud has a new home. Our previous domain, https://us.timeplus.cloud, h
 We upgraded the `timeplus_web` component in https://us-west-2.timeplus.cloud. Compared to v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancements are:
 * You can now set a timezone in dashboards to display the datetime or timestamp in your preferred timezone.
 * See additional metrics in the details side panel for streams, materialized views, external streams, or other resources: events per second, status, throughput, and more.
-* Refined error and warning messages to avoid showing two messages for the same resource.
+* Refinements to error and warning messages, including avoid showing two messages for the same resource.
 * Moved the 'Send as Sink' button to the 'Save As' dropdown in the SQL Console.
 * Able to render large numbers such as int256 or uint256.
 * Wizard UI to create [Timeplus External Streams](/timeplus-external-stream).
