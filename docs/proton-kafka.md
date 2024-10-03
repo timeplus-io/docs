@@ -1,12 +1,14 @@
 # Kafka External Stream
 
-You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus Proton with [External Stream](/external-stream). Combining with [Materialized View](/proton-create-view#m_view) and [Target Stream](/proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
+You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus with [External Stream](/external-stream). Combining with [Materialized View](/proton-create-view#m_view) and [Target Stream](/proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
 
 ## CREATE EXTERNAL STREAM
 
-In Timeplus Proton, the external stream supports Kafka API as the only type. In Timeplus Enterprise, it also [supports the connection to the other Timeplus deployment](/timeplus-external-stream).
+In Timeplus Proton, the external stream supports Kafka API as the only type.
 
-To create an external stream:
+In Timeplus Enterprise, it also supports [External Stream for Apache Pulsar](/pulsar-external-stream) and [External Stream for other Timeplus deployment](/timeplus-external-stream).
+
+To create an external stream for Apache Kafka or Kafka-compatiable messaging platforms, you can run the following DDL SQL:
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
@@ -23,7 +25,7 @@ SETTINGS
     kafka_schema_registry_url='..',
     kafka_schema_registry_credentials='..',
     ssl_ca_cert_file='..',
-    ss_ca_pem='..',
+    ssl_ca_pem='..',
     skip_ssl_cert_check=..
 ```
 
@@ -42,12 +44,12 @@ The supported values for `sasl_mechanism` are:
 
 The supported values for `data_format` are:
 
-- JSONEachRow: each Kafka message can be a single JSON document, or each row is a JSON document. [Learn More](#jsoneachrow).
+- JSONEachRow: parse each row of the message as a single JSON document. The top level JSON key/value pairs will be parsed as the columns. [Learn More](#jsoneachrow).
 - CSV: less commonly used. [Learn More](#csv).
-- ProtobufSingle: for single Protobuf message per Kafka message
-- Protobuf: there could be multiple Protobuf messages in a single Kafka message.
+- ProtobufSingle: for single Protobuf message per message
+- Protobuf: there could be multiple Protobuf messages in a single message.
 - Avro: added in Proton 1.5.2
-- RawBLOB: the default value. Read/write Kafka message as plain text.
+- RawBLOB: the default value. Read/write message as plain text.
 
 :::info
 
@@ -57,7 +59,7 @@ For examples to connect to various Kafka API compatitable message platforms, ple
 
 ### Define columns
 
-#### Single column to read from Kafka {#single_col_read}
+#### Single column to read {#single_col_read}
 
 If the message in Kafka topic is in plain text format or JSON, you can create an external stream with only a `raw` column in `string` type.
 
@@ -132,11 +134,11 @@ Protobuf messages can be read with all or partial columns. Please check [this pa
 
 #### Multiple columns to write to Kafka{#multi_col_write}
 
-To write data via Kafka API, you can choose different data formats:
+To write data to Kafka topics, you can choose different data formats:
 
 ##### JSONEachRow
 
-You can use `data_format='JSONEachRow',one_message_per_row=true` to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:
+You can use `data_format='JSONEachRow',one_message_per_row=true` to inform Timeplus to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:
 
 ```sql
 CREATE EXTERNAL STREAM target(
@@ -182,7 +184,7 @@ Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is availabl
 
 ##### CSV
 
-You can use `data_format='CSV'` to inform Proton to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:
+You can use `data_format='CSV'` to inform Timeplus to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:
 
 ```sql
 CREATE EXTERNAL STREAM target(
@@ -279,7 +281,7 @@ CREATE EXTERNAL STREAM foo (
 ## DROP EXTERNAL STREAM
 
 ```sql
-DROP EXTERNAL STREAM [IF EXISTS] stream_name
+DROP STREAM [IF EXISTS] stream_name
 ```
 
 ## Query Kafka Data with SQL
@@ -293,7 +295,7 @@ SELECT window_start, count() FROM tumble(ext_stream,to_datetime(raw:timestamp)) 
 
 ### Read existing messages {#rewind}
 
-When you run `SELECT raw FROM ext_stream ` , Proton will read the new messages in the topics, not the existing ones. If you need to read all existing messages, you can use the following settings:
+When you run `SELECT raw FROM ext_stream `, Timeplus will read the new messages in the topics, not the existing ones. If you need to read all existing messages, you can use the following settings:
 
 ```sql
 SELECT raw FROM ext_stream SETTINGS seek_to='earliest'
@@ -486,7 +488,7 @@ sticky.partitioning.linger.ms            |  P  | 0 .. 900000     |            10
 
 There are some limitations for the Kafka-based external streams, because Timeplus doesn’t control the storage or the data format for the external stream.
 
-1. The UI wizard only support JSON or TEXT. To use Avro, Protobuf, or schema registry service, you need the SQL DDL.
+1. The UI wizard to setup Kafka External Stream only supports JSON or TEXT. To use Avro, Protobuf, or schema registry service, you need the SQL DDL.
 2. `_tp_time` is available in the external streams (since Proton 1.3.30). `_tp_append_time` is set only when message timestamp is an append time.
-3. Unlike normal streams, there is no historical storage for the external streams. Hence you cannot run `table(my_ext_stream)`or `settings query_mode='table'` To access data even before you create the external stream, you can use `WHERE _tp_time >'2023-01-15'` to travel to a specific timestamp in the past, or use `SETTINGS seek_to='earliest'`.
+3. Unlike normal streams, there is no historical storage for the external streams. In recent versions, you can run `table(kafka_ext_stream)` but it will scan all messages in the topic, unless you are running a `count()`. If you need to frequently run query for historical data, you can use a Materialized View to query the Kafka External Stream and save the data in Timeplus columnar or row storage. This will improve the query performance.
 4. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Kafka/Confluent/Redpanda. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
