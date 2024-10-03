@@ -150,7 +150,7 @@ SETTINGS
 ### Secondary Index {#index}
 Regardless of whether you choose a single column or multiple columns as the primary key(s), Timeplus will build an index for those columns. Queries with filtering on these columns will leverage the index to boost performance and minimize data scanning.
 
-For other columns that are frequently filtered, you can also define secondary indexes for them.
+For other columns, if they are frequently filtered, you can also define secondary indexes for them.
 
 For example:
 ```sql
@@ -174,7 +174,7 @@ For One-Big-Table(OBT) or extra wide table with dozens or even hundreds of colum
 
 More commonly, you need to query a subset of the columns in different use cases. For those columns which are commonly queried together, you can define column families to group them, so that data for those columns will be saved together in the same file. Properly defining column families can optimize the disk i/o and avoid reading unnecessary data files.
 
-Please note, one column can appear in only one column family. The columns as primary keys are in a special column family. There should be no overlap for the column families or primary keys.
+Please note, one column can appear in up to one column family. The columns as primary keys are in a special column family. There should be no overlap for the column families or primary keys.
 
 Taking the previous `device_metrics` as an example, the `lat` and `lon` are commonly queried together. You can define a column family for them.
 
