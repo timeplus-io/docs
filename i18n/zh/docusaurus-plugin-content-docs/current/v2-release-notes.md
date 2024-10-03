@@ -4,29 +4,29 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 
 ## Sep 30, 2024
 
-Say good-bye to https://us.timeplus.cloud. It's redirected to https://us-west-2.timeplus.cloud. All workspaces have been migrated and if you create a workspace via https://demo.timeplus.cloud, you will be redirected to https://us-west-2.timeplus.cloud too. Latest Timeplus Enterprise features are available in the new site. Let us know if you prefer using a different cloud region.
+Timeplus Cloud has a new home. Our previous domain, https://us.timeplus.cloud, has been redirected to https://us-west-2.timeplus.cloud. All workspaces have been migrated and no further action is needed. If you create a workspace via https://demo.timeplus.cloud, you will also be redirected to https://us-west-2.timeplus.cloud. The latest Timeplus Enterprise features are available in the new site. If you prefer using a different cloud region, please let us know.
 
 ### Timeplus Enterprise v2.4.24
 
-- Timeplus Enterprise [v2.4.24](/enterprise-v2.4#2_4_24) is released as the latest build. The only change is to generate a unique ID via [timeplus](/cli-license#id) CLI for license granting and validation.
+- Timeplus Enterprise [v2.4.24](/enterprise-v2.4#2_4_24) is released as the latest build. You can now generate a unique ID via [timeplus](/cli-license#id) CLI for license granting and validation.
 
 ### Timeplus Web Console v2.0.1
 
-We upgraded the `timeplus_web` component in https://us-west-2.timeplus.cloud. Compared to the v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancements are:
+We upgraded the `timeplus_web` component in https://us-west-2.timeplus.cloud. Compared to v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancements are:
 
-- You can set a timezone in the dashboards to display the datetime or timestamp in your preferred timezone.
-- Show more metrics in the side panel when you view the stream, materialized view, external stream, or other resources in data lineage or listing page.
-- Refined the error or warning messages. Avoid showing two messages for the same resource.
-- Move the 'Send as Sink' button to the 'Save As' dropdown.
+- You can now set a timezone in dashboards to display the datetime or timestamp in your preferred timezone.
+- See additional metrics in the details side panel for streams, materialized views, external streams, or other resources: events per second, status, throughput, and more.
+- Refinements to error and warning messages, including avoid showing two messages for the same resource.
+- Moved the 'Send as Sink' button to the 'Save As' dropdown in the SQL Console.
 - Able to render large numbers such as int256 or uint256.
 - Wizard UI to create [Timeplus External Streams](/timeplus-external-stream).
 - Wizard UI to create [Mutable Streams](/mutable-stream).
-- Fix the issue that scrollbar is too thin.
+- Fix the issue where scrollbar is too thin.
 - In SQL Console, you can write multiple SQL statements and select one to run the statement.
 
 ### Timeplus Rust Client v0.1.2
 
-A maintenance release to include latest dependencies. No new features or bug fix. Please get it via https://crates.io/crates/proton_client
+A maintenance release to include latest dependencies. No new features or bug fixes. Please get it via https://crates.io/crates/proton_client
 
 ## Sep 16, 2024
 
