@@ -1,6 +1,6 @@
-# Load streaming data from  Pulsar 
+# Load streaming data from Pulsar
 
-Apache® Pulsar™ is a cloud-native, distributed, open source messaging and streaming platform for real-time workloads. Recently Timeplus added the first-class integration for Apache Pulsar as both a data source and a data sink.
+Apache® Pulsar™ is a cloud-native, distributed, open source messaging and streaming platform for real-time workloads. Timeplus added the first-class integration for Apache Pulsar as both a data source and a data sink.
 
 ## Supported Pulsar Version, Deployment and Authentication
 
@@ -10,7 +10,7 @@ Both Apache Pulsar and StreamNative Cloud are supported.
 
 :::info Note for StreamNative Cloud support
 
-In order to connect to StreamNative Cloud, you will need to set up a service account. 
+In order to connect to StreamNative Cloud, you will need to set up a service account.
 
 1. Go to the select "Service Accounts" from the navigation panel on the left side (you need to select an instance on the homepage to see the navigation panel).
 2. Create a service account, you don't need "Super Admin" permission. Skip if you have one already.
@@ -30,7 +30,7 @@ There are 3 types of supported authentications:
   * `scope` this is optional
 * Token.  Set the `auth_type`to `token` while calling the REST API to create the Pulsar source.  Also need to set the `token` key/value in the  `auth_params` payload. It is also supported by StreamNative Cloud.
 
-## Source configuration 
+## Source configuration
 
 | name                          | type     | required? | default | description                                                  |
 | ----------------------------- | -------- | --------- | ------- | ------------------------------------------------------------ |
