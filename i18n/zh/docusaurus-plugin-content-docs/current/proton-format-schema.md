@@ -1,6 +1,6 @@
 # Protobuf/Avro 架构
 
-Timeplus 支持以 [Protobuf](https://protobuf.dev/) 或 [Avro](https://avro.apache.org) 格式读取或写入消息。 本文档介绍如何在没有架构注册表的情况下处理数据。 Check [this page](/proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
+Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format for [Kafka External Stream](/proton-kafka) or [Pulsar External Stream](/pulsar-external-stream). 本文档介绍如何在没有架构注册表的情况下处理数据。 Check [this page](/proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
 
 ## 创建架构 {#create}
 
@@ -20,7 +20,7 @@ Timeplus 支持以 [Protobuf](https://protobuf.dev/) 或 [Avro](https://avro.apa
               '类型 Protobuf
 ```
 
-然后在为 Kafka 创建外部流时参考这个架构：
+Then refer to this schema while creating an external stream for Kafka or Pulsar:
 
 ```sql
 创建外部流 stream_name (
@@ -37,6 +37,12 @@ Timeplus 支持以 [Protobuf](https://protobuf.dev/) 或 [Avro](https://avro.apa
          format_schema='schema_name: searchrequest'
 ```
 
+Then you can run `INSERT INTO` or use a materialized view to write data to the topic.
+
+```sql
+INSERT INTO stream_name(query,page_number,results_per_page) VALUES('test',1,100)
+```
+
 请注意：
 
 1. 如果你想确保每条 Kafka 消息只有一条 Protobuf 消息，请将 data_format 设置为 protobufSingle。 如果你将其设置为 Protobuf，那么在一条 Kafka 消息中可能会有多条 Protobuf 消息。
@@ -46,37 +52,43 @@ Timeplus 支持以 [Protobuf](https://protobuf.dev/) 或 [Avro](https://avro.apa
 
 ### Avro
 
-自 Proton 1.5.10 起可用。
+Available since Timeplus Proton 1.5.10.
 
 ```sql
-创建或替换格式架构 schema_name 为 '{
-                “命名空间”：“example.avro”，
-                “类型”：“记录”，
-                “名称”：“用户”，
-                “字段”：[
-                  {“名称”：“名称”，“类型”：“字符串”}，
-                  {“名称”：“favorite_number”，“类型”：[“int”，“null”]}，
-                  {“名称”：“favorite_color”，“类型”：[“字符串”，“空”]}
+CREATE OR REPLACE FORMAT SCHEMA avro_schema AS '{
+                "namespace": "example.avro",
+                "type": "record",
+                "name": "User",
+                "fields": [
+                  {"name": "name", "type": "string"},
+                  {"name": "favorite_number",  "type": ["int", "null"]},
+                  {"name": "favorite_color", "type": ["string", "null"]}
                 ]
               }
-              'TYPE Avro;
+              ' TYPE Avro;
 ```
 
-然后在为 Kafka 创建外部流时参考这个架构：
+Then refer to this schema while creating an external stream for Kafka or Pulsar:
 
 ```sql
-创建外部流 stream_name（
-         名称字符串，
-         favorite_number 可为空（int32），
-         favorite_color 可为空（字符串））
-设置类型='kafka'，
-         brokers='pkc-1234.us-west-2.aws.confluent.cloud.cloud: 9092'，
-         topic='topic_name'，
-         security_protocol='sasl_SSL'，
-         用户名='..',
-         密码='..',
-         data_format='avro',
-         format_schema='schema_name'
+CREATE EXTERNAL STREAM stream_avro(
+         name string,
+         favorite_number nullable(int32),
+         favorite_color nullable(string))
+SETTINGS type='kafka',
+         brokers='pkc-1234.us-west-2.aws.confluent.cloud:9092',
+         topic='topic_name',
+         security_protocol='SASL_SSL',
+         username='..',
+         password='..',
+         data_format='Avro',
+         format_schema='avro_schema'
+```
+
+Then you can run `INSERT INTO` or use a materialized view to write data to the topic.
+
+```sql
+INSERT INTO stream_avro(name,favorite_number,favorite_color) VALUES('test',1,'red')
 ```
 
 ## 列出架构
