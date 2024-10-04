@@ -253,7 +253,7 @@ When you run `SELECT raw FROM ext_stream`, Timeplus will read the new messages i
 ```
 
 :: warning  
-请避免通过 `select * from table (ext_stream)`扫描所有数据。 应用一些筛选条件，或者运行优化的 `从表 (ext_stream)` 中选择计数 (*) 来获取当前的消息数量。
+请避免通过 `select * from table (ext_stream)`扫描所有数据。 However `select count(*) from table(ext_stream)` is optimized to get the number of current message count from the Kafka topic.
 :::
 
 ### 读取指定分区
