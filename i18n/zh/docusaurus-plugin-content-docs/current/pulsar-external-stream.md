@@ -223,7 +223,7 @@ SELECT raw FROM table(ext_stream) WHERE ...
 Note: both `earliest` and `latest` are supported. You can also use `seek_to='2024-10-14'` for date or datetime based rewind. But number-based seek_to is not supported.
 
 :::warning
-Please avoid scanning all data via `select * from table(ext_stream)`. Apply some filtering conditions, or run the optimized `select count(*) from table(ext_stream)` to get the number of current message count.
+Please avoid scanning all existing data via `select * from table(ext_stream)`.
 :::
 
 ### Read/Write Pulsar Message Key {#messagekey}
