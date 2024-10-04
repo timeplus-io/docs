@@ -5,7 +5,7 @@ But some developers have concerns that complex logic or systems integration are 
 
 That's why we add User-Defined Functions (UDF) support in Timeplus. This enables users to leverage existing programming libraries, integrate with external systems, or just make SQL easier to maintain.
 
-Timeplus Proton supports [Local UDF in JavaScript](/js-udf). You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported.
+Timeplus Proton and Timeplus Enterprise support [Local UDF in JavaScript](/js-udf). You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported.
 
 :::info
 In Timeplus Enterprise, the Python UDF will be ready soon.
@@ -37,6 +37,8 @@ Note:
 * Line 5 and 6: iterating the input array and add 5 to each value
 * Line 8: return an array of new values
 * Line 10: close the code block.
+
+You can also add `EXECUTION_TIMEOUT <num>` to the end of the `CREATE FUNCTION` to customize the timeout for calling remote endpoints. By default the timeout is 10000 milliseconds (i.e. 10 seconds).
 
 :::info
 In Timeplus Enterprise, you can add debug information via `console.log(..)` in the JavaScript UDF. The logs will be available in the server log files.
