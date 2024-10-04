@@ -8,7 +8,7 @@ This tool is available in Timeplus Enterprise 2.5. It supports [Timeplus Enterpr
 
 ## How It Works
 
-The migration is done via capturing the SQL DDL from the source deployment and rerunning those SQL DDL in the target deployment. Data are read from source Timeplus via [Timeplus External Streams](/timeplus-external-stream) and write to the target Timeplus via `INSERT INTO .. AS SELECT .. FROM tp_ext_stream`. The data files won't be copied among the source and target Timeplus, but you need to ensure the target Timeplus can access to the source Timeplus, so that it can read data via Timeplus External Streams.
+The migration is done via capturing the SQL DDL from the source deployment and rerunning those SQL DDL in the target deployment. Data are read from source Timeplus via [Timeplus External Streams](/timeplus-external-stream) and write to the target Timeplus via `INSERT INTO .. SELECT .. FROM table(tp_ext_stream)`. The data files won't be copied among the source and target Timeplus, but you need to ensure the target Timeplus can access to the source Timeplus, so that it can read data via Timeplus External Streams.
 
 
 ## Supported Resources

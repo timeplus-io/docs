@@ -308,7 +308,7 @@ SELECT raw FROM table(ext_stream) WHERE ...
 ```
 
 :::warning
-Please avoid scanning all data via `select * from table(ext_stream)`. Apply some filtering conditions, or run the optimized `select count(*) from table(ext_stream)` to get the number of current message count.
+Please avoid scanning all data via `select * from table(ext_stream)`. However `select count(*) from table(ext_stream)` is optimized to get the number of current message count from the Kafka topic.
 :::
 
 ### Read specified partitions
