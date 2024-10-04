@@ -6,7 +6,7 @@ But some developers have concerns that complex logic or systems integration are 
 
 这就是为什么我们在 Timeplus 中添加用户定义函数 (UDF) 支持的原因。 这将使用户能够利用现有的编程库，与外部系统集成，或者只是让SQL更容易维护。
 
-Timeplus Proton supports [Local UDF in JavaScript](/js-udf). 您可以使用现代 JavaScript（由 V8提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
+Timeplus Proton and Timeplus Enterprise support [Local UDF in JavaScript](/js-udf). 您可以使用现代 JavaScript（由 V8提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
 :::info
 In Timeplus Enterprise, the Python UDF will be ready soon.
@@ -39,6 +39,8 @@ $$;
 - 第 5 行和第 6 行：迭代输入数组并将每个值加 5
 - Line 8: return an array of new values as return type
 - 第 10 行：关闭代码块。
+
+You can also add `EXECUTION_TIMEOUT <num>` to the end of the `CREATE FUNCTION` to customize the timeout for calling remote endpoints. By default the timeout is 10000 milliseconds (i.e. 10 seconds).
 
 :::info
 In Timeplus Enterprise, you can add debug information via `console.log(..)` in the JavaScript UDF. The logs will be available in the server log files.
