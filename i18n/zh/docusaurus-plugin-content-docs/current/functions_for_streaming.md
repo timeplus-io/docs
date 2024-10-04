@@ -16,7 +16,7 @@
 您可以创建视图，如 `create view histrical_view as select * from table(stream_name)`, 如果您想要多次查询表模式中的数据。 对于静态数据，例如查找信息(城市名称及其邮政编码)，这种方法可能很有效。
 
 :::info
-New in Proton v1.5.9, you can also run `table` function on an [External Stream](/proton-kafka) for Kafka. 这将读取指定 Kafka 主题中的现有数据。 请避免通过 `select * from table (ext_stream)`扫描所有数据。 应用一些筛选条件，或者运行优化的 `从表 (ext_stream)` 中选择计数 (*) 来获取当前的消息数量。
+New in Proton v1.5.9, you can also run `table` function on an [Kafka External Stream](/proton-kafka) for Kafka. 这将读取指定 Kafka 主题中的现有数据。 请避免通过 `select * from table (ext_stream)`扫描所有数据。 However `select count(*) from table(ext_stream)` is optimized to get the number of current message count from the Kafka topic.
 :::
 
 Learn more about [Non-streaming queries](/history).
