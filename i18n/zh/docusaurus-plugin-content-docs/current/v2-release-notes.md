@@ -6,10 +6,6 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 
 Timeplus Cloud has a new home. Our previous domain, https://us.timeplus.cloud, has been redirected to https://us-west-2.timeplus.cloud. All workspaces have been migrated and no further action is needed. If you create a workspace via https://demo.timeplus.cloud, you will also be redirected to https://us-west-2.timeplus.cloud. The latest Timeplus Enterprise features are available in the new site. If you prefer using a different cloud region, please let us know.
 
-### Timeplus Enterprise v2.4.24
-
-- Timeplus Enterprise [v2.4.24](/enterprise-v2.4#2_4_24) is released as the latest build. You can now generate a unique ID via [timeplus](/cli-license#id) CLI for license granting and validation.
-
 ### Timeplus Web Console v2.0.1
 
 We upgraded the `timeplus_web` component in https://us-west-2.timeplus.cloud. Compared to v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancements are:
