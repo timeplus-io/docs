@@ -29,13 +29,3 @@ Once you get the license key and file from Timeplus team, you can use web consol
 ```
 timeplus license import -f ~/Downloads/license.lic -k key/eyJ..A==
 ```
-
-## timeplus license id {#id}
-
-:::info
-This is only available in timeplusd 2.3.31 or above.
-:::
-
-```
-timeplus license id
-```
