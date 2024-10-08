@@ -1,6 +1,6 @@
 # 本地JavaScript自定义函数
 
-In addition to [Remote UDF](/remote-udf), Timeplus Proton also supports JavaScript-based UDF running in the sql engine. 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
+In addition to [Remote UDF](/remote-udf), Timeplus Proton also supports JavaScript-based UDF running in the SQL engine. 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
 :::info
 
@@ -8,7 +8,10 @@ The JavaScript-based UDF can run in both Timeplus and Proton local deployments. 
 
 :::
 
-## 注册 JS UDF {#register}
+## Register a JS UDF via SQL {#ddl}
+Please check [CREATE FUNCTION](/sql-create-function) page for the SQL syntax.
+
+## Register a JS UDF via Web Console {#register}
 
 1. 从左侧导航菜单中打开 “UDF”，然后单击 “注册新功能” 按钮。
 2. 指定函数名称，例如 `second_max`。 确保名称不会与内置函数或其他 UDF 冲突。 描述（可选）
