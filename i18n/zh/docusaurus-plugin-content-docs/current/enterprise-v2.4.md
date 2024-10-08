@@ -32,34 +32,6 @@ Key highlights of this release:
 
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
-### 2.4.24 (Latest) {#2_4_24}
-
-Built on 09-23-2024. You can install via:
-
-- For Linux or Mac users: `curl https://install.timeplus.com/latest | sh`
-- For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.24`
-
-Component versions:
-
-- timeplusd 2.3.31
-- timeplus_appserver 1.4.44
-- timeplus_web 1.4.33
-- timeplus_connector 1.5.5
-- timeplus cli 1.2.2
-
-#### Changelog {#changelog_2_4_24}
-
-Compared to the [2.4.23](#2_4_23) release:
-
-- timeplusd 2.3.30 -> 2.3.31
-  - feat: able to generate unique ID per cluster for license granting and validation
-- timeplus cli 1.0.19 -> 1.2.2
-  - feat: show [license ID](/cli-license#id)
-
-#### Known issues {#known_issue_2_4_24}
-
-1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
-
 ### 2.4.23 (Stable) {#2_4_23}
 
 Built on 08-22-2024. You can install via:
