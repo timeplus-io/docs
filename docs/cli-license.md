@@ -23,12 +23,3 @@ For example:
 ```
 timeplus license import -f ~/Downloads/license.lic -k key/eyJ..A==
 ```
-
-## timeplus license id {#id}
-:::info
-This is only available in timeplusd 2.3.31 or above.
-:::
-Show the unique id for license generation and validation. After you start the single-node or cluster of Timeplus Enterprise, run this command to get the unique ID. Share this id to your account manager to acquire a license.
-```
-timeplus license id
-```
