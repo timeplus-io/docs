@@ -1,4 +1,4 @@
-# 在 Kafka 中阅读 Avro 消息
+# Encode/Decode Avro Messages
 
 ### 示例：在 Confluent Cloud 中读取 Avro 编码的数据 {#read_avro_confluent_cloud}
 
