@@ -1,4 +1,4 @@
-# 连接到本地 ClickHouse、ClickHouse Cloud、Aiven 等
+# Connect to ClickHouse
 
 您可以定义外部表并使用它从 ClickHouse 表中读取数据或向其写入数据。
 
@@ -24,7 +24,7 @@
          user='default'、
          password='..'，
          secure=true，
-         table='events'；  
+         table='events'；
 ```
 
 ### 使用 ClickHouse 连接到 Aiven {#aiven}
