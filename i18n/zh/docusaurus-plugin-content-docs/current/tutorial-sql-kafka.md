@@ -1,4 +1,4 @@
-# 使用 SQL 查询 Kafka
+# Query Kafka with SQL (mock data)
 
 :::info
 
