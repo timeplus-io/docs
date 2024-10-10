@@ -1,4 +1,4 @@
-# Read Avro Message in Kafka
+# Encode/Decode Avro Messages
 
 
 ### Example: Read Avro Encoded Data in Confluent Cloud {#read_avro_confluent_cloud}

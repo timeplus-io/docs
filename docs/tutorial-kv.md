@@ -1,4 +1,4 @@
-# Use Primary Key For Update and Delete
+# UPSERT with Versioned Stream
 
 By default, streams in Timeplus are in append-only mode. When you create a stream with the mode `versioned_kv`, you can update the data with same primary key(s). When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
 

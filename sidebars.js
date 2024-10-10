@@ -173,7 +173,9 @@ const sidebars = {
       label: "Guides & Tutorials",
       items: [
         "tutorial-sql-kafka",
+        "tutorial-github",
         "tutorial-sql-connect-kafka",
+        "tutorial-sql-connect-ch",
         {
           type: "category",
           label: "More Data Collection Guides",
@@ -202,13 +204,12 @@ const sidebars = {
             "tutorial-sql-etl-mysql-to-ch",
           ],
         },
-        "tutorial-sql-connect-ch",
-        "tutorial-kv",
         "tutorial-sql-join",
-        "tutorial-sql-read-avro",
-        "tutorial-github",
         "sql-pattern-topn",
         "usecases",
+
+        "tutorial-kv",
+        "tutorial-sql-read-avro",
       ],
     },
     {
@@ -411,6 +412,11 @@ const sidebars = {
           href: "https://www.timeplus.com/post/meltano-timeplus-target",
         },
         "datapm",
+        {
+          label: "Timeplus Terraform Provider",
+          type: "link",
+          href: "https://docs.timeplus.com/terraform",
+        },
       ],
     },
     /*"faq" */

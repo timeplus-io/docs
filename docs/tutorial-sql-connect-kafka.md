@@ -1,4 +1,4 @@
-# Connect to Kafka, Confluent, Redpanda, Aiven, WarpStream, etc.
+# Connect to Kafka, Confluent, Redpanda, Aiven, etc.
 
 ### Connect to local Kafka or Redpanda {#connect-kafka}
 

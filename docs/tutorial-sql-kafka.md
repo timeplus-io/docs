@@ -1,4 +1,4 @@
-# Query Kafka with SQL
+# Query Kafka with SQL (mock data)
 
 :::info
 
