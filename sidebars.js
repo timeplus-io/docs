@@ -207,9 +207,9 @@ const sidebars = {
         "tutorial-sql-join",
         "sql-pattern-topn",
         "usecases",
-
         "tutorial-kv",
         "tutorial-sql-read-avro",
+        "tutorial-testcontainers-java",
       ],
     },
     {
