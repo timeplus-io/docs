@@ -138,6 +138,11 @@ const config = {
                 label: "Timeplus vs. Apache Flink",
                 className: "navbar__link--active",
               },
+              {
+                href: "https://www.timeplus.com/timeplus-and-clickhouse",
+                label: "Timeplus + ClickHouse",
+                className: "navbar__link--active",
+              },
             ],
           },
           {
