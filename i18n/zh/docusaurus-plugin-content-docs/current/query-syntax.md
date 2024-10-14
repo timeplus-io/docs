@@ -19,14 +19,15 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 [PARTITION BY clause]
 EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
-[加入子句]
-[WHERE 子句]
-[按子句分组]
-[HAVING 表达式]
-[按子句分区]
+[JOIN clause]
+[WHERE clause]
+[GROUP BY clause]
+[HAVING expression]
+[PARTITION BY clause]
 [LIMIT n]
+[OFFSET n]
 [EMIT emit_policy]
-[设置 <key1>=<value1>, <key2>=<value2>,...]
+[SETTINGS <key1>=<value1>, <key2>=<value2>, ...]
 ```
 
 只有 `SELECT` 和 `FROM` 条款是必填的（你甚至可以省略 `FORM`，比如 `SELECT now ()`，但它不太实用）。 `[...] 中的其他条款` 是可选的。 We will talk about them one by one in the reverse order, i.e. [SETTINGS](/query-syntax#settings), then [EMIT](/query-syntax#emit), [LIMIT](/query-syntax#limit), etc.
@@ -271,6 +272,13 @@ SETTTINGS max_keep_windows=720;
 
 ## LIMIT
 `LIMIT n` When the nth result is emitted, the query will stop, even it's a streaming SQL.
+
+### OFFSET
+You can combine LIMIT and OFFSET, such as:
+```sql
+SELECT * FROM table(stream) ORDER BY a LIMIT 3 OFFSET 1
+```
+This will fetch the 3 rows from the 2nd smallest value of `a`.
 
 ## JOINs
 
