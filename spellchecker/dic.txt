@@ -16,6 +16,7 @@ acks
 acos
 activemq
 ActiveMQ
+AdminClient
 adv_udaf
 Airbyte
 AirByte
@@ -106,8 +107,11 @@ CICD
 cid
 cidr
 CIDR
+classpath
 cli
 CLI
+cli-queries-with-parameters
+cli-queries-with-parameters-syntax
 CLI.
 cli_usage
 clickhouse
@@ -177,6 +181,7 @@ dbeaver
 dbeaver_native
 dbt
 DDL
+ddl
 de-serializing
 Debezium
 debezium
@@ -239,6 +244,7 @@ Fullscreen
 fullscreen
 GCS
 GDPR
+GenericContainer
 geo
 geo_distance
 geofencing
@@ -259,6 +265,7 @@ GitOps
 gofakeit
 Golang
 golang
+GraalVM
 Gradle
 gradle
 gradle_native
@@ -268,6 +275,7 @@ Guo
 gzip
 GZip
 Gzip
+hardcoding
 HashiCorp
 highlevel
 homebrew
@@ -285,6 +293,7 @@ https
 Huatai
 hubspot
 HubSpot
+Idempotency
 influxdb
 InfluxDB
 infograph
@@ -296,6 +305,8 @@ int32
 int64
 int8
 integrations
+interfaces_cli_configuration
+io_threads
 iops
 IOPS
 iot
@@ -345,6 +356,7 @@ json_value
 JSONEachRow
 jsonl
 JSONL
+JUnit
 JVM
 JVM-based
 jwt
@@ -353,7 +365,9 @@ k3s
 k8s
 K8s
 kafka
+Kafka-compatiable
 kafka-connect-timeplus
+kcat
 keep-alives
 Keycloak
 Kinesis
@@ -408,9 +422,11 @@ mouseover
 MQ
 mqtt
 MQTT
+mTLS
 multiline
 multinode
 mv
+MV
 mv_memory_usage
 mview
 mysql
@@ -496,6 +512,7 @@ PrettyCompact
 productional
 programmatically
 Protobuf
+Protobuf-encoded
 protobuf_complex
 ProtobufSingle
 ProtonWebSocket
@@ -560,6 +577,7 @@ SCRAM-SHA-256
 scram-sha-256
 SCRAM-SHA-512
 scram-sha-512
+scrollbar
 SDK
 sdk
 SDKs
@@ -593,6 +611,7 @@ ssl
 SSL
 SSL_CTX_set1_curves_list
 SSL_CTX_set1_sigalgs_list
+stackoverflow
 start_lon
 startCondtion
 stateful
@@ -606,6 +625,7 @@ Streamlit
 StreamNative
 strictnesses
 sub-commmands
+subcommand
 sublicense
 subnet
 subqueries
@@ -631,6 +651,7 @@ TCP
 terraform
 Terraform
 Terraform-based
+Testcontainers
 tgamma
 tid
 TiDB
@@ -646,6 +667,7 @@ timeplus_connector
 timeplus_web
 timeplusAppserver
 timeplusConnector
+TimeplusContainer
 timeplusd
 Timeplusd
 timeplusd-client
@@ -666,8 +688,12 @@ Tooltips
 tooltips
 top10cars
 TopN
+tp_append_time
 tp_delta
 tp_message_key
+tp_process_time
+tp_shard
+tp_sn
 tp_time
 Trino
 tripA
@@ -726,12 +752,14 @@ v2
 v2.4
 v2.x
 V8
+validate_hostname
 vCPU
 vectorized
 versioned_kv
 VPC
 WAL
 WarpStream
+weak_hash32
 Webhook
 webhook
 WebSocket
@@ -742,6 +770,7 @@ WeChat
 WGS-84
 whitespace
 wikipedia
+WIP
 workspaceID
 workspaces
 Xie

@@ -17,7 +17,7 @@ The source code of the tutorial is available at [GitHub](https://github.com/time
 
 ## Set up the dependencies
 
-We will be using [Gradle](https://gradle.org/), a popular open source build system for Java ecosystems. In the build.gradle file, we load the required dependencies, namly:
+We will be using [Gradle](https://gradle.org/), a popular open source build system for Java ecosystems. In the build.gradle file, we load the required dependencies, namely:
 
 ```gradle
 dependencies {

@@ -4,7 +4,7 @@ Migrate data and resources between Timeplus deployments, including:
 * Migrate the data and configuration from a single-node Timeplus Proton to self-hosted or cloud version of Timeplus Enterprise.
 * Migrate the data and configuration among Timeplus Enterprise deployments, even there are breaking changes in the data format. This tool can also be used to apply changes to production deployments after verifying changes in the staging deployments.
 
-This tool is available in Timeplus Enterprise 2.5. It supports [Timeplus Enterprise 2.4.19](/enterprise-v2.4#2419) or above, and Timeplus Proton 1.5.18 or above. Contact us if you need to migrate from a older version.
+This tool is available in Timeplus Enterprise 2.5. It supports [Timeplus Enterprise 2.4.19](/enterprise-v2.4#2419) or above, and Timeplus Proton 1.5.18 or above. Contact us if you need to migrate from an older version.
 
 ## How It Works
 
@@ -25,7 +25,7 @@ The following resources are not supported yet:
 - alerts
 - users, roles, grants
 - databases
-- api keys
+- API keys
 
 Query history in the SQL Console could be exported but won't be migrated to the target Timeplus.
 
@@ -112,9 +112,9 @@ timeplus migrate run -p plan_file_path
 
 ## timeplus migrate clean -p [plan_file] {#clean}
 
-If there is anything wrong during the migration and you want to try it again, this `clean` sub-command will delete the migrated resource in taget Timeplus, so that you can recreate them in the next `timeplus migrate run`.
+If there is anything wrong during the migration and you want to try it again, this `clean` sub-command will delete the migrated resource in target Timeplus, so that you can recreate them in the next `timeplus migrate run`.
 
 ## Limitations
 
 1. There is no checkpoint or error recovering for now. While migrating streams with lots of data, it is possible to experience network interruption. In this case, you can turn on `use_timeplusd_for_data_migration` setting and use timeplusd instead of the application server to run the migration script. You can also run `migrate clean` command to clean up the half-done resources and retry.
-2. The owner for the newly created resources in the target Timeplus are the API user in configuration file, not necessarily the orginal owner in source Timeplus.
+2. The owner for the newly created resources in the target Timeplus are the API user in configuration file, not necessarily the original owner in source Timeplus.
