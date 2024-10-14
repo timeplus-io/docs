@@ -240,6 +240,11 @@ const sidebars = {
           type: "category",
           label: "SQL Commands",
           items: [
+            {
+              label: "SELECT",
+              type: "link",
+              href: "https://docs.timeplus.com/query-syntax",
+            },
             "sql-create-stream",
             "sql-create-random-stream",
             "sql-create-external-stream",
@@ -254,7 +259,6 @@ const sidebars = {
             "sql-create-format-schema",
             "sql-show-format-schemas",
             "sql-drop-format-schema",
-
             "sql-create-view",
             "sql-create-materialized-view",
             "sql-alter-view",

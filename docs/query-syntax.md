@@ -12,6 +12,7 @@ FROM <table_function>(<stream_name>, [<time_column>], [<window_size>], ...)
 [HAVING expression]
 [PARTITION BY clause]
 [LIMIT n]
+[OFFSET n]
 [EMIT emit_policy]
 [SETTINGS <key1>=<value1>, <key2>=<value2>, ...]
 ```
@@ -245,6 +246,13 @@ When `GROUP BY` is applied, `HAVING` is optional to filter the aggregation resul
 
 ## LIMIT
 `LIMIT n` When the nth result is emitted, the query will stop, even it's a streaming SQL.
+
+### OFFSET
+You can combine LIMIT and OFFSET, such as:
+```sql
+SELECT * FROM table(stream) ORDER BY a LIMIT 3 OFFSET 1
+```
+This will fetch the 3 rows from the 2nd smallest value of `a`.
 
 ## JOINs
 
