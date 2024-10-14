@@ -20,7 +20,7 @@ Key highlights of this release:
 - [Kafka schema registry support for Avro output format](/proton-schema-registry#write)
 - Read/write Kafka message keys via [_tp_message_key column](/proton-kafka#messagekey)
 - More performance enhancements, including:
-  - Concurrent and idempotent data ingestion
+  - Concurrent and [idempotent data ingestion](/idempotent)
   - Memory efficiency improvement for window processing
   - Independent shard query processing
   - Async query state and materialized view checkpointing
@@ -182,7 +182,7 @@ Components:
   - feat: support [ALTER STREAM .. ADD COLUMN ..](sql-alter-stream#add-column)
   - feat: _tp_message_key to [read/write message keys in Kafka](/proton-kafka#messagekey)
   - feat: [Kafka schema registry support for Avro output format](/proton-schema-registry#write)
-  - feat: support idempotent keys processing
+  - feat: support [idempotent keys processing](/idempotent)
   - feat: collect node free memory usage. You can get it via `select cluster_id, node_id, os_memory_total_mb, os_memory_free_mb, memory_used_mb, disk_total_mb, disk_free_mb, timestamp from system.cluster`
   - fix: nullptr access in window function
   - feat: timeplusd listen for ipv4 and ipv6 port. No need to set `-h 127.0.0.1` for `timeplusd client`
