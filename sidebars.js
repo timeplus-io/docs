@@ -127,6 +127,11 @@ const sidebars = {
             },
           ],
         },
+        {
+          type: "doc",
+          id: "idempotent",
+          customProps: { tag: "Enterprise" },
+        },
       ],
     },
     /*"timeplus-enterprise",*/
