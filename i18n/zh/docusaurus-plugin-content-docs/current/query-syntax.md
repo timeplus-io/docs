@@ -1,6 +1,6 @@
 # 查询语法
 
-Timeplus introduces several SQL extensions to support streaming processing. 总的语法如下：
+Timeplus引入了几个SQL扩展来支持流式处理。 总的语法如下：
 
 ```sql
 [使用 common_table_expression...]
