@@ -1,6 +1,6 @@
 # 本地JavaScript自定义函数
 
-除了 [远程 UDF](remote-udf)之外，Timeplus 还支持在数据库引擎中运行基于 JavaScript 的 UDF。 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
+In addition to [Remote UDF](/remote-udf), Timeplus Proton also supports JavaScript-based UDF running in the SQL engine. 您可以使用现代 JavaScript（由 [V8](https://v8.dev/)提供支持）开发用户定义的标量函数 (UDF) 或用户定义的聚合函数 (UDAF)。 无需为 UDF 部署额外的服务器/服务。 将来将支持更多语言。
 
 :::info
 
@@ -8,7 +8,10 @@ The JavaScript-based UDF can run in both Timeplus and Proton local deployments. 
 
 :::
 
-## 注册 JS UDF {#register}
+## Register a JS UDF via SQL {#ddl}
+Please check [CREATE FUNCTION](/sql-create-function) page for the SQL syntax.
+
+## Register a JS UDF via Web Console {#register}
 
 1. 从左侧导航菜单中打开 “UDF”，然后单击 “注册新功能” 按钮。
 2. 指定函数名称，例如 `second_max`。 确保名称不会与内置函数或其他 UDF 冲突。 描述（可选）
@@ -93,7 +96,7 @@ function email_not_in(emails,lists){
     for(let i=0;i<list.length;i++){
       if(email.endsWith('@'+list[i]))
         return false; // if the email ends with any of the domain, return false, otherwise continue
-    }                
+    }
     return true; // no match, return true confirming the email is in none of the provided domains
   });
 }
@@ -190,68 +193,68 @@ function magic_number(values){
 要注册此函数，Timeplus Cloud 和 Proton 中的步骤有所不同：
 
 * With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 将函数名称设置为 `second_max` （您无需在 JS 代码中重复函数名称）。 在 `float` 类型中添加一个参数，并将返回类型也设置为 `float` 。 Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。 你可以定义内部私有函数，只要名称不会与 JavaScript 或 UDF 生命周期中的原生函数冲突。
-* 在 Proton Client 中使用 SQL：在此处查看 [中的示例](proton-create-udf#create-aggregate-function)。
+* With SQL in Proton Client: check the example at [here](/js-udf#udaf).
 
 ### 复杂事件处理的高级示例 {#adv_udaf}
 
 用户定义的聚合函数可用于复杂事件处理 (CEP)。 以下是计算同一用户登录尝试失败次数的示例。 如果登录失败次数超过 5 次，请创建警报消息。 如果成功登录，请重置计数器。 假设流名称是 `logins` ，带有时间戳、用户、login_status_code，此 SQL 可以持续监控登录尝试：
 
 ```sql
-选择 window_start、用户、login_fail_event (login_status_code) 
-FROM hop（登录，1m，1h）按 window_start 分组，用户
+SELECT window_start, user, login_fail_event(login_status_code)
+FROM hop(logins, 1m, 1h) GROUP BY window_start, user
 ```
 
 UDAF 是通过以下方式注册的：
 
 ```sql
-创建聚合函数 login_fail_event（消息字符串） 
-将字符串语言 JAVASCRIPT 返回为 $$
+CREATE AGGREGATE FUNCTION login_fail_event(msg string)
+RETURNS string LANGUAGE JAVASCRIPT AS $$
 {
-  has_customized_emit：true，
+  has_customized_emit: true,
 
-  初始化：函数（）{
-      this.failed = 0；//内部状态，登录失败次数
+  initialize: function() {
+      this.failed = 0; //internal state, number of login failures
       this.result = [];
-  }，
+  },
 
-  进程：函数（事件）{
-      for（let i = 0；i < events.length；i++）{
-          if（事件 [i] == “失败”）{
+  process: function (events) {
+      for (let i = 0; i < events.length; i++) {
+          if (events[i]=="failed") {
               this.failed = this.failed + 1;
           }
-          否则 if（事件 [i] == “ok”）{
-              this.failed = 0；//如果在 5 登录之前有 login_ok，则重置为 0
+          else if (events[i]=="ok") {
+              this.failed = 0; //reset to 0 if there is login_ok before 5 login_fail
+          }
 
-
- >= 5) {
-              this.result.push (“alert”); //我们也可以附加时间戳
-              this.failed = 0; //重置为 0 有 5 个 login_fail
+          if (this.failed >= 5) {
+              this.result.push("alert"); //we can also attach a timestamp
+              this.failed = 0; //reset to 0 there are 5 login_fail
           }
       }
-      返回 this.result.length; //显示用户的警报数量
-  }，
+      return this.result.length; //show the number of alerts for the users
+  },
 
   finalize: function () {
-      var old_结果 = this.result；
-      this.initialize ()；
-      返回 old_result；
-  }，
+      var old_result = this.result;
+      this.initialize();
+      return old_result;
+  },
 
-  序列化：函数 () {
+  serialize: function() {
       let s = {
           'failed': this.failed
       };
-      返回 json.stringify (s);
-  }，
-
-  反序列化：函数 (state_str) {
-      let s = json.parse (state_str));
-      this.failed = s ['失败'];
+      return JSON.stringify(s);
   },
 
-  合并：函数 (state_str) {
-      let s = json.parse (state_str);
-      this.failed = this.failed + s ['失败'];
+  deserialize: function (state_str) {
+      let s = JSON.parse(state_str);
+      this.failed = s['failed'];
+  },
+
+  merge: function(state_str) {
+      let s = JSON.parse(state_str);
+      this.failed = this.failed + s['failed'];
   }
 }
 $$;
@@ -276,4 +279,3 @@ There is an advanced setting `has_customized_emit`. When this is set to `true`: 
 
 * 将来我们将提供更好的测试工具。
 * 自定义 JavaScript 代码在装有 V8 引擎的沙箱中运行。 它不会影响其他工作空间。
-

@@ -26,8 +26,8 @@ curl https://install.timeplus.com/latest | sh
 
 Stable builds:
 
-- Linux ([Intel/AMD chip](https://install.timeplus.com/stable-linux-amd64.tar.gz), [ARM chip](https://install.timeplus.com/stable-linux-arm64.tar.gz))
-- MacOS ([Intel chip](https://install.timeplus.com/stable-darwin-amd64.tar.gz), [Apple Silicon chip](https://install.timeplus.com/stable-darwin-arm64.tar.gz))
+- Linux（[英特尔/AMD 芯片](https://install.timeplus.com/stable-linux-amd64.tar.gz)、[ARM 芯片](https://install.timeplus.com/stable-linux-arm64.tar.gz)）
+- MacOS（[英特尔芯片](https://install.timeplus.com/stable-darwin-amd64.tar.gz)，[苹果芯片](https://install.timeplus.com/stable-darwin-arm64.tar.gz))
 - Windows（请 [通过 Docker 安装](#docker)）
 
 Latest builds:
@@ -60,7 +60,7 @@ tar xfv file.tar.gz
 
 也可以通过运行 `timeplus start-s service_name` 来启动/停止单个进程。 例如，当你只想启动 Timeplus Core (SQL Engine) 时，运行 `timeplus start-s timeplusd`。
 
-For more information, please check the [CLI Reference](cli-reference).
+For more information, please check the [CLI Reference](/cli-reference).
 
 ## 通过Docker安装{#docker}
 
@@ -93,14 +93,14 @@ curl https://install.timeplus.com/sp-demo | sh
 
 该堆栈演示了如何运行流式 ETL、从 Kafka API 获取数据、应用过滤器或聚合，然后发送到另一个 Kafka 主题或 ClickHouse 表。 更多详情，请参阅：
 
-- [教程：流 ETL：从 Kafka 到 Kafka](教程-sql-etl)
-- [教程：流 ETL：从 Kafka 到 ClickHouse](教程-sql-etl-kafka-to-ch)
+- [Tutorial – Streaming ETL: Kafka to Kafka](/tutorial-sql-etl)
+- [Tutorial – Streaming ETL: Kafka to ClickHouse](/tutorial-sql-etl-kafka-to-ch)
 
 ## 许可证管理{#license}
 
 当你启动Timeplus Enterprise并首次访问网络控制台时，30天的免费试用开始。 当它结束时，软件将停止运行。
 
-请查看 [指南](server_config #license) 更新许可证。
+Please check [the guide](/server_config#license) to update licenses.
 
 ## Upgrade {#upgrade}
 

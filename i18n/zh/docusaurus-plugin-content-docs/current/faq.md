@@ -18,16 +18,16 @@
 
 如果您保持 IP 白名单，则需要将我们的静态 IP 列入白名单：
 
-`44.232.236.191` for us.timeplus.cloud
+`44.232.236.191` for us-west-2.timeplus.cloud
 
 ## 自托管 Timeplus 企业版 {#self_host}
 
 ### 我可以在我们自己的云 VPC 或本地运行 Timeplus Enterprise 吗？ {#deployment}
 
-当然！ [Timeplus Enterprise](timeplus-enterprise) 可以安装在您的本地数据中心或云 VPC 中，其功能与 Timeplus Cloud 类似。 你可以在 timeplus.com 或 [联系我们](mailto:info@timeplus.com) 上下载 30 天免费试用版以获取更多详情或预约演示。
+当然！ [Timeplus Enterprise](/timeplus-enterprise) can be installed in your local data center or cloud VPC, with similar features as Timeplus Cloud. 你可以在 timeplus.com 或 [联系我们](mailto:info@timeplus.com) 上下载 30 天免费试用版以获取更多详情或预约演示。
 
 ## 普通的
 
 ### Timeplus Enterprise 和 Timeplus Proton 之间有什么关系？ {#compare}
 
-Timeplus Proton 是 Timeplus Enterprise 的核心引擎，于 2023 年 9 月开源。 Timeplus 企业版提供外部功能和支持。 请查看 [Proton 常见问题解答](proton-faq#compare) 了解详情。
+Timeplus Proton 是 Timeplus Enterprise 的核心引擎，于 2023 年 9 月开源。 Timeplus 企业版提供外部功能和支持。 Please check the [Proton FAQ](/proton-faq#compare) for details.

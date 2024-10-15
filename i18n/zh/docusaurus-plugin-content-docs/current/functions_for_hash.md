@@ -8,5 +8,8 @@
 
 ### md4
 
-`md4(string)` 从字符串中计算MD4并将结果字节集返回为 `fixed_string(16)`。 
+`md4(string)` 从字符串中计算MD4并将结果字节集返回为 `fixed_string(16)`。
 
+### weak_hash32
+
+`weak_hash32(data)` Calculates a `uint32` from any data type.

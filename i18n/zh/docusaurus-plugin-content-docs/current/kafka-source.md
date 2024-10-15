@@ -1,10 +1,10 @@
 # 从Apache Kafka加载流数据
 
-当前Kafka是Timeplus最主要的实时数据来源(和下游)。 你也可以创建[外部流](working-with-streams#external_stream)来分析Confluent/Kafka/Redpanda中的数据而不移动数据。
+Apache Kafka is the primary data source (and sink) for Timeplus. You can also create [external streams](/external-stream) to analyze data in Confluent/Kafka/Redpanda without moving data.
 
 ## Apache Kafka数据源
 
-1. 在左侧导航菜单中，单击 **数据提取**。 在这里，您将看到连接源或外部流的方法。 单击 **Apache Kafka** （外部流）。
+1. From the left side navigation menu, click **Data Collection**. 在这里，您将看到连接源或外部流的方法。 单击 **Apache Kafka** （外部流）。
 2. 输入经纪商 URL。 如果需要，您还可以启用 TLS 或身份验证。
 3. 输入 Kafka 主题的名称，并指定 “读取为” 数据格式。 我们目前支持 JSON、AVRO 和文本格式。
    1. 如果 Kafka 主题中的数据采用 JSON 格式，但架构可能会随时间而变化，我们建议您选择文本。 这样，整个 JSON 文档将保存为字符串，即使架构发生变化，您也可以应用 JSON 相关函数来提取值。
@@ -21,7 +21,7 @@
 
 如果您保持 IP 白名单，则需要将我们的静态 IP 列入白名单：
 
-`52.83.159.13` 对于 cloud.timeplus.com.cn
+`44.232.236.191` for us-west-2.timeplus.cloud
 
 :::
 
@@ -30,6 +30,6 @@
 请注意：
 
 1. 目前，我们支持 Kafka 主题中的消息采用 JSON 和 AVRO 格式
-2. 主题级别 JSON 属性将被转换为流列。 对于嵌套属性， 元素将被保存为 `String` 列，然后您可以用 [JSON functions](functions_for_json) 之一来查询它们。
+2. 主题级别 JSON 属性将被转换为流列。 对于嵌套属性， 元素将被保存为 `String` 列，然后您可以用 [JSON functions](/functions_for_json) 之一来查询它们。
 3. JSON消息中的数值或布尔值类型将被转换为流中的对应类型。
-4. 日期时间或时间戳将被保存为字符串列。 您可以通过 [to_time function](functions_for_type#to_time)将它们转换回 DateTime。
+4. 日期时间或时间戳将被保存为字符串列。 You can convert them back to DateTime via [to_time function](/functions_for_type#to_time).

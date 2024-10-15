@@ -6,10 +6,10 @@
 删除视图 [如果存在] 数据库。<view_name>;
 ```
 
-像 [CREATE STREAM](proton-create-stream)一样，流删除是一个异步过程。
+像 [CREATE STREAM](/proton-create-stream)一样，流删除是一个异步过程。
 
 ::: Timeplus Cloud 用户须知
 
-在 Timeplus Cloud 或私有云部署中，我们建议您使用 GUI 或 [Terraform Provider](terraform)删除视图，以便更好地跟踪世系和权限。
+In Timeplus Cloud or Private Cloud deployments, we recommend you to drop views with GUI or [Terraform Provider](/terraform), to better tracking the lineage and permission.
 
 :::

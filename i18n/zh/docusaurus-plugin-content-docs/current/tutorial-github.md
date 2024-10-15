@@ -1,4 +1,4 @@
-# GitHub 的实时见解
+# Query Kafka with SQL (GitHub live data)
 
 在本教程中，您将处理来自 GitHub 的实时数据。 我们已经设置了一个可公开访问的 Kafka 集群，供您使用来自 Kafka 主题的数据。 如果您使用的是Timeplus Cloud，则还可以构建实时仪表板和警报。
 
@@ -10,28 +10,28 @@
 
 这里有一个 [Python 脚本示例](https://github.com/timeplus-io/github_liveview/blob/develop/github_demo.py) 供你参考。 但是我们已经允许通过Kafka API访问实时数据。
 
-在 Timeplus 中，你可以通过 [外部流]（外部流）从 Kafka 读取数据。 以下是创建这样的外部流以从 Aiven 上的 Kafka 集群读取内容的 SQL：
+In Timeplus, you read data from Kafka via an [External Stream](/external-stream). 以下是创建这样的外部流以从 Aiven 上的 Kafka 集群读取内容的 SQL：
 
 ```sql
-创建外部流 github_events
+CREATE EXTERNAL STREAM github_events
 (
-  演员字符串，
-  created_at 字符串，
-  id 字符串，
-  有效负载字符串，
-  回购字符串，
-  类型字符串
+  actor string,
+  created_at string,
+  id string,
+  payload string,
+  repo string,
+  type string
 )
-设置类型 = 'kafka'， 
-         brokers = 'kafka-public-read-timeplus。a.aivencloud.com: 28864'， 
-         topic = 'github_events'， 
-         data_format='jsoneachrow'，
-         sasl_mechanics = 'SCRAM-SHA-256'， 
-         用户名 = '只读'， 
-         密码 = 'avns_muadrshcpeepa93AQY_'， 
-         security_protocol = 'SASL_SSL'， 
-         skip_ssl_cert_check== true
-COMMENT '要阅读的外部流来自 Aiven for Apache Kafka 的 JSON 格式的 GitHub 活动
+SETTINGS type = 'kafka',
+         brokers = 'kafka-public-read-timeplus.a.aivencloud.com:28864',
+         topic = 'github_events',
+         data_format='JSONEachRow',
+         sasl_mechanism = 'SCRAM-SHA-256',
+         username = 'readonly',
+         password = 'AVNS_MUaDRshCpeePa93AQy_',
+         security_protocol = 'SASL_SSL',
+         skip_ssl_cert_check=true
+COMMENT 'an external stream to read GitHub events in JSON format from Aiven for Apache Kafka'
 ```
 
 只需通过 Timeplus 网络用户界面中的 “Proton客户端” 或 **SQL 控制台** 运行这个 SQL 即可。 此 Kafka 用户配置为对主题/集群的只读访问权限。 我们可能会更改密码。 如果密码不起作用，请回来。
@@ -50,7 +50,7 @@ COMMENT '要阅读的外部流来自 Aiven for Apache Kafka 的 JSON 格式的 G
 
 ### 流过滤器
 
-在 WHERE 子句中添加一些条件以应用流媒体过滤器，例如
+在 WHERE 子句中添加一些条件以应用流过滤器，例如
 
 ```sql
 从 github_events 中选择 * 其中 type='watchEvent'
@@ -66,14 +66,14 @@ COMMENT '要阅读的外部流来自 Aiven for Apache Kafka 的 JSON 格式的 G
 
 这将显示自查询开始以来收到了多少新事件。 因此，你可能会看到像158这样的数字，然后在几秒钟后看到334这样的数字。
 
-这就是所谓的 [全局聚合]（查询语法 #global）。
+This is so-called [Global Aggregation](/query-syntax#global).
 
 #### 滚动聚合
 
 ```sql
-选择 window_start、repo、count (*) 
-FROM tumble (github_events,30s) 
-按 window_start、repo 分组
+SELECT window_start, repo, count(*)
+FROM tumble(github_events,30s)
+GROUP BY window_start, repo
 ```
 
 此查询每 30 秒按存储库统计一次事件。 滚动窗户是固定窗口，没有重叠。 `30s` 是 SQL 表达式 `INTERVAL 30 SECOND` 的快捷方式。 你也可以使用 2m 表示 2 分钟，使用 3h 表示 3 小时。
@@ -83,9 +83,9 @@ FROM tumble (github_events,30s)
 #### 跳跃聚合
 
 ```sql
-选择 window_start、repo、count (*) 
-FROM hop (github_events,1s,30s) 
-按 window_start、repo 分组
+SELECT window_start, repo, count(*)
+FROM hop(github_events,1s,30s)
+GROUP BY window_start, repo
 ```
 
 此查询每 30 秒按 repo 对事件进行一次计数，每秒更新一次结果。 Hop window 也称为滑动窗口。
@@ -95,15 +95,15 @@ FROM hop (github_events,1s,30s)
 默认情况下，在 Timeplus 中传输 SQL 将查找未来的事件，而不是现有事件。 对于外部流，你可以使用 'SETTINGS seek_to='。。'\`返回 Kafka 主题中过去的时间戳或偏移量。 例如，如果你想获得自 4 月 1 日以来的活动总数，你可以运行：
 
 ```sql
-从 github_events 中选择计数 (*) 
-设置 seek_to='2024-04-01'
+SELECT count(*) FROM github_events
+SETTINGS seek_to='2024-04-01'
 ```
 
 如果你想在 6 小时前获取数据：
 
 ```sql
-从 github_events 中选择计数 (*) 
-设置 seek_to='-6h'
+SELECT count(*) FROM github_events
+SETTINGS seek_to='-6h'
 ```
 
 ## 在 Timeplus 中保存 Kafka 数据
@@ -117,7 +117,7 @@ FROM hop (github_events,1s,30s)
 SELECT * 来自 github_events
 ```
 
-物化视图是一个长时间运行的查询，用于将流 SQL 结果传送到其内部存储中。 您也可以使用物化视图将数据写入其他流、外部流或外部表。 这可以建立流媒体管道。
+物化视图是一个长时间运行的查询，用于将流 SQL 结果传送到其内部存储中。 您也可以使用物化视图将数据写入其他流、外部流或外部表。 这可以建立流管道。
 
 您可以像其他流一样在物化视图中查询数据，例如
 

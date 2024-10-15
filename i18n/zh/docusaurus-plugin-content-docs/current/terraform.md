@@ -111,7 +111,7 @@ terraform {
 }
 
 provider "timeplus" {
-  # the workspace ID can be found in the URL https://us.timeplus.cloud/<my-workspace-id>
+  # the workspace ID can be found in the URL https://us-west-2.timeplus.cloud/<my-workspace-id>
   workspace = "my-workspace-id"
   # API key is required to use the provider
   api_key   = "my-api-key"

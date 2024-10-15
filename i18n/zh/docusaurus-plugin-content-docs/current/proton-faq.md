@@ -1,4 +1,4 @@
-# Timeplus Proton 常见问题解答
+# FAQ
 
 2023 年 9 月 21 日，Timeplus 宣布了开源项目： [Timeplus Proton](https://github.com/timeplus-io/proton/)。 我们使用这个常见问题作为主要参考来了解什么是Timeplus Proton，我们如何许可代码开源，今天如何使用Timeplus Proton等等。
 
@@ -41,7 +41,7 @@ Timeplus Proton 在单个数据库节点上为统一的流和数据处理提供�
 |               | **Timeplus Proton**       | **Timeplus 企业版**          |
 | ------------- | ------------------------- | ------------------------- |
 | **部署**        | <ul><li>单节点 Docker 镜像</li><li>Mac/Linux 上的单一二进制</li></ul> | <ul><li>单节点</li><li>集群</li><li>基于 Kubernetes 的 “自带云” (BYOC)</li><li>Fully-managed cloud service</li></ul> |
-| **数据来源**      | <ul><li>随机流</li><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li><li>[通过 REST API 进行流采集（仅限紧凑模式）]（Proton摄取 API）</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>WebSocket 和 HTTP 流</li><li>Apache Pulsar</li><li>上传 CSV</li><li>[通过 REST API 进行流式提取（使用 API 密钥和灵活模式）]（收录 API）</li></ul> |
+| **数据来源**      | <ul><li>随机流</li><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li><li>[Streaming ingestion via REST API (compact mode only)](/proton-ingest-api)</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>WebSocket 和 HTTP 流</li><li>Apache Pulsar</li><li>上传 CSV</li><li>[Streaming ingestion via REST API (with API key and flexible modes)](/ingest-api)</li></ul> |
 | **数据目的地（汇点）** | <ul><li>外部流向 Apache Kafka、Confluent Cloud、Redpanda</li></ul> | <ul><li>Timeplus Proton 中的所有内容</li><li>Apache Pulsar</li><li>Slack</li><li>网络挂钩</li><li>Timeplus 流</li></ul> |
 | **支持**        | <ul><li>来自 GitHub 和 Slack 的社区支持</li></ul> | <ul><li>通过电子邮件、Slack 和 Zoom 提供企业支持，并附有 SLA</li></ul> |
 
@@ -49,7 +49,7 @@ Timeplus Proton 在单个数据库节点上为统一的流和数据处理提供�
 
 ## 我的组织已经在使用ClickHouse了——是否有计划将Timeplus Proton与开源ClickHouse项目整合在一起？
 
-你可以创建一个Timeplus Proton 的 [外部表](proton-clickhouse-external-table) 来读取或写入  ClickHouse 表。 查看如下教程，了解如何通过 Timeplus [从 Kafka 到 ClickHouse](tutorial-sql-etl-kafka-to-ch)流式ETL ，或者[从 MySQL 到 ClickHouse](tutorial-sql-etl-mysql-to-ch)。
+你可以创建一个Timeplus Proton 的 [外部表](/proton-clickhouse-external-table) 来读取或写入  ClickHouse 表。 查看如下教程，了解如何通过 Timeplus [从 Kafka 到 ClickHouse](/tutorial-sql-etl-kafka-to-ch)流式ETL ，或者[从 MySQL 到 ClickHouse](/tutorial-sql-etl-mysql-to-ch)。
 
 我们还在与ClickHouse, Inc.以及整个ClickHouse开源项目的人士进行对话，以探讨这些项目之间深度整合的可能性。
 
@@ -57,12 +57,12 @@ Timeplus Proton 在单个数据库节点上为统一的流和数据处理提供�
 
 简短的答案：非常简单。 我们将Timeplus Proton的用法设计为与ClickHouse类似，但有一些关键区别：
 
-- Timeplus 的默认 SQL 查询模式是 **streaming**，这意味着它可以长时间运行，持续跟踪和评估更改后的数据，并将结果推送给用户或目标系统。 要创建 [历史数据查询](functions_for_streaming#table)，请将您的 SQL 包装在 `表（流）`中。
+- Timeplus 的默认 SQL 查询模式是 **streaming**，这意味着它可以长时间运行，持续跟踪和评估更改后的数据，并将结果推送给用户或目标系统。 To create a [historical data query](/functions_for_streaming#table), wrap your SQL in `table(stream)`.
 - 要为表、流或列创建临时名称，必须使用 SQL 关键字 `AS` 。
-- 我们重命名了数据类型和函数以删除驼峰大小写。 例如，在 Timeplus Proton 中，ClickHouse 的 `toInt8 ()` 被重命名为 `to_int8 ()` 。 我们的 [函数](functions) 文档还有其他详细信息。
+- 我们重命名了数据类型和函数以删除驼峰大小写。 例如，在 Timeplus Proton 中，ClickHouse 的 `toInt8 ()` 被重命名为 `to_int8 ()` 。 Our [functions](/functions) docs have additional details.
 - 目前，并非所有的ClickHouse功能都可以在Timeplus Proton中启用，也不是在流查询中都能使用。 如果我们应该添加或增强 Timeplus Proton 中可用的功能，请在 [GitHub 问题](https://github.com/timeplus-io/proton/issues)中告诉我们。
-- ClickHouse 中的物化视图适用于一个源表，数据在索引时处理。 在 Timeplus Proton 中，你可以使用流式 SQL 定义 [物化视图](proton-create-view#m_view) ，用于任意数量的流，使用 JOIN、CTE 或子查询。 Timeplus Proton 持续运行查询，并将结果发送到内部流或目标流。
-- 在 Timeplus Proton 中， [JOIN](joins) 是一种将来自多个来源的数据合并为单个数据流的强大而灵活的手段。
+- ClickHouse 中的物化视图适用于一个源表，数据在索引时处理。 In Timeplus Proton, you can define a [Materialized View](/proton-create-view#m_view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Timeplus Proton 持续运行查询，并将结果发送到内部流或目标流。
+- In Timeplus Proton, [JOINs](/joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
 
 有关完整用法的详细信息，请参阅文档。
 
@@ -114,8 +114,8 @@ JDBC 驱动程序可在 https://github.com/timeplus-io/proton-java-driver 获得
 我们目前正在开发资源，您可以在其中了解Timeplus Proton的架构、功能和未来：
 
 - [GitHub](https://github.com/timeplus-io/proton/)
-- [文档](proton)
-- [高级架构](proton-architecture)
+- [文档](/proton)
+- [高级架构](/proton-architecture)
 - [视频](https://youtube.com/@timeplusdata)
 - [维基](https://github.com/timeplus-io/proton/wiki)
 
@@ -123,6 +123,6 @@ JDBC 驱动程序可在 https://github.com/timeplus-io/proton-java-driver 获得
 
 ## 我怎样才能开始？
 
-在我们的 [文档](proton#get-started)中学习如何提取和运行 Timeplus Proton 镜像以及查询测试流。 要查看使用 Timeplus Proton、Redpanda 和示例实时数据的更完整用例，请查看我们利用 Docker Compose 的 [教程](proton-kafka#tutorial) 。
+Learn how to pull and run the Timeplus Proton image and query a test stream in our [documentation](/proton#-deployment). To see a more complete use case in action, using Timeplus Proton, Redpanda, and sample live data, check out our [tutorial](/proton-kafka#tutorial) that leverages Docker Compose.
 
-如果你需要高级部署策略或功能，让Timeplus Proton在幕后运行，那就使用 [Timeplus Cloud](https://us.timeplus.cloud/)创建你的第一个工作空间。
+If you need advanced deployment strategies or features, with Timeplus Proton running behind the scenes, create your first workspace with [Timeplus Cloud](https://us-west-2.timeplus.cloud/).

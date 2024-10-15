@@ -3,7 +3,7 @@
 当您使用 `versioned_kv` 的模式创建一个流时，流中的数据不再是附加的。 当您直接查询流时，仅显示相同主键的最新版本。 When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
 
 :::warning
-For Timeplus Enterprise customers, we recommend to use [Mutable Streams](mutable-stream) with the enhanced performance for UPSERT and queries. The versioned streams are not supported in Timeplus Enterprise, and will be removed in Timeplus Proton.
+For Timeplus Enterprise customers, we recommend to use [Mutable Streams](/mutable-stream) with the enhanced performance for UPSERT and queries. The versioned streams are not supported in Timeplus Enterprise, and will be removed in Timeplus Proton.
 :::
 
 一段 HOWTO 视频：
@@ -72,7 +72,7 @@ For Timeplus Enterprise customers, we recommend to use [Mutable Streams](mutable
 
 ## 在 INNER JOIN 中使用多版本流
 
-在上述示例中，您总是获得具有相同主键的事件的最新版本。 其运行方式与 [变更日志流](changelog-stream) 类似。 这种流模式之所以被称为多版本流，是因为 Timeplus 将跟踪多个版本。 这主要在多版本流充当 JOIN 的 “右表” 时使用。
+在上述示例中，您总是获得具有相同主键的事件的最新版本。 This works in the similar way as [Changelog Stream](/changelog-stream). 这种流模式之所以被称为多版本流，是因为 Timeplus 将跟踪多个版本。 这主要在多版本流充当 JOIN 的 “右表” 时使用。
 
 想象一下你有 `订单`的另一个版本化流：
 

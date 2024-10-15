@@ -1,6 +1,6 @@
 # 配置流生成器
 
-请检查加载 [示例流数据](ingestion#load-sample-streaming-data) 以获取此数据源的概览。
+Please check Load [sample streaming data](/ingestion#streamgen) for the overview of this data source.
 
 ## 示例配置
 

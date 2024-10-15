@@ -6,9 +6,9 @@ Timeplus 企业版可以以多节点集群模式安装，以实现高可用性�
 
 ## 裸机安装
 
-安装[单节点安装](singlenode_install)指南在每个物理机格子安装一个节点。
+Follow the guide in [Single Node Install](/singlenode_install) to grab the bare metal package and install on each node.
 
-There are multiple ways to setup a cluster without Kubernetes. One easy solution is to run all components in one node, and the rest of nodes running the timeplusd only. For other deployment options, please contact [support](mailto:support@timeplus.com) or message us in our [Slack Community](timeplus.com/slack).
+There are multiple ways to setup a cluster without Kubernetes. One easy solution is to run all components in one node, and the rest of nodes running the timeplusd only. For other deployment options, please contact [support](mailto:support@timeplus.com) or message us in our [Slack Community](https://timeplus.com/slack).
 
 Choose one node as the lead node, say its hostname is `timeplus-server1`. Stop all services via `timeplus stop` command. Then configure environment variables.
 
@@ -38,14 +38,14 @@ Similarly on the third node, set `export ADVERTISED_HOST=timeplus-server3` and t
 
 ### 先决条件
 
-- Ensure you have Helm 3.12 + installed in your environment. 有关如何安装 Helm 的详细信息，请参阅 [Helm 文档](https://helm.sh/docs/intro/install/)。
-- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment
+- 确保你的环境中安装了 Helm 3.12+。 有关如何安装 Helm 的详细信息，请参阅 [Helm 文档](https://helm.sh/docs/intro/install/)。
+- 确保你的环境中安装了 [Kubernetes](https://kubernetes.io/) 1.25 或更高版本。
 - 确保为部署分配了足够的资源
 
 ### Deploy Timeplus Enterprise with Helm
 
-Follow the [guide](k8s-helm) to deploy Timeplus Enterprise on Kubernetes with Helm.
+Follow the [guide](/k8s-helm) to deploy Timeplus Enterprise on Kubernetes with Helm.
 
 ## 许可管理
 
-要激活或添加新许可证，请遵循 [指南](server_config#license)。
+To activate or add new a license, please follow [our guide](/server_config#license).

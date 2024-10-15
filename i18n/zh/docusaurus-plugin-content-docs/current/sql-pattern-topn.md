@@ -27,7 +27,7 @@ select top_k(action,3) from bookings where _tp_time > now()-1d
 
 此查询列出 `1d`（一天）以来 `预订` 流中最常见的 `操作`。 它还显示该值的出现次数。 例如，“添加” 操作显示 86342 次，“服务” 操作显示 82013 次，依此类推。
 
-如果您不需要出现次数，您可以传递 false 作为 [top_k](functions_for_agg#top_k) 函数的第三个参数，例如：
+If you don't need the number of appearance, you can pass false as the 3rd parameter for the [top_k](/functions_for_agg#top_k) function, e.g.
 
 示例查询：
 
@@ -42,7 +42,7 @@ select top_k(action,3,false) from bookings where _tp_time > now()-1d
 | [ "add", "service", "cancel" ] |
 | [ "add", "service", "cancel" ] |
 
-请注意，这个示例查询是一个 [全局聚合](query-syntax#global)，它每两秒计算并发出结果。 您也可以使用不同的时间窗口来运行聚合，例如：
+请注意，这个示例查询是一个 [全局聚合](/query-syntax#global)，它每两秒计算并发出结果。 您也可以使用不同的时间窗口来运行聚合，例如：
 
 ```sql
 select window_start, top_k(action,3) 
@@ -68,7 +68,7 @@ select max_k(speed_kmh,10) from car_live_data
 | [ 55, 54, 54, 53, 53, 53, 53, 53, 53, 53 ] |
 | [ 55, 55, 55, 55, 54, 54, 54, 54, 54, 54 ] |
 
-在许多情况下，您需要知道具有这种最大值的其他列的值。 您可以在 [max_k](functions_for_agg#max_k) 函数中添加任意数量的列名作为可选参数。
+在许多情况下，您需要知道具有这种最大值的其他列的值。 You can add any number of column name as the optional parameters in the [max_k](/functions_for_agg#max_k) function.
 
 ```sql
 select max_k(speed_kmh,3,cid,_tp_time) from car_live_data

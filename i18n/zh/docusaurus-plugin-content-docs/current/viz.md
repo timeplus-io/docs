@@ -66,7 +66,7 @@ Timeplus 能够提供盒外流图表和仪表板以可视化实时数据和了�
 
 ### 地图
 
-目前可在 https://us.timeplus.cloud 上作为预览功能提供。
+Currently available on https://us-west-2.timeplus.cloud as a preview feature.
 
 * 数据设置：
   * 设置经度和纬度列。
@@ -165,6 +165,6 @@ select * from car_live_data where cid='{{car_id}}'
 ## 与外部BI集成
 You can use [JDBC](https://github.com/timeplus-io/proton-java-driver) or [ODBC](https://github.com/timeplus-io/proton-odbc) drivers of Timeplus to run queries and visualized the results in various BI tools, such as [Metabase](https://github.com/timeplus-io/metabase-proton-driver).
 
-We also released [a Grafana data source plugin](integration-grafana) to visualize streaming SQL without refreshing the dashboard.
+We also released [a Grafana data source plugin](/integration-grafana) to visualize streaming SQL without refreshing the dashboard.
 
 For highly customizable charts, you can also call Timeplus SDK to load the data and render the chart with 3rd party charting libraries.

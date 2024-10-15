@@ -1,8 +1,8 @@
-# 使用 SQL 查询 Kafka
+# Query Kafka with SQL (mock data)
 
 :::info
 
-本教程主要面向 Timeplus Proton 用户。 对于Timeplus Cloud用户，请查看 [指南]（quickstart），以使用网页界面将Timeplus与Confluent Cloud连接起来。 本指南中的SQL可以在Timeplus Proton和Timeplus Cloud/Enterprise中运行。
+This tutorial is mainly for SQL users. For Timeplus Enterprise users, you can also use [the UI wizard](/confluent-cloud-source). 本指南中的SQL可以在Timeplus Proton和Timeplus Cloud/Enterprise中运行。
 
 :::
 
@@ -18,7 +18,7 @@
 
 ```sql
 CREATE EXTERNAL STREAM frontend_events(raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='redpanda:9092',
          topic='owlshop-frontend-events'
 ```
@@ -37,8 +37,8 @@ CREATE EXTERNAL STREAM frontend_events_json(
 	requestDuration int,
 	response string,
 	headers string
-)	
-SETTINGS type='kafka', 
+)
+SETTINGS type='kafka',
          brokers='redpanda:9092',
          topic='owlshop-frontend-events',
          data_format='JSONEachRow';
@@ -127,7 +127,7 @@ group by raw:method order by cnt desc limit 5 by emit_version()
 备注：
 
 - 这是全局聚合，每 2 秒发出一次结果（可配置）。
-- [emit_version ()](functions_for_streaming #emit_version) 函数显示每次发射流式查询结果的自动递增数字
+- [emit_version()](/functions_for_streaming#emit_version) function to show an auto-increasing number for each emit of streaming query result
 - 使用 emit_version () 限制 5 行以获取具有相同的 emit_version () 的前 5 行。 这是 Proton 中的一种特殊语法。 一旦返回 5 个结果，常规的 “限制 5” 将取消整个 SQL。 但是在这个串流 SQL 中，我们希望每个发射间隔显示 5 行。
 
 ### 创建物化视图以保存 Proton 中的重要事件
@@ -138,7 +138,7 @@ group by raw:method order by cnt desc limit 5 by emit_version()
 
 ```sql
 create materialized view mv_broken_links as
-select raw:requestedUrl as url,raw:method as method, raw:ipAddress as ip, 
+select raw:requestedUrl as url,raw:method as method, raw:ipAddress as ip,
        raw:response.statusCode as statusCode, domain(raw:headers.referrer) as referrer
 from frontend_events where raw:response.statusCode<>'200';
 ```
@@ -150,7 +150,7 @@ from frontend_events where raw:response.statusCode<>'200';
 select * from mv_broken_links;
 
 -- historical query
-select method, count() as cnt, bar(cnt,0,40,5) as bar from table(mv_broken_links) 
+select method, count() as cnt, bar(cnt,0,40,5) as bar from table(mv_broken_links)
 group by method order by cnt desc;
 ```
 

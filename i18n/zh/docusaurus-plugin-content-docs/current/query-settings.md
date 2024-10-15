@@ -12,7 +12,7 @@ Timeplus 支持一些高级 “设置” 来微调流式查询处理行为，如
 
 :::info
 
-请注意，自 2023 年 1 月起，我们不再建议您使用 `SETTINGS seek_to=...`（[外部流]（external-stream）除外）。 请使用 `WHERE _tp_time>='2023-01-01'或类似的。 `_tp_time`是每个原始流中的特殊时间戳列，用于表示 [事件时间]（eventtime）。 你可以使用`>`、`\<`、`BETWEEN.. AND`用于过滤 Timeplus 中的数据。 唯一的例外是 [外部流]（external-stream）。 如果你需要扫描 Kafka 主题中的所有现有数据，你需要使用 seek_to 运行 SQL，例如`select raw from my_ext_stream settings seek_to='earliest'\`
+Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`(except for [External Stream](/external-stream)). 请使用 `WHERE _tp_time>='2023-01-01'或类似的。 `_tp_time`is the special timestamp column in each raw stream to represent the [event time](/eventtime). 你可以使用`>`、`\<`、`BETWEEN.. AND`用于过滤 Timeplus 中的数据。 The only exception is [External Stream](/external-stream). 如果你需要扫描 Kafka 主题中的所有现有数据，你需要使用 seek_to 运行 SQL，例如`select raw from my_ext_stream settings seek_to='earliest'\`
 
 :::
 

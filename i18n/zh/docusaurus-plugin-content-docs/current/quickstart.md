@@ -1,46 +1,51 @@
-# Timeplus Enterprise cloud
+# Timeplus 企业版
 
 Timeplus Enterprise is a high-performance converged platform that unifies streaming and historical data processing, to empower developers to build the most powerful and reliable streaming analytics applications, at speed and scale, anywhere.
 
 Timeplus Enterprise provides the following major features:
 
-* [Streaming SQL](query-syntax)
-* [流数据收集](ingestion)
-* [流式可视化](viz)
-* [流式告警和数据导出](destination)
+* [Streaming SQL](/query-syntax)
+* [流数据收集](/ingestion)
+* [流式可视化](/viz)
+* [流式告警和数据导出](/destination)
 
-The following section contains step-by-step instructions on how to easily get started with Timeplus Enterprise in the cloud.
+Timeplus Enterprise is available as a fully-managed cloud service with zero ops and elastic scaling, or as a self-hosted deployment, ideal for enterprise users requiring flexible and advanced configurations.
 
-## 步骤 1：注册一个Timeplus账户 {#step1}
+## Quickstart for Timeplus Enterprise self-hosting
 
-目前，支持谷歌或微软单一登录 (SSO)。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 设置账户并创建第一个 [工作空间](glossary#workspace) 通常需要不到 2 分钟。
+The following section contains step-by-step instructions on how to easily get started with a self-hosted Timeplus Enterprise.
 
-![注册一个账户](/img/sign-up-page.png)
+### Step 1: install Timeplus Enterprise via a single command {#step1}
 
-## 第 2 步：设置您的账户和工作空间 {#step2}
+如果你的服务器或电脑运行的是 Linux 或 macOS，你可以运行以下命令来下载软件包并在没有任何其他依赖关系的情况下启动 Timeplus Enterprise。 For Windows users, please follow [our guide](/singlenode_install#docker) for running Timeplus Enterprise with Docker.
 
-通过快速完成账户设置，向我们介绍一下你自己：
+```shell
+curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.sh | sh
+```
 
-![入职调查](/img/onboarding-survey.png)
+此脚本会将最新的软件包（基于您的操作系统和 CPU 架构）下载到当前文件夹。 解压缩包并启动 Timeplus 企业服务器。
 
-设置的最后一步是命名您的新工作空间，这是一个独立的存储和计算单元，供您运行流式数据收集和分析。 给它起个名字：
+### Step 2: Setup the user account {#step2}
+通过 http://localhost:8000 访问 Timeplus Enterprise 网络控制台。 首次登录时，请使用密码创建一个帐户以开始 30 天免费试用。
 
-![选择工作区名称](/img/workspace-name-setup.png)
+![Create an account](/img/onprem-account.png)
 
-## 第 3 步：加载您的流数据 {#step3}
+After creating the account, login with that username and password. ![登录](/img/onprem-login.png)
+
+### 第 3 步：加载您的流数据 {#step3}
 
 如果你的流数据位于或可公开访问的 Kafka 或 Pulsar 实例中，请按照以下任一文档 在 Timeplus Cloud 中创建源，然后返回此处完成快速入门：
 
-- [Apache Kafka](kafka-source)
-- [Confluent Cloud](confluent-cloud-source)
-- [Apache Pulsar](pulsar-source)
-- [REST API、SDK 等](ingestion)
+- [Apache Kafka](/kafka-source)
+- [Confluent Cloud](/confluent-cloud-source)
+- [Apache Pulsar](/pulsar-source)
+- [REST API、SDK 等](/ingestion)
 
 如果你还没有流式数据源并且想测试一下Timeplus的工作原理，Timeplus提供内置的 数据源，为一些常见用例生成流式数据。
 
-### 创建示例源
+#### 创建示例源
 
-1. 在您的工作空间中创建第一个 [源](glossary#source) 。 在左侧导航菜单中，单击 **数据摄取**，然后单击右上角的 **添加数据** 按钮。
+1. Create the first [source](/glossary#source) in your workspace. 在左侧导航菜单中，单击 **数据摄取**，然后单击右上角的 **添加数据** 按钮。
 
    ![“数据提取” 页面](/img/sample-source-button-1.png)
 
@@ -64,7 +69,7 @@ The following section contains step-by-step instructions on how to easily get st
 
    ![物联网示例数据，配置步骤](/img/sample-source-configuration-5.png)
 
-### 探索流媒体数据
+#### 探索流数据
 
 1. 要查看新创建的流中的数据，您可以：
 
@@ -84,9 +89,33 @@ The following section contains step-by-step instructions on how to easily get st
 
 ![示例数据集的可视化示例](/img/viz-sample-iot.png)
 
+## Quickstart for Timeplus Cloud
+
+The following section contains step-by-step instructions on how to easily get started with Timeplus Enterprise in the cloud.
+
+### 步骤 1：注册一个Timeplus账户 {#cloud_step1}
+
+Let's start by creating an account for [Timeplus Cloud](https://us-west-2.timeplus.cloud/). 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 请选择工作电子邮件或 Google/Microsoft 帐户进行注册。 It usually takes less than 2 minutes to get the account set up and have the first [workspace](/glossary#workspace) created.
+
+![注册一个账户](/img/sign-up-page.png)
+
+### 第 2 步：设置您的账户和工作空间 {#cloud_step2}
+
+通过快速完成账户设置，向我们介绍一下你自己：
+
+![入职调查](/img/onboarding-survey.png)
+
+设置的最后一步是命名您的新工作空间，这是一个独立的存储和计算单元，供您运行流式数据收集和分析。 给它起个名字：
+
+![选择工作区名称](/img/workspace-name-setup.png)
+
+### Step 3: Load data and run stream processing {#cloud_step3}
+
+Please refer to [Step 3](#step3) of the previous section.
+
 ## 下一步是什么？
 
-- [摄取](ingestion) 额外数据流
-- 写下 [流查询](query-syntax)
-- 使用 [可视化](viz) 和仪表板根据流数据创建其他图表
-- 将您的查询结果发送到 [数据下游](destination)
+- [Ingest](/ingestion) additional data streams
+- 写下 [流查询](/query-syntax)
+- Create additional charts from streaming data with [visualizations](/viz) and dashboards
+- Send the results of your queries to a [sink](/destination)

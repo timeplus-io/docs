@@ -1,4 +1,4 @@
-# 连接 Kafka、Confluent、Redpanda、Aiven、WarpStream、Upstash 等
+# Connect to Kafka, Confluent, Redpanda, Aiven, etc.
 
 ### 连接到本地 Kafka 或 Redpanda {#connect-kafka}
 
@@ -111,22 +111,3 @@ SETTINGS type='kafka',
 ```
 
 sasl_mechanism 可以是 PLAIN 或 SCRAM-SHA-512，但不能是 SCRAM-SHA-256。
-
-### 连接到 Upstash{#connect-upstash}
-
-您可以将 Proton 与 Upstash Serverless Kafka 连接起来。
-
-示例：
-
-```sql
-CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka',
-         brokers='grizzly-1234-us1-kafka.upstash.io:9092',
-         topic='topic',
-         security_protocol='SASL_SSL',
-         sasl_mechanism='SCRAM-SHA-256',
-         username='..',
-         password='..'
-```
-
-更多详细说明可在 [Upstash Docs](https://upstash.com/docs/kafka/integrations/proton) 上找到。

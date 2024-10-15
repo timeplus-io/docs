@@ -196,7 +196,7 @@ Make sure the return type of lambda function must be the same as the accumulator
 
 或者，您可以使用 `map_cast(key1,value1,key2,value2...)`
 
-自 Proton v1.4.2 起，添加了一个新的 [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) 函数，用于将键值对从字符串提取到地图。
+Since Proton v1.4.2, a new [extract_key_value_pairs](/functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
 
 ### tuple_cast
 
@@ -219,18 +219,6 @@ The names of the result columns are implementation-specific and subject to chang
 If the second argument is a number `index`, it is the column index, starting from 1. If the second argument is a string `name`, it represents the name of the element. Besides, we can provide the third optional argument, such that when index out of bounds or no element exist for the name, the default value returned instead of throwing an exception. The second and third arguments, if provided, must be constants. There is no cost to execute the function. 如果第二个参数是字符串 `name`，则它表示元素的名称。 此外，我们可以提供第三个可选参数，这样，当索引超出边界或名称不存在元素时，将返回默认值而不是引发异常。 第二个和第三个参数（如果提供）必须是常量。 执行该函数没有成本。
 
 该函数实现了运算符 `x.index` 和 `x.name`。
-
-### dict_get
-
-`dict_get ('dict_name'、attr_names、id_expr)`
-
-从字典中检索值。
-
-### dict_get_or_default
-
-`dict_get_or_default（'dict_name'、attr_names、id_expr、default_value）`
-
-从字典中检索值。 Retrieves values from a dictionary. If not found, return the default value.
 
 ### 列
 

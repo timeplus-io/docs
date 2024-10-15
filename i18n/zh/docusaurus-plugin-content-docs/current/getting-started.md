@@ -1,25 +1,25 @@
 # 入门开始
 
-本教程指导您如何将数据加载到Timeplus并通过数据运行分析查询。 要执行此教程，您需要一个 Timeplus 帐户。 如果您没有Timeplus账户，可以登录 https://cloud.timeplus.com.cn/ 并免费注册。
+本教程指导您如何将数据加载到Timeplus并通过数据运行分析查询。 要执行此教程，您需要一个 Timeplus 帐户。 If you don't have a Timeplus account, go to https://us-west-2.timeplus.cloud/ and sign up for free.
 
 ## 添加数据
 
-为了帮助您快速入门，我们在每个工作空间中设置了演示数据集。 请在 [演示场景](usecases) 页面检查样式和常见的查询。 您可以立即探索和查询流。
+为了帮助您快速入门，我们在每个工作空间中设置了演示数据集。 请在 [演示场景](/usecases) 页面检查样式和常见的查询。 您可以立即探索和查询流。
 
 当然，您可以加载自己的数据，例如：
 
-* [上传一个 CSV 文件](ingestion#load-sample-streaming-data)
-* [创建一个 Kafka 源](ingestion#kafka) 来从 Confluent Cloud 或 Apache Kafka 集群中加载 JSON 文件。
+* [上传一个 CSV 文件](/ingestion#streamgen)
+* [创建一个 Kafka 源](/ingestion#kafka) 来从 Confluent Cloud 或 Apache Kafka 集群中加载 JSON 文件。
 
 ## 探索数据
 
-打开 **QUERY** 页面。 您将看到数据流列表。 点击任意Stream的名字，会在编辑器中自动生成`select * from ..`这样的查询。 您可以点击 **RUN QUERY** 按钮为实时进来的数据执行 [streaming tail](query-syntax#streaming-tailing) 。 此流视图将让您很好地了解传入的数据结构和样本值。 将显示最近的10行结果。 更重要的是，您可以看到每一列的最高值和总体趋势。
+打开 **QUERY** 页面。 您将看到数据流列表。 点击任意Stream的名字，会在编辑器中自动生成`select * from ..`这样的查询。 You can click the **RUN QUERY** button to run a [streaming tail](/query-syntax#streaming-tailing) for the incoming data. 此流视图将让您很好地了解传入的数据结构和样本值。 将显示最近的10行结果。 更重要的是，您可以看到每一列的最高值和总体趋势。
 
 要添加一些过滤条件或更改查询的其他部分， 您可以单击 **CANCEL QUERY** 按钮，也可以使用顶部的 **+** 按钮打开一个新的查询选项卡。
 
 ## 查询数据
 
-SQL 是数据分析员最常用的工具。 Timeplus支持强大但易于使用的 [查询语法](query-syntax) 和 [函数](functions)。 您也可以关注 [演示场景](usecases) 中的样品来查询数据。
+SQL 是数据分析员最常用的工具。 Timeplus supports powerful yet easy-to-use [query syntax](/query-syntax) and [functions](/functions). 您也可以关注 [演示场景](/usecases) 中的样品来查询数据。
 
 ## 可视化数据
 

@@ -19,17 +19,18 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 [PARTITION BY clause]
 EMIT <window_emit_policy>
 SETTINGS <key1>=<value1>, <key2>=<value2>, ...
-[加入子句]
-[WHERE 子句]
-[按子句分组]
-[HAVING 表达式]
-[按子句分区]
+[JOIN clause]
+[WHERE clause]
+[GROUP BY clause]
+[HAVING expression]
+[PARTITION BY clause]
 [LIMIT n]
+[OFFSET n]
 [EMIT emit_policy]
-[设置 <key1>=<value1>, <key2>=<value2>,...]
+[SETTINGS <key1>=<value1>, <key2>=<value2>, ...]
 ```
 
-只有 `SELECT` 和 `FROM` 条款是必填的（你甚至可以省略 `FORM`，比如 `SELECT now ()`，但它不太实用）。 `[...] 中的其他条款` 是可选的。 我们将按照相反的顺序逐一讨论它们，即 [设置](#settings)，然后 [EMIT](#emit)、 [LIMIT](#limit)等。
+只有 `SELECT` 和 `FROM` 条款是必填的（你甚至可以省略 `FORM`，比如 `SELECT now ()`，但它不太实用）。 `[...] 中的其他条款` 是可选的。 We will talk about them one by one in the reverse order, i.e. [SETTINGS](/query-syntax#settings), then [EMIT](/query-syntax#emit), [LIMIT](/query-syntax#limit), etc.
 
 SQL 关键字和函数名不区分大小写，而列名和流名称区分大小写。
 
@@ -42,7 +43,7 @@ SQL 关键字和函数名不区分大小写，而列名和流名称区分大小�
 
 ## Query Settings
 
-Timeplus 支持一些高级 `设置` 来微调流式查询处理行为。 检查 [查询设置](query-settings)。
+Timeplus 支持一些高级 `设置` 来微调流式查询处理行为。 Check [Query Settings](/query-settings).
 
 ## 发出{#emit}
 
@@ -71,7 +72,7 @@ FROM tumble(device_utils, 5s)
 GROUP BY device, window_end
 ```
 
-上面的示例 SQL 连续汇总了流 `devices_utils`的每个滚动窗口中每台设备的最大 CPU 使用量。 每次关闭窗口时，Timeplus Proton都会发布聚合结果。 如何确定窗户应该关闭？ 这是由 [水印](stream-query#window-watermark)完成的，它是一个内部时间戳。 保证每个流量查询都能增加单一流量。
+上面的示例 SQL 连续汇总了流 `devices_utils`的每个滚动窗口中每台设备的最大 CPU 使用量。 每次关闭窗口时，Timeplus Proton都会发布聚合结果。 如何确定窗户应该关闭？ This is done by [Watermark](/stream-query#window-watermark), which is an internal timestamp. 保证每个流量查询都能增加单一流量。
 
 ### 延迟在水印后发出 {#emit_after_wm_with_delay}
 
@@ -261,7 +262,7 @@ SETTTINGS max_keep_windows=720;
 
 ## 分割依据
 
-`Streaming SQL 中的` 分区是创建 [子流](substream)。
+`PARTITION BY` in Streaming SQL is to create [substreams](/substream).
 
 ## 分组依据并拥有 {#group_having}
 
@@ -269,9 +270,19 @@ SETTTINGS max_keep_windows=720;
 
 当应用 `GROUP BY` 时，可以选择 `HAVING` 来筛选聚合结果。 `WHERE` 和`HAVING` 的区别在于，数据将首先按 `WHERE` 子句过滤，然后应用 `GROUP BY`，最后应用 `HAVING`。
 
+## LIMIT
+`LIMIT n` When the nth result is emitted, the query will stop, even it's a streaming SQL.
+
+### OFFSET
+You can combine LIMIT and OFFSET, such as:
+```sql
+SELECT * FROM table(stream) ORDER BY a LIMIT 3 OFFSET 1
+```
+This will fetch the 3 rows from the 2nd smallest value of `a`.
+
 ## JOINs
 
-请查看[Joins](joins)。
+Please check [Joins](/joins).
 
 ## WITH CTE
 
@@ -538,4 +549,4 @@ EMIT AFTER WATERMARK;
 
 ### 会话流窗口聚合
 
-这类似于 tumble and hop 窗口。 请查看 [session](functions_for_streaming#session) 函数。
+这类似于 tumble and hop 窗口。 Please check the [session](/functions_for_streaming#session) function.

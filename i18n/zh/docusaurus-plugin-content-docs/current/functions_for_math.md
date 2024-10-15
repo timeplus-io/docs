@@ -2,7 +2,7 @@
 
 ### abs
 
-`abs(value)` returns the absolute value of the number.
+`abs(value)` 返回数字的绝对值。
 
 ### round
 

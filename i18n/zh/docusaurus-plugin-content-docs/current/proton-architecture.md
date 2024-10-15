@@ -10,7 +10,7 @@
 
 ## 数据存储
 
-Users can create a stream by using `CREATE STREAM ...` [DDL SQL](proton-create-stream). Every stream has 2 parts at storage layer by default: 默认情况下，每个流在存储层有 2 个部分：
+Users can create a stream by using `CREATE STREAM ...` [DDL SQL](/proton-create-stream). Every stream has 2 parts at storage layer by default: 默认情况下，每个流在存储层有 2 个部分：
 
 1. 实时流数据部分，由 Timeplus NativeLog 提供支持
 2. 历史数据部分，由ClickHouse历史数据存储支持。
@@ -25,12 +25,12 @@ Users can create a stream by using `CREATE STREAM ...` [DDL SQL](proton-create-s
 
 ## 外部流
 
-在很多情况下，数据已经在 Kafka/Redpanda 或其他流数据中心中，用户可以创建 [外部流](external-stream) 以指向流数据中心并直接进行流式查询处理，然后在 Proton 中实现它们或将查询结果发送到外部系统。
+In quite lots of scenarios, data is already in Kafka / Redpanda or other streaming data hubs, users can create [external streams](/external-stream) to point to the streaming data hub and do streaming query processing directly and then either materialize them in Proton or send the query results to external systems.
 
 
 
 ## 了解更多
 
-感兴趣的用户可以参阅 [Timeplus 如何统一流媒体和历史数据处理](https://www.timeplus.com/post/unify-streaming-and-historical-data-processing) 博客，了解有关其学术基础和最新行业发展的更多详情。 你也可以在 [Kris Jenkins 的 Developer Voices 播客](https://www.youtube.com/watch?v=TBcWABm8Cro)中观看下面的视频。 Jove分享了我们的关键决策选择，Timeplus如何管理数据和状态，以及Timeplus如何使用单二进制文件实现高性能。
+感兴趣的用户可以参阅 [Timeplus 如何统一流和历史数据处理](https://www.timeplus.com/post/unify-streaming-and-historical-data-processing) 博客，了解有关其学术基础和最新行业发展的更多详情。 你也可以在 [Kris Jenkins 的 Developer Voices 播客](https://www.youtube.com/watch?v=TBcWABm8Cro)中观看下面的视频。 Jove分享了我们的关键决策选择，Timeplus如何管理数据和状态，以及Timeplus如何使用单二进制文件实现高性能。
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/QZ0le2WiJiY?si=eF45uwlXvFBpMR14" title="优酷视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

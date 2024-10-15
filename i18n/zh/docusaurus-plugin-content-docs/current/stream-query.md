@@ -10,7 +10,7 @@ Timeplus 查询正在运行于一个无边界流中。 在大多数情况下，�
 select * from my_stream
 ```
 
-无边界查询可以通过使用函数 [table()](functions_for_streaming#table)，转换为有边界的查询，当用户想询问发生了什么事情时，就像传统的 SQL 一样。 table() 函数可以用来装饰流。 例如：下面的查询将返回在执行查询时在流中已存在的所有事件。 一旦所有结果被退回用户，查询将会终止，它不会等待新的事件。
+无边界查询可以通过使用函数 [table()](/functions_for_streaming#table)，转换为有边界的查询，当用户想询问发生了什么事情时，就像传统的 SQL 一样。 table() 函数可以用来装饰流。 例如：下面的查询将返回在执行查询时在流中已存在的所有事件。 一旦所有结果被退回用户，查询将会终止，它不会等待新的事件。
 
 ```sql
 select * from table(my_stream)
@@ -68,7 +68,7 @@ from user_activities
 
 当使用窗口函数进行聚合时，事件时间用于决定事件是否在该窗口中。 如果用户没有指定时间戳，将使用默认时间。 用户也可以在此事件中使用任何字段作为日期时间类型作为时间戳或动态生成日期时间字段作为时间戳。
 
-两个典型的窗口函数是 [tumble](functions_for_streaming#tumble) 和 [hop](functions_for_streaming#hop)。
+Two typical window functions are [tumble](/functions_for_streaming#tumble) and [hop](/functions_for_streaming#hop).
 
 例如：
 

@@ -2,13 +2,13 @@
 
 ::: Timeplus Cloud 用户须知
 
-在 Timeplus Cloud 或 Timeplus Enterprise 部署中，我们建议你使用 GUI 或 [Terraform Provider](terraform)创建流，因为它们具有更好的可用性和更多的功能。
+在 Timeplus Cloud 或 Timeplus Enterprise 部署中，我们建议你使用 GUI 或 [Terraform Provider](/terraform)创建流，因为它们具有更好的可用性和更多的功能。
 
 :::
 
 ## 创建流
 
-[Stream](working-with-streams) is a key [concept](glossary) in Timeplus. 所有数据都存在于流中，无论是静态数据还是动态数据。 We don't recommend you to create or manage `TABLE` in Timeplus.
+[Stream](/working-with-streams) is a key [concept](/glossary) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Proton. 所有数据都存在于流中，无论是静态数据还是动态数据。 We don't recommend you to create or manage `TABLE` in Timeplus.
 
 ### 仅限追加的流
 
@@ -35,24 +35,27 @@
 
 #### 数据类型
 
-Proton 支持以下列类型
+Timeplus Proton supports the following column types:
 
 1. int8/16/32/64/128/256
 2. uint8/16/32/64/128/256
-3. boolean
+3. 布尔值
 4. 十进制（精度、小数位数）：精度的有效范围是 [1：76]，小数位数的有效范围是 [0：精度]
 5. float32/64
 6. 日期
 7. 日期时间
-8. dateTime64（精度，[time_zone]）
+8. datetime64(precision, [time_zone])
 9. 字符串
 10. fixed_string (N)
 11. 数组 (T)
 12. uuid
+13. ipv4/ipv6
+
+For more details, please check [Data Types](/datatypes).
 
 #### 活动时间
 
-In Timeplus, each stream with a `_tp_time` as [Event Time](eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using 如果您在创建流时没有创建 `_tp_time` 列，则系统将为您创建这样的列，默认值为 `now64 ()` 。 您也可以选择一列作为事件时间，使用
+In Timeplus, each stream with a `_tp_time` as [Event Time](/eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using 如果您在创建流时没有创建 `_tp_time` 列，则系统将为您创建这样的列，默认值为 `now64 ()` 。 您也可以选择一列作为事件时间，使用
 
 ```sql
 设置 event_time_column='my_datetime_column'
@@ -70,14 +73,17 @@ Proton利用ClickHouse TTL表达式来制定历史数据的保留政策。 Proto
 
 ##### 用于流存储
 
-Today it's not exposed in SQL to control the retention policies for streaming storage. In Timeplus Cloud, you can set them via 在 Timeplus Cloud 中，你可以通过以下方式进行设置
+You can set the retention policies for streaming storage when you create the stream or update the setting after creation.
 
-* logstore_retention_bytes
-* logstore_retention_ms
+```sql
+创建流 .. SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
+
+ALTER STREAM .. MODIFY SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
+```
 
 ### 多版本流
 
-[Versioned Stream](versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如： 例如：
+[Versioned Stream](/versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如： 例如：
 
 ```sql
 CREATE STREAM versioned_kv(i int, k string, k1 string)
@@ -89,7 +95,7 @@ SETTINGS mode='versioned_kv', version_column='i';
 
 ### 变更日志流
 
-[Changelog Stream](changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如： 例如：
+[Changelog Stream](/changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如： 例如：
 
 ```sql
 CREATE STREAM changelog_kv(i int, k string, k1 string)
@@ -112,25 +118,25 @@ CREATE RANDOM STREAM devices(
 
 以下功能可供使用：
 
-1. [rand](functions_for_random#rand) 在 uint32 中生成一个数字
-2. [rand64](functions_for_random#rand64) 在 uint64 中生成一个数字
-3. [random_printable_ascii](functions_for_random#random_printable_ascii) 用于生成可打印字符
-4. [random_string](functions_for_random#random_string) 用于生成字符串
-5. [random_fixed_string](functions_for_random#random_fixed_string) 生成固定长度的字符串
-7. [random_in_type](functions_for_random#random_in_type) 生成具有最大值和自定义逻辑的值
+1. [rand](/functions_for_random#rand) to generate a number in uint32
+2. [rand64](/functions_for_random#rand64) to generate a number in uint64
+3. [random_printable_ascii](/functions_for_random#random_printable_ascii) to generate printable characters
+4. [random_string](/functions_for_random#random_string) to generate a string
+5. [random_fixed_string](/functions_for_random#random_fixed_string) to generate string in fixed length
+7. [random_in_type](/functions_for_random#random_in_type) to generate value with max value and custom logic
 
 When you run a Timeplus SQL query with a random stream, the data will be generated and analyzed by the query engine. Depending on the query, all generated data or the aggregated states can be kept in memory during the query time. The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
 
 By default, Proton tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second: 如果你想（大致）控制数据的生成频率，你可以使用 `eps` 设置。 例如，以下 SQL 每秒生成 10 个事件：
 
 ```sql
-创建随机流 rand_stream (i int 默认 rand ()%5) 设置 eps=10
+CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=10
 ```
 
 您可以通过 `interval_time` 设置进一步自定义数据生成速率。 You can further customize the rate of data generation via the `interval_time` setting. For example, you want to generate 1000 events each second, but don't want all 1000 events are generated at once, you can use the following sample SQL to generate events every 200 ms. The default interval is 5ms (in Proton 1.3.27 or the earlier versions, the default value is 100ms) 默认间隔为 5 毫秒（在 Proton 1.3.27 或更早版本中，默认值为 100 毫秒）
 
 ```sql
-创建随机流 rand_stream (i int 默认 rand ()%5) 设置 eps=1000，interval_time=200
+CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=1000, interval_time=200
 ```
 
 请注意，为了平衡性能和流量控制，数据生成率不准确。
@@ -143,4 +149,4 @@ Proton v1.4.2 的新增功能是，您可以将 eps 设置为 1 以下。 比如
 
 ## 创建外部流
 
-请查看 [使用外部流读取/写入 Kafka](proton-kafka)。
+Please check [Read/Write Kafka with External Stream](/proton-kafka).

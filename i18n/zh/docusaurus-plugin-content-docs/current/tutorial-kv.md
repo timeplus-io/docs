@@ -1,8 +1,8 @@
-# 使用主键进行更新和删除
+# UPSERT with Versioned Stream
 
-默认情况下，Timeplus中的流处于仅追加模式。 当你创建模式为 “versioned_kv” 的流时，你可以使用相同的主键更新数据。 当你使用 `table`函数查询流时，只会显示相同主键的最新版本。 当您在与其他流的 JOIN 中将这个流用作 “右表” 时，Timeplus 会自动选择最接近的版本。
+默认情况下，Timeplus中的流处于仅追加模式。 当你创建模式为 “versioned_kv” 的流时，你可以使用相同的主键更新数据。 当你使用 `table`函数查询流时，只会显示相同主键的最新版本。 When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
 
-[版本化流]（版本流）支持 INSERT 和 UPDATE。 要删除具有特定主键的数据，请创建 [变更日志流]（变更日志流）。
+[Versioned Stream](/versioned-stream) and [Mutable Stream](/mutable-stream) support INSERT and UPDATE. To delete data with certain primary key(s), please create a [Changelog Stream](/changelog-stream).
 
 一段 HOWTO 视频：
 
@@ -70,7 +70,7 @@
 
 ## 在 INNER JOIN 中使用多版本流
 
-在上述示例中，您总是获得具有相同主键的事件的最新版本。 其工作方式与 [变更日志流]（变更日志流）类似。 这种流模式之所以被称为多版本流，是因为 Timeplus 将跟踪多个版本。 这主要在多版本流充当 JOIN 的 “右表” 时使用。
+在上述示例中，您总是获得具有相同主键的事件的最新版本。 This works in the similar way as [Changelog Stream](/changelog-stream). 这种流模式之所以被称为多版本流，是因为 Timeplus 将跟踪多个版本。 这主要在多版本流充当 JOIN 的 “右表” 时使用。
 
 想象一下，你有另一个版本控制的 “订单” 流：
 

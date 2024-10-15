@@ -22,7 +22,7 @@
 
 ### concat
 
-`concat(str1,str2 [,str3])` 将2 或更多字符串合并为单个字符串。 例如， `concat('95','%')` 以获得95%。 您也可以使用 `||` 作为快捷语法，例如：`'95' || '%'` 此函数中的每个参数必须是字符串。 您可以使用 [to_string](#to_string) 函数来转换他们，例如 `到_string(95)|| '%'`
+`concat(str1,str2 [,str3])` 将2 或更多字符串合并为单个字符串。 例如， `concat('95','%')` 以获得95%。 您也可以使用 `||` 作为快捷语法，例如：`'95' || '%'` 此函数中的每个参数必须是字符串。 您可以使用 [to_string](/functions_for_type#to_string) 函数来转换他们，例如 `到_string(95)|| '%'`
 
 ### substr
 
@@ -79,9 +79,10 @@
 用正则表达式处理纯文本并提取内容。 例如， `extract('key1=value1, key2=value2','key1=(\\w+)')`, 这将得到“value1”。  如果日志行放入一个单一的文本列，您可以用提取的字段创建一个视图，例如：
 
 ```sql
-将视图日志创建为 
-从log_stream中选择 'key1=(\\w+)' 作为key1,
-       extract(value, 'key2=(\\w+)' 作为key2
+create view logs as
+select extract(value, 'key1=(\\w+)') as key1,
+       extract(value, 'key2=(\\w+)') as key2
+       from log_stream
 ```
 
 
@@ -93,9 +94,9 @@
 使用 `模式` 正则表达式匹配所有组 `haystack` 字符串。 返回数组，其中第一个数组包含键值，第二个数组包含所有值。
 
 ```sql
-SELECT 
- extract_all_groups('v1=111, v2=222, v3=333', '("[^"+"|\\w+)=("[^"]+"|\\w+)=分组
- -- 返回 [ [ "v1", "v2", "v3" ], [ "111", "222", "333" ]
+SELECT
+ extract_all_groups('v1=111, v2=222, v3=333', '("[^"]+"|\\w+)=("[^"]+"|\\w+)') as groups
+ -- return [ [ "v1", "v2", "v3" ], [ "111", "222", "333" ] ]
 ```
 
 
@@ -107,7 +108,7 @@ SELECT
 使用 `模式` 正则表达式匹配所有组 `haystack` 字符串。 返回数组，其中第一个数组包括与第一组匹配的所有片段，第二个数组匹配第二组等。
 
 ```sql
-SELECT 
+SELECT
  extract_all_groups_horizontal('v1=111, v2=222, v3=333', '("[^"]+"|\\w+)=("[^"]+"|\\w+)') as groups
  -- [ [ "v1", "111" ], [ "v2", "222" ], [ "v3", "333" ] ]
 ```
@@ -135,6 +136,10 @@ SELECT
 ### hex
 
 `hex(argument)` 返回包含参数十六进制表示形式的字符串。 `argument` 可以是任何类型。
+
+### unhex
+
+`unhex(string)` Performs the opposite operation of [hex](#hex). It interprets each pair of hexadecimal digits (in the argument) as a number and converts it to the byte represented by the number. The return value is a binary string (BLOB).
 
 ### uuid
 

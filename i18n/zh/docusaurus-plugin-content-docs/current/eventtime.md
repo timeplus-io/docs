@@ -1,4 +1,4 @@
-# _tp_time (Event time)
+# _tp_time（事件时间）
 
 ## 所有流数据都应有事件时间
 
@@ -8,13 +8,13 @@
 
 默认情况下， `_tp_time` 列在 `datetime64(3, 'UTC')` 类型以毫秒为精度。 你也可以以 `datetime` 类型创建它，精度为秒。
 
-当您要创建一个新的流时，请选择正确的列作为事件时间。 如果未指定任何列，则 Timeplus 将使用当前时间戳作为 `_tp_time` 不建议在查询时将列重命名为\ _tp_time，因为这会导致意外行为，特别是 [Time Travel](usecases#s-time-travel)。
+当您要创建一个新的流时，请选择正确的列作为事件时间。 If no column is specified, then Timeplus will use the current timestamp as the value of `_tp_time` It's not recommended to rename a column as \_tp_time at the query time, since it will lead to unexpected behaviour, specially for [Time Travel](/usecases#s-time-travel).
 
 ## 为什么事件时间受到不同的处理
 
 事件时间几乎在任何地方在 Timeplus 数据处理和分析工作流程中使用：
 
-- 在执行基于时间窗口的聚合时， 例如 [tumble](functions_for_streaming#tumble) 或 [hop](functions_for_streaming#hop) 以获取每次窗口中的下载数据或外部数据， Timeplus 将使用事件时间来决定某些事件是否属于特定窗口。
+- 在执行基于时间窗口的聚合时， 例如 [tumble](/functions_for_streaming#tumble) 或 [hop](/functions_for_streaming#hop) 以获取每次窗口中的下载数据或外部数据， Timeplus将使用事件时间来决定某些事件是否属于特定窗口
 - 在这种具有时间敏感性的分析中，事件时间也用来识别不合顺序的事件或较晚的事件， 并丢弃它们以便及时获得串流洞察力。
 - 当一个数据流与另一个数据流连接时，事件时间是整理数据的关键，而不必指望两个事件会在完全相同的毫秒内发生。
 - 事件时间也发挥重要作用来设备数据在流中保存的时间。
@@ -23,13 +23,13 @@
 
 ### 在数据摄取过程中指定
 
-当您 [摄取数据](ingestion) 到 Timeplus 时，您可以在数据中指定一个属性来最能代表事件时间。 即使该属性是在 `字符串` 类型中，Timeplus 将自动转换为时间戳以便进一步处理。
+当您 [摄取数据](/ingestion) 到 Timeplus 时，您可以在数据中指定一个属性来最能代表事件时间。 即使该属性是在 `字符串` 类型中，Timeplus 将自动转换为时间戳以便进一步处理。
 
 如果您不在向导中选择属性，则 Timeplus 将使用摄取时间来显示事件时间。 例如：当 Timeplus 接收数据时。 这可能对大多数静态或维数据很有用，例如带有邮政编码的城市名称。
 
 ### 在查询时指定
 
-[tumble](functions_for_streaming#tumble) 或 [hop](functions_for_streaming#hop) 窗口函数将可选参数作为事件时间列。 默认情况下，我们将使用每个数据中的事件时间。 然而，您也可以指定一个不同的列作为事件时间。
+The [tumble](/functions_for_streaming#tumble) or [hop](/functions_for_streaming#hop) window functions take an optional parameter as the event time column. 默认情况下，我们将使用每个数据中的事件时间。 然而，您也可以指定一个不同的列作为事件时间。
 
 以出租车乘客为例。 数据流可以是
 
@@ -43,12 +43,12 @@
 select count(*) from tumble(taxi_data,1h) group by window_end
 ```
 
-此查询使用 `行程开始` ，默认事件时间来运行聚合。 如果旅客在午夜时00时01分结束行程，则行程将包括在00时00分-00时59时窗内。
+This query uses `trip_end` , the default event time, to run the aggregation. 如果旅客在午夜时00时01分结束行程，则行程将包括在00时00分-00时59时窗内。
 
-在某些情况下，作为分析师，您可能想关注每小时有多少乘客上了出租车，而不是离开出租车，您可以设置 `行程结束` 作为查询的事件时间，通过 `tumblet(taxi_data,trip_end,1h)`
+In some cases, you as the analyst, may want to focus on how many passengers get in the taxi, instead of leaving the taxi, in each hour, then you can set `trip_start` as the event time for the query via `tumble(taxi_data,trip_start,1h)`
 
 完整查询：
 
 ```sql
-select count(*) from tumble(taxi_data,trip_end,1h) group by window_end
+select count(*) from tumble(taxi_data,trip_start,1h) group by window_end
 ```

@@ -136,7 +136,7 @@ dependencies {
 Please note, by default Timeplus' query behavior is streaming SQL, looking for new data in the future and never ends. This can be considered as hang for JDBC client. You have 2 options:
 
 - Use the 8123 port. In this mode, all SQL are ran in batch mode. So `select .. from car_live_data` will read all existing data.
-- Use 3218 port. In this mode, by default all SQL are ran in streaming mode. Please use `select .. from .. LIMIT 100` to stop the query at 100 events. Or use the [table function](functions_for_streaming#table) to query historical data, such as `select .. from table(car_live_data)..`
+- Use 3218 port. In this mode, by default all SQL are ran in streaming mode. Please use `select .. from .. LIMIT 100` to stop the query at 100 events. Or use the [table function](/functions_for_streaming#table) to query historical data, such as `select .. from table(car_live_data)..`
 
 ### Example {#example}
 

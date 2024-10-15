@@ -1,6 +1,6 @@
 # Timeplus Cloud Private Beta 2
 
-我们很高兴地启动第二个邀请制测试版的TimePlus Cloud。 与 [邀请制测试版1](private-beta-1)相比，大多数后端和前端更改都是递增增强， 主要差别是入口点从 [https://.beta.timeplus.com](https://tenant.beta.timeplus.com) 改为 [https://beta.timeplus.cloud/TENANT/](https://beta.timeplus.cloud/tenant)
+我们很高兴地启动第二个邀请制测试版的TimePlus Cloud。 Comparing to the [Private Beta 1](/private-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from [https://TENANT.beta.timeplus.com](https://tenant.beta.timeplus.com) to [https://beta.timeplus.cloud/TENANT](https://beta.timeplus.cloud/tenant)
 
 我们将不时更新测试版，并在此页面列出关键的增强措施。
 
@@ -9,10 +9,10 @@
 ### 每两周更新 9/19-9/30
 
 * 流引擎
-  * 强化 [除掉](functions#dedup) 函数以便只缓存给定时间内唯一的密钥。 这有助于在短时间内消除同样的警报。
+  * Enhanced `dedup` function to only cache the unique keys for a given time period. 这有助于在短时间内消除同样的警报。
   * 支持子串流，例如 `选择 cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) 作为从car_live_data 的 last_spd`
 * 源、 汇、 API 和 SDK
-  * 更新 Python SDK https://pypi.org/project/timeplus/以自动删除查询历史，改进错误处理。 请注意出现了一个突破性的更改， `Env()。 enant(id)` 更改为 `Env().workspace(id)` 更符合我们的 [术语](glossary#workspace)
+  * 更新 Python SDK https://pypi.org/project/timeplus/以自动删除查询历史，改进错误处理。 请注意出现了一个突破性的更改， `Env()。 enant(id)` 更改为 `Env().workspace(id)` 更符合我们的 [术语](/glossary#workspace)
   * 更新了 [REST API](/rest) 来显示源/汇的optinal 描述，并在文档中将“租户”改为“workspaceid”。
   * Kafka sink 不再自动创建主题
 
@@ -27,7 +27,7 @@
 ### 每两周更新 9/5-9/16
 
 * 流引擎
-  * 添加了一个 [round](functions#round) 函数来将一个值转到指定的小数位位置。
+  * Added a `round` function to round a value to a specified number of decimal places.
   * 改进了对集群的支持。
 * 源、 汇、 API 和 SDK
   * 为仪表板添加新的 CRUD API。 升级期间将自动删除主页上的上一个图表。
@@ -65,8 +65,8 @@
 ### 8/15周
 
 * 流引擎
-  * (实验性的) 增强了 [会话窗口](functions_for_streaming#session) 聚合，以根据自定义的窗口启动和窗口结束逻辑创建子流
-  * 添加了一个新函数 [extract_all_group](functions#extract_all_groups) 来处理正则表达式的文本。
+  * (实验性) 增强了 [场会话窗口](/functions_for_streaming#session) 聚合，以根据自定义的窗口启动和窗口结束逻辑创建子流
+  * Added a new function `extract_all_groups` to process text with regular expressions.
 * 源、 汇、 API 和 SDK
   * Webhook sink 得到增强，以支持自定义的 HTTP 方法、内容类型和头部。
 * 界面改进
@@ -79,12 +79,12 @@
 私人测试版2中的第一个产品更新。
 
 * 流引擎
-  * 引入一个新的数据类型 [uuid](datatypes) 来识别具有16字节编号的记录。 添加了一个新函数 [uuid](functions#uuid) 来生成这种uuid。
-  * 添加了一个新函数 [extract_all_groups_水平](functions#extract_all_groups_horizontal) 来处理正则表达式的文本。
+  * 引入一个新的数据类型 [uuid](/datatypes) 来识别具有16字节编号的记录。 A new function `uuid` is added to generate such uuid.
+  * Added a new function `extract_all_groups_horizontal` to process text with regular expressions.
 
 * 源、 汇、 API 和 SDK
   * 已发布的 https://pypi.org/project/timeplus/0.2.0/ 可选的租户ID支持。
-  * 支持 Apache Pulsar 和 StreamNative Cloud 作为数据源或数据汇。 您可以通过 REST API 从 Pulsar 加载实时数据到 Timeplus (web UI 即将准备就绪)。 [了解更多](ingestion#pulsar)
+  * 支持 Apache Pulsar 和 StreamNative Cloud 作为数据源或数据汇。 您可以通过 REST API 从 Pulsar 加载实时数据到 Timeplus (web UI 即将准备就绪)。 [了解更多](/ingestion#pulsar)
   * 为雪花添加实验吸收汇。 您可以向 Snowflake 发送Timeplus实时查询结果。
 * 界面改进
   * 新的登录屏幕。

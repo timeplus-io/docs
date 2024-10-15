@@ -36,8 +36,8 @@ service timeplusd stopped
 
 ## See Also
 
-[timeplus start](cli-start)
+[timeplus start](/cli-start)
 
-[timeplus restart](cli-restart)
+[timeplus restart](/cli-restart)
 
-[timeplus status](cli-status)
+[timeplus status](/cli-status)

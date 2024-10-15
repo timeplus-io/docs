@@ -2,13 +2,13 @@
 
 ## 云端的 Timeplus 企业版{#cloud}
 
-开始使用Timeplus的最快、最简单的方法是在完全托管的 [us.timeplus.cloud](https://us.timeplus.cloud) 注册一个免费账户。
+The quickest and easiest way to get started with Timeplus is to sign up a free account on our fully-managed platform at [us-west-2.timeplus.cloud](https://us-west-2.timeplus.cloud).
 
 只需使用谷歌或微软单点登录进行注册，或创建用户名和密码即可。 接下来，创建一个新的工作区并开始您的流式分析旅程。
 
 ## Timeplus 企业版自托管{#self-hosted}
 
-使用 [裸机安装程序](singlenode_install #bare-metal-install)或官方 Timeplus [Kubernetes Helm Chart](cluster_install #k8s)在自己的数据中心或云账户中安装具有高可用性和可扩展性的 Timeplus 企业版。
+Install Timeplus Enterprise with high availability and scalability in your own data center or cloud account, using the [bare metal installer](/singlenode_install#bare_metal) or the official Timeplus [Kubernetes Helm Chart](/cluster_install#k8s).
 
 ## Timeplus Proton，核心引擎{#proton}
 
@@ -33,16 +33,10 @@ brew install timeplus-io/timeplus/proton
 ### 作为 Docker 容器{#docker}
 
 ```bash
-docker run-d--pull always--name proton ghcr.io/timeplus-io/proton: latest
+docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
 ```
 
-如果你无法访问 ghcr，你可以从 `public.ecr.aws/timeplus/proton`中提取图片
-
-您可能需要公开 Proton 容器中的端口，以便其他工具可以连接到该容器，例如 DBeaver。 请检查 [服务器端口]（Proton端口）以查看每个要暴露的端口。 例如：
-
-```shell
-docker run-d--pull always-p 8123:8123-p 8463:8463--name proton ghcr.io/timeplus-io/proton: latest
-```
+Please check [Server Ports](/proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
 
 ### Docker 撰写 {#compose}
 
