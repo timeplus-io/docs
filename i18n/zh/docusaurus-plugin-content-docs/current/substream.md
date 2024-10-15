@@ -2,7 +2,7 @@
 
 子流不是物理流，仅在查询时可用。
 
-You can create substreams for a stream, or together with [tumble](/functions_for_streaming#tumble)/[hop](/functions_for_streaming#hop)/[session](/functions_for_streaming#session) windows for a particular primary key, to maintain separate watermarks and streaming windows.
+你可以为流创建子流，也可以为特定主键创建 [tumble](/functions_for_streaming#tumble)/[hop](/functions_for_streaming#hop)/[session](/functions_for_streaming#session) 窗口，以维护单独的水印和流窗口。
 
 例如：
 
