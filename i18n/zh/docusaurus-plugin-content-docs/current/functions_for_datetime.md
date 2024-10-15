@@ -189,7 +189,7 @@ SELECT
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1, time2)` 返回 true 或 false。 This function only works in [stream-to-stream join](/joins#stream_stream_join). 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
+`date_diff_within(timegap,time1, time2)` 返回 true 或 false。 此函数只能在 [stream-to-stream join](/joins#stream_stream_join) 使用。 检查 `time1` 和 `time2` 之间的差距是否在特定范围内。 例如 `date_diff_within(10s,payment.time,notification.time)` 来检查付款时间和通知时间是否在10秒或更短。
 
 ### date_trunc
 
