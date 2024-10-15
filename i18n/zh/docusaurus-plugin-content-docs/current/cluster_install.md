@@ -38,8 +38,8 @@ Similarly on the third node, set `export ADVERTISED_HOST=timeplus-server3` and t
 
 ### 先决条件
 
-- Ensure you have Helm 3.12 + installed in your environment. 有关如何安装 Helm 的详细信息，请参阅 [Helm 文档](https://helm.sh/docs/intro/install/)。
-- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment
+- 确保你的环境中安装了 Helm 3.12+。 有关如何安装 Helm 的详细信息，请参阅 [Helm 文档](https://helm.sh/docs/intro/install/)。
+- 确保你的环境中安装了 [Kubernetes](https://kubernetes.io/) 1.25 或更高版本。
 - 确保为部署分配了足够的资源
 
 ### Deploy Timeplus Enterprise with Helm
