@@ -496,7 +496,7 @@ Avro schema:
 }
 ```
 
-Stream:
+流式结果:
 
 ```sql
 CREATE EXTERNAL STREAM avro (
