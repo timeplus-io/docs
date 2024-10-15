@@ -6,10 +6,10 @@
 DROP STREAM [如果存在] db。<stream_name>;
 ```
 
-Like [CREATE STREAM](/proton-create-stream), stream deletion is an async process.
+像 [CREATE STREAM](/proton-create-stream)一样，流删除是一个异步过程。
 
 ::: Timeplus Cloud 用户须知
 
-In Timeplus Cloud or Private Cloud deployments, we recommend you to drop streams with GUI or [Terraform Provider](/terraform), to better tracking the lineage and permission.
+在Timeplus Cloud或私有云部署中，我们建议你使用GUI或 [Terraform Provider](/terraform)删除流，以更好地跟踪血统和权限。
 
 :::
