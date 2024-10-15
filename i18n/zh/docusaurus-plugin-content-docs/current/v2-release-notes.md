@@ -69,7 +69,7 @@ However it is verified to work with Proton 1.5.6, not the latest version of Time
 
 We are actively working on the refinement to support latest Timeplus core engine.
 
-## Aug 19, 2024
+## 2024年19月8日
 
 ### Timeplus Enterprise v2.4.18
 
@@ -86,7 +86,7 @@ We are actively working on the refinement to support latest Timeplus core engine
 - Fix an issue, you can run `SELECT * FROM information_schema.tables`
 - Support append-only LEFT ALL JOIN append-only.
 
-## Aug 6, 2024
+## 2024年6月8日
 
 ### Timeplus Enterprise v2.4.15
 
@@ -107,7 +107,7 @@ We are actively working on the refinement to support latest Timeplus core engine
 * Bug fix: For the map defaultValue()
 ```
 
-## Jul 22, 2024
+## 2024年7月22日
 
 ### Timeplus 企业版
 
@@ -137,7 +137,7 @@ We are working on Timeplus Enterprise v2.4.x. The build is not ready to be publi
 
 bigint and decimal types are now supported, and a bugfix for invalid version for low cardinality key.
 
-## Jul 8, 2024
+## 2024年7月8日
 
 ### Timeplus Enterprise v2.3.5
 
@@ -156,7 +156,7 @@ bigint and decimal types are now supported, and a bugfix for invalid version for
 
 A new [JDBC driver](https://github.com/timeplus-io/timeplus-native-jdbc) for Timeplus is now available, supporting both streaming and batch queries. Compared to the JDBC driver we released last year, this new driver talks to Timeplus via the TCP native protocol, with better performance. [Learn more](/jdbc)
 
-## Jun 24, 2024
+## 2024年6月24日
 
 Timeplus Enterprise v2 is now available for cloud or self-hosted deployment. [See installation options](https://timeplus.com/product) for self-hosting.
 
