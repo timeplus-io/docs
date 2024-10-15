@@ -7,9 +7,9 @@ You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://h
 
 ## 先决条件
 
-- Ensure you have Helm 3.12 + installed in your environment. 有关如何安装 Helm 的详细信息，请参阅 [Helm 文档](https://helm.sh/docs/intro/install/)。
-- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, minikube and k3s. Other Kubernetes distributions should work in the similar way.
-- Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
+- 确保你的环境中安装了 Helm 3.12+。 有关如何安装 Helm 的详细信息，请参阅 [Helm 文档](https://helm.sh/docs/intro/install/)。
+- 确保你的环境中安装了 [Kubernetes](https://kubernetes.io/) 1.25 或更高版本。 We tested our software and installation process on Amazon EKS, minikube and k3s. Other Kubernetes distributions should work in the similar way.
+- 确保为部署分配了足够的资源. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
 - Network access to Docker Hub
 
 ## Quickstart with minikube or kind
@@ -342,7 +342,7 @@ If something goes wrong, you can run the following commands to get more informat
 
 <table>
 	<thead>
-		<tr><th>Key</th>
+		<tr><th>键</th>
 		<th>类型</th>
 		<th>默认值</th>
 		<th>描述</th>
