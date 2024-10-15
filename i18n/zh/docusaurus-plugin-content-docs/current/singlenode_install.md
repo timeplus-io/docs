@@ -26,8 +26,8 @@ curl https://install.timeplus.com/latest | sh
 
 Stable builds:
 
-- Linux ([Intel/AMD chip](https://install.timeplus.com/stable-linux-amd64.tar.gz), [ARM chip](https://install.timeplus.com/stable-linux-arm64.tar.gz))
-- MacOS ([Intel chip](https://install.timeplus.com/stable-darwin-amd64.tar.gz), [Apple Silicon chip](https://install.timeplus.com/stable-darwin-arm64.tar.gz))
+- Linux（[英特尔/AMD 芯片](https://install.timeplus.com/stable-linux-amd64.tar.gz)、[ARM 芯片](https://install.timeplus.com/stable-linux-arm64.tar.gz)）
+- MacOS（[英特尔芯片](https://install.timeplus.com/stable-darwin-amd64.tar.gz)，[苹果芯片](https://install.timeplus.com/stable-darwin-arm64.tar.gz))
 - Windows（请 [通过 Docker 安装](#docker)）
 
 Latest builds:
