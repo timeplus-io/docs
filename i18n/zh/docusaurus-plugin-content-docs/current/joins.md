@@ -4,7 +4,7 @@ JOIN是Timeplus的一项关键功能，可将来自不同来源和新鲜度的�
 
 ## 流表和维度表联查{#stream_table_join}
 
-在Timeplus中，所有数据都存在于流中，默认的查询模式是流式传输。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 To query the historical data of a stream, [table()](/functions_for_streaming#table) function can be used.
+在Timeplus中，所有数据都存在于流中，默认的查询模式是流式传输。 流流模式侧重于适合流式处理的最新实时尾部数据。 另一方面，历史重点是以往旧的索引数据，并且优化了大批处理，如太细胞扫描。 当一个查询正在对其运行时，流是默认模式。 要查询流的历史数据，可以使用 [table ()](/functions_for_streaming#table) 函数。
 
 有些典型的情况是，无约束的数据流需要通过连接到相对静态尺寸表来丰富。 Timeplus可以在一个引擎中通过流式到维度表加入来存储流式数据和尺寸表。
 
@@ -73,7 +73,7 @@ Timeplus 支持 3 种流类型：
 
 1. 仅附加流 (默认)
 2. [Versioned Stream](/versioned-stream) with primary key(s) and multiple versions
-3. [Changelog Stream](/changelog-stream) with primary key(s) and CDC semantic (data can be removed, or updated with old&new value). You can also use the [changelog()](/functions_for_streaming#changelog) function to convert an append-only stream to changelog stream.
+3. [Changelog Stream](/changelog-stream) with primary key(s) and CDC semantic (data can be removed, or updated with old&new value). You can also use the [changelog()](functions_for_streaming#changelog) function to convert an append-only stream to changelog stream. You can also use the [changelog()](/functions_for_streaming#changelog) function to convert an append-only stream to changelog stream.
 
 ### 2 种连接类型
 
@@ -133,7 +133,7 @@ ON left_append.k = right_append.kk
 
 #### range join append streams {#append-range}
 
-上述联接可能会缓冲过多的数据，范围双向联接试图通过在时间范围内对流数据进行存储桶来缓解此问题，并尝试将数据双向加入到适当的范围存储桶中。 It requires a [date_diff_within](/functions_for_streaming#date_diff_within) clause in the join condition and the general form of the syntax is like below.
+上述联接可能会缓冲过多的数据，范围双向联接试图通过在时间范围内对流数据进行存储桶来缓解此问题，并尝试将数据双向加入到适当的范围存储桶中。 The above join may buffer too much data, range bidirectional join tries to mitigate this problem by bucketing the stream data in time ranges and try to join the data bidirectionally in appropriate range buckets. It requires a [date_diff_within](/functions_for_streaming#date_diff_within) clause in the join condition and the general form of the syntax is like below.
 
 ```sql
 SELECT * FROM left_stream JOIN right_stream
@@ -144,7 +144,7 @@ Actually we don’t even require a timestamp for the range, any integral columns
 
 #### 版本 JOIN 版本{#version-inner-version}
 
-这是 Timeplus 的一项独特功能。 You can setup [Versioned Stream](/versioned-stream) with data in Kafka or other streaming sources. 分配主密钥并加入多个版本流，就好像它们在 OLTP 中一样。 每当JOIN的两端有新的更新时，都会发出新的结果。
+这是 Timeplus 的一项独特功能。 This is a unique feature in Timeplus. You can setup [Versioned Stream](/versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted. 分配主密钥并加入多个版本流，就好像它们在 OLTP 中一样。 每当JOIN的两端有新的更新时，都会发出新的结果。
 
 示例：
 
@@ -259,7 +259,7 @@ ON append.k = versioned_kv.k
 
 #### 版本向左加入版本 {#version-left-version}
 
-此功能在 Proton 1.5.7 中启用。 You can setup [Versioned Stream](/versioned-stream) with data in Kafka or other streaming sources. 分配主密钥并加入多个版本流，就好像它们在 OLTP 中一样。 每当JOIN的任一端有新的更新时，都会发出新的结果，并且可以将其具体化到目标系统，例如ClickHouse。
+此功能在 Proton 1.5.7 中启用。 This is a unique feature in Timeplus. You can setup [Versioned Stream](/versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted. 分配主密钥并加入多个版本流，就好像它们在 OLTP 中一样。 每当JOIN的任一端有新的更新时，都会发出新的结果，并且可以将其具体化到目标系统，例如ClickHouse。
 
 示例：
 
