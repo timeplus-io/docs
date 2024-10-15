@@ -2,13 +2,13 @@
 
 ::: Timeplus Cloud 用户须知
 
-In Timeplus Cloud or Timeplus Enterprise deployments, we recommend you to create streams with GUI or [Terraform Provider](/terraform), with better usability and more capabilities.
+在 Timeplus Cloud 或 Timeplus Enterprise 部署中，我们建议你使用 GUI 或 [Terraform Provider](/terraform)创建流，因为它们具有更好的可用性和更多的功能。
 
 :::
 
 ## 创建流
 
-[Stream](/working-with-streams) is a key [concept](/glossary) in Timeplus. 所有数据都存在于流中，无论是静态数据还是动态数据。 We don't recommend you to create or manage `TABLE` in Timeplus.
+[Stream](/working-with-streams) is a key [concept](/glossary) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Proton. 所有数据都存在于流中，无论是静态数据还是动态数据。 We don't recommend you to create or manage `TABLE` in Timeplus.
 
 ### 仅限追加的流
 
@@ -55,7 +55,7 @@ For more details, please check [Data Types](/datatypes).
 
 #### 活动时间
 
-In Timeplus, each stream with a `_tp_time` as [Event Time](/eventtime). 如果您在创建流时没有创建 `_tp_time` 列，则系统将为您创建这样的列，默认值为 `now64 ()` 。 您也可以选择一列作为事件时间，使用
+In Timeplus, each stream with a `_tp_time` as [Event Time](/eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using 如果您在创建流时没有创建 `_tp_time` 列，则系统将为您创建这样的列，默认值为 `now64 ()` 。 您也可以选择一列作为事件时间，使用
 
 ```sql
 设置 event_time_column='my_datetime_column'
@@ -76,14 +76,14 @@ Proton利用ClickHouse TTL表达式来制定历史数据的保留政策。 Proto
 You can set the retention policies for streaming storage when you create the stream or update the setting after creation.
 
 ```sql
-CREATE STREAM .. SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
+创建流 .. SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
 
 ALTER STREAM .. MODIFY SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
 ```
 
 ### 多版本流
 
-[Versioned Stream](/versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如：
+[Versioned Stream](/versioned-stream) allows you to specify the primary key(s) and focus on the latest value. 例如： 例如：
 
 ```sql
 CREATE STREAM versioned_kv(i int, k string, k1 string)
@@ -95,7 +95,7 @@ SETTINGS mode='versioned_kv', version_column='i';
 
 ### 变更日志流
 
-[Changelog Stream](/changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如：
+[Changelog Stream](/changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. 例如： 例如：
 
 ```sql
 CREATE STREAM changelog_kv(i int, k string, k1 string)
