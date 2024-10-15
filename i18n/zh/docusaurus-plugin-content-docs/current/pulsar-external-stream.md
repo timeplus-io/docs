@@ -68,7 +68,7 @@ The CA certificate (PEM format), which will be used to verify the server's certi
 
 #### client_cert
 
-The certificate (PEM format) for the client to use mTLS authentication. [Learn more](https://pulsar.apache.org/docs/3.3.x/security-tls-authentication/).
+The certificate (PEM format) for the client to use mTLS authentication. [了解更多](https://pulsar.apache.org/docs/3.3.x/security-tls-authentication/).
 
 #### client_key
 
@@ -76,7 +76,7 @@ The private key (PEM format) for the client to use mTLS authentication.
 
 #### jwt
 
-The JSON Web Tokens for the client to use JWT authentication. [Learn more](https://docs.streamnative.io/docs/api-keys-overview).
+The JSON Web Tokens for the client to use JWT authentication. [了解更多](https://docs.streamnative.io/docs/api-keys-overview).
 
 #### connections_per_broker
 
@@ -485,7 +485,7 @@ DROP STREAM [IF EXISTS] stream_name
 There are some limitations for the Pulsar-based external streams, because Timeplus doesn’t control the storage or the data format for the external stream.
 
 1. The UI wizard to setup Pulsar External Stream is coming soon. Before it's ready, you need the SQL DDL.
-2. Unlike normal streams, there is no historical storage for the external streams. You can run `table(ex_pulsar_stream)` but it will scan all messages in the topic. There is no way to implement an efficient `count`. Thus, `SELECT count() FROM table(ex_pulsar_stream)` will always scan the whole topic. If you need to frequently run query for historical data, you can use a Materialized View to query the Pulsar External Stream and save the data in Timeplus columnar or row storage. This will improve the query performance.
+2. 与正常流不同的是，外部流没有历史存储。 You can run `table(ex_pulsar_stream)` but it will scan all messages in the topic. There is no way to implement an efficient `count`. Thus, `SELECT count() FROM table(ex_pulsar_stream)` will always scan the whole topic. If you need to frequently run query for historical data, you can use a Materialized View to query the Pulsar External Stream and save the data in Timeplus columnar or row storage. This will improve the query performance.
 3. You use `seek_to` in the streaming query. `earliest` and `latest` are supported. You can also use `seek_to='2024-10-14'` for date or datetime based rewind. But number-based seek_to is not supported.
-4. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Pulsar. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
+4. 在 Timeplus 中没有关于外部流的保留政策。 You need to configure the retention policy on Pulsar. 如果外部系统不再提供数据，则不能在 Timeplus 搜索。
 5. Like Kafka external stream, Pulsar external stream will fetch the partition list after the streaming SQL starts running. Thus, it won't be automatically detect new partitions at runtime. Users must re-execute the query in order to read data from the new partitions.
