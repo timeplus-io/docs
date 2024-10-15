@@ -4,12 +4,12 @@
 
 ## 添加数据
 
-为了帮助您快速入门，我们在每个工作空间中设置了演示数据集。 Please check the schema and common queries on [Demo Scenario](/usecases) page. 您可以立即探索和查询流。
+为了帮助您快速入门，我们在每个工作空间中设置了演示数据集。 请在 [演示场景](/usecases) 页面检查样式和常见的查询。 您可以立即探索和查询流。
 
 当然，您可以加载自己的数据，例如：
 
 * [上传一个 CSV 文件](/ingestion#streamgen)
-* [Create a Kafka source](/ingestion#kafka) to load JSON documents from Confluent Cloud or Apache Kafka cluster.
+* [创建一个 Kafka 源](/ingestion#kafka) 来从 Confluent Cloud 或 Apache Kafka 集群中加载 JSON 文件。
 
 ## 探索数据
 
@@ -19,7 +19,7 @@
 
 ## 查询数据
 
-SQL 是数据分析员最常用的工具。 Timeplus supports powerful yet easy-to-use [query syntax](/query-syntax) and [functions](/functions). You can also follow the samples in [Demo Scenario](/usecases) to query data.
+SQL 是数据分析员最常用的工具。 Timeplus supports powerful yet easy-to-use [query syntax](/query-syntax) and [functions](/functions). 您也可以关注 [演示场景](/usecases) 中的样品来查询数据。
 
 ## 可视化数据
 
