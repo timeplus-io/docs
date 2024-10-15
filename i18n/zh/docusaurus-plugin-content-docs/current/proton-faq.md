@@ -49,7 +49,7 @@ Timeplus Proton 在单个数据库节点上为统一的流和数据处理提供�
 
 ## 我的组织已经在使用ClickHouse了——是否有计划将Timeplus Proton与开源ClickHouse项目整合在一起？
 
-You can create an [External Table](/proton-clickhouse-external-table) to read or write ClickHouse tables from Timeplus Proton. Check the tutorials for how to build streaming ETL [from Kafka to ClickHouse](/tutorial-sql-etl-kafka-to-ch), or [from MySQL to ClickHouse](/tutorial-sql-etl-mysql-to-ch), via Timeplus.
+你可以创建一个Timeplus Proton 的 [外部表](/proton-clickhouse-external-table) 来读取或写入  ClickHouse 表。 查看如下教程，了解如何通过 Timeplus [从 Kafka 到 ClickHouse](/tutorial-sql-etl-kafka-to-ch)流式ETL ，或者[从 MySQL 到 ClickHouse](/tutorial-sql-etl-mysql-to-ch)。
 
 我们还在与ClickHouse, Inc.以及整个ClickHouse开源项目的人士进行对话，以探讨这些项目之间深度整合的可能性。
 
