@@ -63,6 +63,35 @@ ALTER STREAM stream_name ADD COLUMN column_name data_type
 
 `DELETE COLUMN` or `RENAME COLUMN` are not supported yet. Contact us if you have strong use cases.
 
+## DROP PARTITION
+You can delete some data in the stream without dropping the entire stream via `ALTER STREAM .. DROP PARTITION ..`.
+
+By default the streams in Timeplus are partitioned by `_tp_time`: `PARTITION BY to_YYYYMMDD(_tp_time)`.
+
+You can query the `system.parts` table to check the partitions for the given streams:
+```sql
+SELECT partition, table,name,active FROM system.parts
+```
+This may show results like this:
+```
+┌─partition─┬─table─────────┬─name───────────┬─active─┐
+│ 20241014  │ test_stream   │ 20241014_1_1_0 │      0 │
+│ 20241014  │ test_stream   │ 20241014_1_4_1 │      1 │
+│ 20241014  │ test_stream   │ 20241014_2_2_0 │      0 │
+│ 20241014  │ test_stream   │ 20241014_3_3_0 │      0 │
+│ 20241014  │ test_stream   │ 20241014_4_4_0 │      0 │
+│ 20241015  │ test_stream   │ 20241015_5_5_0 │      1 │
+└───────────┴───────────────┴────────────────┴────────┘
+```
+You can delete data in certain partitions via SQL:
+```sql
+ALTER STREAM stream DROP PARTITION partition
+```
+Such as
+```sql
+ALTER STREAM test_stream DROP PARTITION 20241015
+```
+
 ## See also
 * [CREATE STREAM](/sql-create-stream) - Create streams
 * [CREATE MATERIALIZED VIEW](/sql-create-materialized-view) - Create materialized views
