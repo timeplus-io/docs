@@ -38,7 +38,7 @@
 
 - 流引擎
 
-  - Refined the behavior of [materialized views](/view#m_view), to keep it consistent with the other Timeplus queries. `SELECT * FROM table(a_possiblealized_view)` 将获得所有过去的结果，而不是最近的结果。
+  - 精炼 [实际化视图](/view#m_view)的行为，使其与其他Timeplus查询保持一致。 `SELECT * FROM table(a_possiblealized_view)` 将获得所有过去的结果，而不是最近的结果。
   - Added the count_if function and unique_exact_if function to count the number of rows or unique value matching certain conditions.
   - Added json_extract_keys function to get the keys for the JSON map object.
   - Added the to_bool function to convert other types to `bool`
@@ -56,7 +56,7 @@
 
 - 流引擎
 
-  - Fixed an issue of `lags` function to get a range of past results for the specific column
+  - 修复了 `滞后` 函数的问题，以获得特定列过去结果的范围
   - Exposed the `coalesce` function to skip null value and return the first non-`NULL` value. 许多函数期望参数不能是 `NULL`
 
 - 源、 汇、 API 和 SDK
@@ -110,7 +110,7 @@
 
   - [Session window](/functions_for_streaming#session) now supports millisecond for window_start/window_end.
   - Added a new `lags` function to get a range of past results. 这可以帮助基于纯 SQL 的 ML/预配。
-  - Added a new `grok` function to parse a line of text into key/value pairs, without having to write regular expressions.
+  - 添加了一个新的 `grok` 函数来解析一行文本到键/值对等符号，而无需写正则表达式。
 
 - 源和汇：
 
@@ -140,7 +140,7 @@
 
 - 流引擎
   - More math functions are exposed. 这可以帮助您运行基于 SQL 的简单ML/预测模型。
-  - (Experimental) [stream-to-stream join](/joins#stream_stream_join) no longer requires a `date_diff_within(..)`, although it's still recommended to add timestamp constraints to improve performance.
+  - (实验性) [流到流加入](/joins#stream_stream_join) 不再需要 `date_diff_within (...)`，尽管仍然建议添加时间戳约束以提高性能。
   - (试验性的)能够为每一流制定保留政策， 基于时间的(说只保持最近的7天数据)，或基于大小(说只保持最近的1GB数据)
 - 源和汇：
   - (实验性) 支持 REST API中的个人访问令牌(PAT)，该令牌为长寿(或设定过期日期)和每个用户。 租户级别的访问令牌将被弃用。
@@ -176,7 +176,7 @@
 
 - 流引擎
   - (实验性)大大简化了如何查询JSON文件的程序。 现在你可以使用 `json_doc:json_path` 作为在JSON 文档中提取值的快捷键。 例如， `选择 '{"c":"hello"}" 为 j, j:c`, 你会得到"hello" 作为值。 在过去，您必须调用 `json_extract_string(j, c')` 嵌套结构也是支持的，例如 `选择 '{"a":{"b":1}} 为 j, j:a。 ` 将获得 `1` 字符串值。 若要转换为 int，您可以使用 `:` 作为快捷方式，例如： `选择 '{"a":{"b":1}} 为 j, j:a.b:int`
-  - Added a function `is_valid_json` to check whether the specific string is a valid JSON document, e.g. `select j:a where is_valid_json(j)`
+  - 添加函数 `is_valid_json` 来检查特定字符串是否是一个有效的 JSON 文档，例如 `选择 j:a 哪里是有效的 json(j)`
   - 添加 `varchar` 作为 `字符串` 数据类型的别名。 这可以提高与其他SQL工具的兼容性。
 - 源和汇：
   - 增强Kafka/Redpanda源的身份验证：添加新的 SASL 机制：打乱架-sha-256 和打乱架-sha-512，增加配置以禁用TLS。 在 TLS 启用时添加配置到跳过验证服务器，修复了当身份验证失败时源将挂断的错误。
@@ -188,8 +188,8 @@
 ### 5/9周
 
 - 流引擎
-  - New `array_join` function to generate a set of rows based on the value in the array, joining with other columns
-  - (Experimental) add a new `dedup` table function, which can remove duplicated events from streaming queries or historical queries.
+  - 新 `array_join` 函数根据数组中的值生成一组行，并与其他列合并
+  - (实验性) 添加一个新的 `dept` 表函数，这个函数可以从串流查询或历史查询中删除重复的事件。
 - 源和汇：
   - 升级 [datapm](https://datapm.io/docs/quick-start/) Timeplus sink 来支持从 PostgreSQL 加载数据
   - (实验性) 一个能够从 [加载数据的新源](https://ably.com/hub)
@@ -202,7 +202,7 @@
 - 发布的 Python SDK 0.1.1 带令牌自动刷新
 - 在 https://docs.timeplus.com/rest上发布了REST API Doc
 - 流引擎
-  - (Experimental) added a new `xirr` function to calculate the internal rate of return of an investment based on a specified series of potentially irregularly spaced cash flows.
+  - (实验性) 添加了一个新的 `xirr` 功能，以根据指定的一系列潜在不定期的现金流量计算投资的内部回报率。
 - 界面改进
   - 服务器重启后在仪表板上恢复查询
   - 更好的 SQL 自动完成，包含函数描述、使用和示例
@@ -261,7 +261,7 @@
 
 ### 3/21周
 
-- Refined the [data type](/datatypes) to consistently use lower case type names. `官方支持 bool`。
+- 精炼 [数据类型](/datatypes) 以便始终使用小写类型名称。 `官方支持 bool`。
 - 为Redpanda数据源和汇添加了新的 UI。
 - 添加新的单点登录提供商：微软。
 
