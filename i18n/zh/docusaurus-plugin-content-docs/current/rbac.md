@@ -44,7 +44,7 @@ GRANT SELECT ON default.* TO read_only;
 GRANT SHOW ON default.* TO read_only;
 ```
 
-## Users
+## 用户
 
 ### Create a user
 
