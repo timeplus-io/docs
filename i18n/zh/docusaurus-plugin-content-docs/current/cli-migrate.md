@@ -18,11 +18,11 @@ The `migrate` command will migrate the following resources:
 - streams, external streams, external tables
 - views, materialized views
 - UDFs, UDAFs, schemas
-- sinks, sources, dashboards, saved queries(a.k.a. bookmarks)
+- sinks, sources, dashboards, saved queries(a.k.a. 收藏夹)
 
 The following resources are not supported yet:
 
-- alerts
+- 告警
 - users, roles, grants
 - databases
 - API keys
