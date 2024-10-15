@@ -1,4 +1,4 @@
-# _tp_time (Event time)
+# _tp_time（事件时间）
 
 ## 所有流数据都应有事件时间
 
@@ -14,7 +14,7 @@
 
 事件时间几乎在任何地方在 Timeplus 数据处理和分析工作流程中使用：
 
-- while doing time window based aggregations, such as [tumble](/functions_for_streaming#tumble) or [hop](/functions_for_streaming#hop) to get the downsampled data or outlier in each time window, Timeplus will use the event time to decide whether certain event belongs to a specific window
+- 在执行基于时间窗口的聚合时， 例如 [tumble](/functions_for_streaming#tumble) 或 [hop](/functions_for_streaming#hop) 以获取每次窗口中的下载数据或外部数据， Timeplus将使用事件时间来决定某些事件是否属于特定窗口
 - 在这种具有时间敏感性的分析中，事件时间也用来识别不合顺序的事件或较晚的事件， 并丢弃它们以便及时获得串流洞察力。
 - 当一个数据流与另一个数据流连接时，事件时间是整理数据的关键，而不必指望两个事件会在完全相同的毫秒内发生。
 - 事件时间也发挥重要作用来设备数据在流中保存的时间。
@@ -23,7 +23,7 @@
 
 ### 在数据摄取过程中指定
 
-When you [ingest data](/ingestion) into Timeplus, you can specify an attribute in the data which best represents the event time. 即使该属性是在 `字符串` 类型中，Timeplus 将自动转换为时间戳以便进一步处理。
+当您 [摄取数据](/ingestion) 到 Timeplus 时，您可以在数据中指定一个属性来最能代表事件时间。 即使该属性是在 `字符串` 类型中，Timeplus 将自动转换为时间戳以便进一步处理。
 
 如果您不在向导中选择属性，则 Timeplus 将使用摄取时间来显示事件时间。 例如：当 Timeplus 接收数据时。 这可能对大多数静态或维数据很有用，例如带有邮政编码的城市名称。
 
