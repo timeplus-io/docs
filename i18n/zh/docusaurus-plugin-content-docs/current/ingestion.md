@@ -1,4 +1,4 @@
-# Data Collection
+# 数据收集
 
 Timeplus supports multiple ways to load data into the system, or access the external data without copying them in Timeplus:
 
