@@ -30,7 +30,7 @@ curl -sSf https://raw.githubusercontent.com/timeplus-io/proton/develop/install.s
 
 ![Create an account](/img/onprem-account.png)
 
-After creating the account, login with that username and password. ![Login](/img/onprem-login.png)
+After creating the account, login with that username and password. ![登录](/img/onprem-login.png)
 
 ### 第 3 步：加载您的流数据 {#step3}
 
@@ -116,6 +116,6 @@ Please refer to [Step 3](#step3) of the previous section.
 ## 下一步是什么？
 
 - [Ingest](/ingestion) additional data streams
-- Write [streaming queries](/query-syntax)
+- 写下 [流查询](/query-syntax)
 - Create additional charts from streaming data with [visualizations](/viz) and dashboards
 - Send the results of your queries to a [sink](/destination)
