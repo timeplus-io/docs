@@ -8,7 +8,7 @@
 
 您可以将常用 SQL 语句另存为书签。 只需单击一下即可在 Web 控制台中快速运行它们。 您可以在查询页面中创建、列出、编辑、删除书签。
 
-Both bookmarks and [views](/glossary#view) can help you easily re-run a query. 但是，视图是在流式数据库中定义的，你可以通过 `select 直接查询视图... 来自。。` 但是书签只是用户界面的快捷方式。 当您单击书签时，将在查询控制台中预先填充原始 SQL 语句。 你无法运行 `select... 来自 my_bookmark`
+书签和 [视图](/glossary#view) 可以帮助您轻松地重新运行一个查询。 但是，视图是在流式数据库中定义的，你可以通过 `select 直接查询视图... 来自。。` 但是书签只是用户界面的快捷方式。 当您单击书签时，将在查询控制台中预先填充原始 SQL 语句。 你无法运行 `select... 来自 my_bookmark`
 
 
 
@@ -42,7 +42,7 @@ Learn more [Streaming Generator](/stream-generator)
 
 ## 查询 Query {#query}
 
-Timeplus 通过增强的 SQL 提供强大的流式分析能力。 默认情况下，查询不受约束，并不断向客户端推送最新结果。 The unbounded query can be converted to a bounded query by applying the function [table()](/functions_for_streaming#table), when the user wants to ask the question about what has happened like the traditional SQL.
+Timeplus 通过增强的 SQL 提供强大的流式分析能力。 默认情况下，查询不受约束，并不断向客户端推送最新结果。 无边界查询可以通过使用函数 [table()](/functions_for_streaming#table)，转换为有边界的查询，当用户想询问发生了什么事情时，就像传统的 SQL 一样。
 
 Learn more: [Streaming Query](/stream-query) and [Non-Streaming Query](/history)
 
@@ -70,11 +70,11 @@ Learn more: [Stream](/working-with-streams)
 
 您可以创建外部流，从与 Kafka API 兼容的流数据平台读取数据。
 
-Learn more: [External Stream](/external-stream)
+了解更多： [外部流](/external-stream)
 
 ## 时间戳列 Timestamp Column
 
-当您创建一个源并预览数据时，您可以选择一个列作为时间戳列。 Timeplus will use this column as the [event time](/glossary#event-time) and track the lifecycle of the event and process it for all time related computation/aggregation.
+当您创建一个源并预览数据时，您可以选择一个列作为时间戳列。 Timeplus将使用此列作为 [事件时间](/glossary#event-time) 并跟踪事件的生命周期并处理所有时间相关的计算/聚合。
 
 ## 视图(View) {#view}
 
