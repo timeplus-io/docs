@@ -22,7 +22,7 @@
 
 ### concat
 
-`concat(str1,str2 [,str3])` 将2 或更多字符串合并为单个字符串。 例如， `concat('95','%')` 以获得95%。 您也可以使用 `||` 作为快捷语法，例如：`'95' || '%'` 此函数中的每个参数必须是字符串。 You can use [to_string](/functions_for_type#to_string) function to convert them, for example `to_string(95) || '%'`
+`concat(str1,str2 [,str3])` 将2 或更多字符串合并为单个字符串。 例如， `concat('95','%')` 以获得95%。 您也可以使用 `||` 作为快捷语法，例如：`'95' || '%'` 此函数中的每个参数必须是字符串。 您可以使用 [to_string](/functions_for_type#to_string) 函数来转换他们，例如 `到_string(95)|| '%'`
 
 ### substr
 
