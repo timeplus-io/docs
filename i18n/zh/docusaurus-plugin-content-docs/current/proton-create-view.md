@@ -73,4 +73,4 @@ INTO <target_stream> AS <SELECT ...>
 删除视图 [如果存在] 数据库。<view_name>;
 ```
 
-Like [CREATE STREAM](/proton-create-stream), stream deletion is an async process.
+像 [CREATE STREAM](/proton-create-stream)一样，流删除是一个异步过程。
