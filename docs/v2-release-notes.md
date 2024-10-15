@@ -2,6 +2,25 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Oct 14, 2024
+
+### Timeplus Web Console v2.0.3
+We upgraded the `timeplus_web` component in https://demo.timeplus.cloud. This will be rolled out to https://us-west-2.timeplus.cloud soon. Compared to the previous version (v2.0.1), the key enhancements are:
+* Redesigned the "Data Collection" and "Sink" page to support hundreds of input/output connectors, powered by [Redpanda Connect](https://www.redpanda.com/connect). Timeplus Enterprise provides intuitive configuration wizards for NATS, WebSocket and HTTP Stream. For other data sources or destinations, you can also configure via a YAML file. Stay tuned for more product announcements and showcases.
+* Reordered the items on resource side panel.
+* Improved the error handling on SQL Console page and upload CSV page.
+
+### Testcontainers for Java v1.20.2
+The new version of Testcontainers for Java supports the Timeplus module. You can automate the stream processing with Timeplus and Kafka containers in your JUnit test code. Check [the tutorial](/tutorial-testcontainers-java) for details.
+
+### Documentation Updates
+* You can specify an [idempotent_id](/idempotent) in the `INSERT` command and safely retry the command if it fails. No duplicated data will be inserted.
+* You can run [ALTER STREAM .. DROP PARTITION ..](/sql-alter-stream#drop-partition) to delete some data in the stream.
+* You can run [SELECT .. FROM .. LIMIT n OFFSET m](/query-syntax#offset) to fetch results from an offset.
+* You can run [timeplus migrate](/cli-migrate) CLI command to migrate data from one deployment to the other deployment.
+* [Tutorial](/tutorial-testcontainers-java) for setup Kafka and Timeplus with Testcontainers.
+* The navigation tree in the Documentation site is refined.
+
 ## Sep 30, 2024
 
 Timeplus Cloud has a new home. Our previous domain, https://us.timeplus.cloud, has been redirected to https://us-west-2.timeplus.cloud. All workspaces have been migrated and no further action is needed. If you create a workspace via https://demo.timeplus.cloud, you will also be redirected to https://us-west-2.timeplus.cloud. The latest Timeplus Enterprise features are available in the new site. If you prefer using a different cloud region, please let us know.
