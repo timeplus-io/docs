@@ -63,7 +63,7 @@ SETTINGS
     stream = '<stream_name>'
 ```
 
-Settings:
+工作区设置:
 
 - **hosts**: the IP or host for the remote timeplusd. When you set a set of hosts with ports, e.g. 'host1:port1,host2:port2', this will treat each host as a shard. `hosts` is required and there is no default value.
 - **db**: the database name in the remote Timeplusd. The default value is 'default'.
