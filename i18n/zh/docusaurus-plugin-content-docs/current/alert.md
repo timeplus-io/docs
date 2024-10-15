@@ -6,7 +6,7 @@
 
 :::
 
-Timeplus 提供开箱即用的图表和仪表板。 You can also create [sinks](/destination) to send downsampled data to Kafka or other message buses, or notify others via email/slack. 这可以是一个实现告警和自动化的解决办法。 您甚至可以向 Kafka 发送新消息，然后在下游系统中及时消费这样的消息。
+Timeplus 提供开箱即用的图表和仪表板。 您也可以创建 [数据下游](/destination) 将降采样的数据发送到 Kafka 或其他消息总线，或者通过电子邮件/slack 通知其他人。 这可以是一个实现告警和自动化的解决办法。 您甚至可以向 Kafka 发送新消息，然后在下游系统中及时消费这样的消息。
 
 由于定义和管理告警是一个常见需求，Timeplus 开始支持开箱即用的告警。
 
