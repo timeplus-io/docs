@@ -93,7 +93,7 @@ Timeplus还提供了`random_in_type`函数，用于使用任何自定义逻辑�
 ## Generate multiple rows
 You can combine random functions with `numbers` table function to generate data with multiple columns and multiple rows.
 
-### numbers
+### 数字
 
 `numbers(N)` – Returns a table with the single `number` column (uint64) that contains integers from 0 to N-1. `numbers(N, M)` - Returns a table with the single `number` column (uint64) that contains integers from N to (N + M - 1).
 
