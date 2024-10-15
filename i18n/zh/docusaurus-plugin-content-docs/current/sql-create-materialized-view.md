@@ -46,7 +46,7 @@ CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name>
 INTO <target_stream> AS <SELECT ...>
 ```
 
-## Settings
+## 工作区设置
 
 The following settings are supported when you create a materialized view, with syntax:
 
