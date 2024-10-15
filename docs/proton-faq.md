@@ -1,4 +1,4 @@
-# Timeplus Proton FAQ
+# FAQ
 
 On September 21, 2023, Timeplus announced the open source project: [Timeplus Proton](https://github.com/timeplus-io/proton/). We're using this FAQ as the primary reference for learning about what Timeplus Proton is, how we licensed the code open source, how you can use Timeplus Proton today, and more.
 
@@ -41,7 +41,7 @@ Timeplus Proton powers unified streaming and data processing on a single databas
 |                               | **Timeplus Proton**                                                                                                                                                                    | **Timeplus Enterprise**                                                                                                                                                                                                          |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Deployment**                | <ul><li>Single-node Docker image</li><li>Single binary on Mac/Linux</li></ul>                                                                                                          | <ul><li>Single node</li><li>Cluster</li><li>Kubernetes-based “bring your own cloud” (BYOC)</li><li>Fully-managed cloud service</li></ul>                                                                               |
-| **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li><li>[Streaming ingestion via REST API (compact mode only)](proton-ingest-api)</li></ul> | <ul><li>Everything in Timeplus Proton</li><li>WebSocket and HTTP Stream</li><li>Apache Pulsar</li><li>CSV upload</li><li>[Streaming ingestion via REST API (with API key and flexible modes)](ingest-api)</li></ul> |
+| **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li><li>[Streaming ingestion via REST API (compact mode only)](/proton-ingest-api)</li></ul> | <ul><li>Everything in Timeplus Proton</li><li>WebSocket and HTTP Stream</li><li>Apache Pulsar</li><li>CSV upload</li><li>[Streaming ingestion via REST API (with API key and flexible modes)](/ingest-api)</li></ul> |
 | **Data destinations (sinks)** | <ul><li>External streams to Apache Kafka, Confluent Cloud, Redpanda</li></ul>                                                                                                          | <ul><li>Everything in Timeplus Proton</li><li>Apache Pulsar</li><li>Slack</li><li>Webhook</li><li>Timeplus stream</li></ul>                                                                                                      |
 | **Support**                   | <ul><li>Community support from GitHub and Slack</li></ul>                                                                                                                              | <ul><li>Enterprise support via email, Slack, and Zoom, with a SLA</li></ul>                                                                                                                                                      |
 
@@ -49,7 +49,7 @@ These details are subject to change, but we'll do our best to make sure they acc
 
 ## My organization already uses ClickHouse—are there plans to integrate Timeplus Proton with the open source ClickHouse project?
 
-You can create an [External Table](proton-clickhouse-external-table) to read or write ClickHouse tables from Timeplus Proton. Check the tutorials for how to build streaming ETL [from Kafka to ClickHouse](tutorial-sql-etl-kafka-to-ch), or [from MySQL to ClickHouse](tutorial-sql-etl-mysql-to-ch), via Timeplus.
+You can create an [External Table](/proton-clickhouse-external-table) to read or write ClickHouse tables from Timeplus Proton. Check the tutorials for how to build streaming ETL [from Kafka to ClickHouse](/tutorial-sql-etl-kafka-to-ch), or [from MySQL to ClickHouse](/tutorial-sql-etl-mysql-to-ch), via Timeplus.
 
 We are also in conversation with the folks at ClickHouse, Inc., and the ClickHouse open source project at large, to scope the possibility of deep integration between the projects.
 
@@ -57,12 +57,12 @@ We are also in conversation with the folks at ClickHouse, Inc., and the ClickHou
 
 Short answer: very easy. We designed Timeplus Proton's usage to be similar to ClickHouse, with a few key differences:
 
-- Timeplus' default SQL query mode is **streaming**, which means it is long-running and continuously tracks and evaluates changed data and pushes results to users or target systems. To create a [historical data query](functions_for_streaming#table), wrap your SQL in `table(stream)`.
+- Timeplus' default SQL query mode is **streaming**, which means it is long-running and continuously tracks and evaluates changed data and pushes results to users or target systems. To create a [historical data query](/functions_for_streaming#table), wrap your SQL in `table(stream)`.
 - The SQL keyword `AS` is required to create a temporary name for a table, stream, or a column.
-- We renamed data types and functions to remove camelcase. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Timeplus Proton. Our [functions](functions) docs have additional details.
+- We renamed data types and functions to remove camelcase. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Timeplus Proton. Our [functions](/functions) docs have additional details.
 - Not all ClickHouse functions are currently enabled in Timeplus Proton or work in a streaming query. If we should add or enhance the functions available in Timeplus Proton, let us know in the [GitHub issues](https://github.com/timeplus-io/proton/issues).
-- Materialized Views in ClickHouse works for one source table, and data is processed at the index time. In Timeplus Proton, you can define a [Materialized View](proton-create-view#m_view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Timeplus Proton continuously runs the query and sends the results to the internal stream or the target stream.
-- In Timeplus Proton, [JOINs](joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
+- Materialized Views in ClickHouse works for one source table, and data is processed at the index time. In Timeplus Proton, you can define a [Materialized View](/proton-create-view#m_view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Timeplus Proton continuously runs the query and sends the results to the internal stream or the target stream.
+- In Timeplus Proton, [JOINs](/joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
 
 See the documentation for full usage details.
 
@@ -114,8 +114,8 @@ The best way to get started is to check out the [existing issues](https://github
 We're currently building out resources where you can learn about Timeplus Proton's architecture, features, and future:
 
 - [GitHub](https://github.com/timeplus-io/proton/)
-- [Documentation](proton)
-- [High-level architecture](proton-architecture)
+- [Documentation](/proton)
+- [High-level architecture](/proton-architecture)
 - [Videos](https://youtube.com/@timeplusdata)
 - [Wiki](https://github.com/timeplus-io/proton/wiki)
 
@@ -123,6 +123,6 @@ We also discuss our journey to releasing Timeplus Proton in open source in our [
 
 ## How can I get started?
 
-Learn how to pull and run the Timeplus Proton image and query a test stream in our [documentation](proton#get-started). To see a more complete use case in action, using Timeplus Proton, Redpanda, and sample live data, check out our [tutorial](proton-kafka#tutorial) that leverages Docker Compose.
+Learn how to pull and run the Timeplus Proton image and query a test stream in our [documentation](/proton#-deployment). To see a more complete use case in action, using Timeplus Proton, Redpanda, and sample live data, check out our [tutorial](/proton-kafka#tutorial) that leverages Docker Compose.
 
-If you need advanced deployment strategies or features, with Timeplus Proton running behind the scenes, create your first workspace with [Timeplus Cloud](https://us.timeplus.cloud/).
+If you need advanced deployment strategies or features, with Timeplus Proton running behind the scenes, create your first workspace with [Timeplus Cloud](https://us-west-2.timeplus.cloud/).

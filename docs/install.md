@@ -2,13 +2,13 @@
 
 ## Timeplus Enterprise in the cloud{#cloud}
 
-The quickest and easiest way to get started with Timeplus is to sign up a free account on our fully-managed platform at [us.timeplus.cloud](https://us.timeplus.cloud).
+The quickest and easiest way to get started with Timeplus is to sign up a free account on our fully-managed platform at [us-west-2.timeplus.cloud](https://us-west-2.timeplus.cloud).
 
 Simply sign up with Google or Microsoft Single Sign-On, or create a username and password. Next, create a new workspace and start your streaming analytics journey.
 
 ## Timeplus Enterprise self-hosted{#self-hosted}
 
-Install Timeplus Enterprise with high availability and scalability in your own data center or cloud account, using the [bare metal installer](singlenode_install#bare-metal-install) or the official Timeplus [Kubernetes Helm Chart](cluster_install#k8s).
+Install Timeplus Enterprise with high availability and scalability in your own data center or cloud account, using the [bare metal installer](/singlenode_install#bare_metal) or the official Timeplus [Kubernetes Helm Chart](/cluster_install#k8s).
 
 ## Timeplus Proton, the core engine{#proton}
 
@@ -33,16 +33,9 @@ brew install timeplus-io/timeplus/proton
 ### As a Docker container{#docker}
 
 ```bash
-docker run -d --pull always --name proton ghcr.io/timeplus-io/proton:latest
+docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
 ```
-
-In case you cannot access ghcr, you can pull the image from `public.ecr.aws/timeplus/proton`
-
-You may need to expose ports from the Proton container so that other tools can connect to it, such as DBeaver. Please check [Server Ports](proton-ports) for each port to expose. For example:
-
-```shell
-docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton ghcr.io/timeplus-io/proton:latest
-```
+Please check [Server Ports](/proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
 
 ### Docker Compose {#compose}
 

@@ -1,6 +1,6 @@
 # CREATE EXTERNAL STREAM
 
-External stream for Kafka is official supported. The external stream for local log files is at technical preview. In Timeplus Enterprise, it also supports [another type of External Stream](timeplus-external-stream) to read/write data for a remote Timeplus Enterprise.
+External stream for Kafka is official supported. The external stream for local log files is at technical preview. In Timeplus Enterprise, it also supports [another type of External Stream](/timeplus-external-stream) to read/write data for a remote Timeplus Enterprise.
 
 ## Kafka External Stream
 ```sql
@@ -35,8 +35,8 @@ The supported values for `sasl_mechanism` are:
 
 The supported values for `data_format` are:
 
-- JSONEachRow: each Kafka message can be a single JSON document, or each row is a JSON document. [Learn More](#jsoneachrow).
-- CSV: less commonly used. [Learn More](#csv).
+- JSONEachRow: each Kafka message can be a single JSON document, or each row is a JSON document. [Learn More](/proton-kafka#jsoneachrow).
+- CSV: less commonly used. [Learn More](/proton-kafka#csv).
 - ProtobufSingle: for single Protobuf message per Kafka message
 - Protobuf: there could be multiple Protobuf messages in a single Kafka message.
 - Avro: added in Proton 1.5.2
@@ -44,7 +44,7 @@ The supported values for `data_format` are:
 
 :::info
 
-For examples to connect to various Kafka API compatitable message platforms, please check [this doc](tutorial-sql-connect-kafka).
+For examples to connect to various Kafka API compatitable message platforms, please check [this doc](/tutorial-sql-connect-kafka).
 
 :::
 
@@ -115,6 +115,6 @@ SYSTEM UNPAUSE MATERIALIZED VIEW edge_to_cloud;
 ### Limitations
 This is a relatively new feature. There are some known limitations which we plan to improve later on.
 
-* [table function](functions_for_streaming#table) is not supported. In order to query all or part of the historical data, you can start a streaming query with `WHERE _tp_time>earliest_ts()` or `WHERE _tp_time>now()-2d`.
-* [window functions](functions_for_streaming) like tumble/hop are not working yet.
+* [table function](/functions_for_streaming#table) is not supported. In order to query all or part of the historical data, you can start a streaming query with `WHERE _tp_time>earliest_ts()` or `WHERE _tp_time>now()-2d`.
+* [window functions](/functions_for_streaming) like tumble/hop are not working yet.
 * can't read virtual columns on remote streams.

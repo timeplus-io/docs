@@ -1,6 +1,6 @@
 # Query Syntax
 
-Timeplus Proton introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
+Timeplus introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
 
 ```sql
 [WITH common_table_expression ..]
@@ -12,11 +12,12 @@ FROM <table_function>(<stream_name>, [<time_column>], [<window_size>], ...)
 [HAVING expression]
 [PARTITION BY clause]
 [LIMIT n]
+[OFFSET n]
 [EMIT emit_policy]
 [SETTINGS <key1>=<value1>, <key2>=<value2>, ...]
 ```
 
-Only `SELECT` and `FROM` clauses are required (you can even omit `FORM`, such as `SELECT now()`, but it's less practical). Other clauses in `[..]` are optional. We will talk about them one by one in the reverse order, i.e. [SETTINGS](#settings), then [EMIT](#emit), [LIMIT](#limit), etc.
+Only `SELECT` and `FROM` clauses are required (you can even omit `FORM`, such as `SELECT now()`, but it's less practical). Other clauses in `[..]` are optional. We will talk about them one by one in the reverse order, i.e. [SETTINGS](/query-syntax#settings), then [EMIT](/query-syntax#emit), [LIMIT](/query-syntax#limit), etc.
 
 SQL keywords and function names are case-insensitive, while the column names and stream names are case-sensitive.
 
@@ -29,7 +30,7 @@ Before we look into the details of the query syntax, we'd like to highlight the 
 
 ## SETTINGS{#settings}
 
-Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors. Check [Query Settings](query-settings).
+Timeplus supports some advanced `SETTINGS` to fine tune the streaming query processing behaviors. Check [Query Settings](/query-settings).
 
 ## EMIT{#emit}
 
@@ -58,7 +59,7 @@ FROM tumble(device_utils, 5s)
 GROUP BY device, window_end
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](stream-query#window-watermark), which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
+The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](/stream-query#window-watermark), which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
 
 ### EMIT AFTER WATERMARK WITH DELAY {#emit_after_wm_with_delay}
 
@@ -235,7 +236,7 @@ Similarly, we can apply the last X on hopping window.
 
 ## PARTITION BY
 
-`PARTITION BY` in Streaming SQL is to create [substreams](substream).
+`PARTITION BY` in Streaming SQL is to create [substreams](/substream).
 
 ## GROUP BY and HAVING {#group_having}
 
@@ -243,9 +244,19 @@ Similarly, we can apply the last X on hopping window.
 
 When `GROUP BY` is applied, `HAVING` is optional to filter the aggregation results. The difference between `WHERE` and`HAVING` is data will be filtered by `WHERE` clause first, then apply `GROUP BY`, and finally apply `HAVING`.
 
+## LIMIT
+`LIMIT n` When the nth result is emitted, the query will stop, even it's a streaming SQL.
+
+### OFFSET
+You can combine LIMIT and OFFSET, such as:
+```sql
+SELECT * FROM table(stream) ORDER BY a LIMIT 3 OFFSET 1
+```
+This will fetch the 3 rows from the 2nd smallest value of `a`.
+
 ## JOINs
 
-Please check [Joins](joins).
+Please check [Joins](/joins).
 
 ## WITH cte
 
@@ -499,4 +510,4 @@ The above example SQL continuously aggregates max cpu usage per device per hop w
 
 ### Session Streaming Window Aggregation
 
-This is similar to tumble and hop window. Please check the [session](functions_for_streaming#session) function.
+This is similar to tumble and hop window. Please check the [session](/functions_for_streaming#session) function.

@@ -1,4 +1,4 @@
-# Connect to local ClickHouse, ClickHouse Cloud, Aiven, etc.
+# Connect to ClickHouse
 
 You can define the external table and use it to read data from the ClickHouse table, or write to it.
 
@@ -24,7 +24,7 @@ SETTINGS type='clickhouse',
          user='default',
          password='..',
          secure=true,
-         table='events';  
+         table='events';
 ```
 
 ### Connect to Aiven for ClickHouse {#aiven}

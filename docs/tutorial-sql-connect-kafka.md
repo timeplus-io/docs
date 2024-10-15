@@ -1,4 +1,4 @@
-# Connect to Kafka, Confluent, Redpanda, Aiven, WarpStream, Upstash, etc.
+# Connect to Kafka, Confluent, Redpanda, Aiven, etc.
 
 ### Connect to local Kafka or Redpanda {#connect-kafka}
 
@@ -112,22 +112,3 @@ SETTINGS type='kafka',
          password='..'
 ```
 `sasl_mechanism` can be either `PLAIN` or `SCRAM-SHA-512`, but cannot be `SCRAM-SHA-256`.
-
-### Connect to Upstash{#connect-upstash}
-
-You can connect Proton with Upstash Serverless Kafka.
-
-Example:
-
-```sql
-CREATE EXTERNAL STREAM ext_stream(raw string)
-SETTINGS type='kafka',
-         brokers='grizzly-1234-us1-kafka.upstash.io:9092',
-         topic='topic',
-         security_protocol='SASL_SSL',
-         sasl_mechanism='SCRAM-SHA-256',
-         username='..',
-         password='..'
-```
-
-More detailed instructions are available on [Upstash Docs](https://upstash.com/docs/kafka/integrations/proton).

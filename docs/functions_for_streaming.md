@@ -16,10 +16,10 @@ The following functions are supported in streaming query, but not all of them su
 You can create views such as `create view histrical_view as select * from table(stream_name)`, if you want to query the data in the table mode more than once. This may work well for static data, such as lookup information(city names and their zip code).
 
 :::info
-New in Proton v1.5.9, you can also run `table` function on an [External Stream](proton-kafka) for Kafka. This will read existing data in the specified Kafka topic. Please avoid scanning all data via `select * from table(ext_stream)`. Apply some filtering conditions, or run the optimized `select count(*) from table(ext_stream)` to get the number of current message count.
+New in Proton v1.5.9, you can also run `table` function on an [Kafka External Stream](/proton-kafka) for Kafka. This will read existing data in the specified Kafka topic. Please avoid scanning all data via `select * from table(ext_stream)`. However `select count(*) from table(ext_stream)` is optimized to get the number of current message count from the Kafka topic.
 :::
 
-Learn more about [Non-streaming queries](history).
+Learn more about [Non-streaming queries](/history).
 
 ### tumble
 
@@ -48,7 +48,7 @@ Create dynamic windows based on the activities in the data stream.
 
 Parameters:
 
-- `stream` a data stream, a view, or a [CTE](glossary#cte)/subquery
+- `stream` a data stream, a view, or a [CTE](/glossary#cte)/subquery
 - `timeCol` optional, by default it will be `_tp_time` (the event time for the record)
 - `idle` how long the events will be automatically split to 2 session windows
 - `maxLength` the max length of the session window. Optional. Default value is the 5 times of `idle`
@@ -111,7 +111,7 @@ Otherwise, if you run queries with `dedup(table(my_stream),id)` the earliest eve
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1, time2)` returns true or false. This function only works in [stream-to-stream join](query-syntax#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
+`date_diff_within(timegap,time1, time2)` returns true or false. This function only works in [stream-to-stream join](/joins#stream_stream_join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
 
 ✅ streaming query
 
@@ -184,8 +184,8 @@ For example, if you run `select emit_version(),count(*) from car_live_data` the 
 
 `changelog(stream[, [key_col1[,key_col2,[..]],version_column], drop_late_rows])` to convert a stream (no matter append-only stream or versioned stream) to a changelog stream with given primary keys.
 
-- If the source stream is a regular stream, i.e. append-only stream, you can choose one or more columns as the primary key columns. `changelog(append_stream, key_col1)` For example, the [car_live_data](usecases#car_live_data) stream contains `cid` as car id, `speed_kmh` as the recently reported speed. Run the following SQL to create a changelog stream for each car to track the speed change `select * from changelog(car_live_data,cid)` A new column `_tp_delta` is included in the streaming query result. `-1` indicates that the row is redacted(removed). \_tp_delta = 1 with the new value.
-- If the source stream is a [Versioned Stream](versioned-stream), since the primary key(s) and version columns are specified in the versioned stream, the `changelog` function can be as simple as `changelog(versioned_kv)`
+- If the source stream is a regular stream, i.e. append-only stream, you can choose one or more columns as the primary key columns. `changelog(append_stream, key_col1)` For example, the [car_live_data](/usecases#car_live_data) stream contains `cid` as car id, `speed_kmh` as the recently reported speed. Run the following SQL to create a changelog stream for each car to track the speed change `select * from changelog(car_live_data,cid)` A new column `_tp_delta` is included in the streaming query result. `-1` indicates that the row is redacted(removed). \_tp_delta = 1 with the new value.
+- If the source stream is a [Versioned Stream](/versioned-stream), since the primary key(s) and version columns are specified in the versioned stream, the `changelog` function can be as simple as `changelog(versioned_kv)`
 - By default, `drop_late_rows` is false. But if you do want to drop late events for the same primary key, then you need to set drop_late_rows as true, and specify the version_column. The bigger the version_column value is, the more recent version it implies. In most case, you can set the event time(\_tp_time) as the version_column. An example to drop the late event for car_live_data:
 
 ```sql

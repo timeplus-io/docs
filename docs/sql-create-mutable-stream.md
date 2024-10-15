@@ -1,6 +1,6 @@
 # CREATE MUTABLE STREAM
 
-Mutable streams are only available in Timeplus Enterprise. Please check [this page](mutable-stream) for details.
+Mutable streams are only available in Timeplus Enterprise. Please check [this page](/mutable-stream) for details.
 
 
 ```sql

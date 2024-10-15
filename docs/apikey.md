@@ -1,8 +1,14 @@
 # API Key
 
-The REST API of Timeplus Enterprise is secured by API key. Currently this is only enabled in Timeplus Enterprise SaaS edition. For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorization header to be `Basic [Base64 encoded user:password]`.
+The [REST API](https://docs.timeplus.com/rest) of Timeplus Enterprise is secured by API keys in Timeplus Cloud.
 
-You need to create an API key to access the Timeplus REST API. Here’s how to create one:
+:::info
+For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorization header to be `Basic [Base64 encoded user:password]`.
+
+For example, if the username is `admin` and the password is `password` (not recommended to set this in production), you can generate the base64 encoded string for `admin:password` as `YWRtaW46cGFzc3dvcmQ`, via the command line `echo -n "admin:password" | base64`. Then set the HTTP header `Authorization` as `Basic YWRtaW46cGFzc3dvcmQ`. This also can be set in `curl` via `-u admin:password` flag.
+:::
+
+You need to create an API key to access the Timeplus REST API in the cloud. Here’s how to create one:
 
 1. Click on your **avatar** in the top right corner. In the dropdown, click **Personal Settings**.
 

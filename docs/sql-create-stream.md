@@ -1,6 +1,6 @@
 # CREATE STREAM
 
-[Stream](working-with-streams) is a key [concept](glossary) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Timeplus.
+[Stream](/working-with-streams) is a key [concept](/glossary) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Timeplus.
 
 Syntax:
 
@@ -23,7 +23,7 @@ If you omit the database name, `default` will be used. Stream name can be any ut
 
 ### Versioned Stream
 
-[Versioned Stream](versioned-stream) allows you to specify the primary key(s) and focus on the latest value. For example:
+[Versioned Stream](/versioned-stream) allows you to specify the primary key(s) and focus on the latest value. For example:
 
 ```sql
 CREATE STREAM versioned_kv(i int, k string, k1 string)
@@ -35,7 +35,7 @@ The default `version_column` is `_tp_time`. For the data with same primary key(s
 
 ### Changelog Stream
 
-[Changelog Stream](changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. For example:
+[Changelog Stream](/changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. For example:
 
 ```sql
 CREATE STREAM changelog_kv(i int, k string, k1 string)

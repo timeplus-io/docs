@@ -108,67 +108,124 @@ const config = {
         },
         items: [
           {
-            href: "https://www.timeplus.com/product",
-            position: "left",
-            label: "Product",
-            className: "navbar__link--active",
-          },
-          {
             type: "dropdown",
-            label: "Use Cases",
+            label: "Product",
             position: "left",
             className: "navbar__link--active",
             items: [
               {
-                href: "https://www.timeplus.com/fintech",
-                label: "FinTech",
+                href: "https://www.timeplus.com/product",
+                label: "Timeplus Enterprise",
+                className: "navbar__link--active",
               },
               {
-                href: "https://www.timeplus.com/ai",
-                label: "AI",
+                href: "https://www.timeplus.com/pricing",
+                label: "Pricing",
+                className: "navbar__link--active",
               },
               {
-                href: "https://www.timeplus.com/proton-vs-ksqldb",
+                type: "html",
+                value:
+                  "<span style='font-size: 14px;color: #AEACB0;'>WHY TIMEPLUS?</span>",
+              },
+              {
+                href: "https://www.timeplus.com/timeplus-vs-ksqldb",
                 label: "Timeplus vs. ksqlDB",
+                className: "navbar__link--active",
+              },
+              {
+                href: "https://www.timeplus.com/timeplus-vs-flink",
+                label: "Timeplus vs. Apache Flink",
+                className: "navbar__link--active",
+              },
+              {
+                href: "https://www.timeplus.com/timeplus-and-clickhouse",
+                label: "Timeplus + ClickHouse",
+                className: "navbar__link--active",
               },
             ],
           },
           {
-            href: "https://www.timeplus.com/pricing",
+            type: "dropdown",
+            label: "Solutions",
             position: "left",
-            label: "Pricing",
             className: "navbar__link--active",
+            items: [
+              {
+                type: "html",
+                value:
+                  "<span style='font-size: 14px;color: #AEACB0;'>BY USE CASE</span>",
+              },
+              {
+                href: "https://www.timeplus.com/real-time-trade-intelligence",
+                label: "Real-Time Trade Intelligence",
+              },
+              {
+                href: "https://www.timeplus.com/ddos-detection",
+                label: "DDoS Detection",
+              },
+              {
+                href: "https://www.timeplus.com/anomaly-detection",
+                label: "Edge Analytics and Anomaly Detection",
+              },
+              {
+                href: "https://www.timeplus.com/observability",
+                label: "Observability",
+              },
+              {
+                href: "https://www.timeplus.com/real-time-feature-platform",
+                label: "AI/ML: Real-Time Feature Platform",
+              },
+              {
+                href: "https://www.timeplus.com/real-time-rag",
+                label: "AI/ML: Real-Time RAG",
+              },
+              {
+                type: "html",
+                value:
+                  "<span style='font-size: 14px;color: #AEACB0;'>BY INDUSTRY</span>",
+              },
+              {
+                href: "https://www.timeplus.com/financial-services",
+                label: "Financial Services",
+              },
+              {
+                href: "https://www.timeplus.com/telecommunications",
+                label: "Telecommunications",
+              },
+              {
+                href: "https://www.timeplus.com/manufacturing",
+                label: "Manufacturing",
+              },
+              {
+                href: "https://www.timeplus.com/technology-industry",
+                label: "Technology",
+              },
+            ],
+          },
+          {
+            type: "dropdown",
+            label: "About Us",
+            position: "left",
+            className: "navbar__link--active",
+            items: [
+              {
+                href: "https://www.timeplus.com/our-team",
+                label: "Our Team",
+                className: "navbar__link--active",
+              },
+              {
+                href: "https://www.timeplus.com/media-kit",
+                label: "Media Kit",
+                className: "navbar__link--active",
+              },
+            ],
           },
           {
             href: "https://www.timeplus.com/blog",
             position: "left",
             label: "Blog",
             className: "navbar__link--active",
-          },
-          {
-            type: "dropdown",
-            label: "Company",
-            position: "left",
-            className: "navbar__link--active",
-            items: [
-              {
-                href: "https://www.timeplus.com/team",
-                label: "Our Team",
-              },
-              {
-                href: "https://www.timeplus.com/media-kit",
-                label: "Media Kit",
-              },
-              {
-                href: "https://www.timeplus.com/resources",
-                label: "Resources",
-              },
-
-              {
-                href: "https://timeplus.com/slack",
-                label: "Slack Community",
-              },
-            ],
           },
           {
             type: "search",
@@ -201,27 +258,23 @@ const config = {
             title: " ",
             items: [
               {
-                label: "COMPANY",
-                href: "https://timeplus.com",
+                label: "Docs",
+                href: "https://docs.timeplus.com",
               },
               {
-                label: "SHOWCASES",
-                href: "https://docs.timeplus.com/showcases",
+                label: "Product",
+                href: "https://www.timeplus.com/product",
               },
               {
-                label: "TIMEPLUS VS. KSQLDB​",
-                href: "https://www.timeplus.com/timeplus-vs-ksqldb",
-              },
-              {
-                label: "PRICING",
+                label: "Pricing​",
                 href: "https://www.timeplus.com/pricing",
               },
               {
-                label: "OPEN SOURCE",
+                label: "Open Source",
                 href: "https://github.com/timeplus-io/proton",
               },
               {
-                label: "STATUS",
+                label: "Status",
                 href: "https://timeplus.statuspage.io",
               },
             ],
@@ -230,28 +283,24 @@ const config = {
             title: " ",
             items: [
               {
-                label: "BLOG",
+                label: "Blog",
                 href: "https://timeplus.com/blog",
               },
               {
-                label: "RESOURCES",
-                href: "https://www.timeplus.com/resources",
+                label: "About Us",
+                href: "https://www.timeplus.com/our-team",
               },
               {
-                label: "ABOUT US",
-                href: "https://www.timeplus.com/team",
-              },
-              {
-                label: "PRIVACY POLICY",
+                label: "Privacy Policy",
                 href: "https://www.timeplus.com/privacy-policy",
               },
               {
-                label: "TERMS OF SERVICE",
+                label: "Terms of Service",
                 href: "https://www.timeplus.com/terms-of-service",
               },
               {
-                label: "SLACK",
-                href: "https://timeplus.com/slack",
+                label: "EUSA",
+                href: "https://www.timeplus.com/eusa",
               },
             ],
           },

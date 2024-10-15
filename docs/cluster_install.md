@@ -5,9 +5,9 @@ Both bare metal and Kubernetes are supported.
 
 ## Bare Metal Install
 
-Follow the guide in [Single Node Install](singlenode_install) to grab the bare metal package and install on each node.
+Follow the guide in [Single Node Install](/singlenode_install) to grab the bare metal package and install on each node.
 
-There are multiple ways to setup a cluster without Kubernetes. One easy solution is to run all components in one node, and the rest of nodes running the timeplusd only. For other deployment options, please contact [support](mailto:support@timeplus.com) or message us in our [Slack Community](timeplus.com/slack).
+There are multiple ways to setup a cluster without Kubernetes. One easy solution is to run all components in one node, and the rest of nodes running the timeplusd only. For other deployment options, please contact [support](mailto:support@timeplus.com) or message us in our [Slack Community](https://timeplus.com/slack).
 
 Choose one node as the lead node, say its hostname is `timeplus-server1`. Stop all services via `timeplus stop` command. Then configure environment variables.
 ```bash
@@ -39,7 +39,7 @@ You can also deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](http
 
 ### Deploy Timeplus Enterprise with Helm
 
-Follow the [guide](k8s-helm) to deploy Timeplus Enterprise on Kubernetes with Helm.
+Follow the [guide](/k8s-helm) to deploy Timeplus Enterprise on Kubernetes with Helm.
 
 ## License Management
-To activate or add new a license, please follow [our guide](server_config#license).
+To activate or add new a license, please follow [our guide](/server_config#license).

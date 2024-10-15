@@ -196,7 +196,7 @@ You can easily access any element in the map, just using mapName[keyName], such 
 
 Alternatively, you can use `map_cast(key1,value1,key2,value2..)`
 
-Since Proton v1.4.2, a new [extract_key_value_pairs](functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
+Since Proton v1.4.2, a new [extract_key_value_pairs](/functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
 
 ### tuple_cast
 
@@ -219,18 +219,6 @@ A function that allows getting a column from a tuple.
 If the second argument is a number `index`, it is the column index, starting from 1. If the second argument is a string `name`, it represents the name of the element. Besides, we can provide the third optional argument, such that when index out of bounds or no element exist for the name, the default value returned instead of throwing an exception. The second and third arguments, if provided, must be constants. There is no cost to execute the function.
 
 The function implements operators `x.index` and `x.name`.
-
-### dict_get
-
-`dict_get('dict_name', attr_names, id_expr)`
-
-Retrieves values from a dictionary.
-
-### dict_get_or_default
-
-`dict_get_or_default('dict_name', attr_names, id_expr,default_value)`
-
-Retrieves values from a dictionary. If not found, return the default value.
 
 ### columns
 

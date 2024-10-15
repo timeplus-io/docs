@@ -1,5 +1,5 @@
 # Protobuf/Avro Schema
-Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. This document covers how to process data without a Schema Registry. Check [this page](proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
+Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format for [Kafka External Stream](/proton-kafka) or [Pulsar External Stream](/pulsar-external-stream). This document covers how to process data without a Schema Registry. Check [this page](/proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
 
 ## Create A Schema {#create}
 
@@ -18,7 +18,7 @@ CREATE OR REPLACE FORMAT SCHEMA schema_name AS '
               ' TYPE Protobuf
 ```
 
-Then refer to this schema while creating an external stream for Kafka:
+Then refer to this schema while creating an external stream for Kafka or Pulsar:
 
 ```sql
 CREATE EXTERNAL STREAM stream_name(
@@ -35,17 +35,22 @@ SETTINGS type='kafka',
          format_schema='schema_name:SearchRequest'
 ```
 
+Then you can run `INSERT INTO` or use a materialized view to write data to the topic.
+```sql
+INSERT INTO stream_name(query,page_number,results_per_page) VALUES('test',1,100)
+```
+
 Please note:
 
 1. If you want to ensure there is only a single Protobuf message per Kafka message, please set `data_format` to `ProtobufSingle`. If you set it to `Protobuf`, then there could be multiple Protobuf messages in a single Kafka message.
 2. The `format_schema` setting contains two parts: the registered schema name (in this example: schema_name), and the message type (in this example: SearchRequest). Combining them together with a semicolon.
 3. You can use this external stream to read or write Protobuf messages in the target Kafka/Confluent topics.
-4. For more advanced use cases, please check the [examples for complex schema](#complex).
+4. For more advanced use cases, please check the [examples for complex schema](/proton-format-schema#protobuf_complex).
 
 ### Avro
-Available since Proton 1.5.10.
+Available since Timeplus Proton 1.5.10.
 ```sql
-CREATE OR REPLACE FORMAT SCHEMA schema_name AS '{
+CREATE OR REPLACE FORMAT SCHEMA avro_schema AS '{
                 "namespace": "example.avro",
                 "type": "record",
                 "name": "User",
@@ -58,10 +63,10 @@ CREATE OR REPLACE FORMAT SCHEMA schema_name AS '{
               ' TYPE Avro;
 ```
 
-Then refer to this schema while creating an external stream for Kafka:
+Then refer to this schema while creating an external stream for Kafka or Pulsar:
 
 ```sql
-CREATE EXTERNAL STREAM stream_name(
+CREATE EXTERNAL STREAM stream_avro(
          name string,
          favorite_number nullable(int32),
          favorite_color nullable(string))
@@ -72,7 +77,11 @@ SETTINGS type='kafka',
          username='..',
          password='..',
          data_format='Avro',
-         format_schema='schema_name'
+         format_schema='avro_schema'
+```
+Then you can run `INSERT INTO` or use a materialized view to write data to the topic.
+```sql
+INSERT INTO stream_avro(name,favorite_number,favorite_color) VALUES('test',1,'red')
 ```
 
 ## List Schemas

@@ -85,9 +85,9 @@ The code is straightforward. A few notes:
 
 Once you have deployed the Lambda function, you can generate a publicly accessible URL, then register the function in Timeplus Web Console.
 
-## Register the UDF
+## Register the UDF in Timeplus Console
 
-Only Timeplus workspace administrators can register new UDF. Open "UDFs" from the navigation menu on the left, and click the 'Register New Function' button. Choose "Remote" as the UDF type.
+In Timeplus web console, open "UDFs" from the navigation menu on the left, and click the 'Register New Function' button. Choose "Remote" as the UDF type.
 
 Set a name for the function and specify the arguments and return data type. Set the webhook URL(e.g. Lambda URL) in the form. You can choose to enable extra authentication key/value in the HTTP header, securing the endpoint to avoid unauthorized access.
 
@@ -142,7 +142,26 @@ Timeplus will take each element of the result array and convert back to Timeplus
 | \{"result":[string1,string2]}         | string                     |
 | \{"result":[json1,json2]}             | tuple                      |
 
+## Register the UDF via SQL
 
+You can also create the UDF in Timeplus Proton or Timeplus Enterprise via SQL. [The detailed SQL reference](/sql-create-remote-function).
+
+```sql
+CREATE REMOTE FUNCTION udf_name(ip string) RETURNS string
+ URL 'https://the_url'
+ AUTH_METHOD 'none'
+```
+
+If you need to protect the end point and only accept requests with a certain HTTP header, you can use the `AUTH_HEADER` and `AUTH_KEY` setting, e,g.
+```sql
+CREATE REMOTE FUNCTION udf_name(ip string) RETURNS string
+ URL 'https://the_url'
+ AUTH_METHOD 'auth_header'
+ AUTH_HEADER 'header_name'
+ AUTH_KEY 'value';
+```
+
+Run `DROP FUNCTION udf_name` to delete or recreate the UDF.
 
 ## Other ways to build UDF
 
@@ -159,8 +178,8 @@ User-defined functions open the door for new possibilities to process and analyz
 2. Calling a single UDF may only take 100ms or less, however, if you call a UDF for millions of rows, this could slow down the entire query. It’s recommended to aggregate the data first, then call the UDF with a lesser number of requests. E.g. `SELECT ip_lookup(ip):city as city, sum(cnt) FROM (SELECT ip, count(*) as cnt FROM access_log GROUP BY ip) GROUP BY city`
    instead of
    `SELECT ip_lookup(ip):city, count(*) as cnt FROM access_log GROUP BY city`
-3. The Remote UDF in Timeplus is not designed for aggregation. Please turn to [JavaScript based local UDF](js-udf) for User-Defined Aggregate Functions (UDAF).
+3. The Remote UDF in Timeplus is not designed for aggregation. Please turn to [JavaScript based local UDF](/js-udf) for User-Defined Aggregate Functions (UDAF).
 4. To improve performance, Timeplus automatically sends batched requests to the UDF endpoints. For example, if there are 1000 requests to the UDF in a single SQL execution, the framework may send 10 requests with 100 each for the input. That’s why in the sample code, I will process the `ip` as an array and also return the value in the other array. Please make sure the returned value matches the inputs.
 5. Properly adding logs to your UDF code can greatly help troubleshoot/tune the function code.
 6. Only the Timeplus workspace administrators can register new User-Defined Functions, while all members in the workspace can use the UDFs.
-7. Make sure the UDF name doesn’t conflict with the [built-in functions](functions) or other UDFs in the same workspace.
+7. Make sure the UDF name doesn’t conflict with the [built-in functions](/functions) or other UDFs in the same workspace.

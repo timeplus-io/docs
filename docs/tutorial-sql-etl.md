@@ -6,7 +6,7 @@ Follow the guide for [Timeplus Proton](#timeplus-proton) or [Timeplus Cloud](#ti
 
 ## Timeplus Proton
 
-You can follow [the previous tutorial](tutorial-sql-kafka) to setup the sample data and run the following SQL to build the pipeline.
+You can follow [the previous tutorial](/tutorial-sql-kafka) to setup the sample data and run the following SQL to build the pipeline.
 
 ```sql
 -- read the topic via an external stream

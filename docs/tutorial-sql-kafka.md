@@ -1,8 +1,8 @@
-# Query Kafka with SQL
+# Query Kafka with SQL (mock data)
 
 :::info
 
-This tutorial is mainly for Timeplus Proton users. For Timeplus Cloud users, please check the [guide](quickstart) for connecting Timeplus with Confluent Cloud with web UI. SQL in this guide can be ran both in Timeplus Proton and Timeplus Cloud/Enterprise.
+This tutorial is mainly for SQL users. For Timeplus Enterprise users, you can also use [the UI wizard](/confluent-cloud-source). SQL in this guide can be ran both in Timeplus Proton and Timeplus Cloud/Enterprise.
 
 :::
 
@@ -12,18 +12,18 @@ A docker-compose file is created to bundle proton image with Redpanda (as lightw
 2. Open a terminal and run `docker compose up` in this folder.
 3. Wait for few minutes to pull all required images and start the containers. Visit http://localhost:8080 to use Redpanda Console to explore the topics and live data.
 4. Use `proton-client` to run SQL to query such Kafka data: `docker exec -it <folder>-proton-1 proton-client` You can get the container name via `docker ps`
-5. Create an external stream to connect to a topic in the Kafka/Redpanda server and run SQL to filter or aggregate data. 
+5. Create an external stream to connect to a topic in the Kafka/Redpanda server and run SQL to filter or aggregate data.
 
 ### Create an external stream
 
 ```sql
 CREATE EXTERNAL STREAM frontend_events(raw string)
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='redpanda:9092',
          topic='owlshop-frontend-events'
 ```
 
-:::info 
+:::info
 
 Since Proton 1.3.24, you can also define multiple columns.
 
@@ -37,14 +37,14 @@ CREATE EXTERNAL STREAM frontend_events_json(
 	requestDuration int,
 	response string,
 	headers string
-)	
-SETTINGS type='kafka', 
+)
+SETTINGS type='kafka',
          brokers='redpanda:9092',
          topic='owlshop-frontend-events',
          data_format='JSONEachRow';
 ```
 
-Then select the columns directly, without JSON parsing, e.g. `select method from frontend_events_json` For nested data, you can `select headers:referrer from frontend_events_json` 
+Then select the columns directly, without JSON parsing, e.g. `select method from frontend_events_json` For nested data, you can `select headers:referrer from frontend_events_json`
 
 :::
 
@@ -127,7 +127,7 @@ group by raw:method order by cnt desc limit 5 by emit_version()
 Note:
 
 * This is a global aggregation, emitting results every 2 seconds (configurable).
-* [emit_version()](functions_for_streaming#emit_version) function to show an auto-increasing number for each emit of streaming query result
+* [emit_version()](/functions_for_streaming#emit_version) function to show an auto-increasing number for each emit of streaming query result
 * `limit 5 by emit_version()` to get the first 5 rows with the same emit_version(). This is a special syntax in Proton. The regular `limit 5` will cancel the entire SQL once 5 results are returned. But in this streaming SQL, we'd like to show 5 rows for each emit interval.
 
 ### Create a materialized view to save notable events in Proton
@@ -138,7 +138,7 @@ For example, the following SQL will create a materialized view to save those bro
 
 ```sql
 create materialized view mv_broken_links as
-select raw:requestedUrl as url,raw:method as method, raw:ipAddress as ip, 
+select raw:requestedUrl as url,raw:method as method, raw:ipAddress as ip,
        raw:response.statusCode as statusCode, domain(raw:headers.referrer) as referrer
 from frontend_events where raw:response.statusCode<>'200';
 ```
@@ -150,7 +150,7 @@ Later on you can directly query on the materialized view:
 select * from mv_broken_links;
 
 -- historical query
-select method, count() as cnt, bar(cnt,0,40,5) as bar from table(mv_broken_links) 
+select method, count() as cnt, bar(cnt,0,40,5) as bar from table(mv_broken_links)
 group by method order by cnt desc;
 ```
 
@@ -164,4 +164,3 @@ group by method order by cnt desc;
 │ PATCH  │  17 │ ██  │
 └────────┴─────┴─────┘
 ```
-

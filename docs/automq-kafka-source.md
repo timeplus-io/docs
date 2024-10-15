@@ -2,7 +2,7 @@
 
 [AutoMQ](https://docs.automq.com/automq/what-is-automq/overview) is a cloud-native version of Kafka redesigned for cloud environments. AutoMQ is [open source](https://github.com/AutoMQ/automq) and fully compatible with the Kafka protocol, fully leveraging cloud benefits. Compared to self-managed Apache Kafka, AutoMQ, with its cloud-native architecture, offers features like capacity auto-scaling, self-balancing of network traffic, moving partition in seconds. These features contribute to a significantly lower Total Cost of Ownership (TCO) for users.
 
-This article will guide you on how to load data from AutoMQ into Timeplus using the Timeplus Console. Since AutoMQ is 100% compatible with the Apache Kafka protocol, you can also create an [external stream](external-stream) to analyze data in AutoMQ without moving it.
+This article will guide you on how to load data from AutoMQ into Timeplus using the Timeplus Console. Since AutoMQ is 100% compatible with the Apache Kafka protocol, you can also create an [external stream](/external-stream) to analyze data in AutoMQ without moving it.
 
 To prepare your AutoMQ environment and test data, follow the AutoMQ [Quick Start](https://docs.automq.com/automq/getting-started) guide to deploy your AutoMQ Kafka cluster.
 
@@ -28,5 +28,5 @@ Click **Next**. Timeplus will connect to the server and list all topics. Choose 
 In the next step, confirm the schema of the Timeplus stream and specify a name. At the end of the wizard, an external stream will be created in Timeplus. You can query data or even write data to the AutoMQ topic with SQL.
 
 See also:
-* [Kafka External Stream](proton-kafka)
-* [Tutorial: Streaming ETL from Kafka to ClickHouse](tutorial-sql-etl-kafka-to-ch)
+* [Kafka External Stream](/proton-kafka)
+* [Tutorial: Streaming ETL from Kafka to ClickHouse](/tutorial-sql-etl-kafka-to-ch)

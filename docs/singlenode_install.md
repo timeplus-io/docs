@@ -52,7 +52,7 @@ Access the Timeplus Enterprise web console via http://localhost:8000. On your fi
 
 It is also possible to only start/stop single process by running `timeplus start -s service_name`. For example, when you only want to startup Timeplus Core (SQL Engine), run `timeplus start -s timeplusd`.
 
-For more information, please check the [CLI Reference](cli-reference).
+For more information, please check the [CLI Reference](/cli-reference).
 
 ## Docker Install{#docker}
 
@@ -80,13 +80,13 @@ For Windows users, you can download the package with Docker Compose file and boo
 Access the Timeplus demo kit web console at https://localhost:8000.
 
 This stack demonstrates how to run streaming ETL, getting data from Kafka API, applying filter or aggregation, then sending to another Kafka topic or ClickHouse tables. For more details, please see:
-* [Tutorial – Streaming ETL: Kafka to Kafka](tutorial-sql-etl)
-* [Tutorial – Streaming ETL: Kafka to ClickHouse](tutorial-sql-etl-kafka-to-ch)
+* [Tutorial – Streaming ETL: Kafka to Kafka](/tutorial-sql-etl)
+* [Tutorial – Streaming ETL: Kafka to ClickHouse](/tutorial-sql-etl-kafka-to-ch)
 
 ## License Management{#license}
 When you start Timeplus Enterprise and access the web console for the first time, the 30-day free trial starts. When it ends, the software stops working.
 
-Please check [the guide](server_config#license) to update licenses.
+Please check [the guide](/server_config#license) to update licenses.
 
 ## Upgrade {#upgrade}
 To upgrade Timeplus Enterprise, run `timeplus stop` to stop all the services. Then replace all the binaries to the higher version of Timeplus Enterprise release and then run `timeplus start`.

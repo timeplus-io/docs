@@ -1,6 +1,6 @@
 # Timeplus External Stream
 
-In addition to [Kafka External Stream](proton-kafka), Timeplus Enterprise also supports the other type of external stream to read or write data for the other Timeplus Enterprise deployment.
+In addition to [Kafka External Stream](/proton-kafka), Timeplus Enterprise also supports another type of external stream to read/write data from/to another Timeplus Enterprise deployment.
 
 ## Use Cases
 
@@ -21,7 +21,7 @@ SETTINGS
     stream = '<stream_name>'
 ```
 Settings:
-* **hosts**: the IP or host for the remote timeplusd. When you set a set of hosts with ports, e.g. 'host1:port1,host2:port2', this will treat each host as a shard. `hosts` is required and there is no default value.
+* **hosts**: the IP or host for the remote timeplusd. You can set `10.1.2.3` or `10.1.2.3:8463`. When you set a set of hosts with ports, e.g. `host1:port1,host2:port2`, this will treat each host as a shard. `hosts` is required and there is no default value.
 * **db**: the database name in the remote Timeplusd. The default value is 'default'.
 * **user**: the user name for the remote Timeplusd. The default value is 'default'.
 * **password**: the password for the remote Timeplusd. The default value is an empty string.
@@ -38,7 +38,11 @@ The Timeplus Proton need to be 1.5.15 or above.
 
 For example, there is a stream `streamA` in Timeplus Proton, running on host1.
 
-In your Timeplus Enterprise, you can create the stream with the same name and same schema. Then use a materialized view to load all data from Timeplus Proton to Timeplus Enterprise.
+In your Timeplus Enterprise, you can create the stream with the same name and same schema. Then use `INSERT INTO .. SELECT` to load all data from Timeplus Proton to Timeplus Enterprise.
+
+:::warning
+It's a known issue that you cannot create a materialized view with a Timeplus external stream as the target.
+:::
 
 ```sql
 CREATE STREAM streamA(..);
@@ -46,10 +50,9 @@ CREATE STREAM streamA(..);
 CREATE EXTERNAL STREAM streama_proton
 SETTINGS type='timeplus',hosts='host1',stream='streamA';
 
-CREATE MATERIALIZED VIEW proton_to_tp_enterprise INTO streamA
-AS SELECT * FROM streama_proton WHERE _tp_time>earliest_ts();
+INSERT INTO streamA
+SELECT * FROM streama_proton WHERE _tp_time>earliest_ts();
 ```
-When all data in Proton has been imported into Timeplus Enterprise, you can drop the materialized view.
 
 ### Upload data from edge server to the cloud
 If you deploy Timeplus Proton or Timeplus Enterprise at edge servers, it can collect and process live data with high performance and low footprint. The important data can be uploaded to the other Timeplus Enterprise in the cloud when the internet is available.
@@ -60,21 +63,14 @@ For example, on the edge server, you collect the real-time web access log and on
 CREATE EXTERNAL STREAM stream_in_cloud
 SETTINGS type='timeplus',hosts='cloud1',stream='..';
 
-CREATE MATERIALIZED VIEW edge_to_cloud INTO stream_in_cloud
-AS SELECT * FROM local_stream WHERE http_code>=400;
-```
-When the network is not available, you can pause the materialized view by:
-```sql
-SYSTEM PAUSE MATERIALIZED VIEW edge_to_cloud;
-```
-When the network is restored, you can resume it:
-```sql
-SYSTEM UNPAUSE MATERIALIZED VIEW edge_to_cloud;
+INSERT INTO stream_in_cloud
+SELECT * FROM local_stream WHERE http_code>=400;
 ```
 
 ## Limitations
 This is a relatively new feature. There are some known limitations which we plan to improve later on.
 
-* [table function](functions_for_streaming#table) is not supported. In order to query all or part of the historical data, you can start a streaming query with `WHERE _tp_time>earliest_ts()` or `WHERE _tp_time>now()-2d`.
-* [window functions](functions_for_streaming) like tumble/hop are not working yet.
+* Using Timeplus external stream as the target in a materialized view is not supported.
+* [window functions](/functions_for_streaming) like tumble/hop are not working yet.
 * can't read virtual columns on remote streams.
+* [table function](/functions_for_streaming#table) is not supported in timeplusd 2.3.21 or earlier version. This has been enhanced since timeplusd 2.3.22.

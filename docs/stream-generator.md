@@ -1,6 +1,6 @@
 # Configure the stream generator
 
-Please check Load [sample streaming data](ingestion#load-sample-streaming-data) for the overview of this data source.
+Please check Load [sample streaming data](/ingestion#streamgen) for the overview of this data source.
 
 ## Sample configuration
 

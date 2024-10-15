@@ -1,15 +1,15 @@
-# Ingest REST API
+# Proton Ingest REST API
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-You can run `INSERT INTO [stream](column1, column2) VALUES (..)` SQL to insert data to Proton. You can also call the ingestion REST API to push data to Proton, with any preferred languages. This may work better for integration Proton with other systems or live data source (such as IoT sensors).
+You can run `INSERT INTO [stream](/column1, column2) VALUES (..)` SQL to insert data to Timeplus Proton or timeplusd in Timeplus Enterprise. You can also call the ingestion REST API to push data to Timeplus Proton or timeplusd, with any preferred languages. Timeplus Enterprise also provides REST API in the application sever. Comparing to that [REST API](/ingest-api), the Proton/Timeplusd Ingest REST API performs better, but doesn't support API Key, or flexible payload schema.
 
 ## Prerequisites
 
 ### Expose port 3218 from Proton container
 
-The Proton ingest REST API is on port 3218 by default. Please start the proton container with the 3218 port exposed. For example:
+The Proton ingest REST API is on port 3218 by default. Please start the Proton container with the 3218 port exposed. For example:
 
 ```shell
 docker run -d -p 3218:3218 --pull always --name proton ghcr.io/timeplus-io/proton:latest
@@ -19,7 +19,7 @@ docker run -d -p 3218:3218 --pull always --name proton ghcr.io/timeplus-io/proto
 
 ### Create a stream in Proton
 
-You need to create a stream in Timeplus via [CREATE STREAM](proton-create-stream). Columns with proper names and types should be set.
+You need to create a stream in Timeplus via [CREATE STREAM](/proton-create-stream). Columns with proper names and types should be set.
 
 First run the SQL client
 
@@ -150,21 +150,6 @@ public class Example {
 
   </TabItem>
 </Tabs>
-The above method should work very well for most system integration. However, the column names will be repeatedly mentioned in the requested body.
-
-We also provide a more performant solution to only list the column names once.
-
-The request body is this format:
-
-```json
-{
-  "columns": [..],
-  "data": [
-    [..],
-    [..]
-  ]
-}
-```
 
 Note:
 

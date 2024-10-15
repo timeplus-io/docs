@@ -8,5 +8,8 @@ Hash functions can be used for the deterministic pseudo-random shuffling of elem
 
 ### md4
 
-`md4(string)` Calculates the MD4 from a string and returns the resulting set of bytes as `fixed_string(16)`. 
+`md4(string)` Calculates the MD4 from a string and returns the resulting set of bytes as `fixed_string(16)`.
 
+### weak_hash32
+
+`weak_hash32(data)` Calculates a `uint32` from any data type.

@@ -3,7 +3,7 @@
 
 
 Parts of the Timeplus product are powered by open source projects.
-* Core engine ([Proton](proton), Apache License 2.0) uses code from [ClickHouse](https://clickhouse.com) (Apache License 2.0) for SQL functions and the historical storage.
+* Core engine ([Proton](/proton), Apache License 2.0) uses code from [ClickHouse](https://clickhouse.com) (Apache License 2.0) for SQL functions and the historical storage.
 * Sources and sinks are powered by [Redpanda Connect](https://github.com/redpanda-data/connect) (Apache License 2.0) and [Benthos Framework](https://github.com/redpanda-data/benthos) (MIT License).
 * JavaScript UDF is powered by [V8](https://v8.dev/) (BSD License)
 * [Other third-party libraries](https://clickhouse.com/docs/en/development/contrib) introduced by [ClickHouse](https://clickhouse.com), which can be obtained by the following query:

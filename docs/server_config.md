@@ -6,9 +6,9 @@ When you run Timeplus Enterprise in a self-hosted environment, the default setti
 
 For single node deployments, when you launch the web console of Timeplus Enterprise for the first time, you will be prompted to create a new account with password.
 
-For multi-node clusters deployed via [Helm Chart](k8s-helm), please set the system account and user accounts in the values.yaml. The system account is created automatically for internal components to communicate to each other. The username is `proton`, with the password defaulting to `timeplusd@t+`.
+For multi-node clusters deployed via [Helm Chart](/k8s-helm), please set the system account and user accounts in the values.yaml. The system account is created automatically for internal components to communicate to each other. The username is `proton`, with the password defaulting to `timeplusd@t+`.
 
-To edit or add new users, you can use the [timeplus user](cli-user) CLI or container, which supports bare metal and Kubernetes, both single node and multi-node.
+To edit or add new users, you can use the [timeplus user](/cli-user) CLI or container, which supports bare metal and Kubernetes, both single node and multi-node.
 
 ## License Management{#license}
 

@@ -1,10 +1,10 @@
-# Joins
+# Multi-JOINs and ASOF JOINs
 
 JOIN is a key feature in Timeplus to combine data from different sources and freshness into a new stream. Please refer to https://en.wikipedia.org/wiki/Join_(SQL) for general introduction.
 
 ## Streaming and Dimension Table Join{#stream_table_join}
 
-In Timeplus, all data live in streams and the default query mode is streaming. Streaming mode focuses on the latest real-time tail data which is suitable for streaming processing. On the other hand, historical focuses on the old indexed data in the past and optimized for big batch processing like terabytes large scans. Streaming is the by default mode when a query is running against it. To query the historical data of a stream, [table()](functions_for_streaming#table) function can be used.
+In Timeplus, all data live in streams and the default query mode is streaming. Streaming mode focuses on the latest real-time tail data which is suitable for streaming processing. On the other hand, historical focuses on the old indexed data in the past and optimized for big batch processing like terabytes large scans. Streaming is the by default mode when a query is running against it. To query the historical data of a stream, [table()](/functions_for_streaming#table) function can be used.
 
 There are typical cases that an unbounded data stream needs enrichment by connecting to a relative static dimension table. Timeplus can do this in one single engine by storing streaming data and dimension tables in it via a streaming to dimension table join.
 
@@ -78,8 +78,8 @@ WHERE ..
 Timeplus supports 3 stream types:
 
 1. Append only stream (default)
-2. [Versioned Stream](versioned-stream) with primary key(s) and multiple versions
-3. [Changelog Stream](changelog-stream) with primary key(s) and CDC semantic (data can be removed, or updated with old&new value). You can also use the [changelog()](functions_for_streaming#changelog) function to convert an append-only stream to changelog stream.
+2. [Versioned Stream](/versioned-stream) with primary key(s) and multiple versions
+3. [Changelog Stream](/changelog-stream) with primary key(s) and CDC semantic (data can be removed, or updated with old&new value). You can also use the [changelog()](/functions_for_streaming#changelog) function to convert an append-only stream to changelog stream.
 
 ### 2 join types
 
@@ -140,7 +140,7 @@ ON left_append.k = right_append.kk
 
 #### range join append streams {#append-range}
 
-The above join may buffer too much data, range bidirectional join tries to mitigate this problem by bucketing the stream data in time ranges and try to join the data bidirectionally in appropriate range buckets. It requires a [date_diff_within](functions_for_streaming#date_diff_within) clause in the join condition and the general form of the syntax is like below.
+The above join may buffer too much data, range bidirectional join tries to mitigate this problem by bucketing the stream data in time ranges and try to join the data bidirectionally in appropriate range buckets. It requires a [date_diff_within](/functions_for_streaming#date_diff_within) clause in the join condition and the general form of the syntax is like below.
 
 ```sql
 SELECT * FROM left_stream JOIN right_stream
@@ -151,7 +151,7 @@ Actually we don’t even require a timestamp for the range, any integral columns
 
 #### version JOIN version{#version-inner-version}
 
-This is a unique feature in Timeplus. You can setup [Versioned Stream](versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted.
+This is a unique feature in Timeplus. You can setup [Versioned Stream](/versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted.
 
 Examples:
 
@@ -266,7 +266,7 @@ ON append.k = versioned_kv.k
 
 #### version LEFT JOIN version {#version-left-version}
 
-This feature is enabled in Proton 1.5.7. You can setup [Versioned Stream](versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted and can be materialized to a target system, such as ClickHouse.
+This feature is enabled in Proton 1.5.7. You can setup [Versioned Stream](/versioned-stream) with data in Kafka or other streaming sources. Assign primary key(s) and join multiple versioned stream, as if they are in OLTP. Whenever there are new updates to either side of the JOIN, new result will be emitted and can be materialized to a target system, such as ClickHouse.
 
 Examples:
 

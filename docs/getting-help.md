@@ -14,7 +14,7 @@ For self-hosted Timeplus Enterprise deployments, run `timeplus diag` from the `t
 
 ### Timeplus Cloud Status Page
 
-To monitor the service health status of [Timeplus Cloud](https://us.timeplus.cloud) and get updates for outage or maintenance, you can subscribe to the updates on https://timeplus.statuspage.io.
+To monitor the service health status of [Timeplus Cloud](https://us-west-2.timeplus.cloud) and get updates for outage or maintenance, you can subscribe to the updates on https://timeplus.statuspage.io.
 
 ## Community Support
 

@@ -30,7 +30,7 @@ DESCRIBE name
 
 :::info
 
-The data types in the output will be Proton data types, such as `uint8`, instead of ClickHouse type `UInt8`. Proton maintains a mapping for those types. [Learn more.](#datatype)
+The data types in the output will be Proton data types, such as `uint8`, instead of ClickHouse type `UInt8`. Proton maintains a mapping for those types. [Learn more.](/datatypes)
 
 :::
 

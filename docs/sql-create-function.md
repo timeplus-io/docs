@@ -1,7 +1,18 @@
 # CREATE FUNCTION
+At Timeplus, we leverage SQL to make powerful streaming analytics more accessible to a broad range of users. Without SQL, you have to learn and call low-level programming API, then compile/package/deploy them to get analytics results. This is a repetitive and tedious process, even for small changes.
 
-## CREATE FUNCTION
-You can create or replace a JavaScript UDF, by specifying the function name, input and output data types. Please check the mapping of data types for [input](js-udf#arguments) and [output](js-udf#returned-value).
+But some developers have concerns that complex logic or systems integration are hard to express using SQL.
+
+That's why we add User-Defined Functions (UDF) support in Timeplus. This enables users to leverage existing programming libraries, integrate with external systems, or just make SQL easier to maintain.
+
+Timeplus Proton and Timeplus Enterprise support [Local UDF in JavaScript](/js-udf). You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported.
+
+:::info
+In Timeplus Enterprise, the Python UDF will be ready soon.
+:::
+
+## CREATE OR REPLACE FUNCTION
+You can create or replace a JavaScript UDF, by specifying the function name, input and output data types. Please check the mapping of data types for [input](/js-udf#arguments) and [output](/js-udf#returned-value).
 
 The following example defines a new function `test_add_five_5`:
 
@@ -27,13 +38,15 @@ Note:
 * Line 8: return an array of new values
 * Line 10: close the code block.
 
+You can also add `EXECUTION_TIMEOUT <num>` to the end of the `CREATE FUNCTION` to customize the timeout for calling remote endpoints. By default the timeout is 10000 milliseconds (i.e. 10 seconds).
+
 :::info
 In Timeplus Enterprise, you can add debug information via `console.log(..)` in the JavaScript UDF. The logs will be available in the server log files.
 :::
 
 ## CREATE AGGREGATE FUNCTION
 
-Creating a user-defined-aggregation function (UDAF) requires a bit more effort. Please check [this documentation](js-udf#udaf) for the 3 required and 3 optional functions.
+Creating a user-defined-aggregation function (UDAF) requires a bit more effort. Please check [this documentation](/js-udf#udaf) for the 3 required and 3 optional functions.
 
 ```sql showLineNumbers
 CREATE AGGREGATE FUNCTION test_sec_large(value float32)

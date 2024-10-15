@@ -1,4 +1,4 @@
-# Read Avro Message in Kafka
+# Encode/Decode Avro Messages
 
 
 ### Example: Read Avro Encoded Data in Confluent Cloud {#read_avro_confluent_cloud}
@@ -67,8 +67,8 @@ CREATE EXTERNAL STREAM avro_stream(
 SETTINGS
   type = 'kafka',
   brokers = 'pkc-ab123.us-east-2.aws.confluent.cloud:9092',
-  security_protocol='SASL_SSL', 
-  username='$KEY', 
+  security_protocol='SASL_SSL',
+  username='$KEY',
   password='$SECRET',
   topic = '$TOPIC',
   data_format = 'Avro',
@@ -160,36 +160,15 @@ CREATE EXTERNAL STREAM transactions(
   id string,
   amount double
 )
-SETTINGS type='kafka', 
+SETTINGS type='kafka',
          brokers='name.a.aivencloud.com:28864',
          topic='transactions',
-         security_protocol='SASL_SSL', 
+         security_protocol='SASL_SSL',
          sasl_mechanism='SCRAM-SHA-256',
-         username='avnadmin', 
+         username='avnadmin',
          password='PASSWORD',
          ssl_ca_cert_file='/kafka.cert',
          data_format = 'Avro',
          kafka_schema_registry_url = 'https://name.a.aivencloud.com:28856',
          kafka_schema_registry_credentials = 'avnadmin:PASSWORD'
-```
-
-### Example: Read Avro Encoded Data in Upstash Kafka{#read_avro_upstash}
-
-Starting from Proton 1.5.3, schema registry with path is supported. This enables Proton users to load data from Upstash Serverless Kafka when schema registry is enabled.
-
-```sql
-CREATE EXTERNAL STREAM transactions(
-  id string,
-  amount double
-)
-SETTINGS type='kafka', 
-         brokers='abc-us1-kafka.upstash.io:9092',
-         topic='transactions',
-         security_protocol='SASL_SSL', 
-         sasl_mechanism='SCRAM-SHA-256',
-         username='USER', 
-         password='PWD',
-         data_format = 'Avro',
-         kafka_schema_registry_url = 'https://abc-us1-rest-kafka.upstash.io/schema-registry',
-         kafka_schema_registry_credentials = 'USER:PWD'
 ```

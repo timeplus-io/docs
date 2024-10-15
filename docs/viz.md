@@ -66,7 +66,7 @@ Similar to the Column chart, with data points shown as horizontal bars instead o
 
 ### Map chart
 
-Currently available on https://us.timeplus.cloud as a preview feature.
+Currently available on https://us-west-2.timeplus.cloud as a preview feature.
 
 * Data settings:
   * Set columns for longitude and latitude.
@@ -165,6 +165,6 @@ After you save the dashboard, in the dashboard view mode, you can change the val
 ## Integration with External BI
 You can use [JDBC](https://github.com/timeplus-io/proton-java-driver) or [ODBC](https://github.com/timeplus-io/proton-odbc) drivers of Timeplus to run queries and visualized the results in various BI tools, such as [Metabase](https://github.com/timeplus-io/metabase-proton-driver).
 
-We also released [a Grafana data source plugin](integration-grafana) to visualize streaming SQL without refreshing the dashboard.
+We also released [a Grafana data source plugin](/integration-grafana) to visualize streaming SQL without refreshing the dashboard.
 
 For highly customizable charts, you can also call Timeplus SDK to load the data and render the chart with 3rd party charting libraries.

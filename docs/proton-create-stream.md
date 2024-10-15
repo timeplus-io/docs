@@ -2,13 +2,13 @@
 
 :::info note for Timeplus Cloud users
 
-In Timeplus Cloud or Timeplus Enterprise deployments, we recommend you to create streams with GUI or [Terraform Provider](terraform), with better usability and more capabilities.
+In Timeplus Cloud or Timeplus Enterprise deployments, we recommend you to create streams with GUI or [Terraform Provider](/terraform), with better usability and more capabilities.
 
 :::
 
 ## CREATE STREAM
 
-[Stream](working-with-streams) is a key [concept](glossary) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Timeplus.
+[Stream](/working-with-streams) is a key [concept](/glossary) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Timeplus.
 
 ### Append-only Stream
 
@@ -35,24 +35,27 @@ If you omit the database name, `default` will be used. Stream name can be any ut
 
 #### Data types
 
-Proton supports the following column types
+Timeplus Proton supports the following column types:
 
 1. int8/16/32/64/128/256
 2. uint8/16/32/64/128/256
-3. boolean
+3. bool
 4. decimal(precision, scale) : valid range for precision is [1: 76], valid range for scale is [0: precision]
 5. float32/64
 6. date
-7. dateTime
-8. dateTime64(precision, [time_zone])
+7. datetime
+8. datetime64(precision, [time_zone])
 9. string
 10. fixed_string(N)
 11. array(T)
 12. uuid
+13. ipv4/ipv6
+
+For more details, please check [Data Types](/datatypes).
 
 #### Event Time
 
-In Timeplus, each stream with a `_tp_time` as [Event Time](eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using
+In Timeplus, each stream with a `_tp_time` as [Event Time](/eventtime). If you don't create the `_tp_time` column when you create the stream, the system will create such a column for you, with `now64()` as the default value. You can also choose a column as the event time, using
 
 ```sql
 SETTINGS event_time_column='my_datetime_col'
@@ -66,18 +69,21 @@ Proton supports retention policies to automatically remove out-of-date data from
 
 ##### For Historical Storage
 
-Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add ` TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
+Proton leverages ClickHouse TTL expression for the retention policy of historical data. When you create the stream, you can add `TTL to_datetime(_tp_time) + INTERVAL 12 HOUR` to remove older events based a specific datetime column and retention period.
 
 ##### For Streaming Storage
 
-Today it's not exposed in SQL to control the retention policies for streaming storage. In Timeplus Cloud, you can set them via
+You can set the retention policies for streaming storage when you create the stream or update the setting after creation.
 
-* logstore_retention_bytes
-* logstore_retention_ms
+```sql
+CREATE STREAM .. SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
+
+ALTER STREAM .. MODIFY SETTINGS logstore_retention_bytes=.., logstore_retention_ms=..;
+```
 
 ### Versioned Stream
 
-[Versioned Stream](versioned-stream) allows you to specify the primary key(s) and focus on the latest value. For example:
+[Versioned Stream](/versioned-stream) allows you to specify the primary key(s) and focus on the latest value. For example:
 
 ```sql
 CREATE STREAM versioned_kv(i int, k string, k1 string)
@@ -89,7 +95,7 @@ The default `version_column` is `_tp_time`. For the data with same primary key(s
 
 ### Changelog Stream
 
-[Changelog Stream](changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. For example:
+[Changelog Stream](/changelog-stream) allows you to specify the primary key(s) and track the add/delete/update of the data. For example:
 
 ```sql
 CREATE STREAM changelog_kv(i int, k string, k1 string)
@@ -112,12 +118,12 @@ CREATE RANDOM STREAM devices(
 
 The following functions are available to use:
 
-1. [rand](functions_for_random#rand) to generate a number in uint32
-2. [rand64](functions_for_random#rand64) to generate a number in uint64
-3. [random_printable_ascii](functions_for_random#random_printable_ascii) to generate printable characters
-4. [random_string](functions_for_random#random_string) to generate a string
-5. [random_fixed_string](functions_for_random#random_fixed_string) to generate string in fixed length
-7. [random_in_type](functions_for_random#random_in_type) to generate value with max value and custom logic
+1. [rand](/functions_for_random#rand) to generate a number in uint32
+2. [rand64](/functions_for_random#rand64) to generate a number in uint64
+3. [random_printable_ascii](/functions_for_random#random_printable_ascii) to generate printable characters
+4. [random_string](/functions_for_random#random_string) to generate a string
+5. [random_fixed_string](/functions_for_random#random_fixed_string) to generate string in fixed length
+7. [random_in_type](/functions_for_random#random_in_type) to generate value with max value and custom logic
 
 When you run a Timeplus SQL query with a random stream, the data will be generated and analyzed by the query engine. Depending on the query, all generated data or the aggregated states can be kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
 
@@ -143,4 +149,4 @@ New in Proton v1.4.2, you can set eps less than 1. Such as `eps=0.5` will genera
 
 ## CREATE EXTERNAL STREAM
 
-Please check [Read/Write Kafka with External Stream](proton-kafka).
+Please check [Read/Write Kafka with External Stream](/proton-kafka).

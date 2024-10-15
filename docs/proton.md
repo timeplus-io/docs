@@ -1,6 +1,6 @@
 # Timeplus Proton
 
-Timeplus Proton, the core engine of Timeplus Enterprise, is fast and lightweight alternative to ksqlDB or Apache Flink. It enables developers to solve streaming data processing, routing and analytics challenges from Apache Kafka, Redpanda and more sources, and send aggregated data to the downstream systems. Timeplus Proton is under active development under Apache 2.0 license and powers [Timeplus Enterprise](timeplus-enterprise).
+Timeplus Proton, the core engine of Timeplus Enterprise, is fast and lightweight alternative to ksqlDB or Apache Flink. It enables developers to solve streaming data processing, routing and analytics challenges from Apache Kafka, Redpanda and more sources, and send aggregated data to the downstream systems. Timeplus Proton is under active development under Apache 2.0 license and powers [Timeplus Enterprise](/timeplus-enterprise).
 
 ## 💪 Why use Timeplus Proton?
 
@@ -23,15 +23,21 @@ See our [architecture](https://docs.timeplus.com/proton-architecture) doc for te
 curl https://install.timeplus.com/oss | sh
 ```
 
-For more guidelines, please check the [installation guide](install#proton).
+For more guidelines, please check the [installation guide](/install#proton) for Docker or Homebrew.
 
 ### Timeplus Cloud
 
-One step to try Timeplus Proton in [Timeplus Cloud](https://us.timeplus.cloud/)
+Don't want to setup by yourself? Try Timeplus Proton in [Cloud](https://us-west-2.timeplus.cloud/).
 
 ### 🔎 Usage
 
-From `proton client`, run the following SQL to create a stream of random data:
+SQL is the main interface. You can start a new terminal window with `proton client` to start the SQL shell.
+
+:::info
+You can also integrate Timeplus Proton with Python/Java/Go SDK, REST API, or BI plugins. Please check [Integration](#integration).
+:::
+
+In the `proton client`, you can write SQL to create [External Stream for Kafka](/proton-kafka) or [External Table for ClickHouse](/proton-clickhouse-external-table). You can also run the following SQL to create a stream of random data:
 
 ```sql
 -- Create a stream with random data
@@ -61,9 +67,9 @@ You should see data like the following:
 
 To see more examples of using Timeplus Proton, check out the [examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder.
 
-To access more features, such as sources, sinks, dashboards, alerts, and data lineage, create a workspace on [Timeplus Cloud](https://us.timeplus.cloud) or try our [live demo](https://demo.timeplus.cloud) with pre-built live data and dashboards.
+To access more features, such as sources, sinks, dashboards, alerts, and data lineage, create a workspace on [Timeplus Cloud](https://us-west-2.timeplus.cloud) or try our [live demo](https://demo.timeplus.cloud) with pre-built live data and dashboards.
 
-## 🧩 Integration
+## 🧩 Integration {#integration}
 
 The following drivers are available:
 
@@ -74,6 +80,7 @@ The following drivers are available:
 Integration with other systems:
 
 - ClickHouse https://docs.timeplus.com/proton-clickhouse-external-table
+- [Sling](/sling)
 - Grafana https://github.com/timeplus-io/proton-grafana-source
 - Metabase https://github.com/timeplus-io/metabase-proton-driver
 - Pulse UI https://github.com/timeplus-io/pulseui/tree/proton

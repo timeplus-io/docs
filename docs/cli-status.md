@@ -28,8 +28,8 @@ The "status" can be either "running" or "stopped", by checking the pid (process 
 
 ## See Also
 
-[timeplus start](cli-start)
+[timeplus start](/cli-start)
 
-[timeplus stop](cli-stop)
+[timeplus stop](/cli-stop)
 
-[timeplus restart](cli-restart)
+[timeplus restart](/cli-restart)

@@ -1,6 +1,6 @@
 # CREATE FORMAT
 
-Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. This document covers how to process data without a Schema Registry. Check [this page](proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
+Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format. This document covers how to process data without a Schema Registry. Check [this page](/proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
 
 Without a Schema Registry, you need to define the Protobuf or Avro schema using SQL.
 
@@ -39,7 +39,7 @@ Please note:
 1. If you want to ensure there is only a single Protobuf message per Kafka message, please set `data_format` to `ProtobufSingle`. If you set it to `Protobuf`, then there could be multiple Protobuf messages in a single Kafka message.
 2. The `format_schema` setting contains two parts: the registered schema name (in this example: schema_name), and the message type (in this example: SearchRequest). Combining them together with a semicolon.
 3. You can use this external stream to read or write Protobuf messages in the target Kafka/Confluent topics.
-4. For more advanced use cases, please check the [examples for complex schema](#complex).
+4. For more advanced use cases, please check the [examples for complex schema](/proton-format-schema#protobuf_complex).
 
 ## Avro
 Available since Proton 1.5.10.
@@ -75,5 +75,5 @@ SETTINGS type='kafka',
 ```
 
 ## See also
-[SHOW FORMAT SCHEMA](sql-show-format-schema) - Show format schema
-[DROP FORMAT SCHEMA](sql-drop-format-schema) - Drop format schema
+[SHOW FORMAT SCHEMA](/sql-show-format-schemas) - Show format schema
+[DROP FORMAT SCHEMA](/sql-drop-format-schema) - Drop format schema

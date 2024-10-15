@@ -1,6 +1,6 @@
 # SQL Functions
 
-Timeplus supports ANSI-SQL standard syntax. The following functions are provided for various use cases. Most of the [functions in ClickHouse](https://clickhouse.com/docs/en/sql-reference/functions) are available in Timeplus, with different naming conventions (for example [array_join](functions_for_comp#array_join) instead of [arrayJoin](https://clickhouse.com/docs/en/sql-reference/functions/array-join)). [New functions are added](functions_for_streaming) for streaming processing. Please contact us if you need more functions.
+Timeplus supports ANSI-SQL standard syntax. The following functions are provided for various use cases. Most of the [functions in ClickHouse](https://clickhouse.com/docs/en/sql-reference/functions) are available in Timeplus, with different naming conventions (for example [array_join](/functions_for_comp#array_join) instead of [arrayJoin](https://clickhouse.com/docs/en/sql-reference/functions/array-join)). [New functions are added](/functions_for_streaming) for streaming processing. Please contact us if you need more functions.
 
 :::info
 
@@ -8,28 +8,28 @@ Please note, in Timeplus Proton 1.3.27 or the earlier versions, SQL functions we
 
 :::
 
-[Type Conversion](functions_for_type)
+[Type Conversion](/functions_for_type)
 
-[Arrays, Maps, Tuples](functions_for_comp)
+[Arrays, Maps, Tuples](/functions_for_comp)
 
-[Process Data and Time](functions_for_datetime)
+[Process Data and Time](/functions_for_datetime)
 
-[Process URL](functions_for_url)
+[Process URL](/functions_for_url)
 
-[Process JSON](functions_for_json)
+[Process JSON](/functions_for_json)
 
-[Process Text](functions_for_text)
+[Process Text](/functions_for_text)
 
-[Hash](functions_for_hash)
+[Hash](/functions_for_hash)
 
-[Aggregation](functions_for_agg)
+[Aggregation](/functions_for_agg)
 
-[Logic (if, multi_if)](functions_for_logic)
+[Logic (if, multi_if)](/functions_for_logic)
 
-[Math](functions_for_math)
+[Math](/functions_for_math)
 
-[Financial](functions_for_fin)
+[Financial](/functions_for_fin)
 
-[Geo Location](functions_for_geo)
+[Geo Location](/functions_for_geo)
 
-[Streaming Processing](functions_for_streaming)
+[Streaming Processing](/functions_for_streaming)

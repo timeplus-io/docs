@@ -4,7 +4,9 @@ This type of stream is only available in Timeplus Enterprise, with high performa
 
 As the name implies, the data in the stream is mutable. Value with the same primary key(s) will be overwritten.
 
-The primary use case of mutable streams is serving as the lookup/dimensional data in [Streaming JOIN](joins), supporting millions or even billions of unique keys. You can also use mutable streams as the "fact table" to efficiently do range queries or filtering for denormalized data model, a.k.a. OBT (One Big Table).
+The primary use case of mutable streams is serving as the lookup/dimensional data in [Streaming JOIN](/joins), supporting millions or even billions of unique keys. You can also use mutable streams as the "fact table" to efficiently do range queries or filtering for denormalized data model, a.k.a. OBT (One Big Table).
+
+Learn more about why we introduced Mutable Streams by checking [this blog](https://www.timeplus.com/post/introducing-mutable-streams).
 
 ## Syntax
 ```sql
@@ -23,7 +25,7 @@ SETTINGS
     shards=..
 ```
 
-[Learn more](sql-create-mutable-stream)
+[Learn more](/sql-create-mutable-stream)
 
 ## Example
 
@@ -39,11 +41,11 @@ CREATE MUTABLE STREAM device_metrics
   batch_id uint32,
   region string,
   city string,
-  lat float32 CODEC(Gorilla, LZ4HC(9)),
-  lon float32 CODEC(Gorilla, LZ4HC(9)),
-  battery float32 CODEC(Gorilla, LZ4HC(0)),
-  humidity uint16 CODEC(Delta(2), LZ4HC(0)),
-  temperature float32 CODEC(Delta(2), LZ4HC(0))
+  lat float32,
+  lon float32,
+  battery float32,
+  humidity uint16,
+  temperature float32
 )
 PRIMARY KEY (device_id, timestamp, batch_id)
 ```
@@ -55,7 +57,7 @@ Note:
 
 ### Load millions of rows
 
-You can use [CREATE RANDOM STREAM](sql-create-random-stream) and a Materialized View to generate data and send to the mutable stream. But since we are testing massive historical data with duplicated keys, we can also use `INSERT INTO .. SELECT` to load data.
+You can use [CREATE RANDOM STREAM](/sql-create-random-stream) and a Materialized View to generate data and send to the mutable stream. But since we are testing massive historical data with duplicated keys, we can also use `INSERT INTO .. SELECT` to load data.
 
 ```sql
 INSERT INTO device_metrics
@@ -121,6 +123,14 @@ Sample output:
 50 rows in set. Elapsed: 0.015 sec.
 ```
 
+You can also query the mutable stream in the streaming SQL.
+```sql
+SELECT .. FROM mutable_stream
+```
+This will query all existing data and accept new incoming data.
+
+Mutable stream can also be used in [JOINs](/joins).
+
 ## Advanced Settings
 ### Retention Policy for Streaming Storage
 Like normal streams in Timeplus, mutable streams use both streaming storage and historical storage. New data are added to the streaming storage first, then continuously write to the historical data with deduplication/merging process. When you create the mutable stream, you can configure the maximum size of the streaming storage or Time-To-Live (TTL).
@@ -138,7 +148,7 @@ SETTINGS
 ```
 
 ### Secondary Index {#index}
-No matter you choose a single column or multiple columns as the primary key(s), Timeplus will build an index for those columns. Queries with filtering on those columns will take advantage of the index to boost the performance, and minimize the data scanning.
+Regardless of whether you choose a single column or multiple columns as the primary key(s), Timeplus will build an index for those columns. Queries with filtering on these columns will leverage the index to boost performance and minimize data scanning.
 
 For other columns, if they are frequently filtered, you can also define secondary indexes for them.
 
@@ -164,7 +174,7 @@ For One-Big-Table(OBT) or extra wide table with dozens or even hundreds of colum
 
 More commonly, you need to query a subset of the columns in different use cases. For those columns which are commonly queried together, you can define column families to group them, so that data for those columns will be saved together in the same file. Properly defining column families can optimize the disk i/o and avoid reading unnecessary data files.
 
-Please note, one column can appear up to one column family. The columns as primary keys are in a special column family. There should be no overlapping for the column families or primary keys.
+Please note, one column can appear in up to one column family. The columns as primary keys are in a special column family. There should be no overlap for the column families or primary keys.
 
 Taking the previous `device_metrics` as an example, the `lat` and `lon` are commonly queried together. You can define a column family for them.
 
@@ -176,11 +186,11 @@ CREATE MUTABLE STREAM device_metrics
   batch_id uint32,
   region string,
   city string,
-  lat float32 CODEC(Gorilla, LZ4HC(9)),
-  lon float32 CODEC(Gorilla, LZ4HC(9)),
-  battery float32 CODEC(Gorilla, LZ4HC(0)),
-  humidity uint16 CODEC(Delta(2), LZ4HC(0)),
-  temperature float32 CODEC(Delta(2), LZ4HC(0)),
+  lat float32,
+  lon float32,
+  battery float32,
+  humidity uint16,
+  temperature float32,
   FAMILY cf1 (lat,lon)
 )
 PRIMARY KEY (device_id, timestamp, batch_id)
@@ -196,11 +206,11 @@ CREATE MUTABLE STREAM device_metrics
   batch_id uint32,
   region string,
   city string,
-  lat float32 CODEC(Gorilla, LZ4HC(9)),
-  lon float32 CODEC(Gorilla, LZ4HC(9)),
-  battery float32 CODEC(Gorilla, LZ4HC(0)),
-  humidity uint16 CODEC(Delta(2), LZ4HC(0)),
-  temperature float32 CODEC(Delta(2), LZ4HC(0))
+  lat float32,
+  lon float32,
+  battery float32,
+  humidity uint16,
+  temperature float32
 )
 PRIMARY KEY (device_id, timestamp, batch_id)
 SETTINGS shards=3

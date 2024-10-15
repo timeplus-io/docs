@@ -1,4 +1,4 @@
-# Real-time Insights for GitHub
+# Query Kafka with SQL (GitHub live data)
 
 In this tutorial, you will process real-time data from GitHub. We have setup a public accessible Kafka cluster for you to consume data from Kafka topic. If you are on Timeplus Cloud, you can also build real-time dashboards and alerts.
 
@@ -10,7 +10,7 @@ You can write a script to call [GitHub Events API](https://docs.github.com/en/re
 
 Here is a [sample Python script](https://github.com/timeplus-io/github_liveview/blob/develop/github_demo.py) for your reference. But we have made the live data accessible via Kafka API.
 
-In Timeplus, you read data from Kafka via an [External Stream](external-stream). Here is the SQL to create such an external stream to read from our Kafka clusters on Aiven:
+In Timeplus, you read data from Kafka via an [External Stream](/external-stream). Here is the SQL to create such an external stream to read from our Kafka clusters on Aiven:
 
 ```sql
 CREATE EXTERNAL STREAM github_events
@@ -22,14 +22,14 @@ CREATE EXTERNAL STREAM github_events
   repo string,
   type string
 )
-SETTINGS type = 'kafka', 
-         brokers = 'kafka-public-read-timeplus.a.aivencloud.com:28864', 
-         topic = 'github_events', 
+SETTINGS type = 'kafka',
+         brokers = 'kafka-public-read-timeplus.a.aivencloud.com:28864',
+         topic = 'github_events',
          data_format='JSONEachRow',
-         sasl_mechanism = 'SCRAM-SHA-256', 
-         username = 'readonly', 
-         password = 'AVNS_MUaDRshCpeePa93AQy_', 
-         security_protocol = 'SASL_SSL', 
+         sasl_mechanism = 'SCRAM-SHA-256',
+         username = 'readonly',
+         password = 'AVNS_MUaDRshCpeePa93AQy_',
+         security_protocol = 'SASL_SSL',
          skip_ssl_cert_check=true
 COMMENT 'an external stream to read GitHub events in JSON format from Aiven for Apache Kafka'
 ```
@@ -56,7 +56,7 @@ Add some condition in the WHERE clause to apply streaming filters, e.g.
 SELECT * FROM github_events WHERE type='WatchEvent'
 ```
 
-### Aggregation 
+### Aggregation
 
 #### Global Aggregation
 
@@ -66,13 +66,13 @@ SELECT count(*) FROM github_events
 
 This will show how many new events received, since the query is started. So you may see a number like 158, then a couple seconds later, 334.
 
-This is so-called [Global Aggregation](query-syntax#global).
+This is so-called [Global Aggregation](/query-syntax#global).
 
 #### Tumble Aggregation
 
 ```sql
-SELECT window_start, repo, count(*) 
-FROM tumble(github_events,30s) 
+SELECT window_start, repo, count(*)
+FROM tumble(github_events,30s)
 GROUP BY window_start, repo
 ```
 
@@ -83,8 +83,8 @@ Please note, this query will wait for up to 30s to show the first results. Becau
 #### Hopping Aggregation
 
 ```sql
-SELECT window_start, repo, count(*) 
-FROM hop(github_events,1s,30s) 
+SELECT window_start, repo, count(*)
+FROM hop(github_events,1s,30s)
 GROUP BY window_start, repo
 ```
 
@@ -95,14 +95,14 @@ This query counts events by repo every 30 seconds and update results every secon
 By default, streaming SQL in Timeplus will look for future events, not existing events. For externals streams, you can use `SETTINGS seek_to='..'` to go back to a past timestamp or offset in the Kafka topic. For example, if you want to get total number of events since April 1, you can run:
 
 ```sql
-SELECT count(*) FROM github_events 
+SELECT count(*) FROM github_events
 SETTINGS seek_to='2024-04-01'
 ```
 
 If you want to get data 6 hours ago:
 
 ```sql
-SELECT count(*) FROM github_events 
+SELECT count(*) FROM github_events
 SETTINGS seek_to='-6h'
 ```
 

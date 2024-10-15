@@ -1,8 +1,8 @@
 # Push data to Timeplus via Kafka Connect
 
-Kafka Connect is a framework for connecting Kafka with external systems such as databases, key-value stores, search indexes, and file systems, using so-called *Connectors*. 
+Kafka Connect is a framework for connecting Kafka with external systems such as databases, key-value stores, search indexes, and file systems, using so-called *Connectors*.
 
-Kafka Connectors are ready-to-use components, which can help data teams to import data from external systems into Kafka topics and export data from Kafka topics into external systems. 
+Kafka Connectors are ready-to-use components, which can help data teams to import data from external systems into Kafka topics and export data from Kafka topics into external systems.
 
 A Kafka Connect plugin for Timeplus is provided to continuously send data from Kafka topics to Timeplus Cloud or self-managed Timeplus deployment, no matter if you run Kafka in the cloud or on-prem.
 
@@ -29,7 +29,7 @@ name: TimeplusSink
 connector.class: com.timeplus.kafkaconnect.TimeplusSinkConnector
 tasks.max: 1
 topics: my_topic
-timeplus.sink.address: https://us.timeplus.cloud
+timeplus.sink.address: https://us-west-2.timeplus.cloud
 timeplus.sink.workspace: abc123
 timeplus.sink.apikey: 60_char_API_Key
 timeplus.sink.stream: data_from_kafka
@@ -75,7 +75,7 @@ value.converter: org.apache.kafka.connect.storage.StringConverter
           "key.converter": "org.apache.kafka.connect.storage.StringConverter",
           "value.converter": "org.apache.kafka.connect.storage.StringConverter",
           "topics": "my_topic",
-          "timeplus.sink.address": "https://us.timeplus.cloud",
+          "timeplus.sink.address": "https://us-west-2.timeplus.cloud",
           "timeplus.sink.workspace": "abc123",
           "timeplus.sink.apikey": "60_char_API_Key",
           "timeplus.sink.createStream": "false",

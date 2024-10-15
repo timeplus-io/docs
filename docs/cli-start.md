@@ -32,8 +32,8 @@ service timeplusd started
 If you are using macOS and fail to start Timeplus Enterprise, please check the "Privacy & Security" settings and see whether there is any warning for "timeplusd". If so, choose "Allow Anyway" to trust timeplusd and start Timeplus Enterprise again.
 
 ## See Also
-[timeplus stop](cli-stop)
+[timeplus stop](/cli-stop)
 
-[timeplus restart](cli-restart)
+[timeplus restart](/cli-restart)
 
-[timeplus status](cli-status)
+[timeplus status](/cli-status)

@@ -3,7 +3,7 @@
 When you create a stream with the mode `versioned_kv`, the data in the stream is no longer append-only. When you query the stream with `table` function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
 
 :::warning
-For Timeplus Enterprise customers, we recommend to use [Mutable Streams](mutable-stream) with the enhanced performance for UPSERT and queries. The versioned streams are not supported in Timeplus Enterprise, and will be removed in Timeplus Proton.
+For Timeplus Enterprise customers, we recommend to use [Mutable Streams](/mutable-stream) with the enhanced performance for UPSERT and queries. The versioned streams are not supported in Timeplus Enterprise, and will be removed in Timeplus Proton.
 :::
 
 A HOWTO video:
@@ -72,7 +72,7 @@ You can also query the stream in the table mode, i.e. `select * from table(dim_p
 
 ## Use Versioned Stream in INNER JOIN
 
-In the above example, you always get the latest version of the event with the same primary key. This works in the similar way as [Changelog Stream](changelog-stream). The reason why this stream mode is called Versioned Stream is that multiple versions will be tracked by Timeplus. This is mainly used when the Versioned Stream acts as the "right-table" for the JOIN.
+In the above example, you always get the latest version of the event with the same primary key. This works in the similar way as [Changelog Stream](/changelog-stream). The reason why this stream mode is called Versioned Stream is that multiple versions will be tracked by Timeplus. This is mainly used when the Versioned Stream acts as the "right-table" for the JOIN.
 
 Imagine you have the other versioned stream for the `orders`:
 
