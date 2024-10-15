@@ -1,4 +1,4 @@
-# Mutable Stream
+# 可变流
 
 This type of stream is only available in Timeplus Enterprise, with high performance query and UPSERT (UPDATE or INSERT).
 
@@ -145,7 +145,7 @@ This will query all existing data and accept new incoming data.
 
 Mutable stream can also be used in [JOINs](/joins).
 
-## Advanced Settings
+## 高级设置
 
 ### Retention Policy for Streaming Storage
 
