@@ -12,13 +12,13 @@ Timeplus 支持多种类型的流：
 4. You can also define [External Streams](/external-stream) to run SQL against remote Kafka/Redpanda brokers, or the other Timeplus/Proton server.
 
 ## 创建一个流
-You can create a stream via the Timeplus Console UI, or via [SQL](/sql-create-stream). When you [ingest data](/ingestion) into Timeplus from Kafka or file sources, streams can be created automatically to match the schema of the data.
+You can create a stream via the Timeplus Console UI, or via [SQL](/sql-create-stream). 当您从 Kafka 或文件来源 [摄取数据](/ingestion) 到 Timeplus 中，可以自动创建数据流以匹配数据模式。
 
 ## 查询流
 
 默认情况下，查询流将持续扫描新事件和输出新结果。 除非用户取消查询，否则它永远不会结束。 例如， 您可以从 HTTP 500 错误获取最新的网页日志，或从 IoT 设备获取每分钟的最大/最大/平均公尺。 Please read [Streaming Queries](/stream-query) for more details.
 
-If you only want to analyze the existing data and need an immediate response, you can run [Non-streaming Queries](/history) via the [table](/functions_for_streaming#table) function. 这将在边界模式下转向查询，只扫描现有数据。 例如，您可以运行 `select count(*) from table(stream1)` 中以获取数据流中的行数。
+如果您只想分析现有数据并需要立即响应， 您可以通过 [表](/functions_for_streaming#table) 函数运行 [非流式查询](/history)。 这将在边界模式下转向查询，只扫描现有数据。 例如，您可以运行 `select count(*) from table(stream1)` 中以获取数据流中的行数。
 
 
 
