@@ -1,6 +1,6 @@
 # Timeplus Cloud Public Beta 2
 
-我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 Compared to our [Public Beta 1](/public-beta-1), most of the backend and frontend changes are incremental enhancements, except the entry point is changed from https://beta.timeplus.cloud to https://us.timeplus.cloud
+我们很高兴地启动Timeplus Cloud公开测试版的第二阶段。 相比 [公开测试版1](/public-beta-1)，除了入口点从 https://beta.timeplus.cloud 更改为 https://us.timeplus.cloud 以外，大多数后端和前端更改都是递增式的。
 
 我们将不定期地更新测试版，并在此页面列出关键的增强功能。
 
@@ -22,7 +22,7 @@
 
 - 极大地提高了源和下游的性能。
 - `JOIN`的改进：
-  - Previously, if you run `JOIN` for a normal stream (append-only) with a [Versioned Stream](/versioned-stream), all primary key columns of the Versioned Stream need to be in the `ON` clause. 现在，只要选择了所有主键列，就可以在 `ON` 子句中使用一个或多个主键列。
+  - 以前，如果你对带有 [多版本流](/versioned-stream) 的普通流（仅附加）运行 `JOIN`，那么多版本流的所有主键列都需要在 `ON` 子句中。 现在，只要选择了所有主键列，就可以在 `ON` 子句中使用一个或多个主键列。
   - (Experimental) We also added support for [Changelog Stream](/changelog-stream) `JOIN` [Changelog Stream](/changelog-stream), or [Changelog Stream](/changelog-stream) `JOIN` [Versioned Stream](/versioned-stream).
 
 ## 2023年7月10日
@@ -141,7 +141,7 @@
 - 在查询历史记录页面中，SQL 列变得更宽了，方便您查看更多内容。
 - 在查询编辑器页面中，函数描述被添加到自动提示框中。
 - 我们通过允许您打开新的浏览器选项卡，使您在 Timeplus 中进行多任务处理变得更加容易。 例如，当您在 **Query** 页面中编写 SQL 并需要创建新视图时，可以在左侧导航菜单中右键单击 **Views** 并打开一个浏览器窗口。
-- We refined the documentation of [Ingest API](/ingest-api) and added code examples for Node/curl/Python/Java. [A new quickstart](/quickstart-ingest-api) for the Ingest API is added too.
+- 我们完善了 [Ingest API](/ingest-api) 的文档，并添加了 Node/curl/Python/Java 的代码示例。 [A new quickstart](/quickstart-ingest-api) for the Ingest API is added too.
 
 ## 2023年4月3日
 
@@ -202,7 +202,7 @@
 
 - 增强功能
   - 增强并优化每种图表类型的各种功能。 [Learn more.](/viz#chart)
-  - Able to run `table()` function for a view with streaming sql, e.g. `with c as(select col1,col2 from a_stream where b>0) select * from table(c)` Please note the streaming SQL in the view cannot contain any aggregation. 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
+  - 能够对使用流式 sql 的视图运行 `table ()` 函数，例如 `将 c 设置为（从 a_stream 中选择 col1，col2 其中 b>0）从表 (c) 中选择 *` 请注意，视图中的流 SQL 不能包含任何聚合。 例如，您可以将原始 JSON 流的字段提取定义为视图，然后在流式传输模式或历史模式下查询视图。
   - 引入一个新函数 `earliest_timestamp()` 来返回 `1970-1-1 00:00:00`(UTC) 你也可以用 `earliest_ts ()`来调用这个函数。 典型用法是从 stream 中 `select * from stream where _tp_time>earliest_ts()` 列出过去和将来的所有数据。 再说一遍，先前的语法 `settings seek_to='earliest'` 已被废弃，不久将被删除。
   - 你也可以在一个包括JOIN/UNION多个流的SQL中多次使用 `where _tp_time >..` 为不同的流穿越到不同的起点。
   - 为了提高可读性，你可以使用带下划线的数字文字，例如. `select * from iot where age_second > 86_400`。 数字文字中的下划线 `_` 会被忽略。
@@ -251,4 +251,4 @@
 - 更多图表类型和选项。 您可以选择折线图、面积图、柱形图、条形图、单值图和图表作为可视化类型。 每个图表都支持基本设置和高级设置。
 - 添加了一种内置的针对`json`优化的数据类型，与将 JSON 另存为 `string` 并在查询时动态提取相比，查询性能更好。 适合于同一结构的 JSON 文档。 通过 `column.jsonpath` 访问该值（而不是用文本列的方式 `column:jsonpath` ）
 - 我们开始弃用 `settings seek_to=..` 仍然支持时空旅行，你只需要在 WHERE 条件下使用 `_tp_time` 列，例如 `WHERE _tp_time>=now () -1h` 即可在 1 小时前进行时空旅行并显示此后的数据。 或者 `WHERE _tp_time >= '2023-01-14'` Timeplus 中的所有数据流都包含 `_tp_time` 作为事件时间。
-- (Experimental) In addition to the [Remote UDF](/remote-udf), now you can define new functions with JavaScript. 支持标量函数和聚合函数。 Please check the [JS UDF](/js-udf) documentation for details and contact us if you want to try this.
+- （实验性）除了 [Remote UDF](/remote-udf)之外，现在你还可以使用 JavaScript 来定义新函数。 支持标量函数和聚合函数。 请查看 [JS UDF](/js-udf) 文档了解详细信息，如果您想尝试此操作，请联系我们。
