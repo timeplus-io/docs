@@ -11,19 +11,19 @@
     "@algolia/autocomplete-shared" "1.9.3"
 
 "@algolia/autocomplete-core@^1.17.5":
-  version "1.17.5"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.17.5.tgz#97adb738647bd0b592e51e5ef1dd4075130c1505"
-  integrity sha512-1znvddkp6Ie/yGgkAU3YFdnWiOu0iWw108yJbgIYHG354+dRowCMwvBIdQg6N1UmCkSectPWDx9GMRpsg1+4Eg==
+  version "1.17.6"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.17.6.tgz#63f4c2f21a215cb9968611f51a82d6017cd690df"
+  integrity sha512-lkDoW4I7h2kKlIgf3pUt1LqvxyYKkVyiypoGLlUnhPSnCpmeOwudM6rNq6YYsCmdQtnDQoW5lUNNuj6ASg3qeg==
   dependencies:
-    "@algolia/autocomplete-plugin-algolia-insights" "1.17.5"
-    "@algolia/autocomplete-shared" "1.17.5"
+    "@algolia/autocomplete-plugin-algolia-insights" "1.17.6"
+    "@algolia/autocomplete-shared" "1.17.6"
 
-"@algolia/autocomplete-plugin-algolia-insights@1.17.5":
-  version "1.17.5"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.17.5.tgz#704366845baf15198591c48af9c38af991aeaf92"
-  integrity sha512-LHMH9JaWyEeMq+NFX3YPXmUqrkJrKu1esJ9uwDvdyG54HZMLgBS57a0my3iy98iTDUsMoBJ7nTcArYxQLRgNOw==
+"@algolia/autocomplete-plugin-algolia-insights@1.17.6":
+  version "1.17.6"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.17.6.tgz#ff760852769e9f27a70f48f2c4e111fc93fd64e5"
+  integrity sha512-17NnaacuFzSWVuZu4NKzVeaFIe9Abpw8w+/gjc7xhZFtqj+GadufzodIdchwiB2eM2cDdiR3icW7gbNTB3K2YA==
   dependencies:
-    "@algolia/autocomplete-shared" "1.17.5"
+    "@algolia/autocomplete-shared" "1.17.6"
 
 "@algolia/autocomplete-plugin-algolia-insights@1.9.3":
   version "1.9.3"
@@ -39,10 +39,10 @@
   dependencies:
     "@algolia/autocomplete-shared" "1.9.3"
 
-"@algolia/autocomplete-shared@1.17.5":
-  version "1.17.5"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.17.5.tgz#2e76ab31b9eb071810ccad043222138a0b267aaa"
-  integrity sha512-+n2vj1NgUje8CTvRCMaJXva0/dISeJAhHFOnj1IAKIktjkzCcxE5TIWa5Wy07FW05qkXkriXvf8tAEG6Zc7wsA==
+"@algolia/autocomplete-shared@1.17.6":
+  version "1.17.6"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.17.6.tgz#ad951632b6d477d4ba9a68a347e1702d26009d58"
+  integrity sha512-aq/3V9E00Tw2GC/PqgyPGXtqJUlVc17v4cn1EUhSc+O/4zd04Uwb3UmPm8KDaYQQOrkt1lwvCj2vG2wRE5IKhw==
 
 "@algolia/autocomplete-shared@1.9.3":
   version "1.9.3"
