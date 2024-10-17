@@ -27,7 +27,7 @@ For more guidelines, please check the [installation guide](/install#proton) for 
 
 ### Timeplus Cloud
 
-Don't want to setup by yourself? Try Timeplus Proton in [Cloud](https://us-west-2.timeplus.cloud/).
+Don't want to setup by yourself? Try Timeplus in [Cloud](https://us-west-2.timeplus.cloud/).
 
 ### 🔎 Usage
 
@@ -37,19 +37,19 @@ SQL is the main interface. You can start a new terminal window with `proton clie
 You can also integrate Timeplus Proton with Python/Java/Go SDK, REST API, or BI plugins. Please check [Integration](#integration).
 :::
 
-In the `proton client`, you can write SQL to create [External Stream for Kafka](/proton-kafka) or [External Table for ClickHouse](/proton-clickhouse-external-table). You can also run the following SQL to create a stream of random data:
+In the `proton client`, you can write SQL to create [External Stream for Kafka](/proton-kafka) or [External Table for ClickHouse](/proton-clickhouse-external-table).
+
+You can also run the following SQL to create a stream of random data:
 
 ```sql
 -- Create a stream with random data
 CREATE RANDOM STREAM devices(
   device string default 'device'||to_string(rand()%4),
-  temperature float default rand()%1000/10)
-```
+  temperature float default rand()%1000/10);
 
-```sql
 -- Run the streaming SQL
 SELECT device, count(*), min(temperature), max(temperature)
-FROM devices GROUP BY device
+FROM devices GROUP BY device;
 ```
 
 You should see data like the following:
@@ -80,6 +80,7 @@ The following drivers are available:
 Integration with other systems:
 
 - ClickHouse https://docs.timeplus.com/proton-clickhouse-external-table
+- [Docker and Testcontainers](/tutorial-testcontainers-java)
 - [Sling](/sling)
 - Grafana https://github.com/timeplus-io/proton-grafana-source
 - Metabase https://github.com/timeplus-io/metabase-proton-driver
