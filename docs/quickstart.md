@@ -92,9 +92,24 @@ data source to generate streaming data for some common use cases.
    ![Run Query in Query page](/img/run-query.png)
 
 The streaming results table will now appear below the editor. To create charts, click on the **Visualization** tab.
-[Learn more about Dashboards and Charts]
+[Learn more about Dashboards and Charts](/viz)
 
 ![Example of visualization for sample dataset](/img/viz-sample-iot.png)
+
+### Step 4: Send data out {#step4}
+To send data to Kafka, ClickHouse or other systems, you can submit a streaming SQL in SQL Console, and click the "Save As" button and choose "Sink".
+
+![Send data out](/img/sink.png)
+
+Timeplus supports various systems as the downstreams:
+* [Send data to Kafka topics](/destination#kafka)
+* [Send data to Pulsar topics](/pulsar-external-stream#write-data-to-pulsar)
+* [Send data to ClickHouse tables](/proton-clickhouse-external-table#write)
+* [Send data to another Timeplus deployment](/timeplus-external-stream)
+* [Send data to Webhook endpoints](/destination#webhook)
+* [Notify others via Slack](/destination#slack)
+* [Send data to other systems via Redpanada Connect](/destination#rpconnect)
+
 
 ## Quickstart for Timeplus Cloud
 
@@ -125,4 +140,4 @@ Please refer to [Step 3](#step3) of the previous section.
 - [Ingest](/ingestion) additional data streams
 - Write [streaming queries](/query-syntax)
 - Create additional charts from streaming data with [visualizations](/viz) and dashboards
-- Send the results of your queries to a [sink](/destination)
+- Send the results of your queries to a [downstream](/destination)

@@ -239,6 +239,13 @@ const sidebars = {
         {
           type: "category",
           label: "SQL Commands",
+          link: {
+            type: "generated-index",
+            title: "SQL Commands",
+            description: "Overview of the SQL commands supported by Timeplus.",
+            slug: "/category/commands",
+            keywords: ["guides"],
+          },
           items: [
             {
               label: "SELECT",
@@ -420,7 +427,7 @@ const sidebars = {
           type: "link",
           href: "https://www.timeplus.com/post/meltano-timeplus-target",
         },
-        "datapm",
+        /*"datapm",*/
         {
           label: "Timeplus Terraform Provider",
           type: "link",
