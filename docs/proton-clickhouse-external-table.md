@@ -1,12 +1,12 @@
 # ClickHouse External Table
 
-Since Proton v1.4.2, it added the support to read or write ClickHouse tables. This unlocks a set of new use cases, such as
+Since Timeplus Proton v1.4.2, it added the support to read or write ClickHouse tables. This unlocks a set of new use cases, such as
 
-- Use Proton to efficiently process real-time data in Kafka/Redpanda, apply flat transformation or stateful aggregation, then write the data to the local or remote ClickHouse for further analysis or visualization.
+- Use Timeplus to efficiently process real-time data in Kafka/Redpanda, apply flat transformation or stateful aggregation, then write the data to the local or remote ClickHouse for further analysis or visualization.
 - Enrich the live data with the static or slow-changing data in ClickHouse. Apply streaming JOIN.
-- Use Proton to query historical or recent data in ClickHouse
+- Use Timeplus to query historical or recent data in ClickHouse
 
-This integration is done by introducing a new concept in Proton: "External Table". Similar to [External Stream](/external-stream), there is no data persisted in Proton. However, since the data in ClickHouse is in the form of table, not data stream, so we call this as External Table. In the roadmap, we will support more integration by introducing other types of External Table.
+This integration is done by introducing a new concept in Timeplus: "External Table". Similar to [External Stream](/external-stream), there is no data persisted in Timeplus. However, since the data in ClickHouse is in the form of table, not data stream, so we call this as External Table. In the roadmap, we will support more integration by introducing other types of External Table.
 
 ## Demo Video {#demo}
 
@@ -47,7 +47,7 @@ DESCRIBE name
 
 :::info
 
-The data types in the output will be Proton data types, such as `uint8`, instead of ClickHouse type `UInt8`. Proton maintains a mapping for those types. [Learn more.](#datatype)
+The data types in the output will be Timeplus data types, such as `uint8`, instead of ClickHouse type `UInt8`. Timeplus maintains a mapping for those types. [Learn more.](#datatype)
 
 :::
 
@@ -94,23 +94,23 @@ SETTINGS type='clickhouse',
 
 ## Read data from ClickHouse {#read}
 
-Once the external table is created successfully, it means Proton can connect to the ClickHouse server and fetch the table schema.
+Once the external table is created successfully, it means Timeplus can connect to the ClickHouse server and fetch the table schema.
 
 You can query it via the regular `select .. from table_name`.
 
 :::warning
 
-Please note, in the current implementation, all rows will be fetched from ClickHouse to Proton, with the selected columns. Then Proton applies the SQL functions and `LIMIT n` locally. It's not recommended to run `SELECT *` for a large ClickHouse table.
+Please note, in the current implementation, all rows will be fetched from ClickHouse to Timeplus, with the selected columns. Then Timeplus applies the SQL functions and `LIMIT n` locally. It's not recommended to run `SELECT *` for a large ClickHouse table.
 
-Also note, use the Proton function names when you query the external table, such as [to_int](/functions_for_type#to_int), instead of ClickHouse's naming convention, e.g. [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256). In current implementation, the SQL functions are applied in Proton engine. We plan to support some function push-down to ClickHouse in future versions.
+Also note, use the Timeplus function names when you query the external table, such as [to_int](/functions_for_type#to_int), instead of ClickHouse's naming convention, e.g. [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256). In current implementation, the SQL functions are applied in Timeplus engine. We plan to support some function push-down to ClickHouse in future versions.
 
 :::
 
 Limitations:
 
 1. tumble/hop/session/table functions are not supported for External Table (coming soon)
-2. scalar or aggregation functions are performed by Proton, not the remote ClickHouse
-3. `LIMIT n` is performed by Proton, not the remote ClickHouse
+2. scalar or aggregation functions are performed by Timeplus, not the remote ClickHouse
+3. `LIMIT n` is performed by Timeplus, not the remote ClickHouse
 
 ## Write data to ClickHouse {#write}
 
@@ -130,4 +130,4 @@ CREATE MATERIALIZED VIEW mv INTO ch_table AS
 
 ## Supported data types {#datatype}
 
-All ClickHouse data types are supported in the external table. While reading or writing data, Proton applies a data type mapping, such as converting Proton's `uint8` to ClickHouse's `UInt8`. If you find anything wrong with the data type, please let us know.
+All ClickHouse data types are supported in the external table, except `Point`. While reading or writing data, Timeplus applies a data type mapping, such as converting Timeplus' `uint8` to ClickHouse's `UInt8`. If you find anything wrong with the data type, please let us know.
