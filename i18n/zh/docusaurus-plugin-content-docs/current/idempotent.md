@@ -41,6 +41,8 @@ You will get 2.
 
 If you remove `SETTINGS idempotent_id = 'batch1'` and run the SQL again, duplicated data will be inserted.
 
+If you push data to Timeplus via [the low level Ingest REAT API](/proton-ingest-api), you can also set `x-timeplus-idempotent-id` in the HTTP header.
+
 ## Streaming SQL with enable_idempotent_processing
 
 When you insert data with `idempotent_id`, querying the stream with `table` function will retrieve the historical data of the stream, without duplication. However if you run:
@@ -56,3 +58,7 @@ SELECT count() FROM test_stream SETTINGS enable_idempotent_processing=true;
 ```
 
 With this setting, your Streaming SQL will only emit results when it accepts new data.
+
+## max_idempotent_ids
+
+Timeplus keeps a set of idempotent IDs in the memory and on the disk. By default the maxixum number of idempotent IDs is 1000 (per stream). As an advanced setting, before you start the server for the first time, you can set `max_idempotent_ids` to a different value in the `/server/config.yaml` then start the server. Each node in the cluster should set the same value of `max_idempotent_ids`.
