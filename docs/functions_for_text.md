@@ -168,3 +168,9 @@ For example `base58_encode('hello')` returns `Cn8eVZg`
 `base58_decode(string)` Decode a [base58](https://tools.ietf.org/id/draft-msporny-base58-01.html) string to a string.
 
 For example `base58_decode('Cn8eVZg')` returns `hello`
+
+### format_readable_quantity
+`format_readable_quantity(number)` Returns a rounded number with suffix (thousand, million, billion, etc.) as string. For example, `format_readable_quantity(10036)` returns "10.04 thousand".
+
+### format_readable_size
+`format_readable_size(number)` Returns a rounded number with suffix (KiB, GiB, etc.) as string. For example, `format_readable_size(10036)` returns "9.80 KiB".
