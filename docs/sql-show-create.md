@@ -4,7 +4,10 @@
 ```sql
 SHOW CREATE stream_name
 ```
-
+or
+```sql
+SHOW CREATE STREAM stream_name
+```
 ## Show Details For A Schema
 
 ```sql
