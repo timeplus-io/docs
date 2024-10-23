@@ -15,14 +15,14 @@ This library is available on maven central repository:
 <dependency>
     <groupId>com.timeplus</groupId>
     <artifactId>timeplus-native-jdbc</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.5</version>
 </dependency>
 ```
 
 ### Gradle {#gradle_native}
 ```groovy
 dependencies {
-    implementation 'com.timeplus:timeplus-native-jdbc:2.0.1'
+    implementation 'com.timeplus:timeplus-native-jdbc:2.0.5'
 }
 ```
 
