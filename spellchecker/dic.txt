@@ -202,6 +202,7 @@ Downsample
 downsample
 downsampled
 downsampling
+downstreams
 Drata
 dropdown
 dropdowns
@@ -370,6 +371,7 @@ kafka-connect-timeplus
 kcat
 keep-alives
 Keycloak
+KiB
 Kinesis
 kinesis
 Kraken
@@ -415,13 +417,16 @@ messagekey
 MessageSet
 metabase
 Metabase
+MiB
 microservices
 Minfeng
 minikube
+Minio
 mouseover
 MQ
 mqtt
 MQTT
+msg
 mTLS
 multiline
 multinode
@@ -653,6 +658,7 @@ Terraform
 Terraform-based
 Testcontainers
 tgamma
+TiB
 tid
 TiDB
 Tigergraph
@@ -765,6 +771,7 @@ webhook
 WebSocket
 websocket
 websockets
+WebSockets
 wechat
 WeChat
 WGS-84

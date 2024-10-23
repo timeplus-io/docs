@@ -10,7 +10,7 @@ Timeplus supports various systems as the downstreams:
 * [Send data to another Timeplus deployment](/timeplus-external-stream)
 * [Send data to Webhook endpoints](#webhook)
 * [Notify others via Slack](#slack)
-* [Send data to other systems via Redpanada Connect](#rpconnect)
+* [Send data to other systems via Redpanda Connect](#rpconnect)
 
 ## Send data to Kafka{#kafka}
 
