@@ -40,7 +40,9 @@ SETTINGS type='pulsar',
 ```
 
 ### Connect to StreamNative Cloud
-If you have the access to [StreamNative Cloud](https://console.streamnative.cloud), you can run the following SQL DDL to create an external stream to connect to it, with a proper [JWT API Key](https://docs.streamnative.io/docs/api-keys-overview) for a service account.
+If you have the access to [StreamNative Cloud](https://console.streamnative.cloud), you can run the following SQL DDL to create an external stream to connect to it, with a proper [API Key](https://docs.streamnative.io/docs/api-keys-overview) for a service account. Make sure you choose "Create API Key", instead of the "Get JWT Token (Depreciated)".
+
+![screenshot](/img/pulsar_api_key.png)
 
 ```sql
 CREATE EXTERNAL STREAM ext_stream (raw string)
