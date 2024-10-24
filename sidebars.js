@@ -88,6 +88,11 @@ const sidebars = {
         "proton-format-schema",
         "proton-clickhouse-external-table",
         {
+          type: "doc",
+          id: "redpanda-connect",
+          customProps: { tag: "Enterprise" },
+        },
+        {
           type: "category",
           label: "User Defined Functions",
           collapsed: false,
