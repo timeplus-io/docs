@@ -2,6 +2,25 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Oct 28, 2024
+
+### Timeplus Proton v1.6.1
+* Fixed the issue that [SHOW CREATE STREAM](/sql-show-create) doesn't work. Since this version, you can run either `SHOW CREATE stream_name` or `SHOW CREATE STREAM stream_name`.
+* Refined the display of datetime value in `proton client`. Same behavior as before, if the timezone is not specified. For `datetime('UTC')`, "Z" will be shown at the end. For other timezones, such as `datetime('Europe/London')`, the full timezone offset will be shown, such as "2024-09-10 18:21:46+01:00".
+
+### Timeplus Python Driver v0.2.11
+* [The new version](https://github.com/timeplus-io/proton-python-driver/releases/tag/v0.2.11) adds support for Python 3.13.
+
+### Sling v1.2.21 and v1.2.22
+[Sling](/sling) is a CLI tool that extracts data from a source storage/database and loads it in a target storage/database. You can use sling to export data from one Timeplus deployment and import to the other Timeplus deployment. In these 2 releases, we contributed a few new features and enhancements:
+* Added new `SLING_DIRECT_INSERT` environment variable to enable direct data inserts from source Timeplus to the target Timeplus, bypassing a temporary table.
+* By default, the exported CSV files use " to quote the value. Now this can be customized to any value, such as `$a,b$`, instead of `"a,b"`.
+
+### Documentation Updates
+* The top navigation bar is updated to provide quick accesses to the major steps to use Timeplus.
+* Refined [Insert Idempotency](/idempotent) page to highlight `x-timeplus-idempotent-id` is available in Ingest REST API. Also explained the `max_idempotent_ids` setting.
+* Added documentations for function [format_readable_quantity](/functions_for_text#format_readable_quantity) and [format_readable_size](/functions_for_text#format_readable_size).
+
 ## Oct 14, 2024
 
 ### Timeplus Web Console v2.0.3

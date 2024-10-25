@@ -33,7 +33,7 @@ You will get 2.
 
 If you remove `SETTINGS idempotent_id = 'batch1'` and run the SQL again, duplicated data will be inserted.
 
-If you push data to Timeplus via [the low level Ingest REST API](/proton-ingest-api), you can also set `x-timeplus-idempotent-id` in the HTTP header.
+If you push data to Timeplus via [REST API](/proton-ingest-api), you can also set `x-timeplus-idempotent-id` in the HTTP header.
 
 ## Streaming SQL with enable_idempotent_processing
 When you insert data with `idempotent_id`, querying the stream with `table` function will retrieve the historical data of the stream, without duplication. However if you run:
