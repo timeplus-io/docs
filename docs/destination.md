@@ -61,4 +61,4 @@ Redpanda Connect is a declarative data streaming service that solves a wide rang
 
 You can submit a streaming SQL in SQL Console, and click the "Save As" button and choose "Sink". Expand the "Send data via Redpanda Connect" section or type a keyword to search for suitable components.
 
-Please refer to [Redpanda Connect Documenatations for Outputs](https://docs.redpanda.com/redpanda-connect/components/outputs/about/) for how to edit the configuration.
+Please refer to [Redpanda Connect Documentations for Outputs](https://docs.redpanda.com/redpanda-connect/components/outputs/about/) for how to edit the configuration.

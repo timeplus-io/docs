@@ -15,9 +15,12 @@ The following functions are supported in streaming query, but not all of them su
 
 You can create views such as `create view histrical_view as select * from table(stream_name)`, if you want to query the data in the table mode more than once. This may work well for static data, such as lookup information(city names and their zip code).
 
-:::info
-New in Proton v1.5.9, you can also run `table` function on an [Kafka External Stream](/proton-kafka) for Kafka. This will read existing data in the specified Kafka topic. Please avoid scanning all data via `select * from table(ext_stream)`. However `select count(*) from table(ext_stream)` is optimized to get the number of current message count from the Kafka topic.
-:::
+Please note, the `table` function also works in other types of streams:
+* mutable streams: get the historical data of the mutable stream.
+* Kafka external stream: read the existing data in the topic. `select count(*) from table(kafka_ext_stream)` is optimized to efficiently get the number of current message count from the Kafka topic.
+* Pulsar external stream: read the existing data in the topic.
+* Timeplus external stream: read the existing data for a stream in a remote Timeplus.
+* Random stream: generate a block of random data. The number of rows in the block is pre-defined and subject to change. The current value is 65409. For testing or demonstration purpose, you can create a random stream with multiple columns and use the table function to generate random data at once.
 
 Learn more about [Non-streaming queries](/history).
 
