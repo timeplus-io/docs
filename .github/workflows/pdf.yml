@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.2.2
       - name: Setup Node.js environment
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
       - name: Install Prince
         run: |
           curl https://www.princexml.com/download/prince-${{ env.PRINCE_VER }}-linux-generic-x86_64.tar.gz -O
