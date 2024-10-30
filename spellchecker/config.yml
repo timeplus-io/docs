@@ -36,3 +36,5 @@ ignore:
   - v[\.\d]+
   - cloud_step\d
   - role\d
+  - mv\d+
+  - node\d+

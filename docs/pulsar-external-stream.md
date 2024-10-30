@@ -250,6 +250,9 @@ Settings for controlling the producer behavior:
 
 To write structured data to Pulsar topics, you can choose different data formats:
 
+##### RawBLOB
+Write the content as pain text.
+
 #### JSONEachRow
 
 You can use `data_format='JSONEachRow',one_message_per_row=true` to inform Timeplus to write each event as a JSON document. The columns of the external stream will be converted to keys in the JSON documents. For example:

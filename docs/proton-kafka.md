@@ -16,7 +16,7 @@ In Timeplus Proton, the external stream supports Kafka API as the only type.
 
 In Timeplus Enterprise, it also supports [External Stream for Apache Pulsar](/pulsar-external-stream), [External Stream for other Timeplus deployment](/timeplus-external-stream), and [External Stream for Amazon S3](/s3-external-stream).
 
-To create an external stream for Apache Kafka or Kafka-compatiable messaging platforms, you can run the following DDL SQL:
+To create an external stream for Apache Kafka or Kafka-compatible messaging platforms, you can run the following DDL SQL:
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
@@ -47,7 +47,7 @@ For examples to connect to various Kafka API compatitable message platforms, ple
 ### DDL Settings
 
 #### type
-Need to be `kafka`. This works with Apache Kafka, Redpanda, Confluent Platform or Cloud,and many other Kafka compatiable message platforms.
+Need to be `kafka`. This works with Apache Kafka, Redpanda, Confluent Platform or Cloud,and many other Kafka compatible message platforms.
 
 #### brokers
 One or more brokers with ports.
@@ -250,6 +250,9 @@ Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is availabl
 ### Multiple columns to write to Kafka{#multi_col_write}
 
 To write data to Kafka topics, you can choose different data formats:
+
+##### RawBLOB
+Write the content as pain text.
 
 ##### JSONEachRow
 

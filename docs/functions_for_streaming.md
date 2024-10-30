@@ -20,7 +20,7 @@ Please note, the `table` function also works in other types of streams:
 * Kafka external stream: read the existing data in the topic. `select count(*) from table(kafka_ext_stream)` is optimized to efficiently get the number of current message count from the Kafka topic.
 * Pulsar external stream: read the existing data in the topic.
 * Timeplus external stream: read the existing data for a stream in a remote Timeplus.
-* Random stream: generate a block of random data. The number of rows in the block is pre-defined and subject to change. The current value is 65409. For testing or demonstration purpose, you can create a random stream with multiple columns and use the table function to generate random data at once.
+* Random stream: generate a block of random data. The number of rows in the block is predefined and subject to change. The current value is 65409. For testing or demonstration purpose, you can create a random stream with multiple columns and use the table function to generate random data at once.
 
 Learn more about [Non-streaming queries](/history).
 
