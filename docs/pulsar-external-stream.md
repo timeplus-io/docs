@@ -315,6 +315,9 @@ The messages will be generated in the specific topic as
 "2023-10-29 05:35:54.176","https://www.nationalwhiteboard.info/sticky/recontextualize/robust/incentivize","PUT","3eaf6372e909e033fcfc2d6a3bc04ace"
 ```
 
+##### TSV
+Similar to CSV but tab as the separator.
+
 #### ProtobufSingle
 
 You can write Protobuf-encoded messages in Pulsar topics.

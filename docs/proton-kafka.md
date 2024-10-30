@@ -2,11 +2,19 @@
 
 You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus with [External Stream](/external-stream). Combining with [Materialized View](/proton-create-view#m_view) and [Target Stream](/proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
 
+## Tutorial with Docker Compose {#tutorial}
+
+Please check the tutorials:
+
+- [Query Kafka with SQL](/tutorial-sql-kafka)
+- [Streaming JOIN](/tutorial-sql-join)
+- [Streaming ETL](/tutorial-sql-etl)
+
 ## CREATE EXTERNAL STREAM
 
 In Timeplus Proton, the external stream supports Kafka API as the only type.
 
-In Timeplus Enterprise, it also supports [External Stream for Apache Pulsar](/pulsar-external-stream) and [External Stream for other Timeplus deployment](/timeplus-external-stream).
+In Timeplus Enterprise, it also supports [External Stream for Apache Pulsar](/pulsar-external-stream), [External Stream for other Timeplus deployment](/timeplus-external-stream), and [External Stream for Amazon S3](/s3-external-stream).
 
 To create an external stream for Apache Kafka or Kafka-compatiable messaging platforms, you can run the following DDL SQL:
 
@@ -14,14 +22,16 @@ To create an external stream for Apache Kafka or Kafka-compatiable messaging pla
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
     (<col_name1> <col_type>)
 SETTINGS
-    type='kafka',
-    brokers='ip:9092',
-    topic='..',
+    type='kafka', -- required
+    brokers='ip:9092', -- required
+    topic='..', -- required
     security_protocol='..',
     username='..',
     password='..',
     sasl_mechanism='..',
     data_format='..',
+    format_schema='..',
+    one_message_per_row=..,
     kafka_schema_registry_url='..',
     kafka_schema_registry_credentials='..',
     ssl_ca_cert_file='..',
@@ -29,6 +39,23 @@ SETTINGS
     skip_ssl_cert_check=..
 ```
 
+:::info
+
+For examples to connect to various Kafka API compatitable message platforms, please check [this doc](/tutorial-sql-connect-kafka).
+
+:::
+### DDL Settings
+
+#### type
+Need to be `kafka`. This works with Apache Kafka, Redpanda, Confluent Platform or Cloud,and many other Kafka compatiable message platforms.
+
+#### brokers
+One or more brokers with ports.
+
+#### topic
+One external stream will connect to one topic.
+
+#### security_protocol
 The supported values for `security_protocol` are:
 
 - PLAINTEXT: when this option is omitted, this is the default value.
@@ -36,30 +63,41 @@ The supported values for `security_protocol` are:
   - If you need to specify own SSL certification file, add another setting `ssl_ca_cert_file='/ssl/ca.pem'` New in Proton 1.5.5, you can also put the full content of the pem file as a string in the `ssl_ca_pem` setting if you don't want to, or cannot use a file path, such as on Timeplus Cloud or in Docker/Kubernetes environments.
   - Skipping the SSL certification verification can be done via `SETTINGS skip_ssl_cert_check=true`.
 
+#### sasl_mechanism
 The supported values for `sasl_mechanism` are:
 
 - PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
 - SCRAM-SHA-256
 - SCRAM-SHA-512
 
+#### username
+Required when `sasl_mechanism` is set to value other than `PLAIN`.
+
+#### password
+Required when `sasl_mechanism` is set to value other than `PLAIN`.
+
+#### data_format
 The supported values for `data_format` are:
 
 - JSONEachRow: parse each row of the message as a single JSON document. The top level JSON key/value pairs will be parsed as the columns. [Learn More](#jsoneachrow).
 - CSV: less commonly used. [Learn More](#csv).
+- TSV: similar to CSV but tab as the separator
 - ProtobufSingle: for single Protobuf message per message
 - Protobuf: there could be multiple Protobuf messages in a single message.
 - Avro: added in Proton 1.5.2
 - RawBLOB: the default value. Read/write message as plain text.
 
-:::info
+#### format_schema
+Required if `data_format` is set to `ProtobufSingle`, `Protobuf` or `Avro`.
 
-For examples to connect to various Kafka API compatitable message platforms, please check [this doc](/tutorial-sql-connect-kafka).
+#### one_message_per_row
+If the external stream is used to write data to a Kafka topic and the `data_format` is set to `JSONEachRow`, setting this to `true` to make sure each Kafka message only contains one JSON document.
 
-:::
+#### kafka_schema_registry_url
+Set to the address of Kafka Schema Registry server. `http` or `https` need to be included. [Learn more](/proton-schema-registry) for this setting and other settings with `kafka_schema_` as the prefix.
 
-### Define columns
-
-#### Single column to read {#single_col_read}
+## Read Data in Kafka
+### Read messages in a single column {#single_col_read}
 
 If the message in Kafka topic is in plain text format or JSON, you can create an external stream with only a `raw` column in `string` type.
 
@@ -75,25 +113,7 @@ SETTINGS type='kafka',
 
 Then use query time [JSON extraction functions](/functions_for_json) or shortcut to access the values, e.g. `raw:id`.
 
-#### Write to Kafka in Plain Text {#single_col_write}
-
-You can write plain text messages to Kafka topics with an external stream with a single column.
-
-```sql
-CREATE EXTERNAL STREAM ext_github_events
-         (raw string)
-SETTINGS type='kafka',
-         brokers='localhost:9092',
-         topic='github_events'
-```
-
-Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](/proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted. By default `one_message_per_row` is `true`.
-
-:::info
-Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is available. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message, ensuring it won't exceed the `kafka_max_message_size` limit.
-:::
-
-#### Multiple columns to read from Kafka{#multi_col_read}
+### Read messages as multiple columns{#multi_col_read}
 
 If the keys in the JSON message never change, or you don't care about the new columns, you can also create the external stream with multiple columns.
 
@@ -132,7 +152,102 @@ Protobuf messages can be read with all or partial columns. Please check [this pa
 
 :::
 
-#### Multiple columns to write to Kafka{#multi_col_write}
+### Query Settings
+
+#### shards
+
+Starting from Proton 1.3.18, you can also read in specified Kafka partitions. By default, all partitions will be read. But you can also read from a single partition via the `shards` setting, e.g.
+
+```sql
+SELECT raw FROM ext_stream SETTINGS shards='0'
+```
+
+Or you can specify a set of partition ID, separated by comma, e.g.
+
+```sql
+SELECT raw FROM ext_stream SETTINGS shards='0,2'
+```
+
+### Read existing messages {#rewind}
+
+When you run `SELECT raw FROM ext_stream `, Timeplus will read the new messages in the topics, not the existing ones.
+
+#### seek_to
+If you need to read all existing messages, you can use the following settings:
+
+```sql
+SELECT raw FROM ext_stream SETTINGS seek_to='earliest'
+```
+
+Or the following SQL if you are running Proton 1.5.9 or above:
+
+```sql
+SELECT raw FROM table(ext_stream) WHERE ...
+```
+
+:::warning
+Please avoid scanning all data via `select * from table(ext_stream)`. However `select count(*) from table(ext_stream)` is optimized to get the number of current message count from the Kafka topic.
+:::
+
+### Read/Write Kafka Message Key {#messagekey}
+
+For each message in the Kafka topic, the value is critical for sure. The key is optional but could carry important meta data.
+
+#### _tp_message_key
+
+Starting from timeplusd 2.3.10, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuitive and flexible way to write any content as the message key, not necessarily mapping to a specify column or a set of columns.
+
+For example:
+```sql
+CREATE EXTERNAL STREAM foo (
+    id int32,
+    name string,
+    _tp_message_key string
+) SETTINGS type='kafka',...;
+```
+You can insert any data to the Kafka topic.
+
+When insert a row to the stream like:
+```sql
+INSERT INTO foo(id,name,_tp_message_key) VALUES (1, 'John', 'some-key');
+```
+`'some-key'` will be used for the message key for the Kafka message (and it will be excluded from the message body, so the message will be `{"id": 1, "name": "John"}` for the above SQL).
+
+When doing a SELECT query, the message key will be populated to the `_tp_message_key` column as well.
+`SELECT * FROM foo` will return `'some-key'` for the `_tp_message_key` message.
+
+`_tp_message_key` support the following types: `uint8`, `uint16`, `uint32`, `uint64`, `int8`, `int16`, `int32`, `int64`, `bool`, `float32`, `float64`, `string`, and `fixed_string`.
+
+`_tp_message_key` also support `nullable`. Thus we can create an external stream with optional message key. For example:
+```sql
+CREATE EXTERNAL STREAM foo (
+    id int32,
+    name string,
+    _tp_message_key nullable(string) default null
+) SETTINGS type='kafka',...;
+```
+
+## Write Data to Kafka
+
+### Write to Kafka in Plain Text {#single_col_write}
+
+You can write plain text messages to Kafka topics with an external stream with a single column.
+
+```sql
+CREATE EXTERNAL STREAM ext_github_events
+         (raw string)
+SETTINGS type='kafka',
+         brokers='localhost:9092',
+         topic='github_events'
+```
+
+Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](/proton-ingest-api), or set it as the target stream for a materialized view to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted. By default `one_message_per_row` is `true`.
+
+:::info
+Since Timeplus Proton 1.5.11, a new setting `kafka_max_message_size` is available. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message, ensuring it won't exceed the `kafka_max_message_size` limit.
+:::
+
+### Multiple columns to write to Kafka{#multi_col_write}
 
 To write data to Kafka topics, you can choose different data formats:
 
@@ -203,129 +318,80 @@ The messages will be generated in the specific topic as
 ```csv
 "2023-10-29 05:35:54.176","https://www.nationalwhiteboard.info/sticky/recontextualize/robust/incentivize","PUT","3eaf6372e909e033fcfc2d6a3bc04ace"
 ```
+##### TSV
+Similar to CSV but tab as the separator.
 
 ##### ProtobufSingle
+You can write Protobuf-encoded messages in Kafka topics.
+
+First, you need to create a schema with SQL, e.g.
+```sql
+CREATE OR REPLACE FORMAT SCHEMA schema_name AS '
+              syntax = "proto3";
+
+              message SearchRequest {
+                string query = 1;
+                int32 page_number = 2;
+                int32 results_per_page = 3;
+              }
+              ' TYPE Protobuf
+```
+Then refer to this schema while creating an external stream for Kafka:
+```sql
+CREATE EXTERNAL STREAM stream_name(
+         query string,
+         page_number int32,
+         results_per_page int32)
+SETTINGS type='kafka',
+         brokers='kafka:9092',
+         topic='masked-fe-event',
+         data_format='ProtobufSingle',
+         format_schema='schema_name:SearchRequest'
+```
+
+Then you can run `INSERT INTO` or use a materialized view to write data to the topic.
+```sql
+INSERT INTO stream_name(query,page_number,results_per_page) VALUES('test',1,100)
+```
 
 You can either define the [Protobuf Schema in Proton](/proton-format-schema), or specify the [Kafka Schema Registry](/proton-schema-registry) when you create the external stream.
 
 ##### Avro
-
 Starting from Proton 1.5.2, you can use Avro format when you specify the [Kafka Schema Registry](/proton-schema-registry) when you create the external stream.
 
-### Read/Write Kafka Message Key {#messagekey}
-
-For each message in the Kafka topic, the value is critical for sure. The key is optional but could carry important meta data.
-
-#### _message_key {#_message_key}
-
-:::warning
-`_message_key` is deprecated since Timeplus Proton 1.5.15 and timeplusd 2.3.10. Please use [_tp_message_key](#_tp_message_key)
-
-From Timeplus Proton 1.5.4 to 1.5.14, it supports `_message_key` as a virtual column in Kafka external streams. If you run `SELECT * FROM ext_stream`, such virtual column won't be queried. You need to explicitly select the column to retrieve the message key, e.g. `SELECT _message_key, * FROM ext_stream`.
-
-To write the message key and value, you need to set the `message_key` in the `CREATE` DDL. It is an expression that returns a string value, the values return by the expression will be used as the key for each message.
-
-Examples:
-
+First, you need to create a schema with SQL, e.g.
 ```sql
--- use a column
-CREATE EXTERNAL STREAM example_one (
-  one string,
-  two int32
-) SETTINGS type='kafka',...,message_key='one';
-
--- use a complex expression
-CREATE EXTERNAL STREAM example_two (
-  one string,
-  two int32
-) SETTINGS type='kafka',...,message_key='split_by_string(\',\', one)[1]';
+CREATE OR REPLACE FORMAT SCHEMA avro_schema AS '{
+                "namespace": "example.avro",
+                "type": "record",
+                "name": "User",
+                "fields": [
+                  {"name": "name", "type": "string"},
+                  {"name": "favorite_number",  "type": ["int", "null"]},
+                  {"name": "favorite_color", "type": ["string", "null"]}
+                ]
+              }
+              ' TYPE Avro;
+```
+Then refer to this schema while creating an external stream for Pulsar:
+```sql
+CREATE EXTERNAL STREAM stream_avro(
+         name string,
+         favorite_number nullable(int32),
+         favorite_color nullable(string))
+SETTINGS type='kafka',
+         brokers='kafka:9092',
+         topic='masked-fe-event',
+         data_format='Avro',
+         format_schema='avro_schema'
 ```
 
-`message_key` can be used together with `sharding_expr`(which specify the target partition number in the Kafka topic), and `sharding_expr` will take higher priority.
-:::
-
-#### _tp_message_key
-
-Based on user feedback, we introduced a better way to read or write the message key. Starting from timeplusd 2.3.10, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuitive and flexible way to write any content as the message key, not necessarily mapping to a specify column or a set of columns.
-
-For example:
+Then you can run `INSERT INTO` or use a materialized view to write data to the topic.
 ```sql
-CREATE EXTERNAL STREAM foo (
-    id int32,
-    name string,
-    _tp_message_key string
-) SETTINGS type='kafka',...;
-```
-You can insert any data to the Kafka topic.
-
-When insert a row to the stream like:
-```sql
-INSERT INTO foo(id,name,_tp_message_key) VALUES (1, 'John', 'some-key');
-```
-`'some-key'` will be used for the message key for the Kafka message (and it will be excluded from the message body, so the message will be `{"id": 1, "name": "John"}` for the above SQL).
-
-When doing a SELECT query, the message key will be populated to the `_tp_message_key` column as well.
-`SELECT * FROM foo` will return `'some-key'` for the `_tp_message_key` message.
-
-`_tp_message_key` support the following types: `uint8`, `uint16`, `uint32`, `uint64`, `int8`, `int16`, `int32`, `int64`, `bool`, `float32`, `float64`, `string`, and `fixed_string`.
-
-`_tp_message_key` also support `nullable`. Thus we can create an external stream with optional message key. For example:
-```sql
-CREATE EXTERNAL STREAM foo (
-    id int32,
-    name string,
-    _tp_message_key nullable(string) default null
-) SETTINGS type='kafka',...;
+INSERT INTO stream_avro(name,favorite_number,favorite_color) VALUES('test',1,'red')
 ```
 
-## DROP EXTERNAL STREAM
-
-```sql
-DROP STREAM [IF EXISTS] stream_name
-```
-
-## Query Kafka Data with SQL
-
-You can run streaming SQL on the external stream, e.g.
-
-```sql
-SELECT raw:timestamp, raw:car_id, raw:event FROM ext_stream WHERE raw:car_type in (1,2,3);
-SELECT window_start, count() FROM tumble(ext_stream,to_datetime(raw:timestamp)) GROUP BY window_start;
-```
-
-### Read existing messages {#rewind}
-
-When you run `SELECT raw FROM ext_stream `, Timeplus will read the new messages in the topics, not the existing ones. If you need to read all existing messages, you can use the following settings:
-
-```sql
-SELECT raw FROM ext_stream SETTINGS seek_to='earliest'
-```
-
-Or the following SQL if you are running Proton 1.5.9 or above:
-
-```sql
-SELECT raw FROM table(ext_stream) WHERE ...
-```
-
-:::warning
-Please avoid scanning all data via `select * from table(ext_stream)`. However `select count(*) from table(ext_stream)` is optimized to get the number of current message count from the Kafka topic.
-:::
-
-### Read specified partitions
-
-Starting from Proton 1.3.18, you can also read in specified Kafka partitions. By default, all partitions will be read. But you can also read from a single partition via the `shards` setting, e.g.
-
-```sql
-SELECT raw FROM ext_stream SETTINGS shards='0'
-```
-
-Or you can specify a set of partition ID, separated by comma, e.g.
-
-```sql
-SELECT raw FROM ext_stream SETTINGS shards='0,2'
-```
-
-## Write to Kafka with SQL
+### Continuously Write to Kafka via MV
 
 You can use materialized views to write data to Kafka as an external stream, e.g.
 
@@ -357,13 +423,11 @@ CREATE MATERIALIZED VIEW mv INTO target AS
     FROM frontend_events;
 ```
 
-## Tutorial with Docker Compose {#tutorial}
+## DROP EXTERNAL STREAM
 
-Please check the tutorials:
-
-- [Query Kafka with SQL](/tutorial-sql-kafka)
-- [Streaming JOIN](/tutorial-sql-join)
-- [Streaming ETL](/tutorial-sql-etl)
+```sql
+DROP STREAM [IF EXISTS] stream_name
+```
 
 ## Properties for Kafka client {#properties}
 
