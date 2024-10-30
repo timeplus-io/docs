@@ -16,6 +16,7 @@ Each component tracks their changes with own version numbers. The version number
 Key highlights of this release:
 * KV Stream, later on renamed to [Mutable Streams](/mutable-stream)
 * Able to [modify materialized view settings](/sql-alter-stream)
+* In a cluster, you can set those memory-consuming materialized views with a `memory_weight` setting, so that those materialized views will be evenly scheduled to run on different nodes.
 * New `timeplus` CLI commands to manage [users](/cli-user)
 
 ## Stable Releases {#stable}
@@ -36,6 +37,7 @@ Changelog (comparing to [2.3.0](#230)):
 * timeplusd
   * feat: new setting `allow_independent_shard_processing`, default false. When data is already sharded correctly on file system and if the aggregation is on the sharding key, set it to true to avoid re-shuffle the data.
   * feat: support modify materialized view query settings, e.g. `alter stream mv_with_inner_stream modify query setting checkpoint_interval=600`
+  * feat: in a cluster, you can set those memory-consuming materialized views with a `memory_weight` setting, so that those materialized views will be evenly scheduled to run on different nodes.
 * timeplus_appserver
   * feat: configuration items renaming, avoid using codenames
   * feat: disabled user provision on timeplusd cluster
