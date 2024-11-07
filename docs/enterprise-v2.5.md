@@ -23,13 +23,13 @@ Key highlights of this release:
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
 ### 2.5.9 (Stable) {#2_5_9}
-Built on 10-30-2024. You can install via:
+Built on 11-0?-2024. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/stable | sh`
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.6 ..`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.? ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.9`
 
 Component versions:
-* timeplusd 2.4.20
+* timeplusd 2.4.22
 * timeplus_web 2.0.6
 * timeplus_appserver 2.0.8
 * timeplus_connector 2.0.3
@@ -45,7 +45,7 @@ Component versions:
 #### Changelog {#changelog_2_5_9}
 
 Compared to the [2.4.23](/enterprise-v2.4#2_4_23) release:
-* timeplusd 2.3.30 -> 2.4.20
+* timeplusd 2.3.30 -> 2.4.22
   * new type of [External Streams for Apache Pulsar](/pulsar-external-stream).
   * for bare metal installation, previously you can login with the username `default` with empty password. To improve the security, this user has been removed.
   * enhancement for nullable data types in streaming and historical queries.
@@ -73,4 +73,3 @@ You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2
 
 #### Known issues {#known_issue_2_5_9}
 1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
-2. The bare metal installation on macOS v15 (Sequoia) does not function. `timeplusd` server fails to start. As a workaround, you can run Timeplus Enterprise v2.5 via Docker on macOS v15. This is caused by the new "Local Network" feature in macOS v15. Bare metal deployment on macOS v14 works.
