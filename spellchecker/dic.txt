@@ -13,6 +13,7 @@ Abiola
 ack
 ack_wait
 acks
+acks=all
 acos
 activemq
 ActiveMQ
@@ -35,6 +36,7 @@ append-left-changelog
 appl
 Appserver
 appserver
+appserver.
 Araujo
 arg_max
 arg_min
@@ -184,6 +186,7 @@ dbeaver
 dbeaver_native
 dbt
 DDL
+DDL.
 ddl
 de-serializing
 Debezium
@@ -195,6 +198,8 @@ defaultValue
 denormalization
 denormalized
 deployable
+deploymentWebSocket
+deploymentSlackWebhookHundreds
 deserialize
 destination-timeplus
 desynchronized
@@ -233,7 +238,9 @@ ETL
 eu-central-1
 event1event2
 example-mysql
+extension_traceId=123
 failover
+FetchRequests
 fintech
 FinTech
 firstName
@@ -316,6 +323,7 @@ iops
 IOPS
 iot
 IoT
+iovecs
 ip
 iPhone14
 iPhone14_Plus
@@ -372,6 +380,7 @@ K8s
 kafka
 Kafka-compatiable
 kafka-connect-timeplus
+kafka_schema_registry_url
 kcat
 keep-alives
 Keycloak
@@ -397,6 +406,7 @@ Liveness
 liveness
 livepeer
 Livepeer
+lifeSeconds=600
 log_dir
 logics
 logstore_retention_bytes
@@ -438,8 +448,11 @@ multinode
 mv
 MV
 mv_memory_usage
+mv_memory_usage.
 mview
 mysql
+Nagle
+nagle
 nak_delay
 Namespace
 namespace
@@ -519,7 +532,10 @@ pre-made
 preconfigured
 prefetch_count
 PrettyCompact
+principalClaimName=azp
 productional
+ProduceRequests
+producerequests
 programmatically
 Protobuf
 Protobuf-encoded
@@ -559,8 +575,10 @@ rebuffer
 ReceiverQueueSize
 Redash
 Redpanda
+RedpandaExternal
 RedpandaStreaming
 ReplacingMergeTree
+retries=INT32_MAX
 repo
 repos
 rescanning
@@ -574,6 +592,7 @@ s-downsampling
 S-DOWNSAMPLING
 s-mview
 S3
+S3-compatible
 sa-east-1
 SaaS
 sasl
@@ -592,6 +611,8 @@ scram-sha-256
 SCRAM-SHA-512
 scram-sha-512
 scrollbar
+scope=role1
+scopeClaimName=roles
 SDK
 sdk
 SDKs
@@ -637,6 +658,7 @@ streamgen
 streamlit
 Streamlit
 StreamNative
+StreamNATSCSV
 strictnesses
 sub-commmands
 subcommand
@@ -672,6 +694,7 @@ tid
 TiDB
 Tigergraph
 Timeplus
+Timeplus.
 timeplus
 timeplus-appserver
 Timeplus-native-jdbc
@@ -690,6 +713,7 @@ TimeplusSinkConnector
 timeplusWeb
 timezones
 TLS
+TLS.
 tls_allow_insecure_connection
 tls_validate_hostname
 to_ipv4
@@ -776,6 +800,7 @@ WAL
 WarpStream
 weak_hash32
 Webhook
+WebHook
 webhook
 WebSocket
 websocket
