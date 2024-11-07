@@ -305,443 +305,48 @@ If something goes wrong, you can run the following commands to get more informat
 
 ## Configuration Guide
 
-<table>
-	<thead>
-		<th>Key</th>
-		<th>Type</th>
-		<th>Default</th>
-		<th>Description</th>
-	</thead>
-	<tbody>
-		<tr>
-			<td>global.affinity</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td>This is the global affinity settings. Once set, it will be applied to every single component. If you'd like to set affinitiy for each component, you can set `affinity` under component name. For example you can use `timeplusd.affinity` to control the affinity of timeplusd Refer to https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/</td>
-		</tr>
-		<tr>
-			<td>global.imagePullPolicy</td>
-			<td>string</td>
-			<td><pre lang="json">
-"IfNotPresent"
-</pre>
-</td>
-			<td>This setting is available for each component as well.</td>
-		</tr>
-		<tr>
-			<td>global.imageRegistry</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>This setting is available for each component as well.</td>
-		</tr>
-		<tr>
-			<td>global.nodeSelector</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>global.pvcDeleteOnStsDelete</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td>These two options are only valid with k8s >= 1.27.0</td>
-		</tr>
-		<tr>
-			<td>global.pvcDeleteOnStsScale</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>global.tolerations</td>
-			<td>list</td>
-			<td><pre lang="json">
-[]
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ingress.domain</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>If you want use an ip, pls remove it. it's will match all (equal *).</td>
-		</tr>
-		<tr>
-			<td>ingress.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td>You will need to manually create ingress if you don't want to enable it here.</td>
-		</tr>
-		<tr>
-			<td>provision.dashboards</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td>Monitoring dashboards</td>
-		</tr>
-		<tr>
-			<td>provision.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td>Once enabled, a Job will be created to provision default resources such as users, licenses, and etc. This Job shares the same configurations (e.g. resource limit) as `timeplusCli` below</td>
-		</tr>
-		<tr>
-			<td>provision.users</td>
-			<td>list</td>
-			<td><pre lang="json">
-[
-  \{
-    "password": "changeme",
-    "username": "timeplus_user"
-  }
-]
-</pre>
-</td>
-			<td>The users that you can use to login Timeplus web. You will need to provision at least one user if you want to use Timeplus web and Timeplus appserver.</td>
-		</tr>
-		<tr>
-			<td>timeplusAppserver.configs</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td>e.g. `enable-authentication: true`</td>
-		</tr>
-		<tr>
-			<td>timeplusAppserver.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td>Timeplus web, Timeplus connector will not work properly if Timeplus appserver is not enabled.</td>
-		</tr>
-		<tr>
-			<td>timeplusAppserver.extraContainers</td>
-			<td>list</td>
-			<td><pre lang="json">
-[]
-</pre>
-</td>
-			<td>Extra containers that to be run together with the main container.</td>
-		</tr>
-		<tr>
-			<td>timeplusAppserver.extraVolumes</td>
-			<td>list</td>
-			<td><pre lang="json">
-[]
-</pre>
-</td>
-			<td>Extra volumes that to be mounted</td>
-		</tr>
-		<tr>
-			<td>timeplusAppserver.image</td>
-			<td>string</td>
-			<td><pre lang="json">
-"timeplus/timeplus-appserver"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusCli.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusCli.image</td>
-			<td>string</td>
-			<td><pre lang="json">
-"timeplus/timeplus-cli"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusConnector.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusConnector.extraContainers</td>
-			<td>list</td>
-			<td><pre lang="json">
-[]
-</pre>
-</td>
-			<td>Extra containers that to be run together with the main container.</td>
-		</tr>
-		<tr>
-			<td>timeplusConnector.extraVolumes</td>
-			<td>list</td>
-			<td><pre lang="json">
-[]
-</pre>
-</td>
-			<td>Extra volumes that to be mounted</td>
-		</tr>
-		<tr>
-			<td>timeplusConnector.image</td>
-			<td>string</td>
-			<td><pre lang="json">
-"timeplus/timeplus-connector"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusWeb.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusWeb.image</td>
-			<td>string</td>
-			<td><pre lang="json">
-"timeplus/timeplus-web"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusd.config</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusd.defaultAdminPassword</td>
-			<td>string</td>
-			<td><pre lang="json">
-"timeplusd@t+"
-</pre>
-</td>
-			<td>Timeplus appserver will use this username and password to connect to timeplusd to perform some administration operations such as user management.</td>
-		</tr>
-		<tr>
-			<td>timeplusd.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusd.extraContainers</td>
-			<td>list</td>
-			<td><pre lang="json">
-[]
-</pre>
-</td>
-			<td>Extra containers that to be run together with the main container.</td>
-		</tr>
-		<tr>
-			<td>timeplusd.extraVolumes</td>
-			<td>list</td>
-			<td><pre lang="json">
-[]
-</pre>
-</td>
-			<td>Extra volumes that to be mounted</td>
-		</tr>
-		<tr>
-			<td>timeplusd.image</td>
-			<td>string</td>
-			<td><pre lang="json">
-"timeplus/timeplusd"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusd.ingress.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td>Enable ingress if you want to connect to timeplusd directly</td>
-		</tr>
-		<tr>
-			<td>timeplusd.ingress.restPath</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/timeplusd"
-</pre>
-</td>
-			<td>To send REST API call to timeplusd, the URL will be http(s)://publicDomain:port/restPath e.g.   - curl http://timeplus.local/timeplusd/info   - curl http://timeplus.local/timeplusd/v1/ddl/streams</td>
-		</tr>
-		<tr>
-			<td>timeplusd.initJob.image</td>
-			<td>string</td>
-			<td><pre lang="json">
-"timeplus/boson"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>timeplusd.livenessProbe</td>
-			<td>object</td>
-			<td><pre lang="json">
-\{
-  "failureThreshold": 20,
-  "httpGet": \{
-    "path": "/timeplusd/ping",
-    "port": "http-streaming",
-    "scheme": "HTTP"
-  },
-  "initialDelaySeconds": 30,
-  "periodSeconds": 30,
-  "successThreshold": 1,
-  "timeoutSeconds": 1
-}
-</pre>
-</td>
-			<td>K8s liveness probe for timeplusd. Please refer to https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/</td>
-		</tr>
-		<tr>
-			<td>timeplusd.replicas</td>
-			<td>int</td>
-			<td><pre lang="json">
-3
-</pre>
-</td>
-			<td>Current only support replicas 1 or 3</td>
-		</tr>
-		<tr>
-			<td>timeplusd.resources</td>
-			<td>object</td>
-			<td><pre lang="json">
-\{
-  "limits": \{
-    "cpu": "32",
-    "memory": "60Gi"
-  },
-  "requests": \{
-    "cpu": "2",
-    "memory": "4Gi"
-  }
-}
-</pre>
-</td>
-			<td>Make sure at least 2 cores are assigned to each timeplusd</td>
-		</tr>
-		<tr>
-			<td>timeplusd.service</td>
-			<td>object</td>
-			<td><pre lang="json">
-\{
-  "type": "ClusterIP"
-}
-</pre>
-</td>
-			<td>Update this section if you want to expose timeplusd directly</td>
-		</tr>
-		<tr>
-			<td>timeplusd.service.type</td>
-			<td>string</td>
-			<td><pre lang="json">
-"ClusterIP"
-</pre>
-</td>
-			<td>Update type to `NodePort` and then all timeplusd ports (rest API, metrics, and etc.) will be exposed.</td>
-		</tr>
-		<tr>
-			<td>timeplusd.storage.history</td>
-			<td>object</td>
-			<td><pre lang="json">
-\{
-  "className": "local-storage",
-  "selector": \{
-    "matchLabels": \{
-      "app": "timeplusd-data-history"
-    }
-  },
-  "size": "10Gi"
-}
-</pre>
-</td>
-			<td>PV settings for historical strogae.</td>
-		</tr>
-		<tr>
-			<td>timeplusd.storage.log</td>
-			<td>object</td>
-			<td><pre lang="json">
-\{
-  "className": "local-storage",
-  "enabled": false,
-  "selector": \{
-    "matchLabels": \{
-      "app": "timeplusd-log"
-    }
-  },
-  "size": "10Gi"
-}
-</pre>
-</td>
-			<td>PV settings for logs. It is disabled by default so you don't need a separate PV for it.</td>
-		</tr>
-		<tr>
-			<td>timeplusd.storage.stream</td>
-			<td>object</td>
-			<td><pre lang="json">
-\{
-  "className": "local-storage",
-  "selector": \{
-    "matchLabels": \{
-      "app": "timeplusd-data-stream"
-    }
-  },
-  "size": "10Gi"
-}
-</pre>
-</td>
-			<td>PV settings for streaming strogae.</td>
-		</tr>
-	</tbody>
-</table>
+You can customize the deployment by applying a YAML file with your preferred values. Each Helm chart version may have slightly different available configurations. Here are some common settings. For the full list of configurable values, please check the `README.md` and `values.yaml` in the [Helm chart package](https://github.com/timeplus-io/install.timeplus.com/tree/main/charts).
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| global.affinity | object | `{}` | This is the global affinity settings. Once set, it will be applied to every single component. If you'd like to set affinity for each component, you can set `affinity` under component name. For example you can use `timeplusd.affinity` to control the affinity of timeplusd Refer to https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ |
+| global.imagePullPolicy | string | `"IfNotPresent"` | This setting is available for each component as well. |
+| global.imageRegistry | string | `""` | This setting is available for each component as well. |
+| global.nodeSelector | object | `{}` | See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector |
+| global.pvcDeleteOnStsDelete | bool | `false` | Only valid with k8s >= 1.27.0. Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention |
+| global.pvcDeleteOnStsScale | bool | `false` | Only valid with k8s >= 1.27.0. Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention |
+| global.tolerations | list | `[]` | See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/ |
+| ingress.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
+| ingress.enabled | bool | `false` | You will need to manually create ingress if you don't want to enable it here. |
+| provision.dashboards | bool | `true` | Monitoring dashboards |
+| provision.enabled | bool | `true` | Provision job will ONLY be run once after the first installation if it is enabled. A Job will be created to provision default resources such as users, licenses, and etc. This Job shares the same configurations (e.g. resource limit) as `timeplusCli` below. Disable it during installation and re-enable it later won't work. |
+| timeplusAppserver.configs | object | `{}` | Configurations for appserver. e.g. `enable-authentication: true`. See https://docs.timeplus.com/server_config#appserver |
+| timeplusAppserver.enabled | bool | `true` | Timeplus web, Timeplus connector will not work properly if Timeplus appserver is not enabled. |
+| timeplusAppserver.extraContainers | list | `[]` | Extra containers that to be run together with the main container. |
+| timeplusAppserver.extraVolumes | list | `[]` | Extra volumes that to be mounted |
+| timeplusAppserver.image | string | `"timeplus/timeplus-appserver"` |  |
+| timeplusCli.enabled | bool | `false` |  |
+| timeplusCli.image | string | `"timeplus/timeplus-cli"` |  |
+| timeplusConnector.enabled | bool | `true` |  |
+| timeplusConnector.extraContainers | list | `[]` | Extra containers that to be run together with the main container. |
+| timeplusConnector.extraVolumes | list | `[]` | Extra volumes that to be mounted |
+| timeplusConnector.image | string | `"timeplus/timeplus-connector"` |  |
+| timeplusWeb.enabled | bool | `true` |  |
+| timeplusWeb.image | string | `"timeplus/timeplus-web"` |  |
+| timeplusd.config | object | `{}` | Configurations for timeplusd. See https://docs.timeplus.com/server_config#timeplusd |
+| timeplusd.defaultAdminPassword | string | `"timeplusd@t+"` | Timeplus appserver will use this username and password to connect to timeplusd to perform some administration operations such as user management. |
+| timeplusd.enabled | bool | `true` |  |
+| timeplusd.extraContainers | list | `[]` | Extra containers that to be run together with the main container. |
+| timeplusd.extraInitContainers | list | `[]` | Extra init containers. It will be run before other init containers. |
+| timeplusd.extraVolumes | list | `[]` | Extra volumes that to be mounted |
+| timeplusd.image | string | `"timeplus/timeplusd"` |  |
+| timeplusd.ingress.enabled | bool | `false` | To send REST API call to timeplusd, the URL will be http(s)://\<publicDomain>:\<port>\<restPath> e.g.   - curl http://timeplus.local/timeplusd/info   - curl http://timeplus.local/timeplusd/v1/ddl/streams |
+| timeplusd.initJob.image | string | `"timeplus/boson"` |  |
+| timeplusd.livenessProbe | object | `{"failureThreshold":20,"httpGet":{"path":"/timeplusd/ping","port":"http-streaming","scheme":"HTTP"},"initialDelaySeconds":30,"periodSeconds":30,"successThreshold":1,"timeoutSeconds":1}` | K8s liveness probe for timeplusd. Please refer to https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
+| timeplusd.replicas | int | `3` | Current only support replicas 1 or 3 |
+| timeplusd.resources | object | `{"limits":{"cpu":"32","memory":"60Gi"},"requests":{"cpu":"2","memory":"4Gi"}}` | Make sure at least 2 cores are assigned to each timeplusd |
+| timeplusd.service.nodePort | int | `30863` |  |
+| timeplusd.service.type | string | `"ClusterIP"` | Update type to `NodePort` if you want to access timeplusd directly (rest API, metrics, and etc.) |
+| timeplusd.storage.history | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-history"}},"size":"10Gi"}` | PV settings for historical storage. |
+| timeplusd.storage.log | object | `{"className":"local-storage","enabled":false,"selector":{"matchLabels":{"app":"timeplusd-log"}},"size":"10Gi"}` | PV settings for logs. It is disabled by default so you don't need a separate PV for it. |
+| timeplusd.storage.stream | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-stream"}},"size":"10Gi"}` | PV settings for streaming storage. |

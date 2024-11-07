@@ -73,6 +73,7 @@ base58
 base58_decode
 base58_encode
 base64
+base64-encoded
 base64_decode
 base64_encode
 baseURL
@@ -97,6 +98,7 @@ carsharing
 cbrt
 cdc
 cgroup
+change_pwd
 changelog
 Changelog
 changelog_2_4_15
@@ -145,6 +147,7 @@ connect-kafka
 connect-rp-cloud
 connect-upstash
 cpu
+cpu-consuming
 CPython
 CRM
 Crul
@@ -299,6 +302,7 @@ influxdb
 InfluxDB
 infograph
 Ingestions
+init
 init_sql
 int128
 int256
@@ -390,6 +394,7 @@ LGTM
 librdkafka
 lifecycle
 Liveness
+liveness
 livepeer
 Livepeer
 log_dir
@@ -522,6 +527,7 @@ protobuf_complex
 ProtobufSingle
 ProtonWebSocket
 psql
+publicDomain
 pulsar-io-sink
 PulsarCSV
 PulsarSlackWebhookTimeplus
@@ -540,6 +546,7 @@ R2
 RabbitMQ
 rand64
 random_printable_ascii
+RawBLOB
 RBAC
 rdkafka
 re2
@@ -558,8 +565,10 @@ repo
 repos
 rescanning
 resizable
+restPath
 roadmap
 roadmaps
+rpconnect
 s-agg-recent
 s-downsampling
 S-DOWNSAMPLING

@@ -96,7 +96,7 @@ workload_rebalance_overloaded_memory_util_threshold: 50%
 workload_rebalance_heavy_mv_memory_util_threshold: 10%
 ```
 
-As the administrator, you no longer need to determine which materialized views need to set a `memory_weight` setting. In a cluster, Timeplus will monitor the memory consumption for each materialized view. Every 30 seconds, configurable via `workload_rebalance_check_interval`, the system will check whether there are any node with memory over 50% full. If so, check whether there is any materialized view in such node consuming 10% or more memory. When those conditions are all met, rescheduling those materialized views to less busy nodes. During the rescheduling, the materialized view on the previous node will be paused and its checkpoint will be transfer to the target node, then the materialized view on target node will resume the streaming SQL based on the checkpoint.
+As the administrator, you no longer need to determine which materialized views need to set a `memory_weight` setting. In a cluster, Timeplus will monitor the memory consumption for each materialized view. Every 30 seconds, configurable via `workload_rebalance_check_interval`, the system will check whether there are any node with memory over 50% full. If so, check whether there is any materialized view in such node consuming 10% or more memory. When those conditions are all met, rescheduling those materialized views to less busy nodes. During the rescheduling, the materialized view on the previous node will be paused and its checkpoint will be transferred to the target node, then the materialized view on target node will resume the streaming SQL based on the checkpoint.
 
 ## DROP VIEW
 
