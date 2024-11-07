@@ -18,7 +18,59 @@ SETTINGS
     s3_file='..',
     s3_file_pattern='..'
 ```
-### Connect to a local Apache Pulsar
+### Connect to a public Amazon S3 bucket
+
+There are some public datasets shared by different organizations. For example the following SQL allows you to consume Parquet files for customer review comments at Amazon.com.
+
+```sql
+CREATE EXTERNAL STREAM amazon_reviews(
+    review_date	uint16,
+    marketplace	string,
+    customer_id	uint64,
+    review_id	string,
+    product_id	string,
+    product_parent	uint64,
+    product_title	string,
+    product_category	string,
+    star_rating	uint8,
+    helpful_votes	uint32,
+    total_votes	uint32,
+    vine	bool,
+    verified_purchase	bool,
+    review_headline	string,
+    review_body	string
+)
+SETTINGS type='s3',data_format='Parquet',
+url='https://datasets-documentation.s3.eu-west-3.amazonaws.com/amazon_reviews/amazon_reviews_2015.snappy.parquet';
+```
+
+Then you can run SQL queries on the S3 data, without having to load them to the current server. For example:
+```sql
+SELECT count() FROM amazon_reviews;
+
+--output:
+┌──count()─┐
+│ 41905631 │
+└──────────┘
+
+1 row in set. Elapsed: 15.996 sec. Processed 41.91 million rows, 41.91 MB (2.62 million rows/s., 2.62 MB/s.)
+
+SELECT star_rating, count() FROM amazon_reviews GROUP BY star_rating;
+--output:
+┌─star_rating─┬──count()─┐
+│           1 │  3253070 │
+│           2 │  1865322 │
+│           3 │  3130345 │
+│           4 │  6578230 │
+│           5 │ 27078664 │
+└─────────────┴──────────┘
+
+5 rows in set. Elapsed: 9.380 sec. Processed 41.91 million rows, 41.91 MB (4.47 million rows/s., 4.47 MB/s.)
+```
+
+### Connect to a private Amazon S3 bucket
+
+### Connect to GCS, Minio or others
 
 If you have a local Apache Pulsar server running, you can run the following SQL DDL to create an external stream to connect to it.
 
@@ -29,18 +81,95 @@ SETTINGS type='pulsar',
          topic='persistent://public/default/my-topic'
 ```
 
-### Connect to StreamNative Cloud
-If you have the access to [StreamNative Cloud](https://console.streamnative.cloud), you can run the following SQL DDL to create an external stream to connect to it, with a proper [JWT API Key](https://docs.streamnative.io/docs/api-keys-overview) for a service account.
+### Settings
 
+#### url
+This is the only mandatory setting for creating a S3 external stream. The `url` need to start with `http` or `https` (cannot be `s3://`).
+
+It can be a single file on S3, or can contain bash-like wildcards to specify multiple files, when you create the external stream for read (Inserting data to an external stream that uses wildcards in `url` will fail.). The supported wildcards:
+* `*` — Substitutes any number of any characters except `/` including empty string.
+* `**` — Substitutes any number of any character include `/` including empty string.
+* `?` — Substitutes any single character.
+* `{some_string,another_string,yet_another_one}` — Substitutes any of strings `'some_string'`, `'another_string'`, `'yet_another_one'`.
+* `{N..M}` — Substitutes any number in range from `N` to `M` including both borders. `N` and `M` can have leading zeroes e.g. `000..078`.
+
+For example:
+* `url = 'https://my-bucket.us-west-2.amazonaws.com/my_folder/file-{000..999}.csv'`
+* `url = 'https://my-bucket.us-west-2.amazonaws.com/{some,another}_folder/some_file_{1..3}'`
+* `url = 'https://my-bucket.us-west-2.amazonaws.com/{some,another}_folder/some_file_?'`
+* `url = 'https://my-bucket.us-west-2.amazonaws.com/{some,another}_folder/*'`
+
+#### s3_file
+It's possible to overwrite the path specified in the `url` setting. Two settings are provided to support this feature: `s3_file` and `s3_file_pattern`. `s3_file` can be used in both read and write, while `s3_file_pattern` is designed for write cases only.
+
+You can specify `s3_file` in both `SELECT` and `INSERT INTO` queries. Timeplus will combine both `url` and `s3_file` together to compute the final object URL, and use the final URL for reading and writing S3 objects.
+
+`s3_file` can be either an absolute path or a relative path:
+* when `s3_file` is absolute path, it will overwrite the `url` from the root, for example:
+  * Given `url = 'https://my-bucket.us-west-2.amazonaws.com/path/to/my-file.json'`, and `s3_file = '/another-path/to/another.csv'`. The final URL will be `https://my-bucket.us-west-2.amazonaws.com/another-path/to/another.csv`.
+* When `s3_file` is a relative path, it will append to the `url` (the file part of `url` will be removed).
+  * Given `url = 'https://my-bucket.us-west-2.amazonaws.com/path/to/my-file.json'`
+    * with `s3_file = 'another-file.json'`, the final result will be `https://my-bucket.us-west-2.amazonaws.com/path/to/another-file.json`.
+    * with `s3_file = '../../another-path/to/another-file.json'`, the final result will be `https://my-bucket.us-west-2.amazonaws.com/another-path/to/another-file.json`.
+  * Given `url = 'https://my-bucket.us-west-2.amazonaws.com/some-path/'` (points to a folder, this **MUST** ends with a forward slash `/`, removing the tailing slash, `some-path` will be treated as the file name
+    * with `s3_file = 'my-file.json'`, the final result will be `https://my-bucket.us-west-2.amazonaws.com/some-path/my-file.json`.
+    * with `s3_file = ../another-path/my-file.json'`, the final result will be `https://my-bucket.us-west-2.amazonaws.com/another-path/my-file.json`.
+
+`s3_file` supports wildcards as well (only useful for `SELECT`), e.g. `s3_file = '2024-0{1..3}/*.json'`.
+
+`s3_file` is mostly useful for writing to external streams which have wildcards in their `url`. As mentioned above, it's not supported to write to an external stream that uses wildcards in `url`. So, you will need `s3_file` (or `s3_file_pattern`) for such use case.
+
+For example, there is an example stream that reads all CSV files under `https://my-bucket.us-west-2.amazonaws.com/some_folder/`:
 ```sql
-CREATE EXTERNAL STREAM ext_stream (raw string)
-SETTINGS type='pulsar',
-         service_url='pulsar+ssl://pc-12345678.gcp-shared-usce1.g.snio.cloud:6651',
-         topic='persistent://tenant/namespace/topic',
-         jwt='eyJh..syFQ'
+CREATE EXTERNAL STREAM example (name string, value uint32)
+SETTINGS
+  type = 's3',
+  url = 'https://my-bucket.us-west-2.amazonaws.com/some_folder/*.csv',
+  data_format = 'CSV';
 ```
 
-### DDL Settings
+In order to write data to this stream, you can do it with `s3_file` like this:
+```sql
+INSERT INTO example VALUES ... SETTINGS s3_file = 'new.csv';
+```
+So, data from the above query will be written into the object `https://my-bucket.us-west-2.amazonaws.com/some_folder/new.csv`.
+
+##### Writing To Multiple Files
+
+As timeplusd is a streaming engine, it's common to write data from a stream to a S3 bucket. So, it's important to be able to split the data into multiple S3 objects. There are two settings to control this behavior:
+* `s3_min_upload_file_size` - the minimum size of file to upload to S3, i.e. once the size of accumulated data reaches this value, the stream will complete the current upload, an object will be created in the S3 bucket, and the stream will start a new upload.
+* `s3_multipart_upload_max_idle_ms` - (WIP) this defines the amount of time the stream can be idle, i.e. if there is no data comes in for this amount of time, the stream will complete the current upload, create an object in the S3 bucket and starts a new upload.
+
+##### Example with s3_min_upload_file_size #####
+
+Given stream:
+```sql
+CREATE EXTERNAL STREAM example (name string, value uint32
+SETTINGS
+  type = 's3',
+  url = 'https://my-bucket.us-west-2.amazonaws.com/some_folder/data.csv',
+  data_format = 'CSV';
+```
+
+With
+```sql
+INSERT INTO example SETTINGS s3_min_upload_file_size = 1048576 SELECT name, value FROM my_data_stream;
+```
+It will create one new S3 object whenever it writes 1 MiB data. Note, the S3 objects could have a size bigger than 1 MiB, because `s3_min_upload_file_size` flushes the current file when it reaches 1 MiB of data (that's why there is a `min` in the setting's name).
+
+The first file will be named `data.csv` (as defined in `url`, you can define the file name with `s3_file` too as explained above), this is called the basic file name. The consecutive files will have a continuous integer prepend to the file's extension name (if there is one). So, in this case, the consecutive files will be named: `data.1.csv`, `data.2.csv`, ..., `data.10.csv`, `data.11.csv`, ...
+
+##### Setting: s3_file_pattern #####
+
+With the above example, it does not give you much control on the file path/file name of the generated S3 objects. For some use cases, it requires a better way to control the generated file names. This is what the setting `s3_file_pattern` could help.
+
+`s3_file_pattern` works the as way as the `s3_file` setting, the only difference is that the value of `s3_file_pattern` is a SQL expression that will be evaluated at runtime to generate the file names.
+
+For example, it's a common pattern to put files under folders named with the dates when the files were generated, then we can use `s3_file_pattern = 'format_datetime(now(), \'%F/log-%H%i%s.json\')'`, which will generate file names like: `2024-10-15/log-100000.json`, `2024-10-15/log-173050.json`, `2024-10-16/log-000000.json`, etc.
+
+**IMPORTANT:**
+* Each file name is evaluated using the **first** record of data in that file.
+* The expression should guarantee that when it gets evaluated, it will return a unique value.
 
 #### skip_server_cert_check
 Default false. If set to true, it will accept untrusted TLS certificates from brokers.
@@ -84,7 +213,7 @@ For data formats which write multiple rows into one single message (such as `JSO
 #### max_insert_block_bytes
 `max_insert_block_bytes` to control the maximum size (in bytes) that one message can be.
 
-## Read Data in Pulsar
+## Read Data in S3
 ### Read messages in a single column {#single_col_read}
 
 If the message in Pulsar topic is in plain text format or JSON, you can create an external stream with only a `raw` column in `string` type.
@@ -210,11 +339,11 @@ When doing a SELECT query, the message key will be populated to the `_tp_message
 CREATE EXTERNAL STREAM foo (
     id int32,
     name string,
-    _tp_message_key nullable(string) default null
+    _tp_message_key string default null
 ) SETTINGS type='pulsar',...;
 ```
 
-## Write Data to Pulsar
+## Write Data to S3
 
 ### Write to Pulsar in Plain Text {#single_col_write}
 
@@ -362,7 +491,7 @@ Then refer to this schema while creating an external stream for Pulsar:
 CREATE EXTERNAL STREAM stream_avro(
          name string,
          favorite_number nullable(int32),
-         favorite_color nullable(string))
+         favorite_color string)
 SETTINGS type='pulsar',
          service_url='pulsar://host.docker.internal:6650',
          topic='persistent://public/default/avro',
