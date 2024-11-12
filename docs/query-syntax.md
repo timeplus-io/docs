@@ -34,20 +34,18 @@ Timeplus supports some advanced `SETTINGS` to fine tune the streaming query proc
 
 ## EMIT{#emit}
 
-As an advanced feature, Timeplus Proton support various policies to emit results during streaming query.
+As an advanced feature, Timeplus supports various policies to emit results during streaming query.
 
 The syntax is:
 
 ```sql
 EMIT
  [AFTER WATERMARK [WITH DELAY <interval>]
- [PERIODIC <interval>]
+ [PERIODIC <interval> [REPEAT]]
  [ON UPDATE]
   - [[ AND ]TIMEOUT <interval>]
   - [[ AND ]LAST <interval> [ON PROCTIME]]
 ```
-
-Please note some policies are added in Proton 1.5 and incompatible with 1.4 or earlier version.
 
 ### EMIT AFTER WATERMARK {#emit_after_wm}
 
@@ -63,12 +61,6 @@ The above example SQL continuously aggregates max cpu usage per device per tumbl
 
 ### EMIT AFTER WATERMARK WITH DELAY {#emit_after_wm_with_delay}
 
-:::warning
-
-Before Proton 1.5, the syntax was `EMIT AFTER WATERMARK AND DELAY`. Since Proton 1.5, we use `WITH DELAY` instead of `AND DELAY`, in order to make `AND` as the keyword to combine multiple emit polices.
-
-:::
-
 Example:
 
 ```sql
@@ -82,7 +74,7 @@ The above example SQL continuously aggregates max cpu usage per device per tumbl
 
 ### EMIT PERIODIC {#emit_periodic}
 
-`PERIODIC <n><UNIT>` tells Proton to emit the aggregation periodically. `UNIT` can be ms(millisecond), s(second), m(minute),h(hour),d(day).`<n>` shall be an integer greater than 0.
+`PERIODIC <n><UNIT>` tells Timeplus to emit the aggregation periodically. `UNIT` can be ms(millisecond), s(second), m(minute),h(hour),d(day).`<n>` shall be an integer greater than 0.
 
 Example:
 
@@ -97,7 +89,7 @@ For [Global Streaming Aggregation](#global) the default periodic emit interval i
 
 Since Proton 1.5, you can also apply `EMIT PERIODIC` in time windows, such as tumble/hop/session.
 
-When you run a tumble window aggregation, by default Proton will emit results when the window is closed. So `tumble(stream,5s)` will emit results every 5 seconds, unless there is no event in the window to progress the watermark.
+When you run a tumble window aggregation, by default Timeplus will emit results when the window is closed. So `tumble(stream,5s)` will emit results every 5 seconds, unless there is no event in the window to progress the watermark.
 
 In some cases, you may want to get aggregation results even the window is not closed, so that you can get timely alerts. For example, the following SQL will run a 5-second tumble window and every 1 second, if the number of event is over 300, a row will be emitted.
 
@@ -107,6 +99,13 @@ FROM tumble(car_live_data, 5s)
 GROUP BY window_start
 HAVING cnt > 300
 EMIT PERIODIC 1s
+```
+
+### EMIT PERIODIC REPEAT {#emit_periodic_repeat}
+Starting from Timeplus Proton 1.6.2, you can optionally add `REPEAT` to the end of `EMIT PERIODIC <n><UNIT>`. For global aggregations, by default every 2 seconds, the aggregation result will be emitted. But if there is no new event since last emit, no result will be emitted. With the `REPEAT` at the end of the emit policy, Timeplus will emit results at the fixed interval, even there is no new events since last emit. For example:
+```sql
+SELECT count() FROM t
+EMIT STREAM PERIODIC 3s REPEAT
 ```
 
 ### EMIT ON UPDATE {#emit_on_update}

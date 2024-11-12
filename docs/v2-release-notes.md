@@ -2,6 +2,20 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Nov 11, 2024
+
+### Timeplus Proton v1.6.2
+* Added a new [EMIT policy](/query-syntax#emit) in streaming SQL with global aggregation. The new [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax will show the last aggregation result even there is no new event.
+* Fixed a bug that views with incorrect syntax could be created.
+
+### Timeplus Grafana plugin v2.0.0
+* The new release of Timeplus Grafana Plugin v2.0, available now on [our GitHub repository](https://github.com/timeplus-io/proton-grafana-source). This latest version introduces significant improvements in both performance and stability. Whether you’re using Timeplus Enterprise or the open-source Timeplus Proton, this plugin allows you to seamlessly monitor real-time data through Grafana, utilizing both simple and complex analytics to track live data trends.
+
+### Documentation Updates
+* Updated the guide of [Ingest REST API](/ingest-api) to add more instructions for self-hosting Timeplus Enterprise. API keys are only available in Timeplus Cloud. For self-hosting deployment, please encode the username and password with base64, and set it in the HTTP Authorization header.
+* Updated the structure of [Kafka external stream](/proton-kafka). Mentioned `RawBLOB` as a supported data format.
+* Added documentation for materialized view [load balancing](/proton-create-view#memory_weight).
+
 ## Oct 28, 2024
 
 ### Timeplus Proton v1.6.1
