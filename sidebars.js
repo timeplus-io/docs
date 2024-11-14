@@ -409,8 +409,11 @@ const sidebars = {
       label: "Third-party Tools",
       //collapsed: false,
       link: {
-        type: "doc",
-        id: "glossary",
+        type: "generated-index",
+        title: "Third-party Tools",
+        description: "Integrate Timeplus to your tool stacks.",
+        slug: "/category/tools",
+        keywords: ["guides"],
       },
       items: [
         "integration-grafana",
