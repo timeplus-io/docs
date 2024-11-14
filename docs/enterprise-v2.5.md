@@ -24,12 +24,12 @@ Please use the stable releases for production deployment, while we also provide 
 
 ### 2.5.9 (Stable) {#2_5_9}
 Built on 11-0?-2024. You can install via:
-* For Linux or Mac users: `curl https://install.timeplus.com/stable | sh`
+* For Linux or Mac users: `curl https://install.timeplus.com/2.5 | sh`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.? ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.9`
 
 Component versions:
-* timeplusd 2.4.22
+* timeplusd 2.4.23
 * timeplus_web 2.0.6
 * timeplus_appserver 2.0.9
 * timeplus_connector 2.0.3
@@ -45,7 +45,7 @@ Component versions:
 #### Changelog {#changelog_2_5_9}
 
 Compared to the [2.4.23](/enterprise-v2.4#2_4_23) release:
-* timeplusd 2.3.30 -> 2.4.22
+* timeplusd 2.3.30 -> 2.4.23
   * new type of [External Streams for Apache Pulsar](/pulsar-external-stream).
   * for bare metal installation, previously you can login with the username `default` with empty password. To improve the security, this user has been removed.
   * enhancement for nullable data types in streaming and historical queries.
