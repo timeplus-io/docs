@@ -23,9 +23,9 @@ Key highlights of this release:
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
 ### 2.5.9 (Stable) {#2_5_9}
-Built on 11-0?-2024. You can install via:
+Built on 11-15-2024. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.5 | sh`
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.? ..`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.7 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.9`
 
 Component versions:
