@@ -38,3 +38,5 @@ ignore:
   - role\d
   - mv\d+
   - node\d+
+  - acks=all
+  - "\\b\\w+\\."
