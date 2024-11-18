@@ -1,4 +1,4 @@
-name: Generate PDF (En)
+name: Spellchecker Timeplus
 
 on:
   workflow_dispatch:
