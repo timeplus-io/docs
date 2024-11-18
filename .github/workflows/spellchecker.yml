@@ -1,8 +1,7 @@
 name: Spellchecker Timeplus
 
 on:
-  workflow_dispatch:
-
+  workflow_dispatch:  
 env:
   PRINCE_VER: 15.3
 
@@ -10,15 +9,16 @@ jobs:
   spellchecker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4.2.2
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.1.0
-      - name: Go to homebrew
-        run:  cd /opt/homebrew/bin/
-      - name: Add spellchecker
-        run: yarn global add spellchecker-cli
-      - name: Spellcheck docs/timeplus.com
-        run: yarn run spellchecker
+      - name: Checkout Code
+        uses: actions/checkout@v4  
 
-      
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4  
+        with:
+          node-version: 16 
+
+      - name: Install Yarn Dependencies
+        run: yarn install  
+
+      - name: Run Spellchecker
+        run: yarn spellchecker 
