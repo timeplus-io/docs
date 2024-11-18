@@ -22,7 +22,6 @@ Airbyte
 AirByte
 aiven
 Aiven
-api.
 api_key
 apiKey
 APIs
@@ -83,7 +82,6 @@ Benthos
 Benthos-based
 beta1
 beta2
-beta2.
 bigint
 BigTable
 Binance
@@ -114,7 +112,6 @@ cli
 CLI
 cli-queries-with-parameters
 cli-queries-with-parameters-syntax
-CLI.
 cli_usage
 clickhouse
 ClickHouse
@@ -175,7 +172,6 @@ datetime
 Datetime
 dateTime
 DateTime
-datetime.
 datetime64
 datetime64
 dateTime64
@@ -195,6 +191,8 @@ defaultValue
 denormalization
 denormalized
 deployable
+deploymentWebSocket
+deploymentSlackWebhookHundreds
 deserialize
 destination-timeplus
 desynchronized
@@ -234,6 +232,7 @@ eu-central-1
 event1event2
 example-mysql
 failover
+FetchRequests
 fintech
 FinTech
 firstName
@@ -242,7 +241,6 @@ float32
 float64
 force_backfill_in_order
 format_datetime
-format_datetime.
 frontend
 Fullscreen
 fullscreen
@@ -316,6 +314,7 @@ iops
 IOPS
 iot
 IoT
+iovecs
 ip
 iPhone14
 iPhone14_Plus
@@ -372,6 +371,7 @@ K8s
 kafka
 Kafka-compatiable
 kafka-connect-timeplus
+kafka_schema_registry_url
 kcat
 keep-alives
 Keycloak
@@ -407,7 +407,6 @@ M2
 MacBookPro
 MacOS
 macOS
-macOS.
 mapName
 max_ack_pending
 md4
@@ -440,6 +439,8 @@ MV
 mv_memory_usage
 mview
 mysql
+Nagle
+nagle
 nak_delay
 Namespace
 namespace
@@ -520,6 +521,8 @@ preconfigured
 prefetch_count
 PrettyCompact
 productional
+ProduceRequests
+producerequests
 programmatically
 Protobuf
 Protobuf-encoded
@@ -535,7 +538,6 @@ PV
 pvc
 PVCs
 Q1
-Q1.
 quantile
 queryable
 quickstart
@@ -559,6 +561,7 @@ rebuffer
 ReceiverQueueSize
 Redash
 Redpanda
+RedpandaExternal
 RedpandaStreaming
 ReplacingMergeTree
 repo
@@ -574,6 +577,7 @@ s-downsampling
 S-DOWNSAMPLING
 s-mview
 S3
+S3-compatible
 sa-east-1
 SaaS
 sasl
@@ -637,6 +641,7 @@ streamgen
 streamlit
 Streamlit
 StreamNative
+StreamNATSCSV
 strictnesses
 sub-commmands
 subcommand
@@ -722,7 +727,6 @@ udaf
 UDAF
 udaf-example
 udaf-lifecycle
-UDAF.
 udf
 UDF
 UDFs
@@ -776,6 +780,7 @@ WAL
 WarpStream
 weak_hash32
 Webhook
+WebHook
 webhook
 WebSocket
 websocket
