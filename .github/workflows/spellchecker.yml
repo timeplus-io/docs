@@ -14,6 +14,8 @@ jobs:
         uses: actions/checkout@v4.2.2
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.1.0
+      - name: Go to homebrew
+        run:  cd /opt/homebrew/bin/
       - name: Add spellchecker
         run: yarn global add spellchecker-cli
       - name: Spellcheck docs/timeplus.com
