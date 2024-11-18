@@ -21,4 +21,6 @@ jobs:
         run: yarn install  
 
       - name: Run Spellchecker
-        run: yarn spellchecker 
+        run: yarn global add spellchecker-cli
+      - name: Run Spellchecker
+        run: yarn run spellchecker
