@@ -1,0 +1,19 @@
+name: Generate PDF (En)
+
+on:
+  workflow_dispatch:
+
+env:
+  PRINCE_VER: 15.3
+
+jobs:
+  spellchecker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.1.0
+      - name: Spellcheck docs/timeplus.com
+        run: yarn run spellchecker
+      
