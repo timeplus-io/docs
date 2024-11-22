@@ -28,6 +28,12 @@ start service timeplusd
 service timeplusd started
 ```
 
+## timeplus start --start-trial
+By default, when you start Timeplus Enterprise for the first time, you need to login to the Web Console to finish the user onboarding and create an account. You can also automate this by adding `--start-trial` in the `timeplus start` command.
+```
+timeplus start --start-trial --email name@company.com --user user_name --password the_password
+```
+
 ## Note for macOS users
 If you are using macOS and fail to start Timeplus Enterprise, please check the "Privacy & Security" settings and see whether there is any warning for "timeplusd". If so, choose "Allow Anyway" to trust timeplusd and start Timeplus Enterprise again.
 
