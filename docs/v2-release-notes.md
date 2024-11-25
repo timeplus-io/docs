@@ -2,6 +2,19 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Nov 25, 2024
+
+### Timeplus Proton v1.6.3
+* Enhanced the [unique](/functions_for_agg#unique) and [unique_exact](/functions_for_agg#unique_exact) functions to support [Changelog Streams](/changelog-stream).
+* Updated a few [examples](https://github.com/timeplus-io/proton/tree/develop/examples)
+  * [CDC(Change Data Capture)](https://github.com/timeplus-io/proton/tree/develop/examples/cdc) example with Debezium and MySQL.
+  * Use latest [Grafana Plugin](https://github.com/timeplus-io/proton-grafana-source) in [IoT demo with awesome sensor app](https://github.com/timeplus-io/proton/tree/develop/examples/awesome-sensor-logger) and [Carsharing data generator](https://github.com/timeplus-io/proton/tree/develop/examples/grafana).
+  * A new sample to [detect idle stream ingestion](https://github.com/timeplus-io/proton/tree/develop/examples/broken-stream-monitor) using the new [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax.
+
+### Timeplus Native JDBC v2.0.7
+* Fixed the issue of getTables method in [TimeplusDatabaseMetadata](https://github.com/timeplus-io/timeplus-native-jdbc/blob/main/timeplus-native-jdbc/src/main/java/com/timeplus/jdbc/TimeplusDatabaseMetadata.java), so that Timeplus streams, views and materialized views can be listed in SQL tools.
+* Better dependency management and minor bug fixes.
+
 ## Nov 11, 2024
 
 ### Timeplus Proton v1.6.2
