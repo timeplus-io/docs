@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.17.7",
-    "@crowdin/cli": "^4.3.0",
+    "@crowdin/cli": "^4.4.0",
     "@docusaurus/core": "^3.6.3",
     "@docusaurus/plugin-google-gtag": "^3.6.3",
     "@docusaurus/plugin-google-tag-manager": "^3.6.3",
@@ -32,7 +32,7 @@
     "@mdx-js/react": "^3.1.0",
     "docusaurus-plugin-hubspot": "^1.0.1",
     "mdx-mermaid": "^2.0.2",
-    "mermaid": "^11.4.0",
+    "mermaid": "^11.4.1",
     "prism-react-renderer": "^2.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
