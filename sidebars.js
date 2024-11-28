@@ -109,13 +109,32 @@ const sidebars = {
           customProps: { tag: "Enterprise" },
           items: [
             {
-              type: "doc",
-              label: "Data Visualization",
-              id: "viz",
+              type: "category",
+              label: "Getting Data In",
+              //collapsed: false,
+              link: {
+                type: "doc",
+                id: "ingestion",
+              },
+              items: [
+                "kafka-source",
+                "confluent-cloud-source",
+                /*"pulsar-source",*/
+                {
+                  type: "doc",
+                  id: "ingest-api",
+                  customProps: { tag: "Enterprise" },
+                },
+              ],
             },
             {
               type: "doc",
               id: "destination",
+            },
+            {
+              type: "doc",
+              label: "Data Visualization",
+              id: "viz",
             },
             {
               type: "doc",
@@ -181,25 +200,6 @@ const sidebars = {
         "tutorial-github",
         "tutorial-sql-connect-kafka",
         "tutorial-sql-connect-ch",
-        {
-          type: "category",
-          label: "More Data Collection Guides",
-          //collapsed: false,
-          link: {
-            type: "doc",
-            id: "ingestion",
-          },
-          items: [
-            "kafka-source",
-            "confluent-cloud-source",
-            /*"pulsar-source",*/
-            {
-              type: "doc",
-              id: "ingest-api",
-              customProps: { tag: "Enterprise" },
-            },
-          ],
-        },
         {
           type: "category",
           label: "Streaming ETL",
