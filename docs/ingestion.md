@@ -14,19 +14,19 @@ Timeplus supports multiple ways to load data into the system, or access the exte
 
 Choose "Data Collection" from the navigation menu to setup data access to other systems. There are two categories:
 * Timeplus Connect: directly supported by Timeplus Inc, with easy-to-use setup wizards.
-  * Demo Stream: generate random data for various use cases
-  * Timeplus: read data from another Timeplus deployment
-  * Apache Kafka: setup external streams to read from Apache Kafka
+  * Demo Stream: generate random data for various use cases. [Learn more](#streamgen)
+  * Timeplus: read data from another Timeplus deployment. [Learn more](/timeplus-external-stream)
+  * Apache Kafka: setup external streams to read from Apache Kafka. [Learn more](#kafka)
   * Confluent Cloud: setup external streams to read from Confluent Cloud
-  * Redpandan: setup external streams to read from Redpanda
-  * Apache Pulsar: setup external streams to read from Apache Pulsar
-  * ClickHouse: setup external tables to read from ClickHouse, without duplicating data in Timeplus
+  * Redpanda: setup external streams to read from Redpanda
+  * Apache Pulsar: setup external streams to read from Apache Pulsar. [Learn more](#pulsar)
+  * ClickHouse: setup external tables to read from ClickHouse, without duplicating data in Timeplus. [Learn more](/proton-clickhouse-external-table)
   * NATS: load data from NATS to Timeplus streams
   * WebSocket: load data from WebSocket to Timeplus streams
   * HTTP Stream: load data from HTTP stream to Timeplus streams
   * Coinbase Exchange: connect to the Coinbase Exchange via WebSocket and load data into Timeplus streams
-  * CSV: choose a CSV file and send to Timeplus
-  * Stream Ingestion: a wizard to guide you to push data to Timeplus via Ingest REST API
+  * CSV: choose a CSV file and send to Timeplus. [Learn more](#csv)
+  * Stream Ingestion: a wizard to guide you to push data to Timeplus via Ingest REST API. [Learn more](/ingest-api)
 * Redpanda Connect: available since Timeplus Enterprise 2.5 or above. Set up data access to other systems by editing a YAML file. Powered by Redpanda Connect, supported by Redpanda Data Inc. or Redpanda Community.
 
 
@@ -39,9 +39,9 @@ As of today, Kafka is the primary data integration for Timeplus. With our strong
 
 ### Load streaming data from Apache Pulsar {#pulsar}
 
-Apache® Pulsar™ is a cloud-native, distributed, open source messaging and streaming platform for real-time workloads. Timeplus added the integration for Apache Pulsar as both a data source and a data sink.
+Apache® Pulsar™ is a cloud-native, distributed, open source messaging and streaming platform for real-time workloads. Since Timeplus Enterprise 2.5, Pulsar External Streams can be created to read or write data for Pulsar.
 
-[Learn more.](/pulsar-source)
+[Learn more.](/pulsar-external-stream)
 
 ### Upload local files {#csv}
 
@@ -95,43 +95,34 @@ Just name a few data sources from Airbyte:
 - Slack or Microsoft Teams
 - PostgreSQL, RedShift, Snowflake, MongoDB, MySQL, Microsoft SQL Server, etc
 
-### Kafka Connectors
+### Kafka Connect
 
 You can use Kafka Connectors to load data from popular data sources into Confluent Cloud, Confluent Platform, or Apache Kafka, then use Timeplus to load them into streams via the built-in Kafka Source.
 
 There are a few examples of data sources that can be ingested into Timeplus via Kafka Connectors. Please check https://www.confluent.io/product/confluent-connectors/ for more details.
 
-- Apache ActiveMQ
 - Amazon CloudWatch Logs
-- [Amazon Kinesis](#kinesis)
+- Amazon Kinesis
 - Amazon S3
 - Amazon SQS
 - Azure Blob Storage
 - Azure Event Hubs
 - CockroachDB CDC
 - Databricks
-- Github
 - Google Cloud Pub/Sub
-- IBM MQ
 - InfluxDB
 - JDBC
 - Microsoft SQL Server
 - MongoDB
 - MQTT
 - MySQL CDC
-- Neo4j
 - Oracle Database
 - PostgreSQL CDC
-- RabbitMQ
 - Salesforce
 - ServiceNow
 - SFTP
 - SNMP
 - Splunk
-- TiDB CDC
-- Tigergraph
-- Zendesk
-
 
 ### Sling {#sling}
 

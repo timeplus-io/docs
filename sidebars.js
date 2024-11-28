@@ -119,7 +119,6 @@ const sidebars = {
               items: [
                 "kafka-source",
                 "confluent-cloud-source",
-                /*"pulsar-source",*/
                 {
                   type: "doc",
                   id: "ingest-api",
