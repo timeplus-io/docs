@@ -23,7 +23,7 @@ jobs:
       - name: Install Spellchecker CLI
         run: yarn global add spellchecker-cli # Install spellchecker-cli globally
         
-      - name: Install Spellchecker Dev
+      - name: Local Installation of Spellchecker 
         run: yarn add spellchecker-cli --dev
         
      
