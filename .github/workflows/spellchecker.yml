@@ -19,7 +19,6 @@ jobs:
 
       - name: Install Yarn Dependencies
         run: yarn install  
-      - run: cd /opt/homebrew
       - run: brew install spellchecker
 
       - name: Run Spellchecker
