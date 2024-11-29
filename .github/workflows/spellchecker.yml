@@ -19,9 +19,17 @@ jobs:
 
       - name: Install Yarn Dependencies
         run: yarn install  
-     
+
       - name: Install Spellchecker CLI
         run: yarn global add spellchecker-cli # Install spellchecker-cli globally
         
+      - name: Install Spellchecker Dev
+        run: yarn add spellchecker-cli --dev
+        
+     
+        
       - name: Run Spellchecker
         run: yarn run spellchecker 'docs/**/*.md' --config ./spellchecker/config.yml
+
+      - name: Run spellchecker
+        run: yarn run spellcheck --verbose
