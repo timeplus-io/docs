@@ -27,9 +27,5 @@ jobs:
         run: yarn add spellchecker-cli --dev
         
      
-        
-      - name: Run Spellchecker
-        run: yarn run spellchecker 'docs/**/*.md' --config ./spellchecker/config.yml
-
       - name: Run spellchecker
         run: yarn run spellcheck --verbose
