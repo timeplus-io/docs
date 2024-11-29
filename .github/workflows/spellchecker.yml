@@ -26,12 +26,9 @@ jobs:
    
       - name: Run spellchecker
         run: yarn run spellcheck || true
-    
-      - name: Install junit2html
-        run: pip install junit2html
-
+  
       - name: Generate HTML Report
-        run: junit2html spellchecker/report.junit.xml spellchecker/report.html
+        run: spellchecker/report.html
    
       - name: Upload HTML Report
         uses: actions/upload-artifact@v4
