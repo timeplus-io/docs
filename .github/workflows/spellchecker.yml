@@ -28,7 +28,7 @@ jobs:
         run: yarn run spellcheck || true
    
       - name: Upload HTML Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Spellchecker Report
           path: spellchecker/report.html
