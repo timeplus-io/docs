@@ -24,4 +24,4 @@ jobs:
         run: brew install spellchecker  # Install spellchecker-cli globally
 
       - name: Run Spellchecker
-        run: yarn run spellchecker verbose # Run spellchecker (assuming this is how you have configured it)
+        run: yarn run spellchecker --verbose # Run spellchecker (assuming this is how you have configured it)
