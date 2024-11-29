@@ -1,4 +1,4 @@
-name: Spellchecker Timeplus
+name: Generate Spelling Error Report
 
 on:
   workflow_dispatch:  
