@@ -20,7 +20,7 @@ jobs:
       - name: Install Yarn Dependencies
         run: yarn install  
       - name: Update Yarn 
-        run: yarn update  
+        run: yarn run update  
 
       - name: Install Spellchecker CLI
         run: yarn global add spellchecker-cli # Install spellchecker-cli globally
