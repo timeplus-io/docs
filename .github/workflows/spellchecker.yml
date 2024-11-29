@@ -28,4 +28,4 @@ jobs:
         
      
       - name: Run spellchecker
-        run: yarn run spellchecker || true
+        run: yarn run spellchecker --verbose|| true
