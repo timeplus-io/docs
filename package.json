@@ -14,7 +14,7 @@
     "write-translations": "docusaurus write-translations",
     "rest-doc": "redocly bundle external@latest --output external.yaml && redocly build-docs ./external.yaml -o static/rest.html && rm ./external.yaml",
     "crowdin": "crowdin",
-    "spellcheck": "spellchecker --config spellchecker/config.yml && junit2html spellchecker/report.junit.xml spellchecker/report.html",
+    "spellcheck": "spellchecker --config spellchecker/config.yml",
     "en-pdf-list": "npx docusaurus-prince-pdf -u https://docs.timeplus.com --list-only",
     "en-pdf-gen": "npx docusaurus-prince-pdf -u https://docs.timeplus.com --pdf-only",
     "write-heading-ids": "docusaurus write-heading-ids"
