@@ -4,7 +4,7 @@ dictionaries:
   - spellchecker/dic.txt
 reports:
   - spellchecker/report.junit.xml
-  - spellchecker/report.html
+  - spellchecker/report.json
 ignore:
   - key\d
   - 1f71acbf-59fc-427d-a634-1679b48029a9
