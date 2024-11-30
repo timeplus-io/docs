@@ -24,34 +24,12 @@ jobs:
       - name: Install Spellchecker CLI
         run: yarn global add spellchecker-cli # Install spellchecker-cli globally
 
+      
+      - name: Install junit2html
+        run: pip install junit2html   # Install Python-based junit2html tool
       - name: Run spellchecker
         run: yarn run spellcheck || true   # Runs the spellcheck command
 
-      - name: Log spellcheck output
-        run: |
-          echo "Displaying spellcheck logs for debugging:"
-          yarn run spellcheck || true
-
-      - name: List all files
-        run: |
-          echo "Listing all files in the current directory and subdirectories:"
-          ls -R
-
-      - name: Check report.junit.xml
-        run: |
-          if [ -f "spellchecker/report.junit.xml" ]; then
-            echo "Found spellchecker/report.junit.xml";
-          else
-            echo "spellchecker/report.junit.xml is missing!";
-          fi
-
-      - name: Check report.html
-        run: |
-          if [ -f "spellchecker/report.html" ]; then
-            echo "Found spellchecker/report.html";
-          else
-            echo "spellchecker/report.html is missing!";
-          fi
 
       - name: Upload HTML Report
         uses: actions/upload-artifact@v4
