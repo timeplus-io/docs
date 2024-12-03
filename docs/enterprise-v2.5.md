@@ -47,7 +47,7 @@ Component versions:
 Compared to the [2.5.10](#2_5_10) release:
 * timeplusd 2.4.24 -> 2.4.26
   * enhancements for multi-raft clusters
-  * bugfix for data ingrestion in Timeplus external streams
+  * bugfix for data ingestion in Timeplus external streams
 
 You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2.5, by stopping the components and replacing the binary files, or reusing the Docker or Kubernetes volumes and update the image versions.
 
