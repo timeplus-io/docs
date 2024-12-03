@@ -88,6 +88,11 @@ const sidebars = {
         "proton-format-schema",
         "proton-clickhouse-external-table",
         {
+          type: "doc",
+          id: "redpanda-connect",
+          customProps: { tag: "Enterprise" },
+        },
+        {
           type: "category",
           label: "User Defined Functions",
           collapsed: false,
@@ -447,7 +452,7 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
-        // "enterprise-v2.5",
+        "enterprise-v2.5",
         "enterprise-v2.4",
         "enterprise-v2.3",
         "v2-release-notes",

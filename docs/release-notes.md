@@ -3,6 +3,7 @@
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, including new features and important bug fixes.
 
 Release notes by version:
+- [Timeplus Enterprise 2.5](/enterprise-v2.5)
 - [Timeplus Enterprise 2.4](/enterprise-v2.4)
 - [Timeplus Enterprise 2.3](/enterprise-v2.3)
 
