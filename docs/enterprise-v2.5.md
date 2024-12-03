@@ -57,7 +57,6 @@ You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2
 
 ### 2.5.10 (Controlled Release) {#2_5_10}
 Built on 11-21-2024. You can install via:
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.8 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.10`
 
 Component versions:
@@ -85,7 +84,6 @@ You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2
 
 ### 2.5.9 (Controlled Release) {#2_5_9}
 Built on 11-15-2024. You can install via:
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.7 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.9`
 
 Component versions:
