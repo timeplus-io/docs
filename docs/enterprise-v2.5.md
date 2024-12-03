@@ -19,12 +19,44 @@ Key highlights of this release:
 * Approximately 30% faster data ingestion and replication in the cluster mode.
 * Performance improvement for [ASOF JOIN](/joins) and [EMIT ON UPDATE](/query-syntax#emit_on_update).
 
+## Supported OS {#os}
+|Deployment Type| OS |
+|--|--|
+|Linux bare metal| x64 or ARM chips: Ubuntu 20.04+, RHEL 8+, Fedora 35+, Amazon Linux 2023|
+|Mac bare metal| Intel or Apple chips: macOS 14, macOS 15|
+|Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
+
 ## Releases
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
-### 2.5.10 (Stable) {#2_5_10}
-Built on 11-21-2024. You can install via:
+### 2.5.11 (Public GA) {#2_5_11}
+Built on 12-01-2024. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.5 | sh`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.10 ..`
+* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.11`
+
+Component versions:
+* timeplusd 2.4.26
+* timeplus_web 2.0.6
+* timeplus_appserver 2.0.9
+* timeplus_connector 2.0.3
+* timeplus cli 1.2.8
+
+#### Changelog {#changelog_2_5_11}
+
+Compared to the [2.5.10](#2_5_10) release:
+* timeplusd 2.4.24 -> 2.4.26
+  * enhancements for multi-raft clusters
+  * bugfix for data ingrestion in Timeplus external streams
+
+You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2.5, by stopping the components and replacing the binary files, or reusing the Docker or Kubernetes volumes and update the image versions.
+
+#### Known issues {#known_issue_2_5_11}
+1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.
+
+### 2.5.10 (Controlled Release) {#2_5_10}
+Built on 11-21-2024. You can install via:
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.8 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.10`
 
@@ -35,12 +67,6 @@ Component versions:
 * timeplus_connector 2.0.3
 * timeplus cli 1.2.8
 
-#### Supported OS {#os_2_5_10}
-|Deployment Type| OS |
-|--|--|
-|Linux bare metal| x64 or ARM chips: Ubuntu 20.04+, RHEL 8+, Fedora 35+, Amazon Linux 2023|
-|Mac bare metal| Intel or Apple chips: macOS 14, macOS 15|
-|Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
 
 #### Changelog {#changelog_2_5_10}
 
@@ -57,9 +83,8 @@ You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2
 1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
 2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.
 
-### 2.5.9 (Stable) {#2_5_9}
+### 2.5.9 (Controlled Release) {#2_5_9}
 Built on 11-15-2024. You can install via:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.5 | sh`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.7 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.9`
 
@@ -69,13 +94,6 @@ Component versions:
 * timeplus_appserver 2.0.9
 * timeplus_connector 2.0.3
 * timeplus cli 1.2.7
-
-#### Supported OS {#os_2_5_9}
-|Deployment Type| OS |
-|--|--|
-|Linux bare metal| x64 or ARM chips: Ubuntu 20.04+, RHEL 8+, Fedora 35+, Amazon Linux 2023|
-|Mac bare metal| Intel or Apple chips: macOS 14, macOS 15|
-|Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
 
 #### Changelog {#changelog_2_5_9}
 
