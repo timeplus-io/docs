@@ -2215,9 +2215,9 @@
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
 "@crowdin/cli@^4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-4.4.0.tgz#8ba6718b079f3af4032dd499ad38fdf1dfc40f62"
-  integrity sha512-oKpM535mnzCaZRWcTAIDYfMY0ABnl0VkxM++7sfpAyn6dtf+QGhxHuruOfuOwEaSOJxG0pEhCy0UC2LpYUUb2Q==
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@crowdin/cli/-/cli-4.4.1.tgz#89b80485575fcf33e1ddbcd591aea7579d683df0"
+  integrity sha512-xMKpEnROB+TD2cvkjCmgt/vhxp9V/mraAeD5Mqocev6eUutQW7JfqX7Q2dOE9H1SIoXs7UzNpzpaZ64YdxVcZg==
   dependencies:
     command-exists-promise "^2.0.2"
     node-fetch "2.7.0"
@@ -6923,10 +6923,10 @@ has-yarn@^3.0.0:
   resolved "https://registry.yarnpkg.com/has-yarn/-/has-yarn-3.0.0.tgz#c3c21e559730d1d3b57e28af1f30d06fac38147d"
   integrity sha512-IrsVwUHhEULx3R8f/aA8AHuEzAorplsab/v8HBzEiIukwq5i/EC+xmOW+HfP1OaDP+2JkgT1yILHN2O3UFIbcA==
 
-hasown@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/hasown/-/hasown-2.0.1.tgz#26f48f039de2c0f8d3356c223fb8d50253519faa"
-  integrity sha512-1/th4MHjnwncwXsIW6QMzlvYL9kG5e/CpVvLRZe4XPa8TOUNbCELqmvhDmnkNsAjwaG4+I8gJJL0JBvTTLO9qA==
+hasown@^2.0.0, hasown@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/hasown/-/hasown-2.0.2.tgz#003eaf91be7adc372e84ec59dc37252cedb80003"
+  integrity sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==
   dependencies:
     function-bind "^1.1.2"
 
@@ -7493,11 +7493,11 @@ is-ci@^3.0.1:
     ci-info "^3.2.0"
 
 is-core-module@^2.13.0:
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.13.1.tgz#ad0d7532c6fea9da1ebdc82742d74525c6273384"
-  integrity sha512-hHrIjvZsftOsvKSn2TRYl63zvxsgE0K+0mYMoH6gD4omR5IWB2KynivBQczo3+wF1cCkjzvptnI9Q0sPU66ilw==
+  version "2.15.1"
+  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.15.1.tgz#a7363a25bee942fefab0de13bf6aa372c82dcc37"
+  integrity sha512-z0vtXSwucUJtANQWldhbtbt7BnL0vxiFjIdDLAatwhDYty2bad6s+rijD6Ri4YuYJubLzIJLUidCh09e1djEVQ==
   dependencies:
-    hasown "^2.0.0"
+    hasown "^2.0.2"
 
 is-decimal@^2.0.0:
   version "2.0.1"
@@ -12492,9 +12492,9 @@ yauzl@^2.10.0:
     fd-slicer "~1.1.0"
 
 yauzl@^3.1.0:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/yauzl/-/yauzl-3.1.2.tgz#f3f3d3bdb8b98fbd367e37e1596ad45210da1533"
-  integrity sha512-621iCPgEG1wXViDZS/L3h9F8TgrdQV1eayJlJ8j5A2SZg8OdY/1DLf+VxNeD+q5QbMFEAbjjR8nITj7g4nKa0Q==
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/yauzl/-/yauzl-3.2.0.tgz#7b6cb548f09a48a6177ea0be8ece48deb7da45c0"
+  integrity sha512-Ow9nuGZE+qp1u4JIPvg+uCiUr7xGQWdff7JQSk5VGYTAZMDe2q8lxJ10ygv10qmSj031Ty/6FNJpLO4o1Sgc+w==
   dependencies:
     buffer-crc32 "~0.2.3"
     pend "~1.2.0"
