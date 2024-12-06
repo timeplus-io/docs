@@ -424,6 +424,6 @@ select _tp_delta, val:product_id as product_id, val:price::float as price, ts_ms
 This SQL query may look a bit overwhelming. At the top level, there are 3 subqueries to `union` the result:
 * one subquery is to check if the op is either `c` or `r`. It will insert a new row to the changelog stream with _tp_detla=1
 * one subquery is to check if the op is `d`. It will delete the row in the changelog stream with _tp_detla=-1
-* the last subquery is to check if the op is `u`. It will send a row with _tp_detla=-1 first, followed by a _tp_delta=1. Since union operation in SQL won't gruantee the order of emit, so we created an array for [-1,1] and use `array_join` to turn 1 row to 2 rows, with expected order.
+* the last subquery is to check if the op is `u`. It will send a row with _tp_detla=-1 first, followed by a _tp_delta=1. Since union operation in SQL won't guarantee the order of emit, so we created an array for [-1,1] and use `array_join` to turn 1 row to 2 rows, with expected order.
 
 Click the **Send as Sink** button and choose Timeplus type, to send the results to an existing stream `dim_products` .
