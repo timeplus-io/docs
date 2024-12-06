@@ -2,6 +2,21 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Dec 9, 2024
+
+### Timeplus Enterprise v2.5
+ * [Timeplus Enterprise v2.5](/enterprise-v2.5) is now Generally Available! This milestone marks a significant leap forward for our Timeplus Enterprise v2 which was released earlier this year. In this release, we pushed our unparalleled performance to a new level, natively integrated with Redpanda Connect and Apache Pulsar to access a rich ecosystem of enterprise and AI applications. Key breakthroughs:
+    * [Materialized Views Auto-Rebalancing](/proton-create-view#auto-balancing)
+    * Performance Improvements
+    * Enterprise-Grade Real-Time Data Integration with [200+ Connectors from Redpanda Connect](/redpanda-connect)
+    * [Pulsar External Stream](pulsar-external-stream) to query or process data in Pulsar with SQL
+
+### Timeplus Proton v1.6.4
+* Support more Linux distributions by lowering the required version for GLIBC. For AMD64 chips,the minimal version is 2.2.5, and for ARM64 chips, the minimal version is 2.17.
+
+### Timeplus Python Driver v0.2.13
+* [The new version](https://github.com/timeplus-io/proton-python-driver/releases) adds support for dataframe and idempotent query.
+
 ## Nov 25, 2024
 
 ### Timeplus Proton v1.6.3
