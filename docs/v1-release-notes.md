@@ -263,8 +263,8 @@ _Timeplus Platform:_
 _Proton:_
 
 - You can now install single native binary for Mac or Linux - check out our installation guide [here](https://github.com/timeplus-io/proton/wiki/Install-single-binary-Proton).
-- External streams support writing. [(Learn more)](/proton-kafka#write-to-kafka-with-sql)
-- External streams also support reading from specific Kafka partition(s). [(Learn more)](/proton-kafka#read-specified-partitions)
+- External streams support writing.
+- External streams also support reading from specific Kafka partition(s).
 
 _Timeplus Cloud:_
 
