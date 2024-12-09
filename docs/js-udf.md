@@ -66,7 +66,7 @@ You can use the following code to define a new function `is_work_email` with one
 
 ```javascript
 function is_work_email(values){
-  return values.map(email=>email.endsWith("@gmail.com"));
+  return values.map(email=>!email.endsWith("@gmail.com"));
 }
 ```
 
@@ -273,9 +273,34 @@ Caveats:
 
 This is an advanced feature. Please contact us or discuss your use case in [Community Slack](https://timeplus.com/slack) with us.
 
+## Debug Tips
+### console.log
+Staring from Timeplus Proton 1.6.5 or Timeplus Enterprise 2.5, you can use `console.log(..)` to add logging messages. The logs will be available in the server logs, such as `/var/log/proton-server/proton-server.log` for the Linux-based docker container
+console.log, e.g.
+```
+2024.12.09 19:55:51.585993 [ 34 ] {c4569424-a7b7-4a89-b5a6-2adc22c96628} <Information> JavaScriptUDF(test_add_five_5): show some log
+2024.12.09 19:55:51.586039 [ 34 ] {c4569424-a7b7-4a89-b5a6-2adc22c96628} <Information> JavaScriptUDF(test_add_five_5): [1]
+2024.12.09 19:55:51.586117 [ 34 ] {c4569424-a7b7-4a89-b5a6-2adc22c96628} <Information> JavaScriptUDF(test_add_five_5): about to return
+2024.12.09 19:55:51.586120 [ 34 ] {c4569424-a7b7-4a89-b5a6-2adc22c96628} <Information> JavaScriptUDF(test_add_five_5): [6]
+```
+### Test the JS UDF without running in Timeplus
 
+To improve the debug efficiency, you can test the JS UDF without running them in Timeplus SQL. Taking the `is_work_email` UDF as an example, you can create a JS file and run it with node directly, e.g.
+```javascript
+//the JS UDF to test
+function is_work_email(values){
+  return values.map(email=>!email.endsWith("@gmail.com"));
+}
+//create some testing data
+var tests=['a@gmail.com','eng@timeplus.com']
+//run the UDF
+var results=is_work_email(tests)
+console.log(results)
+```
+Then you can run the JavaScript file with nodejs, e.g.
+```
+node test.js
+[ false, true ]
+```
 
-## Notes
-
-* We will provide better testing tools in the future.
-* The custom JavaScript code is running in a sandbox with V8 engine. It won't impact other workspaces.
+You may use any IDE and set breakpoint or watch the variables.
