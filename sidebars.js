@@ -204,6 +204,7 @@ const sidebars = {
         "tutorial-github",
         "tutorial-sql-connect-kafka",
         "tutorial-sql-connect-ch",
+        "tutorial-cdc-rpcn-pg-to-ch",
         {
           type: "category",
           label: "Streaming ETL",
