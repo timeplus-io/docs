@@ -311,11 +311,14 @@ First given a Avro schema like this:
     "type": "record",
     "fields": [{
         "name": "a_record_field",
-        "type": "record",
-        "fields": [
-            {"name": "one", "type": "string"},
-            {"name": "two", "type": "int"}
-        ]
+        "type": {
+            "name": "a_record_field",
+            "type": "record",
+            "fields": [
+                {"name": "one", "type": "string"},
+                {"name": "two", "type": "int"}
+            ]
+        }
     }]
 }
 ```
