@@ -1,12 +1,12 @@
 # ClickHouse 外部表
 
-自 Proton v1.4.2 起，它增加了对读取或写入 ClickHouse 表格的支持。 这将解锁一系列新的用例，例如
+Since Timeplus Proton v1.4.2, it added the support to read or write ClickHouse tables. 这将解锁一系列新的用例，例如
 
-- 使用 Proton 高效处理 Kafka/Redpanda 中的实时数据，应用平面转换或状态聚合，然后将数据写入本地或远程 ClickHouse 以进行进一步分析或可视化。
+- Use Timeplus to efficiently process real-time data in Kafka/Redpanda, apply flat transformation or stateful aggregation, then write the data to the local or remote ClickHouse for further analysis or visualization.
 - 使用ClickHouse中的静态或缓慢变化的数据来丰富实时数据。 申请流加入。
-- 使用 Proton 查询 ClickHouse 中的历史或近期数据
+- Use Timeplus to query historical or recent data in ClickHouse
 
-这种集成是通过在 Proton 中引入一个新概念来完成的：“外部表”。 Similar to [External Stream](/external-stream), there is no data persisted in Proton. 但是，由于ClickHouse中的数据是表格，而不是数据流的形式，因此我们将其称为外部表。 In the roadmap, we will support more integration by introducing other types of External Table.
+This integration is done by introducing a new concept in Timeplus: "External Table". Similar to [External Stream](/external-stream), there is no data persisted in Timeplus. 但是，由于ClickHouse中的数据是表格，而不是数据流的形式，因此我们将其称为外部表。 In the roadmap, we will support more integration by introducing other types of External Table.
 
 ## 演示视频 {#demo}
 
@@ -47,7 +47,7 @@
 
 :::info
 
-输出中的数据类型将是 Proton 数据类型，例如 `uint8`，而不是 ClickHouse 类型的 `Uint8`。 Proton 维护着这些类型的映射。 [了解更多。](#datatype)
+The data types in the output will be Timeplus data types, such as `uint8`, instead of ClickHouse type `UInt8`. Timeplus maintains a mapping for those types. [了解更多。](#datatype)
 
 :::
 
@@ -94,23 +94,23 @@
 
 ## 从 ClickHouse 读取数据 {#read}
 
-成功创建外部表后，这意味着 Proton 可以连接到 ClickHouse 服务器并获取表架构。
+Once the external table is created successfully, it means Timeplus can connect to the ClickHouse server and fetch the table schema.
 
 你可以通过常规的 `select.. '来查询 来自 table_name`。
 
 :::warning
 
-请注意，在当前的实现中，所有行都将从ClickHouse提取到Proton，其中包含选定的列。 然后 Proton 在本地应用 SQL 函数和 LIMIT n。 不建议对大型的 ClickHouse 表格运行 `SELECT *`。
+Please note, in the current implementation, all rows will be fetched from ClickHouse to Timeplus, with the selected columns. Then Timeplus applies the SQL functions and `LIMIT n` locally. 不建议对大型的 ClickHouse 表格运行 `SELECT *`。
 
-Also note, use the Proton function names when you query the external table, such as [to_int](/functions_for_type#to_int), instead of ClickHouse's naming convention, e.g. [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256). 在当前的实现中，SQL 函数应用于 Proton 引擎中。 我们计划在未来的版本中支持向ClickHouse下推一些功能。
+Also note, use the Timeplus function names when you query the external table, such as [to_int](/functions_for_type#to_int), instead of ClickHouse's naming convention, e.g. [toInt](https://clickhouse.com/docs/en/sql-reference/functions/type-conversion-functions#toint8163264128256). In current implementation, the SQL functions are applied in Timeplus engine. 我们计划在未来的版本中支持向ClickHouse下推一些功能。
 
 :::
 
 局限性：
 
 1. 外部表不支持 tumble/hop/session/table 功能（即将推出）
-2. 标量或聚合函数由 Proton 执行，而不是远程 ClickHouse 执行
-3. `LIMIT n` 由 Proton 执行，而不是远程的 ClickHouse
+2. scalar or aggregation functions are performed by Timeplus, not the remote ClickHouse
+3. `LIMIT n` is performed by Timeplus, not the remote ClickHouse
 
 ## 将数据写入 ClickHouse {#write}
 
@@ -130,4 +130,4 @@ Also note, use the Proton function names when you query the external table, such
 
 ## 支持的数据类型 {#datatype}
 
-外部表支持所有 ClickHouse 数据类型。 在读取或写入数据时，Proton 会应用数据类型映射，例如将 Proton 的 `uint8` 转换为 ClickHouse 的 `Uint8`。 如果您发现数据类型有任何问题，请告诉我们。
+All ClickHouse data types are supported in the external table, except `Point`. While reading or writing data, Timeplus applies a data type mapping, such as converting Timeplus' `uint8` to ClickHouse's `UInt8`. 如果您发现数据类型有任何问题，请告诉我们。
