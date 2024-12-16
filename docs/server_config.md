@@ -1,6 +1,15 @@
 # Server Configuration
 
-When you run Timeplus Enterprise in a self-hosted environment, the default settings are designed to accommodate common use cases with ease and optimal performance. The server can be configured either by modifying the configuration file or via the web console.
+When you run Timeplus Enterprise in a self-hosted environment, the default settings are designed to accommodate common use cases with ease and optimal performance. The server can be configured via the web console, or via Kubernetes Helm chart.
+
+:::info For Kubernetes Deployment
+After the installation, you can further customize the configuration by updating the `values.yaml`. Please refer to [Configuration Guide](/k8s-helm#configuration-guide). Once the `values.yaml` is ready, apply this via:
+
+```bash
+export RELEASE=timeplus
+helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
+```
+:::
 
 ## User Management {#users}
 

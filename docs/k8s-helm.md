@@ -7,33 +7,14 @@ You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://h
 
 ## Prerequisites
 * Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
-* Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, minikube and k3s. Other Kubernetes distributions should work in the similar way.
+* Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
 * Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
-* Network access to Docker Hub
+* Network access to Docker Hub.
 
-## Quickstart with minikube or kind
-This is the quickstart guide to install a 3 nodes Timeplus Enterprise cluster with default configurations on [minikube](https://github.com/kubernetes/minikube) or [kind](https://kind.sigs.k8s.io/) using Helm package manager.
+## Quickstart with self-hosted Kubernetes
+This is the quickstart guide to install a 3 nodes Timeplus Enterprise cluster with default configurations on a self-hosted Kubernetes using Helm package manager.
 
-Although this guidance is focus on minikube or kind, you should be able to install it on other Kubernetes, such as Amazon EKS or your own Kubernetes cluster as well. You may need to update configurations accordingly to fit your Kubernetes environment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
-
-### Get minikube or kind ready
-
-<Tabs defaultValue="minikube">
-<TabItem value="minikube" label="minikube" default>
-Please follow https://minikube.sigs.k8s.io/docs/start/ to get the minikube ready. For Mac users, you may get it via:
-```bash
-brew install minikube
-minikube start
-```
-</TabItem>
-<TabItem value="kind" label="kind" default>
-Please follow https://kind.sigs.k8s.io/ to get the kind ready. For Mac users, you may get it via:
-```bash
-brew install kind
-kind create cluster
-```
-</TabItem>
-</Tabs>
+You need to update configurations accordingly to fit your Kubernetes environment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
 
 ### Add Timeplus Helm chart repository
 
@@ -49,8 +30,8 @@ A sample output would be:
 
 ```bash
 NAME                        	CHART VERSION	APP VERSION	DESCRIPTION
-timeplus/timeplus-enterprise	v3.0.3       	2.4.25     	Helm chart for deploying a cluster of Timeplus ...
-timeplus/timeplus-enterprise	v3.0.2       	2.4.18     	Helm chart for deploying a cluster of Timeplus ...
+timeplus/timeplus-enterprise	v4.0.10      	2.5.11     	Helm chart for deploying a cluster of Timeplus ...
+timeplus/timeplus-enterprise	v3.0.7       	2.4.23     	Helm chart for deploying a cluster of Timeplus ...
 ```
 Please choose the latest `CHART VERSION`. Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](/enterprise-releases).
 
@@ -130,6 +111,14 @@ If all the pods status are in `Running` status, except `timplus-provision-..`, t
 ### Expose the Timeplus Console
 
 There are different ways to expose the services of Timeplus stack. In this step, we use port forward of kubectl to get a quick access. Run `kubectl port-forward svc/timeplus-appserver 8000:8000 -n $NS --address 0.0.0.0` and then open the address `http://localhost:8000` in your browser to visit Timeplus Console web UI. After finishing the onboarding, you should be able to login with the username and password which you set in `additionalUsers`.
+
+### Update Configuration
+After the installation, you can further customize the configuration by updating the `values.yaml`. Please refer to [Configuration Guide](#configuration-guide). Once the `values.yaml` is ready, apply this via:
+
+```bash
+export RELEASE=timeplus
+helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
+```
 
 ### Upgrade Timeplus Enterprise
 
@@ -306,6 +295,13 @@ If something goes wrong, you can run the following commands to get more informat
 ## Configuration Guide
 
 You can customize the deployment by applying a YAML file with your preferred values. Each Helm chart version may have slightly different available configurations. Here are some common settings. For the full list of configurable values, please check the `README.md` and `values.yaml` in the [Helm chart package](https://github.com/timeplus-io/install.timeplus.com/tree/main/charts).
+
+Once the `values.yaml` is ready, apply this via:
+
+```bash
+export RELEASE=timeplus
+helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
+```
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
