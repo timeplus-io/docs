@@ -71,7 +71,11 @@ const sidebars = {
             id: "external-stream",
           },
           items: [
-            "proton-kafka",
+            {
+              type: "doc",
+              id: "proton-kafka",
+              customProps: { tag: "Popular" },
+            },
             {
               type: "doc",
               id: "timeplus-external-stream",

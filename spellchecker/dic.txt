@@ -597,6 +597,7 @@ SASL
 sasl_mechanism
 SASL_SSL
 Saïd
+scalable
 schema_registry_api_key
 schema_registry_api_secret
 Schemas

@@ -112,7 +112,7 @@ INFO Input type postgres_cdc is now active         @service=redpanda-connect lab
 {"order_id":2,"product_id":"iPhone14_Plus","quantity":"1","timestamp":"2023-04-23T17:10:46.312471Z"}
 ```
 
-If you add new rows in PostgreSQL now, they are shown immediatly in the console.
+If you add new rows in PostgreSQL now, they are shown immediately in the console.
 
 ## Setup Timeplus
 
@@ -132,7 +132,7 @@ You will need to create several resources in Timeplus:
 
 ### Append-only stream
 
-The steram will receive data pushed from Redpanda Connect.
+The stream will receive data pushed from Redpanda Connect.
 
 ```sql
 CREATE STREAM pg_cdc_orders_appendonly(
@@ -172,8 +172,8 @@ With everything in place, run `rpk connect run connect.yml` again and you will o
 
 This tutorial illustrates how to setup streaming CDC and optional ETL from PostgreSQL to ClickHouse. Additionally, you can retain the PostgreSQL data in Timeplus, serving as a query layer. Utilize Mutable Streams and Changelog Streams in Timeplus to manage UPSERT and DELETE operations:
 
-- Mutable Streams take 1 or more columns as the primary key. If you insert data with the same primary key(s), the original data will be overwriten. You can use the above pipeline to write to a mutable stream.
-- Changelog Streams take the `_tp_delta` column , where a value of 1 indicates data insertion and -1 indicates data deletion. You can create a mapping processor in the Redpanda Connnect pipeline to generate the proper `_tp_delta`, e.g.
+- Mutable Streams take 1 or more columns as the primary key. If you insert data with the same primary key(s), the original data will be overwritten. You can use the above pipeline to write to a mutable stream.
+- Changelog Streams take the `_tp_delta` column , where a value of 1 indicates data insertion and -1 indicates data deletion. You can create a mapping processor in the Redpanda Connect pipeline to generate the proper `_tp_delta`, e.g.
 
 ```yaml
 output:
