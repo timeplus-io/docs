@@ -2,6 +2,33 @@
 
 Besides [timeplusd-client](/timeplusd-client), Timeplus also provide the `timeplus` command line interface to help you manage the self-hosted deployments.
 
+For bare metal installation, the `timeplus` binary is available in `/bin` folder. For Kubernetes deployments, please add the following section to `values.yaml `:
+```yaml
+timeplusCli:
+  enabled: true
+```
+
+Then upgrade the helm chart via:
+```bash
+helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
+```
+Once `timeplus-cli` pod is up and running, you can run `kubectl exec -n $NS -it timeplus-cli -- /bin/bash` to run commands in the pod.
+
+Here are examples to manage users via the `timeplus user` CLI.
+```bash
+# Get the IP of timeplusd pods
+export TIMEPLUSD_POD_IPS=timeplusd-0.timeplusd-svc.timeplus.svc.cluster.local:8463
+
+# List users
+timeplus user list --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+
+
+# Create an user with username "hello" and password "word"
+timeplus user create --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+ --user hello --password world
+
+# Delete the user "hello"
+timeplus user delete --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+ --user hello
+```
+
 ## Commands
 
 The following table displays the available top-level `timeplus` commands.

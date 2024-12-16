@@ -149,30 +149,7 @@ You can run `kubectl delete namespace $NS` to delete all PVCs and the namespace.
 
 ### User management
 
-Currently Timeplus web doesn't support user management yet. You will need to deploy the `timeplus cli` pod to run `timeplus cli` to manage users. In order to do so, please add the following section to `values.yaml `:
-```yaml
-timeplusCli:
-  enabled: true
-```
-
-Then upgrade the helm chart via:
-```bash
-helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
-```
-Once `timeplus-cli` pod is up and running, you can run `kubectl exec -n $NS -it timeplus-cli -- /bin/bash` to run commands in the pod. Please refer to the following commands to do the user management. Make sure you update the command accordingly to your own deployment.
-```bash
-# Get the IP of timeplusd pods
-export TIMEPLUSD_POD_IPS=timeplusd-0.timeplusd-svc.timeplus.svc.cluster.local:8463
-
-# List users
-timeplus user list --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+
-
-# Create an user with username "hello" and password "word"
-timeplus user create --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+ --user hello --password world
-
-# Delete the user "hello"
-timeplus user delete --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+ --user hello
-```
+Starting from [Timeplus Enterprise 2.5](enterprise-v2.5), you can create and manage users via Timeplus web console. For earlier versions, you will need to deploy the `timeplus cli` pod to run `timeplus cli` to manage users. Please refer to [CLI Reference](/cli-reference) for how to enable the CLI pod in Kubernetes and run the commands to manage users.
 
 ### Recover from EBS snapshots
 If you deploy Timeplus Enterprise on Amazon EKS, assuming that you are using EBS volume for persistent volumes, you can use EBS snapshots to backup the volumes. Then in the case of data lost (for example, the EBS volume is broken, or someone accidentally delete the data on the volume ), you can restore the persistent volumes from EBS snapshots with the following steps:
