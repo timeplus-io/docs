@@ -167,11 +167,11 @@ const sidebars = {
       label: "Deployment & Operations",
       items: [
         "install",
-        {
-          type: "doc",
-          id: "timeplus-cloud",
-          customProps: { tag: "Enterprise" },
-        },
+        // {
+        //   type: "doc",
+        //   id: "timeplus-cloud",
+        //   customProps: { tag: "Enterprise" },
+        // },
         {
           type: "category",
           //collapsed: false,
