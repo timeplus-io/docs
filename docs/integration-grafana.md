@@ -8,7 +8,7 @@ Grafana has long been one of the most popular tools for real-time monitoring and
 Our Timeplus Grafana Plugin provides a flexible, powerful way to enhance your dashboards with real-time insights. Here are a few ways our users are already benefiting:
 * **Real-Time Operational Monitoring:** Track key metrics with high-frequency data, such as system load, application performance, or network traffic, to identify and resolve issues as they arise.
 * **Customer Experience Insights:** Monitor live customer interactions, such as usage patterns, in-app behavior, or user activity across different regions, to improve responsiveness and overall service quality.
-* **Advanced Analytics on Streaming Data:** Combine metrics from Grafana with Timeplus’s streaming SQL capabilities to perform complex analytics—filtering, aggregating, and transforming data in real time for deeper insights into business operations.
+* **Advanced Analytics on Streaming Data:** Combine metrics from Grafana with Timeplus streaming SQL capabilities to perform complex analytics—filtering, aggregating, and transforming data in real time for deeper insights into business operations.
 
 ![Sample dashboard](/img/BitcoinDashboard.gif)
 

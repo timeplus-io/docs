@@ -7,33 +7,14 @@ You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://h
 
 ## Prerequisites
 * Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
-* Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, minikube and k3s. Other Kubernetes distributions should work in the similar way.
+* Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
 * Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
-* Network access to Docker Hub
+* Network access to Docker Hub.
 
-## Quickstart with minikube or kind
-This is the quickstart guide to install a 3 nodes Timeplus Enterprise cluster with default configurations on [minikube](https://github.com/kubernetes/minikube) or [kind](https://kind.sigs.k8s.io/) using Helm package manager.
+## Quickstart with self-hosted Kubernetes
+This is the quickstart guide to install a 3 nodes Timeplus Enterprise cluster with default configurations on a self-hosted Kubernetes using Helm package manager.
 
-Although this guidance is focus on minikube or kind, you should be able to install it on other Kubernetes, such as Amazon EKS or your own Kubernetes cluster as well. You may need to update configurations accordingly to fit your Kubernetes environment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
-
-### Get minikube or kind ready
-
-<Tabs defaultValue="minikube">
-<TabItem value="minikube" label="minikube" default>
-Please follow https://minikube.sigs.k8s.io/docs/start/ to get the minikube ready. For Mac users, you may get it via:
-```bash
-brew install minikube
-minikube start
-```
-</TabItem>
-<TabItem value="kind" label="kind" default>
-Please follow https://kind.sigs.k8s.io/ to get the kind ready. For Mac users, you may get it via:
-```bash
-brew install kind
-kind create cluster
-```
-</TabItem>
-</Tabs>
+You need to update configurations accordingly to fit your Kubernetes environment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
 
 ### Add Timeplus Helm chart repository
 
@@ -49,8 +30,8 @@ A sample output would be:
 
 ```bash
 NAME                        	CHART VERSION	APP VERSION	DESCRIPTION
-timeplus/timeplus-enterprise	v3.0.3       	2.4.25     	Helm chart for deploying a cluster of Timeplus ...
-timeplus/timeplus-enterprise	v3.0.2       	2.4.18     	Helm chart for deploying a cluster of Timeplus ...
+timeplus/timeplus-enterprise	v4.0.10      	2.5.11     	Helm chart for deploying a cluster of Timeplus ...
+timeplus/timeplus-enterprise	v3.0.7       	2.4.23     	Helm chart for deploying a cluster of Timeplus ...
 ```
 Please choose the latest `CHART VERSION`. Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](/enterprise-releases).
 
@@ -131,6 +112,14 @@ If all the pods status are in `Running` status, except `timplus-provision-..`, t
 
 There are different ways to expose the services of Timeplus stack. In this step, we use port forward of kubectl to get a quick access. Run `kubectl port-forward svc/timeplus-appserver 8000:8000 -n $NS --address 0.0.0.0` and then open the address `http://localhost:8000` in your browser to visit Timeplus Console web UI. After finishing the onboarding, you should be able to login with the username and password which you set in `additionalUsers`.
 
+### Update Configuration
+After the installation, you can further customize the configuration by updating the `values.yaml`. Please refer to [Configuration Guide](#configuration-guide). Once the `values.yaml` is ready, apply this via:
+
+```bash
+export RELEASE=timeplus
+helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
+```
+
 ### Upgrade Timeplus Enterprise
 
 Please check the [release notes](/enterprise-releases) to confirm the target version of Timeplus Enterprise can be upgraded in-place, by reusing the current data and configuration. For example [2.3](/enterprise-v2.3) and [2.4](/enterprise-releases) are incompatible and you have to use migration tools.
@@ -160,30 +149,7 @@ You can run `kubectl delete namespace $NS` to delete all PVCs and the namespace.
 
 ### User management
 
-Currently Timeplus web doesn't support user management yet. You will need to deploy the `timeplus cli` pod to run `timeplus cli` to manage users. In order to do so, please add the following section to `values.yaml `:
-```yaml
-timeplusCli:
-  enabled: true
-```
-
-Then upgrade the helm chart via:
-```bash
-helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
-```
-Once `timeplus-cli` pod is up and running, you can run `kubectl exec -n $NS -it timeplus-cli -- /bin/bash` to run commands in the pod. Please refer to the following commands to do the user management. Make sure you update the command accordingly to your own deployment.
-```bash
-# Get the IP of timeplusd pods
-export TIMEPLUSD_POD_IPS=timeplusd-0.timeplusd-svc.timeplus.svc.cluster.local:8463
-
-# List users
-timeplus user list --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+
-
-# Create an user with username "hello" and password "word"
-timeplus user create --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+ --user hello --password world
-
-# Delete the user "hello"
-timeplus user delete --address ${TIMEPLUSD_POD_IPS} --admin-password timeplusd@t+ --user hello
-```
+Starting from [Timeplus Enterprise 2.5](enterprise-v2.5), you can create and manage users via Timeplus web console. For earlier versions, you will need to deploy the `timeplus cli` pod to run `timeplus cli` to manage users. Please refer to [CLI Reference](/cli-reference) for how to enable the CLI pod in Kubernetes and run the commands to manage users.
 
 ### Recover from EBS snapshots
 If you deploy Timeplus Enterprise on Amazon EKS, assuming that you are using EBS volume for persistent volumes, you can use EBS snapshots to backup the volumes. Then in the case of data lost (for example, the EBS volume is broken, or someone accidentally delete the data on the volume ), you can restore the persistent volumes from EBS snapshots with the following steps:
@@ -306,6 +272,13 @@ If something goes wrong, you can run the following commands to get more informat
 ## Configuration Guide
 
 You can customize the deployment by applying a YAML file with your preferred values. Each Helm chart version may have slightly different available configurations. Here are some common settings. For the full list of configurable values, please check the `README.md` and `values.yaml` in the [Helm chart package](https://github.com/timeplus-io/install.timeplus.com/tree/main/charts).
+
+Once the `values.yaml` is ready, apply this via:
+
+```bash
+export RELEASE=timeplus
+helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
+```
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|

@@ -2,10 +2,6 @@
 
 When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. Data can be updated or deleted. You can use Changelog Stream in JOIN either on the left or on the right. Timeplus will automatically choose the latest version.
 
-:::warning
-For Timeplus Enterprise customers, we recommend to use [Mutable Streams](/mutable-stream) with the enhanced performance for UPSERT and queries. The changelog streams are not supported in Timeplus Enterprise, and will be removed in Timeplus Proton.
-:::
-
 Here are some examples:
 
 ## Create the Stream
@@ -419,27 +415,15 @@ select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float 
 union
 select -1::int8 as _tp_delta, before:product_id as product_id, before:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='d'
 union
-select -1::int8 as _tp_delta, before:product_id as product_id, before:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'
-union
-select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='u'
+select _tp_delta, val:product_id as product_id, val:price::float as price, ts_ms as _tp_time from (
+    select ts_ms, array_join(changes) as change, change.1 as val, change.2 as _tp_delta
+    from (
+        select cast(ts_ms::string,'datetime64(3, \'UTC\')') as ts_ms, raw:payload.before as before, raw:payload.after as after, [(before, -1::int8), (after, 1::int8)] as changes from rawcdc_dim_products where raw:payload.op = 'u')
 ```
+
+This SQL query may look a bit overwhelming. At the top level, there are 3 subqueries to `union` the result:
+* one subquery is to check if the op is either `c` or `r`. It will insert a new row to the changelog stream with _tp_detla=1
+* one subquery is to check if the op is `d`. It will delete the row in the changelog stream with _tp_detla=-1
+* the last subquery is to check if the op is `u`. It will send a row with _tp_detla=-1 first, followed by a _tp_delta=1. Since union operation in SQL won't guarantee the order of emit, so we created an array for [-1,1] and use `array_join` to turn 1 row to 2 rows, with expected order.
 
 Click the **Send as Sink** button and choose Timeplus type, to send the results to an existing stream `dim_products` .
-
-:::info
-
-In the coming version of Timeplus, we will simplify the process so that you don't need to write custom SQL to extract the Debezium CDC messages.
-
-:::
-
-Similarly, here is the SQL to convert raw CDC messages for `orders` :
-
-```sql
-select 1::int8 as _tp_delta, after:order_id as order_id, after:product_id as product_id, after:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op in ('c','r')
-union
-select -1::int8 as _tp_delta, before:order_id as order_id, before:product_id as product_id, before:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='d'
-union
-select -1::int8 as _tp_delta, before:order_id as order_id, before:product_id as product_id, before:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='u'
-union
-select 1::int8 as _tp_delta, after:order_id as order_id, after:product_id as product_id, after:quantity::int8 as quantity, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_orders where op='u'
-```

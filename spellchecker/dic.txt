@@ -22,6 +22,7 @@ Airbyte
 AirByte
 aiven
 Aiven
+AMD64
 api_key
 apiKey
 APIs
@@ -38,6 +39,7 @@ Araujo
 arg_max
 arg_min
 args
+ARM64
 arn
 ARN
 array_concat
@@ -56,6 +58,7 @@ AUTH_HEADER
 AUTH_KEY
 auth_params
 auth_type
+auto-rebalancing
 AutoMQ
 AVRO
 Avro
@@ -93,6 +96,7 @@ BZip2
 camelcase
 cardinality
 carsharing
+Carsharing
 cbrt
 cdc
 cgroup
@@ -156,6 +160,7 @@ CTEs
 Ctrl
 customizable
 Databricks
+dataframe
 DataGrip
 datalineage
 DataPM
@@ -191,8 +196,8 @@ defaultValue
 denormalization
 denormalized
 deployable
-deploymentWebSocket
 deploymentSlackWebhookHundreds
+deploymentWebSocket
 deserialize
 destination-timeplus
 desynchronized
@@ -258,12 +263,15 @@ geohash_decode
 geohash_encode
 geohashes_in_box
 GetStarted
+getstarted
+getTables
 ghcr
 gib
 GiB
 GitHub
 Github
 GitOps
+GLIBC
 gofakeit
 Golang
 golang
@@ -309,6 +317,7 @@ int64
 int8
 integrations
 interfaces_cli_configuration
+intervaled
 io_threads
 iops
 IOPS
@@ -517,12 +526,13 @@ pre-configured
 pre-existing
 pre-filled
 pre-made
+pre-processor
 preconfigured
 prefetch_count
 PrettyCompact
-productional
 ProduceRequests
 producerequests
+productional
 programmatically
 Protobuf
 Protobuf-encoded
@@ -569,6 +579,7 @@ repos
 rescanning
 resizable
 restPath
+RHEL
 roadmap
 roadmaps
 rpconnect
@@ -586,6 +597,7 @@ SASL
 sasl_mechanism
 SASL_SSL
 Saïd
+scalable
 schema_registry_api_key
 schema_registry_api_secret
 Schemas
@@ -691,6 +703,7 @@ TimeplusContainer
 timeplusd
 Timeplusd
 timeplusd-client
+TimeplusDatabaseMetadata
 TimeplusSinkConnector
 timeplusWeb
 timezones
@@ -757,6 +770,7 @@ Upstash
 url
 usecase
 usecase_native
+usecases
 usr
 utf-8
 UTF-8
@@ -794,6 +808,7 @@ wikipedia
 WIP
 workspaceID
 workspaces
+x64
 Xie
 xirr
 xz
