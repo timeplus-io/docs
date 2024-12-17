@@ -1,9 +1,9 @@
-name: Spellchecker Timeplus
+name: Generate Spelling Error Report
 
 on:
-  workflow_dispatch:  
-env:
-  PRINCE_VER: 15.3
+  schedule:
+    - cron: "0 8 * * 1" # Runs at 8 am every Monday
+  workflow_dispatch:
 
 jobs:
   spellchecker:
@@ -22,7 +22,19 @@ jobs:
 
       - name: Install Spellchecker CLI
         run: yarn global add spellchecker-cli # Install spellchecker-cli globally
+
+      
+      - name: Install junit2html
+        run: pip install junit2html   # Install Python-based junit2html tool
         
-   
       - name: Run spellchecker
-        run: yarn run spellcheck || true
+        run: yarn run spellcheck || true   # Runs the spellcheck command
+
+      - name: Convert junit to html
+        run: junit2html spellchecker/report.junit.xml spellchecker/report.html 
+
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Spellchecker Report
+          path: spellchecker/report.html  # Upload the HTML report
