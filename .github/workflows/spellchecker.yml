@@ -1,7 +1,9 @@
 name: Generate Spelling Error Report
 
 on:
-  workflow_dispatch:  
+  schedule:
+    - cron: "0 8 * * 1" # Runs at 8 am every Monday
+  workflow_dispatch:
 
 env:
   PRINCE_VER: 15.3
