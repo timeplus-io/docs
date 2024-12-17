@@ -1,12 +1,12 @@
 # ClickHouse External Table
 
-Since Timeplus Proton v1.4.2, it added the support to read or write ClickHouse tables. This unlocks a set of new use cases, such as
+Timeplus can read or write ClickHouse tables directly. This unlocks a set of new use cases, such as
 
 - Use Timeplus to efficiently process real-time data in Kafka/Redpanda, apply flat transformation or stateful aggregation, then write the data to the local or remote ClickHouse for further analysis or visualization.
 - Enrich the live data with the static or slow-changing data in ClickHouse. Apply streaming JOIN.
 - Use Timeplus to query historical or recent data in ClickHouse
 
-This integration is done by introducing a new concept in Timeplus: "External Table". Similar to [External Stream](/external-stream), there is no data persisted in Timeplus. However, since the data in ClickHouse is in the form of table, not data stream, so we call this as External Table. In the roadmap, we will support more integration by introducing other types of External Table.
+This integration is done by introducing "External Table" in Timeplus. Similar to [External Stream](/external-stream), there is no data persisted in Timeplus. However, since the data in ClickHouse is in the form of table, not data stream, so we call this as External Table. In the roadmap, we will support more integration by introducing other types of External Table.
 
 ## Demo Video {#demo}
 
@@ -127,6 +127,18 @@ CREATE MATERIALIZED VIEW mv INTO ch_table AS
            lower(hex(md5(raw:ipAddress))) AS ip
     FROM kafka_events;
 ```
+
+### Batching Settings
+In Timeplus Enterprise, additional performance tuning settings are available, such as
+```sql
+INSERT INTO ch_table
+SELECT * FROM some_source_stream
+SETTINGS max_insert_block_size=10, max_insert_block_bytes=1024, insert_block_timeout_ms = 100;
+```
+
+* `max_insert_block_size` - The maximum block size for insertion, i.e. maximum number of rows in a batch. Default value: 65409
+* `max_insert_block_bytes` - The maximum size in bytes of block for insertion. Default value: 1 MiB.
+* `insert_block_timeout_ms` - The maximum time in milliseconds for constructing a block(a block) for insertion. Increasing the value gives greater possibility to create bigger blocks (limited by `max_insert_block_bytes` and `max_insert_block_size`), but also increases latency. Negative numbers means no timeout. Default value: 500.
 
 ## Supported data types {#datatype}
 
