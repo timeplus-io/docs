@@ -193,11 +193,6 @@ const sidebars = {
           id: "rbac",
           customProps: { tag: "Enterprise" },
         },
-        {
-          type: "doc",
-          id: "terraform",
-          customProps: { tag: "Enterprise" },
-        },
       ],
     },
     {
@@ -439,13 +434,8 @@ const sidebars = {
           type: "link",
           href: "https://www.timeplus.com/post/meltano-timeplus-target",
         },
-        /*"datapm",*/
-        {
-          label: "Timeplus Terraform Provider",
-          type: "link",
-          href: "https://docs.timeplus.com/terraform",
-        },
         "flyway",
+        "terraform",
       ],
     },
     /*"faq" */

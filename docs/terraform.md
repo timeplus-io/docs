@@ -9,6 +9,9 @@ The [Timeplus Terraform Provider](https://registry.terraform.io/providers/timepl
 
 With this Provider, Timeplus customers at any scale can safely accelerate data streaming initiatives in the cloud (public, private, or hybrid) with infrastructure management that is fully automated through code and integrated within continuous delivery workflows.
 
+:::info
+This Terraform Provider was designed for Timeplus Enterprise in the cloud. If you need to run this for self-hosting Timeplus Enterprise, please contact us.
+:::
 
 
 ## Why not just SQL script?
