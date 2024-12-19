@@ -445,6 +445,7 @@ const sidebars = {
           type: "link",
           href: "https://docs.timeplus.com/terraform",
         },
+        "flyway",
       ],
     },
     /*"faq" */

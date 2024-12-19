@@ -15,14 +15,14 @@ This library is available on maven central repository:
 <dependency>
     <groupId>com.timeplus</groupId>
     <artifactId>timeplus-native-jdbc</artifactId>
-    <version>2.0.5</version>
+    <version>2.0.7</version>
 </dependency>
 ```
 
 ### Gradle {#gradle_native}
 ```groovy
 dependencies {
-    implementation 'com.timeplus:timeplus-native-jdbc:2.0.5'
+    implementation 'com.timeplus:timeplus-native-jdbc:2.0.7'
 }
 ```
 
@@ -107,14 +107,14 @@ This library is available on maven central repository:
 <dependency>
     <groupId>com.timeplus</groupId>
     <artifactId>proton-jdbc</artifactId>
-    <version>0.6.0</version>
+    <version>0.7,1</version>
 </dependency>
 ```
 
 ### Gradle {#gradle}
 ```groovy
 dependencies {
-    implementation 'com.timeplus:proton-jdbc:0.6.0'
+    implementation 'com.timeplus:proton-jdbc:0.7.1'
 }
 ```
 
@@ -186,7 +186,7 @@ First add the Proton JDBC driver to DBeaver. Taking DBeaver 23.2.3 as an example
 * Default User: default
 * Allow Empty Password
 
-In the "Libraries" tab, click "Add Artifact" and type `com.timeplus:proton-jdbc:0.6.0`. Click the "Find Class" button to load the class.
+In the "Libraries" tab, click "Add Artifact" and type `com.timeplus:proton-jdbc:0.7.1`. Click the "Find Class" button to load the class.
 
 Create a new database connection, choose "Timeplus Proton" and accept the default settings. Click the "Test Connection.." to verify the connection is okay.
 

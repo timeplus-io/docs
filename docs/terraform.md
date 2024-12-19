@@ -82,19 +82,13 @@ Now that you’ve learned a bit about the Timeplus Terraform provider, let’s g
 
 You’ll need these prerequisites to follow along:
 
-1. A Timeplus Cloud account. If you don’t have a Timeplus Cloud account, [create one now](https://timeplus.com).
+1. A Timeplus Enterprise deployment or a Timeplus Cloud account.
 2. Terraform (1.0+) [installed](https://learn.hashicorp.com/tutorials/terraform/install-cli).
 3. Golang (1.20.0+) [installed](https://golang.org/doc/install).
 
 ### Create an API Key
 
-You need to create an API key to manage Timeplus resources without UI. To do so:
-
-1. Click the user icon on the top-right corner.
-2. Choose Personal Settings
-3. Click the Create API Key button
-4. Set a description and choose an expiration date
-5. Save the API key securely in your computer. You are not going to retrieve the plain text key again in the console.
+For Timeplus Cloud users, please an API Key. For self-hosting deployment, use `user:password` as the key. For more details, please check [the guide](/apikey).
 
 ### Set up Terraform configuration
 
@@ -111,9 +105,9 @@ terraform {
 }
 
 provider "timeplus" {
-  # the workspace ID can be found in the URL https://us-west-2.timeplus.cloud/<my-workspace-id>
+  # for self-hosting Timeplus Enterprise, you can use local or default as workspace. For cloud users, the workspace ID can be found in the URL https://us-west-2.timeplus.cloud/<my-workspace-id>
   workspace = "my-workspace-id"
-  # API key is required to use the provider
+  # API key is required to use the provider. For self-hosting deployment, use the base64 encoded of user:password
   api_key   = "my-api-key"
 }
 ```

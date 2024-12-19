@@ -1,5 +1,7 @@
 # Timeplus Enterprise
 
+(this page is hidden)
+
 Timeplus is a simple, powerful, and cost-efficient stream processing platform. It's available as a fully-managed cloud service, or self-managed deployment.
 
 Compared to [Timeplus Proton](/proton), Timeplus Enterprise offers expanded capabilities and functionalities, such as:
