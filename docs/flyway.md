@@ -4,6 +4,10 @@
 
 A database extension for Timeplus is available at [GitHub](https://github.com/timeplus-io/flyway-community-db-support). If you already use Flyway in your DevOps toolchain, you can use Flyway to manage SQL resources with version control and continuous delivery. Comparing to [Timeplus Terraform Provider](/terraform), currently the flyway support has some [limitations](#limitations).
 
+## Demo
+Check out this short video that demonstrates how to create, update and clean up Timeplus resources with Flyway.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/onGVEZtb_Ik?si=HnDKfl9slxzFwnqk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Installation
 
 Timeplus team have submitted the plugin to Flyway community, before it's merged and available in flyway releases, please download the Timeplus extension as a JAR file from the GitHub [Releases](https://github.com/timeplus-io/flyway-community-db-support/releases) page.
@@ -78,9 +82,8 @@ The folder structure is:
 Run the `flyway` command from the folder where flyway.toml resides.
 * Run `flyway info` to validation the connection to Timeplus, as well as scanning the SQL scripts.
 * Run `flyway migrate` to run the SQL scripts. This will setup `flyway_schema_history` to track schema history if the table doesn't exist.
-* Run `flyway clean` to delete all streams and the `flyway_schema_history` table. However, as a known issue, [UDF](/udf) and [Format Schemas](/proton-format-schema) are not deleted.
+* Run `flyway clean` to delete all streams and the `flyway_schema_history` table.
 * Run `flyway repair` if there is any failure in prior `flyway migrate`. This command will remove related rows from `flyway_schema_history` table.
 
 ## Limitations
 * `flyway_schema_history` is created as a MergeTree table. We plan to add deletion in Mutable Streams and create this as a Mutable Stream. If your deployment is a cluster version of Timeplus Enterprise, please configure flyway to talk to the same node, since the table won't be replicated among the cluster.
-* Run `flyway clean` to delete all streams and the `flyway_schema_history` table. However, [UDF](/udf) and [Format Schemas](/proton-format-schema) are not deleted.
