@@ -4,7 +4,7 @@ You can use this SQL to change a view or a materialized view. Today only the set
 ## MODIFY QUERY SETTING
 
 :::info
-This feature will be available in Timeplus Enterprise v2.5 (unreleased yet). Not available in Timeplus Proton.
+This feature will be available in [Timeplus Enterprise v2.5](/enterprise-v2.5). Not available in Timeplus Proton.
 :::
 
 By default, the checkpoint will be updated every 15 minutes for materialized views. You can change the checkpoint interval without recreating the materialized views.
@@ -16,7 +16,7 @@ ALTER VIEW mv_with_inner_stream MODIFY QUERY SETTING checkpoint_interval=600
 ## RESET QUERY SETTING
 
 :::info
-This feature will be available in Timeplus Enterprise v2.5 (unreleased yet). Not available in Timeplus Proton.
+This feature will be available in [Timeplus Enterprise v2.5](/enterprise-v2.5). Not available in Timeplus Proton.
 :::
 
 By default, the checkpoint will be updated every 15 minutes for materialized views. After you change the interval you can reset it.

@@ -2,7 +2,7 @@
 
 [Apache® Pulsar™](https://pulsar.apache.org/) is a multi-tenant, high-performance solution for server-to-server messaging.
 
-In [Timeplus Enterprise v2.5](/) (unreleased yet), we added the first-class integration for Apache Pulsar, as a new type of [External Stream](/external-stream). You can read or write data in Apache Pulsar or StreamNative Cloud.
+In [Timeplus Enterprise v2.5](/enterprise-v2.5), we added the first-class integration for Apache Pulsar, as a new type of [External Stream](/external-stream). You can read or write data in Apache Pulsar or StreamNative Cloud.
 
 ## CREATE EXTERNAL STREAM
 
