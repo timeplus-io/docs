@@ -36,6 +36,30 @@
 
 `second(datetime)` returns the second of the datetime.
 
+### from_unix_timestamp
+
+Convert a Unix timestamp number to a `datetime` value.
+
+For example `from_unix_timestamp(1644272032)`.
+
+### from_unix_timestamp64_milli
+
+Convert a Unix timestamp number to a `datetime64(3)` value.
+
+For example `from_unix_timestamp64_milli(1712982826540)`.
+
+### from_unix_timestamp64_micro
+
+Convert a Unix timestamp number to a `datetime64(6)` value.
+
+For example `from_unix_timestamp64_micro(1712982905267202)`.
+
+### from_unix_timestamp64_nano
+
+Convert a Unix timestamp number to a `datetime64(9)` value.
+
+For example `from_unix_timestamp64_nano(1712983042242306000)`.
+
 ### to_unix_timestamp
 
 Returns the UNIX timestamp of the datetime, a number in `uint32`
