@@ -5,12 +5,11 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 ## Dec 23, 2024
 
 Merry Christmas 🎄
-### Timeplus Proton v1.6.5
+### Timeplus Proton v1.6.7
 * `console.log(..)` function is available in [JavaScript UDF](/js-udf#consolelog). The log messages will be available in the server logs, such as /var/log/proton-server/proton-server.log .
-
-### Timeplus Proton v1.6.6
 * New SQL functions: [largest_triangle_three_buckets](/functions_for_agg#largest_triangle_three_buckets), [avg_time_weighted](/functions_for_agg#avg_time_weighted) and [median_time_weighted](/functions_for_agg#median_time_weighted).
 * Enhance the [dedup](/functions_for_streaming#dedup) function to support the edge case that multiple columns with the same name.
+* Fixed the issue that Timeplus Proton binary cannot be ran in macOS v15.x with Apple chips.
 
 ### Timeplus as Flyway Community DB Support
 * A Timeplus plugin is available for [Redgate Flyway](https://flywaydb.org/). You can use Flyway to manage your Timeplus database resources. [Learn More](/flyway).
