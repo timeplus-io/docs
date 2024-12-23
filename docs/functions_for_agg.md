@@ -129,3 +129,38 @@ This function implements stochastic linear regression. It supports custom parame
 `stochastic_logistic_regression(num, num, num, string)`
 
 This function implements stochastic logistic regression. It can be used for binary classification problem, supports the same custom parameters as stochasticLinearRegression and works the same way. Learn more at [ClickHouse docs](https://clickhouse.com/docs/en/sql-reference/aggregate-functions/reference/stochasticlogisticregression).
+
+### largest_triangle_three_buckets
+
+`largest_triangle_three_buckets(x, y, n)` or `lttb(x, y, n)`. `x` is the x coordinate. `y` is the y coordinate. `n` is the number of points in the resulting series.
+
+Applies the [Largest-Triangle-Three-Buckets](https://skemman.is/bitstream/1946/15343/3/SS_MSthesis.pdf) algorithm to the input data. The algorithm is used for downsampling time series data for visualization. It is designed to operate on series sorted by x coordinate. It works by dividing the sorted series into buckets and then finding the largest triangle in each bucket. The number of buckets is equal to the number of points in the resulting series. The function will sort data by `x` and then apply the downsampling algorithm to the sorted data.
+
+For example:
+```sql
+CREATE STREAM test
+(
+    x float64,
+    y float64
+) ENGINE = MergeTree order by (y,x);
+
+INSERT INTO test
+VALUES (1.0, 10.0),(2.0, 20.0),(3.0, 15.0),(8.0, 60.0),(9.0, 55.0),(10.0, 70.0),(4.0, 30.0),(5.0, 40.0),(6.0, 35.0),(7.0, 50.0);
+
+select largest_triangle_three_buckets(x, y, 0) FROM test;
+
+select largest_triangle_three_buckets(x, y, 1) FROM test;
+
+select largest_triangle_three_buckets(x, y, 2) FROM test;
+
+SELECT largest_triangle_three_buckets(x, y, 4) FROM test;
+```
+
+### lttb
+Alias for `largest_triangle_three_buckets`.
+
+### avg_time_weighted
+`avg_time_weighted(column, time_column)` to calculate the time-weighted average of the column. The time column should be in the format of `datetime`,`datetime64` or `date`.
+
+### median_time_weighted
+`median_time_weighted(column, time_column)` to calculate the time-weighted median of the column. The time column should be in the format of `datetime`,`datetime64` or `date`.
