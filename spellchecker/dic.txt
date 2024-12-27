@@ -89,6 +89,7 @@ bigint
 BigTable
 Binance
 bool
+breakpoint
 broker_url
 bugfix
 bugfixes
@@ -246,6 +247,10 @@ float32
 float64
 force_backfill_in_order
 format_datetime
+from_unix_timestamp
+from_unix_timestamp64_micro
+from_unix_timestamp64_milli
+from_unix_timestamp64_nano
 frontend
 Fullscreen
 fullscreen
@@ -270,6 +275,7 @@ gib
 GiB
 GitHub
 Github
+github.com
 GitOps
 GLIBC
 gofakeit
@@ -412,6 +418,7 @@ logstore_retention_bytes
 logstore_retention_ms
 lookups
 low_cardinality
+lttb
 M2
 MacBookPro
 MacOS
@@ -467,6 +474,7 @@ Nginx
 ngrok
 NKey
 nodeClusterKubernetes-based
+nodejs
 now64
 nullable
 nullable
@@ -570,6 +578,7 @@ realtime
 rebuffer
 ReceiverQueueSize
 Redash
+Redgate
 Redpanda
 RedpandaExternal
 RedpandaStreaming
@@ -691,6 +700,7 @@ Tigergraph
 Timeplus
 timeplus
 timeplus-appserver
+timeplus-io
 Timeplus-native-jdbc
 timeplus-native-jdbc
 timeplus-target
@@ -716,6 +726,7 @@ toInt
 token_url
 Tokenization
 Tolerations
+toolchain
 tooltip
 Tooltips
 tooltips
