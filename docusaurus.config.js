@@ -247,7 +247,7 @@ const config = {
             ],
           },*/
         ],
-        copyright: `Copyright © 2024 Timeplus, Inc.`,
+        copyright: `Copyright © 2025 Timeplus, Inc.`,
       },
       prism: {
         theme: lightCodeTheme,
