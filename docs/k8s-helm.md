@@ -145,7 +145,64 @@ Please note, by default, all the PVCs will not be deleted. You can use `kubectl 
 
 You can run `kubectl delete namespace $NS` to delete all PVCs and the namespace.
 
+# Go Production
+
+### Planning capacity
+
+This section provides recommendations for sizing your Timeplus Enterprise deployment. The actual resource requirements may vary based on your specific use case and workload.
+
+The timeplusd component is the core of the Timeplus Enterprise stack. It requires significant CPU and memory resources to handle data processing and queries. It is highly recommended to run `timeplusd` dedicatedly on the node.
+
+For small to medium-sized deployement, you may consider the following cluster configuration as the start point
+* 3 nodes with:
+  * 16 cores each
+  * 32 Gi memory each
+  * 500Gi storage with iops > 3000 each
+
+A sample `values.yaml` configuration:
+```yaml
+timeplusd:
+  resources:
+    requests:
+      cpu: "8"
+      memory: "16Gi"
+    # Don't enforce any resource limit here so that timeplusd can fully leverage the resources on its pod
+    # limits:
+    #   cpu: "32"
+    #   memory: "60Gi"
+ 
+  storage:
+    stream:
+      className: <storage class with high iops>
+      size: 250Gi
+
+    history:
+      className: <storage class with high iops>
+      size: 250Gi
+```
+
+### Offline installation
+
+The above quick start guide assume there is network access to the dockerhub to pull all required images. In case there is no access to the dockerhub, user need import required images into kubernetes cluster first. You can run
+1. Run `helm template -f ./values.yaml timeplus/timeplus-enterprise | grep image: | cut -d ":" -f2,3 | sort | uniq | sed 's/"//g'` to list all required images.
+2. Use `docker save` to save the images locally. Please refer to https://docs.docker.com/reference/cli/docker/image/save/.
+3. Upload the images to your k8s image registry.
+
+Note, you may need update the `imageRegistry` in `values.yaml` to point to your own k8s registry.
+
 ## Operations
+
+### Prometheus metrics
+
+Timeplus Enterprise exposes its metrics in Prometheus format to allow monitoring the cluster status.
+
+It is recommended to configure your existing Prometheus metrics collector such as [Grafana Agent](https://grafana.com/docs/agent/latest/) or [Vector](https://vector.dev/) to scrape metrics from timeplusd pods directly.
+
+The metrics of timeplusd are exposed at `:9363/metrics`. You will need to collect the metrics from all timeplusd pods. For example, if your Timeplus Enterprise is installed in `my_ns` namespace, you can configure the collector to collect metrics from
+
+- timeplusd-0.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics
+- timeplusd-1.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics
+- timeplusd-2.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics
 
 ### User management
 
@@ -271,14 +328,27 @@ If something goes wrong, you can run the following commands to get more informat
 
 ## Configuration Guide
 
-You can customize the deployment by applying a YAML file with your preferred values. Each Helm chart version may have slightly different available configurations. Here are some common settings. For the full list of configurable values, please check the `README.md` and `values.yaml` in the [Helm chart package](https://github.com/timeplus-io/install.timeplus.com/tree/main/charts).
+You may want to customize the configurations of Timeplus Appserver or Timeplusd. Here is a quick example of how to modify the `values.yaml`. For the list of available configuration items, please refer to the docs of [Timeplus Appserver](https://docs.timeplus.com/server_config#appserver) and [Timeplusd](https://docs.timeplus.com/server_config#timeplusd).
 
-Once the `values.yaml` is ready, apply this via:
+```yaml
+# Attention please: timeplusAppserver uses `configs` while timeplusd uses `config`
+timeplusAppserver:
+  configs:
+    enable-access-log: false
 
-```bash
-export RELEASE=timeplus
-helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
+timeplusd:
+  config:
+    max_concurrent_queries: 1000
+    max_concurrent_insert_queries: 1000
+    max_concurrent_select_queries: 1000   
 ```
+
+There are a lot of other configurations available to customize the deployment. Some of the properties are available for each component. To save some space, we won't list them in the next `Values` section.
+* `affinity`: [Node affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) property.
+* `imageRegistry`: Defaulted to the official dockerhub (`docker.io`).
+* `imagePullPolicy`: Defaulted to `IfNotPresent`.
+* `resources`: [Resource](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) property. Defaulted to `null` except for `timeplusd` component. Please refer to `timeplusd` section to find out the default value.
+* `labels`: Extra labels that applied to Pod/Deploy/Sts. Defaulted to `null`
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
