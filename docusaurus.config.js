@@ -194,7 +194,7 @@ const config = {
                 href: "https://www.timeplus.com/product",
               },
               {
-                label: "Pricing​",
+                label: "Pricing",
                 href: "https://www.timeplus.com/pricing",
               },
               {
