@@ -66,11 +66,11 @@ short for `quantile(a,0.99)`
 
 ### top_k
 
-`top_k(<column_name>,K [,true/false])`: Top frequent K items in column_name. Return an array.
+`top_k(<column_name>,K)`: Top frequent K items in column_name. Return an array.
 
-e.g. `top_k(cid, 3)` may get `[('c01',1200),('c02,800)',('c03',700)]` if these 3 ids appear most frequently in the aggregation window.
+e.g. `top_k(cid, 3)` may get `["c01","c02","c03"]`
 
-If you don't need the event count, you can set false for the 3rd parameter, e.g. `top_k(cid, 3, false)` may get `['c01','c02','c03']`
+If you need to get the event count, you can set `true` as the 3rd parameter, e.g. `top_k(cid, 3, true)` may get `[("c01",1200,0),("c02",800,0),("c03",700,0)]`. The 3rd element in the tuple is the probability of the error of the calculation, since it is an approximate calculation. 0 means no error. If you want to get the exact top K without approximate calculation, you can use `top_k_exact` function, e.g. `top_k_exact(cid,3)`, which will be slower than `top_k` function.
 
 Read more on [Top-N Query Pattern](/sql-pattern-topn) page.
 
