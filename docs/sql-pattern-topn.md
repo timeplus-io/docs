@@ -5,10 +5,10 @@ You can get the top-most or bottom-most events in a Timeplus stream or a view, b
 There are 3 types of Top-N query patterns:
 
 1. Top-K: to get the most common value for a field. For example, each event with an `action` field, can be add/remove/service. You want to check which actions are most common in the live data. To avoid confusion with the general Top-N patterns, we call this pattern as Top-K.
-2. Max-K: to get the top-most value for a field. For example, each event with a `speed_kmh` field. You want to get the cars with top speed. In some systems, this is called TopN. But we think Max-N or Max-K will be more accurate. 
-3. Min-K: to get the bottom-most value for a field. For example, each event with a `speed_kmh` field. You want to get the cars with slowest speed. 
+2. Max-K: to get the top-most value for a field. For example, each event with a `speed_kmh` field. You want to get the cars with top speed. In some systems, this is called TopN. But we think Max-N or Max-K will be more accurate.
+3. Min-K: to get the bottom-most value for a field. For example, each event with a `speed_kmh` field. You want to get the cars with slowest speed.
 
-Please read on for more detailed explanations and examples. 
+Please read on for more detailed explanations and examples.
 
 ## Top-K
 
@@ -22,38 +22,34 @@ Result:
 
 | top_k(action,3)                                              |
 | ------------------------------------------------------------ |
-| [ [ "add", 86342 ], [ "service", 82013 ], [ "cancel", 4291 ] ] |
-| [ [ "add", 86342 ], [ "service", 82013 ], [ "cancel", 4291 ] ] |
+| [ "add","service","cancel" ] |
 
-This query lists the most common `action` in the `bookings` stream since `1d` (one day) ago. It also shows the number of appearance for the value. For example, "add" action shows 86342 times, and "service" action shows 82013 times, etc. 
-
-If you don't need the number of appearance, you can pass false as the 3rd parameter for the [top_k](/functions_for_agg#top_k) function, e.g.
+This query lists the most common `action` in the `bookings` stream since `1d` (one day) ago. If you need the number of appearance for each value,  you can pass `true` as the 3rd parameter for the [top_k](/functions_for_agg#top_k) function, e.g.
 
 Sample query:
 
 ```sql
-select top_k(action,3,false) from bookings where _tp_time > now()-1d
+select top_k(action,3,true) from bookings where _tp_time > now()-1d
 ```
 
 Result:
 
-| top_k(action,3)                |
+| top_k(action,3, true)                |
 | ------------------------------ |
-| [ "add", "service", "cancel" ] |
-| [ "add", "service", "cancel" ] |
+| [ [ "add", 86342, 0 ], [ "service", 82013, 0 ], [ "cancel", 4291, 0 ] ] |
 
 Please note, this sample query is a [Global Aggregation](/query-syntax#global), which calculate and emit results every 2 seconds. You can also use various time windows to run the aggregation, e.g.
 
 ```sql
-select window_start, top_k(action,3) 
-from tumble(bookings,1h) 
-where _tp_time > now()-1d 
+select window_start, top_k(action,3)
+from tumble(bookings,1h)
+where _tp_time > now()-1d
 group by window_start
 ```
 
 ## Max-K
 
-In some systems, this is called TopN. But we think Max-N or Max-K will be more accurate. 
+In some systems, this is called TopN. But we think Max-N or Max-K will be more accurate.
 
 Sample query:
 
@@ -110,4 +106,3 @@ This query can get the fastest 3 cars in each model
 ```sql
 select max_k(speed_kmh,3,cid,_tp_time,model) over(partition by model) from car_live_data
 ```
-
