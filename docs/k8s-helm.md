@@ -6,12 +6,14 @@ import TabItem from '@theme/TabItem';
 You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://helm.sh/).
 
 ## Prerequisites
-* Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
-* Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
-* Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cores and 16GB memory.
-* Network access to Docker Hub.
+
+- Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
+- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
+- Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. Please refer to [Planning capacity](#planning-capacity) section for production deployment.
+* Network access to Internet. If your environment is air-gapped, please refer to [Offline installation](#offline-installation).
 
 ## Quickstart with self-hosted Kubernetes
+
 This is the quickstart guide to install a 3 nodes Timeplus Enterprise cluster with default configurations on a self-hosted Kubernetes using Helm package manager.
 
 You need to update configurations accordingly to fit your Kubernetes environment. Please refer to [Configuration Guide](#configuration-guide) for available `values` of the chart.
@@ -33,7 +35,8 @@ NAME                        	CHART VERSION	APP VERSION	DESCRIPTION
 timeplus/timeplus-enterprise	v4.0.10      	2.5.11     	Helm chart for deploying a cluster of Timeplus ...
 timeplus/timeplus-enterprise	v3.0.7       	2.4.23     	Helm chart for deploying a cluster of Timeplus ...
 ```
-Please choose the latest `CHART VERSION`. Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](/enterprise-releases).
+
+Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](/enterprise-releases). Prior to v3.0.0 chart version, the `APP VERSION` is the same version as the timeplusd component.
 
 ### Create Namespace
 
@@ -46,25 +49,18 @@ kubectl create ns $NS
 
 ### Prepare the `values.yaml`
 
-Copy and paste the following sample yaml file into `values.yaml`.
+Copy and paste the following yaml snippet into `values.yaml`.
 
 ```yaml
-provision:
-  users:
-    - username: timeplus_user
-      password: changeme
 timeplusd:
-  # -- Current only support replicas 1 or 3
   replicas: 3
   storage:
     stream:
       className: <Your storage class name>
-      size: 10Gi
-      selector: null
+      size: 100Gi
     history:
       className: <Your storage class name>
-      size: 10Gi
-      selector: null
+      size: 100Gi
   defaultAdminPassword: timeplusd@t+
   resources:
     limits:
@@ -75,11 +71,10 @@ timeplusd:
       memory: 4Gi
 ```
 Then make changes to better fit your need.
-1. Update the storage class name and size accordingly. You can check available storage classes on your cluster by running `kubectl get storageclass`. Common values are `local`, `standard`, `ebs-gp3-basic-auto-delete`, `ebs-gp3-basic-encrypted`, etc.
-2. Update the username and password of the `provision.users`. You will be able to login to Timeplus web with those users. See [User management](#user-management) section for advanced user management.
-3. Update `defaultAdminPassword`. This is the password for the default admin user `proton`, which is used internally in the system.
-4. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload.
-5. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. You'd better assign the node with at least 8 cpu and 16GB memory.
+1. Update the storage class name and size accordingly. You can check available storage class on your cluster by running `kubectl get storageclass`. If you have enabled storage dynamic provisioning, you may want to set both `timeplusd.storage.stream.selector` and `timeplusd.storage.history.selector` to `null`
+2. Update `defaultAdminPassword`. This is the password for the default admin user `proton`, which is used internally in the system.
+3. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload.
+4. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. By default each `timeplusd` pod requires 2 cores and 4GB memory. However, you'd better to have at least 8 cores and 20Gi memory for each node to make sure Timeplus Enteprise works well under small to medium workload.
 5. Optionally refer to [Configuration Guide](#configuration-guide) and add other configurations.
 
 ### Install Helm chart
@@ -91,51 +86,50 @@ export RELEASE=timeplus
 helm -n $NS install -f values.yaml $RELEASE timeplus/timeplus-enterprise
 ```
 
-You can run `kubectl -n $NS get jobs` to check whether `timeplus-provision` is completed or not. Once this job is completed, you can start use Timeplus Enterprise.
+You should see following output within a couple of minutes.
 
-It will take 1 or 2 minutes to start the whole stack, run following `kubectl get pods -n $NS` to check the stack status, for example:
+```bash
+NAME: timeplus
+LAST DEPLOYED: Tue Aug  6 13:41:31 2024
+NAMESPACE: timeplus
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Your Timeplus Enterprise stack is deployed! It may take a few minutes before all the services are up and running.
+You can run `kubectl -n timeplus get jobs` to check whether `timeplus-provision` is completed or not. Once this job is completed, you can start use Timeplus Enterprise.
+```
+
+To make sure everything is up and running, run `kubectl get pods -n ${NS}` to check the stack status
 
 ```bash
 NAME                                  READY   STATUS    RESTARTS   AGE
-timeplus-appserver-75dff8f964-g4fl9   1/1     Running   0          118s
-timeplus-connector-7c85b7c9c9-gwdtn   1/1     Running   0          118s
-timeplus-provision-pqdjj              0/1     Completed 0          118s
-timeplus-web-58bcb4f486-s8wmx         1/1     Running   0          118s
-timeplusd-0                           1/1     Running   0          118s
-timeplusd-1                           1/1     Running   0          118s
-timeplusd-2                           1/1     Running   0          118s
+timeplus-appserver-6f9ddfb5b-4rs98    1/1     Running     0          13m
+timeplus-connector-796ff45cb4-4bj6r   1/1     Running     0          13m
+timeplus-provision-2wnxj              0/1     Completed   0          12m
+timeplus-web-58cf6765d9-glq4l         1/1     Running     0          13m
+timeplusd-0                           1/1     Running     0          13m
+timeplusd-1                           1/1     Running     0          13m
+timeplusd-2                           1/1     Running     0          13m
 ```
 
-If all the pods status are in `Running` status, except `timplus-provision-..`, then the stack is ready to access. If some pods cannot turn to `Running` status, you can run `kubectl describe pod <pod_name> -n $NS` to get more information.
+If any of the pod is in error status, you can try to use `kubectl describe pod <error pod> -n ${NS}` to debug. For more details, please refer to [Troubleshooting](#troubleshooting) section.
+
 
 ### Expose the Timeplus Console
 
-There are different ways to expose the services of Timeplus stack. In this step, we use port forward of kubectl to get a quick access. Run `kubectl port-forward svc/timeplus-appserver 8000:8000 -n $NS --address 0.0.0.0` and then open the address `http://localhost:8000` in your browser to visit Timeplus Console web UI. After finishing the onboarding, you should be able to login with the username and password which you set in `additionalUsers`.
+There are different ways to expose the services of Timeplus stack. In this step, we use port forward of kubectl to get a quick access. Run `kubectl port-forward svc/timeplus-appserver 8000:8000 -n $NS --address 0.0.0.0` and then open the address `http://localhost:8000` in your browser to visit Timeplus Console web UI.
 
-### Update Configuration
-After the installation, you can further customize the configuration by updating the `values.yaml`. Please refer to [Configuration Guide](#configuration-guide). Once the `values.yaml` is ready, apply this via:
+As long as you are able to access the UI, you are now ready to explore the powerful Timeplus Enterprise!
 
-```bash
-export RELEASE=timeplus
-helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
-```
+### Offline installation
 
-### Upgrade Timeplus Enterprise
+The above quick start guide assume there is network access to the dockerhub to pull all required images. In case there is no access to the dockerhub, user need import required images into kubernetes cluster first. You can run
+1. Run `helm template -f ./values.yaml timeplus/timeplus-enterprise | grep image: | cut -d ":" -f2,3 | sort | uniq | sed 's/"//g'` to list all required images.
+2. Use `docker save` to save the images locally. Please refer to https://docs.docker.com/reference/cli/docker/image/save/.
+3. Upload the images to your k8s image registry.
 
-Please check the [release notes](/enterprise-releases) to confirm the target version of Timeplus Enterprise can be upgraded in-place, by reusing the current data and configuration. For example [2.3](/enterprise-v2.3) and [2.4](/enterprise-releases) are incompatible and you have to use migration tools.
-
-If you confirm you can upgrade to the new version, you can run the following commands to upgrade to the latest version:
-```bash
-helm repo update
-helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise
-```
-
-You can also check the available versions and upgrade to a specific version:
-```bash
-helm repo update
-helm search repo timeplus -l
-helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise --version va.b.c
-```
+Note, you may need update the `imageRegistry` in `values.yaml` to point to your own k8s registry.
 
 ### Uninstall and cleanup
 
@@ -145,7 +139,7 @@ Please note, by default, all the PVCs will not be deleted. You can use `kubectl 
 
 You can run `kubectl delete namespace $NS` to delete all PVCs and the namespace.
 
-# Go Production
+## Go Production
 
 ### Planning capacity
 
@@ -154,10 +148,11 @@ This section provides recommendations for sizing your Timeplus Enterprise deploy
 The timeplusd component is the core of the Timeplus Enterprise stack. It requires significant CPU and memory resources to handle data processing and queries. It is highly recommended to run `timeplusd` dedicatedly on the node.
 
 For small to medium-sized deployement, you may consider the following cluster configuration as the start point
-* 3 nodes with:
-  * 16 cores each
-  * 32 Gi memory each
-  * 500Gi storage with iops > 3000 each
+
+- 3 nodes with:
+  - 16 cores each
+  - 32 Gi memory each
+  - 500Gi storage with iops > 3000 each
 
 A sample `values.yaml` configuration:
 ```yaml
@@ -170,7 +165,7 @@ timeplusd:
     # limits:
     #   cpu: "32"
     #   memory: "60Gi"
- 
+
   storage:
     stream:
       className: <storage class with high iops>
@@ -181,16 +176,36 @@ timeplusd:
       size: 250Gi
 ```
 
-### Offline installation
-
-The above quick start guide assume there is network access to the dockerhub to pull all required images. In case there is no access to the dockerhub, user need import required images into kubernetes cluster first. You can run
-1. Run `helm template -f ./values.yaml timeplus/timeplus-enterprise | grep image: | cut -d ":" -f2,3 | sort | uniq | sed 's/"//g'` to list all required images.
-2. Use `docker save` to save the images locally. Please refer to https://docs.docker.com/reference/cli/docker/image/save/.
-3. Upload the images to your k8s image registry.
-
-Note, you may need update the `imageRegistry` in `values.yaml` to point to your own k8s registry.
 
 ## Operations
+
+### Update Configuration
+
+After the installation, you can further customize the configuration by updating the `values.yaml`. Please refer to [Configuration Guide](#configuration-guide). Once the `values.yaml` is ready, apply this via:
+
+```bash
+export RELEASE=timeplus
+helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
+```
+
+### Upgrade Timeplus Enterprise
+
+Please check the [release notes](/enterprise-releases) to confirm the target version of Timeplus Enterprise can be upgraded in-place, by reusing the current data and configuration. For example [2.3](/enterprise-v2.3) and [2.4](/enterprise-releases) are incompatible and you have to use migration tools.
+
+If you confirm you can upgrade to the new version, you can run the following commands to upgrade to the latest version:
+
+```bash
+helm repo update
+helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise
+```
+
+You can also check the available versions and upgrade to a specific version:
+
+```bash
+helm repo update
+helm search repo timeplus -l
+helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise --version va.b.c
+```
 
 ### Prometheus metrics
 
@@ -200,43 +215,48 @@ It is recommended to configure your existing Prometheus metrics collector such a
 
 The metrics of timeplusd are exposed at `:9363/metrics`. You will need to collect the metrics from all timeplusd pods. For example, if your Timeplus Enterprise is installed in `my_ns` namespace, you can configure the collector to collect metrics from
 
-- timeplusd-0.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics
-- timeplusd-1.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics
-- timeplusd-2.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics
-
-### User management
-
-Starting from [Timeplus Enterprise 2.5](enterprise-v2.5), you can create and manage users via Timeplus web console. For earlier versions, you will need to deploy the `timeplus cli` pod to run `timeplus cli` to manage users. Please refer to [CLI Reference](/cli-reference) for how to enable the CLI pod in Kubernetes and run the commands to manage users.
+- `timeplusd-0.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics`
+- `timeplusd-1.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics`
+- `timeplusd-2.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics`
 
 ### Recover from EBS snapshots
-If you deploy Timeplus Enterprise on Amazon EKS, assuming that you are using EBS volume for persistent volumes, you can use EBS snapshots to backup the volumes. Then in the case of data lost (for example, the EBS volume is broken, or someone accidentally delete the data on the volume ), you can restore the persistent volumes from EBS snapshots with the following steps:
 
+If you deploy Timeplus Enterprise on Amazon EKS, assuming that you are using EBS volume for persistent volumes, you can use EBS snapshots to backup the volumes. Then in the case of data lost (for example, the EBS volume is broken, or someone accidentally delete the data on the volume ), you can restore the persistent volumes from EBS snapshots with the following steps:
 
 #### Step 1 - Find snapshots of a workspace
 
 First, we need to find out the PV name
+
 ```bash
 kubectl get pvc -n $NS proton-data -o=jsonpath='{.spec.volumeName}'
 ```
+
 You will get the PV name looks like this
+
 ```
 pvc-ff33a8a4-ed91-4192-8a4b-30e4368b6670
 ```
 
 Then you use this PV name to get the EBS volume ID
+
 ```bash
 kubectl describe pv pvc-ff33a8a4-ed91-4192-8a4b-30e4368b6670 -o=jsonpath='{.spec.csi.volumeHandle}'
 ```
+
 You will get the volume ID looks like this
+
 ```
 vol-01b243a849624a2be
 ```
 
 Now you can use this volume ID to list the available snapshot
+
 ```bash
 aws ec2 describe-snapshots --output json --no-cli-pager --filter 'Name=volume-id,Values=vol-01b243a849624a2be' | jq '.Snapshots | .[] | select(.State == "completed") | .SnapshotId + " " + .StartTime'
 ```
+
 You will see the snapshot IDs with the time when the snapshot was created, like
+
 ```
 "snap-064a198d977abf0d9 2022-10-13T09:22:15.188000+00:00"
 "snap-037248e84dcb666aa 2022-10-11T09:29:57.456000+00:00"
@@ -251,19 +271,23 @@ You will pick one snapshot from the list for the recovery (usually the latest on
 #### Step 2 - Create an EBS volume with the snapshot
 
 Assume the snapshot ID you pick is `snap-064a198d977abf0d9`, now you create an EBS volume by
+
 ```bash
 aws ec2 create-volume --output yaml --availability-zon us-west-2a --snapshot-id snap-064a198d977abf0d9 --volume-type gp3
 ```
 
 :::info
 In this example, we didn't use `--iops` nor `--throughput`. But in real case, you might need to use them. So before running this command, run (replace `vol-01b243a849624a2be` with the volume ID you found in step 1 above):
+
 ```bash
 aws ec2 describe-volumes --filters 'Name=volume-id,Values=vol-01b243a849624a2be'
 ```
+
 And you will find the `Iops` and `Throughput` from the output, make sure the new volume you are going to create matches these values.
 :::
 
 After running the `create-volume` command, you will see output looks like
+
 ```
 AvailabilityZone: us-west-2a
 CreateTime: '2022-10-13T20:05:53+00:00'
@@ -278,16 +302,19 @@ Throughput: 125
 VolumeId: vol-0d628e0096371cb67
 VolumeType: gp3
 ```
+
 The `VolumeId` is what you need for next step, in this example, it is `vol-0d628e0096371cb67`.
 
 #### Step 3 - Create a new PV
 
 Firstly, use the PV name you found in step 1 and the volume ID of volume you created in step 2 to run the following command to generate the YAML file for the new PV you are going to create:
+
 ```bash
 kubectl get pv pvc-17510f7b-8e66-472d-a1dc-4245b2f51e1a -oyaml | yq 'del(.metadata.creationTimestamp) | del(.metadata.resourceVersion) | del(.metadata.uid) | del(.status) | .spec.csi.volumeHandle = "vol-0d628e0096371cb67" | .metadata.name = "pvc-manual-vol-0d628e0096371cb67"' > new-pv.yaml
 ```
 
 Then use the YAML file to create the PV
+
 ```bash
 kubectl apply -f new-pv.yaml
 ```
@@ -295,33 +322,41 @@ kubectl apply -f new-pv.yaml
 #### Step 4 - Make the proton pod use the new PV
 
 First, delete the existing PV
+
 ```bash
 kubectl delete pv pvc-17510f7b-8e66-472d-a1dc-4245b2f51e1a
 ```
+
 Even though it will show the PV is deleted, but the command will be blocked because the PV is currently in-use. So leave this along, and open a new terminal to run the next command.
 
 Next, delete the existing pvc
+
 ```bash
 kubectl delete pvc -n $NS proton-data
 ```
+
 Similarly, this command will also be blocked because the PVC is in-use. Leave it alone, and open a new terminal to run the next command.
 
 Finally, delete the proton pod
+
 ```bash
 kubectl delete pod -n $NS proton-0
 ```
+
 Once the pod is deleted, the previous commands will also be unblocked thus the existing PVC and PV will be deleted.
 
 Once the new pod is up and running, it will use the PV you previously created manually. You can double check by
+
 ```bash
 kubectl get pvc -n $NS proton-data -o=jsonpath='{.spec.volumeName}'
 ```
-It should return the name you used in your new PV, in this example it is `pvc-manual-vol-0d628e0096371cb67`.
 
+It should return the name you used in your new PV, in this example it is `pvc-manual-vol-0d628e0096371cb67`.
 
 ### Troubleshooting
 
 If something goes wrong, you can run the following commands to get more information.
+
 1. `kubectl get pods -n $NS`: Make sure all pods are in `Running` status and the `READY` is `1/1`.
 2. `kubectl logs <pod> -n $NS`: Try to check the logs of each pod to make sure there is no obvious errors.
 3. Run `kubectl cluster-info dump -n $NS` to dump all the information and send it to us.
@@ -340,15 +375,16 @@ timeplusd:
   config:
     max_concurrent_queries: 1000
     max_concurrent_insert_queries: 1000
-    max_concurrent_select_queries: 1000   
+    max_concurrent_select_queries: 1000
 ```
 
 There are a lot of other configurations available to customize the deployment. Some of the properties are available for each component. To save some space, we won't list them in the next `Values` section.
-* `affinity`: [Node affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) property.
-* `imageRegistry`: Defaulted to the official dockerhub (`docker.io`).
-* `imagePullPolicy`: Defaulted to `IfNotPresent`.
-* `resources`: [Resource](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) property. Defaulted to `null` except for `timeplusd` component. Please refer to `timeplusd` section to find out the default value.
-* `labels`: Extra labels that applied to Pod/Deploy/Sts. Defaulted to `null`
+
+- `affinity`: [Node affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) property.
+- `imageRegistry`: Defaulted to the official dockerhub (`docker.io`).
+- `imagePullPolicy`: Defaulted to `IfNotPresent`.
+- `resources`: [Resource](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) property. Defaulted to `null` except for `timeplusd` component. Please refer to `timeplusd` section to find out the default value.
+- `labels`: Extra labels that applied to Pod/Deploy/Sts. Defaulted to `null`
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
