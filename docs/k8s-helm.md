@@ -71,7 +71,7 @@ timeplusd:
       memory: 4Gi
 ```
 Then make changes to better fit your need.
-1. Update the storage class name and size accordingly. You can check available storage class on your cluster by running `kubectl get storageclass`. If you have enabled storage dynamic provisioning, you may want to set both `timeplusd.storage.stream.selector` and `timeplusd.storage.history.selector` to `null`
+1. Update the storage class name and size accordingly. Please check the [Planning capacity](#planning-capacity) section for storage recommendations. You can check available storage class on your cluster by running `kubectl get storageclass`. If you have enabled storage dynamic provisioning, you may want to set both `timeplusd.storage.stream.selector` and `timeplusd.storage.history.selector` to `null`
 2. Update `defaultAdminPassword`. This is the password for the default admin user `proton`, which is used internally in the system.
 3. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload.
 4. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. By default each `timeplusd` pod requires 2 cores and 4GB memory. However, you'd better to have at least 8 cores and 20Gi memory for each node to make sure Timeplus Enteprise works well under small to medium workload.
