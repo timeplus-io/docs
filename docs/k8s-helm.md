@@ -120,7 +120,7 @@ If any of the pod is in error status, you can try to use `kubectl describe pod <
 
 There are different ways to expose the services of Timeplus stack. In this step, we use port forward of kubectl to get a quick access. Run `kubectl port-forward svc/timeplus-appserver 8000:8000 -n $NS --address 0.0.0.0` and then open the address `http://localhost:8000` in your browser to visit Timeplus Console web UI.
 
-As long as you are able to access the UI, you are now ready to explore the powerful Timeplus Enterprise!
+As long as you are able to access the UI, you are now ready to explore the Timeplus Enterprise.
 
 ### Offline installation
 
