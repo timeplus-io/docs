@@ -124,7 +124,7 @@ As long as you are able to access the UI, you are now ready to explore the Timep
 
 ### Offline installation
 
-The above quick start guide assume there is network access to the dockerhub to pull all required images. In case there is no access to the dockerhub, user need import required images into kubernetes cluster first. You can run
+The above quick start guide assume there is network access to the Docker Hub to pull all required images. In the case there is no access to the Docker Hub, users need import required images into Kubernetes cluster first. You can run:
 1. Run `helm template -f ./values.yaml timeplus/timeplus-enterprise | grep image: | cut -d ":" -f2,3 | sort | uniq | sed 's/"//g'` to list all required images.
 2. Use `docker save` to save the images locally. Please refer to https://docs.docker.com/reference/cli/docker/image/save/.
 3. Upload the images to your k8s image registry.
@@ -363,7 +363,7 @@ If something goes wrong, you can run the following commands to get more informat
 
 ## Configuration Guide
 
-You may want to customize the configurations of Timeplus Appserver or Timeplusd. Here is a quick example of how to modify the `values.yaml`. For the list of available configuration items, please refer to the docs of [Timeplus Appserver](https://docs.timeplus.com/server_config#appserver) and [Timeplusd](https://docs.timeplus.com/server_config#timeplusd).
+You may want to customize the configurations of Timeplus Appserver or Timeplusd. Here is a quick example of how to modify the `values.yaml`. For the list of available configuration items, please refer to the docs of [Timeplus Appserver](./server_config#appserver) and [Timeplusd](./server_config#timeplusd).
 
 ```yaml
 # Attention please: timeplusAppserver uses `configs` while timeplusd uses `config`
