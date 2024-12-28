@@ -74,7 +74,7 @@ Then make changes to better fit your need.
 1. Update the storage class name and size accordingly. Please check the [Planning capacity](#planning-capacity) section for storage recommendations. You can check available storage class on your cluster by running `kubectl get storageclass`. If you have enabled storage dynamic provisioning, you may want to set both `timeplusd.storage.stream.selector` and `timeplusd.storage.history.selector` to `null`
 2. Update `defaultAdminPassword`. This is the password for the default admin user `proton`, which is used internally in the system.
 3. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload.
-4. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. By default each `timeplusd` pod requires 2 cores and 4GB memory. However, you'd better to have at least 8 cores and 20Gi memory for each node to make sure Timeplus Enteprise works well under small to medium workload.
+4. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. By default each `timeplusd` pod requires 2 cores and 4GB memory. However, you'd better to have at least 8 cores and 20Gi memory for each node to make sure Timeplus Enterprise works well under small to medium workload.
 5. Optionally refer to [Configuration Guide](#configuration-guide) and add other configurations.
 
 ### Install Helm chart
@@ -147,7 +147,7 @@ This section provides recommendations for sizing your Timeplus Enterprise deploy
 
 The timeplusd component is the core of the Timeplus Enterprise stack. It requires significant CPU and memory resources to handle data processing and queries. It is highly recommended to run `timeplusd` dedicatedly on the node.
 
-For small to medium-sized deployement, you may consider the following cluster configuration as the start point
+For small to medium-sized deployment, you may consider the following cluster configuration as the start point
 
 - 3 nodes with:
   - 16 cores each
@@ -381,7 +381,7 @@ timeplusd:
 There are a lot of other configurations available to customize the deployment. Some of the properties are available for each component. To save some space, we won't list them in the next `Values` section.
 
 - `affinity`: [Node affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) property.
-- `imageRegistry`: Defaulted to the official dockerhub (`docker.io`).
+- `imageRegistry`: Defaulted to the official Docker Hub (`docker.io`).
 - `imagePullPolicy`: Defaulted to `IfNotPresent`.
 - `resources`: [Resource](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) property. Defaulted to `null` except for `timeplusd` component. Please refer to `timeplusd` section to find out the default value.
 - `labels`: Extra labels that applied to Pod/Deploy/Sts. Defaulted to `null`
