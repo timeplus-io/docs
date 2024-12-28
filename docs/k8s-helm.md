@@ -100,7 +100,7 @@ Your Timeplus Enterprise stack is deployed! It may take a few minutes before all
 You can run `kubectl -n timeplus get jobs` to check whether `timeplus-provision` is completed or not. Once this job is completed, you can start use Timeplus Enterprise.
 ```
 
-To make sure everything is up and running, run `kubectl get pods -n ${NS}` to check the stack status
+To make sure everything is up and running, run `kubectl get pods -n $NS` to check the stack status
 
 ```bash
 NAME                                  READY   STATUS    RESTARTS   AGE
@@ -113,7 +113,7 @@ timeplusd-1                           1/1     Running     0          13m
 timeplusd-2                           1/1     Running     0          13m
 ```
 
-If any of the pod is in error status, you can try to use `kubectl describe pod <error pod> -n ${NS}` to debug. For more details, please refer to [Troubleshooting](#troubleshooting) section.
+If any of the pod is in error status, you can try to use `kubectl describe pod <error pod> -n $NS` to debug. For more details, please refer to [Troubleshooting](#troubleshooting) section.
 
 
 ### Expose the Timeplus Console
