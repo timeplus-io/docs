@@ -104,7 +104,7 @@ Timeplus Connector read configurations from environment variables. The default v
 # Address of Timeplus Appserver's internal endpoint
 export NEUTRON_ADDRESS="localhost:8081"
 
-# Hostname and port that Timeplus Connector server bind to
+# Hostname and port that Timeplus Connector server bind to. Notice that Timeplus Connector starts the benthos server that listen to port TIMEPLUS_CONNECTOR_PORT-1 (by default 4195). However, this port is not supposed to be called by anyone else.
 # Timeplus Appserver submits sources and sinks to Timeplus Connector via this endpoint. Make sure you also update `connector-addr` from Timeplus Appserver side
 export TIMEPLUS_CONNECTOR_HOST="0.0.0.0"
 export TIMEPLUS_CONNECTOR_PORT=4196
