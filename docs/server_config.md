@@ -62,9 +62,26 @@ Note:
 
 ## Timeplus Appserver configurations {#appserver}
 
+Timeplus Appserver read configurations from configuration file (.yaml) and environment variables. The default values listed below are the default values that hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or k8s via helm)
+
 ```yaml
-# The maximum number of tcp connections to timeplusd in the idle connection pool
-timeplusd-max-idle-conns: 10
+# IP interface and port the server should bind to
+server-addr: "0.0.0.0"
+server-port: 8000
+
+# IP interface and port the server should bind to for serving internal APIs, by default it uses the preferred outbound IP address on the machine. For best practice use an internal IP and never use 0.0.0.0"
+# Timeplus Connector talks to Timeplus Appserver via internal endpoint. Make sure you also update `NEUTRON_ADDRESS` from Timeplus Connector side
+server-internal-addr:
+server-internal-port: 8081
+
+# To enable TLS, please refer to the Enable HTTPS section
+tls: false
+
+# Level of log, support panic|fatal|error|warn|info|debug|trace
+log-level: info
+
+# The address of the Timeplus connector endpoint
+connector-addr: "orbit.tp-tenant-{{ .workspace_id }}:4196"
 
 # The maximum interval (in millisecond) between two flushes to the query SSE channel.
 query-buffer-interval: 100
@@ -72,14 +89,25 @@ query-buffer-interval: 100
 # The maximum number of rows buffered in memory before flushing to the query SSE channel.
 query-buffer-max: 100
 
-# If disabled, you will not be required to login appserver. Appserver will always behaviour as the timeplusd user configured in `appserver-user-timeplusd-username`
-enable-authentication: true
+# Whether to enable authentication
+enable-authentication: false
 
-# Required only if `enable-authentication` is set to be `false`.
-appserver-user-timeplusd-username: "default"
+# Whether to enable authorization
+enable-authorization: false
+```
 
-# Required only if `enable-authentication` is set to be `false`.
-appserver-user-timeplusd-password: ""
+## Timeplus Connector configurations {#connector}
+
+Timeplus Connector read configurations from environment variables. The default values listed below are the default values that hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or k8s via helm)
+
+```bash
+# Address of Timeplus Appserver's internal endpoint
+export NEUTRON_ADDRESS="localhost:8081"
+
+# Hostname and port that Timeplus Connector server bind to
+# Timeplus Appserver submits sources and sinks to Timeplus Connector via this endpoint. Make sure you also update `connector-addr` from Timeplus Appserver side
+export TIMEPLUS_CONNECTOR_HOST="0.0.0.0"
+export TIMEPLUS_CONNECTOR_PORT=4196
 ```
 
 ## Timeplusd configurations {#timeplusd}
