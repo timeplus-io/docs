@@ -62,7 +62,7 @@ Note:
 
 ## Timeplus Appserver configurations {#appserver}
 
-Timeplus Appserver read configurations from configuration file (.yaml) and environment variables. The default values listed below are the default values that hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or k8s via helm)
+Timeplus Appserver reads configurations from the configuration file (.yaml) and environment variables. The default values listed below are the default values that are hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or Kubernetes)
 
 ```yaml
 # IP interface and port the server should bind to
@@ -98,7 +98,7 @@ enable-authorization: false
 
 ## Timeplus Connector configurations {#connector}
 
-Timeplus Connector read configurations from environment variables. The default values listed below are the default values that hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or k8s via helm)
+Timeplus Connector reads configurations from the environment variables. The default values listed below are the default values that are hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or Kubernetes)
 
 ```bash
 # Address of Timeplus Appserver's internal endpoint
