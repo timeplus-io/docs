@@ -83,6 +83,11 @@ log-level: info
 # The address of the Timeplus connector endpoint
 connector-addr: "orbit.tp-tenant-{{ .workspace_id }}:4196"
 
+# The URL the console app, leave it empty to disable web console. An example configure is `http://localhost:4000`
+console-app-url:
+# The URL the onboarding app, leave it empty to disable onboarding. An example configure is `http://localhost:4000`
+onboarding-app-url:
+
 # The maximum interval (in millisecond) between two flushes to the query SSE channel.
 query-buffer-interval: 100
 
@@ -96,6 +101,17 @@ enable-authentication: false
 enable-authorization: false
 ```
 
+## Timeplus Web configurations (#web)
+
+Timeplus Web reads configurations from the environment variables. The default values listed below are the default values that are hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or Kubernetes)
+
+```bash
+# Hostname and port that Timeplus Web bind to.
+# Timeplus Appserver talks to Timeplus Web in order to serve web console. Please make sure you update `console-app-url` and `onboarding-app-url` from Timeplus Appserver side.
+export TIMEPLUS_WEB_HOST="0.0.0.0"
+export TIMEPLUS_WEB_PORT=4000
+```
+
 ## Timeplus Connector configurations {#connector}
 
 Timeplus Connector reads configurations from the environment variables. The default values listed below are the default values that are hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or Kubernetes)
@@ -104,7 +120,7 @@ Timeplus Connector reads configurations from the environment variables. The defa
 # Address of Timeplus Appserver's internal endpoint
 export NEUTRON_ADDRESS="localhost:8081"
 
-# Hostname and port that Timeplus Connector server bind to. Notice that Timeplus Connector starts the benthos server that listen to port TIMEPLUS_CONNECTOR_PORT-1 (by default 4195). However, this port is not supposed to be called by anyone else.
+# Hostname and port that Timeplus Connector server bind to. Notice that Timeplus Connector starts a Redpanda Connect server that listen to the same host but port TIMEPLUS_CONNECTOR_PORT-1 (by default 0.0.0.0:4195). However, this port is not supposed to be called by anyone else.
 # Timeplus Appserver submits sources and sinks to Timeplus Connector via this endpoint. Make sure you also update `connector-addr` from Timeplus Appserver side
 export TIMEPLUS_CONNECTOR_HOST="0.0.0.0"
 export TIMEPLUS_CONNECTOR_PORT=4196
