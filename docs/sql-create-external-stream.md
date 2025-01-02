@@ -48,6 +48,30 @@ For examples to connect to various Kafka API compatitable message platforms, ple
 
 :::
 
+## Pulsar External Stream
+```sql
+CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
+    (<col_name1> <col_type>)
+SETTINGS
+    type='pulsar', -- required
+    service_url='pulsar://host:port',-- required
+    topic='..', -- required
+    jwt='..',
+    data_format='..',
+    format_schema='..',
+    one_message_per_row=..,
+    skip_server_cert_check=..,
+    validate_hostname=..,
+    ca_cert='..',
+    client_cert='..',
+    client_key='..',
+    connections_per_broker=..,
+    memory_limit=..,
+    io_threads=..
+```
+
+Please check the [Pulsar External Stream](/pulsar-external-stream#ddl-settings) for more details.
+
 ## Timeplus External Stream
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
