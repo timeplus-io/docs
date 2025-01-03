@@ -105,7 +105,7 @@ EMIT PERIODIC 1s
 Starting from Timeplus Proton 1.6.2, you can optionally add `REPEAT` to the end of `EMIT PERIODIC <n><UNIT>`. For global aggregations, by default every 2 seconds, the aggregation result will be emitted. But if there is no new event since last emit, no result will be emitted. With the `REPEAT` at the end of the emit policy, Timeplus will emit results at the fixed interval, even there is no new events since last emit. For example:
 ```sql
 SELECT count() FROM t
-EMIT STREAM PERIODIC 3s REPEAT
+EMIT PERIODIC 3s REPEAT
 ```
 
 ### EMIT ON UPDATE {#emit_on_update}

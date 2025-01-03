@@ -2,7 +2,7 @@
 
 [Apache® Pulsar™](https://pulsar.apache.org/) is a multi-tenant, high-performance solution for server-to-server messaging.
 
-In [Timeplus Enterprise v2.5](/enterprise-v2.5), we added the first-class integration for Apache Pulsar, as a new type of [External Stream](/external-stream). You can read or write data in Apache Pulsar or StreamNative Cloud.
+In [Timeplus Enterprise v2.5](/enterprise-v2.5), we added the first-class integration for Apache Pulsar, as a new type of [External Stream](/external-stream). You can read or write data in Apache Pulsar or StreamNative Cloud. This is also available in Timeplus Proton, since v1.6.8.
 
 ## CREATE EXTERNAL STREAM
 
@@ -437,8 +437,7 @@ DROP STREAM [IF EXISTS] stream_name
 
 There are some limitations for the Pulsar-based external streams, because Timeplus doesn’t control the storage or the data format for the external stream.
 
-1. The UI wizard to setup Pulsar External Stream is coming soon. Before it's ready, you need the SQL DDL.
-2. Unlike normal streams, there is no historical storage for the external streams. You can run `table(ex_pulsar_stream)` but it will scan all messages in the topic. There is no way to implement an efficient `count`. Thus, `SELECT count() FROM table(ex_pulsar_stream)` will always scan the whole topic. If you need to frequently run query for historical data, you can use a Materialized View to query the Pulsar External Stream and save the data in Timeplus columnar or row storage. This will improve the query performance.
-3. You use `seek_to` in the streaming query. `earliest` and `latest` are supported. You can also use `seek_to='2024-10-14'` for date or datetime based rewind. But number-based seek_to is not supported.
-4. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Pulsar. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
-5. Like Kafka external stream, Pulsar external stream will fetch the partition list after the streaming SQL starts running. Thus, it won't be automatically detect new partitions at runtime. Users must re-execute the query in order to read data from the new partitions.
+1. Unlike normal streams, there is no historical storage for the external streams. You can run `table(ex_pulsar_stream)` but it will scan all messages in the topic. There is no way to implement an efficient `count`. Thus, `SELECT count() FROM table(ex_pulsar_stream)` will always scan the whole topic. If you need to frequently run query for historical data, you can use a Materialized View to query the Pulsar External Stream and save the data in Timeplus columnar or row storage. This will improve the query performance.
+2. You use `seek_to` in the streaming query. `earliest` and `latest` are supported. You can also use `seek_to='2024-10-14'` for date or datetime based rewind. But number-based seek_to is not supported.
+3. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Pulsar. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
+4. Like Kafka external stream, Pulsar external stream will fetch the partition list after the streaming SQL starts running. Thus, it won't be automatically detect new partitions at runtime. Users must re-execute the query in order to read data from the new partitions.

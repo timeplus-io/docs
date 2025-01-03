@@ -1,11 +1,5 @@
 # Stream
 
-:::info note for Timeplus Cloud users
-
-In Timeplus Cloud or Timeplus Enterprise deployments, we recommend you to create streams with GUI or [Terraform Provider](/terraform), with better usability and more capabilities.
-
-:::
-
 ## CREATE STREAM
 
 [Stream](/working-with-streams) is a key [concept](/glossary) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Timeplus.

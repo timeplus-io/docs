@@ -2,6 +2,12 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Jan 6, 2025
+
+Happy New Year 🎉
+### Timeplus Proton v1.6.8
+* Pulsar external stream is now available in Timeplus Proton. You can use Pulsar external stream to query or process data in Pulsar with SQL. [Learn more](/pulsar-external-stream).
+
 ## Dec 23, 2024
 
 Merry Christmas 🎄
