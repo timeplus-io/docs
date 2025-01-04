@@ -162,5 +162,9 @@ Alias for `largest_triangle_three_buckets`.
 ### avg_time_weighted
 `avg_time_weighted(column, time_column)` to calculate the time-weighted average of the column. The time column should be in the format of `datetime`,`datetime64` or `date`.
 
+Optionally, you can add a third parameter to specify an end time for your analysis period. When you omit the third parameter, the calculation excludes the last value. If provided, the end time must match the timestamp column's data type, and the function uses the difference between the last time point and this end time as the weight for the final value.
+
 ### median_time_weighted
 `median_time_weighted(column, time_column)` to calculate the time-weighted median of the column. The time column should be in the format of `datetime`,`datetime64` or `date`.
+
+This function also takes an optional third parameter to specify an end time for your analysis period.
