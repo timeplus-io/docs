@@ -238,6 +238,7 @@ const sidebars = {
       items: [
         "query-syntax",
         "query-settings",
+        "core-settings",
         "datatypes",
         {
           type: "category",
@@ -266,6 +267,7 @@ const sidebars = {
             "sql-alter-stream",
             "sql-show-streams",
             "sql-drop-stream",
+            "sql-truncate-stream",
             "sql-create-format-schema",
             "sql-show-format-schemas",
             "sql-drop-format-schema",
@@ -447,6 +449,7 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
+        "enterprise-v2.6",
         "enterprise-v2.5",
         "enterprise-v2.4",
         "enterprise-v2.3",
