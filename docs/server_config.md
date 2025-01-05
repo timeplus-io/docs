@@ -62,7 +62,7 @@ Note:
 
 ## Timeplus Appserver configurations {#appserver}
 
-Timeplus Appserver reads configurations from the configuration file (.yaml) and environment variables. The default values listed below are the default values that are hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or Kubernetes)
+Timeplus Appserver reads configurations from the configuration file (.yaml) and environment variables. The default values listed below are the default values that are hardcoded inside the binary file. The actual default value may be different depends on your deployment (bare-metal or Kubernetes)
 
 ```yaml
 # IP interface and port the server should bind to
@@ -103,7 +103,7 @@ enable-authorization: false
 
 ## Timeplus Web configurations (#web)
 
-Timeplus Web reads configurations from the environment variables. The default values listed below are the default values that are hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or Kubernetes)
+Timeplus Web reads configurations from the environment variables. The default values listed below are the default values that are hardcoded inside the binary file. The actual default value may be different depends on your deployment (bare-metal or Kubernetes)
 
 ```bash
 # Hostname and port that Timeplus Web bind to.
@@ -114,7 +114,7 @@ export TIMEPLUS_WEB_PORT=4000
 
 ## Timeplus Connector configurations {#connector}
 
-Timeplus Connector reads configurations from the environment variables. The default values listed below are the default values that are hardcoded inside the binary file. The actual default value may be different depends on your deployement (bare-metal or Kubernetes)
+Timeplus Connector reads configurations from the environment variables. The default values listed below are the default values that are hardcoded inside the binary file. The actual default value may be different depends on your deployment (bare-metal or Kubernetes)
 
 ```bash
 # Address of Timeplus Appserver's internal endpoint
