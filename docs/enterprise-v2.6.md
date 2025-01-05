@@ -11,7 +11,7 @@ Each component tracks their changes with own version numbers. The version number
 
 ## Key Highlights
 Key highlights of this release:
-* Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. For large data streams with hundreds of GB data, to avoid exceeding the memory limit, you can set the query setting to apply the new hybird hash table, which uses both the memory and the local disk to store the internal state as a hash table.
+* Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. For large data streams with hundreds of GB data, to avoid exceeding the memory limit, you can set the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
 * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.
 * Improved the read/write performance for ClickHouse external tables.
 * Added UI wizards for Coinbase data sources and Apache Pulsar external streams.
@@ -46,7 +46,7 @@ Component versions:
 
 Compared to the [2.5.11](/enterprise-v2.5#2_5_11) release:
 * timeplusd 2.4.26 -> 2.5.6
-  * Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. For large data streams with hundreds of GB data, to avoid exceeding the memory limit, you can set the query setting to use the new hybird hash table, which uses both the memory and the local disk to store the internal state as a hash table. You can add the following to the setting `SETTINGS default_hash_table='hybrid'`.
+  * Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. For large data streams with hundreds of GB data, to avoid exceeding the memory limit, you can set the query setting to use the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table. You can add the following to the setting `SETTINGS default_hash_table='hybrid'`.
   * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.
   * Added a new [EMIT policy](/query-syntax#emit) in streaming SQL with global aggregation. The new [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax will show the last aggregation result even there is no new event.
   * Improved performance for [EMIT ON UPDATE](/query-syntax#emit_on_update) queries. In extreme scenarios, it may lead to a significant increased memory usage. In that case, you can disable it via `SETTINGS optimize_aggregation_emit_on_updates=false`.
@@ -77,5 +77,5 @@ Compared to the [2.5.11](/enterprise-v2.5#2_5_11) release:
 You can upgrade a deployment of Timeplus Enterprise 2.5 to Timeplus Enterprise 2.6, by stopping the components and replacing the binary files, or reusing the Docker or Kubernetes volumes and update the image versions.
 
 #### Known issues {#known_issue_2_6_0}
-1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.6.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+1. If you have deployed one of the 2.4.x or 2.5.x releases, you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.6.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
 2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.
