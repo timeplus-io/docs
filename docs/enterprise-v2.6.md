@@ -12,6 +12,7 @@ Each component tracks their changes with own version numbers. The version number
 ## Key Highlights
 Key highlights of this release:
 * Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. For large data streams with hundreds of GB data, to avoid exceeding the memory limit, you can set the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
+* Able to add secondary indexes for mutable streams.
 * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.
 * Improved the read/write performance for ClickHouse external tables.
 * Added UI wizards for Coinbase data sources and Apache Pulsar external streams.
@@ -30,7 +31,7 @@ Key highlights of this release:
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
 ### 2.6.0 (Controlled Release) {#2_6_0}
-Built on 01-04-2025. You can install via:
+Built on 01-05-2025. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.6 | sh`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.10 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.0`
@@ -49,23 +50,25 @@ Compared to the [2.5.11](/enterprise-v2.5#2_5_11) release:
   * Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. For large data streams with hundreds of GB data, to avoid exceeding the memory limit, you can set the query setting to use the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table. You can add the following to the setting `SETTINGS default_hash_table='hybrid'`.
   * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.
   * Added a new [EMIT policy](/query-syntax#emit) in streaming SQL with global aggregation. The new [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax will show the last aggregation result even there is no new event.
-  * Improved performance for [EMIT ON UPDATE](/query-syntax#emit_on_update) queries. In extreme scenarios, it may lead to a significant increased memory usage. In that case, you can disable it via `SETTINGS optimize_aggregation_emit_on_updates=false`.
+  * Improved performance for [EMIT ON UPDATE](/query-syntax#emit_on_update) queries. In extreme scenarios, it may lead to a significant increase in memory usage. In that case, you can disable it via `SETTINGS optimize_aggregation_emit_on_updates=false`.
   * For streams and mutable streams with multiple shards, you can read specific shards by setting `shards`, e.g. `SELECT * FROM stream SETTINGS shards='0,2'`.
   * While reading CSV or TSV files, you can skip specific rows by setting `SETTINGS input_format_csv_skip_first_lines=N` or `SETTINGS input_format_tsv_skip_first_lines=N`. Default value is 0.
   * Improved performance for ClickHouse external tables' read and write. Make the maximum number of pooled connections configurable via `pooled_connections` setting, with default value 3000.
   * Able to add secondary indexes for mutable streams. [Learn more](/sql-alter-stream#add-index).
-  * For a multi-node cluster, a `_tp_sn` column is added to each stream (except external streams or random streams), as the sequence number in the unified streaming and historical storages. This column is used for data replication among the cluster. By default, it is hidden in the query results. You can show it by setting `SETTINGS asterisk_include_tp_sn_column=true`.
-* timeplus_web 2.0.6 -> 2.1.4
+  * For a multi-node cluster, a `_tp_sn` column is added to each stream (except external streams or random streams), as the sequence number in the unified streaming and historical storages. This column is used for data replication among the cluster. By default, it is hidden in the query results. You can show it by setting `SETTINGS asterisk_include_tp_sn_column=true`. This setting is required when you use `INSERT..SELECT` SQL to copy data between streams: `INSERT INTO stream2 SELECT * FROM stream1 SETTINGS asterisk_include_tp_sn_column=true`.
+  * For Kafka external streams, the latest offset(sequence number) is tracked in `system.stream_state_log` table. You can export the table as a CSV file via the [timeplus diag](/cli-diag) command.
+* timeplus_web 2.0.6 -> 2.1.5
   * Added UI wizards for Coinbase data sources and Apache Pulsar external streams.
+  * Create the demo data sources with random streams, instead of a Redpanda Connect source.
   * At the end of the creating data source wizard, show a few common steps to use the newly created sources or streams.
   * Redesigned SQL Console and helper UI for better usability.
   * Enhanced data lineage visualization with throughput and memory metrics for materialized views.
+  * Able to show random streams and alerts in the data lineage view.
   * Universal side panel for all Timeplus resources to check the metadata and statistics, as well as common actions.
   * Enhanced visualizations: set fixed width for table panels, hide/show columns for map tooltips, and more.
-  * Able to list random streams in stream list and data lineage.
   * Able to show the Timeplus Enterprise version in the "Get Support" tab of the help side panel.
   * Show the latest list of Redpanda Connect input and output connectors.
-* timeplus_appserver 2.0.9 -> 2.1.4
+* timeplus_appserver 2.0.9 -> 2.1.5
   * Added new data source for Coinbase.
   * Able to list random streams.
 * timeplus_connector 2.0.3 -> 2.1.0
