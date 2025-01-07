@@ -188,6 +188,16 @@ export RELEASE=timeplus
 helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
 ```
 
+### Update PV size for timeplusd
+
+Due to the [limitation of k8s Statefulset](https://github.com/kubernetes/kubernetes/issues/68737), you will need to follow these steps manually to update the PV size for timeplusd:
+
+1. Make sure the `global.pvcDeleteOnStsDelete: false` is set to be false. You can double check this by running command `kubectl -n <ns> get sts timeplusd -ojson | jq '.spec.persistentVolumeClaimRetentionPolicy'` and make sure both `whenDeleted` and `whenScaled` are `retain`. This is extremely important otherwise your PV may be deleted and all the data will be lost.
+2. Run `kubectl -n <ns> delete sts/timeplusd` to temporarily delete the statefulset. This step is neccesary to workaround the k8s limitation.
+3. Run `kubectl -n <ns> get pvc` to list all the PVCs and their corresponding PVs. For each PV you want to resize, run command `kubectl -n edit pvc <pvc>` to update the `spec.resources.requests.storage`. Notice that all timeplusd replicas need to have the same storage size so please make sure all updated PVCs have the same storage size. 
+4. Update the the `timeplusd.storage.stream.size` and/or `timeplusd.storage.stream.history.size` in `values.yaml` that you used to deploy Timeplus Enterprise.
+5. Run helm upgrade to upgrade the deployment. New statefulset will be created to pick up PV size changes.
+
 ### Upgrade Timeplus Enterprise
 
 Please check the [release notes](/enterprise-releases) to confirm the target version of Timeplus Enterprise can be upgraded in-place, by reusing the current data and configuration. For example [2.3](/enterprise-v2.3) and [2.4](/enterprise-releases) are incompatible and you have to use migration tools.
