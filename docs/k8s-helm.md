@@ -127,9 +127,9 @@ As long as you are able to access the UI, you are now ready to explore the Timep
 The above quick start guide assume there is network access to the Docker Hub to pull all required images. In the case there is no access to the Docker Hub, users need import required images into Kubernetes cluster first. You can run:
 1. Run `helm template -f ./values.yaml timeplus/timeplus-enterprise | grep image: | cut -d ":" -f2,3 | sort | uniq | sed 's/"//g'` to list all required images.
 2. Use `docker save` to save the images locally. Please refer to https://docs.docker.com/reference/cli/docker/image/save/.
-3. Upload the images to your k8s image registry.
+3. Upload the images to your Kubernetes image registry.
 
-Note, you may need update the `imageRegistry` in `values.yaml` to point to your own k8s registry.
+Note, you may need update the `imageRegistry` in `values.yaml` to point to your own Kubernetes registry.
 
 ### Uninstall and cleanup
 
@@ -187,6 +187,17 @@ After the installation, you can further customize the configuration by updating 
 export RELEASE=timeplus
 helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
 ```
+
+### Update PV size for timeplusd
+
+Due to the [limitation of Kubernetes Statefulset](https://github.com/kubernetes/kubernetes/issues/68737), you will need to manually update the PV size for timeplusd. Notice that this will cause downtime of Timeplus Enterprise.
+
+1. Make sure the `global.pvcDeleteOnStsDelete` is not set or is set to be `false`. You can double check this by running command `kubectl -n <ns> get sts timeplusd -ojsonpath='{.spec.persistentVolumeClaimRetentionPolicy}'` and make sure both `whenDeleted` and `whenScaled` are `retain`. This is extremely important otherwise your PV may be deleted and all the data will be lost.
+1. Run `kubectl -n <ns> delete sts/timeplusd` to temporarily delete the statefulset. Wait until all timeplusd pods are terminated. This step is neccesary to workaround the Kubernetes limitation.
+1. Run `kubectl -n <ns> get pvc` to list all the PVCs and their corresponding PVs. For each PV you want to resize, run command `kubectl -n edit pvc <pvc>` to update the `spec.resources.requests.storage`. Notice that all timeplusd replicas need to have the same storage size so please make sure all updated PVCs have the same storage size. 
+1. Run `kubectl get pv <pv> -o=jsonpath='{.spec.capacity.storage}'` to make sure all corresponding PVs have been updated. It takes a while before Kubernetes update the capacity field of the PVC so as long as you can see the underlying storage size gets updated, you can process to the next step.
+1. Update the the `timeplusd.storage.stream.size` and/or `timeplusd.storage.stream.history.size` in `values.yaml` that you used to deploy Timeplus Enterprise.
+1. Run helm upgrade command to upgrade the deployment. New statefulset will be created to pick up the PV size changes.
 
 ### Upgrade Timeplus Enterprise
 
