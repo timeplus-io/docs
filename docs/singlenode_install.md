@@ -14,10 +14,10 @@ curl https://install.timeplus.com | sh
 
 This script will download the latest release (based on your operating system and CPU architecture) to the current folder. Uncompress the package and start the Timeplus Enterprise server.
 
-If you'd like to download the package for a certain minor release, you can run the following command:
+If you'd like to download the package for a certain feature release, you can run the following command:
 
 ```shell
-curl https://install.timeplus.com/2.4 | sh
+curl https://install.timeplus.com/2.6 | sh
 ```
 
 ### Manual Install

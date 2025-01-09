@@ -217,10 +217,6 @@ bigint and decimal types are now supported, and a bugfix for invalid version for
 ## Jul 8, 2024
 
 ### Timeplus Enterprise v2.3.5
-  * Different channels for stable builds and latest builds:
-    * `curl https://install.timeplus.com | sh` downloads and installs the stable build (currently v2.3.0).
-    * `curl https://install.timeplus.com/latest | sh` downloads and installs the latest build for you to try newest features and bug fixes (currently v2.3.5).
-    * See our [changelog](/enterprise-v2.4) for each stable/latest version.
   * New SQL Commands: SYSTEM PAUSE and SYSTEM UNPAUSE. If you want to pause a materialized view, run `SYSTEM PAUSE MATERIALIZED VIEW mv`. To unpause it, run `SYSTEM UNPAUSE MATERIALIZED VIEW mv`. We added this feature based on user feedback and to improve troubleshooting efficiency. [Learn more](/sql-system-pause)
 
 ### Timeplus Proton v1.5.12
