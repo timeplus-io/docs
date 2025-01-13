@@ -32,13 +32,13 @@ Key highlights of this release:
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
 ### 2.6.0 {#2_6_0}
-Built on 01-08-2025. You can install via:
+Built on 01-12-2025. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.6 | sh`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.10 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.0`
 
 Component versions:
-* timeplusd 2.5.8
+* timeplusd 2.5.9
 * timeplus_web 2.1.7
 * timeplus_appserver 2.1.6
 * timeplus_connector 2.1.1
@@ -47,7 +47,7 @@ Component versions:
 #### Changelog {#changelog_2_6_0}
 
 Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
-* timeplusd 2.4.27 -> 2.5.8
+* timeplusd 2.4.27 -> 2.5.9
   * Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. For large data streams with hundreds of GB data, to avoid exceeding the memory limit, you can set the query setting to use the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table. You can add the following to the setting `SETTINGS default_hash_table='hybrid'`.
   * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.
   * Added a new [EMIT policy](/query-syntax#emit) in streaming SQL with global aggregation. The new [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax will show the last aggregation result even there is no new event.
