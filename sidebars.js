@@ -281,6 +281,10 @@ const sidebars = {
             "sql-create-remote-function",
             "sql-show-create",
 
+            "sql-create-database",
+            "sql-show-databases",
+            "sql-drop-database",
+
             "sql-system-pause",
             "sql-system-unpause",
             // "sql-system-abort",
