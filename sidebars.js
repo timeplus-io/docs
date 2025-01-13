@@ -238,7 +238,6 @@ const sidebars = {
       items: [
         "query-syntax",
         "query-settings",
-        "core-settings",
         "datatypes",
         {
           type: "category",

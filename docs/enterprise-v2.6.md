@@ -12,7 +12,7 @@ Each component tracks their changes with own version numbers. The version number
 ## Key Highlights
 Key highlights of this release:
 * Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. This is helpful for preventing the memory limits from being exceeded for large data streams with hundreds of GB of data. You can adjust the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
-* Able to add secondary indexes for mutable streams.
+* Able to continously write data to a remote Timeplus deployment by setting a [Timeplus external stream](/timeplus-external-stream) as the target in a materialized view.
 * A stream's historical data can now be removed by running `TRUNCATE STREAM stream_name`.
 * Improved the read/write performance for ClickHouse external tables.
 * Added UI wizards for Coinbase data sources and Apache Pulsar external streams.
@@ -34,7 +34,7 @@ Please use the stable releases for production deployment, while we also provide 
 ### 2.6.0 {#2_6_0}
 Built on 01-12-2025. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.6 | sh`
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.10 ..`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v5.0.5 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.0`
 
 Component versions:
@@ -49,7 +49,10 @@ Component versions:
 Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
 * timeplusd 2.4.27 -> 2.5.9
   * Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. For large data streams with hundreds of GB data, to avoid exceeding the memory limit, you can set the query setting to use the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table. You can add the following to the setting `SETTINGS default_hash_table='hybrid'`.
+  * Able to continously write data to a remote Timeplus deployment by setting a [Timeplus external stream](/timeplus-external-stream) as the target in a materialized view.
+  * Able to add new columns to a stream via `ALTER STREAM stream_name ADD COLUMN column_name data_type`, in both a single node or multi-node cluster.
   * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.
+  * Able to create or drop databases via SQL in a cluster. The web console will be enhanced to support different databases in the next release.
   * Added a new [EMIT policy](/query-syntax#emit) in streaming SQL with global aggregation. The new [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax will show the last aggregation result even there is no new event.
   * Improved performance for [EMIT ON UPDATE](/query-syntax#emit_on_update) queries. In extreme scenarios, it may lead to a significant increase in memory usage. In that case, you can disable it via `SETTINGS optimize_aggregation_emit_on_updates=false`.
   * For streams and mutable streams with multiple shards, you can read specific shards by setting `shards`, e.g. `SELECT * FROM stream SETTINGS shards='0,2'`.
