@@ -82,6 +82,51 @@ CREATE MUTABLE STREAM products
 ) PRIMARY KEY product_id;
 ```
 
+## FAMILY (Column Families)
+Column families in mutable streams provide a way to organize columns into groups for optimized storage and retrieval. Each column family is stored separately, allowing for better performance and more efficient data management.
+
+### Syntax
+```sql
+FAMILY family_name (column_list)
+```
+
+* `family_name`: Name of the column family
+* `column_list`: Comma-separated list of columns to include in this family
+
+### Examples
+```sql
+-- Stream with explicit column families
+CREATE MUTABLE STREAM user_profiles
+(
+    user_id int32,
+    email string,
+    name string,
+    address string,
+    preferences string,
+    FAMILY basic_info (email, name),
+    FAMILY extended_info (address, preferences)
+) PRIMARY KEY user_id;
+
+-- Stream with automatic column family grouping
+CREATE MUTABLE STREAM products
+(
+    product_id int32,
+    name string,
+    price decimal64(2),
+    description string
+) PRIMARY KEY product_id
+SETTINGS auto_cf=1;
+```
+
+### Best Practices
+1. Group related columns that are frequently accessed together in the same family
+2. Consider using automatic column family grouping (`auto_cf=1`) for optimal performance
+3. Primary key columns are automatically managed by the system
+4. Use column families to improve query performance when only certain columns are needed
+
+### Automatic Grouping
+When `auto_cf=1` is set, the system automatically organizes columns into appropriate groups based on their data types and access patterns. This provides optimal performance without requiring manual column family configuration.
+
 ## SETTINGS
 ### Storage Settings
 #### kvstore_codec
