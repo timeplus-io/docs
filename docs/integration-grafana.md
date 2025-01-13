@@ -1,8 +1,11 @@
 # Integration with Grafana
 
-Grafana has long been one of the most popular tools for real-time monitoring and data visualization, helping organizations track metrics and analyze trends through a single, user-friendly interface. For self-hosted Timeplus Enterprise or Timeplus Proton, you can try [the Grafana plugin for Timeplus](https://grafana.com/grafana/plugins/timeplus-proton-datasource/). The source code is at https://github.com/timeplus-io/proton-grafana-source. This plugin was designed to leverage Grafana’s new [Grafana Live](https://grafana.com/docs/grafana/latest/setup-grafana/set-up-grafana-live/) capability, allowing users to keep their SQL query results up-to-date without the need to refresh their dashboards. Check out [here](https://github.com/timeplus-io/proton/tree/develop/examples/grafana) for sample setup.
+Grafana has long been one of the most popular tools for real-time monitoring and data visualization, helping organizations track metrics and analyze trends through a single, user-friendly interface. For self-hosted Timeplus Enterprise or Timeplus Proton, you can try [the Grafana plugin for Timeplus](https://grafana.com/grafana/plugins/timeplus-proton-datasource/) with the source code at [GitHub](https://github.com/timeplus-io/proton-grafana-source). This plugin was designed to leverage Grafana’s new [Grafana Live](https://grafana.com/docs/grafana/latest/setup-grafana/set-up-grafana-live/) capability, allowing users to keep their SQL query results up-to-date without the need to refresh their dashboards. Check out [here](https://github.com/timeplus-io/proton/tree/develop/examples/grafana) for sample setup.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cBRl1k9qWZc?si=TzVpULg-B0b0T5GE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+## User Feedback
+> "Using Timeplus and Grafana together has been awesome to work with! Timeplus simplifies what was a delicate manual transform process into an automatic SQL-based process. Grafana+Timeplus turns repetitive full queries into streaming incremental updates which makes the Grafana dashboard experience much more immersive, without all the constant full dashboard updates."    - Jason Patterson, Director of Network Architecture, RocNet Supply
 
 ## Key Use Cases for Timeplus Grafana Plugin {#usecases}
 Our Timeplus Grafana Plugin provides a flexible, powerful way to enhance your dashboards with real-time insights. Here are a few ways our users are already benefiting:
@@ -35,8 +38,8 @@ Next, download and install the Timeplus plugin in your Grafana deployment. For e
 cd /var/lib/grafana
 mkdir plugins
 cd plugins
-wget d.timeplus.com/grafana/timeplus-proton-datasource-2.0.0.zip
-unzip timeplus-proton-datasource-2.0.0.zip
+wget d.timeplus.com/grafana/timeplus-proton-datasource-2.1.0.zip
+unzip timeplus-proton-datasource-2.1.0.zip
 ```
 
 After installing the plugin, restart Grafana to enable it:
@@ -61,29 +64,28 @@ Now, you can enter SQL queries to retrieve and visualize data from Timeplus dire
 
 To showcase the power of real-time streaming with Grafana and Timeplus, let’s set up a feed for live Bitcoin pricing:
 
-1.	**In Timeplus Enterprise**, open the **Data Collection Wizard** and choose **WebSocket** as the data source. If you haven’t tried Timeplus, please download the package at [https://www.timeplus.com/product](https://www.timeplus.com/product) .
-2.	Use the following WebSocket settings:
-
-	•	**WebSocket URL**: `wss://ws-feed.exchange.coinbase.com`
-
-	•	**Open Message**: `{"type":"subscribe","channels":[{"name":"ticker","product_ids":["BTC-USD","ETC-USD","DAI-USD"]}]}`
-
-	•	**Read as**: Text (not JSON)
-3.	In the wizard, name the stream (e.g., coinbase), and follow the remaining default settings.
-4.	Run the following SQL to retrieve raw data:
-`SELECT * FROM coinbase`
-You should see the live data in the raw string column. Now, let’s parse the JSON documents as multiple columns in a view.
-5.	**Create a View** to parse the JSON data for easier analysis:
+1. **In Timeplus Enterprise**, open the **Data Collection Wizard** and choose **Coinbase Exchange** as the data source. If you haven’t tried Timeplus, please download the package at [https://www.timeplus.com/product](https://www.timeplus.com/product) .
+2. Use the default settings to load `BTC-USD` data feed.
+3. After the source is created. Click on the first button to run an ad-hoc query to review the data from the newly created data stream. `SELECT * FROM coinbase` You should see the live data with multiple columns.
+4. **Return to the Grafana UI** and run the following SQL query on the new view:
 ```sql
-CREATE VIEW coinbase_parsed AS
-SELECT _tp_time, raw:product_id AS product_id, cast(raw:price, 'float32') AS price, cast(raw:volume_24h, 'float64') AS volume_24h
-FROM coinbase
-```
-6.	**Return to the Grafana UI** and run the following SQL query on the new view:
-```sql
-select _tp_time, price from coinbase_parsed where product_id='BTC-USD'
+select _tp_time, price from coinbase
 ```
 
-Grafana will now load the parsed data from Timeplus and display it as a line chart. To get a closer look at recent trends, adjust the time period from the default six hours to the last 1 minute.
+Grafana will now load the live data from Timeplus and display it as a line chart. To get a closer look at recent trends, adjust the time period from the default 6 hours to the last 5 minutes.
 
 With this setup, you can now use Grafana to monitor live prices and transaction data in the cryptocurrency market. Additionally, you can expand this dashboard by adding SQL-based alerts or logic to detect potential trading signals in real time.
+
+## Change Log {#changelog}
+
+### 2.1.0
+Released on 01-12-2025
+
+* Support query variables and annotations
+* Updated Grafana Go SDK
+
+### 2.0.0
+Released on 11-05-2024
+
+* Updated Grafana Go SDK and Proton Go driver
+* Unlisted from Grafana marketplace
