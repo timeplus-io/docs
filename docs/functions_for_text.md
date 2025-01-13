@@ -28,6 +28,16 @@ For example, `format('{} {}', 'Hello', 'World')`gets `Hello World`
 
 `substr(str,index [,length])` Returns the substring of `str` from `index` (starting from 1). `length` is optional.
 
+### substring
+
+`substring(str,index [,length])` Alias of [substr](#substr).
+
+### start_with
+`start_with(str,prefix)` Determines whether a string starts with a specified prefix.
+
+### end_with
+`end_with(str,suffix)` Determines whether a string ends with a specified suffix.
+
 ### trim
 
 `trim(string)`
