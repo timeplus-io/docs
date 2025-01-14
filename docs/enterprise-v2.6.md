@@ -11,7 +11,8 @@ Each component tracks their changes with own version numbers. The version number
 
 ## Key Highlights
 Key highlights of this release:
-* Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. This is helpful for preventing the memory limits from being exceeded for large data streams with hundreds of GB of data. You can adjust the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
+* **Introduced hybrid hash table.** For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. This is helpful for preventing the memory limits from being exceeded for large data streams with hundreds of GB of data. You can adjust the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
+* **Full visibility of the materialized views and streams' state changes, errors, and throughput.** You can query  [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log) to check the state changes and metrics of database resources in Timeplus.
 * Able to continously write data to a remote Timeplus deployment by setting a [Timeplus external stream](/timeplus-external-stream) as the target in a materialized view.
 * A stream's historical data can now be removed by running `TRUNCATE STREAM stream_name`.
 * Improved the read/write performance for ClickHouse external tables.
@@ -49,6 +50,7 @@ Component versions:
 Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
 * timeplusd 2.4.27 -> 2.5.9
   * Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. For large data streams with hundreds of GB data, to avoid exceeding the memory limit, you can set the query setting to use the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table. You can add the following to the setting `SETTINGS default_hash_table='hybrid'`.
+  * You can query  [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log) to check the state changes and metrics of database resources in Timeplus.
   * Able to continously write data to a remote Timeplus deployment by setting a [Timeplus external stream](/timeplus-external-stream) as the target in a materialized view.
   * Able to add new columns to a stream via `ALTER STREAM stream_name ADD COLUMN column_name data_type`, in both a single node or multi-node cluster.
   * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.

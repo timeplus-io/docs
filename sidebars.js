@@ -222,6 +222,11 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Monitoring & Troubleshooting",
+      items: ["system-stream-state-log", "system-stream-metric-log"],
+    },
+    {
+      type: "category",
       label: "Open Source",
       items: [
         "proton",
