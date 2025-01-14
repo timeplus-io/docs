@@ -222,6 +222,15 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Monitoring & Troubleshooting",
+      items: [
+        "troubleshooting",
+        "system-stream-state-log",
+        "system-stream-metric-log",
+      ],
+    },
+    {
+      type: "category",
       label: "Open Source",
       items: [
         "proton",
@@ -266,6 +275,7 @@ const sidebars = {
             "sql-alter-stream",
             "sql-show-streams",
             "sql-drop-stream",
+            "sql-truncate-stream",
             "sql-create-format-schema",
             "sql-show-format-schemas",
             "sql-drop-format-schema",
@@ -279,6 +289,10 @@ const sidebars = {
             "sql-drop-function",
             "sql-create-remote-function",
             "sql-show-create",
+
+            "sql-create-database",
+            "sql-show-databases",
+            "sql-drop-database",
 
             "sql-system-pause",
             "sql-system-unpause",
@@ -447,6 +461,7 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
+        "enterprise-v2.6",
         "enterprise-v2.5",
         "enterprise-v2.4",
         "enterprise-v2.3",

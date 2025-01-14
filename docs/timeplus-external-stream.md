@@ -68,9 +68,6 @@ SELECT * FROM local_stream WHERE http_code>=400;
 ```
 
 ## Limitations
-This is a relatively new feature. There are some known limitations which we plan to improve later on.
-
-* Using Timeplus external stream as the target in a materialized view is not supported.
 * [window functions](/functions_for_streaming) like tumble/hop are not working yet.
 * can't read virtual columns on remote streams.
 * [table function](/functions_for_streaming#table) is not supported in timeplusd 2.3.21 or earlier version. This has been enhanced since timeplusd 2.3.22.

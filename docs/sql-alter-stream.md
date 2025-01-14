@@ -50,10 +50,6 @@ ALTER STREAM mv_with_inner_stream RESET QUERY SETTING checkpoint_interval
 
 ## ADD COLUMN
 
-:::info
-This feature is available in single-node of [Timeplus Enterprise v2.4.15](/enterprise-v2.4#2415) or above. Not available in cluster or Timeplus Proton.
-:::
-
 You can add a column to an existing stream. The value of the new column in the existing rows will be set to the default value of the data type, such as 0 for integer.
 
 Syntax:
@@ -62,6 +58,13 @@ ALTER STREAM stream_name ADD COLUMN column_name data_type
 ```
 
 `DELETE COLUMN` or `RENAME COLUMN` are not supported yet. Contact us if you have strong use cases.
+
+## ADD INDEX
+
+Since Timeplus Enterprise v2.6.0, you can add an index to a mutable stream.
+```sql
+ALTER STREAM mutable_stream ADD INDEX column_name
+```
 
 ## DROP PARTITION
 You can delete some data in the stream without dropping the entire stream via `ALTER STREAM .. DROP PARTITION ..`.
