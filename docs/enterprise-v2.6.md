@@ -2,25 +2,21 @@
 Each release of Timeplus Enterprise includes the following components:
 
 * timeplusd: The core SQL engine
-* timeplus_appserver: The application server to provide web console access and REST API
+* timeplus_appserver: The application server providing web console access and REST API
 * timeplus_web: The web console static resources, managed by timeplus_appserver
-* timeplus_connector: The service to provide extra sources and sinks, managed by timeplus_appserver
+* timeplus_connector: The service providing extra sources and sinks, managed by timeplus_appserver
 * timeplus: The CLI (Command Line Interface) to start/stop/manage the deployment.
 
-Each component tracks their changes with own version numbers. The version number for each Timeplus Enterprise release is a verified combination of Timeplus components.
+Each component maintains its own version numbers. The version number for each Timeplus Enterprise release represents a verified combination of these components.
 
 ## Key Highlights
 Key highlights of this release:
-* **Introduced hybrid hash table.** For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. This is helpful for preventing the memory limits from being exceeded for large data streams with hundreds of GB of data. You can adjust the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
-* **Full visibility of the materialized views and streams' state changes, errors, and throughput.** You can query  [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log) to check the state changes and metrics of database resources in Timeplus.
-* Able to continously write data to a remote Timeplus deployment by setting a [Timeplus external stream](/timeplus-external-stream) as the target in a materialized view.
-* A stream's historical data can now be removed by running `TRUNCATE STREAM stream_name`.
-* Improved the read/write performance for ClickHouse external tables.
-* Added UI wizards for Coinbase data sources and Apache Pulsar external streams.
-* Redesigned SQL Console and SQL Helper UI for better usability. Access the SQL Helper via the panel to the left of the SQL editor box.
-* Random streams are now listed in the streams resource list and data lineage diagram.
-* Enhanced data lineage view and dashboard visualization.
-* Quick access to streams, dashboards, and common actions via Command+K keyboard shortcut for Mac, or Windows+K for PC.
+* **Revolutionary hybrid hash table technology.** For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. This is helpful for preventing the memory limits from being exceeded for large data streams with hundreds of GB of data. You can adjust the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
+* **Enhanced operational visibility.** Gain complete transparency into your system's performance through comprehensive monitoring of materialized views and streams. Track state changes, errors, and throughput metrics via [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log).
+* **Advanced cross-deployment integration.** Seamlessly write data to remote Timeplus deployments by configuring [Timeplus external stream](/timeplus-external-stream) as targets in materialized views.
+* **Improved data management capabilities.** Add new columns to an existing stream. Truncate historical data for streams. Create new databases to organize your streams and materialized views.
+* **Optimized ClickHouse integration.** Significant performance improvements for read/write operations with ClickHouse external tables.
+* **Enhanced user experience.** New UI wizards for Coinbase data sources and Apache Pulsar external streams, alongside a redesigned SQL Console and SQL Helper interface for improved usability. Quick access to streams, dashboards, and common actions via Command+K (Mac) or Windows+K (PC) keyboard shortcuts.
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -30,13 +26,13 @@ Key highlights of this release:
 |Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
 
 ## Releases
-Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
+We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
 ### 2.6.0 {#2_6_0}
-Built on 01-12-2025. You can install via:
+Released on 01-14-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.6 | sh`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v5.0.5 ..`
-* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.0`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.0`
 
 Component versions:
 * timeplusd 2.5.9
@@ -49,25 +45,28 @@ Component versions:
 
 Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
 * timeplusd 2.4.27 -> 2.5.9
-  * Introduced hybrid hash table. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. For large data streams with hundreds of GB data, to avoid exceeding the memory limit, you can set the query setting to use the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table. You can add the following to the setting `SETTINGS default_hash_table='hybrid'`.
-  * You can query  [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log) to check the state changes and metrics of database resources in Timeplus.
-  * Able to continously write data to a remote Timeplus deployment by setting a [Timeplus external stream](/timeplus-external-stream) as the target in a materialized view.
-  * Able to add new columns to a stream via `ALTER STREAM stream_name ADD COLUMN column_name data_type`, in both a single node or multi-node cluster.
-  * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.
-  * Able to create or drop databases via SQL in a cluster. The web console will be enhanced to support different databases in the next release.
-  * Added a new [EMIT policy](/query-syntax#emit) in streaming SQL with global aggregation. The new [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax will show the last aggregation result even there is no new event.
-  * Improved performance for [EMIT ON UPDATE](/query-syntax#emit_on_update) queries. In extreme scenarios, it may lead to a significant increase in memory usage. In that case, you can disable it via `SETTINGS optimize_aggregation_emit_on_updates=false`.
-  * For streams and mutable streams with multiple shards, you can read specific shards by setting `shards`, e.g. `SELECT * FROM stream SETTINGS shards='0,2'`.
-  * While reading CSV or TSV files, you can skip specific rows by setting `SETTINGS input_format_csv_skip_first_lines=N` or `SETTINGS input_format_tsv_skip_first_lines=N`. Default value is 0.
-  * Improved performance for ClickHouse external tables' read and write. Make the maximum number of pooled connections configurable via `pooled_connections` setting, with default value 3000.
-  * Able to add secondary indexes for mutable streams. [Learn more](/sql-alter-stream#add-index).
-  * A `_tp_sn` column is added to each stream (except external streams or random streams), as the sequence number in the unified streaming and historical storages. This column is used for data replication among the cluster. By default, it is hidden in the query results. You can show it by setting `SETTINGS asterisk_include_tp_sn_column=true`. This setting is required when you use `INSERT..SELECT` SQL to copy data between streams: `INSERT INTO stream2 SELECT * FROM stream1 SETTINGS asterisk_include_tp_sn_column=true`.
-  * For Kafka external streams, the latest offset(sequence number) is tracked in `system.stream_state_log` table. You can export the table as a CSV file via the [timeplus diag](/cli-diag) command.
-  * [Well-known Protobuf types](https://protobuf.dev/reference/protobuf/google.protobuf/) are added to the Docker image.
+  * Performance Enhancements:
+    * Introduced hybrid hash table technology for streaming SQL with JOINs or aggregations. Configure via `SETTINGS default_hash_table='hybrid'` to optimize memory usage for large data streams.
+    * Improved performance for [EMIT ON UPDATE](/query-syntax#emit_on_update) queries. Memory optimization available through `SETTINGS optimize_aggregation_emit_on_updates=false`.
+    * Enhanced read/write performance for ClickHouse external tables with configurable `pooled_connections` setting (default: 3000).
+  * Monitoring and Management:
+    * Added [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log) system streams for comprehensive resource monitoring.
+    * Implemented Kafka offset tracking in [system.stream_state_log](/system-stream-state-log), exportable via timeplus diag](/cli-diag) command.
+    * A `_tp_sn` column is added to each stream (except external streams or random streams), as the sequence number in the unified streaming and historical storages. This column is used for data replication among the cluster. By default, it is hidden in the query results. You can show it by setting `SETTINGS asterisk_include_tp_sn_column=true`. This setting is required when you use `INSERT..SELECT` SQL to copy data between streams: `INSERT INTO stream2 SELECT * FROM stream1 SETTINGS asterisk_include_tp_sn_column=true`.
+  * New Features:
+    * Support for continuous data writing to remote Timeplus deployments via setting a [Timeplus external stream](/timeplus-external-stream) as the target in a materialized view.
+    * New [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax for emiting the last aggregation result even when there is no new event.
+    * Able to create or drop databases via SQL in a cluster. The web console will be enhanced to support different databases in the next release.
+    * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.
+    * Able to add new columns to a stream via `ALTER STREAM stream_name ADD COLUMN column_name data_type`, in both a single node or multi-node cluster.
+    * For streams and mutable streams with multiple shards, you can read specific shards by setting `shards`, e.g. `SELECT * FROM stream SETTINGS shards='0,2'`.
+    * While reading CSV or TSV files, you can skip specific rows by setting `SETTINGS input_format_csv_skip_first_lines=N` or `SETTINGS input_format_tsv_skip_first_lines=N`. Default value is 0.
+    * Able to add secondary indexes for mutable streams. [Learn more](/sql-alter-stream#add-index).
+    * [Well-known Protobuf types](https://protobuf.dev/reference/protobuf/google.protobuf/) are added to the Docker image.
 * timeplus_web 2.0.6 -> 2.1.7
-  * Quick access to streams, dashboards, and common actions via Command+K keyboard shortcut for Mac, or Windows+K for PC.
-  * Added UI wizards for Coinbase data sources and Apache Pulsar external streams.
-  * Create the demo data sources with random streams, instead of a Redpanda Connect source.
+  * Implemented Command+K (Mac) or Windows+K (PC) shortcuts for quick resource access.
+  * Added streamlined UI wizards for Coinbase and Apache Pulsar integration.
+  * Enhanced demo data source creation with random streams.
   * At the end of the creating data source wizard, show a few common steps to use the newly created sources or streams.
   * Redesigned SQL Console and SQL Helper UI for better usability. Access the SQL Helper via the panel to the left of the SQL editor box.
   * Enhanced data lineage visualization with throughput and memory metrics for materialized views.
@@ -76,7 +75,7 @@ Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
   * Enhanced visualizations: set fixed width for table panels, hide/show columns for map tooltips, and more.
   * Able to show the Timeplus Enterprise version in the "Get Support" tab of the help side panel.
   * Show the latest list of Redpanda Connect input and output connectors.
-  * Able to show row numbers in the table view of dashboards.
+  * Added row number display functionality in dashboard tables.
 * timeplus_appserver 2.0.9 -> 2.1.6
   * Added new data source for Coinbase.
   * Able to list random streams.
@@ -84,11 +83,13 @@ Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
   * Upgraded to Redpanda Connect v4.44, Benthos framework 4.44 and Golang 1.23.
 * timeplus cli 1.2.8 -> 1.2.11
   * Added an option to disable telemetry in the [timeplus start](/cli-start) command.
-  * The [timeplus diag](/cli-diag) command now exports the `system.stream_state_log` table as a CSV file in the log directory.
+  * The [timeplus diag](/cli-diag) command now exports the [system.stream_state_log](/system-stream-state-log) as a CSV file in the log directory.
 
-You can upgrade a deployment of Timeplus Enterprise 2.5 to Timeplus Enterprise 2.6, by stopping the components and replacing the binary files, or reusing the Docker or Kubernetes volumes and update the image versions.
+Upgrade Instructions:
+
+Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_6_0}
-1. If you have deployed one of the 2.4.x or 2.5.x releases, you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.6.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
-2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.
-3. On Ubuntu Linux with x86_64 chips, the `timeplus_connector` component starts unhealthly. This will impact the Redpanda Connect feature. This issue is not reproducible on other Linux distributions, such as Red Hat, SUSE, or Amazon Linux.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.

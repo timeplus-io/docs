@@ -92,11 +92,11 @@ You can drop with the `force_drop_big_stream` setting.
 DROP STREAM hop_mv SETTINGS force_drop_big_stream=1
 ```
 
-### Fail to ingest data when the disk is 90% full
+### DISK_USAGE_RATIO_THRESHOLD_EXCEEDED
 Symptoms:
-
-Ingestion fails with the error `Disk is 90% full`.
-
+```
+Code: 2529. DB::Exception: Disk default utilization is 0.9007095458237306, exceeds the max_disk_util 0.9. (DISK_USAGE_RATIO_THRESHOLD_EXCEEDED)
+```
 Solution:
 
 Please free up some disk space to allow ingestion to continue.

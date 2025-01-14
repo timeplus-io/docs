@@ -1,7 +1,7 @@
 # CREATE DATABASE
 Starting from [Timeplus Enterprise 2.6](/enterprise-v2.6), you can create a database to organize your streams, materialized views and other resources. The database is a logical container to help you to manage and query the data more efficiently.
 
-When you create a database in a cluster, the databaes is automatically replicated to all the nodes in the cluster. You can create a database with the following SQL:
+When you create a database in a cluster, the database is automatically replicated to all the nodes in the cluster. You can create a database with the following SQL:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS my_database;
