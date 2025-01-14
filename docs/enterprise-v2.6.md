@@ -35,7 +35,7 @@ Released on 01-14-2025. Installation options:
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.0`
 
 Component versions:
-* timeplusd 2.5.9
+* timeplusd 2.5.10
 * timeplus_web 2.1.7
 * timeplus_appserver 2.1.6
 * timeplus_connector 2.1.1
@@ -44,7 +44,7 @@ Component versions:
 #### Changelog {#changelog_2_6_0}
 
 Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
-* timeplusd 2.4.27 -> 2.5.9
+* timeplusd 2.4.27 -> 2.5.10
   * Performance Enhancements:
     * Introduced hybrid hash table technology for streaming SQL with JOINs or aggregations. Configure via `SETTINGS default_hash_table='hybrid'` to optimize memory usage for large data streams.
     * Improved performance for [EMIT ON UPDATE](/query-syntax#emit_on_update) queries. Memory optimization available through `SETTINGS optimize_aggregation_emit_on_updates=false`.
