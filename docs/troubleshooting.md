@@ -120,3 +120,27 @@ Increase the `max_concurrent_queries` setting in timeplusd.yml.
 You can also set different values for `max_concurrent_insert_queries` and `max_concurrent_select_queries`.
 
 Increasing these limits may impact the performance and require more system resources. Please monitor the system performance after changing these settings.
+
+## Kafka Exteral Stream
+
+### NO_AVAILABLE_KAFKA_CONSUMER
+Symptoms:
+```
+DB::Exception:  Reached consumers limit 50.
+Existing queries need to be stopped before running other queries.
+Or update external_stream.kafka.max_consumers_per_stream to a bigger number in the config file.
+(NO_AVAILABLE_KAFKA_CONSUMER)
+```
+
+Solution:
+Increase the `max_consumers_per_stream` setting in conf/timeplusd.yml.
+
+ 1. Stop the Timeplus service.
+ 2. Edit the `external_stream.kafka.max_consumers_per_stream` setting in the `timeplusd.yml` configuration file. The default value is 50. You can set to 100 or higher.
+ 3. Retart the Timeplus service.
+
+ ```yaml
+ external_stream:
+     kafka:
+         max_consumers_per_stream: 200
+```
