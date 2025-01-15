@@ -121,7 +121,7 @@ You can also set different values for `max_concurrent_insert_queries` and `max_c
 
 Increasing these limits may impact the performance and require more system resources. Please monitor the system performance after changing these settings.
 
-## Kafka Exteral Stream
+## Kafka External Stream
 
 ### NO_AVAILABLE_KAFKA_CONSUMER
 Symptoms:
@@ -137,7 +137,7 @@ Increase the `max_consumers_per_stream` setting in conf/timeplusd.yml.
 
  1. Stop the Timeplus service.
  2. Edit the `external_stream.kafka.max_consumers_per_stream` setting in the `timeplusd.yml` configuration file. The default value is 50. You can set to 100 or higher.
- 3. Retart the Timeplus service.
+ 3. Restart the Timeplus service.
 
  ```yaml
  external_stream:
