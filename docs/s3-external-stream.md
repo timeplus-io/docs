@@ -73,7 +73,7 @@ SETTINGS type='s3',
   read_from='AWSLogs/123456789012/CloudTrail/us-west-2/2024/10/18/123456789012_CloudTrail_us-west-2_20241018T0355Z_dz3Y12g0AHTXnSZb.json.gz';
 ```
 
-Since all CloudTrail events are put in the `Records` array, you can use [array_join](/functions_for_array#array_join) to flatten the array and query the data, e.g.:
+Since all CloudTrail events are put in the `Records` array, you can use [array_join](/functions_for_comp#array_join) to flatten the array and query the data, e.g.:
 ```sql
 SELECT array_join(Records) AS r, r:eventVersion, r:userIdentity.type, r:userIdentity.principalId, r:userIdentity.arn, r:userIdentity.accountId, r:userIdentity.accessKeyId, r:userIdentity.userName, r:userIdentity.sessionContext, to_time(r:eventTime) AS eventTime, r:eventSource, r:eventName, r:awsRegion, r:sourceIPAddress, r:userAgent, r:requestParameters, r:responseElements, r:requestID, r:eventID, to_bool(r:readOnly) AS readOnly, r:eventType, to_bool(r:managementEvent) AS managementEvent, r:recipientAccountId, r:eventCategory FROM aws_cloudtrail
 ```
