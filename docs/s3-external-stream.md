@@ -264,7 +264,7 @@ SETTINGS type='s3',
 ```
 Please note `**` in the `read_from` setting is a wildcard to read all files in the subdirectories. Since we didn't specify the file extension in the `read_from`, we need to specify the `data_format` and `compression` settings.
 
-Since all CloudTrail events are put in the `Records` array, you can use [array_join](/functions_for_array#array_join) to flatten the array and query the data with Timeplus JSON parsing shortcut, e.g.:
+Since all CloudTrail events are put in the `Records` array, you can use [array_join](/functions_for_comp#array_join) to flatten the array and query the data with Timeplus JSON parsing shortcut, e.g.:
 ```sql
 SELECT array_join(Records) AS r, r:eventVersion, r:userIdentity.type, r:userIdentity.principalId,
 r:userIdentity.arn, r:userIdentity.accountId, r:userIdentity.accessKeyId, r:userIdentity.userName,
