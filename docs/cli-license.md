@@ -1,5 +1,9 @@
 # timeplus license
-Manage Timeplus Enterprise licenses.
+Manage Timeplus Enterprise licenses via CLI.
+
+:::info
+You can also manage licenses via the web console (workspace settings -> license -> add new license).
+:::
 
 ## timeplus license show{#show}
 Show the current license.
