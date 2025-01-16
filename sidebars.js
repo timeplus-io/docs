@@ -178,7 +178,6 @@ const sidebars = {
         {
           type: "doc",
           id: "server_config",
-          customProps: { tag: "Enterprise" },
         },
         "proton-ports",
         {
