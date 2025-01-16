@@ -18,9 +18,6 @@ Please choose the right UDF type based on your requirements.
 |SQL UDF| SQL | ❌|Fastest | ✅|❌|❌|
 |JavaScript UDF| JavaScript|❌|Fast |✅|✅|✅|
 |Remote UDF|Any| ✅|Slow| ✅|❌|❌|
-|Python UDF (coming soon)|Python|✅| Medium |✅|✅|❌|
-
-
 
 :::info
 
