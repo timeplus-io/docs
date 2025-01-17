@@ -55,3 +55,23 @@ settings replay_speed=1, replay_time_column='time_col'
 ## replay_time_column
 
 `replay_time_column=columnName` Specify the replay time column, default column is `_tp_append_time`.
+
+## default_hash_table
+
+Default value is `memory`. To optimize memory usage for large data streams, you can set `default_hash_table='hybrid'`. This will use both memory and disk to store the hash table. Available since Timeplus Enterprise 2.6.0.
+
+## default_hash_join
+
+Default value is `memory`. To optimize memory usage for joining large data streams, you can set `default_hash_join='hybrid'`. This will use both memory and disk to store the hash table. Available since Timeplus Enterprise 2.6.0.
+
+## max_threads
+Type: uint64
+
+Default: 0, which means the number of threads for request execution is equal to the number of CPU cores.
+
+## enable_idempotent_processing
+Type: bool
+
+Default: false
+
+Whether to enable idempotent processing for the query. If set to true, the query will be processed idempotently. If set to 0, the query will be processed non-idempotently. [Learn more](/idempotent).
