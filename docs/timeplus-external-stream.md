@@ -1,6 +1,6 @@
 # Timeplus External Stream
 
-In addition to [Kafka External Stream](/proton-kafka), Timeplus Enterprise also supports another type of external stream to read/write data from/to another Timeplus Enterprise deployment.
+In addition to [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream), Timeplus also supports another type of external stream to read/write data from/to another Timeplus Enterprise or Timeplus Proton deployment.
 
 ## Use Cases
 
@@ -40,10 +40,6 @@ For example, there is a stream `streamA` in Timeplus Proton, running on host1.
 
 In your Timeplus Enterprise, you can create the stream with the same name and same schema. Then use `INSERT INTO .. SELECT` to load all data from Timeplus Proton to Timeplus Enterprise.
 
-:::warning
-It's a known issue that you cannot create a materialized view with a Timeplus external stream as the target.
-:::
-
 ```sql
 CREATE STREAM streamA(..);
 
@@ -71,3 +67,4 @@ SELECT * FROM local_stream WHERE http_code>=400;
 * [window functions](/functions_for_streaming) like tumble/hop are not working yet.
 * can't read virtual columns on remote streams.
 * [table function](/functions_for_streaming#table) is not supported in timeplusd 2.3.21 or earlier version. This has been enhanced since timeplusd 2.3.22.
+* Timeplus Proton eariler than 1.6.9 doesn't support the Timeplus External Stream.

@@ -2,6 +2,21 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Jan 20, 2025
+
+### Timeplus Enterprise v2.6
+[Timeplus Enterprise v2.6](/enterprise-v2.6) is now Generally Available! Key breakthroughs:
+* **Revolutionary hybrid hash table technology.** For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. This is helpful for preventing the memory limits from being exceeded for large data streams with hundreds of GB of data. You can adjust the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
+* **Enhanced operational visibility.** Gain complete transparency into your system's performance through comprehensive monitoring of materialized views and streams. Track state changes, errors, and throughput metrics via [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log).
+* **Advanced cross-deployment integration.** Seamlessly write data to remote Timeplus deployments by configuring [Timeplus external stream](/timeplus-external-stream) as targets in materialized views.
+* **Improved data management capabilities.** Add new columns to an existing stream. Truncate historical data for streams. Create new databases to organize your streams and materialized views.
+* **Optimized ClickHouse integration.** Significant performance improvements for read/write operations with ClickHouse external tables.
+* **Enhanced user experience.** New UI wizards for Coinbase data sources and Apache Pulsar external streams, alongside a redesigned SQL Console and SQL Helper interface for improved usability. Quick access to streams, dashboards, and common actions via Command+K (Mac) or Windows+K (PC) keyboard shortcuts.
+
+### Timeplus Proton v1.6.9
+* Timeplus external stream is now available in Timeplus Proton. You can read or write data across Timeplus deployments. [Learn more](/timeplus-external-stream).
+
+
 ## Jan 6, 2025
 
 Happy New Year 🎉

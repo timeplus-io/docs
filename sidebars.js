@@ -79,7 +79,6 @@ const sidebars = {
             {
               type: "doc",
               id: "timeplus-external-stream",
-              customProps: { tag: "Enterprise" },
             },
             {
               type: "doc",
