@@ -197,12 +197,24 @@ Default: 65409
 
 Maximum block size for query processing. Affects memory usage and performance.
 
+Configurable via query setting or YAML configuration.
+
 ##### max_insert_block_size
 Type: uint64
 
 Default: 65409
 
 Maximum block size for INSERT operations. Adjust this value if you encounter `TOO_LARGE_RECORD` error.
+
+Can be configured through query settings or YAML configuration.
+
+Example:
+
+```sql
+INSERT INTO device_metrics
+SELECT *, _tp_sn FROM table(aggr_metrics)
+SETTINGS max_insert_block_bytes=4096000, max_insert_threads=8;
+```
 
 ##### javascript_max_memory_bytes
 Type: uint64
@@ -211,6 +223,21 @@ Default: 209715200 (200MB)
 
 Maximum memory usage for JavaScript UDF execution. Adjust this value if you encounter `UDF_MEMORY_THRESHOLD_EXCEEDED` error. Affects memory usage and performance.
 
+Can be configured through query settings or YAML configuration.
+
+Example:
+
+```sql
+ALTER VIEW hop_mv MODIFY QUERY SETTING javascript_max_memory_bytes=10485760000;
+```
+
+Or apply settings directly in the query:
+
+```sql
+SELECT * FROM udf_to_aggr_metrics(device_metrics)
+SETTINGS javascript_max_memory_bytes=10485760000;
+```
+
 #### force_drop_big_stream
 Type: bool
 
@@ -218,6 +245,13 @@ Default: false
 
 Whether to force drop a stream with large data. Use this setting when you encounter `STREAM_SIZE_THRESHOLD_EXCEEDED` error.
 
+Can only be configured through query settings.
+
+Example:
+
+```sql
+DROP STREAM device_metrics SETTINGS force_drop_big_stream=true;
+```
 
 #### join_max_buffered_bytes
 Type: uint64
@@ -225,6 +259,22 @@ Type: uint64
 Default: 524288000 (500MB)
 
 Maximum size of the buffer for streaming join operations. Affects memory usage and performance.
+
+Can only be configured through query settings.
+
+Example:
+
+```sql
+ALTER VIEW hop_mv MODIFY QUERY SETTING join_max_buffered_bytes=8589934592;
+```
+
+Or apply settings directly in the join query:
+
+```sql
+SELECT * FROM tableA
+LEFT JOIN tableB ON tableA.id=tableB.id
+SETTINGS join_max_buffered_bytes=8589934592;
+```
 
 #### logger
 ```yaml
