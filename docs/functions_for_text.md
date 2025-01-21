@@ -137,7 +137,7 @@ For the advanced usage of the function, please check the [doc](https://clickhous
 
 Extract value from plan text without using regular expression. e.g. `SELECT grok('My name is Jack. I am 23 years old.','My name is %{DATA:name}. I am %{INT:age} years old.') as m` will get `{"name":"Jack","age":"23"}` as the `m`.
 
-Please note all keys and values in the returned map are in string type. You can convert them to other type, e.g. `(m['age'])::int`
+Please note all keys and values in the returned map are in string type. You can convert them to other type, e.g. `(m['age'])::int`. Learn more about the [Grok patterns](/grok).
 
 ### coalesce
 

@@ -67,4 +67,5 @@ SELECT * FROM local_stream WHERE http_code>=400;
 * [window functions](/functions_for_streaming) like tumble/hop are not working yet.
 * can't read virtual columns on remote streams.
 * [table function](/functions_for_streaming#table) is not supported in timeplusd 2.3.21 or earlier version. This has been enhanced since timeplusd 2.3.22.
-* Timeplus Proton eariler than 1.6.9 doesn't support the Timeplus External Stream.
+* Timeplus Proton eariler than 1.6.9 doesn't support the Timeplus external stream.
+* In Timeplus Proton, if your materialized view queries a Timeplus external stream, the checkpoint of the external stream may not be properly persisted. No such issue for Timeplus Enterprise and we are working on the fix.

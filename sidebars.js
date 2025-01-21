@@ -314,6 +314,7 @@ const sidebars = {
             "functions_for_streaming",
           ],
         },
+        "grok",
       ],
     },
     {
