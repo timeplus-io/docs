@@ -168,3 +168,9 @@ SELECT
 `base58_decode（字符串）` 将 [base58](https://tools.ietf.org/id/draft-msporny-base58-01.html) 字符串解码为字符串。
 
 例如 `base58_decode ('cn8evzg')` 返回 `你好`
+
+### format_readable_quantity
+`format_readable_quantity(number)` Returns a rounded number with suffix (thousand, million, billion, etc.) as string. For example, `format_readable_quantity(10036)` returns "10.04 thousand".
+
+### format_readable_size
+`format_readable_size(number)` Returns a rounded number with suffix (KiB, GiB, etc.) as string. For example, `format_readable_size(10036)` returns "9.80 KiB".

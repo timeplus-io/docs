@@ -337,5 +337,3 @@ If something goes wrong, you can run the following commands to get more informat
 1. `kubectl get pods -n $NS`: Make sure all pods are in `Running` status and the `READY` is `1/1`.
 2. `kubectl logs <pod> -n $NS`: Try to check the logs of each pod to make sure there is no obvious errors.
 3. Run `kubectl cluster-info dump -n $NS` to dump all the information and send it to us.
-
-## Configuration Guide

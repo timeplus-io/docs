@@ -7,7 +7,7 @@ Timeplus supports multiple ways to load data into the system, or access the exte
 - [Source](/source) for extra wide range of data sources. 这仅在 Timeplus Enterprise 中可用。 This integrates with [Redpanda Connect](https://redpanda.com/connect), supporting 200+ connectors.
 - On Timeplus web console, you can also [upload CSV files](#csv) and import them into streams.
 - For Timeplus Enterprise, [REST API](/ingest-api) and SDKs are provided to push data to Timeplus programmatically.
-- On top of the REST API and SDKs, Timeplus Enterprise adds integrations with [Kafka Connect](/kafka-connect), [AirByte](https://airbyte.com/connectors/timeplus), [Sling](/sling), seatunnel and [datapm](/datapm).
+- On top of the REST API and SDKs, Timeplus Enterprise adds integrations with [Kafka Connect](/kafka-connect), [AirByte](https://airbyte.com/connectors/timeplus), [Sling](/sling), and seatunnel.
 - Last but not the least, if you are not ready to load your real data into Timeplus, or just want to play with the system, you can use the web console to [create sample streaming data](#streamgen), or [use SQL to create random streams](/proton-create-stream#create-random-stream).
 
 ## 通过 web 控制台添加新源
