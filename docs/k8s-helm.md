@@ -73,7 +73,7 @@ timeplusd:
 Then make changes to better fit your need.
 1. Update the storage class name and size accordingly. Please check the [Planning capacity](#planning-capacity) section for storage recommendations. You can check available storage class on your cluster by running `kubectl get storageclass`. If you have enabled storage dynamic provisioning, you may want to set both `timeplusd.storage.stream.selector` and `timeplusd.storage.history.selector` to `null`
 2. Update `defaultAdminPassword`. This is the password for the default admin user `proton`, which is used internally in the system.
-3. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload.
+3. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload. Please note that you cannot change the number of replicas after the deployment.
 4. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. By default each `timeplusd` pod requires 2 cores and 4GB memory. However, you'd better to have at least 8 cores and 20Gi memory for each node to make sure Timeplus Enterprise works well under small to medium workload.
 5. Optionally refer to [Configuration Guide](#configuration-guide) and add other configurations.
 
@@ -147,13 +147,16 @@ This section provides recommendations for sizing your Timeplus Enterprise deploy
 
 The timeplusd component is the core of the Timeplus Enterprise stack. It requires significant CPU and memory resources to handle data processing and queries. It is highly recommended to run `timeplusd` dedicatedly on the node.
 
-For small to medium-sized deployment, you may consider the following cluster configuration as the start point
+For small to medium-sized deployment, you may consider the following cluster configuration as the start point:
 
 - 3 nodes with:
   - 16 cores each
   - 32 Gi memory each
   - 500Gi storage with iops > 3000 each
 
+:::warning
+You cannot change the number of nodes after the deployment. If your development environment is a single-node Timeplus Enterprise, and you want to setup a multi-node cluster, you need to install a new cluster and migrate the data via [timeplus migrate](/cli-migrate) CLI.
+:::
 A sample `values.yaml` configuration:
 ```yaml
 timeplusd:
@@ -194,7 +197,7 @@ Due to the [limitation of Kubernetes Statefulset](https://github.com/kubernetes/
 
 1. Make sure the `global.pvcDeleteOnStsDelete` is not set or is set to be `false`. You can double check this by running command `kubectl -n <ns> get sts timeplusd -ojsonpath='{.spec.persistentVolumeClaimRetentionPolicy}'` and make sure both `whenDeleted` and `whenScaled` are `retain`. This is extremely important otherwise your PV may be deleted and all the data will be lost.
 1. Run `kubectl -n <ns> delete sts/timeplusd` to temporarily delete the statefulset. Wait until all timeplusd pods are terminated. This step is neccesary to workaround the Kubernetes limitation.
-1. Run `kubectl -n <ns> get pvc` to list all the PVCs and their corresponding PVs. For each PV you want to resize, run command `kubectl -n edit pvc <pvc>` to update the `spec.resources.requests.storage`. Notice that all timeplusd replicas need to have the same storage size so please make sure all updated PVCs have the same storage size. 
+1. Run `kubectl -n <ns> get pvc` to list all the PVCs and their corresponding PVs. For each PV you want to resize, run command `kubectl -n edit pvc <pvc>` to update the `spec.resources.requests.storage`. Notice that all timeplusd replicas need to have the same storage size so please make sure all updated PVCs have the same storage size.
 1. Run `kubectl get pv <pv> -o=jsonpath='{.spec.capacity.storage}'` to make sure all corresponding PVs have been updated. It takes a while before Kubernetes update the capacity field of the PVC so as long as you can see the underlying storage size gets updated, you can process to the next step.
 1. Update the the `timeplusd.storage.stream.size` and/or `timeplusd.storage.stream.history.size` in `values.yaml` that you used to deploy Timeplus Enterprise.
 1. Run helm upgrade command to upgrade the deployment. New statefulset will be created to pick up the PV size changes.
