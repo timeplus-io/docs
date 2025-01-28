@@ -271,7 +271,7 @@ const config = {
     }),
   i18n: {
     defaultLocale: "en",
-    locales: ["en", "zh"],
+    locales: ["en"], //["en", "zh"],
     localeConfigs: {
       zh: {
         label: "中文",
