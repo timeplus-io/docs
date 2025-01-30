@@ -233,6 +233,10 @@ The metrics of timeplusd are exposed at `:9363/metrics`. You will need to collec
 - `timeplusd-1.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics`
 - `timeplusd-2.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics`
 
+Similarly, for timeplus-connector, the metrics are exposed at `:4196/metrics`. For example `http://timeplus-connector.my_ns:4196/metrics`. You can refer to the [docs](https://docs.redpanda.com/redpanda-connect/components/metrics/about/) on Redpanda Connect site for more details.
+
+If you are interested in building Grafana dashboards based on the metrics, please contact us.
+
 ### Recover from EBS snapshots
 
 If you deploy Timeplus Enterprise on Amazon EKS, assuming that you are using EBS volume for persistent volumes, you can use EBS snapshots to backup the volumes. Then in the case of data lost (for example, the EBS volume is broken, or someone accidentally delete the data on the volume ), you can restore the persistent volumes from EBS snapshots with the following steps:
