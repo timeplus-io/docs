@@ -28,6 +28,30 @@ Key highlights of this release:
 ## Releases
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
+### 2.4.25 (Stable) {#2_4_25}
+Built on 01-31-2025. You can install via:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.4 | sh`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.9 ..`
+* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.25`
+
+Component versions:
+* timeplusd 2.3.32
+* timeplus_appserver 1.4.44
+* timeplus_web 1.4.33
+* timeplus_connector 1.5.5
+* timeplus cli 1.0.19
+
+#### Changelog {#changelog_2_4_25}
+
+Compared to the [2.4.23](#2_4_23) release:
+* timeplusd 2.3.30 -> 2.3.32
+  * fix potential corruption for a stream when it's altered multiple times
+  * better data recovery for file corruption due to power loss
+  * set mutable streams' default logstore retention policy from keeping forever to automatic
+
+#### Known issues {#known_issue_2_4_25}
+1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+
 ### 2.4.23 (Stable) {#2_4_23}
 Built on 08-22-2024. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.4 | sh`
