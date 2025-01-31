@@ -63,7 +63,7 @@ END {
       arch = platforms[j]
       if ((version, arch) in pkg_map) {
         if (link_count++ > 0) printf " | "
-        printf "[%s](https://d.timeplus.com/timeplus_enterprise/%s)",
+        printf "[%s](https://d.timeplus.com/%s)",
           platform_order[arch], pkg_map[version, arch]
       }
     }
