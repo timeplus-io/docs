@@ -459,11 +459,18 @@ const sidebars = {
         "enterprise-v2.4",
         "enterprise-v2.3",
         "v2-release-notes",
-        "v1-release-notes",
-        "public-beta-2",
-        "public-beta-1",
-        "private-beta-2",
-        "private-beta-1",
+        "release-downloads",
+        {
+          type: "category",
+          label: "Older Releases",
+          items: [
+            "v1-release-notes",
+            "public-beta-2",
+            "public-beta-1",
+            "private-beta-2",
+            "private-beta-1",
+          ],
+        },
       ],
     },
     {
