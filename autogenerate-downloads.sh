@@ -53,8 +53,20 @@ END {
   # Generate output
   for (i=1; i in ordered_versions; i++) {
     version = ordered_versions[i]
-    printf "## v%s\n", version
-    printf "Released on %s.\n\n", release_date[version]
+
+    # Generate anchor ID by replacing dots with underscores
+    anchor = version
+    gsub(/\./, "_", anchor)
+
+    # Extract major.minor version for changelog link
+    split(version, ver_parts, ".")
+    major_minor = ver_parts[1] "." ver_parts[2]
+
+    printf "## v%s {#%s}\n", version, anchor
+    printf "Released on %s ([Change logs](/enterprise-v%s#%s)).\n\n",
+          release_date[version], major_minor, anchor
+
+    printf "* Bare metal installation: "
 
     # Build platform links in preferred order
     link_count = 0
@@ -67,6 +79,6 @@ END {
           platform_order[arch], pkg_map[version, arch]
       }
     }
-    print "\n\n"
+    printf "\n* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:%s`\n\n", version
   }
 }' > docs/release-downloads.md
