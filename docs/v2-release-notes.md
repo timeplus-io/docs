@@ -2,6 +2,19 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Feb 3, 2025
+
+### Timeplus Enterprise v2.4.25
+We released a patch release for Timeplus Enterprise [v2.4](/enterprise-v2.4#2_4_25). The key changes are:
+  * fix potential corruption for a stream when it's altered multiple times
+  * better data recovery for file corruption due to power loss
+  * set mutable streams' default logstore retention policy from keeping forever to automatic
+
+If you are running Timeplus Enterprise v2.4, we recommend upgrading to this version.
+
+### Timeplus Grafana plugin v2.1.1
+The new version of Grafana plugin imporoved the batching strategy to render results from streaming queries. If there is any error in the SQL syntax, the error message will be shown in the Grafana query panel.
+
 ## Jan 20, 2025
 
 ### Timeplus Enterprise v2.6
@@ -16,6 +29,8 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 ### Timeplus Proton v1.6.9
 * Timeplus external stream is now available in Timeplus Proton. You can read or write data across Timeplus deployments. [Learn more](/timeplus-external-stream).
 
+### Timeplus Grafana plugin v2.1.0
+The new version of Grafana plugin supports query variables and annotations. The SQL editor is enlarged for better readability and editing experience.
 
 ## Jan 6, 2025
 
