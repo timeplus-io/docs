@@ -19,7 +19,7 @@ Available Commands:
 :::warning Known issue for [Timeplus Enterprise 2.4.15](/enterprise-v2.4#known_issue_2_4_15)
 You need to add `--verbose` to this command to get the user list.
 
-This is fixed in [Timeplus Enterprise 2.4.16](/enterprise-v2.4#2416)
+This is fixed in [Timeplus Enterprise 2.4.16](/enterprise-v2.4#2_4_16)
 :::
 This will list all users in the cluster.
 

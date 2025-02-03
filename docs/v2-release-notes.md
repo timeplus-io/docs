@@ -192,7 +192,7 @@ We are actively working on the refinement to support latest Timeplus core engine
 ## Aug 19, 2024
 
 ### Timeplus Enterprise v2.4.18
- * Timeplus Enterprise [v2.4.17](/enterprise-v2.4#2417) and [v2.4.19](/enterprise-v2.4#2419) are released.
+ * Timeplus Enterprise [v2.4.17](/enterprise-v2.4#2_4_17) and [v2.4.19](/enterprise-v2.4#2_4_19) are released.
  * The key changes are:
     * support running [table function](/functions_for_streaming#table) on [Timeplus External Stream](/timeplus-external-stream)
     * better track memory usage in macOS and Docker container.

@@ -13,7 +13,7 @@ We will update the beta version from time to time and list key enhancements in t
   * Support sub-stream, e.g. `select cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) as last_spd from car_live_data`
 * Source, sink, API and SDK
   * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](/glossary#workspace)
-  * Updated the [REST API](/rest) to show the optional description for source/sink, and replace "tenant" with "workspace-id" in the documentation.
+  * Updated the REST API to show the optional description for source/sink, and replace "tenant" with "workspace-id" in the documentation.
   * The Kafka sink no longer auto-create the topics
 
 * UI improvements

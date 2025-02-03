@@ -21,8 +21,9 @@ Key highlights of this release:
 
 ## Stable Releases {#stable}
 
-### 2.3.5
+### 2.3.5 {#2_3_5}
 Built on 07-02-2024. You can get it via:
+* [Bare metal packages](/release-downloads#2_3_5)
 * For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.3.5`
 
 Component versions:
@@ -32,7 +33,7 @@ Component versions:
 * timeplus_connector 1.5.3
 * timeplus cli 1.0.9
 
-Changelog (comparing to [2.3.0](#230)):
+Changelog (comparing to [2.3.0](#2_3_0)):
 
 * timeplusd
   * feat: new setting `allow_independent_shard_processing`, default false. When data is already sharded correctly on file system and if the aggregation is on the sharding key, set it to true to avoid re-shuffle the data.
@@ -56,8 +57,9 @@ Changelog (comparing to [2.3.0](#230)):
 
 ## Other Releases {#other}
 
-### 2.3.0
+### 2.3.0 {#2_3_0}
 Built on 06-20-2024. You can get it via:
+* [Bare metal packages](/release-downloads#2_3_0)
 * For Docker users (not for production): `docker run -p 8000:8000 timeplus/timeplus-enterprise:2.3.0`
 
 Components:

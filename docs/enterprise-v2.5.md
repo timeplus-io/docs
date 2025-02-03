@@ -31,7 +31,7 @@ Please use the stable releases for production deployment, while we also provide 
 
 ### 2.5.12 (Public GA) {#2_5_12}
 Built on 01-09-2025. You can install via:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.5 | sh`
+* For Linux or Mac users: `curl https://install.timeplus.com/2.5 | sh` [Downloads](/release-downloads#2_5_12)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.11 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.12`
 
@@ -54,6 +54,7 @@ Compared to the [2.5.11](#2_5_11) release:
 
 ### 2.5.11 (Public GA) {#2_5_11}
 Built on 12-01-2024. You can install via:
+* [Bare metal packages](/release-downloads#2_5_11)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.10 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.11`
 
@@ -79,6 +80,7 @@ You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2
 
 ### 2.5.10 (Controlled Release) {#2_5_10}
 Built on 11-21-2024. You can install via:
+* [Bare metal packages](/release-downloads#2_5_10)
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.10`
 
 Component versions:
@@ -106,6 +108,7 @@ You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2
 
 ### 2.5.9 (Controlled Release) {#2_5_9}
 Built on 11-15-2024. You can install via:
+* [Bare metal packages](/release-downloads#2_5_9)
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.9`
 
 Component versions:
