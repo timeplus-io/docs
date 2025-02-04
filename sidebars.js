@@ -219,6 +219,7 @@ const sidebars = {
         "troubleshooting",
         "system-stream-state-log",
         "system-stream-metric-log",
+        "prometheus",
       ],
     },
     {
