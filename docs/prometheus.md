@@ -14,6 +14,13 @@ By default, Timeplus Enterprise exposes timeplusd metrics on port 9363, and time
 
 Grafana is a popular tool for visualizing metrics. Here is a simplified guide to visualize Timeplus Enterprise metrics with Grafana.
 
+```mermaid
+flowchart LR
+    A[Grafana Alloy]--scrape-->B[Timeplus Metrics]
+    A--RemoteWrite-->C[Prometheus]
+    D[Grafana]--PromQL-->C
+```
+
 ### Step 1: Install Grafana, Prometheus and Alloy {#step1}
 ```bash
 brew install grafana prometheus
