@@ -19,7 +19,7 @@ const config = {
   projectName: "docs", // Usually your repo name.
   scripts: [
     "/hotjar.js",
-    "/ai.js",
+    // "/ai.js",
     { src: "https://data.timeplus.com/p.js", async: true },
     {
       // This script triggers page() on every page change. (URL Encoded)
