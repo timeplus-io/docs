@@ -23,7 +23,7 @@ For the full list of possible time zones, please check the "TZ database name" co
 
 You can also convert the time between time zones via [to_timezone](/functions_for_datetime#to_timezone)
 
-It can parse string `2023-09-19 05:31:34` or `2023-09-19T05:31:34Z`.
+It can parse various date time formats, such as `2023-09-19 05:31:34`,  `2023-09-19T05:31:34Z`, `2023-09-19T05:31:34.026Z`, `2023-09-19T05:31:34.302+00:00`.
 
 This function is the alias to `parse_datetime_best_effort`.
 
