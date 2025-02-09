@@ -87,6 +87,39 @@ SOURCE(HTTP(URL 'https://datasets-documentation.s3.eu-west-3.amazonaws.com/nyc-t
 
 Please check the example in the [Create a dictionary from a CSV file](#create_dictionary_csv) section.
 
+#### Local File {#source_local_file}
+You can create a dictionary from a local file.
+
+Syntax:
+```sql
+SOURCE(FILE(path '/var/lib/timeplusd/user_files/dict.tsv' format 'CSV'))
+```
+
+Please note the file path needs to be located in the `user_files` directory to prevent unauthorized access to the file system. Make sure each node in the cluster has the same file in the same location.
+
+#### Local Executable {#source_local_executable}
+You can create a dictionary from a local executable.
+
+Syntax:
+```sql
+SOURCE(EXECUTABLE(command '/var/lib/timeplusd/user_files/dict.sh' format 'TabSeparated'))
+```
+
+The executable should output data in the format of the specified format, in this case, TabSeparated. The executable should be located in the `user_files` directory.
+```bash
+#!/bin/bash
+echo -e "1\tp111"
+echo -e "2\tp222"
+echo -e "3\tp333"
+```
+
+#### Executable Pool {#source_executable_pool}
+Executable pool allows loading data from pool of processes. This source does not work with dictionary layouts that need to load all data from source. Executable pool works if the dictionary is stored using cache, complex_key_cache, ssd_cache, complex_key_ssd_cache, direct, or complex_key_direct layouts.
+
+```sql
+SOURCE(EXECUTABLE_POOL(command '/var/lib/timeplusd/user_files/dict.sh' format 'TabSeparated'))
+```
+
 ### LAYOUT
 The `LAYOUT` clause specifies how the dictionary data is stored in memory. The available layout options are listed below. Please note the layout options and their settings are case-insensitive.
 
@@ -110,6 +143,27 @@ LAYOUT(HASHED())
 LAYOUT(HASHED([SHARDS 1] [SHARD_LOAD_QUEUE_BACKLOG 10000] [MAX_LOAD_FACTOR 0.5]))
 ```
 
+#### SPARSE_HASHED
+The `SPARSE_HASHED` layout is similar to the `HASHED` layout, but it is optimized for sparse data. It uses less memory than the `HASHED` layout.
+
+```sql
+LAYOUT(SPARSE_HASHED([SHARDS 1] [SHARD_LOAD_QUEUE_BACKLOG 10000] [MAX_LOAD_FACTOR 0.5]))
+```
+
+#### COMPLEX_KEY_HASHED
+The `COMPLEX_KEY_HASHED` layout is similar to the `HASHED` layout, but it supports composite keys.
+
+```sql
+LAYOUT(COMPLEX_KEY_HASHED([SHARDS 1] [SHARD_LOAD_QUEUE_BACKLOG 10000] [MAX_LOAD_FACTOR 0.5]))
+```
+
+#### COMPLEX_KEY_SPARSE_HASHED
+The `COMPLEX_KEY_SPARSE_HASHED` layout is similar to the `SPARSE_HASHED` layout, but it supports composite keys.
+
+```sql
+LAYOUT(COMPLEX_KEY_SPARSE_HASHED([SHARDS 1] [SHARD_LOAD_QUEUE_BACKLOG 10000] [MAX_LOAD_FACTOR 0.5]))
+```
+
 #### HASHED_ARRAY
 The `HASHED_ARRAY` layout stores the dictionary data in memory. Each attribute is stored in an array. The key attribute is stored in the form of a hashed table where value is an index in the attributes array. The dictionary can contain any number of elements with any identifiers.
 
@@ -121,11 +175,80 @@ LAYOUT(HASHED_ARRAY())
 LAYOUT(HASHED_ARRAY([SHARDS 1]))
 ```
 
+#### COMPLEX_KEY_HASHED_ARRAY
+The `COMPLEX_KEY_HASHED_ARRAY` layout is similar to the `HASHED_ARRAY` layout, but it supports composite keys.
+
+```sql
+LAYOUT(COMPLEX_KEY_HASHED_ARRAY([SHARDS 1]))
+```
+
+#### RANGE_HASHED
+The dictionary is stored in memory in the form of a hash table with an ordered array of ranges and their corresponding values.
+
+```sql
+LAYOUT(RANGE_HASHED(range_lookup_strategy 'max'))
+RANGE(MIN StartTimeStamp MAX EndTimeStamp)
+```
+
+#### COMPLEX_KEY_RANGE_HASHED
+The `COMPLEX_KEY_RANGE_HASHED` layout is similar to the `RANGE_HASHED` layout, but it supports composite keys.
+
+```sql
+LAYOUT(COMPLEX_KEY_RANGE_HASHED())
+RANGE(MIN StartDate MAX EndDate);
+```
+
+#### CACHE
+The `CACHE` layout is stored in a cache that has a fixed number of cells. These cells contain frequently used elements.
+
+```sql
+LAYOUT(CACHE(SIZE_IN_CELLS 1000000000))
+```
+
+#### COMPLEX_KEY_CACHE
+The `COMPLEX_KEY_CACHE` layout is similar to the `CACHE` layout, but it supports composite keys.
+
+```sql
+LAYOUT(COMPLEX_KEY_CACHE(SIZE_IN_CELLS 1000000000 ALLOW_READ_EXPIRED_KEYS 1 MAX_UPDATE_QUEUE_SIZE 100000 UPDATE_QUEUE_PUSH_TIMEOUT_MILLISECONDS 100 QUERY_WAIT_TIMEOUT_MILLISECONDS 60000 MAX_THREADS_FOR_UPDATES 4));
+```
+
+#### SSD_CACHE
+The `SSD_CACHE` layout is similar to the `CACHE` layout, but it is optimized for SSD storage.
+
+```sql
+LAYOUT(SSD_CACHE(BLOCK_SIZE 4096 FILE_SIZE 16777216 READ_BUFFER_SIZE 1048576
+    PATH '/var/lib/timeplusd/user_files/test_dict'))
+```
+
+#### COMPLEX_KEY_SSD_CACHE
+The `COMPLEX_KEY_SSD_CACHE` layout is similar to the `SSD_CACHE` layout, but it is optimized for SSD storage.
+
+```sql
+LAYOUT(COMPLEX_KEY_SSD_CACHE(BLOCK_SIZE 4096 FILE_SIZE 1073741824 READ_BUFFER_SIZE 131072 WRITE_BUFFER_SIZE 1048576 PATH '/var/lib/timeplusd/user_files/products_dict'));
+```
+
+#### MUTABLE_CACHE
+The `MUTABLE_CACHE` layout is used to cache frequently accessed keys in a mutable stream. The dictionary will first look up the keys in the mutable stream, and if not found, it will fetch the data from the source.
+
+Syntax:
+```sql
+LAYOUT(MUTABLE_CACHE(DB 'default' STREAM 'mysql_mutable_cache' UPDATE_FROM_SOURCE false|true));
+```
+
+The default value for `UPDATE_FROM_SOURCE` is `false`. If set to `true`, when there is a lookup miss, the dictionary will update the mutable stream with the data from the source. If set to `false`, the dictionary will only fetch the data from the source without updating the mutable stream.
+
 #### DIRECT
 The dictionary with `DIRECT` layout is not stored in memory and directly goes to the source during the processing of a request.
 
 ```sql
 LAYOUT(DIRECT())
+```
+
+#### COMPLEX_KEY_DIRECT
+The `COMPLEX_KEY_DIRECT` layout is similar to the `DIRECT` layout, but it supports composite keys.
+
+```sql
+LAYOUT(COMPLEX_KEY_DIRECT());
 ```
 
 #### IP_TRIE
@@ -137,15 +260,7 @@ LAYOUT(IP_TRIE)
 
 Please check the example in the [Create an ip_trie dictionary from a Timeplus stream](#create_dictionary_ip_trie) section.
 
-#### MUTABLE_CACHE
-The `MUTABLE_CACHE` layout is used to cache frequently accessed keys in a mutable stream. The dictionary will first look up the keys in the mutable stream, and if not found, it will fetch the data from the source.
 
-Syntax:
-```sql
-LAYOUT(MUTABLE_CACHE(DB 'default' STREAM 'mysql_mutable_cache' UPDATE_FROM_SOURCE false|true));
-```
-
-The default value for `UPDATE_FROM_SOURCE` is `false`. If set to `true`, when there is a lookup miss, the dictionary will update the mutable stream with the data from the source. If set to `false`, the dictionary will only fetch the data from the source without updating the mutable stream.
 
 ### LIFETIME
 Timeplus can update the dictionary data automatically. You can specify the update interval with the `LIFETIME` clause. The `MIN` and `MAX` values are in seconds. The `MIN` value is the minimum interval between updates, and the `MAX` value is the maximum interval between updates.
