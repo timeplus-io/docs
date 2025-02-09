@@ -1,6 +1,6 @@
 # Mutable Stream
 
-This type of stream is only available in Timeplus Enterprise, with high performance query and UPSERT (UPDATE or INSERT).
+This type of stream is only available in Timeplus Enterprise, with high performance query and UPSERT (UPDATE or INSERT). Starting from [Timeplus Enterprise 2.7](/enterprise-v2.7), mutable streams are enhanced to support DELETE operation.
 
 As the name implies, the data in the stream is mutable. Value with the same primary key(s) will be overwritten.
 
@@ -8,7 +8,7 @@ The primary use case of mutable streams is serving as the lookup/dimensional dat
 
 Learn more about why we introduced Mutable Streams by checking [this blog](https://www.timeplus.com/post/introducing-mutable-streams).
 
-## Syntax
+## CREATE
 ```sql
 CREATE MUTABLE STREAM [IF NOT EXISTS] stream_name (
     <col1> <col_type>,
@@ -27,9 +27,54 @@ SETTINGS
 
 [Learn more](/sql-create-mutable-stream)
 
+## INSERT
+You can insert data to the mutable stream with the following SQL:
+```sql
+INSERT INTO mutable_stream_name(column1, column2, column3, ...)
+VALUES (value1, value2, value3, ...)
+
+-- Alternatively, you can insert data from a query result
+INSERT INTO mutable_stream_name(column1, column2, column3, ...)
+SELECT ..
+
+-- Or set the mutable stream as the target for a Materialized View
+CREATE MATERIALIZED VIEW mv_name INTO mutable_stream_name AS SELECT ..
+```
+
+## UPDATE
+To update the data in the mutable stream, you can insert the data with the same primary key(s). The new data will overwrite the existing data.
+
+```sql
+-- Add a new row with ID 1
+INSERT INTO mutable_stream_name VALUES (1,'A')
+-- Update the row with same ID
+INSERT INTO mutable_stream_name VALUES (1,'B')
+```
+
+## DELETE
+Starting from Timeplus Enterprise 2.7, you can delete data from the mutable stream.
+
+```sql
+DELETE FROM mutable_stream_name WHERE condition
+```
+
+It's recommended to use the primary key(s) in the condition to delete the data efficiently. You can also use the secondary index or other columns in the condition.
+
+## SELECT
+You can query the mutable stream with the following SQL:
+```sql
+-- streaming query
+SELECT * FROM mutable_stream_name WHERE condition
+
+-- batch query
+SELECT * FROM table(mutable_stream_name) WHERE condition
+```
+
+Mutable streams can be used in [JOINs](/joins) or as the source or cache for [Dictionaries](/sql-create-dictionary).
+
 ## Example
 
-### Create a mutable stream
+### Create a mutable stream {#example_create}
 
 Create the stream with the following SQL:
 
@@ -55,7 +100,7 @@ Note:
 * Searching data with any column in the primary key is very fast.
 * By default there is only 1 shard and no extra index or optimization.
 
-### Load millions of rows
+### Load millions of rows {#example_load}
 
 You can use [CREATE RANDOM STREAM](/sql-create-random-stream) and a Materialized View to generate data and send to the mutable stream. But since we are testing massive historical data with duplicated keys, we can also use `INSERT INTO .. SELECT` to load data.
 
@@ -81,7 +126,7 @@ Depending on your hardware and server configuration, it may take a few seconds t
 0 rows in set. Elapsed: 11.532 sec. Processed 50.00 million rows, 400.00 MB (4.34 million rows/s., 34.69 MB/s.)
 ```
 
-### Query
+### Query the mutable stream {#example_query}
 
 When you query the mutable stream, Timeplus will read all historical data without any duplicated primary key.
 ```sql

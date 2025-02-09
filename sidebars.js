@@ -264,7 +264,12 @@ const sidebars = {
             {
               type: "doc",
               id: "sql-create-mutable-stream",
-              customProps: { tag: "Enterprise" },
+              // customProps: { tag: "Enterprise" },
+            },
+            {
+              type: "doc",
+              id: "sql-delete",
+              // customProps: { tag: "Enterprise" },
             },
             "sql-alter-stream",
             "sql-show-streams",
