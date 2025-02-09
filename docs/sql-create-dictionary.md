@@ -31,7 +31,7 @@ The source for a dictionary can be a:
 * file available by HTTP(S)
 * another database, such as MySQL or PostgreSQL
 
-#### From a stream in the current Timeplus {#source_local_stream}
+#### Local Timeplus Stream {#source_local_stream}
 You can create a dictionary from a stream in the current Timeplus service. [Mutable streams](/mutable-stream) are recommended for dictionary sources, as they can be updated in real-time.
 
 Syntax:
@@ -45,7 +45,7 @@ Note:
 
 Please check the example in the [Create an ip_trie dictionary from a Timeplus stream](#create_dictionary_ip_trie) section.
 
-#### From a stream in a remote Timeplus {#source_remote_stream}
+#### Remote Timeplus Stream {#source_remote_stream}
 Similar to the local stream, you can create a dictionary from a stream in a remote Timeplus service.
 
 Syntax:
@@ -53,7 +53,7 @@ Syntax:
 SOURCE(TIMEPLUS(HOST 'remotehost' PORT tcp_port() STREAM 'stream_name' USER 'user' PASSWORD 'password'))
 ```
 
-#### From a table in a remote ClickHouse {#source_clickhouse}
+#### ClickHouse Table {#source_clickhouse}
 You can create a dictionary from a table in a remote ClickHouse service.
 
 Syntax:
@@ -63,7 +63,7 @@ SOURCE(CLICKHOUSE(HOST 'remotehost' PORT 9000 SECURE 0|1 USER 'user' PASSWORD 'p
 
 Either one of the `TABLE` or `QUERY` fields must be declared.
 
-#### From a table in a remote MySQL {#source_mysql}
+#### MySQL Table {#source_mysql}
 You can create a dictionary from a table in a remote MySQL database.
 
 Syntax:
@@ -71,11 +71,13 @@ Syntax:
 SOURCE(MYSQL(HOST 'remotehost' PORT 3306 USER 'user' PASSWORD 'password' TABLE 'table_name' DB 'database_name' ))
 ```
 
-Either one of the `TABLE` or `QUERY` fields must be declared.
+Note:
+* Either one of the `TABLE` or `QUERY` fields must be declared.
+* You can optionally specify `BG_RECONNECT true` to enable background reconnection to MySQL.
 
-Please check the example in the [Create a dictionary from a MySQL table](#create_dictionary_mysql) section.
+Please check the example in the [Create a dictionary from a MySQL table](#create_dictionary_mysql) section. You can optionally setup a mutable stream as the cache for the MySQL table, please check the [Create a dictionary from a MySQL table with a mutable stream as the cache](#create_dictionary_mutable_cache) section.
 
-#### From a file available by HTTP(S) {#source_http}
+#### Remote File {#source_http}
 You can create a dictionary from a file available by HTTP(S).
 
 Syntax:
@@ -86,7 +88,7 @@ SOURCE(HTTP(URL 'https://datasets-documentation.s3.eu-west-3.amazonaws.com/nyc-t
 Please check the example in the [Create a dictionary from a CSV file](#create_dictionary_csv) section.
 
 ### LAYOUT
-The `LAYOUT` clause specifies how the dictionary data is stored in memory. The available layout options are:
+The `LAYOUT` clause specifies how the dictionary data is stored in memory. The available layout options are listed below. Please note the layout options and their settings are case-insensitive.
 
 #### FLAT
 The `FLAT` layout stores the dictionary data in a flat array. This layout provides the best performance, with the drawback of higher memory usage.
@@ -133,6 +135,18 @@ The `IP_TRIE` layout is for mapping network prefixes (IP addresses) to metadata 
 LAYOUT(IP_TRIE)
 ```
 
+Please check the example in the [Create an ip_trie dictionary from a Timeplus stream](#create_dictionary_ip_trie) section.
+
+#### MUTABLE_CACHE
+The `MUTABLE_CACHE` layout is used to cache frequently accessed keys in a mutable stream. The dictionary will first look up the keys in the mutable stream, and if not found, it will fetch the data from the source.
+
+Syntax:
+```sql
+LAYOUT(MUTABLE_CACHE(DB 'default' STREAM 'mysql_mutable_cache' UPDATE_FROM_SOURCE false|true));
+```
+
+The default value for `UPDATE_FROM_SOURCE` is `false`. If set to `true`, when there is a lookup miss, the dictionary will update the mutable stream with the data from the source. If set to `false`, the dictionary will only fetch the data from the source without updating the mutable stream.
+
 ### LIFETIME
 Timeplus can update the dictionary data automatically. You can specify the update interval with the `LIFETIME` clause. The `MIN` and `MAX` values are in seconds. The `MIN` value is the minimum interval between updates, and the `MAX` value is the maximum interval between updates.
 
@@ -142,10 +156,19 @@ LIFETIME(MIN 1 MAX 10)
 ```
 specifies the dictionary to update after some random time between 1 and 10 seconds.
 
+This can be simplified to:
+```sql
+LIFETIME(10)
+```
+
 You can disable automatic updates by setting both `MIN` and `MAX` to 0, i.e.
 
 ```sql
 LIFETIME(MIN 0 MAX 0)
+```
+Or simply:
+```sql
+LIFETIME(0)
 ```
 
 ## Examples
@@ -230,8 +253,10 @@ CREATE DICTIONARY my_ip_trie_dictionary (
 PRIMARY KEY prefix
 SOURCE(TIMEPLUS(STREAM 'my_ip_addresses' USER 'admin' PASSWORD 'changeme'))
 LAYOUT(IP_TRIE)
-LIFETIME(3600);
+LIFETIME(10);
 ```
+
+This will create an `IP_TRIE` dictionary, which is optimized for mapping network prefixes (IP addresses) to metadata such as ASN. The dictionary will be updated every 0 to 10 seconds.
 
 Then you can query the dictionary with the `dict_get` function:
 
@@ -245,6 +270,19 @@ SELECT dict_get('my_ip_trie_dictionary', 'asn', ipv6_string_to_num('2001:db8::1'
 SELECT dict_get('my_ip_trie_dictionary', ('asn', 'cca2'), ipv6_string_to_num('2001:db8::1')) AS result;
 -- returns (65536, 'ZZ')
 ```
+
+To demonstrate the update capability of the dictionary, you can insert a new record into the mutable stream:
+
+```sql
+INSERT INTO my_ip_addresses(prefix,asn,cca2) VALUES
+  ('2001:db8::/32', 65536, 'BB');
+```
+Then run the query again:
+
+```sql
+SELECT dict_get('my_ip_trie_dictionary', 'cca2', ipv6_string_to_num('2001:db8::1')) AS result;
+```
+It will return `BB` instead of `ZZ`.
 
 ### Create a dictionary from a MySQL table {#create_dictionary_mysql}
 
@@ -276,6 +314,88 @@ Then you can query the dictionary with the `dict_get` function:
 ```sql
 SELECT dict_get('mysql_region','r_name',2);
 -- returns 'ASIA'
+```
+
+#### Create a dictionary from a MySQL table with a mutable stream as the cache {#create_dictionary_mutable_cache}
+You can create a dictionary which looks up data from a mutable stream in Timeplus, and fetches the data from a MySQL table if some keys are not found in the stream. This is useful when there are a large number of keys in the MySQL table, and you want to cache the most frequently queried keys in the mutable stream. You can even setup a CDC pipeline to keep the mutable stream up-to-date, as a proactive way to make sure the frequently queried keys are always in the cache.
+
+As an example, you can create a MySQL database with the TPCH schema. There are 150,000 rows in the `customer` table.
+
+```sql
+CREATE TABLE customer (
+  "c_custkey" bigint DEFAULT NULL,
+  "c_name" mediumtext,
+  "c_address" mediumtext,
+  "c_nationkey" int DEFAULT NULL,
+  "c_phone" mediumtext,
+  "c_acctbal" decimal(24,6) DEFAULT NULL,
+  "c_mktsegment" mediumtext,
+  "c_comment" mediumtext
+);
+```
+
+You can create a mutable stream in Timeplus, and insert the first 10 records to it:
+```sql
+CREATE MUTABLE STREAM mysql_mutable_cache
+(
+    c_custkey uint64,
+    c_name string,
+    c_phone string
+)
+PRIMARY KEY c_custkey;
+
+INSERT INTO mysql_mutable_cache(c_custkey, c_name, c_phone) VALUES
+(1, 'Customer#000000001','25-989-741-2988'),
+(2, 'Customer#000000002','23-768-687-3665'),
+(3, 'Customer#000000003','11-719-748-3364'),
+(4, 'Customer#000000004','14-128-190-5944'),
+(5, 'Customer#000000005','13-750-942-6364'),
+(6, 'Customer#000000006','30-114-968-4951'),
+(7, 'Customer#000000007','21-555-247-5051'),
+(8, 'Customer#000000008','17-663-144-5538'),
+(9, 'Customer#000000009','13-849-247-6831'),
+(10, 'Customer#000000010','33-373-373-6083');
+```
+
+Then you can create a dictionary, referencing the mutable stream and the MySQL table:
+```sql
+CREATE DICTIONARY mysql_dict_mutable(
+    c_custkey uint64,
+    c_name string,
+    c_phone string
+)
+PRIMARY KEY c_custkey
+SOURCE(MYSQL(DB 'tpch' TABLE 'customer' HOST 'host' PORT 3306 USER 'root' PASSWORD 'pwd' BG_RECONNECT true))
+LAYOUT(MUTABLE_CACHE(DB 'default' STREAM 'mysql_mutable_cache' UPDATE_FROM_SOURCE false));
+```
+
+Then you can query the dictionary with the `dict_get` function:
+```sql
+SELECT dict_get('mysql_dict_mutable','c_phone',10);
+-- returns '33-373-373-6083'
+
+SELECT dict_get('mysql_dict_mutable','c_phone',11);
+-- returns '33-464-151-3439', which is not available in the mutable stream, but in the MySQL table
+```
+
+You can update the mutable stream with the following SQL:
+```sql
+INSERT INTO mysql_mutable_cache(c_custkey, c_name, c_phone) VALUES
+(10, 'Customer#000000010','12-123-123-1234');
+```
+Then run the query again:
+```sql
+SELECT dict_get('mysql_dict_mutable','c_phone',10);
+-- returns '12-123-123-1234' from the mutable stream, without fetching from the MySQL table.
+```
+
+To keep the mutable stream cache up-to-date, you can setup a CDC pipeline with Redpanda Connect or Debezium. The INSERT or UDPATE in the MySQL table will be captured and sent to the mutable stream. You can even filter the CDC events to only capture the keys you are interested in.
+
+You can also use the dictionary in a JOIN query with other streams:
+```sql
+SELECT * FROM orders JOIN mysql_dict_mutable AS customers
+ON orders.customer_id = customers.c_custkey
+SETTINGS join_algorithm = 'direct';
 ```
 
 ## Limitations
