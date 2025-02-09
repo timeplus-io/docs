@@ -13,7 +13,7 @@ We released a patch release for Timeplus Enterprise [v2.4](/enterprise-v2.4#2_4_
 If you are running Timeplus Enterprise v2.4, we recommend upgrading to this version.
 
 ### Timeplus Grafana plugin v2.1.1
-The new version of Grafana plugin imporoved the batching strategy to render results from streaming queries. If there is any error in the SQL syntax, the error message will be shown in the Grafana query panel.
+The new version of Grafana plugin improved the batching strategy to render results from streaming queries. If there is any error in the SQL syntax, the error message will be shown in the Grafana query panel.
 
 ## Jan 20, 2025
 

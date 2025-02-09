@@ -29,7 +29,7 @@ Supported column types for primary key:
 * integers (int8/16/32/64, uint8/16/32/64)
 * floating point (float32, float64)
 * date and datetime types (date, date32, datetime, datetime64)
-* string and fixedstring
+* string and fixed_string
 * enum8, enum16
 * decimal32, decimal64
 * bool

@@ -6,37 +6,48 @@ reports:
   - spellchecker/report.json
   - spellchecker/report.junit.xml
 ignore:
-  - key\d
+  - "[A-Z0-9]{6}"
+  - "\\b\\w+=\\w+\\b"
+  - "\\b\\w+\\."
+  - .*_logstore_.*
+  - .*_port
+  - .*_sn
   - 1f71acbf-59fc-427d-a634-1679b48029a9
   - 2a02:aa08:e000:3100
-  - c\d+
-  - u\d+
-  - t\d+
   - \d+GB
+  - \d+Gi
   - \d+MB
-  - array_.*
-  - to_.*
-  - json_extract_.*
-  - exp\d+
-  - log\d+
-  - option\d
-  - user\d
-  - scalar\d
   - \d+ms
-  - "[A-Z0-9]{6}"
-  - b\d{5}
-  - step\d
+  - \ds
   - array\d
-  - number\d
-  - string\d
-  - datestring\d
-  - json\d
-  - dateString\d
+  - array_.*
+  - b\d{5}
+  - c\d+
   - changelog_[_\d]+
-  - v[\.\d]+
   - cloud_step\d
-  - role\d
+  - datestring\d
+  - dateString\d
+  - exp\d+
+  - ingest_.*
+  - json\d
+  - json_extract_.*
+  - key\d
+  - kvstore_.*
+  - log\d+
+  - logstore_.*
+  - metastore_.*
   - mv\d+
+  - mv_.*
   - node\d+
-  - "\\b\\w+\\."
-  - "\\b\\w+=\\w+\\b"
+  - number\d
+  - option\d
+  - role\d
+  - s3_.*
+  - scalar\d
+  - step\d
+  - string\d
+  - t\d+
+  - to_.*
+  - u\d+
+  - user\d
+  - v[\.\d]+

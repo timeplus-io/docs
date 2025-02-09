@@ -7,7 +7,7 @@ Example:
 DROP FUNCTION test_add_five_5;
 ```
 
-## Drop a function forcely {#force}
+## Drop a function forcefully {#force}
 If the UDF or UDAF is used in other queries, you can force to drop it.
 
 ```sql

@@ -18,6 +18,7 @@ activemq
 ActiveMQ
 AdminClient
 adv_udaf
+air-gapped
 Airbyte
 AirByte
 aiven
@@ -48,6 +49,7 @@ arrayName
 asin
 ASOF
 asof
+AssumeRole
 async
 Async
 atan
@@ -85,6 +87,7 @@ Benthos
 Benthos-based
 beta1
 beta2
+big-endian
 bigint
 BigTable
 Binance
@@ -107,11 +110,13 @@ Changelog
 changelog_2_4_15
 changelog_2_4_16
 changelog_kv
+ChatGPT
 checkpointing
 CICD
 cid
 cidr
 CIDR
+ckpt_sn
 classpath
 cli
 CLI
@@ -127,11 +132,14 @@ clickstream
 closable
 cloud_sla
 Cloudflare
+CloudFront
 cloudtrail
 Cloudtrail
+CloudTrail
 CloudWatch
 CockroachDB
 codec
+Codec
 codegen
 Codegen
 codename
@@ -161,6 +169,7 @@ CTEs
 Ctrl
 customizable
 Databricks
+Datadog
 dataframe
 DataGrip
 datalineage
@@ -190,7 +199,10 @@ ddl
 de-serializing
 Debezium
 debezium
+decimal32
+decimal64
 decode_url_component
+dedicatedly
 dedup
 deduplication
 defaultValue
@@ -215,6 +227,8 @@ dropdown
 dropdowns
 dsn
 EBS
+EC2
+ECS
 EKS
 Emet-Labs
 emit_after_wm
@@ -252,6 +266,7 @@ from_unix_timestamp64_micro
 from_unix_timestamp64_milli
 from_unix_timestamp64_nano
 frontend
+fsync
 Fullscreen
 fullscreen
 GCS
@@ -291,8 +306,11 @@ Guo
 gzip
 GZip
 Gzip
+half_md5
+hardcoded
 hardcoding
 HashiCorp
+HashIndex
 highlevel
 homebrew
 Homebrew
@@ -309,7 +327,9 @@ https
 Huatai
 hubspot
 HubSpot
+IAM
 Idempotency
+idempotently
 influxdb
 InfluxDB
 infograph
@@ -367,6 +387,8 @@ joda
 Joda
 js
 JS
+js-udaf
+js-udf
 JSON
 json
 json_has
@@ -414,6 +436,8 @@ livepeer
 Livepeer
 log_dir
 logics
+logstore
+Logstore
 logstore_retention_bytes
 logstore_retention_ms
 lookups
@@ -442,6 +466,8 @@ microservices
 Minfeng
 minikube
 Minio
+minio
+modularized
 mouseover
 MQ
 mqtt
@@ -504,6 +530,7 @@ onprem
 openjdk
 openssl
 OPENSSLDIR
+OpenTelemetry
 os
 oss
 OSS
@@ -535,6 +562,8 @@ pre-existing
 pre-filled
 pre-made
 pre-processor
+preallocate
+prebuilt
 preconfigured
 prefetch_count
 PrettyCompact
@@ -555,6 +584,7 @@ PulsarSlackWebhookTimeplus
 PV
 pvc
 PVCs
+PVs
 Q1
 quantile
 queryable
@@ -591,6 +621,8 @@ restPath
 RHEL
 roadmap
 roadmaps
+RocksDB
+RocNet
 rpconnect
 s-agg-recent
 s-downsampling
@@ -655,6 +687,8 @@ start_lon
 startCondtion
 stateful
 StatefulSet
+Statefulset
+statefulset
 stochasticLinearRegression
 str
 stream_ttl
@@ -666,6 +700,7 @@ StreamNATSCSV
 strictnesses
 sub-commmands
 subcommand
+subdirectories
 sublicense
 subnet
 subqueries
@@ -700,6 +735,7 @@ Tigergraph
 Timeplus
 timeplus
 timeplus-appserver
+timeplus-connector
 timeplus-io
 Timeplus-native-jdbc
 timeplus-native-jdbc
@@ -820,6 +856,7 @@ WIP
 workspaceID
 workspaces
 x64
+x86_64
 Xie
 xirr
 xz
