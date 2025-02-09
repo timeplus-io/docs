@@ -83,3 +83,16 @@ Type: bool
 Default: false
 
 Whether to enable idempotent processing for the query. If set to true, the query will be processed idempotently. If set to 0, the query will be processed non-idempotently. [Learn more](/idempotent).
+
+## join_algorithm
+Type: string
+
+Default: `default`
+
+Specifies which [JOIN](/joins) algorithm is used.
+
+Possible values:
+* `default`: Same as `direct`,`parallel_hash`,`hash`, i.e. try to use direct join, parallel hash join, and hash join join (in this order).
+* `hash`: Use hash join. The most generic implementation that supports all combinations of kind and strictness and multiple join keys that are combined with OR in the JOIN ON section. When using the hash algorithm, the right part of JOIN is uploaded into RAM.
+* `direct`: This algorithm can be applied when the storage for the right table supports key-value requests, such as a [dictionary](/sql-create-dictionary). The direct algorithm performs a lookup in the right table using rows from the left table as keys. It only supports INNER JOIN and LEFT JOIN.
+* `auto`: When set to auto, hash join is tried first, and the algorithm is switched on the fly to another algorithm if the memory limit is violated.
