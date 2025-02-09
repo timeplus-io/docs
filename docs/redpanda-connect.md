@@ -4,6 +4,10 @@ Since December 2022, Timeplus has utilized the [Benthos framework](https://githu
 
 With the release of [Timeplus Enterprise v2.5](/enterprise-v2.5), we've elevated this integration. All Redpanda Connect input and output components are now available within Timeplus Enterprise.
 
+:::info
+Since [Timeplus Enterprise v2.7](/enterprise-v2.7), we've added support for postgres_cdc, mysql_cdc, and snowflake_streaming connectors. Please note those connectors require an enterprise license from Redpanda, which you need to set the `REDPANDA_CONNECT_LICENSE` environment variable.
+:::
+
 ## Key Concepts in Redpanda Connect
 [Redpanda Connect](https://www.redpanda.com/connect) is a declarative data streaming service that solves a wide range of data engineering problems with simple, chained, stateless processing steps.
 

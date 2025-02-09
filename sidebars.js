@@ -91,6 +91,11 @@ const sidebars = {
         "proton-clickhouse-external-table",
         {
           type: "doc",
+          id: "s3-external-stream",
+          customProps: { tag: "New" },
+        },
+        {
+          type: "doc",
           id: "redpanda-connect",
           customProps: { tag: "Enterprise" },
         },
@@ -283,6 +288,10 @@ const sidebars = {
             "sql-show-databases",
             "sql-drop-database",
 
+            "sql-create-dictionary",
+            "sql-show-dictionaries",
+            "sql-drop-dictionary",
+
             "sql-system-pause",
             "sql-system-unpause",
             // "sql-system-abort",
@@ -308,6 +317,7 @@ const sidebars = {
             "functions_for_math",
             "functions_for_fin",
             "functions_for_geo",
+            "functions_for_dict",
             "functions_for_streaming",
           ],
         },
@@ -451,6 +461,7 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
+        "enterprise-v2.7",
         "enterprise-v2.6",
         "enterprise-v2.5",
         "enterprise-v2.4",
