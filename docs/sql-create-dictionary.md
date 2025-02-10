@@ -237,6 +237,20 @@ LAYOUT(MUTABLE_CACHE(DB 'default' STREAM 'mysql_mutable_cache' UPDATE_FROM_SOURC
 
 The default value for `UPDATE_FROM_SOURCE` is `false`. If set to `true`, when there is a lookup miss, the dictionary will update the mutable stream with the data from the source. If set to `false`, the dictionary will only fetch the data from the source without updating the mutable stream.
 
+#### COMPLEX_KEY_MUTABLE_CACHE
+The `COMPLEX_KEY_MUTABLE_CACHE` layout is similar to the `MUTABLE_CACHE` layout, but it supports composite keys.
+
+```sql
+LAYOUT(COMPLEX_KEY_MUTABLE_CACHE(DB 'default' STREAM 'mutable_stream' UPDATE_FROM_SOURCE false));
+```
+
+#### HYBRID_HASH_CACHE
+The `HYBRID_HASH_CACHE` layout leverages Timeplus hybrid hash table to store the dictionary in both memory and disk. You need to specify both the `TTL` and `PATH` parameters.
+
+```sql
+LAYOUT(HYBRID_HASH_CACHE(TTL 3600 PATH 'path/to/folder'));
+```
+
 #### DIRECT
 The dictionary with `DIRECT` layout is not stored in memory and directly goes to the source during the processing of a request.
 
