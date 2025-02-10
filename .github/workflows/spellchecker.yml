@@ -13,28 +13,27 @@ jobs:
         uses: actions/checkout@v4.2.2
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v4.1.0
+        uses: actions/setup-node@v4.2.0
         with:
-          node-version: 18.0 
+          node-version: 18.0
 
       - name: Install Yarn Dependencies
-        run: yarn install  
+        run: yarn install
 
       - name: Install Spellchecker CLI
         run: yarn global add spellchecker-cli # Install spellchecker-cli globally
 
-      
       - name: Install junit2html
-        run: pip install junit2html   # Install Python-based junit2html tool
-        
+        run: pip install junit2html # Install Python-based junit2html tool
+
       - name: Run spellchecker
-        run: yarn run spellcheck || true   # Runs the spellcheck command
+        run: yarn run spellcheck || true # Runs the spellcheck command
 
       - name: Convert junit to html
-        run: junit2html spellchecker/report.junit.xml spellchecker/report.html 
+        run: junit2html spellchecker/report.junit.xml spellchecker/report.html
 
       - name: Upload HTML Report
         uses: actions/upload-artifact@v4
         with:
           name: Spellchecker Report
-          path: spellchecker/report.html  # Upload the HTML report
+          path: spellchecker/report.html # Upload the HTML report
