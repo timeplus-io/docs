@@ -14,7 +14,7 @@ Please check the tutorials:
 
 In Timeplus Proton, the external stream supports Kafka API as the only type.
 
-In Timeplus Enterprise, it also supports [External Stream for Apache Pulsar](/pulsar-external-stream), [External Stream for other Timeplus deployment](/timeplus-external-stream), and [External Stream for Amazon S3](/s3-external-stream).
+In Timeplus Enterprise, it also supports [External Stream for Apache Pulsar](/pulsar-external-stream), and [External Stream for other Timeplus deployment](/timeplus-external-stream).
 
 To create an external stream for Apache Kafka or Kafka-compatible messaging platforms, you can run the following DDL SQL:
 
