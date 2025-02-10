@@ -86,14 +86,20 @@ const sidebars = {
             },
           ],
         },
+        {
+          type: "category",
+          label: "External Tables",
+          items: [
+            "proton-clickhouse-external-table",
+            {
+              type: "doc",
+              id: "s3-external",
+              customProps: { tag: "New" },
+            },
+          ],
+        },
         "proton-schema-registry",
         "proton-format-schema",
-        "proton-clickhouse-external-table",
-        {
-          type: "doc",
-          id: "s3-external-stream",
-          customProps: { tag: "New" },
-        },
         {
           type: "doc",
           id: "redpanda-connect",
