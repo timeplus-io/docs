@@ -251,6 +251,7 @@ const sidebars = {
         {
           type: "category",
           label: "SQL Commands",
+          customProps: { tag: "Popular" },
           link: {
             type: "generated-index",
             title: "SQL Commands",
