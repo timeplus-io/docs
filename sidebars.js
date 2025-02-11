@@ -93,6 +93,11 @@ const sidebars = {
             "proton-clickhouse-external-table",
             {
               type: "doc",
+              id: "mysql-external-table",
+              customProps: { tag: "New" },
+            },
+            {
+              type: "doc",
               id: "s3-external",
               customProps: { tag: "New" },
             },
