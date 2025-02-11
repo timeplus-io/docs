@@ -2,6 +2,22 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Feb 17, 2025
+
+### Timeplus Enterprise v2.6.1
+We released a patch release for Timeplus Enterprise [v2.6](/enterprise-v2.6#2_6_1). The key changes are:
+  * fix potential corruption for a stream when it's altered multiple times
+  * better data recovery for file corruption due to power loss
+  * set mutable streams' default logstore retention policy from keeping forever to automatic
+
+If you are running Timeplus Enterprise v2.6, we recommend upgrading to this version.
+
+### Timeplus Native JDBC v2.0.8
+Support named tuples, such as `tuple(a int8, b string)`. This is useful when you want to return multiple columns in a function, such as `dict_get`.
+
+### Timeplus Grafana plugin v2.1.2
+Support more transformations in Grafana query panel, such as [Config from query results](https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/transform-data/#config-from-query-results).
+
 ## Feb 3, 2025
 
 ### Timeplus Enterprise v2.4.25

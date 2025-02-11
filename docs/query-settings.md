@@ -43,18 +43,26 @@ Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..
 
 ## replay_speed
 
-`replay_speed=N` When replay_speed set to 1, it will use the `replay_time_column` (`_tp_append_time` as the default) to replay the historical data. When replay_speed is not set or set to 0, historical data will be replayed as fast as possible. When replay_speed set to 0 to 1, it will replay slower. If it's greater than 1, it will replay faster.
-
-e.g.
+You can replay historical data with `replay_speed` setting via a streaming SQL query. The syntax is:
 
 ```sql
 select * from test_stream where _tp_time > earliest_timestamp()
 settings replay_speed=1, replay_time_column='time_col'
 ```
 
+When `replay_speed` set to 1, it will use the `replay_time_column` (`_tp_append_time` as the default) to replay the historical data. When `replay_speed` is not set or set to 0, historical data will be replayed as fast as possible. When `replay_speed` set to 0 to 1, it will replay slower. If it's greater than 1, it will replay faster.
+
+Starting from Timeplus Enterprise 2.7 and Timeplus Proton 1.6.10, you can replay both normal streams and Kafka external streams.
+
 ## replay_time_column
 
 `replay_time_column=columnName` Specify the replay time column, default column is `_tp_append_time`.
+
+## replay_start_time
+`replay_start_time` is the start time for replaying historical data. It's a timestamp string. For example, `replay_start_time='2025-01-01 00:00:00.000'`. This should be equal or greater than `WHERE _tp_time > ..` time rewind condition.
+
+## replay_end_time
+`replay_end_time` is the end time for replaying historical data. It's a timestamp string. For example, `replay_end_time='2025-01-02 00:00:00.000'`. When all data is replayed, the query will end.
 
 ## default_hash_table
 
