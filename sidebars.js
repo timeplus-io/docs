@@ -113,7 +113,16 @@ const sidebars = {
             type: "doc",
             id: "udf",
           },
-          items: ["sql-udf", "remote-udf", "js-udf"],
+          items: [
+            "sql-udf",
+            "remote-udf",
+            "js-udf",
+            {
+              type: "doc",
+              id: "py-udf",
+              customProps: { tag: "New" },
+            },
+          ],
         },
         {
           type: "category",
