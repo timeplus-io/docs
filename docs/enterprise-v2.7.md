@@ -11,6 +11,7 @@ Each component maintains its own version numbers. The version number for each Ti
 
 ## Key Highlights
 Key highlights of this release:
+* **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.
 * **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external-stream), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
 * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
 * **Mutable stream delete:** You can now delete data from mutable streams with the [DELETE](/sql-delete) SQL command.
@@ -48,6 +49,7 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
   * Monitoring and Management:
     * b
   * New Features:
+    * **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.
     * **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external-stream), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
     * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
     * **Delete data:** You can now delete data from streams with the [DELETE](/sql-delete) SQL command. This is optimized for mutable streams with primary keys in the condition.
