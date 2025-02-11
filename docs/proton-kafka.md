@@ -69,12 +69,13 @@ The supported values for `sasl_mechanism` are:
 - PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
 - SCRAM-SHA-256
 - SCRAM-SHA-512
+- AWS_MSK_IAM: this is availble since Timeplus Enterprise 2.7. Set to this value if you are using AWS MSK with IAM authentication and the EC2 instance or Kubernetes pod has the proper IAM role to access the Kafka topic.
 
 #### username
-Required when `sasl_mechanism` is set to value other than `PLAIN`.
+Required when `sasl_mechanism` is set to value other than `PLAIN` or `AWS_MSK_IAM`.
 
 #### password
-Required when `sasl_mechanism` is set to value other than `PLAIN`.
+Required when `sasl_mechanism` is set to value other than `PLAIN` or `AWS_MSK_IAM`.
 
 #### data_format
 The supported values for `data_format` are:
