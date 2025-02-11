@@ -317,6 +317,8 @@ const sidebars = {
             "sql-show-dictionaries",
             "sql-drop-dictionary",
 
+            "sql-optimize",
+
             "sql-system-pause",
             "sql-system-unpause",
             // "sql-system-abort",
