@@ -382,6 +382,8 @@ You can also import a license by running the following command when Timeplus Ent
 ./bin/timeplus license import -h license_key -h license_filepath
 ```
 
+Starting from Timeplus Enterprise 2.7, you can also configure `license_key_path` and `license_file_path` in the `server/config.yaml` file. This is useful for headless deployment without web console interaction.
+
 ## Enable HTTPS {#https}
 
 By default, Timeplus Enterprise web console is running on 8000, on a plain HTTP port. If you need to turn on self-signed or CA-signed HTTPS, you can edit conf/timeplus_appserver.yaml as follows:
