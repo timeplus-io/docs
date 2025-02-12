@@ -368,6 +368,9 @@ For multi-node clusters deployed via [Helm Chart](/k8s-helm), please set the sys
 
 To edit or add new users, you can use the [timeplus user](/cli-user) CLI or container, which supports bare metal and Kubernetes, both single node and multi-node.
 
+## Secret Management {#secrets}
+Starting from Timeplus Enterprise 2.7, you can integrate with HashiCorp Vault for secret management. You can store the secrets of Kafka External Stream in Vault and specify them in the [config_file](/proton-kafka#config_file) setting. For bare metal deployments, you can also use this setting when all nodes have access to the same file in the same path.
+
 ## License Management{#license}
 
 Your 30-day free trial starts when you start Timeplus Enterprise and access the web console for the first time. When your free trial ends, Timeplus Enterprise will stop working.
