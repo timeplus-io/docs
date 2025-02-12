@@ -53,6 +53,7 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
     * **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external-stream), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
     * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
     * **Delete data:** You can now delete data from streams with the [DELETE](/sql-delete) SQL command. This is optimized for mutable streams with primary keys in the condition.
+    * Replay historical data in local streams or Kafka external streams with the [replay_speed](/query-settings#replay_speed) setting.
     * Able to configure `license_key_path` and `license_file_path` in the `server/config.yaml` file to specify the license key without web console interaction.
 
 * timeplus_web 2.1.7 -> 2.2.7
