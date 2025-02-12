@@ -48,8 +48,8 @@ Compared to the [2.6.0](#2_6_0) release:
   * fix potential corruption for a stream when it's altered multiple times
   * better data recovery for file corruption due to power loss
   * set mutable streams' default logstore retention policy from keeping forever to automatic
-  * fix failed Materialized View creation could block subsequent DDL operations in the cluster in certain scenarios
- 
+  * fix issue where failed Materialized View creation attempts could block subsequent DDL operations under specific conditions in cluster
+
 Upgrade Instructions:
 
 Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
