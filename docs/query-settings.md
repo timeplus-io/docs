@@ -52,7 +52,7 @@ settings replay_speed=1, replay_time_column='time_col'
 
 When `replay_speed` set to 1, it will use the `replay_time_column` (`_tp_append_time` as the default) to replay the historical data. When `replay_speed` is not set or set to 0, historical data will be replayed as fast as possible. When `replay_speed` set to 0 to 1, it will replay slower. If it's greater than 1, it will replay faster.
 
-Starting from Timeplus Enterprise 2.7 and Timeplus Proton 1.6.10, you can replay both normal streams and Kafka external streams.
+Starting from [Timeplus Enterprise 2.7](/enterprise-v2.7) and Timeplus Proton 1.6.10, you can replay both normal streams and Kafka external streams.
 
 ## replay_time_column
 
