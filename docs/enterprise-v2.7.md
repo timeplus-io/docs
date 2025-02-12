@@ -36,7 +36,7 @@ Released on 02-14-2025. Installation options:
 Component versions:
 * timeplusd 2.7.14
 * timeplus_web 2.2.7
-* timeplus_appserver 2.2.6
+* timeplus_appserver 2.2.7
 * timeplus_connector 2.2.1
 * timeplus cli 1.2.11
 
@@ -55,12 +55,14 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
     * **Delete data:** You can now delete data from streams with the [DELETE](/sql-delete) SQL command. This is optimized for mutable streams with primary keys in the condition.
     * Replay historical data in local streams or Kafka external streams with the [replay_speed](/query-settings#replay_speed) setting.
     * Able to configure `license_key_path` and `license_file_path` in the `server/config.yaml` file to specify the license key without web console interaction.
-
+    * Specify the non-root user in the Docker image to improve security.
 * timeplus_web 2.1.7 -> 2.2.7
-  * a
-* timeplus_appserver 2.1.6 -> 2.2.6
-  * Added new data source for Coinbase.
-  * Able to list random streams.
+  * Significant improvements of materialized view monitoring and troubleshooting UI.
+  * Added UI for creating and managing dictionaries, S3/MySQL external tables and Python UDF.
+  * Added a dropdown menu to switch to different database namespaces in the web console.
+* timeplus_appserver 2.1.6 -> 2.2.7
+  * [REST API](/rest) support for non-default database namespaces.
+  * When you define a source or sink powered by Redpanda Connect, you can now specify the optional `buffer` and `pipeline` components in the YAML configuration.
 * timeplus_connector 2.1.1 -> 2.2.1
   * Upgraded to Redpanda Connect v4.46 and Benthos framework 4.44, which now supports `mysql_cdc`, [postgres_cdc](https://docs.redpanda.com/redpanda-connect/components/inputs/postgres_cdc/) and [snowflake_streaming](https://docs.redpanda.com/redpanda-connect/components/outputs/snowflake_streaming/) connectors. Please note those connectors require an enterprise license from Redpanda, which you need to set the `REDPANDA_CONNECT_LICENSE` environment variable.
 * timeplus cli 1.2.11 -> 1.2.11
