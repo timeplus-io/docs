@@ -290,12 +290,16 @@ const sidebars = {
             {
               type: "doc",
               id: "sql-delete",
-              // customProps: { tag: "Enterprise" },
+              customProps: { tag: "New" },
             },
             "sql-alter-stream",
             "sql-show-streams",
             "sql-drop-stream",
-            "sql-truncate-stream",
+            {
+              type: "doc",
+              id: "sql-truncate-stream",
+              customProps: { tag: "New" },
+            },
             "sql-create-format-schema",
             "sql-show-format-schemas",
             "sql-drop-format-schema",
@@ -310,18 +314,26 @@ const sidebars = {
             "sql-create-remote-function",
             "sql-show-create",
 
-            "sql-create-database",
+            {
+              type: "doc",
+              id: "sql-create-database",
+              customProps: { tag: "New" },
+            },
             "sql-show-databases",
             "sql-drop-database",
 
-            "sql-create-dictionary",
+            {
+              type: "doc",
+              id: "sql-create-dictionary",
+              customProps: { tag: "New" },
+            },
             "sql-show-dictionaries",
             "sql-drop-dictionary",
 
             "sql-optimize",
 
             "sql-system-pause",
-            "sql-system-unpause",
+            "sql-system-resume",
             // "sql-system-abort",
             // "sql-system-recover",
           ],
