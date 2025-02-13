@@ -1,11 +1,6 @@
-# Local UDF in Python
+# Python UDF
 
-In addition to [Remote UDF](/remote-udf) and [JavaScript UDF](/js-udf), Timeplus Enterprise also supports Python-based UDF running in the sql engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with your local Python runtime with required dependencies. No need to deploy extra server/service for the UDF. More languages will be supported in the future.
-
-:::info
-
-The Python-based UDF is only available in Timeplus Enterprise, not in Timeplus Proton. It's in technical preview and not enabled by default. Please contact us if you want to work with us to test it.
-:::
+In addition to [Remote UDF](/remote-udf) and [JavaScript UDF](/js-udf), starting from [v2.7](/enterprise-v2.7), Timeplus Enterprise also supports Python-based UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embeded Python 3.10 runtime in Timeplus core engine. No need to deploy extra server/service for the UDF.
 
 ## Why Python UDF
 Python is recognized as one of the most popular languages in the field of data science. Its flexibility as a scripting language, ease of use, and extensive range of statistical libraries make it an indispensable tool for data scientists and analysts.
@@ -49,8 +44,8 @@ Scalar UDF is stateless UDF to convert columns in one row to other values.
 
 Syntax:
 ```sql
-CREATE OR REPLACE FUNCTION udf_name(col1 type1,..)
-RETURNS type LANGUAGE PYTHON AS
+CREATE OR REPLACE FUNCTION udf_name(param1 type1,..)
+RETURNS type2 LANGUAGE PYTHON AS
 $$
 import …
 
@@ -66,8 +61,8 @@ UDAF or User Defined Aggregation Function is stateful. It takes one or more colu
 
 Syntax:
 ```sql
-CREATE OR REPLACE AGGREGATION FUNCTION uda_name(col1 type1,...)
-RETURNS type language PYTHON AS
+CREATE OR REPLACE AGGREGATION FUNCTION uda_name(param1 type1,...)
+RETURNS type2 language PYTHON AS
 $$
 import ...
 class uda_name:
@@ -98,6 +93,23 @@ The function list:
 * `merge` for multi-shard processing, merge the states from each shard, optional.
 
 ## Examples
+
+### A simple UDF without dependency
+Timeplus Python UDF supports the standard Python library and the built-in functions. This example takes the number as input, add 5.
+```sql
+CREATE OR REPLACE FUNCTION add_five(value uint16) RETURNS int LANGUAGE PYTHON AS $$
+def add_five(value):
+    for i in range(len(value)):
+        value[i] = value[i] + 5
+    return value
+$$;
+```
+
+Please note:
+* To improve the performance, Timeplus calls the UDF with a batch of inputs. The input of the Python function `add_five` is list(int).
+* The function name `add_five` in the SQL statement should match the function name in the Python code block.
+* Python code block should be enclosed in `$$`. Alternatively, you can use `'` to enclose the code block, but this may cause issues with the Python code block if it contains `'`.
+* Python code is indented with spaces or tabs. It's recommended to put `def` at the beginning of the line without indentation.
 
 ### A simple UDF with numpy
 [Numpy](https://numpy.org/) is a general-purpose array-processing package. It provides a high-performance multidimensional array object, and tools for working with these arrays. It is the fundamental package for scientific computing with Python.

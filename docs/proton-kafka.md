@@ -36,7 +36,8 @@ SETTINGS
     kafka_schema_registry_credentials='..',
     ssl_ca_cert_file='..',
     ssl_ca_pem='..',
-    skip_ssl_cert_check=..
+    skip_ssl_cert_check=..,
+    config_file='..'
 ```
 
 :::info
@@ -69,12 +70,40 @@ The supported values for `sasl_mechanism` are:
 - PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
 - SCRAM-SHA-256
 - SCRAM-SHA-512
+- AWS_MSK_IAM: this is availble since Timeplus Enterprise 2.7. Set to this value if you are using AWS MSK with IAM authentication and the EC2 instance or Kubernetes pod has the proper IAM role to access the Kafka topic.
 
 #### username
-Required when `sasl_mechanism` is set to value other than `PLAIN`.
+Required when `sasl_mechanism` is set to value other than `PLAIN` or `AWS_MSK_IAM`.
 
 #### password
-Required when `sasl_mechanism` is set to value other than `PLAIN`.
+Required when `sasl_mechanism` is set to value other than `PLAIN` or `AWS_MSK_IAM`.
+
+Since [Timeplus Enterprise v2.7](/enterprise-v2.7), you can also use the [config_file](#config_file) setting to specify the username and password in a separate file.
+
+#### config_file
+The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the Kafka configuration settings. The file should be in the format of `key=value` pairs, one pair per line. For example:
+
+```properties
+username=my_username
+password=my_password
+```
+
+Not just for username and password, you can also put other Kafka settings in the file. Avoid defining the value both in the `config_file` and in the DDL.
+
+If you manage Kubernetes secrets using HashiCorp Vault, you can use the [Vault Agent Injector](https://learn.hashicorp.com/tutorials/vault/kubernetes-sidecar) to mount the secrets to the pod and use the `config_file` setting to specify the path to the file. For example, you create the following annotation to inject the secrets as a local file:
+
+```yaml
+annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject-status: "update"
+        vault.hashicorp.com/agent-inject-secret-kafka-secret: "secret/kafka-secret"
+        vault.hashicorp.com/agent-inject-template-kafka-secret: |
+          {{- with secret "secret/kafka-secret" -}}
+          username={{ .Data.data.username }}
+          password={{ .Data.data.password }}
+          {{- end }}
+        vault.hashicorp.com/role: "vault-role"
+```
 
 #### data_format
 The supported values for `data_format` are:
