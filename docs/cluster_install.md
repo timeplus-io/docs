@@ -5,7 +5,10 @@ Both bare metal and Kubernetes are supported.
 
 ## Bare Metal Install
 
+### Single Node
 Follow the guide in [Single Node Install](/singlenode_install) to grab the bare metal package and install on each node.
+
+### Multi-Node Cluster
 
 There are multiple ways to setup a cluster without Kubernetes. One easy solution is to run all components in one node, and the rest of nodes running the timeplusd only. For other deployment options, please contact [support](mailto:support@timeplus.com) or message us in our [Slack Community](https://timeplus.com/slack).
 
@@ -27,6 +30,19 @@ Then run `timeplus start -s timeplusd` to only start timeplusd services.
 
 Similarly on the third node, set `export ADVERTISED_HOST=timeplus-server3` and the same `METADATA_NODE_QUORUM` and only start timeplusd.
 
+### Single-Host Cluster {#single-host-cluster}
+
+Starting from [Timeplus Enterprise v2.7](/enterprise-v2.7), you can also easily setup multiple timeplusd processes on the same host by running the `timeplusd server` with `node-index` option. This is useful for testing multi-node cluster.
+```bash
+./timeplusd server --node-index=1
+./timeplusd server --node-index=2
+./timeplusd server --node-index=3
+```
+
+Timeplusd will automatically bind to different ports for each node. You can run `timeplusd client` to connect to one node and check the status of the cluster via:
+```sql
+SELECT * FROM system.cluster
+```
 
 ## Kubernetes Install {#k8s}
 

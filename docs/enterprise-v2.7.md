@@ -50,6 +50,7 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
     * **Delete data:** You can now delete data from streams with the [DELETE](/sql-delete) SQL command. This is optimized for mutable streams with primary keys in the condition.
     * `SYSTEM UNPAUSE MATERIALIZED VIEW` command is renamed to [SYSTEM RESUME MATERIALIZED VIEW](/sql-system-resume).
     * Able to configure `license_key_path` and `license_file_path` in the `server/config.yaml` file to specify the license key without web console interaction.
+    * Introduced a simple way to setup multiple timeplusd processes on the same host by running the `timeplusd server --node-index=1` command. [Learn more](/cluster_install#single-host-cluster)
   * Security Enhancements:
     * **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.
     * **Integration with HashiCorp Vault:** You can now use HashiCorp Vault to store sensitive data, such as password for Kafka external stream, and reference them in [config_file](/proton-kafka#config_file) setting.
