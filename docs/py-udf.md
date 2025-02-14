@@ -17,16 +17,18 @@ Python excels in writing complex parsing and data transformation logic, especial
 This is the mapping for [Timeplus data type](/datatypes) and Python data type:
 | Timeplus Data Type                      | Python Type   |
 | ----------------------------- | ---------- |
+|bool|bool|
 | uint8, uint16, uint32, uint64               | int    |
 |int8, int16, int32, int64|int|
 |date, date32,datetime|int|
 |float32, float64|float|
-|ipv4|int|
+|date, date32|datetime.date|
+|datetime, datetime64|datetime.datetime|
 |string, fixed_string|str|
 |array|list|
 |tuple|tuple|
-|datetime64| N/A|
-|map| N/A|
+|map| list(tuple)|
+|ipv4|int|
 |uint128,uint256,int128,int256| N/A|
 |decimal| N/A|
 |ipv6| N/A|
