@@ -28,23 +28,23 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 2.6.1 {#2_6_1}
-Released on 02-11-2025. Installation options:
+### 2.6.2 {#2_6_2}
+Released on 02-14-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.6 | sh` [Downloads](/release-downloads#2_6_1)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v5.0.6 ..`
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.1`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.2`
 
 Component versions:
-* timeplusd 2.5.11
+* timeplusd 2.5.12
 * timeplus_web 2.1.7
 * timeplus_appserver 2.1.6
 * timeplus_connector 2.1.1
 * timeplus cli 1.2.11
 
-#### Changelog {#changelog_2_6_1}
+#### Changelog {#changelog_2_6_2}
 
 Compared to the [2.6.0](#2_6_0) release:
-* timeplusd 2.5.10 -> 2.5.11
+* timeplusd 2.5.10 -> 2.5.12
   * fix potential corruption for a stream when it's altered multiple times
   * better data recovery for file corruption due to power loss
   * set mutable streams' default logstore retention policy from keeping forever to automatic
@@ -54,7 +54,7 @@ Upgrade Instructions:
 
 Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
-#### Known issues {#known_issue_2_6_1}
+#### Known issues {#known_issue_2_6_2}
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.

@@ -4,8 +4,8 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 
 ## Feb 17, 2025
 
-### Timeplus Enterprise v2.6.1
-We released a patch release for Timeplus Enterprise [v2.6](/enterprise-v2.6#2_6_1). The key changes are:
+### Timeplus Enterprise v2.6.2
+We released a patch release for Timeplus Enterprise [v2.6](/enterprise-v2.6#2_6_2). The key changes are:
   * fix potential corruption for a stream when it's altered multiple times
   * better data recovery for file corruption due to power loss
   * set mutable streams' default logstore retention policy from keeping forever to automatic
