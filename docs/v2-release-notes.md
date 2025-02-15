@@ -9,8 +9,13 @@ We released a patch release for Timeplus Enterprise [v2.6](/enterprise-v2.6#2_6_
   * fix potential corruption for a stream when it's altered multiple times
   * better data recovery for file corruption due to power loss
   * set mutable streams' default logstore retention policy from keeping forever to automatic
+  * fix issue where failed Materialized View creation attempts could block subsequent DDL operations under specific conditions in cluster
 
 If you are running Timeplus Enterprise v2.6, we recommend upgrading to this version.
+
+### Timeplus Proton v1.6.10
+* enhanced the replay capability for streams and Kafka external streams. You can now replay data from a specific timestamp and end timestamp. [Learn more](/query-settings#replay_start_time).
+* added a new function [group_concat](/functions_for_agg#group_concat) to aggregate multiple values into a single string.
 
 ### Timeplus Native JDBC v2.0.8
 Support named tuples, such as `tuple(a int8, b string)`. This is useful when you want to return multiple columns in a function, such as `dict_get`.

@@ -61,12 +61,14 @@ AUTH_KEY
 auth_params
 auth_type
 auto-rebalancing
+Auto-Rebalancing
 AutoMQ
 AVRO
 Avro
 Avro-encoded
 Avro-Encoded
 avro_types
+aws-billing
 backend
 Backend
 backfill
@@ -150,6 +152,7 @@ compatitable
 concat
 conf
 config
+Config
 Config-less
 config_native
 connect-aiven
@@ -209,6 +212,7 @@ defaultValue
 denormalization
 denormalized
 deployable
+deploymentSlackWebhook
 deploymentSlackWebhookHundreds
 deploymentWebSocket
 deserialize
@@ -286,6 +290,7 @@ GetStarted
 getstarted
 getTables
 ghcr
+Gi
 gib
 GiB
 GitHub
@@ -301,6 +306,8 @@ Gradle
 gradle
 gradle_native
 Grafana
+Grafana's
+group_concat
 group_uniq_array
 Guo
 gzip
@@ -501,6 +508,7 @@ ngrok
 NKey
 nodeClusterKubernetes-based
 nodejs
+non-idempotently
 now64
 nullable
 nullable
@@ -698,6 +706,7 @@ Streamlit
 StreamNative
 StreamNATSCSV
 strictnesses
+Sts
 sub-commmands
 subcommand
 subdirectories
@@ -749,6 +758,7 @@ TimeplusContainer
 timeplusd
 Timeplusd
 timeplusd-client
+timeplusd_address:9363
 TimeplusDatabaseMetadata
 TimeplusSinkConnector
 timeplusWeb
@@ -770,6 +780,7 @@ top10cars
 TopN
 tp_append_time
 tp_delta
+tp_detla=-1
 tp_message_key
 tp_process_time
 tp_shard
@@ -826,6 +837,7 @@ UUID
 v1
 v1.4
 v1.5
+v15.x
 v1beta1
 v1beta2
 v2
