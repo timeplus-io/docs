@@ -108,8 +108,8 @@ terraform {
 }
 
 provider "timeplus" {
-  # for self-hosting Timeplus Enterprise, you can use local or default as workspace. For cloud users, the workspace ID can be found in the URL https://us-west-2.timeplus.cloud/<my-workspace-id>
-  workspace = "my-workspace-id"
+  # for self-hosting Timeplus Enterprise, you can use local or default as workspace.
+  workspace = "default"
 
   # for self-hosting Timeplus Enterprise, the endpoint is the URL of the Timeplus Enterprise web console
   endpoint = "http://localhost:8000"

@@ -70,35 +70,3 @@ Timeplus supports various systems as the downstreams:
 * [Send data to Webhook endpoints](/destination#webhook)
 * [Notify others via Slack](/destination#slack)
 * [Send data to other systems via Redpanda Connect](/destination#rpconnect)
-
-
-## Quickstart for Timeplus Cloud
-
-The following section contains step-by-step instructions on how to easily get started with Timeplus Enterprise in the cloud.
-
-### Step 1: Sign up for a Timeplus account {#cloud_step1}
-
-Let's start by creating an account for [Timeplus Cloud](https://us-west-2.timeplus.cloud/). Currently, Google or Microsoft Single Sign-On (SSO) are supported. Please choose a work email or Google/Microsoft account to sign up. It usually takes less than 2 minutes to get the account set up and have the first [workspace](/glossary#workspace) created.
-
-![Sign up for an account](/img/sign-up-page.png)
-
-### Step 2: Set up your account and workspace {#cloud_step2}
-
-Tell us a bit about yourself by completing a quick account setup:
-
-![Onboarding Survey](/img/onboarding-survey.png)
-
-The final step of the setup is for naming your new workspace, the isolated storage and computing unit for you to run streaming data collection and analysis. Give it a name:
-
-![Choose a workspace name](/img/workspace-name-setup.png)
-
-### Step 3: Load data and run stream processing {#cloud_step3}
-
-Please refer to [Step 3](#step3) of the previous section.
-
-## What's next?
-
-- [Ingest](/ingestion) additional data streams
-- Write [streaming queries](/query-syntax)
-- Create additional charts from streaming data with [visualizations](/viz) and dashboards
-- Send the results of your queries to a [downstream](/destination)

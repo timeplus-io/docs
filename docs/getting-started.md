@@ -1,6 +1,6 @@
 # Getting started
 
-This tutorial guides you how to load data into Timeplus and run analytics queries over the data. To perform this tutorial, you need an active Timeplus account. If you don't have a Timeplus account, go to https://us-west-2.timeplus.cloud/ and sign up for free.
+This tutorial guides you how to load data into Timeplus and run analytics queries over the data. To perform this tutorial, you need an active Timeplus account.
 
 ## Add Data
 

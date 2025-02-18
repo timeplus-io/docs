@@ -116,13 +116,13 @@ If you add new rows in PostgreSQL now, they are shown immediately in the console
 
 ## Setup Timeplus
 
-Now, modify the output from `stdout` to `timeplus` . You can install Timeplus Enterprise locally, or create a cloud workspace via https://us-west-2.timeplus.cloud. Follow [the guide](https://docs.timeplus.com/apikey) to create an API key. Save it as an environment variable then update the pipeline accordingly:
+Now, modify the output from `stdout` to `timeplus` . You can install Timeplus Enterprise locally. Follow [the guide](https://docs.timeplus.com/apikey) to create an API key. Save it as an environment variable then update the pipeline accordingly:
 
 ```yaml
 output:
   label: main
   timeplus:
-    url: https://us-west-2.timeplus.cloud
+    url: https://host
     workspace: the_workspace_id
     stream: pg_cdc_orders_appendonly
     apikey: "${TP_API_KEY}"

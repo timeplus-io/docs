@@ -31,8 +31,6 @@ Please check [Server Ports](/proton-ports) to determine which ports to expose, s
 
 The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
 
-You can also try Proton in the fully-managed [Timeplus Cloud](https://us-west-2.timeplus.cloud/).
-
 Running the single node Proton via Kubernetes is possible. We recommend you [contact us](mailto:support@timeplus.com) to deploy Timeplus Enterprise for on-prem deployment.
 
 ## How to read/write Kafka or Redpanda {#kafka}

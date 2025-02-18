@@ -29,7 +29,7 @@ name: TimeplusSink
 connector.class: com.timeplus.kafkaconnect.TimeplusSinkConnector
 tasks.max: 1
 topics: my_topic
-timeplus.sink.address: https://us-west-2.timeplus.cloud
+timeplus.sink.address: https://host
 timeplus.sink.workspace: abc123
 timeplus.sink.apikey: 60_char_API_Key
 timeplus.sink.stream: data_from_kafka
@@ -75,7 +75,7 @@ value.converter: org.apache.kafka.connect.storage.StringConverter
           "key.converter": "org.apache.kafka.connect.storage.StringConverter",
           "value.converter": "org.apache.kafka.connect.storage.StringConverter",
           "topics": "my_topic",
-          "timeplus.sink.address": "https://us-west-2.timeplus.cloud",
+          "timeplus.sink.address": "https://host",
           "timeplus.sink.workspace": "abc123",
           "timeplus.sink.apikey": "60_char_API_Key",
           "timeplus.sink.createStream": "false",

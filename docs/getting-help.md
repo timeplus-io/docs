@@ -12,10 +12,6 @@ For Timeplus Enterprise in the cloud, you can also use the "Talk to Us" button o
 ### Diagnostic Bundle {#diag}
 For self-hosted Timeplus Enterprise deployments, run `timeplus diag` from the `timeplus/bin` folder to collect diagnostic information when Timeplus Enterprise is running. A diagnostic file will be generated under the `timeplus/logs` directory. When creating a support ticket, you may package the logs directory as a zip and attach it in the support ticket.
 
-### Timeplus Cloud Status Page
-
-To monitor the service health status of [Timeplus Cloud](https://us-west-2.timeplus.cloud) and get updates for outage or maintenance, you can subscribe to the updates on https://timeplus.statuspage.io.
-
 ## Community Support
 
 ### GitHub Discussions and Issues

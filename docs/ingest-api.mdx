@@ -42,8 +42,7 @@ If you would like to leverage a 3rd party system/tool to push data to Timeplus b
 The endpoint for real-time data ingestion is `https://host/{workspace-id}/api/v1beta2/streams/{name}/ingest`. Please note:
 
 1. If you self-host Timeplus Enterprise, depending on whether you enable HTTPS, choose `http` or `https` accordingly. The workspace ID is `default`.
-2. For Timeplus Cloud, make sure you are using the `workspace-id`, instead of `workspace-name`. The workspace id is a random string with 8 characters. You can get it from the browser address bar: `https://us-west-2.timeplus.cloud/<workspace-id>/console`. The workspace name is a friendly name you set while you create your workspace. Currently this name is read only but we will make it editable in the future.
-3. You need to send `POST` request to this endpoint.
+2. You need to send `POST` request to this endpoint.
 
 ### Options
 

@@ -17,6 +17,9 @@ If you are running Timeplus Enterprise v2.6, we recommend upgrading to this vers
 * enhanced the replay capability for streams and Kafka external streams. You can now replay data from a specific timestamp and end timestamp. [Learn more](/query-settings#replay_start_time).
 * added a new function [group_concat](/functions_for_agg#group_concat) to aggregate multiple values into a single string.
 
+### Timeplus Cloud
+We're sunsetting Timeplus Cloud. Please migrate to self-hosted Timeplus Enterprise or Timeplus Proton. No new cloud workspace creation is allowed. You can still access the live demo at https://demo.timeplus.cloud.
+
 ### Timeplus Native JDBC v2.0.8
 Support named tuples, such as `tuple(a int8, b string)`. This is useful when you want to return multiple columns in a function, such as `dict_get`.
 
@@ -135,7 +138,7 @@ Merry Christmas 🎄
 ## Oct 14, 2024
 
 ### Timeplus Web Console v2.0.3
-We upgraded the `timeplus_web` component in https://demo.timeplus.cloud. This will be rolled out to https://us-west-2.timeplus.cloud soon. Compared to the previous version (v2.0.1), the key enhancements are:
+We upgraded the `timeplus_web` component in https://demo.timeplus.cloud. Compared to the previous version (v2.0.1), the key enhancements are:
 * Redesigned the "Data Collection" and "Sink" page to support hundreds of input/output connectors, powered by [Redpanda Connect](https://www.redpanda.com/connect). Timeplus Enterprise provides intuitive configuration wizards for NATS, WebSocket and HTTP Stream. For other data sources or destinations, you can also configure via a YAML file. Stay tuned for more product announcements and showcases.
 * Reordered the items on resource side panel.
 * Improved the error handling on SQL Console page and upload CSV page.
@@ -153,10 +156,8 @@ The new version of Testcontainers for Java supports the Timeplus module. You can
 
 ## Sep 30, 2024
 
-Timeplus Cloud has a new home. Our previous domain, https://us.timeplus.cloud, has been redirected to https://us-west-2.timeplus.cloud. All workspaces have been migrated and no further action is needed. If you create a workspace via https://demo.timeplus.cloud, you will also be redirected to https://us-west-2.timeplus.cloud. The latest Timeplus Enterprise features are available in the new site. If you prefer using a different cloud region, please let us know.
-
 ### Timeplus Web Console v2.0.1
-We upgraded the `timeplus_web` component in https://us-west-2.timeplus.cloud. Compared to v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancements are:
+Compared to v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancements are:
 * You can now set a timezone in dashboards to display the datetime or timestamp in your preferred timezone.
 * See additional metrics in the details side panel for streams, materialized views, external streams, or other resources: events per second, status, throughput, and more.
 * Refinements to error and warning messages, including avoid showing two messages for the same resource.
@@ -173,8 +174,6 @@ A maintenance release to include latest dependencies. No new features or bug fix
 
 ## Sep 16, 2024
 
-The new cloud service available at https://us-west-2.timeplus.cloud. The previous cloud (https://us.timeplus.cloud) will be sunset. The new cloud service ships the latest Timeplus features, such as [mutable streams](/mutable-stream).
-
 ### Timeplus Proton v1.5.17 and v1.5.18
  * New feature: drop large streams via `SETTINGS force_drop_big_stream=true`. [Learn more](/sql-drop-stream#force_drop_big_stream)
  * New feature: support `EXPLAIN SELECT ..` as a sub-query
@@ -183,7 +182,7 @@ The new cloud service available at https://us-west-2.timeplus.cloud. The previou
  * New feature: allow to set timeout for [Remote UDF](/sql-create-remote-function)
 
 ### Timeplus Destination Connector for Airbyte v0.1.20
-Support us-west-2.timeplus.cloud as the default endpoint. Dependencies are updated. This is available for both Airbyte Cloud and Airbyte OSS.
+Support timeplus.cloud as the default endpoint. Dependencies are updated. This is available for both Airbyte Cloud and Airbyte OSS.
 
 ### Timeplus Native JDBC v2.0.5
 Support JDK 8, per customer feedback.

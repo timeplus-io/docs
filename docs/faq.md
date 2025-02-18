@@ -14,11 +14,6 @@ Yes, the workspace owner can invite team members to access the workspace. Go to 
 
 Timeplus Cloud went GA on August 2023, ready for production workload. There is no SLA for free trial. For the paid tier, it's 99.5% or above. Please check https://timeplus.com/pricing for more details and FAQ. To monitor Timeplus Cloud health status, please visit or subscribe to https://timeplus.statuspage.io.
 
-### What is the IP address for Timeplus Cloud so that I can allow Timeplus to access my Kafka/Redpanda/Pulsar servers {#ip}
-
-If you maintain an IP whitelist, you'll need to whitelist our static IP:
-
-`44.232.236.191` for us-west-2.timeplus.cloud
 
 ## Self-hosted Timeplus Enterprise {#self_host}
 

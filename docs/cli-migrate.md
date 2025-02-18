@@ -69,26 +69,6 @@ max_insert_threads: 5
 drop_migration_external_stream: true
 ```
 
-If you want to migrate from or migrate to Timeplus Cloud, you can setup the source or target connection as following:
-```yaml
-source:
-  app_server_address: "https://us-west-2.timeplus.cloud"
-  workspace: id1
-  api_key: apikey1
-  timeplusd_address: "source-timeplus:8463"
-  username: "db_user"
-  password: "db_password"
-
-target:
-  app_server_address: "https://us-west-2.timeplus.cloud"
-  workspace: id2
-  api_key: apikey2
-  timeplusd_address: "target-timeplus:8463"
-  username: "db_user"
-  password: "db_password"
-```
-You need to contact us so that we can setup the network and database credential while migrating workspaces in Timeplus Cloud.
-
 Settings in the configuration file:
 
 - `source`. The connection to the source Timeplus.

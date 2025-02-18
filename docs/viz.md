@@ -66,8 +66,6 @@ Similar to the Column chart, with data points shown as horizontal bars instead o
 
 ### Map chart
 
-Currently available on https://us-west-2.timeplus.cloud as a preview feature.
-
 * Data settings:
   * Set columns for longitude and latitude.
   * Color: show grouped data in stack mode or dodge mode.
