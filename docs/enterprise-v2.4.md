@@ -204,7 +204,7 @@ Components:
   * feat: [parallel key space scan](/mutable-stream#key_space_full_scan_threads)
   * feat: force_full_scan for mutable stream
   * feat: user management on cluster
-  * fix: [ALTER STREAM .. MODIFY SETTINGS ..](/sql-alter-stream#stream_ttl)
+  * fix: [ALTER STREAM .. MODIFY SETTINGS ..](/sql-alter-stream#ttl)
   * feat: support remote UDF on cluster
   * feat: primary key columns in secondary key
   * feat: support [ALTER STREAM .. ADD COLUMN ..](sql-alter-stream#add-column)

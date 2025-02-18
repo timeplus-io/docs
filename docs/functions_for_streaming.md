@@ -106,7 +106,7 @@ Otherwise, if you run queries with `dedup(table(my_stream),id)` the earliest eve
 
 ### lags
 
-`lags(<column_name>, begin_offset, end_offset [, <default_value>])` similar to `lag` function but can get a list of values. e.g. `lags(total,1,3)` will return an array for the last 1, last 2 and last 3 values.
+`lags(<column_name>, begin_offset, end_offset [, <default_value>])` similar to `lag` function but can get a list of values. e.g. `lags(total,1,3)` will return an array for the last 1, last 2 and last 3 values. Starting from [Timeplus Enterprise v2.7](/enterprise-v2.7), you can set `begin_offset` as 0 to get the value in the current row.
 
 ✅ streaming query
 
