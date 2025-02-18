@@ -36,6 +36,12 @@ Released on 11-15-2024 ([Change logs](/enterprise-v2.5#2_5_9)).
 * Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.5.9-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.5.9-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.5.9-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.5.9-darwin-arm64.tar.gz)
 * All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.9`
 
+## v2.4.26 {#2_4_26}
+Released on 02-18-2025 ([Change logs](/enterprise-v2.4#2_4_26)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.4.26-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.4.26-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.4.26-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.4.26-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.26`
+
 ## v2.4.25 {#2_4_25}
 Released on 01-31-2025 ([Change logs](/enterprise-v2.4#2_4_25)).
 

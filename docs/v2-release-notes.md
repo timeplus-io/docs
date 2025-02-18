@@ -13,6 +13,14 @@ We released a patch release for Timeplus Enterprise [v2.6](/enterprise-v2.6#2_6_
 
 If you are running Timeplus Enterprise v2.6, we recommend upgrading to this version.
 
+### Timeplus Enterprise v2.4.26
+We released a patch release for Timeplus Enterprise [v2.4](/enterprise-v2.4#2_4_26). The key changes are:
+  * gracefully handle unsupported metadata commands
+  * improve garbage collection for NativeLog on clusters
+  * fix a bug during versioned schema fetch for inner storage of materialized views
+
+If you are running Timeplus Enterprise v2.4, we recommend upgrading to this version.
+
 ### Timeplus Proton v1.6.10
 * enhanced the replay capability for streams and Kafka external streams. You can now replay data from a specific timestamp and end timestamp. [Learn more](/query-settings#replay_start_time).
 * added a new function [group_concat](/functions_for_agg#group_concat) to aggregate multiple values into a single string.
