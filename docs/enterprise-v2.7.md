@@ -12,7 +12,7 @@ Each component maintains its own version numbers. The version number for each Ti
 ## Key Highlights
 Key highlights of this release:
 * **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.
-* **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external-stream), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
+* **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
 * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
 * **Mutable stream delete:** You can now delete data from mutable streams with the [DELETE](/sql-delete) SQL command.
 * **PostgreSQL and MySQL CDC via Redpanda Connect:** Timeplus Enterprise now supports CDC (Change Data Capture) for PostgreSQL and MySQL databases via Redpanda Connect. This feature enables real-time data ingestion from these databases into Timeplus.
@@ -56,7 +56,7 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
     * **Integration with HashiCorp Vault:** You can now use HashiCorp Vault to store sensitive data, such as password for Kafka external stream, and reference them in [config_file](/proton-kafka#config_file) setting.
     * Specify the non-root user in the Docker image to improve security.
   * New Features:
-    * **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external-stream), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
+    * **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
     * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
     * Replay historical data in local streams or Kafka external streams with the [replay_speed](/query-settings#replay_speed) setting.
 * timeplus_web 2.1.7 -> 2.2.7
