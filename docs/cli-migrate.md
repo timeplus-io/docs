@@ -1,7 +1,7 @@
 # timeplus migrate
 
 Migrate data and resources between Timeplus deployments, including:
-* Migrate the data and configuration from a single-node Timeplus Proton to self-hosted or cloud version of Timeplus Enterprise.
+* Migrate the data and configuration from a single-node Timeplus Proton to self-hosted Timeplus Enterprise.
 * Migrate the data and configuration among Timeplus Enterprise deployments, even there are breaking changes in the data format. This tool can also be used to apply changes to production deployments after verifying changes in the staging deployments.
 
 This tool is available in Timeplus Enterprise 2.5. It supports [Timeplus Enterprise 2.4.19](/enterprise-v2.4#2_4_19) or above, and Timeplus Proton 1.5.18 or above. Contact us if you need to migrate from an older version.

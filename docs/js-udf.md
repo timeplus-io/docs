@@ -190,7 +190,7 @@ The full source code for this JS UDAF is
 };
 ```
 
-To register this function, steps are different in Timeplus Cloud and Proton:
+To register this function, steps are different in Timeplus Enterprise and Proton:
 
 * With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too. Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
 * With SQL in Proton Client: check the example at [here](/js-udf#udaf).

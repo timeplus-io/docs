@@ -5,7 +5,7 @@ import TabItem from '@theme/TabItem';
 
 As a generic solution, you can call the ingestion REST API to push data to Timeplus, with any preferred languages. In many cases, you can configure other systems or tools to push data directly to Timeplus via the ingest REST as the webhook endpoint, without writing code.
 
-This feature is available in both Timeplus Enterprise self-hosting and cloud. It leverages the [low-level ingest REST API](/proton-ingest-api) in timeplusd or Timeplus Proton.
+This feature is available in Timeplus Enterprise. It leverages the [low-level ingest REST API](/proton-ingest-api) in timeplusd or Timeplus Proton.
 
 ```mermaid
 flowchart LR
@@ -30,10 +30,6 @@ First you need to create a stream in Timeplus, either using the web UI or via RE
 For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorization header to be `Basic [Base64 encoded user:password]`. For example, if the user name is `hello` and the password is `world`. The base64-encoded content for `hello:world` is `aGVsbG86d29scmQ=`. Then you need to set the HTTP header as `Authorization: Basic aGVsbG86d29scmQ=`.
 
 A new user will be created when you login Timeplus Enterprise for the first time. You can also add new users via web console or [CLI](/cli-user#create).
-
-For Timeplus Cloud users, you can create an API for the workspace via the "Personal Settings" at the top-right corner, and set the HTTP header as `X-Api-Key: the_api_key`.
-
-If you would like to leverage a 3rd party system/tool to push data to Timeplus but it doesn't allow custom HTTP Header, then you can use the standard `Authorization` Header, with value `ApiKey the_api_key`, i.e. `Authorization: ApiKey the_api_key`.
 
 ## Push data to Timeplus
 

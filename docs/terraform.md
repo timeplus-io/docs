@@ -10,7 +10,7 @@ The [Timeplus Terraform Provider](https://registry.terraform.io/providers/timepl
 With this Provider, Timeplus customers at any scale can safely accelerate data streaming initiatives in the cloud (public, private, or hybrid) with infrastructure management that is fully automated through code and integrated within continuous delivery workflows.
 
 :::info
-Starting from v0.1.6, the Terraform Provider works for both Timeplus Enterprise self-hosting and Timeplus Cloud.
+Starting from v0.1.6, the Terraform Provider works for Timeplus Enterprise self-hosting.
 :::
 
 
@@ -85,13 +85,12 @@ Now that you’ve learned a bit about the Timeplus Terraform provider, let’s g
 
 You’ll need these prerequisites to follow along:
 
-1. A Timeplus Enterprise self-hosting deployment or a Timeplus Cloud account.
+1. A Timeplus Enterprise self-hosting deployment.
 2. Terraform (1.0+) [installed](https://learn.hashicorp.com/tutorials/terraform/install-cli).
 3. Golang (1.20.0+) [installed](https://golang.org/doc/install).
 
-### Create an API Key
-
-For Timeplus Cloud users, please create an API Key per [the guide](/apikey). For self-hosting deployments, create a user with password and required permissions.
+### Create an account
+For self-hosting deployments, create a user with password and required permissions.
 
 ### Set up Terraform configuration
 
@@ -115,8 +114,6 @@ provider "timeplus" {
   endpoint = "http://localhost:8000"
   username  = "aUser"
   password  = "thePassword"
-  # for Timeplus Cloud, create the API key
-  api_key   = "my-api-key"
 }
 ```
 

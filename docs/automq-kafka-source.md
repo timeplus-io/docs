@@ -13,7 +13,7 @@ curl https://download.automq.com/community_edition/standalone_deployment/install
 curl https://install.timeplus.com | sh
 ```
 
-For SaaS deployments, please ensure that Timeplus can directly connect to your AutoMQ server. You can use tools like [ngrok](https://ngrok.com/) to securely expose your local AutoMQ Kafka proxy on the internet, allowing Timeplus Cloud to connect to it. For more details, see the [blog](https://www.timeplus.com/post/timeplus-cloud-with-ngrok).
+For SaaS deployments, please ensure that Timeplus can directly connect to your AutoMQ server. You can use tools like [ngrok](https://ngrok.com/) to securely expose your local AutoMQ Kafka proxy on the internet, allowing Timeplus to connect to it. For more details, see the [blog](https://www.timeplus.com/post/timeplus-cloud-with-ngrok).
 
 Access the web console of Timeplus Enterprise and go the "Data Collection" page. Click on the AutoMQ tile.
 

@@ -174,7 +174,7 @@ You can also build the remote UDF with your own microservices or long-running ap
 
 User-defined functions open the door for new possibilities to process and analyze the data with full programming capabilities within Timeplus. There are some additional factors to consider when building and using User-Defined Functions:
 
-1. For Timeplus Cloud customers, it’s highly recommended to enable Authentication for the UDF. For example, when you register the function, you can set the key as ‘passcode’ and the value as a random word. Timeplus will set this in the HTTP header while making requests to the remote UDF endpoints. In your endpoint code, be sure to check whether the key/value pairs in the HTTP header matches the setting in Timeplus. If not, return an error code to deny the UDF request.
+1. For Timeplus Enterprise customers, it’s highly recommended to enable Authentication for the UDF. For example, when you register the function, you can set the key as ‘passcode’ and the value as a random word. Timeplus will set this in the HTTP header while making requests to the remote UDF endpoints. In your endpoint code, be sure to check whether the key/value pairs in the HTTP header matches the setting in Timeplus. If not, return an error code to deny the UDF request.
 2. Calling a single UDF may only take 100ms or less, however, if you call a UDF for millions of rows, this could slow down the entire query. It’s recommended to aggregate the data first, then call the UDF with a lesser number of requests. E.g. `SELECT ip_lookup(ip):city as city, sum(cnt) FROM (SELECT ip, count(*) as cnt FROM access_log GROUP BY ip) GROUP BY city`
    instead of
    `SELECT ip_lookup(ip):city, count(*) as cnt FROM access_log GROUP BY city`

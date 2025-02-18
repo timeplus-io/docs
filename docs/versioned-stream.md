@@ -20,7 +20,7 @@ In this example, you create a stream `dim_products` in `versioned_kv` mode with 
 | product_id  | string              | unique id for the product, as the primary key                |
 | price       | float32             | current price                                                |
 
-This stream can be created using UI wizard on Timeplus Cloud or Timeplus Enterprise. You can also create it with SQL in Timeplus Proton:
+This stream can be created using UI wizard on Timeplus Enterprise. You can also create it with SQL in Timeplus Proton:
 
 ```sql
 CREATE STREAM dim_products(product_id string, price float32)

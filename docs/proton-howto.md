@@ -48,7 +48,7 @@ username='..',password='..',sasl_mechanism='..'
 
 ## How to load data from PostgreSQL/MySQL/ClickHouse {#cdc}
 
-For PostgreSQL, MySQL or other OLTP databases, you can apply the CDC (Change Data Capture) technology to load realtime changes to Proton via Debezium and Kafka/Redpanda. Example configuration at the [cdc folder of proton repo](https://github.com/timeplus-io/proton/tree/develop/examples/cdc). [This blog](https://www.timeplus.com/post/cdc-in-action-with-debezium-and-timeplus) shows the Timeplus Cloud UI but could be applied to Proton too.
+For PostgreSQL, MySQL or other OLTP databases, you can apply the CDC (Change Data Capture) technology to load realtime changes to Proton via Debezium and Kafka/Redpanda. Example configuration at the [cdc folder of proton repo](https://github.com/timeplus-io/proton/tree/develop/examples/cdc). [This blog](https://www.timeplus.com/post/cdc-in-action-with-debezium-and-timeplus) shows the Timeplus Enterprise UI but could be applied to Proton too.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j6FpXg5cfsA?si=Mo5UrviidxqkkXSb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

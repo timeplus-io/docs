@@ -4,7 +4,7 @@ Kafka Connect is a framework for connecting Kafka with external systems such as 
 
 Kafka Connectors are ready-to-use components, which can help data teams to import data from external systems into Kafka topics and export data from Kafka topics into external systems.
 
-A Kafka Connect plugin for Timeplus is provided to continuously send data from Kafka topics to Timeplus Cloud or self-managed Timeplus deployment, no matter if you run Kafka in the cloud or on-prem.
+A Kafka Connect plugin for Timeplus is provided to continuously send data from Kafka topics to self-managed Timeplus deployment, no matter if you run Kafka in the cloud or on-prem.
 
 Depending on how you run Kafka (with open-source Kafka, Confluent Platform, Confluent Cloud, or Redpanda), you can check the corresponding documentation to set up the Kafka Connect.
 

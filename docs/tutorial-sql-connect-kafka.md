@@ -65,7 +65,7 @@ chown timeplus:timeplus kafka.cert
 chmod 400 kafka.cert
 ```
 
-Alternatively, you can put the full content of the CA pem file in the DDL SQL. This could help you to setup secure connections with Kafka brokers which use a certificate that is signed by a CA certificate that Proton does not know. You may want to put the CA content inline, when you cannot set a local file path or don't want to mount or modify files, such as using Docker or Kubernetes, or in Timeplus Cloud.
+Alternatively, you can put the full content of the CA pem file in the DDL SQL. This could help you to setup secure connections with Kafka brokers which use a certificate that is signed by a CA certificate that Proton does not know. You may want to put the CA content inline, when you cannot set a local file path or don't want to mount or modify files, such as using Docker or Kubernetes, or in Timeplus Enterprise.
 
 ```sql
 CREATE EXTERNAL STREAM ext_stream(raw string)

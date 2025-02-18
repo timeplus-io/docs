@@ -4,7 +4,7 @@ This page lists key terms and concepts in Timeplus. Please check the sub-pages f
 
 ## bookmark {#bookmark}
 
-Query bookmarks, only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
+Query bookmarks, only available in Timeplus Enterprise, not in Timeplus Proton.
 
 You can save the common SQL statements as bookmarks. They can be run quickly in the web console by a single click. You can create, list, edit, remove bookmarks in the query page.
 
@@ -20,7 +20,7 @@ CTEs can be thought of as alternatives to derived tables ([subquery](https://en.
 
 ## dashboard {#dashboard}
 
-Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
+Only available in Timeplus Enterprise, not in Timeplus Proton.
 
 You can create multiple dashboards in a workspace, and add multiple charts to a dashboard. You can also add [filters](/viz#filter) or Markdown (experimental).
 
@@ -32,7 +32,7 @@ Learn more: [Event time](/eventtime)
 
 ## generator {#generator}
 
-Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
+Only available in Timeplus Enterprise, not in Timeplus Proton.
 
 Learn more [Streaming Generator](/stream-generator)
 
@@ -48,7 +48,7 @@ Learn more: [Streaming Query](/stream-query) and [Non-Streaming Query](/history)
 
 ## sink {#sink}
 
-a.k.a. destination. Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
+a.k.a. destination. Only available in Timeplus Enterprise, not in Timeplus Proton.
 
 Timeplus enables you to send real-time insights to other systems, either to notify individuals or power up downstream applications.
 
@@ -56,7 +56,7 @@ Learn more: [Destination](/destination).
 
 ## source {#source}
 
-A source is a background job in Timeplus Cloud or Timeplus Enterprise to load data into a [stream](#stream). For Kafka API compatible streaming data platform, you need to create external streams.
+A source is a background job in Timeplus Enterprise to load data into a [stream](#stream). For Kafka API compatible streaming data platform, you need to create external streams.
 
 Learn more: [Data Collection](/ingestion)
 
@@ -84,7 +84,7 @@ Learn more: [View](/view) and [Materialized View](/view#m_view)
 
 ## workspace {#workspace}
 
-Only available in Timeplus Cloud and Timeplus Enterprise, not in Timeplus Proton.
+Only available in Timeplus Enterprise, not in Timeplus Proton.
 
 A workspace is the isolated storage and computing unit for you to run streaming data collection and analysis. Every user can create up to 1 free workspace and join many workspaces. Usually a group of users in the same organization join the same workspace, to build one or more streaming analytics solutions.
 

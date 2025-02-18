@@ -60,7 +60,7 @@ The supported values for `security_protocol` are:
 
 - PLAINTEXT: when this option is omitted, this is the default value.
 - SASL_SSL: when this value is set, username and password should be specified.
-  - If you need to specify own SSL certification file, add another setting `ssl_ca_cert_file='/ssl/ca.pem'` New in Proton 1.5.5, you can also put the full content of the pem file as a string in the `ssl_ca_pem` setting if you don't want to, or cannot use a file path, such as on Timeplus Cloud or in Docker/Kubernetes environments.
+  - If you need to specify own SSL certification file, add another setting `ssl_ca_cert_file='/ssl/ca.pem'` New in Proton 1.5.5, you can also put the full content of the pem file as a string in the `ssl_ca_pem` setting if you don't want to, or cannot use a file path, such as on Timeplus Enterprise or in Docker/Kubernetes environments.
   - Skipping the SSL certification verification can be done via `SETTINGS skip_ssl_cert_check=true`.
 
 #### sasl_mechanism

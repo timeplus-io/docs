@@ -15,7 +15,7 @@ Apache Kafka is the primary data source (and sink) for Timeplus. You can also cr
 
 ## Custom Kafka Deployment
 
-Similar steps as above. Please make sure Timeplus can reach out to your Kafka broker(s). You can use tools like [ngrok](https://ngrok.com) to securely expose your local Kafka broker(s) to the internet, so that Timeplus Cloud can connect to it. Check out [this blog](https://www.timeplus.com/post/timeplus-cloud-with-ngrok) for more details.
+Similar steps as above. Please make sure Timeplus can reach out to your Kafka broker(s). You can use tools like [ngrok](https://ngrok.com) to securely expose your local Kafka broker(s) to the internet, so that Timeplus can connect to it. Check out [this blog](https://www.timeplus.com/post/timeplus-cloud-with-ngrok) for more details.
 
 ## Notes for Kafka source
 

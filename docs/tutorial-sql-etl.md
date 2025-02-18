@@ -2,7 +2,7 @@
 
 You can quickly build streaming ETL pipelines with Timeplus. For example, the original web access logs in Kafka topics contain the raw IP address. To further protect user privacy, you can build a data pipeline to read new data from Kafka, masking the IP address and send to a different Kafka topic.
 
-Follow the guide for [Timeplus Proton](#timeplus-proton) or [Timeplus Cloud](#timeplus-cloud).
+Follow the guide for [Timeplus Proton](#timeplus-proton) or [Timeplus Enterprise](#timeplus-enterprise).
 
 ## Timeplus Proton
 
@@ -17,26 +17,26 @@ CREATE EXTERNAL STREAM frontend_events(raw string)
 
 -- create the other external stream to write data to the other topic
 CREATE EXTERNAL STREAM target(
-    _tp_time datetime64(3), 
-    url string, 
-    method string, 
-    ip string) 
-    SETTINGS type='kafka', 
-             brokers='redpanda:9092', 
-             topic='masked-fe-event', 
+    _tp_time datetime64(3),
+    url string,
+    method string,
+    ip string)
+    SETTINGS type='kafka',
+             brokers='redpanda:9092',
+             topic='masked-fe-event',
              data_format='JSONEachRow',
              one_message_per_row=true;
 
 -- setup the ETL pipeline via a materialized view
-CREATE MATERIALIZED VIEW mv INTO target AS 
-    SELECT now64() AS _tp_time, 
-           raw:requestedUrl AS url, 
-           raw:method AS method, 
-           lower(hex(md5(raw:ipAddress))) AS ip 
+CREATE MATERIALIZED VIEW mv INTO target AS
+    SELECT now64() AS _tp_time,
+           raw:requestedUrl AS url,
+           raw:method AS method,
+           lower(hex(md5(raw:ipAddress))) AS ip
     FROM frontend_events;
 ```
 
-## Timeplus Cloud
+## Timeplus Enterprise
 
 [A blog](https://www.timeplus.com/post/redpanda-serverless) is published with the detailed steps to read data from Kafka/Redpanda, apply the transformation and send to Kafka/Redpanda.
 
@@ -64,7 +64,7 @@ A few key steps:
 
 6. Write a streaming SQL to transform data.
 ```sql
-SELECT response:statusCode as code,hex(md5(ipAddress)) as hashed_ip,method,requestedUrl 
+SELECT response:statusCode as code,hex(md5(ipAddress)) as hashed_ip,method,requestedUrl
 FROM frontend_events WHERE response:statusCode!='200'
 ```
 

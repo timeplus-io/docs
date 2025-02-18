@@ -1,6 +1,6 @@
 # Query Kafka with SQL (GitHub live data)
 
-In this tutorial, you will process real-time data from GitHub. We have setup a public accessible Kafka cluster for you to consume data from Kafka topic. If you are on Timeplus Cloud, you can also build real-time dashboards and alerts.
+In this tutorial, you will process real-time data from GitHub. We have setup a public accessible Kafka cluster for you to consume data from Kafka topic. If you are on Timeplus Enterprise, you can also build real-time dashboards and alerts.
 
 ## Read Live GitHub Events
 

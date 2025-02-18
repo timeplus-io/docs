@@ -2,7 +2,7 @@
 
 :::info
 
-This tutorial is mainly for SQL users. For Timeplus Enterprise users, you can also use [the UI wizard](/confluent-cloud-source). SQL in this guide can be ran both in Timeplus Proton and Timeplus Cloud/Enterprise.
+This tutorial is mainly for SQL users. For Timeplus Enterprise users, you can also use [the UI wizard](/confluent-cloud-source). SQL in this guide can be ran both in Timeplus Proton and Timeplus Enterprise.
 
 :::
 

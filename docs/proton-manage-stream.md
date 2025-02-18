@@ -34,8 +34,8 @@ DROP STREAM [IF EXISTS] db.<stream_name>;
 
 Like [CREATE STREAM](/proton-create-stream), stream deletion is an async process.
 
-:::info note for Timeplus Cloud users
+:::info note for Timeplus Enterprise users
 
-In Timeplus Cloud or Private Cloud deployments, we recommend you to drop streams with GUI or [Terraform Provider](/terraform), to better tracking the lineage and permission.
+In Timeplus Enterprise deployments, we recommend you to drop streams with GUI or [Terraform Provider](/terraform), to better tracking the lineage and permission.
 
 :::

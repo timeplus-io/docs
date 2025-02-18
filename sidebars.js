@@ -140,10 +140,6 @@ const sidebars = {
               type: "doc",
               id: "alert",
             },
-            {
-              type: "doc",
-              id: "apikey",
-            },
           ],
         },
         {
