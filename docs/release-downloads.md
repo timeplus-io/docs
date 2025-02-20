@@ -1,5 +1,11 @@
 # Package Downloads
 
+## v2.6.3 {#2_6_3}
+Released on 02-19-2025 ([Change logs](/enterprise-v2.6#2_6_3)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.6.3-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.6.3-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.6.3-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.6.3-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.3`
+
 ## v2.6.2 {#2_6_2}
 Released on 02-14-2025 ([Change logs](/enterprise-v2.6#2_6_2)).
 
