@@ -22,6 +22,8 @@ SETTINGS
     read_from='..', -- optional
     write_to='..', -- optional
     data_format='..', -- optional
+    compression_method='..', -- optional
+    endpoint='..', -- optional
     ...
 ```
 For the full list of settings, see the [DDL Settings](#ddl-settings) section.
@@ -182,8 +184,8 @@ Default 32MB. The maximum size of a single part upload to S3. If the part size i
 #### s3_check_objects_after_upload
 Default false. After uploading a part to S3, Timeplus will check if the object exists in the bucket. If the object does not exist, Timeplus will retry the upload.
 
-#### compression
-The compression algorithm to use when writing data to S3. The supported values are `gzip`, `deflate`, `br`, `xz`, `zstd`, `lz4`, `bz2`, and `snappy`. By default, it will also be automatically inferred from the object key extension name (if any).
+#### compression_method
+The compression algorithm to use when writing data to S3. The supported values are auto, none, gzip, deflate, br, xz, zstd, lz4, bz2, and snappy. By default, it will also be automatically inferred from the object key extension name (if any).
 
 #### s3_max_connections
 The maximum number of connections to use when uploading data to S3. The default value is 1024.
@@ -260,9 +262,9 @@ SETTINGS type='s3',
   use_environment_credentials=true,
   read_from='AWSLogs/123456789012/CloudTrail/us-west-2/2025/**',
   data_format='JSONEachRow',
-  compression='gzip'
+  compression_method='gzip'
 ```
-Please note `**` in the `read_from` setting is a wildcard to read all files in the subdirectories. Since we didn't specify the file extension in the `read_from`, we need to specify the `data_format` and `compression` settings.
+Please note `**` in the `read_from` setting is a wildcard to read all files in the subdirectories. Since we didn't specify the file extension in the `read_from`, we need to specify the `data_format` and `compression_method` settings.
 
 Since all CloudTrail events are put in the `Records` array, you can use [array_join](/functions_for_comp#array_join) to flatten the array and query the data with Timeplus JSON parsing shortcut, e.g.:
 ```sql
