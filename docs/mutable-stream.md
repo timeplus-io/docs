@@ -25,6 +25,7 @@ SETTINGS
     shards=..
 ```
 
+Since Timeplus Enterprise 2.7, if you create a mutable stream with `low_cardinality` columns, the system will ignore the `low_cardinality` modifier to improve performance.
 [Learn more](/sql-create-mutable-stream)
 
 ## INSERT
