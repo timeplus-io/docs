@@ -23,6 +23,7 @@ SETTINGS
     write_to='..', -- optional
     data_format='..', -- optional
     compression_method='..', -- optional
+    config_file='..', -- optional
     endpoint='..', -- optional
     ...
 ```
@@ -114,6 +115,11 @@ The AWS access key ID. It's optional when `use_environment_credentials` is `true
 
 #### secret_access_key
 The AWS secret access key. It's optional when `use_environment_credentials` is `true`.
+
+#### config_file
+The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the AWS access key ID and secret access key in the file.
+
+Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
 
 #### region
 The region where the S3 bucket is located, such as `us-west-1`.

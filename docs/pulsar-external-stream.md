@@ -16,6 +16,7 @@ SETTINGS
     service_url='pulsar://host:port',-- required
     topic='..', -- required
     jwt='..',
+    config_file='..',
     data_format='..',
     format_schema='..',
     one_message_per_row=..,
@@ -68,6 +69,10 @@ The certificate (PEM format) for the client to use mTLS authentication. [Learn m
 The private key (PEM format) for the client to use mTLS authentication.
 #### jwt
 The JSON Web Tokens for the client to use JWT authentication. [Learn more](https://docs.streamnative.io/docs/api-keys-overview).
+#### config_file
+The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the Pulsar credentials in the file.
+
+Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
 #### connections_per_broker
 Default 1. Sets the max number of connection that this external stream will open to a single broker. By default, the connection pool will use a single connection for all the producers and consumers.
 #### memory_limit

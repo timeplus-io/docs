@@ -18,6 +18,7 @@ SETTINGS
     user = '<user>',
     password = '<password>',
     secure = <bool>,
+    config_file = '<path_to_config_file>',
     stream = '<stream_name>'
 ```
 Settings:
@@ -27,6 +28,7 @@ Settings:
 * **password**: the password for the remote Timeplusd. The default value is an empty string.
 * **secure**: a bool for whether to use secure connection to the remote Timeplusd. The default value is false. Use port 9440 when `secure` is set to true, otherwise use port 8463.
 * **stream**: the stream name in the remote Timeplusd. It's required and there is no default value.
+* **config_file**: since Timeplus Enterprise 2.7, you can specify a config file to load the settings from. Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
 
 ## Examples
 
