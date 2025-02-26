@@ -3,7 +3,13 @@ You can query the `system.stream_state_log` stream to check the state changes of
 
 ## Schema
 
-This system stream is provisioned by Timeplus and cannot be modified. Here is the schema definition with comments:
+This system stream is provisioned by Timeplus and cannot be modified.
+
+:::info
+We first introduced this stream in Timeplus Enterprise 2.6. Based on user feedback and performance optimization, we have updated the schema in Timeplus Enterprise 2.7. If you upgrade from 2.6 to 2.7, the system will automatically recreate the stream with the new schema. The previous state log data will be dropped.
+:::
+
+Here is the schema definition with comments:
 
 ```sql
 CREATE STREAM system.stream_state_log
@@ -224,17 +230,17 @@ For example, the following query will get the quorum replication status:
 
 ```sql
 SELECT
-  database, 
-  name AS stream_name, 
-  node_id AS reporting_node, 
+  database,
+  name AS stream_name,
+  node_id AS reporting_node,
   dimension AS shard,
   latest(state_value) AS quorum_commit_sn,
-  latest(state_string_value) AS quorum_status, 
+  latest(state_string_value) AS quorum_status,
   latest(_tp_time) AS last_update
 FROM
   table(system.stream_state_log)
 WHERE
-  state_name = 'quorum_replication_status' 
+  state_name = 'quorum_replication_status'
   AND _tp_time > (now() - INTERVAL 5 MINUTE)
 GROUP BY database, name, node_id, dimension
 ORDER BY database, name, node_id, dimension

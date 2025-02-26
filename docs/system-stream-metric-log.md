@@ -3,7 +3,13 @@ You can query the `system.stream_metric_log` stream to check the performance and
 
 ## Schema
 
-This system stream is provisioned by Timeplus and cannot be modified. Here is the schema definition with comments:
+This system stream is provisioned by Timeplus and cannot be modified.
+
+:::info
+We first introduced this stream in Timeplus Enterprise 2.6. Based on user feedback and performance optimization, we have updated the schema in Timeplus Enterprise 2.7. If you upgrade from 2.6 to 2.7, the system will automatically recreate the stream with the new schema. The previous metric log data will be dropped.
+:::
+
+Here is the schema definition with comments:
 
 ```sql
 CREATE STREAM system.stream_metric_log
@@ -35,7 +41,7 @@ Notes:
 * Each collection represents the delta value since the last collection.
 * For Materialized View, the metrics are collected both for the view and the target stream.
 * System databases (such as `system`, `information_schema`) are excluded from the metrics.
-* The `database` and `type` columns use the `LowCardinality` data type optimization, which improves query performance for columns with a small number of distinct values.
+* The `database` and `type` columns use the `low_cardinality` data type optimization, which improves query performance for columns with a small number of distinct values.
 
 ## Examples
 
