@@ -1,4 +1,7 @@
 # timeplus user
+:::warning
+This command is no longer available since Timeplus Enterprise 2.7. Please manage the users and groups via the web console or Helm chart.
+:::
 
 ## timeplus user
 When you run `timeplus user` without extra parameters, it will list all available sub-commmands, e.g.
