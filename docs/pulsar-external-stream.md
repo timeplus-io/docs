@@ -446,3 +446,4 @@ There are some limitations for the Pulsar-based external streams, because Timepl
 2. You use `seek_to` in the streaming query. `earliest` and `latest` are supported. You can also use `seek_to='2024-10-14'` for date or datetime based rewind. But number-based seek_to is not supported.
 3. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Pulsar. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
 4. Like Kafka external stream, Pulsar external stream will fetch the partition list after the streaming SQL starts running. Thus, it won't be automatically detect new partitions at runtime. Users must re-execute the query in order to read data from the new partitions.
+5. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.

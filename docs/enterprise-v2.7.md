@@ -39,7 +39,7 @@ Released on 02-28-2025. Installation options:
 
 Component versions:
 * timeplusd 2.7.21
-* timeplus_web 2.2.8
+* timeplus_web 2.2.10
 * timeplus_appserver 2.2.10
 * timeplus_connector 2.2.6
 * timeplus cli 1.2.12
@@ -63,7 +63,7 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
     * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory or a mutable stream, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
     * Replay historical data in local streams or Kafka external streams with the [replay_speed](/query-settings#replay_speed) setting.
     * Read the header key-value pairs in the kafka external stream. [Learn more](/proton-kafka#_tp_message_headers)
-* timeplus_web 2.1.7 -> 2.2.8
+* timeplus_web 2.1.7 -> 2.2.10
   * Significant improvements of materialized view monitoring and troubleshooting UI.
   * Added UI for creating and managing dictionaries, S3/MySQL external tables and Python UDF.
   * Added a dropdown menu to switch to different database namespaces in the web console.
@@ -86,3 +86,4 @@ Users can upgrade from Timeplus Enterprise 2.6 to 2.7 by stopping components and
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+4. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
