@@ -10,10 +10,10 @@ CREATE STREAM system.stream_metric_log
 (
   `elapsed_ms` int64, -- elapsed time since last metric collection in milliseconds
   `node_id` uint64,
-  `database` string,
+  `database` low_cardinality(string),
   `name` string, -- name of the stream
   `uuid` uuid, -- unique identifier of the stream
-  `type` fixed_string(32), -- type of the stream, e.g. 'Stream', 'MaterializedView'
+  `type` low_cardinality(fixed_string(32)), -- type of the stream, e.g. 'Stream', 'MaterializedView'
   `read_bytes` uint64, -- bytes read since last metric collection
   `read_rows` uint64, -- rows read since last metric collection
   `written_bytes` uint64,  -- bytes written since last metric collection
@@ -24,17 +24,18 @@ CREATE STREAM system.stream_metric_log
   INDEX _tp_time_index _tp_time TYPE minmax GRANULARITY 32,
   INDEX _tp_sn_index _tp_sn TYPE minmax GRANULARITY 32
 )
-PARTITION BY to_YYYYMMDD(_tp_time)
+PARTITION BY to_YYYYMM(_tp_time)
 ORDER BY (to_hour(_tp_time), database, name)
-TTL to_datetime(_tp_time) + INTERVAL 1 YEAR -- keep the historical data for 1 year by default
-SETTINGS logstore_retention_ms = 31536000000, index_granularity = 8192 -- keep the streaming data for 1 year by default
+TTL to_datetime(_tp_time) + INTERVAL 1 YEAR
+SETTINGS logstore_codec = 'zstd', index_granularity = 8192
 ```
 
 Notes:
-* By default, every 5 seconds Timeplus collects the states and add the data points to this stream.
+* By default, every 5 seconds Timeplus collects the metrics and adds the data points to this stream.
 * Each collection represents the delta value since the last collection.
 * For Materialized View, the metrics are collected both for the view and the target stream.
-* System databases(such as `system`, `information_schema`) are excluded from the metrics.
+* System databases (such as `system`, `information_schema`) are excluded from the metrics.
+* The `database` and `type` columns use the `LowCardinality` data type optimization, which improves query performance for columns with a small number of distinct values.
 
 ## Examples
 
@@ -50,7 +51,7 @@ SELECT
     avg((written_bytes / elapsed_ms) * 1000) AS written_bps,
     avg((written_rows / elapsed_ms) * 1000) AS written_eps
 FROM table(system.stream_metric_log)
-WHERE elapsed_ms > 0 and _tp_time > now()-5m
+WHERE elapsed_ms > 0 AND _tp_time > now() - 5m
 GROUP BY name;
 ```
 
@@ -82,12 +83,13 @@ The following query will get the daily ingestion volume for all streams:
 
 ```sql
 SELECT
-    to_date(_tp_time) as event_date,
-    sum(written_bytes) as ingest_bytes
+    to_date(_tp_time) AS event_date,
+    sum(written_bytes) AS ingest_bytes
 FROM table(system.stream_metric_log)
 WHERE type = 'Stream'
     AND external_ingress = true
-GROUP BY event_date;
+GROUP BY event_date
+ORDER BY event_date DESC;
 ```
 
 ### Metrics for a Specific Node
@@ -95,11 +97,28 @@ The following query will get the total read/write bytes and rows for each node i
 ```sql
 SELECT
     node_id,
-    sum(read_bytes) as total_read_bytes,
-    sum(written_bytes) as total_written_bytes,
-    sum(read_rows) as total_read_rows,
-    sum(written_rows) as total_written_rows
+    sum(read_bytes) AS total_read_bytes,
+    sum(written_bytes) AS total_written_bytes,
+    sum(read_rows) AS total_read_rows,
+    sum(written_rows) AS total_written_rows
 FROM table(system.stream_metric_log)
 WHERE _tp_time > (now() - INTERVAL 1 minute)
 GROUP BY node_id;
+```
+
+### Performance by Storage Type
+This query shows metrics aggregated by storage type:
+
+```sql
+SELECT
+    type,
+    COUNT(DISTINCT name) AS stream_count,
+    SUM(read_bytes) AS total_read_bytes,
+    SUM(written_bytes) AS total_written_bytes,
+    SUM(read_rows) AS total_read_rows,
+    SUM(written_rows) AS total_written_rows
+FROM table(system.stream_metric_log)
+WHERE _tp_time > now() - 1h
+GROUP BY type
+ORDER BY stream_count DESC;
 ```

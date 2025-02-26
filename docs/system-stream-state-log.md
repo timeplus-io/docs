@@ -9,21 +9,22 @@ This system stream is provisioned by Timeplus and cannot be modified. Here is th
 CREATE STREAM system.stream_state_log
 (
   `node_id` uint64,
-  `database` string,
+  `database` low_cardinality(string),
   `name` string, -- name of the stream
   `uuid` uuid, -- unique identifier of the stream
-  `state_name` string, -- name of the state metric
+  `state_name` low_cardinality(string), -- name of the state metric
   `state_value` uint64, -- numeric value of the state metric
   `state_string_value` string, -- string value of the state metric
+  `dimension` string, -- additional dimensions for the metric
   `_tp_time` datetime64(3), -- time of the state is collected
   `_tp_sn` int64, -- sequence number of the data
   INDEX _tp_time_index _tp_time TYPE minmax GRANULARITY 32,
   INDEX _tp_sn_index _tp_sn TYPE minmax GRANULARITY 32
 )
-PARTITION BY to_YYYYMMDD(_tp_time)
-ORDER BY (to_hour(_tp_time), database, name)
-TTL to_datetime(_tp_time) + INTERVAL 1 YEAR -- keep the historical data for 1 year by default
-SETTINGS logstore_retention_ms = 31536000000, index_granularity = 8192 -- keep the streaming data for 1 year by default
+PRIMARY KEY (database, name, state_name, dimension, node_id)
+ORDER BY (database, name, state_name, dimension, node_id)
+TTL to_datetime(_tp_time) + INTERVAL 2 MONTH
+SETTINGS mode = 'versioned_kv', logstore_codec = 'zstd', index_granularity = 8192
 ```
 
 By default, every 5 seconds Timeplus collects the states and add the data points to this stream.
@@ -41,22 +42,22 @@ SELECT
     name AS stream_name,
     node_id,
     state_name,
+    dimension,
     format_readable_size(latest(state_value)) AS size,
     latest(_tp_time) AS last_update
 FROM table(system.stream_state_log)
-WHERE state_name IN ('stream_logstore_disk_size', 'stream_historical_store_disk_size')
+WHERE state_name = 'disk_size'
   AND _tp_time > now() - 5m
-GROUP BY database, name, node_id, state_name
-ORDER BY database, name, node_id
+GROUP BY database, name, node_id, state_name, dimension
+ORDER BY database, name, node_id, dimension
 SETTINGS
   max_threads = 1, force_backfill_in_order = true;
 ```
 
-#### stream_logstore_disk_size
-The size of the logstore on disk.
-
-#### stream_historical_store_disk_size
-The size of the historical store on disk.
+#### disk_size
+The disk size metric with dimensions:
+- `log_store`: The size of the logstore on disk.
+- `historical_store`: The size of the historical store on disk.
 
 ### Stream Sequence Number
 
@@ -68,98 +69,99 @@ SELECT
     name AS stream_name,
     node_id,
     state_name,
+    dimension AS shard,
     latest(state_value) AS sequence_number,
     latest(_tp_time) AS last_update
 FROM table(system.stream_state_log)
-WHERE (state_name LIKE 'applied_sn_%' OR state_name LIKE 'committed_sn_%')
+WHERE state_name IN ('applied_sn', 'committed_sn')
   AND _tp_time > now() - 5m
-GROUP BY database, name, node_id, state_name
-ORDER BY database, name, node_id, state_name
+GROUP BY database, name, node_id, state_name, dimension
+ORDER BY database, name, node_id, state_name, dimension
 SETTINGS
   max_threads = 1, force_backfill_in_order = true;
 ```
 
-#### applied_sn_
-`applied_sn_{shard}`. The shard number starts from 0. So for single node, it's `applied_sn_0`.
+#### applied_sn
+The sequence number of the stream that has been applied. The shard number is stored in the `dimension` field.
 
-The sequence number of the stream that has been applied.
+#### committed_sn
+The sequence number of the stream that has been committed. The shard number is stored in the `dimension` field.
 
-#### committed_sn_
-`committed_sn_{shard}`. The shard number starts from 0. So for single node, it's `committed_sn_0`.
+#### start_sn
+The starting sequence number of the stream or materialized view source. The source information is stored in the `dimension` field.
 
-The sequence number of the stream that has been committed.
+#### end_sn
+The ending sequence number of the stream or materialized view source. The source information is stored in the `dimension` field.
 
-#### start_sn_
-`start_sn_{source}[description]`. For example `start_sn_StreamingStoreSource[stream=default.my_stream,shard=0]`
-
-The starting sequence number of the stream or materialized view source.
-
-#### end_sn_
-`end_sn_{source}[description]`. For example `end_sn_StreamingStoreSource[stream=default.my_stream,shard=0]`
-
-The ending sequence number of the stream or materialized view source.
-
-#### processed_sn_
-`processed_sn_{source}[description]`. For example `processed_sn_StreamingStoreSource[stream=default.my_stream,shard=0]`
-
-Last processed sequence number for the stream or materialized view source.
+#### processed_sn
+Last processed sequence number for the stream or materialized view source. The source information is stored in the `dimension` field.
 
 ### Materialized View
 
-#### mv_checkpoint_storage_size
-The size of the checkpoint storage on disk.
+#### checkpoint_storage_size
+The size of the checkpoint storage on disk. The dimension is set to `materialized_view`.
 
-#### mv_status
-The status of the materialized view. Read the `state_string_value` column for the status. If the materialized view is running healthy, the status will be `ExecutingPipeline`.
+#### status
+The status of the materialized view. Read the `state_string_value` column for the status. If the materialized view is running healthy, the status will be `ExecutingPipeline`. The dimension is set to `materialized_view`.
 
-#### mv_last_error_message
-The last error message of the materialized view. Read the `state_string_value` column for the error message.
+#### last_error_message
+The last error message of the materialized view. Read the `state_string_value` column for the error message. The timestamp of the error is stored in the `state_value` field. The dimension is set to `materialized_view`.
 
-#### mv_recover_times
-The number of times the materialized view has been recovered.
+#### recover_times
+The number of times the materialized view has been recovered. The dimension is set to `materialized_view`.
 
-#### mv_memory_usage
-The memory usage of the materialized view.
+#### memory_usage
+The memory usage of the materialized view. The dimension is set to `materialized_view`.
 
-#### processed_record_ts_
-`processed_record_ts_{source}[description]`.
+#### processed_record_ts
+The timestamp of the last processed record for the materialized view source. The source information is stored in the `dimension` field.
 
-The timestamp of the last processed record for the materialized view source.
-
-#### ckpt_sn_
-`ckpt_sn_{source}[description]`.
-
-Last checkpoint sequence number for the materialized view source.
+#### ckpt_sn
+Last checkpoint sequence number for the materialized view source. The source information is stored in the `dimension` field.
 
 ### Ingestion Performance
 
-#### ingest_dropped
-The number of dropped messages during ingestion.
+#### ingest
+The number of dropped messages during ingestion. The dimension is set to `dropped`.
 
-#### ingest_lt_500ms
-The number of messages that are ingested within 500ms.
+#### ingest_latency
+The number of messages that are ingested with different latency ranges, indicated by the following dimensions:
+- `lt_500ms`: Within 500ms
+- `500ms_1s`: Between 500ms and 1s
+- `1_3s`: Between 1s and 3s
+- `3_6s`: Between 3s and 6s
+- `gt_6s`: Over 6s
 
-#### ingest_500ms_1s
-The number of messages that are ingested between 500ms and 1s.
-
-#### ingest_1_3s
-The number of messages that are ingested between 1s and 3s.
-
-#### ingest_3_6s
-The number of messages that are ingested between 3s and 6s.
-
-#### ingest_gt_6s
-The number of messages that are ingested over 6s.
+Example query:
+```sql
+SELECT
+    database,
+    name AS stream_name,
+    node_id,
+    state_name,
+    dimension AS latency_range,
+    latest(state_value) AS message_count,
+    latest(_tp_time) AS last_update
+FROM table(system.stream_state_log)
+WHERE state_name = 'ingest_latency'
+  AND _tp_time > now() - 5m
+GROUP BY database, name, node_id, state_name, dimension
+ORDER BY database, name, node_id, dimension
+SETTINGS
+  max_threads = 1, force_backfill_in_order = true;
+```
 
 ### External Stream
 
-#### external_stream_read_failed
-The number of failed read operations from the external stream.
+#### read_failed
+The number of failed read operations from the external stream. The dimension is set to `external_stream`.
 
-#### external_stream_written_failed
-The number of failed write operations to the external stream.
+#### written_failed
+The number of failed write operations to the external stream. The dimension is set to `external_stream`.
 
 ### Dictionary
+
+Dictionary metrics all use the dimension value `dict`:
 
 #### bytes_allocated
 The number of bytes allocated in the memory for the dictionary.
@@ -183,33 +185,59 @@ The number of elements in the dictionary.
 The load factor percentage of the dictionary.
 
 #### loading_start_time
-The start time of the loading process.
+The start time of the loading process as milliseconds since epoch.
 
 #### last_successful_update_time
-The last successful update time of the dictionary.
+The last successful update time of the dictionary as milliseconds since epoch.
 
 #### loading_duration_ms
-The duration of the loading process.
+The duration of the loading process in milliseconds.
 
 #### last_exception
 The last exception message of the dictionary. Read the `state_string_value` column for the exception message.
 
+Example query for dictionary stats:
+```sql
+SELECT
+    database,
+    name AS dict_name,
+    node_id,
+    state_name,
+    latest(state_value) AS value,
+    latest(state_string_value) AS string_value,
+    latest(_tp_time) AS last_update
+FROM table(system.stream_state_log)
+WHERE dimension = 'dict'
+  AND _tp_time > now() - 5m
+GROUP BY database, name, node_id, state_name
+ORDER BY database, name, state_name
+SETTINGS
+  max_threads = 1, force_backfill_in_order = true;
+```
+
 ### Replication
 
 #### quorum_replication_status
-The status of the quorum replication. Read the `state_string_value` column for the status.
+The status of the quorum replication. Read the `state_string_value` column for the status. The shard ID is now stored in the `dimension` field.
 
 For example, the following query will get the quorum replication status:
 
 ```sql
 SELECT
-  database, name AS stream_name, node_id AS reporting_node, latest(state_string_value) AS quorum_status, latest(_tp_time) AS last_update
+  database, 
+  name AS stream_name, 
+  node_id AS reporting_node, 
+  dimension AS shard,
+  latest(state_value) AS quorum_commit_sn,
+  latest(state_string_value) AS quorum_status, 
+  latest(_tp_time) AS last_update
 FROM
   table(system.stream_state_log)
 WHERE
-  (state_name = 'quorum_replication_status') AND (_tp_time > (now() - INTERVAL 5 MINUTE))
-GROUP BY database, name, node_id
-ORDER BY database, name, node_id
+  state_name = 'quorum_replication_status' 
+  AND _tp_time > (now() - INTERVAL 5 MINUTE)
+GROUP BY database, name, node_id, dimension
+ORDER BY database, name, node_id, dimension
 SETTINGS
   max_threads = 1, force_backfill_in_order = true;
 ```
@@ -241,18 +269,19 @@ WITH
             database,
             name,
             node_id,
+            dimension AS shard,
             arg_max(state_string_value, _tp_time) AS status_json,
             max(_tp_time) AS last_update
         FROM table(system.stream_state_log)
         WHERE state_name = 'quorum_replication_status'
           AND _tp_time > (now() - INTERVAL 5 MINUTE)
-        GROUP BY database, name, node_id
+        GROUP BY database, name, node_id, dimension
     )
 SELECT
     database,
     name AS stream_name,
     node_id AS reporting_node,
-    status_json:shard AS shard,
+    shard,
     json_extract_array_raw(status_json, 'shard_replication_statuses') as statuses,
     array_map(x -> json_extract_int(x, 'node'), statuses) AS member_nodes,
     array_map(x -> json_extract_string(x, 'state'), statuses) AS member_states,
@@ -260,7 +289,7 @@ SELECT
     array_map(x -> json_extract_int(x, 'next_sn'), statuses) AS next_sns,
     last_update
 FROM latest_status
-ORDER BY database, name, node_id
+ORDER BY database, name, node_id, shard
 SETTINGS
   max_threads = 1, force_backfill_in_order = true;
 ```
