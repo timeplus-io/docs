@@ -11,7 +11,7 @@ Each component maintains its own version numbers. The version number for each Ti
 
 ## Key Highlights
 Key highlights of this release:
-* **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
+* **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or reading files in S3.
 * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory or a mutable stream, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
 * **PostgreSQL and MySQL CDC via Redpanda Connect:** Timeplus Enterprise now supports CDC (Change Data Capture) for PostgreSQL and MySQL databases via Redpanda Connect. This feature enables real-time data ingestion from these databases into Timeplus.
 * **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.

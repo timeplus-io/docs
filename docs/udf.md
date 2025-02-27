@@ -6,16 +6,18 @@ But some developers have concerns that complex logic or systems integration are 
 
 That's why we add User-Defined Functions (UDF) support in Timeplus. This enables users to leverage existing programming libraries, integrate with external systems, or just make SQL easier to maintain.
 
-As of today, Timeplus supports three ways to develop/register UDF.
+As of today, Timeplus supports four ways to develop/register UDF.
 
 * [SQL UDF](/sql-udf). Register a UDF from a lambda SQL expression. You can create common SQL snippets as SQL UDFs and reuse them in your queries.
 * [Remote UDF](/remote-udf). Register a webhook as the UDF. You may use any programming language/framework to develop/deploy the webhook. A good starting point is using AWS Lambda.
-* [Local UDF in JavaScript](/js-udf). We also added the support of JavaScript-based local UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported, such as Python.
+* [Local UDF in JavaScript](/js-udf). We also added the support of JavaScript-based local UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF.
+* [Local UDF in Python](/py-udf). Since Timeplus Enterprise 2.7, the Python UDF is supported. You can build high performance Python UDFs with the embedded CPython interpreter in Timeplus core engine. Additional libraries can be installed.
 
 Please choose the right UDF type based on your requirements.
 |UDF Type| Programming Language | 3rd Party Libraries |Performance | User-Defined Scalar Functions | User-Defined Aggregate Functions | Custom Emit Policy |
 |--|--|--|--|--|--|--|
 |SQL UDF| SQL | ❌|Fastest | ✅|❌|❌|
+|Python UDF| Python|✅|Fast|✅|✅|❌|
 |JavaScript UDF| JavaScript|❌|Fast |✅|✅|✅|
 |Remote UDF|Any| ✅|Slow| ✅|❌|❌|
 
