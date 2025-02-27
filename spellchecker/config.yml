@@ -50,4 +50,5 @@ ignore:
   - to_.*
   - u\d+
   - user\d
+  - create_dictionary_.*
   - v[\.\d]+

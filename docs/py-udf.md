@@ -175,7 +175,7 @@ By default, Timeplus Enterprise ships a clean Python 3.10 environment, plus the 
 - `six`
 - `wheel`
 
-All the dependencies for those libraries are also pre-installed, such as `pickle`.
+All the dependencies for those libraries are also preinstalled, such as `pickle`.
 
 ### Install Python Libraries {#install_lib}
 To install new Python libraries, you can call the REST API of timeplusd in Timeplus Enterprise v2.7. In the future, we will provide a more user-friendly way to install Python libraries.

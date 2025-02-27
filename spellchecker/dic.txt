@@ -47,6 +47,7 @@ array_concat
 arrayJoin
 arrayName
 asin
+ASN
 ASOF
 asof
 AssumeRole
@@ -154,6 +155,7 @@ conf
 config
 Config
 Config-less
+config_file
 config_native
 connect-aiven
 connect-kafka
@@ -207,6 +209,7 @@ decimal64
 decode_url_component
 dedicatedly
 dedup
+deduplicated
 deduplication
 defaultValue
 denormalization
@@ -298,6 +301,8 @@ Github
 github.com
 GitOps
 GLIBC
+Glibc
+glibc
 gofakeit
 Golang
 golang
@@ -358,6 +363,7 @@ iot
 IoT
 iovecs
 ip
+ip_trie
 iPhone14
 iPhone14_Plus
 iPhone15
@@ -480,6 +486,7 @@ MQ
 mqtt
 MQTT
 msg
+MSK
 mTLS
 multiline
 multinode
@@ -488,11 +495,13 @@ MV
 mv_memory_usage
 mview
 mysql
+mysql_cdc
 Nagle
 nagle
 nak_delay
 Namespace
 namespace
+namespaces
 NaN
 NativeLog
 natively
@@ -561,6 +570,7 @@ pid
 PII
 Postgres
 postgres
+postgres_cdc
 posttrade
 Pre-aggregation
 pre-built
@@ -686,6 +696,7 @@ SQLs
 sqrt
 SQS
 src
+SSD
 ssl
 SSL
 SSL_CTX_set1_curves_list
@@ -720,6 +731,7 @@ Substream
 substreams
 substring
 substrings
+sunsetting
 Superblocks
 superset
 Superset
@@ -786,6 +798,7 @@ tp_process_time
 tp_shard
 tp_sn
 tp_time
+TPCH
 Trino
 tripA
 tripB

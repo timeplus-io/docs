@@ -34,7 +34,7 @@ We recommend using stable releases for production deployment. Engineering builds
 ### 2.7.0 {#2_7_0}
 Released on 02-27-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_0)
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.2 ..`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.3 ..`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.0`
 
 Component versions:
