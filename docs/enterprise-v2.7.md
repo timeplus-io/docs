@@ -38,7 +38,7 @@ Released on 02-28-2025. Installation options:
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.0`
 
 Component versions:
-* timeplusd 2.7.21
+* timeplusd 2.7.22
 * timeplus_web 2.2.10
 * timeplus_appserver 2.2.10
 * timeplus_connector 2.2.6
@@ -47,7 +47,7 @@ Component versions:
 #### Changelog {#changelog_2_7_0}
 
 Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
-* timeplusd 2.5.10 -> 2.7.21
+* timeplusd 2.5.10 -> 2.7.22
   * Monitoring and Management:
     * **Delete data:** You can now delete data from streams with the [DELETE](/sql-delete) SQL command. This is optimized for mutable streams with primary keys in the condition.
     * `SYSTEM UNPAUSE MATERIALIZED VIEW` command is renamed to [SYSTEM RESUME MATERIALIZED VIEW](/sql-system-resume).
@@ -63,6 +63,7 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
     * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory or a mutable stream, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
     * Replay historical data in local streams or Kafka external streams with the [replay_speed](/query-settings#replay_speed) setting.
     * Read the header key-value pairs in the kafka external stream. [Learn more](/proton-kafka#_tp_message_headers)
+    * [Python UDF](/py-udf): You can now create user-defined functions (UDFs) in Python to extend the functionality of Timeplus with rich ecosystem of Python. It's currently in technical preview for Linux x86_64 only.
 * timeplus_web 2.1.7 -> 2.2.10
   * Significant improvements of materialized view monitoring and troubleshooting UI.
   * Added UI for creating and managing dictionaries, S3/MySQL external tables and Python UDF.

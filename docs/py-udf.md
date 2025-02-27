@@ -115,6 +115,25 @@ Please note:
 * Python code block should be enclosed in `$$`. Alternatively, you can use `'` to enclose the code block, but this may cause issues with the Python code block if it contains `'`.
 * Python code is indented with spaces or tabs. It's recommended to put `def` at the beginning of the line without indentation.
 
+### A simple UDF with numpy
+[Numpy](https://numpy.org/) is a general-purpose array-processing package. It provides a high-performance multidimensional array object, and tools for working with these arrays. It is the fundamental package for scientific computing with Python.
+
+This library is not installed by default. You need to install it manually by following [the guide](#python_libs).
+
+This example takes the number as input, add 5 via numpy.
+```sql
+CREATE OR REPLACE FUNCTION add_five(value uint16)
+RETURNS uint16 LANGUAGE PYTHON AS $$
+import numpy as np
+def add_five(value):
+    np_arr = np.array(value)
+    np_arr += 5
+    return np_arr.tolist()
+$$
+```
+
+Please note, to improve the performance, Timeplus calls the UDF with a batch of inputs. The input of the Python function `add_five` is list(int). We use `numpy.array(list)` to convert it to a numpy array.
+
 ### A simple UDAF with pickle
 [Pickle](https://docs.python.org/3/library/pickle.html) implements binary protocols for serializing and de-serializing a Python object structure.
 
@@ -148,23 +167,53 @@ class getMax:
 $$;
 ```
 
-## Configure Python Runtime
+## Manage Python Libraries {#python_libs}
+By default, Timeplus Enterprise ships a clean Python 3.10 environment, plus the following essential libraries:
 
-Timeplus Enterprise ships [CPython](https://github.com/python/cpython) 3.10 out-of-box. You can customize the `python_home` and `python_path` in the config.yaml. If you need to install new Python libraries, please install them in the specified `python_path`.
-```yaml
-python_home: /usr/bin/python
-python_path: /usr/local/lib/python3.10/dist-packages:/usr/lib/python3.10:/usr/lib/python3/dist-packages
+- `pip`
+- `setuptools`
+- `six`
+- `wheel`
+
+All the dependencies for those libraries are also pre-installed, such as `pickle`.
+
+### Install Python Libraries {#install_lib}
+To install new Python libraries, you can call the REST API of timeplusd in Timeplus Enterprise v2.7. In the future, we will provide a more user-friendly way to install Python libraries.
+
+:::info
+The following `curl` sample commands assume the timeplusd server is running on `localhost:8123`, with `default` as the user with an empty password. More commonly, you need to set the HTTP headers `x-timeplus-user` and `x-timeplus-key` with the user and password.
+:::
+
+For example, if you want to install the `numpy` library, you can use the following command:
+```bash
+curl -X POST http://localhost:8123/timeplusd/v1/python_packages -H "Content-Type: text/plain; charset=utf-8" -d '{"packages": [{"name": "numpy"}]}'
 ```
 
-## Optimization for Numpy
-Timeplus Enterprise adds additional support for numpy. When you create the Python UDF with `numpy_optimize_enable` setting enabled, the input/output data will be in numpy native format. This will greatly speed up the data processing.
-
-Taking the example above to add 5 to the input value, the SQL to create the UDF with this optimization:
-```sql
-CREATE OR REPLACE FUNCTION add_five_numpy(value uint16)
-RETURNS uint16 LANGUAGE PYTHON AS $$
-def add_five_numpy(np_array):
-    np_array += 5
-    return np_array
-$$ settings numpy_optimize_enable=true;
+If you need to install a specific version of a library, you can specify it in the `version` field. For example, to install `numpy` version `2.2.3`, you can use the following command:
+```bash
+curl -X POST http://localhost:8123/timeplusd/v1/python_packages -H "Content-Type: text/plain; charset=utf-8" -d '{"packages": [{"name": "numpy", "version": "2.2.3"}]}'
 ```
+
+### List Python Libraries {#list_lib}
+To list the extra Python libraries installed in Timeplus Enterprise, you can use the following command:
+```bash
+curl http://localhost:8123/timeplusd/v1/python_packages
+```
+
+### Delete Python Libraries {#delete_lib}
+To delete Python libraries, you can call the REST API of timeplusd in Timeplus Enterprise.
+
+For example, if you want to delete the `numpy` library, you can use the following command:
+```bash
+curl -X DELETE http://localhost:8123/timeplusd/v1/python_packages/numpy
+```
+
+### Update Python Libraries {#update_lib}
+Currently we don't support updating Python libraries. You can delete the library and reinstall it with the desired version.
+
+## Limitations
+Timeplus Enterprise v2.7 is the first version that supports Python UDFs. The following limitations apply:
+- Python UDFs are only available in Linux x86_64 bare metal or containerized deployments.
+- For Linux x86_64 bare metal deployments, Glibc version 2.35 or higher is required.
+- Only Python 3.10 is supported. Contact us if you need to install a specific version.
+- Not all Python libraries can be installed in Timeplus Enterprise. Contact us if you need to install a specific library.
