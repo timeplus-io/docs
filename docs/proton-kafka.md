@@ -36,7 +36,9 @@ SETTINGS
     kafka_schema_registry_credentials='..',
     ssl_ca_cert_file='..',
     ssl_ca_pem='..',
-    skip_ssl_cert_check=..
+    skip_ssl_cert_check=..,
+    properties='..',
+    config_file='..'
 ```
 
 :::info
@@ -69,12 +71,40 @@ The supported values for `sasl_mechanism` are:
 - PLAIN: when you set security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
 - SCRAM-SHA-256
 - SCRAM-SHA-512
+- AWS_MSK_IAM: this is available since Timeplus Enterprise 2.7. Set to this value if you are using AWS MSK with IAM authentication and the EC2 instance or Kubernetes pod has the proper IAM role to access the Kafka topic.
 
 #### username
-Required when `sasl_mechanism` is set to value other than `PLAIN`.
+Required when `sasl_mechanism` is set to value other than `PLAIN` or `AWS_MSK_IAM`.
 
 #### password
-Required when `sasl_mechanism` is set to value other than `PLAIN`.
+Required when `sasl_mechanism` is set to value other than `PLAIN` or `AWS_MSK_IAM`.
+
+Since [Timeplus Enterprise v2.7](/enterprise-v2.7), you can also use the [config_file](#config_file) setting to specify the username and password in a separate file.
+
+#### config_file
+The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the Kafka configuration settings. The file should be in the format of `key=value` pairs, one pair per line. For example:
+
+```properties
+username=my_username
+password=my_password
+```
+
+Not just for username and password, you can also put other Kafka settings in the file. Avoid defining the value both in the `config_file` and in the DDL.
+
+If you manage Kubernetes secrets using HashiCorp Vault, you can use the [Vault Agent Injector](https://learn.hashicorp.com/tutorials/vault/kubernetes-sidecar) to mount the secrets to the pod and use the `config_file` setting to specify the path to the file. For example, you create the following annotation to inject the secrets as a local file:
+
+```yaml
+annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject-status: "update"
+        vault.hashicorp.com/agent-inject-secret-kafka-secret: "secret/kafka-secret"
+        vault.hashicorp.com/agent-inject-template-kafka-secret: |
+          {{- with secret "secret/kafka-secret" -}}
+          username={{ .Data.data.username }}
+          password={{ .Data.data.password }}
+          {{- end }}
+        vault.hashicorp.com/role: "vault-role"
+```
 
 #### data_format
 The supported values for `data_format` are:
@@ -95,6 +125,10 @@ If the external stream is used to write data to a Kafka topic and the `data_form
 
 #### kafka_schema_registry_url
 Set to the address of Kafka Schema Registry server. `http` or `https` need to be included. [Learn more](/proton-schema-registry) for this setting and other settings with `kafka_schema_` as the prefix.
+
+#### properties
+
+For more advanced use cases, you can specify customized properties while creating the external streams. Those properties will be passed to the underlying Kafka client, which is [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md). Please refer to the [section](#advanced_settings) in the bottom of this page for more details.
 
 ## Read Data in Kafka
 ### Read messages in a single column {#single_col_read}
@@ -189,13 +223,20 @@ SELECT raw FROM table(ext_stream) WHERE ...
 Please avoid scanning all data via `select * from table(ext_stream)`. However `select count(*) from table(ext_stream)` is optimized to get the number of current message count from the Kafka topic.
 :::
 
-### Read/Write Kafka Message Key {#messagekey}
+### Virtual Columns
 
-For each message in the Kafka topic, the value is critical for sure. The key is optional but could carry important meta data.
+Besides the message body, Timeplus provides several virtual columns for each message in the Kafka topic.
+
+#### _tp_time
+
+You can read the timestamp of the message via `_tp_time`, e.g.
+```sql
+SELECT _tp_time, raw FROM foo;
+```
 
 #### _tp_message_key
 
-Starting from timeplusd 2.3.10, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuitive and flexible way to write any content as the message key, not necessarily mapping to a specify column or a set of columns.
+Starting from Timeplus Enterprise 2.4, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuitive and flexible way to write any content as the message key, not necessarily mapping to a specify column or a set of columns.
 
 For example:
 ```sql
@@ -226,6 +267,32 @@ CREATE EXTERNAL STREAM foo (
     _tp_message_key nullable(string) default null
 ) SETTINGS type='kafka',...;
 ```
+
+#### _tp_message_headers
+
+Starting from Timeplus Proton 1.6.11 and Timeplus Enterprise 2.7, you can read the Kafka message headers as `map(string,string)`, for example:
+```sql
+SELECT _tp_message_headers, raw FROM foo;
+```
+
+To get the value for a certain key in the header, you can access it via `_tp_message_headers['key']`, for example:
+```sql
+SELECT _tp_message_headers['key'], raw FROM foo;
+```
+
+#### _tp_sn
+You can read the message offset of the message via `_tp_sn`, e.g.
+```sql
+SELECT _tp_sn, raw FROM foo;
+```
+
+#### _tp_shard
+You can read the partition ID of the message via `_tp_shard`, e.g.
+```sql
+SELECT _tp_shard, raw FROM foo;
+```
+
+
 
 ## Write Data to Kafka
 
@@ -432,7 +499,7 @@ CREATE MATERIALIZED VIEW mv INTO target AS
 DROP STREAM [IF EXISTS] stream_name
 ```
 
-## Properties for Kafka client {#properties}
+## Properties for Kafka client {#advanced_settings}
 
 For more advanced use cases, you can specify customized properties while creating the external streams. Those properties will be passed to the underlying Kafka client, which is [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
 

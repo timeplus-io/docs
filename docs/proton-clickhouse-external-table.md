@@ -26,6 +26,7 @@ SETTINGS type='clickhouse',
          password='..',
          database='..',
          secure=true|false,
+         config_file='..',
          table='..';
 ```
 
@@ -36,6 +37,10 @@ The required settings are type and address. For other settings, the default valu
 - 'default' for `database`
 - 'false' for `secure`
 - If you omit the table name, it will use the name of the external table
+
+The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the ClickHouse user and password in the file.
+
+Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
 
 You don't need to specify the columns, since the table schema will be fetched from the ClickHouse server.
 

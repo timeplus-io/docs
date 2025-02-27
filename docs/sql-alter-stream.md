@@ -1,5 +1,5 @@
 # ALTER STREAM
-Currently we don't recommend to alter the schema of streams in Timeplus. You can modify the retention policy for historical store via [MODIFY TTL](#ttl) and modify the retention policy for streaming storage via [MODIFY SETTING](#stream_ttl).
+Currently we don't recommend to alter the schema of streams in Timeplus. You can modify the retention policy for historical store via [MODIFY TTL](#ttl) and modify the retention policy for streaming storage via [MODIFY SETTING](#modify_setting). For mutable streams, you can also run `MODIFY SETTING` to change the RocksDB settings.
 
 You can also use [ALTER VIEW](/sql-alter-view) to modify the settings of materialized views (only available in Timeplus Enterprise).
 
@@ -11,13 +11,25 @@ ALTER STREAM stream_name MODIFY TTL
 to_datetime(created_at) + INTERVAL 48 HOUR
 ```
 
-## MODIFY SETTING{#stream_ttl}
+## MODIFY SETTING{#modify_setting}
 You can add or modify the retention policy for streaming storage. e.g.
 
 ```sql
 ALTER STREAM stream_name MODIFY SETTING
 logstore_retention_ms = ...,
 logstore_retention_bytes = ...;
+```
+
+Starting from Timeplus Enterprise 2.7, you can also modify the RocksDB settings for mutable streams. e.g.
+
+```sql
+ALTER STREAM test MODIFY SETTING log_kvstore=1, kvstore_options='write_buffer_size=1024;max_write_buffer_number=2;max_background_jobs=4';
+```
+
+You can also change the codec for mutable streams. e.g.
+
+```sql
+ALTER STREAM test MODIFY SETTING logstore_codec='lz4';
 ```
 
 ## MODIFY QUERY SETTING

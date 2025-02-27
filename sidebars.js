@@ -86,12 +86,34 @@ const sidebars = {
             },
           ],
         },
+        {
+          type: "category",
+          label: "External Tables",
+          items: [
+            "proton-clickhouse-external-table",
+            {
+              type: "doc",
+              id: "mysql-external-table",
+              customProps: { tag: "New" },
+            },
+            {
+              type: "doc",
+              id: "s3-external",
+              customProps: { tag: "New" },
+            },
+          ],
+        },
         "proton-schema-registry",
         "proton-format-schema",
-        "proton-clickhouse-external-table",
         {
           type: "doc",
           id: "redpanda-connect",
+          customProps: { tag: "Enterprise" },
+        },
+        {
+          label: "Dictionary",
+          type: "link",
+          href: "https://docs.timeplus.com/sql-create-dictionary",
           customProps: { tag: "Enterprise" },
         },
         {
@@ -102,7 +124,16 @@ const sidebars = {
             type: "doc",
             id: "udf",
           },
-          items: ["sql-udf", "remote-udf", "js-udf"],
+          items: [
+            "sql-udf",
+            "remote-udf",
+            "js-udf",
+            {
+              type: "doc",
+              id: "py-udf",
+              customProps: { tag: "New" },
+            },
+          ],
         },
         {
           type: "category",
@@ -240,6 +271,7 @@ const sidebars = {
         {
           type: "category",
           label: "SQL Commands",
+          customProps: { tag: "Popular" },
           link: {
             type: "generated-index",
             title: "SQL Commands",
@@ -259,12 +291,21 @@ const sidebars = {
             {
               type: "doc",
               id: "sql-create-mutable-stream",
-              customProps: { tag: "Enterprise" },
+              // customProps: { tag: "Enterprise" },
+            },
+            {
+              type: "doc",
+              id: "sql-delete",
+              customProps: { tag: "New" },
             },
             "sql-alter-stream",
             "sql-show-streams",
             "sql-drop-stream",
-            "sql-truncate-stream",
+            {
+              type: "doc",
+              id: "sql-truncate-stream",
+              customProps: { tag: "New" },
+            },
             "sql-create-format-schema",
             "sql-show-format-schemas",
             "sql-drop-format-schema",
@@ -279,12 +320,26 @@ const sidebars = {
             "sql-create-remote-function",
             "sql-show-create",
 
-            "sql-create-database",
+            {
+              type: "doc",
+              id: "sql-create-database",
+              customProps: { tag: "New" },
+            },
             "sql-show-databases",
             "sql-drop-database",
 
+            {
+              type: "doc",
+              id: "sql-create-dictionary",
+              customProps: { tag: "New" },
+            },
+            "sql-show-dictionaries",
+            "sql-drop-dictionary",
+
+            "sql-optimize",
+
             "sql-system-pause",
-            "sql-system-unpause",
+            "sql-system-resume",
             // "sql-system-abort",
             // "sql-system-recover",
           ],
@@ -308,6 +363,7 @@ const sidebars = {
             "functions_for_math",
             "functions_for_fin",
             "functions_for_geo",
+            "functions_for_dict",
             "functions_for_streaming",
           ],
         },
@@ -451,6 +507,7 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
+        "enterprise-v2.7",
         "enterprise-v2.6",
         "enterprise-v2.5",
         "enterprise-v2.4",

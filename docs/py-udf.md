@@ -1,44 +1,41 @@
-# Local UDF in Python
+# Python UDF
 
-In addition to [Remote UDF](/remote-udf) and [JavaScript UDF](/js-udf), Timeplus Enterprise also supports Python-based UDF running in the sql engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with your local Python runtime with required dependencies. No need to deploy extra server/service for the UDF. More languages will be supported in the future.
-
-:::info
-
-The Python-based UDF is only available in Timeplus Enterprise, not in Timeplus Proton. It's in technical preview and not enabled by default. Please contact us if you want to work with us to test it.
-:::
+In addition to [Remote UDF](/remote-udf) and [JavaScript UDF](/js-udf), starting from [v2.7](/enterprise-v2.7), Timeplus Enterprise also supports Python-based UDF, as a feature in technical preview. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embedded Python 3.10 runtime in Timeplus core engine. No need to deploy extra server/service for the UDF.
 
 ## Why Python UDF
 Python is recognized as one of the most popular languages in the field of data science. Its flexibility as a scripting language, ease of use, and extensive range of statistical libraries make it an indispensable tool for data scientists and analysts.
 
 Python excels in writing complex parsing and data transformation logic, especially in scenarios where SQL capabilities are insufficient. Python User-Defined Functions (UDFs) offer the flexibility to implement intricate data processing mechanisms. These include:
 
-* Custom Tokenization: Breaking down data into meaningful elements based on specific criteria.
-* Data Masking: Concealing sensitive data elements to protect privacy.
-* Data Editing: Modifying data values according to specific rules or requirements.
-* Encryption Mechanisms: Applying encryption to data for security purposes.
+* **Custom Tokenization**: Breaking down data into meaningful elements based on specific criteria.
+* **Data Masking**: Concealing sensitive data elements to protect privacy.
+* **Data Editing**: Modifying data values according to specific rules or requirements.
+* **Encryption Mechanisms**: Applying encryption to data for security purposes.
 
 ## Data type mapping
 
 This is the mapping for [Timeplus data type](/datatypes) and Python data type:
 | Timeplus Data Type                      | Python Type   |
 | ----------------------------- | ---------- |
-| uint8, uint16, uint32, uint64               | int    |
+|bool|bool|
+|uint8, uint16, uint32, uint64| int    |
 |int8, int16, int32, int64|int|
 |date, date32,datetime|int|
 |float32, float64|float|
-|ipv4|int|
+|date, date32|datetime.date|
+|datetime, datetime64|datetime.datetime|
 |string, fixed_string|str|
 |array|list|
 |tuple|tuple|
-|datetime64| N/A|
-|map| N/A|
+|map| dict|
+|ipv4|int|
 |uint128,uint256,int128,int256| N/A|
 |decimal| N/A|
 |ipv6| N/A|
 |nullable| N/A|
 |low_cardinality| N/A|
 
-More data type support will be added.
+If your use cases require more data type support, please contact us at support@timeplus.com.
 
 ## Register a Python UDF {#register}
 
@@ -49,8 +46,8 @@ Scalar UDF is stateless UDF to convert columns in one row to other values.
 
 Syntax:
 ```sql
-CREATE OR REPLACE FUNCTION udf_name(col1 type1,..)
-RETURNS type LANGUAGE PYTHON AS
+CREATE OR REPLACE FUNCTION udf_name(param1 type1,..)
+RETURNS type2 LANGUAGE PYTHON AS
 $$
 import …
 
@@ -61,13 +58,15 @@ $$
 SETTINGS ...
 ```
 
+You need to make sure the SQL function name is identical to the function name in the Python code.
+
 ### UDAF
 UDAF or User Defined Aggregation Function is stateful. It takes one or more columns from a set of rows and return the aggregated result.
 
 Syntax:
 ```sql
-CREATE OR REPLACE AGGREGATION FUNCTION uda_name(col1 type1,...)
-RETURNS type language PYTHON AS
+CREATE OR REPLACE AGGREGATION FUNCTION uda_name(param1 type1,...)
+RETURNS type2 language PYTHON AS
 $$
 import ...
 class uda_name:
@@ -99,8 +98,27 @@ The function list:
 
 ## Examples
 
+### A simple UDF without dependency
+Timeplus Python UDF supports the standard Python library and the built-in functions. This example takes the number as input, add 5.
+```sql
+CREATE OR REPLACE FUNCTION add_five(value uint16) RETURNS int LANGUAGE PYTHON AS $$
+def add_five(value):
+    for i in range(len(value)):
+        value[i] = value[i] + 5
+    return value
+$$;
+```
+
+Please note:
+* To improve the performance, Timeplus calls the UDF with a batch of inputs. The input of the Python function `add_five` is `list(int)`.
+* The function name `add_five` in the SQL statement should match the function name in the Python code block.
+* Python code block should be enclosed in `$$`. Alternatively, you can use `'` to enclose the code block, but this may cause issues with the Python code block if it contains `'`.
+* Python code is indented with spaces or tabs. It's recommended to put `def` at the beginning of the line without indentation.
+
 ### A simple UDF with numpy
 [Numpy](https://numpy.org/) is a general-purpose array-processing package. It provides a high-performance multidimensional array object, and tools for working with these arrays. It is the fundamental package for scientific computing with Python.
+
+This library is not installed by default. You need to install it manually by following [the guide](#python_libs).
 
 This example takes the number as input, add 5 via numpy.
 ```sql
@@ -108,9 +126,9 @@ CREATE OR REPLACE FUNCTION add_five(value uint16)
 RETURNS uint16 LANGUAGE PYTHON AS $$
 import numpy as np
 def add_five(value):
-   np_arr = np.array(value)
-   np_arr += 5
-   return np_arr.tolist()
+    np_arr = np.array(value)
+    np_arr += 5
+    return np_arr.tolist()
 $$
 ```
 
@@ -124,23 +142,23 @@ This example gets the maximum number and use pickle to save/load the state.
 CREATE OR REPLACE AGGREGATE FUNCTION getMax(value uint16) RETURNS uint16 LANGUAGE PYTHON AS $$
 import pickle
 class getMax:
-   def __init__(self):
+    def __init__(self):
         self.max = 0
 
-   def serialize(self):
-       data = {}
-       data['max'] = self.max
-       return pickle.dumps(data)
+    def serialize(self):
+        data = {}
+        data['max'] = self.max
+        return pickle.dumps(data)
 
-   def deserialize(self, data):
-       data = pickle.loads(data)
-       self.max = data['max']
+    def deserialize(self, data):
+        data = pickle.loads(data)
+        self.max = data['max']
 
-   def merge(self, other):
+    def merge(self, other):
         if (other.max > self.max):
             self.max = other.max
 
-   def process(self, values):
+    def process(self, values):
         for item in values:
             if item > self.max:
                 self.max = item
@@ -149,23 +167,53 @@ class getMax:
 $$;
 ```
 
-## Configure Python Runtime
+## Manage Python Libraries {#python_libs}
+By default, Timeplus Enterprise ships a clean Python 3.10 environment, plus the following essential libraries:
 
-Timeplus Enterprise ships [CPython](https://github.com/python/cpython) 3.10 out-of-box. You can customize the `python_home` and `python_path` in the config.yaml. If you need to install new Python libraries, please install them in the specified `python_path`.
-```yaml
-python_home: /usr/bin/python
-python_path: /usr/local/lib/python3.10/dist-packages:/usr/lib/python3.10:/usr/lib/python3/dist-packages
+- `pip`
+- `setuptools`
+- `six`
+- `wheel`
+
+All the dependencies for those libraries are also pre-installed, such as `pickle`.
+
+### Install Python Libraries {#install_lib}
+To install new Python libraries, you can call the REST API of timeplusd in Timeplus Enterprise v2.7. In the future, we will provide a more user-friendly way to install Python libraries.
+
+:::info
+The following `curl` sample commands assume the timeplusd server is running on `localhost:8123`, with `default` as the user with an empty password. More commonly, you need to set the HTTP headers `x-timeplus-user` and `x-timeplus-key` with the user and password.
+:::
+
+For example, if you want to install the `numpy` library, you can use the following command:
+```bash
+curl -X POST http://localhost:8123/timeplusd/v1/python_packages -H "Content-Type: text/plain; charset=utf-8" -d '{"packages": [{"name": "numpy"}]}'
 ```
 
-## Optimization for Numpy
-Timeplus Enterprise adds additional support for numpy. When you create the Python UDF with `numpy_optimize_enable` setting enabled, the input/output data will be in numpy native format. This will greatly speed up the data processing.
-
-Taking the example above to add 5 to the input value, the SQL to create the UDF with this optimization:
-```sql
-CREATE OR REPLACE FUNCTION add_five_numpy(value uint16)
-RETURNS uint16 LANGUAGE PYTHON AS $$
-def add_five_numpy(np_array):
-    np_array += 5
-    return np_array
-$$ settings numpy_optimize_enable=true;
+If you need to install a specific version of a library, you can specify it in the `version` field. For example, to install `numpy` version `2.2.3`, you can use the following command:
+```bash
+curl -X POST http://localhost:8123/timeplusd/v1/python_packages -H "Content-Type: text/plain; charset=utf-8" -d '{"packages": [{"name": "numpy", "version": "2.2.3"}]}'
 ```
+
+### List Python Libraries {#list_lib}
+To list the extra Python libraries installed in Timeplus Enterprise, you can use the following command:
+```bash
+curl http://localhost:8123/timeplusd/v1/python_packages
+```
+
+### Delete Python Libraries {#delete_lib}
+To delete Python libraries, you can call the REST API of timeplusd in Timeplus Enterprise.
+
+For example, if you want to delete the `numpy` library, you can use the following command:
+```bash
+curl -X DELETE http://localhost:8123/timeplusd/v1/python_packages/numpy
+```
+
+### Update Python Libraries {#update_lib}
+Currently we don't support updating Python libraries. You can delete the library and reinstall it with the desired version.
+
+## Limitations
+Timeplus Enterprise v2.7 is the first version that supports Python UDFs. The following limitations apply:
+- Python UDFs are only available in Linux x86_64 bare metal or containerized deployments.
+- For Linux x86_64 bare metal deployments, Glibc version 2.35 or higher is required.
+- Only Python 3.10 is supported. Contact us if you need to install a specific version.
+- Not all Python libraries can be installed in Timeplus Enterprise. Contact us if you need to install a specific library.

@@ -20,6 +20,8 @@ SETTINGS
     replication_factor=..
 ```
 
+Since Timeplus Enterprise 2.7, if you create a mutable stream with `low_cardinality` columns, the system will ignore the `low_cardinality` modifier to improve performance.
+
 Only the `PRIMARY KEY` is required. `INDEX`, `FAMILY`, or the `SETTINGS` are optional.
 
 ## PRIMARY KEY

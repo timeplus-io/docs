@@ -16,6 +16,7 @@ SETTINGS
     service_url='pulsar://host:port',-- required
     topic='..', -- required
     jwt='..',
+    config_file='..',
     data_format='..',
     format_schema='..',
     one_message_per_row=..,
@@ -68,6 +69,10 @@ The certificate (PEM format) for the client to use mTLS authentication. [Learn m
 The private key (PEM format) for the client to use mTLS authentication.
 #### jwt
 The JSON Web Tokens for the client to use JWT authentication. [Learn more](https://docs.streamnative.io/docs/api-keys-overview).
+#### config_file
+The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the Pulsar credentials in the file.
+
+Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
 #### connections_per_broker
 Default 1. Sets the max number of connection that this external stream will open to a single broker. By default, the connection pool will use a single connection for all the producers and consumers.
 #### memory_limit
@@ -441,3 +446,4 @@ There are some limitations for the Pulsar-based external streams, because Timepl
 2. You use `seek_to` in the streaming query. `earliest` and `latest` are supported. You can also use `seek_to='2024-10-14'` for date or datetime based rewind. But number-based seek_to is not supported.
 3. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Pulsar. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
 4. Like Kafka external stream, Pulsar external stream will fetch the partition list after the streaming SQL starts running. Thus, it won't be automatically detect new partitions at runtime. Users must re-execute the query in order to read data from the new partitions.
+5. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
