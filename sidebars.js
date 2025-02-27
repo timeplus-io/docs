@@ -111,6 +111,12 @@ const sidebars = {
           customProps: { tag: "Enterprise" },
         },
         {
+          label: "Dictionary",
+          type: "link",
+          href: "https://docs.timeplus.com/sql-create-dictionary",
+          customProps: { tag: "Enterprise" },
+        },
+        {
           type: "category",
           label: "User Defined Functions",
           collapsed: false,
