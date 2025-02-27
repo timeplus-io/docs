@@ -208,7 +208,7 @@ Components:
   * feat: support remote UDF on cluster
   * feat: primary key columns in secondary key
   * feat: support [ALTER STREAM .. ADD COLUMN ..](sql-alter-stream#add-column)
-  * feat: _tp_message_key to [read/write message keys in Kafka](/proton-kafka#messagekey)
+  * feat: _tp_message_key to [read/write message keys in Kafka](/proton-kafka#_tp_message_key)
   * feat: [Kafka schema registry support for Avro output format](/proton-schema-registry#write)
   * feat: support [idempotent keys processing](/idempotent)
   * feat: collect node free memory usage. You can get it via `select cluster_id, node_id, os_memory_total_mb, os_memory_free_mb, memory_used_mb, disk_total_mb, disk_free_mb, timestamp from system.cluster`

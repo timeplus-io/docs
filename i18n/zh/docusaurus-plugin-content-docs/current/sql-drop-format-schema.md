@@ -1,5 +1,0 @@
-# DROP FORMAT SCHEMA
-
-```sql
-DROP FORMAT SCHEMA <IF EXISTS> schema_name;
-```

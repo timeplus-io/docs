@@ -272,12 +272,12 @@ const config = {
   i18n: {
     defaultLocale: "en",
     locales: ["en"], //["en", "zh"],
-    localeConfigs: {
-      zh: {
-        label: "中文",
-        htmlLang: "zh-CN",
-      },
-    },
+    // localeConfigs: {
+    //   zh: {
+    //     label: "中文",
+    //     htmlLang: "zh-CN",
+    //   },
+    // },
   },
 };
 
