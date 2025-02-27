@@ -1,16 +1,16 @@
 # Python UDF
 
-In addition to [Remote UDF](/remote-udf) and [JavaScript UDF](/js-udf), starting from [v2.7](/enterprise-v2.7), Timeplus Enterprise also supports Python-based UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embeded Python 3.10 runtime in Timeplus core engine. No need to deploy extra server/service for the UDF.
+In addition to [Remote UDF](/remote-udf) and [JavaScript UDF](/js-udf), starting from [v2.7](/enterprise-v2.7), Timeplus Enterprise also supports Python-based UDF, as a feature in technical preview. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embeded Python 3.10 runtime in Timeplus core engine. No need to deploy extra server/service for the UDF.
 
 ## Why Python UDF
 Python is recognized as one of the most popular languages in the field of data science. Its flexibility as a scripting language, ease of use, and extensive range of statistical libraries make it an indispensable tool for data scientists and analysts.
 
 Python excels in writing complex parsing and data transformation logic, especially in scenarios where SQL capabilities are insufficient. Python User-Defined Functions (UDFs) offer the flexibility to implement intricate data processing mechanisms. These include:
 
-* Custom Tokenization: Breaking down data into meaningful elements based on specific criteria.
-* Data Masking: Concealing sensitive data elements to protect privacy.
-* Data Editing: Modifying data values according to specific rules or requirements.
-* Encryption Mechanisms: Applying encryption to data for security purposes.
+* **Custom Tokenization**: Breaking down data into meaningful elements based on specific criteria.
+* **Data Masking**: Concealing sensitive data elements to protect privacy.
+* **Data Editing**: Modifying data values according to specific rules or requirements.
+* **Encryption Mechanisms**: Applying encryption to data for security purposes.
 
 ## Data type mapping
 
@@ -18,7 +18,7 @@ This is the mapping for [Timeplus data type](/datatypes) and Python data type:
 | Timeplus Data Type                      | Python Type   |
 | ----------------------------- | ---------- |
 |bool|bool|
-| uint8, uint16, uint32, uint64               | int    |
+|uint8, uint16, uint32, uint64| int    |
 |int8, int16, int32, int64|int|
 |date, date32,datetime|int|
 |float32, float64|float|
@@ -27,7 +27,7 @@ This is the mapping for [Timeplus data type](/datatypes) and Python data type:
 |string, fixed_string|str|
 |array|list|
 |tuple|tuple|
-|map| list(tuple)|
+|map| dict|
 |ipv4|int|
 |uint128,uint256,int128,int256| N/A|
 |decimal| N/A|
@@ -35,7 +35,7 @@ This is the mapping for [Timeplus data type](/datatypes) and Python data type:
 |nullable| N/A|
 |low_cardinality| N/A|
 
-More data type support will be added.
+If your use cases require more data type support, please contact us at support@timeplus.com.
 
 ## Register a Python UDF {#register}
 
@@ -57,6 +57,8 @@ def udf_name(col1..):
 $$
 SETTINGS ...
 ```
+
+You need to make sure the SQL function name is identical to the function name in the Python code.
 
 ### UDAF
 UDAF or User Defined Aggregation Function is stateful. It takes one or more columns from a set of rows and return the aggregated result.
@@ -108,27 +110,10 @@ $$;
 ```
 
 Please note:
-* To improve the performance, Timeplus calls the UDF with a batch of inputs. The input of the Python function `add_five` is list(int).
+* To improve the performance, Timeplus calls the UDF with a batch of inputs. The input of the Python function `add_five` is `list(int)`.
 * The function name `add_five` in the SQL statement should match the function name in the Python code block.
 * Python code block should be enclosed in `$$`. Alternatively, you can use `'` to enclose the code block, but this may cause issues with the Python code block if it contains `'`.
 * Python code is indented with spaces or tabs. It's recommended to put `def` at the beginning of the line without indentation.
-
-### A simple UDF with numpy
-[Numpy](https://numpy.org/) is a general-purpose array-processing package. It provides a high-performance multidimensional array object, and tools for working with these arrays. It is the fundamental package for scientific computing with Python.
-
-This example takes the number as input, add 5 via numpy.
-```sql
-CREATE OR REPLACE FUNCTION add_five(value uint16)
-RETURNS uint16 LANGUAGE PYTHON AS $$
-import numpy as np
-def add_five(value):
-   np_arr = np.array(value)
-   np_arr += 5
-   return np_arr.tolist()
-$$
-```
-
-Please note, to improve the performance, Timeplus calls the UDF with a batch of inputs. The input of the Python function `add_five` is list(int). We use `numpy.array(list)` to convert it to a numpy array.
 
 ### A simple UDAF with pickle
 [Pickle](https://docs.python.org/3/library/pickle.html) implements binary protocols for serializing and de-serializing a Python object structure.
@@ -138,23 +123,23 @@ This example gets the maximum number and use pickle to save/load the state.
 CREATE OR REPLACE AGGREGATE FUNCTION getMax(value uint16) RETURNS uint16 LANGUAGE PYTHON AS $$
 import pickle
 class getMax:
-   def __init__(self):
+    def __init__(self):
         self.max = 0
 
-   def serialize(self):
-       data = {}
-       data['max'] = self.max
-       return pickle.dumps(data)
+    def serialize(self):
+        data = {}
+        data['max'] = self.max
+        return pickle.dumps(data)
 
-   def deserialize(self, data):
-       data = pickle.loads(data)
-       self.max = data['max']
+    def deserialize(self, data):
+        data = pickle.loads(data)
+        self.max = data['max']
 
-   def merge(self, other):
+    def merge(self, other):
         if (other.max > self.max):
             self.max = other.max
 
-   def process(self, values):
+    def process(self, values):
         for item in values:
             if item > self.max:
                 self.max = item
