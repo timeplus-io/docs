@@ -59,7 +59,7 @@ Note:
 You can also add `EXECUTION_TIMEOUT <num>` to the end of the `CREATE FUNCTION` to customize the timeout for calling remote endpoints. By default the timeout is 10000 milliseconds (i.e. 10 seconds).
 
 :::info
-In Timeplus Enterprise, you can add debug information via `console.log(..)` in the JavaScript UDF. The logs will be available in the server log files.
+You can add debug information via `console.log(..)` in the JavaScript UDF. The logs will be available in the server log files.
 :::
 
 ### UDAF {#js-udaf}
