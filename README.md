@@ -36,12 +36,11 @@ This command generates static content into the `build` directory and can be serv
 It has been configured to deploy new changes to docs.timeplus.com via Netlify.
 
 ### Localization
-Currently English is the only official language for the documentation and we are working on other languages, starting from Simplified Chinese.
-[![Crowdin](https://badges.crowdin.net/timeplus-docs/localized.svg)](https://crowdin.com/project/timeplus-docs) It's managed by Crowdin and welcome any contribution.
+Currently English is the only official language for the documentation.
 
 ### Update Neutron REST API doc
 
 1. Make sure your Neutron is up-to-date
 2. Go to your Neutron folder, `make gen_api_doc` to generate `docs/swagger.yaml`
 3. Go back to this folder and modify the `root` inside the `.redocly.yaml`, make sure the path is correct
-4. `yarn rest-doc`
+4. `yarn run rest-doc`
