@@ -204,19 +204,22 @@ Due to the [limitation of Kubernetes Statefulset](https://github.com/kubernetes/
 
 ### Upgrade Timeplus Enterprise
 
-Please check the [release notes](/enterprise-releases) to confirm the target version of Timeplus Enterprise can be upgraded in-place, by reusing the current data and configuration. For example [2.3](/enterprise-v2.3) and [2.4](/enterprise-releases) are incompatible and you have to use migration tools.
+#### Check if there is an incompatible breaking change needing manual actions
 
-If you confirm you can upgrade to the new version, you can run the following commands to upgrade to the latest version:
+Each major chart version contains a new major Timeplus Enterprise version. If you are not going to upgrade the major version, you can just go ahead to run the helm upgrade command. Otherwise, please check:
+1. The [release notes](/release-notes) of Timeplus Enterprise to confirm the target version can be upgraded in-place, by reusing the current data and configuration. For example [2.3](/enterprise-v2.3) and [2.4](/enterprise-releases) are incompatible and you have to use migration tools.
+2. The [upgrade guide](#upgrade-guide) of helm chart. You may need to modify your `values.yaml` according to the guide before upgrade.
+
+#### Run helm upgrade
+
+If you confirm you can upgrade to the new version, you can run the following commands to upgrade:
 
 ```bash
+# Upgrade to the latest version
 helm repo update
 helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise
-```
 
-You can also check the available versions and upgrade to a specific version:
-
-```bash
-helm repo update
+# Or You can also check the available versions and upgrade to a specific version:
 helm search repo timeplus -l
 helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise --version va.b.c
 ```
@@ -447,3 +450,31 @@ There are a lot of other configurations available to customize the deployment. S
 | timeplusd.storage.history | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-history"}},"size":"10Gi"}` | PV settings for historical storage. |
 | timeplusd.storage.log | object | `{"className":"local-storage","enabled":false,"selector":{"matchLabels":{"app":"timeplusd-log"}},"size":"10Gi"}` | PV settings for logs. It is disabled by default so you don't need a separate PV for it. |
 | timeplusd.storage.stream | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-stream"}},"size":"10Gi"}` | PV settings for streaming storage. |
+
+## Upgrade guide
+
+### v5 to v6
+
+1. A few timeplusd built-in users (`neutron`, `pgadmin`, `system`, `default`) are removed. If you do need any of these users, please add them back to `timeplusd.extraUsers`, for example:
+```yaml
+timeplusd:
+  extraUsers:
+    users:
+      default:
+        password: ""
+        networks:
+          - ip: "::/0"
+        profile: default
+        quota: default
+        allow_databases:
+          - database: default
+        default_database: default
+```
+
+2. Now you can configure ingress for Appserver and Timeplusd independently under `ingress` section. 
+
+| Old | New |
+|-----|-----|
+|`timeplusd.ingress.enabled`|`ingress.timeplusd.enabled`|
+|`ingress.enabled`|`ingress.timeplusd.enabled`, `ingress.appserver.enabled`|
+|`ingress.domain`|`ingress.timeplusd.domain`, `ingress.appserver.domain`|
