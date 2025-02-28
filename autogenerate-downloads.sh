@@ -36,49 +36,73 @@ BEGIN {
     latest_date[version] = date_num
     release_date[version] = formatted_date
   }
+
+  # Extract major.minor for grouping
+  split(version, ver_parts, ".")
+  major_minor = ver_parts[1] "." ver_parts[2]
+
+  # Store unique versions per major.minor group
+  if (!((major_minor, version) in version_groups)) {
+    version_groups[major_minor, version] = 1
+    grouped_versions[major_minor] = grouped_versions[major_minor] ? grouped_versions[major_minor] " " version : version
+  }
 }
 
 END {
-  # Collect and sort versions
+  # Sort major.minor groups
   sort_cmd = "printf \"%s\\n\" "
-  for (v in version_map) sort_cmd = sort_cmd " \"" v "\""
-  sort_cmd = sort_cmd " | sort -V -r"
+  for (v in grouped_versions) sort_cmd = sort_cmd " \"" v "\""
+  sort_cmd = sort_cmd " | sort -t. -k1,1nr -k2,2nr"
 
   i = 0
-  while ((sort_cmd | getline version) > 0) {
-    ordered_versions[++i] = version
+  while ((sort_cmd | getline major_minor) > 0) {
+    ordered_groups[++i] = major_minor
   }
   close(sort_cmd)
 
   # Generate output
-  for (i=1; i in ordered_versions; i++) {
-    version = ordered_versions[i]
+  for (g=1; g<=i; g++) {
+    major_minor = ordered_groups[g]
 
-    # Generate anchor ID by replacing dots with underscores
-    anchor = version
-    gsub(/\./, "_", anchor)
+    minor_anchor = major_minor
+    gsub(/\./, "_", minor_anchor)
 
-    # Extract major.minor version for changelog link
-    split(version, ver_parts, ".")
-    major_minor = ver_parts[1] "." ver_parts[2]
+    printf "## %s {#%s}\n\n", major_minor, minor_anchor
 
-    printf "## v%s {#%s}\n", version, anchor
-    printf "Released on %s ([Change logs](/enterprise-v%s#%s)).\n\n",
-          release_date[version], major_minor, anchor
+    # Sort patch versions within group
+    split(grouped_versions[major_minor], patch_versions, " ")
+    sort_cmd = "printf \"%s\\n\" "
+    for (v in patch_versions) sort_cmd = sort_cmd " \"" patch_versions[v] "\""
+    sort_cmd = sort_cmd " | sort -V -r"
 
-    printf "* Bare metal installation: "
-
-    # Build platform links in preferred order
-    link_count = 0
-    split("linux-amd64 linux-arm64 darwin-amd64 darwin-arm64", platforms, " ")
-    for (j=1; j<=4; j++) {
-      arch = platforms[j]
-      if ((version, arch) in pkg_map) {
-        if (link_count++ > 0) printf " | "
-        printf "[%s](https://d.timeplus.com/%s)",
-          platform_order[arch], pkg_map[version, arch]
-      }
+    j = 0
+    while ((sort_cmd | getline version) > 0) {
+      ordered_versions[++j] = version
     }
-    printf "\n* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:%s`\n\n", version
+    close(sort_cmd)
+
+    # Print each version
+    for (k=1; k<=j; k++) {
+      version = ordered_versions[k]
+      anchor = version
+      gsub(/\./, "_", anchor)
+
+      printf "### v%s {#%s}\n", version, anchor
+      printf "Released on %s ([Change logs](/enterprise-v%s#%s)).\n\n",
+            release_date[version], major_minor, anchor
+
+      printf "* Bare metal installation: "
+      link_count = 0
+      split("linux-amd64 linux-arm64 darwin-amd64 darwin-arm64", platforms, " ")
+      for (m=1; m<=4; m++) {
+        arch = platforms[m]
+        if ((version, arch) in pkg_map) {
+          if (link_count++ > 0) printf " | "
+          printf "[%s](https://d.timeplus.com/%s)",
+            platform_order[arch], pkg_map[version, arch]
+        }
+      }
+      printf "\n* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:%s`\n\n", version
+    }
   }
 }' > docs/release-downloads.md
