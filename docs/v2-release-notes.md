@@ -2,6 +2,29 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Mar 3, 2025
+
+### Timeplus Enterprise v2.7.0
+[Timeplus Enterprise v2.7](/enterprise-v2.7) is now Generally Available! Key enhancements:
+* Built-in support for MySQL and S3 read and write
+* External data lookup with dictionaries
+* Python UDF
+* Monitoring and troubleshooting UI for materialized views and streams, optimized for multi-node clusters
+* Support IAM authentication for accessing Amazon MSK
+* Read the header key/value pairs for Kafka messages
+* PostgreSQL and MySQL CDC via Redpanda Connect
+* Mutable stream delete
+* In the web console, you can choose a non-default database and manage the streams and materialized views in that namespace.
+
+### Timeplus Proton v1.6.11
+* Read the header key/value pairs for Kafka messages
+
+### Timeplus Native JDBC v2.0.9
+Repackaged with JDK 8 support.
+
+### Timeplus Connect v0.8.15
+[timeplus-connect](https://github.com/timeplus-io/timeplus-connect) provides Python connector to interact with Timeplus Enterprise or Timeplus Proton. The code is based on clickhouse-connect. It uses HTTP port 8123 and supports SQLAlchemy and Superset.
+
 ## Feb 17, 2025
 
 ### Timeplus Enterprise v2.6.2
