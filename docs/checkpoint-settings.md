@@ -73,6 +73,19 @@ query_state_checkpoint:
 
 **Definition**: Specifies a disk name, which can be created through sql`create disk {disk_name} ...`, which is used with a shared checkpoint storage (i.e. `S3`)
 
+## checkpoint_interval
+
+In some cases, you may want to adjust the checkpoint interval after the materialized view is created. You can do this by modifying the `checkpoint_settings` parameter in the `ALTER VIEW` statement.
+```sql
+ALTER VIEW mv MODIFY QUERY SETTINGS checkpoint_settings = 'incremental=true;interval=5';
+```
+If you don't want to repeat the other key-value pairs in the `checkpoint_settings`, you can use the top-level `checkpoint_interval` parameter, e.g.
+```sql
+ALTER VIEW mv MODIFY QUERY SETTINGS checkpoint_interval = 5;
+```
+
+Set `checkpoint_interval` to a negative integer value to disable checkpointing. Set it to 0 to use the global checkpoint interval. Set it to a positive integer value to specify the checkpoint interval in seconds.
+
 ## Examples
 
 For some scenarios with large states and low update frequency:
