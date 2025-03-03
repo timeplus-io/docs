@@ -181,17 +181,17 @@ All the dependencies for those libraries are also preinstalled, such as `pickle`
 To install new Python libraries, you can call the REST API of timeplusd in Timeplus Enterprise v2.7. In the future, we will provide a more user-friendly way to install Python libraries.
 
 :::info
-The following `curl` sample commands assume the timeplusd server is running on `localhost:8123`, with `default` as the user with an empty password. More commonly, you need to set the HTTP headers `x-timeplus-user` and `x-timeplus-key` with the user and password.
+The following `curl` sample commands assume the timeplusd server is running on `localhost:8123`, with `default` as the user with an empty password. More commonly, you need to set the HTTP headers `x-timeplus-user` and `x-timeplus-key` with the user and password, such as `curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" ..`.
 :::
 
 For example, if you want to install the `numpy` library, you can use the following command:
 ```bash
-curl -X POST http://localhost:8123/timeplusd/v1/python_packages -H "Content-Type: text/plain; charset=utf-8" -d '{"packages": [{"name": "numpy"}]}'
+curl -X POST http://localhost:8123/timeplusd/v1/python_packages -d '{"packages": [{"name": "numpy"}]}'
 ```
 
 If you need to install a specific version of a library, you can specify it in the `version` field. For example, to install `numpy` version `2.2.3`, you can use the following command:
 ```bash
-curl -X POST http://localhost:8123/timeplusd/v1/python_packages -H "Content-Type: text/plain; charset=utf-8" -d '{"packages": [{"name": "numpy", "version": "2.2.3"}]}'
+curl -X POST http://localhost:8123/timeplusd/v1/python_packages -d '{"packages": [{"name": "numpy", "version": "2.2.3"}]}'
 ```
 
 ### List Python Libraries {#list_lib}
