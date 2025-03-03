@@ -15,14 +15,14 @@ This library is available on maven central repository:
 <dependency>
     <groupId>com.timeplus</groupId>
     <artifactId>timeplus-native-jdbc</artifactId>
-    <version>2.0.8</version>
+    <version>2.0.9</version>
 </dependency>
 ```
 
 ### Gradle {#gradle_native}
 ```groovy
 dependencies {
-    implementation 'com.timeplus:timeplus-native-jdbc:2.0.8'
+    implementation 'com.timeplus:timeplus-native-jdbc:2.0.9'
 }
 ```
 
@@ -83,7 +83,7 @@ First add the Timeplus Native JDBC driver to DBeaver. Taking DBeaver 23.2.3 as a
 
 ![New Driver](/img/jdbc_native_new_driver.png)
 
-In the "Libraries" tab, click "Add Artifact" and type `com.timeplus:timeplus-native-jdbc:2.0.8`. Click the "Find Class" button to load the class.
+In the "Libraries" tab, click "Add Artifact" and type `com.timeplus:timeplus-native-jdbc:2.0.9`. Click the "Find Class" button to load the class.
 ![Load Driver](/img/jdbc_native_load_driver.png)
 
 Create a new database connection, choose "Timeplus" and accept the default settings. Click the "Test Connection.." to verify the connection is okay.
@@ -107,7 +107,7 @@ This library is available on maven central repository:
 <dependency>
     <groupId>com.timeplus</groupId>
     <artifactId>proton-jdbc</artifactId>
-    <version>0.7,1</version>
+    <version>0.7.1</version>
 </dependency>
 ```
 
