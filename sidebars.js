@@ -267,6 +267,7 @@ const sidebars = {
       items: [
         "query-syntax",
         "query-settings",
+        "checkpoint-settings",
         "datatypes",
         {
           type: "category",
