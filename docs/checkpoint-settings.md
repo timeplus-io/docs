@@ -84,7 +84,7 @@ query_state_checkpoint:
 
 **Definition**
 
-    Specifies a disk name, which can be created through sql`create disk {disk_name} ...`
+    Specifies a disk name, which can be created through sql`create disk {disk_name} ...`, which is used with a shared checkpoint storage (i.e. `S3`)
 
 ---
 
@@ -117,3 +117,21 @@ SETTINGS
 default_hash_table='hybrid', default_hash_join='hybrid',
 checkpoint_settings = 'storage_type=S3;disk_name=diskS3;incremental=true;interval=5';
 ```
+
+
+
+## Standlone Setting `checkpoint_interval`
+
+There is a standlone setting `checkpoint_interval` to be provided  (similar as above `interval` ) for materialized view:
+
+- < 0 : disable checkpointing 
+
+- = 0 : default interval (use specified `checkpoint_settings='interval=xxx'` or configured `interval`)
+
+- \> 0 : checkpoint interval in seconds.
+
+
+
+> NOTE: supports to use `alter view {mv} modify query settings checkpoint_interval=xxx` to update the interval in real time
+
+
