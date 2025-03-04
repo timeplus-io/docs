@@ -185,7 +185,7 @@ const sidebars = {
         },
         {
           type: "doc",
-          id: "tired-storage",
+          id: "tiered-storage",
           customProps: { tag: "Enterprise" },
         },
       ],
