@@ -1,8 +1,8 @@
-# Tired Storage
+# Tiered Storage
 
-Since Timeplus Enterprise 2.8, we have introduced a new feature called Tired Storage. This feature allows users to store data in a mix of local and remote storage. For example, users can store hot data in a local high-performance storage(e.g. NVMe SSD) for quick access and move the data to object storage(e.g. S3) for long-term retention.
+Since Timeplus Enterprise 2.8, we have introduced a new feature called Tiered Storage. This feature allows users to store data in a mix of local and remote storage. For example, users can store hot data in a local high-performance storage(e.g. NVMe SSD) for quick access and move the data to object storage(e.g. S3) for long-term retention.
 
-To configure Tired Storage, users need to define a storage policy that specifies the storage tiers and their priorities. The policy can be applied to one or more specific streams.
+To configure Tiered Storage, users need to define a storage policy that specifies the storage tiers and their priorities. The policy can be applied to one or more specific streams.
 
 ```mermaid
 architecture-beta
@@ -10,7 +10,7 @@ architecture-beta
     group local[Local SSD] in policy
     group aws[AWS] in policy
 
-    service s3disk(logos:aws-s3)[S3 Disk] in aws
+    service s3disk(cloud)[S3 Disk] in aws
     service default(disk)[default] in local
 
     default:R --> L:s3disk
