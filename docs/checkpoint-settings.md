@@ -19,8 +19,7 @@ You can set key-value pairs in `checkpoint_settings`.
 **Possible Values**:
 
 - `auto`  **(default)** - Automatically determine whether to use `file` or `rocks` checkpoint based on the query’s state type.
-- `file` - Native file format
-- `rocks` - RocksDB format
+- `file` - Native file format. You can explicitly use the local file system for the checkpoint storage, even for some materialized views, using rocksdb is recommended.
 
 ### storage_type
 
@@ -77,11 +76,11 @@ query_state_checkpoint:
 
 In some cases, you may want to adjust the checkpoint interval after the materialized view is created. You can do this by modifying the `checkpoint_settings` parameter in the `ALTER VIEW` statement.
 ```sql
-ALTER VIEW mv MODIFY QUERY SETTINGS checkpoint_settings = 'incremental=true;interval=5';
+ALTER VIEW mv MODIFY QUERY SETTING checkpoint_settings = 'incremental=true;interval=5';
 ```
 If you don't want to repeat the other key-value pairs in the `checkpoint_settings`, you can use the top-level `checkpoint_interval` parameter, e.g.
 ```sql
-ALTER VIEW mv MODIFY QUERY SETTINGS checkpoint_interval = 5;
+ALTER VIEW mv MODIFY QUERY SETTING checkpoint_interval = 5;
 ```
 
 Set `checkpoint_interval` to a negative integer value to disable checkpointing. Set it to 0 to use the global checkpoint interval. Set it to a positive integer value to specify the checkpoint interval in seconds.
