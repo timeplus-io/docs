@@ -130,6 +130,7 @@ clickhouse
 ClickHouse
 Clickhouse
 ClickHouse's
+clickhouse-connect
 clickhouse-server
 clickstream
 closable
@@ -150,6 +151,7 @@ codenames
 coinbase
 Coinbase
 compatitable
+COMPLEX_KEY_SSD_CACHE
 concat
 conf
 config
@@ -224,6 +226,7 @@ desynchronized
 DevOps
 diag
 DigitalOcean
+DNS
 Downsample
 downsample
 downsampled
@@ -319,6 +322,7 @@ gzip
 GZip
 Gzip
 half_md5
+hard_state_ckpt_log_size
 hardcoded
 hardcoding
 HashiCorp
@@ -364,6 +368,7 @@ IoT
 iovecs
 ip
 ip_trie
+IP_TRIE
 iPhone14
 iPhone14_Plus
 iPhone15
@@ -388,6 +393,7 @@ is_nan
 is_valid_json
 javascript
 Javascript
+javascript_max_memory_bytes
 JDBC
 jdbc
 jdbc:proton
@@ -504,6 +510,7 @@ namespace
 namespaces
 NaN
 NativeLog
+nativelog
 natively
 nats
 NATS
@@ -603,6 +610,7 @@ PV
 pvc
 PVCs
 PVs
+python_libs
 Q1
 quantile
 queryable
@@ -625,6 +633,7 @@ read_avro_upstash
 realtime
 rebuffer
 ReceiverQueueSize
+reconnection
 Redash
 Redgate
 Redpanda
@@ -686,17 +695,22 @@ sla
 SNMP
 SOC2
 soc2
+source_clickhouse
+source_http
+source_mysql
 sparkline
 speed_kmh
 splunk
 Splunk
 sql
 sql
+SQLAlchemy
 SQLs
 sqrt
 SQS
 src
 SSD
+SSD_CACHE
 ssl
 SSL
 SSL_CTX_set1_curves_list
@@ -756,6 +770,7 @@ Tigergraph
 Timeplus
 timeplus
 timeplus-appserver
+timeplus-connect
 timeplus-connector
 timeplus-io
 Timeplus-native-jdbc
@@ -793,6 +808,7 @@ TopN
 tp_append_time
 tp_delta
 tp_detla=-1
+tp_message_headers
 tp_message_key
 tp_process_time
 tp_shard
