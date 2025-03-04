@@ -183,6 +183,11 @@ const sidebars = {
           id: "idempotent",
           customProps: { tag: "Enterprise" },
         },
+        {
+          type: "doc",
+          id: "tired-storage",
+          customProps: { tag: "Enterprise" },
+        },
       ],
     },
     /*"timeplus-enterprise",*/
