@@ -98,6 +98,11 @@ const sidebars = {
             },
             {
               type: "doc",
+              id: "pg-external-table",
+              customProps: { tag: "New" },
+            },
+            {
+              type: "doc",
               id: "s3-external",
               customProps: { tag: "New" },
             },
