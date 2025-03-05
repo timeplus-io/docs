@@ -110,6 +110,12 @@ Starting from [Timeplus Enterprise v2.7](/enterprise-v2.7), you can set the seco
 
 This function is available in Timeplus Enterprise v2.8 or later.
 
+### group_array_sample
+
+`group_array_sample(<column_name>, <max_length>)` to combine the values of the specific column as an array, sampled randomly. For example, if there are 3 rows and the values for these columns are "a","b","c". This function will generate a single row and single column with value `['a','b']` with `group_array_sample(col,2)`.
+
+This function is available in Timeplus Enterprise v2.8 or later.
+
 ### group_uniq_array
 
 `group_uniq_array(<column_name>)` to combine the values of the specific column as an array, making sure only unique values in it. For example, if there are 3 rows and the values for these columns are "a","a","c". This function will generate a single row and single column with value `['a','c']`.
@@ -186,3 +192,6 @@ Optionally, you can add a third parameter to specify an end time for your analys
 `median_time_weighted(column, time_column)` to calculate the time-weighted median of the column. The time column should be in the format of `datetime`,`datetime64` or `date`.
 
 This function also takes an optional third parameter to specify an end time for your analysis period.
+
+### histogram
+`histogram(column, bin_count)` to calculate the histogram of the column. The bin count should be a positive integer.
