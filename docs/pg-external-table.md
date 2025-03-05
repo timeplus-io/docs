@@ -6,7 +6,7 @@ Timeplus can read or write PostgreSQL tables directly. This unlocks a set of new
 - Enrich the live data with the static or slow-changing data in PostgreSQL. Apply streaming JOIN.
 - Use Timeplus to query historical or recent data in PostgreSQL.
 
-This integration is done by introducing "External Table" in Timeplus. Similar to [External Stream](/external-stream), there is no data persisted in Timeplus. However, since the data in PostgreSQL is in the form of table, not data stream, so we call this as External Table. Currently, we support MySQL, PostgreSQL and ClickHouse. In the roadmap, we will support more integration by introducing other types of External Table.
+This integration is done by introducing "External Table" in Timeplus. Similar to [External Stream](/external-stream), there is no data persisted in Timeplus. However, since the data in PostgreSQL is in the form of table, not data stream, so we call this as External Table. Currently, we support S3, MySQL, PostgreSQL and ClickHouse. In the roadmap, we will support more integration by introducing other types of External Table.
 
 ## CREATE EXTERNAL TABLE
 
@@ -54,15 +54,39 @@ You can define the external table and use it to read data from the PostgreSQL ta
 
 ### Connect to a local PostgreSQL {#local}
 
-Example SQL to connect to a local PostgreSQL server without password:
+You can use the following command to start a local PostgresSQL via Docker:
+```bash
+docker run --name=postgres --rm --env=POSTGRES_PASSWORD=foo -p 5432:5432 postgres:latest -c log_statement=all
+```
 
+Then open a new terminal and run the following command to connect to the PostgreSQL server:
+```bash
+psql -p 5432 -U postgres -h localhost
+```
+Create a table and add some rows:
 ```sql
-CREATE EXTERNAL TABLE ch_local
+-- Table Definition
+CREATE TABLE "public"."dim_products" (
+    "product_id" varchar NOT NULL,
+    "price" float8,
+    PRIMARY KEY ("product_id")
+);
+INSERT INTO "public"."dim_products" ("product_id", "price") VALUES ('1', '10.99'), ('2', '19.99'), ('3', '29.99');
+```
+
+In Timeplus, you can create an external table to read data from the PostgreSQL table:
+```sql
+CREATE EXTERNAL TABLE pg_local
 SETTINGS type='postgresql',
          address='localhost:5432',
+         database='postgres',
          user='postgres',
-         password='postgres',
-         table='events'
+         password='foo',
+         table='dim_products';
+```
+Then query the table:
+```sql
+SELECT * FROM pg_local;
 ```
 
 ### Connect to Aiven for PostgreSQL {#aiven}
@@ -75,39 +99,49 @@ SETTINGS type='postgresql',
          address='abc.aivencloud.com:28851',
          user='avnadmin',
          password='..',
+         database='defaultdb',
          secure=true,
          table='events';
 ```
 
 ## Read data from PostgreSQL {#read}
 
-Once the external table is created successfully, it means Timeplus can connect to the MySQL server and fetch the table schema.
+Once the external table is created successfully, it means Timeplus can connect to the PostgreSQL server and fetch the table schema.
 
 You can query it via the regular `select .. from table_name`.
 
 :::warning
 
-Please note, in the current implementation, all rows will be fetched from MySQL to Timeplus, with the selected columns. Then Timeplus applies the SQL functions and `LIMIT n` locally. It's not recommended to run `SELECT *` for a large MySQL table.
+Please note, in the current implementation, all rows will be fetched from PostgreSQL to Timeplus, with the selected columns. Then Timeplus applies the SQL functions and `LIMIT n` locally. It's not recommended to run `SELECT *` for a large PostgreSQL table.
 
-Also note, use the Timeplus function names when you query the external table, such as [to_int](/functions_for_type#to_int), instead of MySQL's naming convention, e.g. CONVERT. In current implementation, the SQL functions are applied in Timeplus engine. We plan to support some function push-down to MySQL in future versions.
+Also note, use the Timeplus function names when you query the external table, such as [to_int](/functions_for_type#to_int), instead of PostgreSQL's naming convention, e.g. CONVERT. In current implementation, the SQL functions are applied in Timeplus engine. We plan to support some function push-down to PostgreSQL in future versions.
 
 :::
 
 Limitations:
 
 1. tumble/hop/session/table functions are not supported for External Table (coming soon)
-2. scalar or aggregation functions are performed by Timeplus, not the remote MySQL
-3. `LIMIT n` is performed by Timeplus, not the remote MySQL
+2. scalar or aggregation functions are performed by Timeplus, not the remote PostgreSQL
+3. `LIMIT n` is performed by Timeplus, not the remote PostgreSQL
 
-## Write data to MySQL {#write}
+## Write data to PostgreSQL {#write}
 
-You can run regular `INSERT INTO` to add data to MySQL table. However it's more common to use a Materialized View to send the streaming SQL results to MySQL.
+You can run regular `INSERT INTO` to add data to PostgreSQL table, such as:
 
-Say you have created an external table `mysql_table`. You can create a materialized view to read Kafka data(via an external stream) and transform/aggregate the data and send to the external table:
+```sql
+INSERT INTO pg_local (product_id, price) VALUES ('10', 90.99), ('20', 199.99);
+```
+:::info
+Please note, since the `price` column is in `float8` type, in Timeplus, you need to insert via `90.99`, instead of a string `"90.99"` as in PostgreSQL INSERT command.
+:::
+
+However it's more common to use a Materialized View in Timeplus to send the streaming SQL results to PostgreSQL.
+
+Say you have created an external table `pg_table`. You can create a materialized view to read Kafka data(via an external stream) and transform/aggregate the data and send to the external table:
 
 ```sql
 -- setup the ETL pipeline via a materialized view
-CREATE MATERIALIZED VIEW mv INTO mysql_table AS
+CREATE MATERIALIZED VIEW mv INTO pg_table AS
     SELECT now64() AS _tp_time,
            raw:requestedUrl AS url,
            raw:method AS method,
@@ -118,7 +152,7 @@ CREATE MATERIALIZED VIEW mv INTO mysql_table AS
 ### Batching Settings
 In Timeplus Enterprise, additional performance tuning settings are available, such as
 ```sql
-INSERT INTO mysql_table
+INSERT INTO pg_table
 SELECT * FROM some_source_stream
 SETTINGS max_insert_block_size=10, max_insert_block_bytes=1024, insert_block_timeout_ms = 100;
 ```
@@ -129,4 +163,4 @@ SETTINGS max_insert_block_size=10, max_insert_block_bytes=1024, insert_block_tim
 
 ## Supported data types {#datatype}
 
-All MySQL data types are supported in the external table. While reading or writing data, Timeplus applies a data type mapping, such as converting Timeplus' `uint8` to MySQL's `SMALLINT`. If you find anything wrong with the data type, please let us know.
+All PostgreSQL data types are supported in the external table. While reading or writing data, Timeplus applies a data type mapping, such as converting Timeplus' `uint8` to PostgreSQL's `SMALLINT`. If you find anything wrong with the data type, please let us know.

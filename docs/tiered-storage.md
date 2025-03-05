@@ -27,7 +27,7 @@ CREATE DISK name disk(
     metadata_path='/var/lib/timeplusd/disks/s3/'
 )
 ```
-Please refer to [S3 External Table](/s3-external) for how to connect to the S3 storage. It's not recommended to hardcode the access key and secret access key in the DDL. Instead, users should use environment variables or IAM role to secure these credentials.
+Please refer to [S3 External Table](/s3-external) for how to connect to the S3 storage. It's not recommended to hardcode the access key and secret access key in the DDL. Instead, users should use [environment variables](/s3-external#use_environment_credentials) or IAM role to secure these credentials.
 
 ## Create a Storage Policy
 You can use SQL to define a storage policy. For example, the following policy will create a storage policy `hcs`(hot-cold-storage) to use both the local disk and S3 disk storage.
