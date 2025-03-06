@@ -23,11 +23,19 @@ CREATE DISK name disk(
     type='s3',
     endpoint='https://sample-bucket.s3.us-east-2.amazonaws.com/streams/',
     access_key_id='..',
-    secret_access_key='..',
-    metadata_path='/var/lib/timeplusd/disks/s3/'
+    secret_access_key='..'
 )
 ```
+
+The `type` needs to be `s3` to create a S3 disk storage. This is the only supported disk type at this time.
+
 Please refer to [S3 External Table](/s3-external) for how to connect to the S3 storage. It's not recommended to hardcode the access key and secret access key in the DDL. Instead, users should use [environment variables](/s3-external#use_environment_credentials) or IAM role to secure these credentials.
+
+You can use the following SQL to list the disks:
+
+```sql
+SELECT * FROM system.disks;
+```
 
 ## Create a Storage Policy
 You can use SQL to define a storage policy. For example, the following policy will create a storage policy `hcs`(hot-cold-storage) to use both the local disk and S3 disk storage.
@@ -39,9 +47,16 @@ volumes:
         disk: default
     cold:
         disk: s3disk
-moving_factor: 0.1
+move_factor: 0.1
 $$;
 ```
+
+You can use the following SQL to list the storage policies:
+
+```sql
+SELECT * FROM system.storage_policies;
+```
+
 The content of the policy is a YAML document that is put into the `$$` block.
 
 The schema of the policy is defined by the following YAML schema:
@@ -49,47 +64,25 @@ The schema of the policy is defined by the following YAML schema:
 volumes:
     volume_name:
         disk: string
-        volume_priority: uint64
-        volume_type: string
         max_data_part_size: uint64
-moving_factor: float64
+move_factor: float64
 perform_ttl_move_on_insert: uint8
-load_balancing: enum
 ```
-### volume_priority
-The value is in uint64.
-
-volume_priority — Defines the priority (order) in which volumes are filled. Lower value means higher priority. The parameter values should be natural numbers and collectively cover the range from 1 to N (lowest priority given) without skipping any numbers.
-* If all volumes are tagged, they are prioritized in given order.
-* If only some volumes are tagged, those without the tag have the lowest priority, and they are prioritized in the order they are defined in config.
-* If no volumes are tagged, their priority is set correspondingly to their order they are declared in configuration.
-* Two volumes cannot have the same priority value.
-
-### volume_type
-Only the following volume types are supported:
-* `JBOD`
-* `SINGLE_DISK`
-* `UKNOWN`
 
 ### max_data_part_size
 The value is in uint64.
 
-The maximum size of a part that can be stored on any of the volume's disks. If the a size of a merged part estimated to be bigger than max_data_part_size_bytes then this part will be written to a next volume. Basically this feature allows to keep new/small parts on a hot (SSD) volume and move them to a cold (HDD) volume when they reach large size. Do not use this setting if your policy has only one volume.
+The maximum size of a part that can be stored on any of the volume's disks. If the a size of a merged part estimated to be bigger than `max_data_part_size_bytes` then this part will be written to a next volume. Basically this feature allows to keep new/small parts on a hot (SSD) volume and move them to a cold (HDD) volume when they reach large size. Do not use this setting if your policy has only one volume.
 
 ### move_factor
 The value is in float64.
 
-When the amount of available space gets lower than this factor, data automatically starts to move on the next volume if any (by default, 0.1). timeplusd sorts existing parts by size from largest to smallest (in descending order) and selects parts with the total size that is sufficient to meet the **move_factor** condition. If the total size of all parts is insufficient, all parts will be moved.
+When the amount of available space gets lower than this factor, data automatically starts to move on the next volume if any (by default, 0.1). Timeplus sorts existing parts by size from largest to smallest (in descending order) and selects parts with the total size that is sufficient to meet the `move_factor` condition. If the total size of all parts is insufficient, all parts will be moved.
 
 ### perform_ttl_move_on_insert
-The value is in uint8.
+The value is in uint8. Default is 1 (enabled).
 
-Value of the perform_ttl_move_on_insert setting. — Disables TTL move on data part INSERT. By default if we insert a data part that already expired by the TTL move rule it immediately goes to a volume/disk declared in move rule. This can significantly slowdown insert in case if destination volume/disk is slow (e.g. S3).
-
-### load_balancing
-Only the following load balancing algorithms are supported:
-* `ROUND_ROBIN`
-* `LEAST_USED`
+Set to 0 to disable TTL move on data part INSERT. By default if we insert a data part that already expired by the TTL move rule it immediately goes to a volume/disk declared in move rule. Set this to 0 can improve the performance of INSERT operations, but newly inserted data won't be available in S3 immediately.
 
 ## Create a stream with the policy
 
