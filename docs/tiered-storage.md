@@ -105,4 +105,8 @@ TTL to_start_of_day(_tp_time) + interval 7 day to volume 'cold'
 SETTINGS storage_policy = 'hcs';
 ```
 
-This stream will keep the recent 7 day data locally and move older data to the `cold` volume, which is in a remote S3 bucket.
+This stream will keep the recent 7 days' historical data locally and move older data to the `cold` volume, which is in a remote S3 bucket defined in the storage policy `hcs`.
+
+:::info
+The `TTL` expression only applies to the historical storage. For the data in the streaming storage, the retention policy is controlled by [logstore_retention_bytes](/sql-create-stream#logstore_retention_bytes) and [logstore_retention_ms](/sql-create-stream#logstore_retention_ms) settings.
+:::
