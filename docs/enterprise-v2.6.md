@@ -28,9 +28,37 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.6.4 {#2_6_4}
+Released on 03-06-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.6 | sh` [Downloads](/release-downloads#2_6_4)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v5.0.9 ..`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.4`
+
+Component versions:
+* timeplusd 2.5.13
+* timeplus_web 2.1.8
+* timeplus_appserver 2.1.6
+* timeplus_connector 2.1.1
+* timeplus cli 1.2.11
+
+#### Changelog {#changelog_2_6_4}
+
+Compared to the [2.6.3](#2_6_3) release:
+* timeplusd 2.5.12 -> 2.5.13
+  * fixed bugs related to materialized views stuck
+
+Upgrade Instructions:
+
+Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
+
+#### Known issues {#known_issue_2_6_4}
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+
 ### 2.6.3 {#2_6_3}
 Released on 02-20-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.6 | sh` [Downloads](/release-downloads#2_6_2)
+* For Linux or Mac users: [Downloads](/release-downloads#2_6_3)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v5.0.8 ..`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.3`
 
