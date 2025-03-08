@@ -31,9 +31,52 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.7.1 {#2_7_1}
+Released on 03-07-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_1)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.4 ..`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.1`
+
+Component versions:
+* timeplusd 2.7.26
+* timeplus_web 2.2.12
+* timeplus_appserver 2.2.13
+* timeplus_connector 2.2.8
+* timeplus cli 1.2.12
+
+#### Changelog {#changelog_2_7_1}
+
+Compared to the [2.7.0](#2_7_0) release:
+* timeplusd 2.7.22 -> 2.7.26
+  * fixed the issue that materialized views cannot send data to MySQL external tables
+  * fixed the incorrect replicated checkpoint format
+  * fixed the issue caused by DNS IP address changes
+  * improved error handling and error messages
+  * improved materialized view auto-recovery
+* timeplus_web 2.2.10 -> 2.2.12
+  * improved the materialized view side panel to always show node id and hide checkpoint status if it's a single node deployment
+  * fixed the issue that query result with null value is not displayed correctly
+  * fixed other minor issues for labels
+* timeplus_appserver 2.2.10 -> 2.2.13
+  * included the shard information for stats API, as well as the timestamps
+  * improved error messages when it fails to connect to timeplusd
+  * updated the Go driver to fix code panic for nullable data in map
+* timeplus_connector 2.2.6 -> 2.2.8
+  * updated the Go driver to fix code panic for nullable data in map
+
+Upgrade Instructions:
+
+Users can upgrade from Timeplus Enterprise 2.6 to 2.7 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
+
+#### Known issues {#known_issue_2_7_1}
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+4. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+
 ### 2.7.0 {#2_7_0}
 Released on 02-27-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_0)
+* For Linux or Mac users: [Downloads](/release-downloads#2_7_0)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.3 ..`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.0`
 
@@ -84,7 +127,4 @@ Upgrade Instructions:
 Users can upgrade from Timeplus Enterprise 2.6 to 2.7 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_7_0}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
-2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
-3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
-4. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+1. It's highly recommended to upgrade to Timeplus Enterprise [2.7.1](#2_7_1)
