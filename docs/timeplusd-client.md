@@ -1,10 +1,13 @@
 # timeplusd-client
 
-Timeplus provides a native command-line client: `timeplusd-client` to run SQL commands. You can also launch the client via `timeplusd client`.
+Timeplus Enterprise provides a command-line interface (CLI) to run SQL commands via `timeplusd client`. The `timeplusd` executable is available in the `timeplus/bin` folder of [the bare metal packages](/release-downloads) and in the `PATH` of the `timeplus/timeplusd` Docker image.
+:::info
+In the Docker/Kubernetes environments, you can also run `timeplusd-client` command, which will call `timeplusd client` command.
+:::
 
-Different client and server versions are compatible with one another, but some features may not be available in older clients. We recommend using the same version of the client as the server app. When you try to use a client of the older version, then the server, `timeplusd-client` displays the message:
+Different client and server versions are compatible with one another, but some features may not be available in older clients. We recommend using the same version of the client as the server app. When you try to use a client of the older version, then the server, `timeplusd client` displays the message:
 
-```response
+```
 Timeplus client version is older than Timeplus server. It may lack support for new features.
 ```
 
@@ -15,19 +18,19 @@ The client can be used in interactive and non-interactive (batch) mode. To use b
 Example of using the client to insert data:
 
 ``` bash
-$ echo -ne "1, 'some text', '2016-08-14 00:00:00'\n2, 'some more text', '2016-08-14 00:00:01'" | timeplusd-client --database=test --query="INSERT INTO test FORMAT CSV";
+$ echo -ne "1, 'some text', '2016-08-14 00:00:00'\n2, 'some more text', '2016-08-14 00:00:01'" | timeplusd client --database=test --query="INSERT INTO test FORMAT CSV";
 
-$ cat <<_EOF | timeplusd-client --database=test --query="INSERT INTO test FORMAT CSV";
+$ cat <<_EOF | timeplusd client --database=test --query="INSERT INTO test FORMAT CSV";
 3, 'some text', '2016-08-14 00:00:00'
 4, 'some more text', '2016-08-14 00:00:01'
 _EOF
 
-$ cat file.csv | timeplusd-client --database=test --query="INSERT INTO test FORMAT CSV";
+$ cat file.csv | timeplusd client --database=test --query="INSERT INTO test FORMAT CSV";
 ```
 
 In batch mode, the default data format is TabSeparated. You can set the format in the FORMAT clause of the query.
 
-By default, you can only process a single query in batch mode. To make multiple queries from a “script,” use the `--multiquery` parameter. This works for all queries except INSERT. Query results are output consecutively without additional separators. Similarly, to process a large number of queries, you can run ‘timeplusd-client’ for each query. Note that it may take tens of milliseconds to launch the ‘timeplusd-client’ program.
+By default, you can only process a single query in batch mode. To make multiple queries from a script, use the `--multiquery` parameter. This works for all queries except INSERT. Query results are output consecutively without additional separators. Similarly, to process a large number of queries, you can run ‘timeplusd client’ for each query. Note that it may take tens of milliseconds to launch the ‘timeplusd client’ program.
 
 In interactive mode, you get a command line where you can enter queries.
 
@@ -43,7 +46,7 @@ The command line is based on ‘replxx’ (similar to ‘readline’). In other 
 
 By default, the format used is PrettyCompact. You can change the format in the FORMAT clause of the query, or by specifying `\G` at the end of the query, using the `--format` or `--vertical` argument in the command line, or using the client configuration file.
 
-To exit the client, press Ctrl+D, or enter one of the following instead of a query: “exit”, “quit”, “logout”, “exit;”, “quit;”, “logout;”, “q”, “Q”, “:q”
+To exit the client, press Ctrl+D, or enter one of the following instead of a query: “exit”, “quit”, “logout”, “exit;”, “quit;”, “logout;”, “q”, “Q”, “:q”.
 
 When processing a query, the client shows:
 
@@ -61,12 +64,12 @@ The command-line client allows passing external data (external temporary tables)
 You can create a query with parameters and pass values to them from client application. This allows to avoid formatting query with specific dynamic values on client side. For example:
 
 ``` bash
-$ timeplusd-client --param_parName="[1, 2]"  -q "SELECT * FROM stream WHERE a = {parName:array(uint16)}"
+$ timeplusd client --param_parName="[1, 2]"  -q "SELECT * FROM stream WHERE a = {parName:array(uint16)}"
 ```
 
 It is also possible to set parameters from within an interactive session:
 ``` bash
-$ timeplusd-client -nq "
+$ timeplusd client -nq "
   SET param_parName='[1, 2]';
   SELECT {parName:array(uint16)}"
 ```
@@ -85,13 +88,13 @@ Format a query as usual, then place the values that you want to pass from the ap
 #### Example {#example}
 
 ``` bash
-$ timeplusd-client --param_tuple_in_tuple="(10, ('dt', 10))" -q "SELECT * FROM stream WHERE val = {tuple_in_tuple:tuple(uint8, tuple(string, uint8))}"
-$ timeplusd-client --param_tbl="numbers" --param_db="system" --param_col="number" --query "SELECT {col:identifier} FROM {db:identifier}.{tbl:identifier} LIMIT 10"
+$ timeplusd client --param_tuple_in_tuple="(10, ('dt', 10))" -q "SELECT * FROM stream WHERE val = {tuple_in_tuple:tuple(uint8, tuple(string, uint8))}"
+$ timeplusd client --param_tbl="numbers" --param_db="system" --param_col="number" --query "SELECT {col:identifier} FROM {db:identifier}.{tbl:identifier} LIMIT 10"
 ```
 
-## Configuring {#interfaces_cli_configuration}
+## Configuration {#interfaces_cli_configuration}
 
-You can pass parameters to `timeplusd-client` (all parameters have a default value) using:
+You can pass parameters to `timeplusd client` (all parameters have a default value) using:
 
 -   From the Command Line
 
@@ -127,7 +130,7 @@ You can pass parameters to `timeplusd-client` (all parameters have a default val
 
 ### Configuration Files {#configuration_files}
 
-`timeplusd-client` uses the first existing file of the following:
+`timeplusd client` uses the first existing file of the following:
 
 -   Defined in the `--config-file` parameter.
 -   `./timeplusd-client.xml`
@@ -151,7 +154,7 @@ Example of a config file:
 
 ### Query ID Format {#query-id-format}
 
-In interactive mode `timeplusd-client` shows query ID for every query. By default, the ID is formatted like this:
+In interactive mode `timeplusd client` shows query ID for every query. By default, the ID is formatted like this:
 
 ```sql
 Query id: 927f137d-00f1-4175-8914-0dd066365e96
