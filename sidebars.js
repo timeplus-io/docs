@@ -98,6 +98,11 @@ const sidebars = {
             },
             {
               type: "doc",
+              id: "pg-external-table",
+              customProps: { tag: "New" },
+            },
+            {
+              type: "doc",
               id: "s3-external",
               customProps: { tag: "New" },
             },
@@ -176,6 +181,11 @@ const sidebars = {
         {
           type: "doc",
           id: "idempotent",
+          customProps: { tag: "Enterprise" },
+        },
+        {
+          type: "doc",
+          id: "tiered-storage",
           customProps: { tag: "Enterprise" },
         },
       ],
@@ -520,6 +530,7 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
+        "enterprise-v2.8",
         "enterprise-v2.7",
         "enterprise-v2.6",
         "enterprise-v2.5",
