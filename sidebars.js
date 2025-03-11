@@ -39,7 +39,6 @@ const sidebars = {
         {
           type: "doc",
           id: "why-timeplus",
-          customProps: { tag: "Popular" },
         },
         "showcases",
       ],
@@ -52,6 +51,7 @@ const sidebars = {
     {
       type: "category",
       label: "Key Features",
+      customProps: { tag: "Popular" },
       items: [
         "stream-query",
         "history",
@@ -199,7 +199,15 @@ const sidebars = {
             type: "doc",
             id: "timeplus-self-host",
           },
-          items: ["singlenode_install", "cluster_install", "k8s-helm"],
+          items: [
+            "singlenode_install",
+            "cluster_install",
+            {
+              type: "doc",
+              id: "k8s-helm",
+              customProps: { tag: "Popular" },
+            },
+          ],
         },
         {
           type: "doc",
@@ -480,7 +488,11 @@ const sidebars = {
         keywords: ["guides"],
       },
       items: [
-        "integration-grafana",
+        {
+          type: "doc",
+          id: "integration-grafana",
+          customProps: { tag: "Popular" },
+        },
         "integration-metabase",
         "sling",
         "kafka-connect",

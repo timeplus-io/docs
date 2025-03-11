@@ -33,7 +33,7 @@ In many cases, Business Intelligence and analytical queries can be executed dire
 ## Python and JavaScript UDF {#udf}
 We understand that SQL may not be able to express all business logic for streaming or querying. [JavaScript](/js-udf) and Python User Defined Functions (UDFs) and User Defined Aggregate Functions (UDAFs) can be used to extend Timeplus to encapsulate custom logic for both stateless and stateful queries.
 
-With Python UDFs in preview, this opens up the possibility to bring in pre-existing and popular libraries, including data science and machine learning libraries!
+With Python UDFs, this opens up the possibility to bring in pre-existing and popular libraries, including data science and machine learning libraries!
 
 ## External Stream, External Table {#external}
 We want to simplify the experience of joining data from Apache Kafka and writing results out to data warehouses such as Clickhouse, or another Timeplus instance. Timeplus implements native integration to these systems in timeplusd via EXTERNAL STREAM (with [Kafka](/proton-kafka) and [Timeplus](/timeplus-external-stream)) and [EXTERNAL TABLE (with ClickHouse)](/proton-clickhouse-external-table). No need for deploying yet another Connector component.
