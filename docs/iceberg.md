@@ -1,24 +1,24 @@
 # Iceberg Integration
 
-Apache Iceberg is an open table format for large-scale analytics, designed for high performance and reliability. It provides an open, vendor-neutral solution that supports multiple query engines, making it ideal for various analytics workloads. Initially, the Iceberg ecosystem was primarily built around Java, but with the increasing adoption of the REST catalog specification, Timeplus is among the first vendors to integrate with Iceberg purely in C++. This allows Timeplus to achieve high performance, low memory footprint, and easy installation without relying on Java dependencies.
+[Apache Iceberg](https://iceberg.apache.org/) is an open table format for large-scale analytic datasets, designed for high performance and reliability. It provides an open, vendor-neutral solution that supports multiple engines, making it ideal for various analytics workloads. Initially, the Iceberg ecosystem was primarily built around Java, but with the increasing adoption of the REST catalog specification, Timeplus is among the first vendors to integrate with Iceberg purely in C++. This allows Timeplus to achieve high performance, low memory footprint, and easy installation without relying on Java dependencies.
 
-In Timeplus Proton and Timeplus Enterprise, we provide native support for Iceberg as an external database engine. This allows you to read and write data using the Iceberg format, with support for the REST catalog. In March 2025, we have verified compatibility with AWS Glue REST Catalog and anticipate support for other REST catalog implementations such as Apache Gravitino.
+Since Timeplus Proton 1.7 and Timeplus Enterprise 2.8, we provide native support for Iceberg as an external database engine. This allows you to read and write data using the Iceberg format, with support for the REST catalog. In the initial release, we support [the AWS Glue's Iceberg REST endpoint](https://docs.aws.amazon.com/glue/latest/dg/connect-glu-iceberg-rest.html) and [the Apache Gravitino Iceberg REST Server](https://gravitino.apache.org/docs/0.8.0-incubating/iceberg-rest-service). More REST catalog implementations are planned.
 
 ## Use Cases
 
-### Data Lakehouse
+**Data Lakehouse**
 
 Iceberg allows users to manage streaming and batch data together in a single lakehouse, supporting fast queries and schema evolution.
 
-### Streaming ETL
+**Streaming ETL**
 
 Using Timeplus materialized views, users can continuously process and transform streaming data before writing to Iceberg.
 
-### Cost Optimization
+**Cost Optimization**
 
 Since Iceberg allows for time travel and incremental data management, it reduces data duplication and storage costs in cloud environments.
 
-## CREATE DATABASE Syntax
+## CREATE DATABASE {#syntax}
 
 To create an Iceberg database in Timeplus, use the following general syntax:
 
@@ -33,7 +33,7 @@ SETTINGS  catalog_type='rest',
           rest_catalog_signing_name='<service_name>';
 ```
 
-### Explanation of Settings
+### DDL Settings {#settings}
 
 - `catalog_type` – Specifies the catalog type. Currently, only `rest` is supported in Timeplus.
 - `warehouse` – The Iceberg warehouse identifier where the table data is stored.
@@ -42,7 +42,7 @@ SETTINGS  catalog_type='rest',
 - `rest_catalog_signing_region` – AWS region used for signing the catalog requests.
 - `rest_catalog_signing_name` – The service name used in AWS SigV4 signing.
 
-## Example: AWS Glue REST Catalog
+### Example: AWS Glue REST Catalog {#example_glue}
 
 ```sql
 CREATE DATABASE demo
@@ -55,22 +55,25 @@ SETTINGS  catalog_type='rest',
           rest_catalog_signing_name='glue';
 ```
 
-## Example: Apache Gravitino REST Catalog
+### Example: Apache Gravitino REST Catalog {#example_gravitino}
 
 ```sql
-CREATE DATABASE demo_gravitino
+CREATE DATABASE demo
 ENGINE = Iceberg('http://127.0.0.1:9001/iceberg/')
 SETTINGS  catalog_type='rest',
           warehouse='s3://mybucket/demo/gravitino1',
           storage_endpoint='https://s3.us-west-2.amazonaws.com';
 ```
 
-### Gravitino Configuration
+#### Gravitino Configuration
+Here is the sample configuration for Gravitino Iceberg REST Server 0.7.0:
+
 ```properties
+# conf/gravitino-iceberg-rest-server.conf
 gravitino.iceberg-rest.catalog-backend = jdbc
 gravitino.iceberg-rest.catalog-backend-name = public
 gravitino.iceberg-rest.jdbc-driver = org.postgresql.Driver
-gravitino.iceberg-rest.uri = jdbc:postgresql://demo-timeplus.aivencloud.com:28851/defaultdb?ssl=require
+gravitino.iceberg-rest.uri = jdbc:postgresql://abc.aivencloud.com:28851/defaultdb?ssl=require
 gravitino.iceberg-rest.jdbc-user = avnadmin
 gravitino.iceberg-rest.jdbc-password = thepassword
 gravitino.iceberg-rest.jdbc-initialize = true
@@ -85,10 +88,13 @@ gravitino.iceberg-rest.s3-access-key-id = theaccesskeyid
 gravitino.iceberg-rest.s3-secret-access-key = thesecretaccesskey
 ```
 
-## Creating and Writing to an Iceberg Table
+## Creating and Writing to an Iceberg Table {#create_table}
+
+Once the Iceberg database is created in Timeplus, you can list existing tables in the database or create new table via Timeplus SQL:
 
 ```sql
-CREATE STREAM transformed(
+-- Make sure to create the table under the iceberg database
+CREATE STREAM demo.transformed(
   timestamp datetime64,
   org_id string,
   float_value float,
@@ -98,10 +104,11 @@ CREATE STREAM transformed(
 );
 ```
 
-## Writing to Iceberg via a Materialized View
+## Writing to Iceberg via a Materialized View {#write_via_mv}
+You can run `INSERT INTO` statements to write data to Iceberg tables, or set up a materialized view to continuously write data to Iceberg tables.
 
 ```sql
-CREATE MATERIALIZED VIEW mv_write_iceberg INTO iceberg.transformed AS
+CREATE MATERIALIZED VIEW mv_write_iceberg INTO demo.transformed AS
 SELECT now() AS timestamp, org_id, float_value,
        length(`array_of_records.a_num`) AS array_length,
        array_max(`array_of_records.a_num`) AS max_num,
@@ -110,9 +117,19 @@ FROM msk_stream_read
 SETTINGS s3_min_upload_file_size=1024;
 ```
 
-## Querying Iceberg Data with SparkSQL
+## Querying Iceberg Data with SparkSQL {#query_iceberg}
 
-### Using SparkSQL with AWS Glue REST Catalog
+### Using SQL in Timeplus {#query_timeplus}
+You can query Iceberg data in Timeplus by:
+```sql
+SELECT * FROM demo.transformed
+```
+This will return all results and terminate the query. No streaming mode is supported for Iceberg tables yet.
+
+### Using SparkSQL {#query_sparksql}
+
+Depending on whether you setup the catalog via AWS Glue or Apache Gravitino, you can also start a SparkSQL session to query or insert data into Iceberg tables.
+
 ```bash
 spark-sql --packages org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.7.1,org.apache.iceberg:iceberg-aws-bundle:1.7.1,software.amazon.awssdk:bundle:2.30.2,software.amazon.awssdk:url-connection-client:2.30.2 \
     --conf spark.sql.defaultCatalog=spark_catalog \
@@ -124,7 +141,6 @@ spark-sql --packages org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.7.1,org
     --conf spark.sql.catalog.spark_catalog.rest.signing-region=us-west-2
 ```
 
-### Using SparkSQL with Apache Gravitino REST Catalog
 ```bash
 spark-sql -v --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.8.1,org.apache.iceberg:iceberg-aws-bundle:1.8.1,software.amazon.awssdk:bundle:2.30.2,software.amazon.awssdk:url-connection-client:2.30.2 \
 --conf spark.sql.defaultCatalog=spark_catalog \
@@ -132,13 +148,15 @@ spark-sql -v --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.8.1,
 --conf spark.sql.catalog.spark_catalog.uri=http://127.0.0.1:9001/iceberg/ \
 --conf spark.sql.catalog.spark_catalog.warehouse=s3://mybucket/demo/gravitino1
 ```
+
 ## DROP DATABASE
 
 ```sql
 DROP DATABASE [IF EXISTS] demo;
 ```
 
+Please note this won't delete the data in catalog or S3 storage.
+
 ## Limitations
 - As of March 2025, only the REST catalog is supported.
-- Verified to work with AWS Glue REST Catalog; other REST implementations (e.g., Apache Gravitino) may work but are unverified.
-- Currently, only S3-compatible storage is supported for data storage.
+- Verified to work with AWS S3 for data storage. Other S3-compatible storages may work but are unverified.
