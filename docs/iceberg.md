@@ -30,7 +30,11 @@ SETTINGS  catalog_type='rest',
           storage_endpoint='<s3_endpoint>',
           rest_catalog_sigv4_enabled=<true|false>,
           rest_catalog_signing_region='<region>',
-          rest_catalog_signing_name='<service_name>';
+          rest_catalog_signing_name='<service_name>',
+          use_environment_credentials=<true|false>,
+          credential='<username:password>',
+          catalog_credential='<username:password>',
+          storage_credential='<username:password>';
 ```
 
 ### DDL Settings {#settings}
@@ -41,6 +45,10 @@ SETTINGS  catalog_type='rest',
 - `rest_catalog_sigv4_enabled` – Enables AWS SigV4 authentication for secure catalog communication.
 - `rest_catalog_signing_region` – AWS region used for signing the catalog requests.
 - `rest_catalog_signing_name` – The service name used in AWS SigV4 signing.
+- `use_environment_credentials` – If true, Timeplus will use environment-based credentials, useful for cases where Timeplus runs in an AWS EC2 instance with an assigned IAM role. Setting this to false improves performance on non-EC2 instances.
+- `credential` – A unified credential (username:password format) that applies to both catalog and storage if they share the same authentication (e.g. AWS access key and secret key).
+- `catalog_credential` – If the catalog requires a separate credential, specify it here.
+- `storage_credential` – If the storage (e.g. S3) requires a different credential, specify it separately.
 
 ### Example: AWS Glue REST Catalog {#example_glue}
 
