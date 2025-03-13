@@ -61,16 +61,16 @@ timeplusd:
     stream:
       className: <Your storage class name>
       size: 100Gi
-      # Keep this to be `null` if you are on Amazon EKS with EBS CSI controller. Otherwise please carefully check your 
-      # provisioner and set them properly.
+      # Keep this to be `null` if you are on Amazon EKS with EBS CSI controller. 
+      # Otherwise please carefully check your provisioner and set them properly.
       selector: null
     history:
       className: <Your storage class name>
       size: 100Gi
       selector: null
     log:
-      # This log PV is optional. If you have log collect service enabled on you k8s cluster, you can set this to be false.
-      # If log PV is disabled, the log file will be gone after pod
+      # This log PV is optional. If you have log collect service enabled on your k8s cluster, you can set this to be false.
+      # If log PV is disabled, the log file will be gone after pod restarts.
       enabled: true
       className: <Your storage class name>
       size: 10Gi
@@ -217,9 +217,9 @@ Due to the [limitation of Kubernetes Statefulset](https://github.com/kubernetes/
 
 ### Upgrade Timeplus Enterprise
 
-#### Do not attempt to upgrade across multiple major versions at a time
+#### Do not attempt to upgrade across multiple major chart versions at a time
 
-It is always the best practise to upgrade one major version at a time even if the breaking change doesn't impact your deployment.
+This helm chart follows [Semantic Versioning](https://semver.org/). It is always the best practise to upgrade one major chart version at a time even if the breaking change doesn't impact your deployment.
 
 #### Check if there is an incompatible breaking change needing manual actions
 
@@ -438,7 +438,7 @@ There are a lot of other configurations available to customize the deployment. S
 | ingress.appserver | object | `{"domain":null,"enabled":false}` | Only Nginx controller is tested. https://kubernetes.github.io/ingress-nginx/ ingressClassName: nginx Uncomment the tls section below to enable https. You will need to follow   1. https://kubernetes.io/docs/concepts/services-networking/ingress/#tls   2. https://kubernetes.github.io/ingress-nginx/user-guide/tls/ to create a k8s secret that contains certificate and private key tls:   - hosts: [timeplus.local]   secretName: "secret-name" |
 | ingress.appserver.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
 | ingress.timeplusd.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
-| ingress.timeplusd.enabled | bool | `false` | To send REST API call to timeplusd, the URL will be http(s)://<publicDomain>:<port><restPath> e.g.   - curl http://timeplus.local/timeplusd/info   - curl http://timeplus.local/timeplusd/v1/ddl/streams |
+| ingress.timeplusd.enabled | bool | `false` | |
 | ingress.timeplusd.httpSnapshotPath | string | `"/snapshot"` | * update thte `httpSnapshotPath` to be `/` and use different domain for appserver and timeplusd ingress |
 | prometheus_metrics.enabled | bool | `false` |  |
 | prometheus_metrics.remote_write_endpoint | string | `"http://timeplus-prometheus:80"` |  |
