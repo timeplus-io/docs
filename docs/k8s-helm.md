@@ -5,6 +5,9 @@ import TabItem from '@theme/TabItem';
 
 You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://helm.sh/).
 
+For visual learning, you can watch the following video:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/kFyzYx1JI_8?si=WVszQMuFyW6Xcixm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Prerequisites
 
 - Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
@@ -32,8 +35,8 @@ A sample output would be:
 
 ```bash
 NAME                        	CHART VERSION	APP VERSION	DESCRIPTION
-timeplus/timeplus-enterprise	v4.0.10      	2.5.11     	Helm chart for deploying a cluster of Timeplus ...
-timeplus/timeplus-enterprise	v3.0.7       	2.4.23     	Helm chart for deploying a cluster of Timeplus ...
+timeplus/timeplus-enterprise	v6.0.4       	2.7.1      	Helm chart for deploying a cluster of Timeplus ...
+timeplus/timeplus-enterprise	v6.0.3       	2.7.0      	Helm chart for deploying a cluster of Timeplus ...
 ```
 
 Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](/enterprise-releases). Prior to v3.0.0 chart version, the `APP VERSION` is the same version as the timeplusd component.
@@ -58,12 +61,15 @@ timeplusd:
     stream:
       className: <Your storage class name>
       size: 100Gi
+      selector: null
     history:
       className: <Your storage class name>
       size: 100Gi
+      selector: null
     log:
       className: <Your storage class name>
       size: 10Gi
+      selector: null
   defaultAdminPassword: timeplusd@t+
   resources:
     limits:
@@ -74,7 +80,7 @@ timeplusd:
       memory: "4Gi"
 ```
 Then make changes to better fit your need.
-1. Update the storage class name and size accordingly. Please check the [Planning capacity](#planning-capacity) section for storage recommendations. You can check available storage class on your cluster by running `kubectl get storageclass`. If you have enabled storage dynamic provisioning, you may want to set `timeplusd.storage.stream.selector`, `timeplusd.storage.history.selector` and `timeplusd.storage.log.selector` to `null`.
+1. Update the storage class name, size and selector accordingly. Please check the [Planning capacity](#planning-capacity) section for storage recommendations. You can check available storage class on your cluster by running `kubectl get storageclass`. If you have enabled storage dynamic provisioning, you may want to set `selector` to `null`.
 2. Update `defaultAdminPassword`. This is the password for the default admin user `proton`, which is used internally in the system.
 3. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload. Please note that you cannot change the number of replicas after the deployment.
 4. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. By default each `timeplusd` pod requires 2 cores and 4GB memory. However, you'd better to have at least 8 cores and 20Gi memory for each node to make sure Timeplus Enterprise works well under small to medium workload.
