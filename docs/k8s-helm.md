@@ -61,12 +61,17 @@ timeplusd:
     stream:
       className: <Your storage class name>
       size: 100Gi
+      # Keep this to be `null` if you are on Amazon EKS with EBS CSI controller. Otherwise please carefully check your 
+      # provisioner and set them properly.
       selector: null
     history:
       className: <Your storage class name>
       size: 100Gi
       selector: null
     log:
+      # This log PV is optional. If you have log collect service enabled on you k8s cluster, you can set this to be false.
+      # If log PV is disabled, the log file will be gone after pod
+      enabled: true
       className: <Your storage class name>
       size: 10Gi
       selector: null
@@ -80,9 +85,9 @@ timeplusd:
       memory: "4Gi"
 ```
 Then make changes to better fit your need.
-1. Update the storage class name, size and selector accordingly. Please check the [Planning capacity](#planning-capacity) section for storage recommendations. You can check available storage class on your cluster by running `kubectl get storageclass`. If you have enabled storage dynamic provisioning, you may want to set `selector` to `null`.
+1. Update the storage class name, size and selector accordingly. Please check the [Planning capacity](#planning-capacity) section for storage recommendations. You can check available storage class on your cluster by running `kubectl get storageclass`.
 2. Update `defaultAdminPassword`. This is the password for the default admin user `proton`, which is used internally in the system.
-3. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload. Please note that you cannot change the number of replicas after the deployment.
+3. Review and update the `replicas`. Set it to `3` to setup a cluster with 3 timeplusd nodes. Set it to `1` to setup a single node for testing or small workload. Please note that you **cannot** change the number of replicas after the deployment.
 4. Update the `resources` and make sure your cluster has enough CPU and memory to run the stack. By default each `timeplusd` pod requires 2 cores and 4GB memory. However, you'd better to have at least 8 cores and 20Gi memory for each node to make sure Timeplus Enterprise works well under small to medium workload.
 5. Optionally refer to [Configuration Guide](#configuration-guide) and add other configurations.
 
@@ -106,7 +111,6 @@ REVISION: 1
 TEST SUITE: None
 NOTES:
 Your Timeplus Enterprise stack is deployed! It may take a few minutes before all the services are up and running.
-You can run `kubectl -n timeplus get jobs` to check whether `timeplus-provision` is completed or not. Once this job is completed, you can start use Timeplus Enterprise.
 ```
 
 To make sure everything is up and running, run `kubectl get pods -n $NS` to check the stack status
@@ -212,6 +216,10 @@ Due to the [limitation of Kubernetes Statefulset](https://github.com/kubernetes/
 1. Run helm upgrade command to upgrade the deployment. New statefulset will be created to pick up the PV size changes.
 
 ### Upgrade Timeplus Enterprise
+
+#### Do not attempt to upgrade across multiple major versions at a time
+
+It is always the best practise to upgrade one major version at a time even if the breaking change doesn't impact your deployment.
 
 #### Check if there is an incompatible breaking change needing manual actions
 
@@ -414,7 +422,9 @@ There are a lot of other configurations available to customize the deployment. S
 - `imageRegistry`: Defaulted to the official Docker Hub (`docker.io`).
 - `imagePullPolicy`: Defaulted to `IfNotPresent`.
 - `resources`: [Resource](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) property. Defaulted to `null` except for `timeplusd` component. Please refer to `timeplusd` section to find out the default value.
-- `labels`: Extra labels that applied to Pod/Deploy/Sts. Defaulted to `null`
+- `labels`: Extra labels that applied to Pod/Deploy/Sts/Svc. Defaulted to `null`.
+- `annotations`: Extra annotations that applied to Pod/Deploy/Sts. Defaulted to `null`.
+- `securityContext`: Extra security Context that applied to Pod/Deploy/Sts. Defaulted to `null`.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -425,8 +435,14 @@ There are a lot of other configurations available to customize the deployment. S
 | global.pvcDeleteOnStsDelete | bool | `false` | Only valid with k8s >= 1.27.0. Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention |
 | global.pvcDeleteOnStsScale | bool | `false` | Only valid with k8s >= 1.27.0. Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention |
 | global.tolerations | list | `[]` | See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/ |
-| ingress.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
-| ingress.enabled | bool | `false` | You will need to manually create ingress if you don't want to enable it here. |
+| ingress.appserver | object | `{"domain":null,"enabled":false}` | Only Nginx controller is tested. https://kubernetes.github.io/ingress-nginx/ ingressClassName: nginx Uncomment the tls section below to enable https. You will need to follow   1. https://kubernetes.io/docs/concepts/services-networking/ingress/#tls   2. https://kubernetes.github.io/ingress-nginx/user-guide/tls/ to create a k8s secret that contains certificate and private key tls:   - hosts: [timeplus.local]   secretName: "secret-name" |
+| ingress.appserver.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
+| ingress.timeplusd.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
+| ingress.timeplusd.enabled | bool | `false` | To send REST API call to timeplusd, the URL will be http(s)://<publicDomain>:<port><restPath> e.g.   - curl http://timeplus.local/timeplusd/info   - curl http://timeplus.local/timeplusd/v1/ddl/streams |
+| ingress.timeplusd.httpSnapshotPath | string | `"/snapshot"` | * update thte `httpSnapshotPath` to be `/` and use different domain for appserver and timeplusd ingress |
+| prometheus_metrics.enabled | bool | `false` |  |
+| prometheus_metrics.remote_write_endpoint | string | `"http://timeplus-prometheus:80"` |  |
+| prometheus_metrics.vector.image | string | `"timberio/vector"` |  |
 | provision.dashboards | bool | `true` | Monitoring dashboards |
 | provision.enabled | bool | `true` | Provision job will ONLY be run once after the first installation if it is enabled. A Job will be created to provision default resources such as users, licenses, and etc. This Job shares the same configurations (e.g. resource limit) as `timeplusCli` below. Disable it during installation and re-enable it later won't work. |
 | timeplusAppserver.configs | object | `{}` | Configurations for appserver. e.g. `enable-authentication: true`. See https://docs.timeplus.com/server_config#appserver |
@@ -436,6 +452,7 @@ There are a lot of other configurations available to customize the deployment. S
 | timeplusAppserver.image | string | `"timeplus/timeplus-appserver"` |  |
 | timeplusCli.enabled | bool | `false` |  |
 | timeplusCli.image | string | `"timeplus/timeplus-cli"` |  |
+| timeplusConnector.configMap | object | `{"logger":{"add_timestamp":true,"file":{"path":"/timeplus/connector-server.log","rotate":true,"rotate_max_age_days":1},"level":"INFO"}}` | With this default config map, the logs will be written to local ephemeral volume. You can set configMap to be `null` and the logs will be written to stdout. However, you will not be able to view logs of the source and sink on UI if it is `null`. |
 | timeplusConnector.enabled | bool | `true` |  |
 | timeplusConnector.extraContainers | list | `[]` | Extra containers that to be run together with the main container. |
 | timeplusConnector.extraVolumes | list | `[]` | Extra volumes that to be mounted |
@@ -447,18 +464,20 @@ There are a lot of other configurations available to customize the deployment. S
 | timeplusd.enabled | bool | `true` |  |
 | timeplusd.extraContainers | list | `[]` | Extra containers that to be run together with the main container. |
 | timeplusd.extraInitContainers | list | `[]` | Extra init containers. It will be run before other init containers. |
+| timeplusd.extraUsers | object | `{}` | Extra users |
 | timeplusd.extraVolumes | list | `[]` | Extra volumes that to be mounted |
 | timeplusd.image | string | `"timeplus/timeplusd"` |  |
-| timeplusd.ingress.enabled | bool | `false` | To send REST API call to timeplusd, the URL will be http(s)://\<publicDomain>:\<port>\<restPath> e.g.   - curl http://timeplus.local/timeplusd/info   - curl http://timeplus.local/timeplusd/v1/ddl/streams |
 | timeplusd.initJob.image | string | `"timeplus/boson"` |  |
 | timeplusd.livenessProbe | object | `{"failureThreshold":20,"httpGet":{"path":"/timeplusd/ping","port":"http-streaming","scheme":"HTTP"},"initialDelaySeconds":30,"periodSeconds":30,"successThreshold":1,"timeoutSeconds":1}` | K8s liveness probe for timeplusd. Please refer to https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
 | timeplusd.replicas | int | `3` | Current only support replicas 1 or 3 |
 | timeplusd.resources | object | `{"limits":{"cpu":"32","memory":"60Gi"},"requests":{"cpu":"2","memory":"4Gi"}}` | Make sure at least 2 cores are assigned to each timeplusd |
 | timeplusd.service.nodePort | int | `30863` |  |
 | timeplusd.service.type | string | `"ClusterIP"` | Update type to `NodePort` if you want to access timeplusd directly (rest API, metrics, and etc.) |
-| timeplusd.storage.history | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-history"}},"size":"10Gi"}` | PV settings for historical storage. |
-| timeplusd.storage.log | object | `{"className":"local-storage","enabled":false,"selector":{"matchLabels":{"app":"timeplusd-log"}},"size":"10Gi"}` | PV settings for logs. It is disabled by default so you don't need a separate PV for it. |
-| timeplusd.storage.stream | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-stream"}},"size":"10Gi"}` | PV settings for streaming storage. |
+| timeplusd.serviceAccountName | string | `""` |  |
+| timeplusd.storage.history | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-history"}},"size":"100Gi"}` | PV settings for historical storage. |
+| timeplusd.storage.log | object | `{"className":"local-storage","enabled":true,"selector":{"matchLabels":{"app":"timeplusd-log"}},"size":"30Gi"}` | PV settings for logs. |
+| timeplusd.storage.log.enabled | bool | `true` | When disabled, log will be written to stream storage (/var/lib/timeplusd/nativelog) |
+| timeplusd.storage.stream | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-stream"}},"size":"100Gi"}` | PV settings for streaming storage. |
 
 ## Upgrade guide
 
