@@ -28,9 +28,12 @@ Key highlights of this release:
 |Mac bare metal| Intel or Apple chips: macOS 14, macOS 15|
 |Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
 
-## Releases
-We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
+## Upgrade Guide
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+2. For bare metal users, you can upgrade from Timeplus Enterprise 2.6 to 2.7 by stopping components and replacing binary files.
+3. For Kubernetes users, please follow [the guide](/k8s-helm#v5-to-v6) carefully since a few timeplusd built-in users are removed in the new helm chart, and you can configure ingress for Appserver and Timeplusd independently.
 
+## Releases
 ### 2.7.1 {#2_7_1}
 Released on 03-07-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_1)
@@ -64,15 +67,10 @@ Compared to the [2.7.0](#2_7_0) release:
 * timeplus_connector 2.2.6 -> 2.2.8
   * updated the Go driver to fix code panic for nullable data in map
 
-Upgrade Instructions:
-
-Users can upgrade from Timeplus Enterprise 2.6 to 2.7 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
-
 #### Known issues {#known_issue_2_7_1}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
-2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
-3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
-4. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+1. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
 
 ### 2.7.0 {#2_7_0}
 Released on 02-27-2025. Installation options:
@@ -121,10 +119,6 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
   * Added endpoints for logs and lint.
 * timeplus cli 1.2.11 -> 1.2.12
   * Removed the subcommand to manage users and groups. Please use the web console to manage them or setup with Helm charts.
-
-Upgrade Instructions:
-
-Users can upgrade from Timeplus Enterprise 2.6 to 2.7 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_7_0}
 1. It's highly recommended to upgrade to Timeplus Enterprise [2.7.1](#2_7_1)

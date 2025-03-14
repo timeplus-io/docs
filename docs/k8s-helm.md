@@ -61,7 +61,7 @@ timeplusd:
     stream:
       className: <Your storage class name>
       size: 100Gi
-      # Keep this to be `null` if you are on Amazon EKS with EBS CSI controller. 
+      # Keep this to be `null` if you are on Amazon EKS with EBS CSI controller.
       # Otherwise please carefully check your provisioner and set them properly.
       selector: null
     history:
@@ -482,6 +482,10 @@ There are a lot of other configurations available to customize the deployment. S
 ## Upgrade guide
 
 ### v5 to v6
+:::info
+[Timeplus Enterprise 2.6](/enterprise-v2.6)'s helm chart versions are v5.0.x.
+[Timeplus Enterprise 2.7](/enterprise-v2.7)'s helm chart versions are v6.0.x.
+:::
 
 1. A few timeplusd built-in users (`neutron`, `pgadmin`, `system`, `default`) are removed. If you do need any of these users, please add them back to `timeplusd.extraUsers`, for example:
 ```yaml
