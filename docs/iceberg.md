@@ -1,22 +1,15 @@
 # Iceberg Integration
 
-[Apache Iceberg](https://iceberg.apache.org/) is an open table format for large-scale analytic datasets, designed for high performance and reliability. It provides an open, vendor-neutral solution that supports multiple engines, making it ideal for various analytics workloads. Initially, the Iceberg ecosystem was primarily built around Java, but with the increasing adoption of the REST catalog specification, Timeplus is among the first vendors to integrate with Iceberg purely in C++. This allows Timeplus to achieve high performance, low memory footprint, and easy installation without relying on Java dependencies.
+[Apache Iceberg](https://iceberg.apache.org/) is an open table format for large-scale analytic datasets, designed for high performance and reliability. It provides an open, vendor-neutral solution that supports multiple engines, making it ideal for various analytics workloads. Initially, the Iceberg ecosystem was primarily built around Java, but with the increasing adoption of the REST catalog specification, Timeplus is among the first vendors to integrate with Iceberg purely in C++. This allows Timeplus users to stream data to Iceberg with a high performance, low memory footprint, and easy installation without relying on Java dependencies.
 
-Since Timeplus Proton 1.7 and Timeplus Enterprise 2.8, we provide native support for Iceberg as an external database engine. This allows you to read and write data using the Iceberg format, with support for the REST catalog. In the initial release, we support [the AWS Glue's Iceberg REST endpoint](https://docs.aws.amazon.com/glue/latest/dg/connect-glu-iceberg-rest.html) and [the Apache Gravitino Iceberg REST Server](https://gravitino.apache.org/docs/0.8.0-incubating/iceberg-rest-service). More REST catalog implementations are planned.
+Since Timeplus Proton 1.7 and Timeplus Enterprise 2.8, we provide native support for Apache Iceberg as a new database type. This allows you to read and write data using the Apache Iceberg open table format, with support for the Iceberg REST Catalog (IRC). In the initial release, we focused on writing data to Iceberg, with basic query optimization for reading data from Iceberg. The integration with Amazon S3, [AWS Glue's Iceberg REST endpoint](https://docs.aws.amazon.com/glue/latest/dg/connect-glu-iceberg-rest.html) and [the Apache Gravitino Iceberg REST Server](https://gravitino.apache.org/docs/0.8.0-incubating/iceberg-rest-service) are validated. More REST catalog implementations are planned.
 
-## Use Cases
+## Key Benefits for Timeplus Iceberg Integration
 
-**Data Lakehouse**
-
-Iceberg allows users to manage streaming and batch data together in a single lakehouse, supporting fast queries and schema evolution.
-
-**Streaming ETL**
-
-Using Timeplus materialized views, users can continuously process and transform streaming data before writing to Iceberg.
-
-**Cost Optimization**
-
-Since Iceberg allows for time travel and incremental data management, it reduces data duplication and storage costs in cloud environments.
+- Using Timeplus materialized views, users can continuously process and transform streaming data (from Apache Kafka for example) and write to the cost-effective object storage in Apache Iceberg open table format.
+- Apache Iceberg's open table format ensures you're never locked into a single vendor or query engine
+- Query your Iceberg tables with multiple engines including Timeplus, Apache Spark, Apache Flink, ClickHouse, DuckDB, and AWS Athena
+- Future-proof your data architecture with broad industry support and an active open-source community
 
 ## CREATE DATABASE {#syntax}
 
@@ -24,8 +17,10 @@ To create an Iceberg database in Timeplus, use the following general syntax:
 
 ```sql
 CREATE DATABASE <database_name>
-ENGINE = Iceberg('<catalog_url>')
-SETTINGS  catalog_type='rest',
+SETTINGS
+          type='iceberg',
+          catalog_uri='<catalog_uri>',
+          catalog_type='rest',
           warehouse='<warehouse_path>',
           storage_endpoint='<s3_endpoint>',
           rest_catalog_sigv4_enabled=<true|false>,
@@ -39,6 +34,8 @@ SETTINGS  catalog_type='rest',
 
 ### DDL Settings {#settings}
 
+- `type` – Specifies the type of the database. Be sure to use `iceberg` for Iceberg tables.
+- `catalog_uri` – Specifies the URI of the Iceberg catalog.
 - `catalog_type` – Specifies the catalog type. Currently, only `rest` is supported in Timeplus.
 - `warehouse` – The Iceberg warehouse identifier where the table data is stored.
 - `storage_endpoint` – The S3-compatible endpoint where the data is stored.
@@ -54,8 +51,9 @@ SETTINGS  catalog_type='rest',
 
 ```sql
 CREATE DATABASE demo
-ENGINE = Iceberg('https://glue.us-west-2.amazonaws.com/iceberg')
-SETTINGS  catalog_type='rest',
+SETTINGS  type='iceberg',
+          catalog_uri='https://glue.us-west-2.amazonaws.com/iceberg',
+          catalog_type='rest',
           warehouse='(aws-12-id)',
           storage_endpoint='https://the-bucket.s3.us-west-2.amazonaws.com',
           rest_catalog_sigv4_enabled=true,
@@ -67,8 +65,9 @@ SETTINGS  catalog_type='rest',
 
 ```sql
 CREATE DATABASE demo
-ENGINE = Iceberg('http://127.0.0.1:9001/iceberg/')
-SETTINGS  catalog_type='rest',
+SETTINGS  type='iceberg',
+          catalog_uri=''http://127.0.0.1:9001/iceberg/'',
+          catalog_type='rest',
           warehouse='s3://mybucket/demo/gravitino1',
           storage_endpoint='https://s3.us-west-2.amazonaws.com';
 ```
