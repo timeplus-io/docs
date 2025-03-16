@@ -38,7 +38,7 @@ SETTINGS
 - `catalog_uri` – Specifies the URI of the Iceberg catalog.
 - `catalog_type` – Specifies the catalog type. Currently, only `rest` is supported in Timeplus.
 - `warehouse` – The Iceberg warehouse identifier where the table data is stored.
-- `storage_endpoint` – The S3-compatible endpoint where the data is stored.
+- `storage_endpoint` – The S3-compatible endpoint where the data is stored. For AWS S3, use `https://bucketname.s3.region.amazonaws.com`.
 - `rest_catalog_sigv4_enabled` – Enables AWS SigV4 authentication for secure catalog communication.
 - `rest_catalog_signing_region` – AWS region used for signing the catalog requests.
 - `rest_catalog_signing_name` – The service name used in AWS SigV4 signing.
@@ -69,7 +69,7 @@ SETTINGS  type='iceberg',
           catalog_uri=''http://127.0.0.1:9001/iceberg/'',
           catalog_type='rest',
           warehouse='s3://mybucket/demo/gravitino1',
-          storage_endpoint='https://s3.us-west-2.amazonaws.com';
+          storage_endpoint='https://the-bucket.s3.us-west-2.amazonaws.com';
 ```
 
 #### Gravitino Configuration
