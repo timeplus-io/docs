@@ -225,6 +225,7 @@ const sidebars = {
       type: "category",
       label: "Guides & Tutorials",
       items: [
+        "understanding-watermark",
         "tutorial-sql-kafka",
         "tutorial-github",
         "tutorial-sql-connect-kafka",

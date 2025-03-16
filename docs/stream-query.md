@@ -92,6 +92,8 @@ from tumble(my_stream,order_time, 5s) group by window_start, window_end
 emit after watermark with delay 2s
 ```
 
+We built [a tool](/understanding-watermark) to visualize the window aggregation with watermark processing delay.
+
 ### Global aggregation
 
 Global aggregation will start the aggregation for all incoming events since the query is submitted, and never ends.
