@@ -236,7 +236,7 @@ SELECT _tp_time, raw FROM foo;
 
 #### _tp_message_key
 
-Starting from Timeplus Enterprise 2.4, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuitive and flexible way to write any content as the message key, not necessarily mapping to a specify column or a set of columns.
+Starting from Timeplus Enterprise 2.4, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuitive and flexible way to read the message key in the preferred format.
 
 For example:
 ```sql
@@ -246,15 +246,8 @@ CREATE EXTERNAL STREAM foo (
     _tp_message_key string
 ) SETTINGS type='kafka',...;
 ```
-You can insert any data to the Kafka topic.
 
-When insert a row to the stream like:
-```sql
-INSERT INTO foo(id,name,_tp_message_key) VALUES (1, 'John', 'some-key');
-```
-`'some-key'` will be used for the message key for the Kafka message (and it will be excluded from the message body, so the message will be `{"id": 1, "name": "John"}` for the above SQL).
-
-When doing a SELECT query, the message key will be populated to the `_tp_message_key` column as well.
+When doing a SELECT query, the message key will be populated to the `_tp_message_key` column.
 `SELECT * FROM foo` will return `'some-key'` for the `_tp_message_key` message.
 
 `_tp_message_key` support the following types: `uint8`, `uint16`, `uint32`, `uint64`, `int8`, `int16`, `int32`, `int64`, `bool`, `float32`, `float64`, `string`, and `fixed_string`.
@@ -267,6 +260,8 @@ CREATE EXTERNAL STREAM foo (
     _tp_message_key nullable(string) default null
 ) SETTINGS type='kafka',...;
 ```
+
+For how to use `_tp_message_key` to write the message key when you insert data into the Kafka topic, please refer to [the section](#write_message_key).
 
 #### _tp_message_headers
 
@@ -492,6 +487,53 @@ CREATE MATERIALIZED VIEW mv INTO target AS
            lower(hex(md5(raw:ipAddress))) AS ip
     FROM frontend_events;
 ```
+
+### Write to Kafka with metadata{#metadata}
+
+#### _tp_message_key {#write_message_key}
+
+Starting from Timeplus Enterprise 2.4, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuitive and flexible way to write any content as the message key, not necessarily mapping to a specify column or a set of columns.
+
+For example:
+```sql
+CREATE EXTERNAL STREAM foo (
+    id int32,
+    name string,
+    _tp_message_key string
+) SETTINGS type='kafka',...;
+```
+You can insert any data to the Kafka topic.
+
+When insert a row to the stream like:
+```sql
+INSERT INTO foo(id,name,_tp_message_key) VALUES (1, 'John', 'some-key');
+```
+`'some-key'` will be used for the message key for the Kafka message (and it will be excluded from the message body, so the message will be `{"id": 1, "name": "John"}` for the above SQL).
+
+`_tp_message_key` support the following types: `uint8`, `uint16`, `uint32`, `uint64`, `int8`, `int16`, `int32`, `int64`, `bool`, `float32`, `float64`, `string`, and `fixed_string`.
+
+`_tp_message_key` also support `nullable`. Thus we can create an external stream with optional message key. For example:
+```sql
+CREATE EXTERNAL STREAM foo (
+    id int32,
+    name string,
+    _tp_message_key nullable(string) default null
+) SETTINGS type='kafka',...;
+```
+
+#### sharding_expr
+If you configure a partition strategy in the Kafka cluster, you can specify the message key with the above approach. The message key will be stored together with the message body. Alternatively, you can use the `sharding_expr` to specify the partition ID for the message. For example:
+```sql
+CREATE EXTERNAL STREAM foo (
+    id int32,..
+) SETTINGS type='kafka', sharding_expr='hash(id)'...;
+```
+When you insert data, the shard ID will be calculated based on the `sharding_expr` and Timeplus will put the message into the corresponding partition/shard.
+
+#### _tp_message_headers {#write_message_headers}
+
+Starting from Timeplus Proton 1.6.11 and Timeplus Enterprise 2.7, you can read the Kafka message headers as `map(string,string)` via the `_tp_message_headers` virtual column. Writing custom headers is not supported yet. Please contact us if you need this feature.
+
 
 ## DROP EXTERNAL STREAM
 
