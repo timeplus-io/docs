@@ -13,7 +13,7 @@ Since Timeplus Proton 1.7 and Timeplus Enterprise 2.8, we provide native support
 
 ## CREATE DATABASE {#syntax}
 
-To create an Iceberg database in Timeplus, use the following general syntax:
+To create an Iceberg database in Timeplus, use the following syntax:
 
 ```sql
 CREATE DATABASE <database_name>
