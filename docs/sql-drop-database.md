@@ -7,8 +7,13 @@ When you no longer need a database, you can drop it with the following SQL:
 DROP DATABASE IF EXISTS my_database;
 ```
 
+If there are streams, materialized views, or other resources in the database, this operation will fail. You need to drop them first, or use the `CASCADE` option to drop all the resources in the database.
+```sql
+DROP DATABASE my_database CASCADE;
+```
+
 :::warning
-This is a permanent operation and cannot be undone. All the streams, materialized views, and other resources in the database will be deleted. Please be cautious when you run this command.
+Adding `CASCADE` to the `DROP DATABASE` command is a permanent operation and cannot be undone. All the streams, materialized views, and other resources in the database will be deleted. Please be cautious when you run this command. The only exception is the external database to Iceberg or MySQL/PostgreSQL. Running `DROP DATABASE my_database CASCADE` won't remove tables in the remote database.
 :::
 
 ## See also
