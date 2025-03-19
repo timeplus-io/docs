@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styles from "./TimeplusWatermarkVisualization.module.css";
 
 const TimeplusWatermarkVisualization = () => {
   // Constants for visualization
@@ -353,18 +354,16 @@ const TimeplusWatermarkVisualization = () => {
 
   return (
     <div
-      className="w-full max-w-6xl mx-auto p-6 bg-gray-100 rounded-xl"
+      className={styles.container}
       style={{ backgroundColor: colors.backgroundDark }}
     >
-      <div className="mb-6 text-center">
-        <h3 className="text-2xl font-bold mb-2">
-          Watermark & Window Processing
-        </h3>
+      <div className={styles.header}>
+        <h3 className={styles.heading}>Watermark & Window Processing</h3>
         <div
-          className="code-block p-4 mb-4 rounded-md text-left mx-auto max-w-3xl overflow-auto"
+          className={styles.codeBlock}
           style={{ backgroundColor: colors.backgroundDark }}
         >
-          <pre className="text-white text-sm">
+          <pre className={styles.codeText}>
             <code>
               <span style={{ color: "#569CD6" }}>SELECT</span> window_start,
               <span style={{ color: "#DCDCAA" }}>count</span>(),
@@ -384,19 +383,22 @@ const TimeplusWatermarkVisualization = () => {
           </pre>
         </div>
 
-        <div className="flex flex-wrap justify-center items-center space-x-4 mb-4">
+        <div className={styles.controls}>
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="px-4 py-2 rounded-md font-medium"
-            style={{ background: colors.blue, color: "white" }}
+            className={styles.button}
+            style={{ backgroundColor: colors.blue }}
           >
             {isPlaying ? "Pause" : "Play"}
           </button>
 
           <button
             onClick={goToPrevFrame}
-            className="px-4 py-2 rounded-md font-medium"
-            style={{ background: colors.purple, color: "white" }}
+            className={styles.button}
+            style={{
+              backgroundColor: colors.purple,
+              opacity: currentFrame <= 0 ? 0.5 : 1,
+            }}
             disabled={currentFrame <= 0}
           >
             Prev
@@ -404,8 +406,11 @@ const TimeplusWatermarkVisualization = () => {
 
           <button
             onClick={goToNextFrame}
-            className="px-4 py-2 rounded-md font-medium"
-            style={{ background: colors.purple, color: "white" }}
+            className={styles.button}
+            style={{
+              backgroundColor: colors.purple,
+              opacity: currentFrame >= frameEvents.length - 1 ? 0.5 : 1,
+            }}
             disabled={currentFrame >= frameEvents.length - 1}
           >
             Next
@@ -413,21 +418,21 @@ const TimeplusWatermarkVisualization = () => {
 
           <button
             onClick={reset}
-            className="px-4 py-2 rounded-md font-medium"
-            style={{ background: colors.gray, color: "white" }}
+            className={styles.button}
+            style={{ backgroundColor: colors.gray }}
           >
             Reset
           </button>
 
-          <div className="flex items-center mt-2 ml-4">
-            <label htmlFor="lag-select" className="mr-2 font-medium">
+          <div className={styles.lagSelector}>
+            <label htmlFor="lag-select" className={styles.lagLabel}>
               DELAY:
             </label>
             <select
               id="lag-select"
               value={lag}
               onChange={handleLagChange}
-              className="px-2 py-1 rounded-md"
+              className={styles.select}
             >
               <option value={0}>0s</option>
               <option value={1000}>1s</option>
@@ -438,9 +443,9 @@ const TimeplusWatermarkVisualization = () => {
       </div>
 
       {/* Main visualization */}
-      <div className="mx-auto">
+      <div className={styles.visualizationContainer}>
         <div
-          className="relative"
+          className={styles.chartContainer}
           style={{ width: CHART_WIDTH, height: CHART_HEIGHT }}
         >
           <svg
@@ -809,36 +814,27 @@ const TimeplusWatermarkVisualization = () => {
         </div>
 
         {/* Legend */}
-        <div
-          className="mt-24 flex flex-wrap justify-center gap-4"
-          style={{ marginTop: "8px" }}
-        >
-          <div className="flex items-center">
-            N: sequence number when the event was received &nbsp;
+        <div className={styles.legend}>
+          <div className={styles.legendItem}>
+            <span>N: sequence number when the event was received &nbsp;</span>
             <div
-              className="w-8 h-8 mr-2 rounded-full flex items-center justify-center"
+              className={styles.legendCircle}
               style={{ backgroundColor: colors.cyan }}
-            >
-              <span className="text-white text-xs font-bold">&nbsp;</span>
-            </div>
+            ></div>
             <span>Normal Event</span>
           </div>
-          <div className="flex items-center">
+          <div className={styles.legendItem}>
             <div
-              className="w-8 h-8 mr-2 rounded-full flex items-center justify-center"
+              className={styles.legendCircle}
               style={{ backgroundColor: colors.yellow }}
-            >
-              <span className="text-white text-xs font-bold">&nbsp;</span>
-            </div>
+            ></div>
             <span>Out-of-Order Event</span>
           </div>
-          <div className="flex items-center">
+          <div className={styles.legendItem}>
             <div
-              className="w-8 h-8 mr-2 rounded-full flex items-center justify-center"
+              className={styles.legendCircle}
               style={{ backgroundColor: colors.red }}
-            >
-              <span className="text-white text-xs font-bold">&nbsp;</span>
-            </div>
+            ></div>
             <span>Late Event</span>
           </div>
         </div>

@@ -1,0 +1,114 @@
+/* Container styles */
+.container {
+    width: 100%;
+    max-width: 1152px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    color: white;
+}
+
+/* Header section */
+.header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.codeBlock {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.375rem;
+    text-align: left;
+    margin: 0 auto;
+    max-width: 48rem;
+    overflow: auto;
+}
+
+.codeText {
+    color: white;
+    font-size: 0.875rem;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    color: white;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    cursor: pointer;
+}
+
+.button:disabled {
+    cursor: not-allowed;
+}
+
+.lagSelector {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+}
+
+.lagLabel {
+    margin-right: 0.5rem;
+    font-weight: 500;
+}
+
+.select {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: black;
+}
+
+/* Visualization */
+.visualizationContainer {
+    margin: 0 auto;
+}
+
+.chartContainer {
+    position: relative;
+}
+
+/* Legend styles */
+.legend {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    color: white;
+}
+
+.legendItem {
+    display: flex;
+    align-items: center;
+}
+
+.legendCircle {
+    width: 32px;
+    height: 32px;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
