@@ -2,8 +2,14 @@
 
 ## 2.7 {#2_7}
 
+### v2.7.2 {#2_7_2}
+Released on 03-18-2025 ([Change logs](/enterprise-v2.7#2_7_2)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.7.2-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.7.2-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.7.2-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.7.2-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.2`
+
 ### v2.7.1 {#2_7_1}
-Released on 03-07-2025 ([Change logs](/enterprise-v2.7#2_7_1)).
+Released on 03-09-2025 ([Change logs](/enterprise-v2.7#2_7_1)).
 
 * Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.7.1-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.7.1-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.7.1-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.7.1-darwin-arm64.tar.gz)
 * All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.1`
@@ -15,6 +21,12 @@ Released on 02-28-2025 ([Change logs](/enterprise-v2.7#2_7_0)).
 * All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.0`
 
 ## 2.6 {#2_6}
+
+### v2.6.5 {#2_6_5}
+Released on 03-18-2025 ([Change logs](/enterprise-v2.6#2_6_5)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.6.5-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.6.5-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.6.5-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.6.5-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.5`
 
 ### v2.6.4 {#2_6_4}
 Released on 03-06-2025 ([Change logs](/enterprise-v2.6#2_6_4)).
