@@ -2,6 +2,17 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Mar 17, 2025
+
+### Timeplus Enterprise v2.7.1 and v2.6.4
+Patch releases with bug fixes.
+
+### Timeplus Proton v1.6.12 and v1.6.14
+* Support AWS_MSK_IAM authentication for accessing Amazon MSK
+* Allowing tuple datatype for the 1st param of [array_map](/functions_for_comp#array_map)
+* New function [group_array_last](/functions_for_agg#group_array_last)
+* Support format schema for Avro
+
 ## Mar 3, 2025
 
 ### Timeplus Enterprise v2.7.0
