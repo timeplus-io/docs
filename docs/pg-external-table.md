@@ -15,7 +15,7 @@ This integration is done by introducing "External Table" in Timeplus. Similar to
 ```sql
 CREATE EXTERNAL TABLE name
 SETTINGS type='postgresql',
-         address='..',
+         address='host:port',
          user='..',
          password='..',
          database='..',

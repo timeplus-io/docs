@@ -10,7 +10,7 @@ architecture-beta
     group local[Local SSD] in policy
     group aws[AWS] in policy
 
-    service s3disk(logos:aws-s3)[S3 Disk] in aws
+    service s3disk(cloud)[S3 Disk] in aws
     service default(disk)[default] in local
 
     default:R --> L:s3disk
