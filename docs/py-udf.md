@@ -177,8 +177,37 @@ By default, Timeplus Enterprise ships a clean Python 3.10 environment, plus the 
 
 All the dependencies for those libraries are also preinstalled, such as `pickle`.
 
+### Verified Libraries {#verified_libs}
+Follow the guide below to install extra Python libraries. The following libraries are verified by Timeplus team.
+* Numpy
+* Pandas
+* Arrow
+* Scipy
+* Pytorch
+* Sklearn
+* River
+* Statsmodels
+* Transformers
+
+Some Python libraries may require additional dependencies or OS specific packages. Contact us if you need help.
+
 ### Install Python Libraries {#install_lib}
-To install new Python libraries, you can call the REST API of timeplusd in Timeplus Enterprise v2.7. In the future, we will provide a more user-friendly way to install Python libraries.
+To install new Python libraries, you can either call the REST API of timeplusd in Timeplus Enterprise v2.7, or use the new `timeplusd python pip install` command-line tool introduced in Timeplus Enterprise v2.8.
+
+#### Install via `timeplusd python pip` {#install_pip}
+Starting from Timeplus Enterprise v2.8, you can use the `timeplusd python pip install` command-line tool to install Python libraries. For example, to install the `numpy` library, you can use the following command:
+```bash
+timeplusd python --config-file config.yaml -m pip install --user numpy
+```
+
+For example, with the timeplusd docker image, you can use the following command:
+```bash
+docker exec -it container_name timeplusd python --config-file /etc/timeplusd-server/config.yaml -m pip install --user pandas
+```
+
+#### Install via REST API {#install_rest}
+
+You can also call the REST API of timeplusd in Timeplus Enterprise v2.7 or above.
 
 :::info
 The following `curl` sample commands assume the timeplusd server is running on `localhost:8123`, with `default` as the user with an empty password. More commonly, you need to set the HTTP headers `x-timeplus-user` and `x-timeplus-key` with the user and password, such as `curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" ..`.
