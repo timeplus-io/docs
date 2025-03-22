@@ -25,10 +25,34 @@ SELECT * FROM table(my_stream);
 SELECT * FROM table(my_database.my_stream);
 ```
 
-## Limitations
-* You can create databases with SQL but the current web console only supports the `default` database.
-* User-defined functions are global and not bound to a specific database.
+Please note User-Defined Functions are global and not bound to a specific database.
 
+## External Database
+Starting from [Timeplus Enterprise 2.8](/enterprise-v2.8), you can create an external database to connect to external MySQL databases.
+
+Syntax:
+```sql
+CREATE DATABASE mysql_database
+SETTINGS
+    type = 'mysql',
+    host = 'localhost',
+    port = 3306,
+    user = 'root',
+    password = 'password',
+    database = 'my_database'
+```
+
+Then you can list all tables from the remote MySQL database:
+
+```sql
+SHOW STREAMS FROM mysql_database;
+```
+
+Or query them:
+
+```sql
+SELECT * FROM mysql_database.my_stream;
+```
 ## See also
 * [SHOW DATABASES](/sql-show-databases) - Show databases
 * [DROP DATABASE](/sql-drop-database) - Drop databases
