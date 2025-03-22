@@ -11,15 +11,7 @@ Each component maintains its own version numbers. The version number for each Ti
 
 ## Key Highlights
 Key highlights of this release:
-* **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or reading files in S3.
-* **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory or a mutable stream, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
-* **PostgreSQL and MySQL CDC via Redpanda Connect:** Timeplus Enterprise now supports CDC (Change Data Capture) for PostgreSQL and MySQL databases via Redpanda Connect. This feature enables real-time data ingestion from these databases into Timeplus.
-* **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.
-* **Load the credentials from HashiCorp Vault or local file system** for all external streams or external tables.
-* **Mutable stream delete:** You can now delete data from mutable streams with the [DELETE](/sql-delete) SQL command.
-* **Cluster monitoring and materialized view troubleshooting:** Significant improvements in web console for multi-node cluster monitoring and troubleshooting.
-* **Python UDF:** You can now create user-defined functions (UDFs) in Python to extend the functionality of Timeplus with rich ecosystem of Python. It's currently in technical preview for Linux x86_64 only.
-
+* a
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -31,59 +23,44 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 2.7.0 {#2_7_0}
-Released on 02-27-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_0)
+### 2.8.0 {#2_8_0}
+Released on 03-27-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_0)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.3 ..`
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.0`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.0`
 
 Component versions:
-* timeplusd 2.7.22
-* timeplus_web 2.2.10
-* timeplus_appserver 2.2.10
-* timeplus_connector 2.2.6
+* timeplusd 2.8.11
+* timeplus_web 2.8.5
+* timeplus_appserver 2.8.4
+* timeplus_connector 2.2.8
 * timeplus cli 1.2.12
 
-#### Changelog {#changelog_2_7_0}
-
-Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
-* timeplusd 2.5.10 -> 2.7.22
-  * Monitoring and Management:
-    * **Delete data:** You can now delete data from streams with the [DELETE](/sql-delete) SQL command. This is optimized for mutable streams with primary keys in the condition.
-    * `SYSTEM UNPAUSE MATERIALIZED VIEW` command is renamed to [SYSTEM RESUME MATERIALIZED VIEW](/sql-system-resume).
-    * Able to configure `license_key_path` and `license_file_path` in the `server/config.yaml` file to specify the license key without web console interaction.
-    * Introduced a simple way to setup multiple timeplusd processes on the same host by running the `timeplusd server --node-index=1` command. [Learn more](/cluster_install#single-host-cluster)
-    * To improve performance, we have optimized the schema for [system.stream_metric_log](/system-stream-metric-log) and [system.stream_state_log](/system-stream-state-log).
-  * Security Enhancements:
-    * **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.
-    * **Integration with HashiCorp Vault:** You can now use HashiCorp Vault to store sensitive data, such as password for all types of external streams or external tables, and reference them in [config_file](/proton-kafka#config_file) setting.
-    * Specify the non-root user in the Docker image to improve security.
-  * New Features:
-    * **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
-    * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory or a mutable stream, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
-    * Replay historical data in local streams or Kafka external streams with the [replay_speed](/query-settings#replay_speed) setting.
-    * Read the header key-value pairs in the kafka external stream. [Learn more](/proton-kafka#_tp_message_headers)
-    * [Python UDF](/py-udf): You can now create user-defined functions (UDFs) in Python to extend the functionality of Timeplus with rich ecosystem of Python. It's currently in technical preview for Linux x86_64 only.
-* timeplus_web 2.1.7 -> 2.2.10
+#### Changelog {#changelog_2_8_0}
+Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
+* timeplusd 2.7.27 -> 2.8.11
+  * Timeplus can read or write data in Apache Iceberg tables.
+  * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
+  * Use S3 as the [tiered storage](/tiered-storage) for streams.
+  * Improved the experience of installing Python libraries for [Python UDF](/py-udf#install_pip).
+  * New SQL functions: [group_array_sorted](/functions_for_agg#group_array_sorted), [group_array_sample](/functions_for_agg#group_array_sample), [histogram](/functions_for_agg#histogram).
+* timeplus_web 2.2.12 -> 2.8.5
   * Significant improvements of materialized view monitoring and troubleshooting UI.
   * Added UI for creating and managing dictionaries, S3/MySQL external tables and Python UDF.
   * Added a dropdown menu to switch to different database namespaces in the web console.
   * Added UI to manage dictionaries and S3 external tables.
-* timeplus_appserver 2.1.6 -> 2.2.10
+* timeplus_appserver 2.2.13 -> 2.8.4
   * [REST API](/rest) support for non-default database namespaces.
   * When you define a source or sink powered by Redpanda Connect, you can now specify the optional `buffer` and `pipeline` components in the YAML configuration.
   * Added endpoints to list/get/delete [dictionaries](/sql-create-dictionary).
-* timeplus_connector 2.1.1 -> 2.2.6
-  * Upgraded to Redpanda Connect v4.46 and Benthos framework 4.44, which now supports [mysql_cdc](https://docs.redpanda.com/redpanda-connect/components/inputs/mysql_cdc/), [postgres_cdc](https://docs.redpanda.com/redpanda-connect/components/inputs/postgres_cdc/) and [snowflake_streaming](https://docs.redpanda.com/redpanda-connect/components/outputs/snowflake_streaming/) connectors. Please note those connectors require an enterprise license from Redpanda, which you need to set the `REDPANDA_CONNECT_LICENSE` environment variable.
-  * Added endpoints for logs and lint.
-* timeplus cli 1.2.11 -> 1.2.12
-  * Removed the subcommand to manage users and groups. Please use the web console to manage them or setup with Helm charts.
+* timeplus_connector 2.2.8. No changes.
+* timeplus cli 1.2.12. No changes.
 
 Upgrade Instructions:
 
-Users can upgrade from Timeplus Enterprise 2.6 to 2.7 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
+Users can upgrade from Timeplus Enterprise 2.7 to 2.8 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
-#### Known issues {#known_issue_2_7_0}
+#### Known issues {#known_issue_2_8_0}
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
