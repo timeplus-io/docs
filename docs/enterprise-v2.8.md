@@ -42,6 +42,7 @@ Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
   * Timeplus can read or write data in Apache Iceberg tables.
   * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
   * Use S3 as the [tiered storage](/tiered-storage) for streams.
+  * New SQL command to [rename streams](/sql-rename-stream).
   * Improved the experience of installing Python libraries for [Python UDF](/py-udf#install_pip).
   * New SQL functions: [group_array_sorted](/functions_for_agg#group_array_sorted), [group_array_sample](/functions_for_agg#group_array_sample), [histogram](/functions_for_agg#histogram).
 * timeplus_web 2.2.12 -> 2.8.5
