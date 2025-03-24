@@ -34,9 +34,34 @@ Key highlights of this release:
 3. For Kubernetes users, please follow [the guide](/k8s-helm#v5-to-v6) carefully since a few timeplusd built-in users are removed in the new helm chart, and you can configure ingress for Appserver and Timeplusd independently.
 
 ## Releases
+### 2.7.3 {#2_7_3}
+Released on 03-24-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_3)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.7 ..`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.3`
+
+Component versions:
+* timeplusd 2.7.29
+* timeplus_web 2.2.12
+* timeplus_appserver 2.2.13
+* timeplus_connector 2.2.8
+* timeplus cli 1.2.12
+
+#### Changelog {#changelog_2_7_3}
+
+Compared to the [2.7.2](#2_7_2) release:
+* timeplusd 2.7.27 -> 2.7.29
+  * fixed the issue for Pulsar external stream with compressed message types and partitions
+  * improved JOIN between mutable streams
+
+#### Known issues {#known_issue_2_7_3}
+1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+1. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+
 ### 2.7.2 {#2_7_2}
 Released on 03-18-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_2)
+* For Linux or Mac users: [Downloads](/release-downloads#2_7_2)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.6 ..`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.2`
 
