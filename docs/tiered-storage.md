@@ -34,7 +34,7 @@ Please refer to [S3 External Table](/s3-external) for how to connect to the S3 s
 You can use the following SQL to list the disks:
 
 ```sql
-SELECT * FROM system.disks;
+SHOW DISKS;
 ```
 
 ## Create a Storage Policy
@@ -54,7 +54,7 @@ $$;
 You can use the following SQL to list the storage policies:
 
 ```sql
-SELECT * FROM system.storage_policies;
+SHOW STORAGE POLICIES;
 ```
 
 The content of the policy is a YAML document that is put into the `$$` block.
