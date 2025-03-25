@@ -62,17 +62,16 @@ Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
 
 #### Upgrade Instructions
 
-Prior to Timeplus Enterprise 2.8, we use an internal KV store to persist the metadata for Timeplus appserver and connector. To simply the architecture, starting from Timeplus Enterprise 2.8, we are deprecating the KV store and use a mutable stream (`neutron._timeplus_appserver_metastore`) to store those data. The KV store will be completely removed in the next 2.9 release.
+Prior to Timeplus Enterprise 2.8, we use an internal KV store to persist the metadata for Timeplus appserver and connector. To simplify the architecture, starting from Timeplus Enterprise 2.8, we are deprecating the KV store and use a mutable stream (`neutron._timeplus_appserver_metastore`) to store those data. The KV store will be completely removed in the next 2.9 release.
 
 The core functionality of the Timeplus Enterprise will still work even if you don't migrate the metadata. If you match all the conditions below, you can safely skip the migration:
 
 1. All the resources are created via SQL or through timeplusd directly. No resources are created via Timeplus web console or Timeplus appserver REST API.
-2. You don't use source, sink, dashboard, alert.
+2. You don't use sources, sinks, dashboards, or alerts.
 
 If you are still not sure, here are the things that would be broken without migration:
-
-1. Source, sink, dashboard, alert will be lost.
-2. Some metadata such as description, owner of the resource will be lost. It won't impact the functionality of the resource though.
+1. Sources, sinks, dashboards, alerts will be lost.
+2. Some metadata such as descriptions, owner of the resource will be lost. It won't impact the functionality of the resource though.
 3. Workspace setting will be lost.
 4. Query history will be lost.
 
