@@ -219,7 +219,7 @@ Due to the [limitation of Kubernetes Statefulset](https://github.com/kubernetes/
 
 #### Do not attempt to upgrade across multiple major chart versions at a time
 
-This helm chart follows [Semantic Versioning](https://semver.org/). It is always the best practise to upgrade one major chart version at a time even if the breaking change doesn't impact your deployment.
+This helm chart follows [Semantic Versioning](https://semver.org/). It is always the best practice to upgrade one major chart version at a time even if the breaking change doesn't impact your deployment.
 
 #### Check if there is an incompatible breaking change needing manual actions
 
@@ -439,7 +439,7 @@ There are a lot of other configurations available to customize the deployment. S
 | ingress.appserver.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
 | ingress.timeplusd.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
 | ingress.timeplusd.enabled | bool | `false` | |
-| ingress.timeplusd.httpSnapshotPath | string | `"/snapshot"` | * update thte `httpSnapshotPath` to be `/` and use different domain for appserver and timeplusd ingress |
+| ingress.timeplusd.httpSnapshotPath | string | `"/snapshot"` | * update the `httpSnapshotPath` to be `/` and use different domain for appserver and timeplusd ingress |
 | prometheus_metrics.enabled | bool | `false` |  |
 | prometheus_metrics.remote_write_endpoint | string | `"http://timeplus-prometheus:80"` |  |
 | prometheus_metrics.vector.image | string | `"timberio/vector"` |  |

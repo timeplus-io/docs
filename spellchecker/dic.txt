@@ -70,6 +70,7 @@ Avro-encoded
 Avro-Encoded
 avro_types
 aws-billing
+AWS_MSK_IAM
 backend
 Backend
 backfill
@@ -159,6 +160,7 @@ Config
 Config-less
 config_file
 config_native
+configMap
 connect-aiven
 connect-kafka
 connect-rp-cloud
@@ -315,6 +317,7 @@ gradle
 gradle_native
 Grafana
 Grafana's
+Gravitino
 group_concat
 group_uniq_array
 Guo
@@ -323,6 +326,7 @@ GZip
 Gzip
 half_md5
 hard_state_ckpt_log_size
+hardcode
 hardcoded
 hardcoding
 HashiCorp
@@ -535,6 +539,7 @@ num_of_events
 num_of_trips
 numpy
 Numpy
+NVMe
 oauth2
 oauth2
 OAuth2
@@ -565,6 +570,7 @@ p95
 p99
 PagerDuty
 paralism
+param
 params
 parse_datetime
 parse_datetime_in_joda_syntax
@@ -611,6 +617,7 @@ pvc
 PVCs
 PVs
 python_libs
+Pytorch
 Q1
 quantile
 queryable
@@ -671,6 +678,7 @@ schema_registry_api_secret
 Schemas
 schemas
 SCHEMAS
+Scipy
 SCRAM-SHA-256
 scram-sha-256
 SCRAM-SHA-512
@@ -689,7 +697,9 @@ sharded
 sharding
 signup
 signups
+SigV4
 SIMD
+Sklearn
 SLA
 sla
 SNMP
@@ -699,6 +709,7 @@ source_clickhouse
 source_http
 source_mysql
 sparkline
+SparkSQL
 speed_kmh
 splunk
 Splunk
@@ -722,6 +733,8 @@ stateful
 StatefulSet
 Statefulset
 statefulset
+Statsmodels
+stdout
 stochasticLinearRegression
 str
 stream_ttl
@@ -791,6 +804,7 @@ TimeplusSinkConnector
 timeplusWeb
 timezones
 TLS
+tls
 tls_allow_insecure_connection
 tls_validate_hostname
 to_ipv4
@@ -841,6 +855,7 @@ UINT64_MAX
 uint8
 Unarchive
 uncomment
+Uncomment
 uncompress
 Uncompress
 uncompressing
@@ -854,6 +869,7 @@ UPSERT
 Upsert
 UPSERTs
 Upstash
+URI
 url
 usecase
 usecase_native

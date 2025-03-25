@@ -54,7 +54,7 @@ You can define the external table and use it to read data from the PostgreSQL ta
 
 ### Connect to a local PostgreSQL {#local}
 
-You can use the following command to start a local PostgresSQL via Docker:
+You can use the following command to start a local PostgreSQL via Docker:
 ```bash
 docker run --name=postgres --rm --env=POSTGRES_PASSWORD=foo -p 5432:5432 postgres:latest -c log_statement=all
 ```
