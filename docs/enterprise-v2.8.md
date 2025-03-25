@@ -11,7 +11,12 @@ Each component maintains its own version numbers. The version number for each Ti
 
 ## Key Highlights
 Key highlights of this release:
-* a
+* Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
+* Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
+* Use S3 as the [tiered storage](/tiered-storage) for streams.
+* New SQL command to [rename streams](/sql-rename-stream).
+* A new page to visualize nodes in a cluster.
+* New page to view the details of streams or materialized views.
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -23,22 +28,21 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 2.8.0 {#2_8_0}
-Released on 03-27-2025. Installation options:
+### 2.8.0 (Preview) {#2_8_0}
+Released on 03-25-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_0)
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.3 ..`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.0`
 
 Component versions:
-* timeplusd 2.8.11
-* timeplus_web 2.8.5
-* timeplus_appserver 2.8.4
+* timeplusd 2.8.14
+* timeplus_web 2.8.7
+* timeplus_appserver 2.8.5
 * timeplus_connector 2.2.8
 * timeplus cli 1.2.12
 
 #### Changelog {#changelog_2_8_0}
 Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
-* timeplusd 2.7.27 -> 2.8.11
+* timeplusd 2.7.27 -> 2.8.14
   * Timeplus can read or write data in Apache Iceberg tables.
   * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
   * Use S3 as the [tiered storage](/tiered-storage) for streams.
@@ -46,11 +50,11 @@ Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
   * List all tables in a remote MySQL database via [CREATE DATABASE .. SETTINGS type='mysql'](/sql-create-database).
   * Improved the experience of installing Python libraries for [Python UDF](/py-udf#install_pip).
   * New SQL functions: [group_array_sorted](/functions_for_agg#group_array_sorted), [group_array_sample](/functions_for_agg#group_array_sample), [histogram](/functions_for_agg#histogram).
-* timeplus_web 2.2.12 -> 2.8.5
+* timeplus_web 2.2.12 -> 2.8.7
   * A new page to visualize nodes in a cluster.
   * New page to view the details of streams or materialized views.
   * Able to select a database while viewing the data lineage page.
-* timeplus_appserver 2.2.13 -> 2.8.4
+* timeplus_appserver 2.2.13 -> 2.8.5
   * Enhanced [REST API](/rest) to update column comments, get Python UDF status and cluster information.
 * timeplus_connector 2.2.8. No changes.
 * timeplus cli 1.2.12. No changes.

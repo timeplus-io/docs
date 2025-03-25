@@ -1,6 +1,20 @@
 # Package Downloads
 
+## 2.8 {#2_8}
+
+### v2.8.0 {#2_8_0}
+Released on 03-24-2025 ([Change logs](/enterprise-v2.8#2_8_0)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.8.0-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.8.0-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.8.0-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.8.0-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.0`
+
 ## 2.7 {#2_7}
+
+### v2.7.3 {#2_7_3}
+Released on 03-24-2025 ([Change logs](/enterprise-v2.7#2_7_3)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.7.3-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.7.3-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.7.3-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.7.3-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.3`
 
 ### v2.7.2 {#2_7_2}
 Released on 03-18-2025 ([Change logs](/enterprise-v2.7#2_7_2)).
@@ -21,6 +35,12 @@ Released on 02-28-2025 ([Change logs](/enterprise-v2.7#2_7_0)).
 * All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.0`
 
 ## 2.6 {#2_6}
+
+### v2.6.6 {#2_6_6}
+Released on 03-23-2025 ([Change logs](/enterprise-v2.6#2_6_6)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.6.6-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.6.6-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.6.6-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.6.6-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.6.6`
 
 ### v2.6.5 {#2_6_5}
 Released on 03-18-2025 ([Change logs](/enterprise-v2.6#2_6_5)).

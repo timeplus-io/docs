@@ -108,6 +108,11 @@ const sidebars = {
             },
           ],
         },
+        {
+          type: "doc",
+          id: "iceberg",
+          customProps: { tag: "New" },
+        },
         "proton-schema-registry",
         "proton-format-schema",
         {
