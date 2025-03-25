@@ -32,6 +32,7 @@ We recommend using stable releases for production deployment. Engineering builds
 Released on 03-25-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_0)
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.0`
+* We will provide new Helm Charts for Kubernetes deployment when v2.8 is GA.
 
 Component versions:
 * timeplusd 2.8.14
@@ -61,7 +62,7 @@ Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
 
 Upgrade Instructions:
 
-Users can upgrade from Timeplus Enterprise 2.7 to 2.8 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
+In 2.8, we changed the default way to save metadata. It's recommended to test the 2.8.0 with a fresh installation. We will provide a migration tool to help users migrate previous releases to 2.8.
 
 #### Known issues {#known_issue_2_8_0}
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
