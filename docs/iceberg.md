@@ -61,12 +61,27 @@ SETTINGS  type='iceberg',
           rest_catalog_signing_name='glue';
 ```
 
+### Example: AWS S3 Table REST Catalog {#example_s3table}
+
+```sql
+CREATE DATABASE demo
+SETTINGS  type='iceberg',
+          catalog_uri='https://s3tables.us-west-2.amazonaws.com/iceberg',
+          catalog_type='rest',
+          warehouse='arn:aws:s3tables:us-west-2:(aws-12-id):bucket/(bucket-name)',
+          rest_catalog_sigv4_enabled=true,
+          rest_catalog_signing_region='us-west-2',
+          rest_catalog_signing_name='glue';
+```
+
+If you want to create new Iceberg tables from Timeplus, you can also set `storage_credential` to `'https://s3tables.us-west-2.amazonaws.com/(bucket-name)'`.
+
 ### Example: Apache Gravitino REST Catalog {#example_gravitino}
 
 ```sql
 CREATE DATABASE demo
 SETTINGS  type='iceberg',
-          catalog_uri=''http://127.0.0.1:9001/iceberg/'',
+          catalog_uri='http://127.0.0.1:9001/iceberg/',
           catalog_type='rest',
           warehouse='s3://mybucket/demo/gravitino1',
           storage_endpoint='https://the-bucket.s3.us-west-2.amazonaws.com';
@@ -131,7 +146,12 @@ You can query Iceberg data in Timeplus by:
 ```sql
 SELECT * FROM demo.transformed
 ```
-This will return all results and terminate the query. No streaming mode is supported for Iceberg tables yet.
+This will return all results and terminate the query. No streaming mode is supported for Iceberg tables yet. It's recommended to set `LIMIT` to a small value to avoid loading too much data from Iceberg to Timeplus.
+
+```sql
+SELECT count() FROM iceberg_db.table_name;
+```
+This query is optimized to return the count of rows in the specified Iceberg table with minimal scanning of metadata and data files.
 
 ### Using SparkSQL {#query_sparksql}
 
@@ -159,7 +179,7 @@ spark-sql -v --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.8.1,
 ## DROP DATABASE
 
 ```sql
-DROP DATABASE [IF EXISTS] demo;
+DROP DATABASE demo CASCADE;
 ```
 
 Please note this won't delete the data in catalog or S3 storage.
