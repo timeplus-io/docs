@@ -507,13 +507,13 @@ timeplusAppserver:
     1. `timeplusd` pods has been upgraded to 2.8.x 
     2. `timeplus-appserver` pod is terminated
     3. `timeplus-connector` pod is terminated
-    4. `timepuls-cli` pod is up and running
+    4. `timeplus-cli` pod is up and running
 4. Run `kubectl -n $NS exec timeplus-cli -it -- /bin/bash`
 5. Run `./bin/timeplus migrate kv --host timeplusd-0.timeplusd-svc.<namespace>.svc.cluster.local -p <password>`
     1. Replace `<namespace>` with the namespace that Timeplus Enterprise is deployed to
     2. Replace `<password>` with the admin password. If you haven't customized it via `values.yaml`, please use the default password `timeplusd@t+`
 6. Wait until the command above finishes. It should be very fast. In case of any error, please contact Timeplus support.
-7. Once migration sucessed, you can revert the `values.yaml` change you have done for step 1 and run `helm upgrade` to apply the change.
+7. Once migration succeed, you can revert the `values.yaml` change you have done for step 1 and run `helm upgrade` to apply the change.
 
 ### v5 to v6
 :::info
