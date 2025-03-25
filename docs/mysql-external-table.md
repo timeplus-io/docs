@@ -15,11 +15,10 @@ This integration is done by introducing "External Table" in Timeplus. Similar to
 ```sql
 CREATE EXTERNAL TABLE name
 SETTINGS type='mysql',
-         address='..',
+         address='host:port',
          user='..',
          password='..',
          database='..',
-         secure=true|false,
          config_file='..',
          table='..';
 ```
@@ -29,7 +28,6 @@ The required settings are type and address. For other settings, the default valu
 - 'default' for `user`
 - '' (empty string) for `password`
 - 'default' for `database`
-- 'false' for `secure`
 - If you omit the table name, it will use the name of the external table
 
 The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the MySQL user and password in the file.
@@ -73,7 +71,6 @@ SETTINGS type='mysql',
          address='abc.aivencloud.com:28851',
          user='avnadmin',
          password='..',
-         secure=true,
          table='events';
 ```
 

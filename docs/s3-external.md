@@ -168,7 +168,7 @@ For example, with `write_to = 'example/data.json'`, the actual object keys will 
 If you only set `write_to`, not `read_from`, Timeplus will try to infer `read_from` from `write_to`, so that you can read the data that you write to the same S3 external table. If this does not work for you, you can always specify read_from manually to get the correct results.
 
 #### s3_min_upload_file_size
-The minimum size (in bytes) of the file to write to S3. If the file size is less than this value, Timeplus will buffer the data in memory and upload it when the buffer is full. The default value is 16,777,216 (16MB).
+The minimum size (in bytes) of the file to write to S3. If the file size is less than this value, Timeplus will buffer the data in memory and upload it when the buffer is full. The default value is 500*1024*1024 (500MB).
 
 #### s3_max_upload_idle_seconds
 The maximum idle time in seconds to wait for the buffer to be full. If the buffer is not full after this time, Timeplus will upload the data to S3.

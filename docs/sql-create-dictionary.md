@@ -77,6 +77,18 @@ Note:
 
 Please check the example in the [Create a dictionary from a MySQL table](#create_dictionary_mysql) section. You can optionally setup a mutable stream as the cache for the MySQL table, please check the [Create a dictionary from a MySQL table with a mutable stream as the cache](#create_dictionary_mutable_cache) section.
 
+#### PostgreSQL Table {#source_pg}
+You can create a dictionary from a table in a remote PostgreSQL database.
+
+Syntax:
+```sql
+SOURCE(POSTGRESQL(HOST 'remotehost' PORT 5432 USER 'user' PASSWORD 'password' TABLE 'table_name' DB 'database_name' ))
+```
+
+Note:
+* Either one of the `TABLE` or `QUERY` fields must be declared.
+* You can optionally specify `BG_RECONNECT true` to enable background reconnection to MySQL.
+
 #### Remote File {#source_http}
 You can create a dictionary from a file available by HTTP(S).
 
@@ -415,7 +427,7 @@ It will return `BB` instead of `ZZ`.
 
 ### Create a dictionary from a MySQL table {#create_dictionary_mysql}
 
-For example, you can create a table in MySQL with the TPCH schema:
+For example, you can create a table in MySQL (PostgreSQL is similar) with the TPCH schema:
 ```sql
 CREATE TABLE "region" (
   "r_regionkey" int DEFAULT NULL,
@@ -446,7 +458,7 @@ SELECT dict_get('mysql_region','r_name',2);
 ```
 
 #### Create a dictionary from a MySQL table with a mutable stream as the cache {#create_dictionary_mutable_cache}
-You can create a dictionary which looks up data from a mutable stream in Timeplus, and fetches the data from a MySQL table if some keys are not found in the stream. This is useful when there are a large number of keys in the MySQL table, and you want to cache the most frequently queried keys in the mutable stream. You can even setup a CDC pipeline to keep the mutable stream up-to-date, as a proactive way to make sure the frequently queried keys are always in the cache.
+You can create a dictionary which looks up data from a mutable stream in Timeplus, and fetches the data from a MySQL or Postgres table if some keys are not found in the stream. This is useful when there are a large number of keys in the MySQL table, and you want to cache the most frequently queried keys in the mutable stream. You can even setup a CDC pipeline to keep the mutable stream up-to-date, as a proactive way to make sure the frequently queried keys are always in the cache.
 
 As an example, you can create a MySQL database with the TPCH schema. There are 150,000 rows in the `customer` table.
 

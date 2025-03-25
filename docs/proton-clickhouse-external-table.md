@@ -21,7 +21,7 @@ This video demonstrates how to read live data from Redpanda, apply stream proces
 ```sql
 CREATE EXTERNAL TABLE name
 SETTINGS type='clickhouse',
-         address='..',
+         address='host:port',
          user='..',
          password='..',
          database='..',
