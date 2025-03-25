@@ -170,12 +170,53 @@ $$;
 ## Manage Python Libraries {#python_libs}
 By default, Timeplus Enterprise ships a clean Python 3.10 environment, plus the following essential libraries:
 
-- `pip`
-- `setuptools`
-- `six`
-- `wheel`
-
-All the dependencies for those libraries are also preinstalled, such as `pickle`.
+```json
+[
+  { "name": "annotated-types", "version": "0.7.0" },
+  { "name": "anyio", "version": "4.9.0" },
+  { "name": "asyncer", "version": "0.0.8" },
+  { "name": "autogen", "version": "0.7.3" },
+  { "name": "certifi", "version": "2025.1.31" },
+  { "name": "charset-normalizer", "version": "3.4.1" },
+  { "name": "diskcache", "version": "5.6.3" },
+  { "name": "distro", "version": "1.9.0" },
+  { "name": "docker", "version": "7.1.0" },
+  { "name": "exceptiongroup", "version": "1.2.2" },
+  { "name": "fast-depends", "version": "2.4.12" },
+  { "name": "h11", "version": "0.14.0" },
+  { "name": "httpcore", "version": "1.0.7" },
+  { "name": "httpx", "version": "0.28.1" },
+  { "name": "idna", "version": "3.10" },
+  { "name": "jiter", "version": "0.9.0" },
+  { "name": "numpy", "version": "2.2.4" },
+  { "name": "openai", "version": "1.68.2" },
+  { "name": "packaging", "version": "24.2" },
+  { "name": "pip", "version": "22.0.2" },
+  { "name": "proton-driver", "version": "0.2.13" },
+  { "name": "pyautogen", "version": "0.7.3" },
+  { "name": "pydantic", "version": "2.10.6" },
+  { "name": "pydantic_core", "version": "2.27.2" },
+  { "name": "python-dotenv", "version": "1.0.1" },
+  { "name": "pytz", "version": "2025.1" },
+  { "name": "regex", "version": "2024.11.6" },
+  { "name": "requests", "version": "2.32.3" },
+  { "name": "setuptools", "version": "78.0.2" },
+  { "name": "setuptools-scm", "version": "8.2.0" },
+  { "name": "six", "version": "1.17.0" },
+  { "name": "sniffio", "version": "1.3.1" },
+  { "name": "sseclient-py", "version": "1.8.0" },
+  { "name": "termcolor", "version": "2.5.0" },
+  { "name": "tiktoken", "version": "0.9.0" },
+  { "name": "timeplus-neutrino", "version": "0.0.6" },
+  { "name": "tomli", "version": "2.2.1" },
+  { "name": "tqdm", "version": "4.67.1" },
+  { "name": "typing_extensions", "version": "4.12.2" },
+  { "name": "tzlocal", "version": "5.3.1" },
+  { "name": "urllib3", "version": "2.3.0" },
+  { "name": "websockets", "version": "14.2" },
+  { "name": "wheel", "version": "0.37.1" }
+]
+```
 
 ### Verified Libraries {#verified_libs}
 Follow the guide below to install extra Python libraries. The following libraries are verified by Timeplus team.
@@ -183,11 +224,9 @@ Follow the guide below to install extra Python libraries. The following librarie
 * Pandas
 * Arrow
 * Scipy
-* Pytorch
 * Sklearn
 * River
 * Statsmodels
-* Transformers
 
 Some Python libraries may require additional dependencies or OS specific packages. Contact us if you need help.
 
