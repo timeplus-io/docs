@@ -228,7 +228,7 @@ CREATE EXTERNAL TABLE s3_logs (
   container_name string,
   log string
 )
-PARTITION BY concat(to_YYYMM(ts), '/', container_name)
+PARTITION BY concat(to_YYYYMM(ts), '/', container_name)
 SETTINGS
   type = 's3',
   region = 'us-west-2',
