@@ -11,7 +11,7 @@ Each component maintains its own version numbers. The version number for each Ti
 
 ## Key Highlights
 Key highlights of this release:
-* New Compute Node server role to run materialized views elastically with checkpoints on S3 storage.
+* New Compute Node server role to [run materialized views elastically](/proton-create-view#autoscaling_mv) with checkpoints on S3 storage.
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
 * Use S3 as the [tiered storage](/tiered-storage) for streams.

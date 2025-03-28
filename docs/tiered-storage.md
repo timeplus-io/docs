@@ -27,7 +27,7 @@ CREATE DISK name disk(
 )
 ```
 
-The `type` needs to be `s3` to create a S3 disk storage. This is the only supported disk type at this time.
+The `type` needs to be `s3` to create a S3 disk storage. Timeplus also supports disk with `s3_plain` but that is for S3-based materialized view checkpointing.
 
 Please refer to [S3 External Table](/s3-external) for how to connect to the S3 storage. It's not recommended to hardcode the access key and secret access key in the DDL. Instead, users should use [environment variables](/s3-external#use_environment_credentials) or IAM role to secure these credentials.
 
