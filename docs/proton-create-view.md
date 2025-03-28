@@ -131,7 +131,7 @@ To enable this feature, you need to
 For example:
 ```sql
 --S3 based checkpoint
-CREATE DISK ckpt_s3_disk(
+CREATE DISK ckpt_s3_disk disk(
     type = 's3_plain',
     endpoint = 'https://mat-view-ckpt.s3.us-west-2.amazonaws.com/matv_ckpt/',
     access_key_id = '...',
