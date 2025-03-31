@@ -66,12 +66,12 @@ SETTINGS  type='iceberg',
 ```sql
 CREATE DATABASE demo
 SETTINGS  type='iceberg',
-          catalog_uri='https://s3tables.us-west-2.amazonaws.com/iceberg',
+          catalog_uri='https://glue.us-west-2.amazonaws.com/iceberg',
           catalog_type='rest',
-          warehouse='arn:aws:s3tables:us-west-2:(aws-12-id):bucket/(bucket-name)',
+          warehouse='(aws-12-id):s3tablescatalog/(bucket-name)',
           rest_catalog_sigv4_enabled=true,
           rest_catalog_signing_region='us-west-2',
-          rest_catalog_signing_name='s3tables';
+          rest_catalog_signing_name='glue';
 ```
 
 If you want to create new Iceberg tables from Timeplus, you can also set `storage_credential` to `'https://s3tables.us-west-2.amazonaws.com/(bucket-name)'`.
