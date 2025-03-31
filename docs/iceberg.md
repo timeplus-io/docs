@@ -71,7 +71,7 @@ SETTINGS  type='iceberg',
           warehouse='arn:aws:s3tables:us-west-2:(aws-12-id):bucket/(bucket-name)',
           rest_catalog_sigv4_enabled=true,
           rest_catalog_signing_region='us-west-2',
-          rest_catalog_signing_name='glue';
+          rest_catalog_signing_name='s3tables';
 ```
 
 If you want to create new Iceberg tables from Timeplus, you can also set `storage_credential` to `'https://s3tables.us-west-2.amazonaws.com/(bucket-name)'`.
