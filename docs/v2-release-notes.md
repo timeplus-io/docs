@@ -2,6 +2,24 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Mar 31, 2025
+
+### Timeplus Enterprise v2.8 (Preview)
+[Timeplus Enterprise v2.8.0](/enterprise-v2.8) is now available as a technical preview for the 2.8 release. Not ready for production use but feel free to try the new features and provide feedback.
+* New Compute Node server role to [run materialized views elastically](/proton-create-view#autoscaling_mv) with checkpoints on S3 storage.
+* Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
+* Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
+* Use S3 as the [tiered storage](/tiered-storage) for streams.
+* New SQL command to [rename streams](/sql-rename-stream).
+* A new page to visualize nodes in a cluster.
+* New page to view the details of streams or materialized views.
+
+### Timeplus Enterprise v2.6.6, v2.6.7, v2.7.3
+Patch releases with bug fixes.
+
+### Iceberg Integration Coming to Timeplus Proton
+* https://github.com/timeplus-io/proton/pull/928 a PR to add Apache Iceberg read/write support to Timeplus Proton.
+
 ## Mar 17, 2025
 
 ### Timeplus Enterprise v2.7.1 and v2.6.4
