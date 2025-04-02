@@ -1,15 +1,5 @@
 # CREATE FUNCTION
-At Timeplus, we leverage SQL to make powerful streaming analytics more accessible to a broad range of users. Without SQL, you have to learn and call low-level programming API, then compile/package/deploy them to get analytics results. This is a repetitive and tedious process, even for small changes.
-
-But some developers have concerns that complex logic or systems integration are hard to express using SQL.
-
-That's why we add User-Defined Functions (UDF) support in Timeplus. This enables users to leverage existing programming libraries, integrate with external systems, or just make SQL easier to maintain.
-
-Timeplus Proton and Timeplus Enterprise support [SQL UDF](/) and [Local UDF in JavaScript](/js-udf). You can develop User-defined scalar functions (UDFs) in SQL, or develop UDFs or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported.
-
-:::info
-In Timeplus Enterprise, the Python UDF will be ready soon.
-:::
+Timeplus supports four ways to develop/register UDF. Please check [UDF](/udf) page for the overview.
 
 ## SQL UDF
 You can create or replace a SQL UDF, by specifying the function name, parameters and the expression.
@@ -26,6 +16,26 @@ CREATE OR REPLACE FUNCTION color_hex AS (r, g, b) -> '#'||hex(r)||hex(g)||hex(b)
 ```
 
 [Learn More](/sql-udf)
+
+## Remote UDF
+Register a webhook as the UDF. You may use any programming language/framework to develop/deploy the webhook. A good starting point is using AWS Lambda.
+
+Syntax:
+```sql
+CREATE REMOTE FUNCTION udf_name(ip string) RETURNS string
+ URL 'https://the_url'
+ AUTH_METHOD 'none'
+```
+If you need to protect the end point and only accept requests with a certain HTTP header, you can use the AUTH_HEADER and AUTH_KEY setting, e,g.
+```sql
+CREATE REMOTE FUNCTION udf_name(ip string) RETURNS string
+ URL 'https://the_url'
+ AUTH_METHOD 'auth_header'
+ AUTH_HEADER 'header_name'
+ AUTH_KEY 'value';
+```
+
+[Learn More](/remote-udf)
 
 ## JavaScript UDF
 
@@ -62,11 +72,13 @@ You can also add `EXECUTION_TIMEOUT <num>` to the end of the `CREATE FUNCTION` t
 You can add debug information via `console.log(..)` in the JavaScript UDF. The logs will be available in the server log files.
 :::
 
+Check [more examples](js-udf#udf) for scalar function with 2 or more arguments or 0 argument.
+
 ### UDAF {#js-udaf}
 
 Creating a user-defined-aggregation function (UDAF) requires a bit more effort. Please check [this documentation](/js-udf#udaf) for the 3 required and 3 optional functions.
 
-```sql showLineNumbers
+```sql
 CREATE AGGREGATE FUNCTION test_sec_large(value float32)
 RETURNS float32
 LANGUAGE JAVASCRIPT AS $$
@@ -115,3 +127,57 @@ LANGUAGE JAVASCRIPT AS $$
         }
 $$;
 ```
+
+[Learn More](/js-udf)
+
+## Python UDF
+starting from v2.7, Timeplus Enterprise also supports Python-based UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embedded Python 3.10 runtime in Timeplus core engine. No need to deploy extra server/service for the UDF.
+
+[Learn more](/py-udf) why Python UDF, and how to map the data types in Timeplus and Python, as well as how to manage dependencies.
+
+### UDF {#py-udf}
+Syntax:
+```sql
+CREATE OR REPLACE FUNCTION udf_name(param1 type1,..)
+RETURNS type2 LANGUAGE PYTHON AS
+$$
+import …
+
+def udf_name(col1..):
+    …
+
+$$
+SETTINGS ...
+```
+
+### UDAF {#py-udaf}
+UDAF or User Defined Aggregation Function is stateful. It takes one or more columns from a set of rows and return the aggregated result.
+
+Syntax:
+```sql
+CREATE OR REPLACE AGGREGATION FUNCTION uda_name(param1 type1,...)
+RETURNS type2 language PYTHON AS
+$$
+import ...
+class uda_name:
+   def __init__(self):
+	...
+
+   def serialize(self):
+	...
+
+   def deserialize(self, data):
+	...
+
+   def merge(self, data):
+	...
+
+   def process(self, values):
+	...
+   def finalize(self):
+	...
+$$
+SETTINGS ...
+```
+
+[Learn More](/py-udf)

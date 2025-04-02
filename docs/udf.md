@@ -28,3 +28,5 @@ Please note, there are many factors to determine the number of function calls. F
 Long story short, developers should not make assumption for the number of function calls. For User-defined scalar functions (UDFs) it should be stateless, and for User-defined aggregate functions (UDAFs), data might be aggregated more than once, but the final result is correct.
 
 :::
+
+Check [CREATE FUNCTION](/sql-create-function) for how to create functions via SQL.

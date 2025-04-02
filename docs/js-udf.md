@@ -1,19 +1,13 @@
 # JavaScript UDF
 
-In addition to [Remote UDF](/remote-udf), Timeplus Proton also supports JavaScript-based UDF running in the SQL engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
-
-:::info
-
-The JavaScript-based UDF can run in both Timeplus and Proton local deployments. It runs "locally" in the database engine. It doesn't mean this feature is only available for local deployment.
-
-:::
+Timeplus supports JavaScript-based UDF running in the SQL engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
 
 ## Register a JS UDF via SQL {#ddl}
-Please check [CREATE FUNCTION](/sql-create-function) page for the SQL syntax.
+Please check [CREATE FUNCTION](/sql-create-function#javascript-udf) page for the SQL syntax.
 
 ## Register a JS UDF via Web Console {#register}
 
-1. Open "UDFs" from the navigation menu on the left, and click the 'Register New Function' button.
+1. Open "UDFs" from the navigation menu on the left, and click the 'New UDF' button.
 2. Specify a function name, such as `second_max`. Make sure the name won't conflict with built-in functions or other UDF. Description is optional.
 3. Choose the data type for input parameters and return value.
 4. Choose "JavaScript" as the UDF type.
@@ -21,7 +15,7 @@ Please check [CREATE FUNCTION](/sql-create-function) page for the SQL syntax.
 6. Enter the JavaScript source for the UDF. (We will explain more how to write the code.)
 7. Click **Create** button to register the function.
 
-### Arguments
+## Arguments
 
 Unlike Remote UDF, the argument names don't matter when you register a JS UDF. Make sure you the list of arguments matches the input parameter lists in your JavaScript function.
 
@@ -35,7 +29,7 @@ The input data are in Timeplus data type. They will be converted to JavaScript d
 | date/date32/datetime/datetime64          | Date  (in milliseconds) |
 | array(Type)                              | Array                   |
 
-### Returned value
+## Returned value
 
 The JavaScript UDF can return the following data types and they will be converted back to the specified Timeplus data types. The supported return type are similar to argument types. The only difference is that if you return a complex data structure as an `object`, it will be converted to a named `tuple` in Timeplus.
 
@@ -64,10 +58,14 @@ SELECT * FROM user_clicks where is_work_email(email)
 
 You can use the following code to define a new function `is_work_email` with one input type `string` and return `bool`.
 
-```javascript
+```sql
+CREATE OR REPLACE FUNCTION is_work_email(email string)
+RETURNS bool
+LANGUAGE JAVASCRIPT AS $$
 function is_work_email(values){
   return values.map(email=>!email.endsWith("@gmail.com"));
 }
+$$;
 ```
 
 Notes:
@@ -89,7 +87,10 @@ Similar to the last tutorial, you create a new function called `email_not_in`. T
 
 The following code implements this new function:
 
-```javascript
+```sql
+CREATE OR REPLACE FUNCTION email_not_in(email string,list string)
+RETURNS bool
+LANGUAGE JAVASCRIPT AS $$
 function email_not_in(emails,lists){
   let list=lists[0].split(','); // convert string to array(string)
   return emails.map(email=>{
@@ -100,6 +101,7 @@ function email_not_in(emails,lists){
     return true; // no match, return true confirming the email is in none of the provided domains
   });
 }
+$$;
 ```
 
 ### Scalar function with no argument {#scalar0}
@@ -112,10 +114,14 @@ SELECT *, magic_number(1) FROM user_clicks
 
 The `magic_number` takes an `int` argument as a workaround.
 
-```javascript
+```sql
+CREATE OR REPLACE FUNCTION magic_number(v int)
+RETURNS bool
+LANGUAGE JAVASCRIPT AS $$
 function magic_number(values){
   return values.map(v=>42)
 }
+$$;
 ```
 
 In this case, the function will return `42` no matter what parameter is specified.
@@ -143,57 +149,57 @@ Let's take an example of a function to get the second maximum values from the gr
 
 The full source code for this JS UDAF is
 
-```javascript
-{
-	initialize: function() {
-		this.max = -1.0;
-		this.sec_max = -1.0;
-	},
-
-	process: function(values) {
-		for (let i = 0; i < values.length; i++) {
-			this._update(values[i]);
-		}
-	},
-
-	_update: function(value) {
-		if (value > this.max) {
-			this.sec_max = this.max;
-			this.max = value;
-		} else if (value > this.sec_max) {
-			this.sec_max = value;
-		}
-	},
-
-	finalize: function() {
-		return this.sec_max
-	},
-
-	serialize: function() {
-		return JSON.stringify({
-			'max': this.max,
-			'sec_max': this.sec_max
-		});
-	},
-
-	deserialize: function(state_str) {
-		let s = JSON.parse(state_str);
-		this.max = s['max'];
-		this.sec_max = s['sec_max']
-	},
-
-	merge: function(state_str) {
-		let s = JSON.parse(state_str);
-		this._update(s['max']);
-		this._update(s['sec_max']);
-	}
-};
+```sql
+CREATE AGGREGATE FUNCTION test_sec_large(value float32)
+RETURNS float32
+LANGUAGE JAVASCRIPT AS $$
+    {
+      initialize: function() {
+         this.max = -1.0;
+         this.sec = -1.0
+      },
+      process: function(values) {
+        for (let i = 0; i < values.length; i++) {
+          if (values[i] > this.max) {
+            this.sec = this.max;
+            this.max = values[i]
+          }
+          if (values[i] < this.max && values[i] > this.sec)
+            this.sec = values[i];
+        }
+      },
+            finalize: function() {
+            return this.sec
+            },
+            serialize: function() {
+            let s = {
+            'max': this.max,
+            'sec': this.sec
+            };
+        return JSON.stringify(s)
+      },
+        deserialize: function(state_str) {
+                                           let s = JSON.parse(state_str);
+                                           this.max = s['max'];
+                                           this.sec = s['sec']
+        },
+        merge: function(state_str) {
+                                     let s = JSON.parse(state_str);
+                                     if (s['sec'] >= this.max) {
+                                     this.max = s['max'];
+                                     this.sec = s['sec']
+                                     } else if (s['max'] >= this.max) {
+                                     this.sec = this.max;
+                                     this.max = s['max']
+                                     } else if (s['max'] > this.sec) {
+                                     this.sec = s['max']
+                                     }
+                                     }
+        }
+$$;
 ```
 
-To register this function, steps are different in Timeplus Enterprise and Proton:
-
-* With Timeplus UI: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too. Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
-* With SQL in Proton Client: check the example at [here](/js-udf#udaf).
+To register this function with Timeplus Console: choose JavaScript as UDF type, make sure to turn on 'is aggregation'. Set the function name say `second_max` (you don't need to repeat the function name in JS code). Add one argument in `float` type and set return type to `float` too. Please note, unlike JavaScript scalar function, you need to put all functions under an object `{}`. You can define internal private functions, as long as the name won't conflict with native functions in JavaScript, or in the UDF lifecycle.
 
 ### Advanced Example for Complex Event Processing {#adv_udaf}
 
