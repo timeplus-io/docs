@@ -45,6 +45,10 @@ SETTINGS mode='changelog_kv', version_column='i';
 
 The default `version_column` is `_tp_time`. For the data with same primary key(s), Proton will use the ones with maximum value of  `version_column`. So by default, it tracks the most recent data for same primary key(s). If there are late events, you can use specify other column to determine the end state for your live data.
 
+### Mutable Stream
+
+[CREATE MUTABLE STREAM](/sql-create-mutable-stream)
+
 ## SETTINGS
 #### mode
 Type: string
@@ -120,3 +124,10 @@ Type: int64
 Default: 120,000
 
 Time in milliseconds to trigger a fsync
+
+#### storage_type
+This is an advanced setting. Default value is `hybrid` to use both a streaming storage and a historical storage for the stream.
+
+It can be:
+* `streaming`: Use only streaming storage, together with settings `logstore_codec`, `logstore_retention_bytes`, `logstore_retention_ms`.
+* `memory`: put data in memory only, mainly for testing.
