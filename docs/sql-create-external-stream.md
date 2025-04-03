@@ -13,11 +13,14 @@ SETTINGS type='kafka',
          password='..',
          sasl_mechanism='..',
          data_format='..',
+         format_schema='..',
+         one_message_per_row=..,
          kafka_schema_registry_url='..',
          kafka_schema_registry_credentials='..',
          ssl_ca_cert_file='..',
          ss_ca_pem='..',
          skip_ssl_cert_check=..,
+         properties='..',
          config_file='..'
 ```
 
@@ -42,7 +45,8 @@ SETTINGS
     client_key='..',
     connections_per_broker=..,
     memory_limit=..,
-    io_threads=..
+    io_threads=..,
+    config_file='..'
 ```
 
 Please check the [Pulsar External Stream](/pulsar-external-stream#ddl-settings) for more details.
@@ -57,7 +61,8 @@ SETTINGS
     user = '<user>',
     password = '<password>',
     secure = <bool>,
-    stream = '<stream_name>'
+    stream = '<stream_name>',
+    config_file='..'
 ```
 Settings:
 * **hosts**: the IP or host for the remote timeplusd. When you set a set of hosts with ports, e.g. 'host1:port1,host2:port2', this will treat each host as a shard. `hosts` is required and there is no default value.

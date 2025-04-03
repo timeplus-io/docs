@@ -26,9 +26,10 @@ SETTINGS
     brokers='ip:9092', -- required
     topic='..', -- required
     security_protocol='..',
+    sasl_mechanism='..',
     username='..',
     password='..',
-    sasl_mechanism='..',
+    config_file='..',
     data_format='..',
     format_schema='..',
     one_message_per_row=..,
@@ -37,8 +38,7 @@ SETTINGS
     ssl_ca_cert_file='..',
     ssl_ca_pem='..',
     skip_ssl_cert_check=..,
-    properties='..',
-    config_file='..'
+    properties='..'
 ```
 
 :::info
@@ -125,6 +125,18 @@ If the external stream is used to write data to a Kafka topic and the `data_form
 
 #### kafka_schema_registry_url
 Set to the address of Kafka Schema Registry server. `http` or `https` need to be included. [Learn more](/proton-schema-registry) for this setting and other settings with `kafka_schema_` as the prefix.
+
+#### kafka_schema_registry_credentials
+Set in the 'username:password' format. [Learn more](/proton-schema-registry).
+
+#### ssl_ca_cert_file
+Set to the path of the CA certificate file.
+
+#### ssl_ca_pem
+Set to the content of the CA certificate file. Usually starts with `-----BEGIN CERTIFICATE-----`.
+
+#### skip_ssl_cert_check
+Default to `false`. Set to `true` to skip the SSL certificate check and don't specify the CA certificate file or content.
 
 #### properties
 
