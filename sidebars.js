@@ -256,6 +256,7 @@ const sidebars = {
           ],
         },
         "tutorial-sql-join",
+        "tutorial-python-udf",
         "sql-pattern-topn",
         "usecases",
         "tutorial-kv",
