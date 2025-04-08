@@ -329,6 +329,7 @@ const sidebars = {
             "sql-delete",
             "sql-drop-database",
             "sql-drop-dictionary",
+            "sql-drop-external-table",
             "sql-drop-format-schema",
             "sql-drop-function",
             "sql-drop-stream",
