@@ -243,6 +243,7 @@ const sidebars = {
         "understanding-watermark",
         "tutorial-sql-kafka",
         "tutorial-github",
+        "marimo",
         "tutorial-sql-connect-kafka",
         "tutorial-sql-connect-ch",
         "tutorial-cdc-rpcn-pg-to-ch",
@@ -409,7 +410,7 @@ const sidebars = {
         },
         {
           type: "category",
-          label: "Timeplus CLI",
+          label: "timeplus (CLI)",
           customProps: { tag: "Enterprise" },
           link: {
             type: "doc",
@@ -438,11 +439,12 @@ const sidebars = {
           type: "link",
           href: "https://github.com/timeplus-io/proton-odbc",
         },
-        {
-          label: "Python Driver",
-          type: "link",
-          href: "https://github.com/timeplus-io/proton-python-driver",
-        },
+        "timeplus-connect",
+        // {
+        //   label: "Python Driver",
+        //   type: "link",
+        //   href: "https://github.com/timeplus-io/proton-python-driver",
+        // },
         {
           label: "Go Driver",
           type: "link",
