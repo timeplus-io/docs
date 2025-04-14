@@ -64,6 +64,8 @@ auth_type
 auto-rebalancing
 Auto-Rebalancing
 AutoMQ
+autoscaling
+autoscaling_mv
 AVRO
 Avro
 Avro-encoded
@@ -180,6 +182,7 @@ customizable
 Databricks
 Datadog
 dataframe
+DataFrames
 DataGrip
 datalineage
 DataPM
@@ -238,6 +241,7 @@ Drata
 dropdown
 dropdowns
 dsn
+DSN
 EBS
 EC2
 ECS
@@ -421,6 +425,7 @@ JSONEachRow
 jsonl
 JSONL
 JUnit
+Jupyter
 JVM
 JVM-based
 jwt
@@ -457,6 +462,7 @@ Liveness
 liveness
 livepeer
 Livepeer
+llamaindex
 log_dir
 logics
 logstore
@@ -471,6 +477,7 @@ MacBookPro
 MacOS
 macOS
 mapName
+marimo
 max_ack_pending
 md4
 MD4
@@ -560,6 +567,7 @@ openjdk
 openssl
 OPENSSLDIR
 OpenTelemetry
+ORM
 os
 oss
 OSS
@@ -578,6 +586,7 @@ partitioner
 pem
 pem
 PEM
+perform_ttl_move_on_insert
 performant
 pid
 PII
@@ -598,6 +607,7 @@ prebuilt
 preconfigured
 prefetch_count
 PrettyCompact
+Prev
 ProduceRequests
 producerequests
 productional
@@ -616,6 +626,9 @@ PV
 pvc
 PVCs
 PVs
+py-udaf
+py-udf
+PyArrow
 python_libs
 Pytorch
 Q1
@@ -656,6 +669,7 @@ RHEL
 roadmap
 roadmaps
 RocksDB
+rocksdb
 RocNet
 rpconnect
 s-agg-recent
@@ -663,6 +677,8 @@ s-downsampling
 S-DOWNSAMPLING
 s-mview
 S3
+s3
+S3-based
 S3-compatible
 sa-east-1
 SaaS
@@ -703,6 +719,7 @@ Sklearn
 SLA
 sla
 SNMP
+sns
 SOC2
 soc2
 source_clickhouse
@@ -716,6 +733,8 @@ Splunk
 sql
 sql
 SQLAlchemy
+sqlalchemy
+SqlAlchemy
 SQLs
 sqrt
 SQS
@@ -736,6 +755,7 @@ statefulset
 Statsmodels
 stdout
 stochasticLinearRegression
+storages
 str
 stream_ttl
 streamgen
@@ -762,6 +782,7 @@ sunsetting
 Superblocks
 superset
 Superset
+Svc
 syslog
 systemctl
 systemd
@@ -769,6 +790,7 @@ t1
 t2
 TabItem
 TabSeparated
+TCO
 tcp
 TCP
 terraform
@@ -801,6 +823,7 @@ timeplusd-client
 timeplusd_address:9363
 TimeplusDatabaseMetadata
 TimeplusSinkConnector
+TimeplusWatermarkVisualization
 timeplusWeb
 timezones
 TLS
@@ -879,6 +902,7 @@ utf-8
 UTF-8
 uuid
 UUID
+uv
 v1
 v1.4
 v1.5
@@ -892,7 +916,10 @@ V8
 validate_hostname
 vCPU
 vectorized
+vectorstore
+verified_libs
 versioned_kv
+VMs
 VPC
 WAL
 WarpStream
