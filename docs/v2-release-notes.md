@@ -2,6 +2,14 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Apr 14, 2025
+
+### Timeplus Enterprise v2.6.8, v2.7.4, v2.7.5
+Patch releases with bug fixes.
+
+### marimo Python Notebook added support for Timeplus {#marimo}
+You can add connection to Timeplus Proton or Timeplus Enterprise in [marimo](/marimo) Python notebook.
+
 ## Mar 31, 2025
 
 ### Timeplus Enterprise v2.8 (Preview)
