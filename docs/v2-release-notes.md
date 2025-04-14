@@ -7,6 +7,12 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 ### Timeplus Enterprise v2.6.8, v2.7.4, v2.7.5
 Patch releases with bug fixes.
 
+### Timeplus Connect v0.8.16
+[timeplus-connect](https://github.com/timeplus-io/timeplus-connect) provides Python connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:
+* fixed warning of `dbapi()`
+* supported vectorstore of llamaindex
+* improved sqlalchemy support
+
 ### marimo Python Notebook added support for Timeplus {#marimo}
 You can add connection to Timeplus Proton or Timeplus Enterprise in [marimo](/marimo) Python notebook.
 
