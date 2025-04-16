@@ -292,14 +292,41 @@ The table below shows supported Avro primitive data types and how they match Tim
 
 ### Avro Logical Types
 
-Here is a list of supported logical types:
+If you use `logicalType` in your Avro schema, Timeplus will automatically map it to the corresponding Timeplus data type:
 
-* UUID: maps to uuid.
-* Date: maps to date.
-* Timestamp (millisecond precision): maps to datetime64(3).
-* Timestamp (microsecond precision): maps to datetime64(6).
+- UUID: maps to `uuid`.
+- Date: maps to `date`.
+- Timestamp (millisecond precision): maps to `datetime64(3)`.
+- Timestamp (microsecond precision): maps to `datetime64(6)`.
 
 Other logical types are not implemented yet.
+
+For example, given the following Avro schema:
+
+```json
+{
+  "type": "record",
+  "name": "schema",
+  "fields": [
+    {
+      "name": "time",
+      "type": { "type": "long", "logicalType": "timestamp-millis" }
+    },
+    { "name": "key", "type": "string" },
+    { "name": "value", "type": "double" }
+  ]
+}
+```
+
+The external stream uses tuple will be like this:
+
+```sql
+CREATE EXTERNAL STREAM avro (
+    time datetime64(3),
+    key string,
+    value float64
+) SETTINGS ...;
+```
 
 ### record
 There are two ways to map a `record`. The simple one is using `tuple`. Here is an example:
