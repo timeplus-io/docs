@@ -144,6 +144,8 @@ The default `INITIAL_ARRAY_SIZE` is 1,024 and default `MAX_ARRAY_SIZE` is 500,00
 LAYOUT(FLAT(INITIAL_ARRAY_SIZE 50000 MAX_ARRAY_SIZE 5000000))
 ```
 
+Please note that the `FLAT` layout expects the primary key to be a number which can be converted to `uint64`. If the primary key is not a number, such as a string, you should switch to the `HASHED` or `COMPLEX_KEY_HASHED` layout.
+
 #### HASHED
 The `HASHED` layout stores the dictionary data in a hash table. This layout provides better memory usage than the `FLAT` layout, with slightly lower performance. The dictionary can contain any number of elements with any identifiers.
 
@@ -154,6 +156,8 @@ LAYOUT(HASHED())
 -- custom values
 LAYOUT(HASHED([SHARDS 1] [SHARD_LOAD_QUEUE_BACKLOG 10000] [MAX_LOAD_FACTOR 0.5]))
 ```
+
+Please note that the `HASHED` layout expects the primary key to be a number which can be converted to `uint64`. If the primary key is not a number, such as a string, Timeplus will automatically switch to the `COMPLEX_KEY_HASHED` layout. Such optimization is available for other CACHE/HASHED layouts, but not `FLAT` layout.
 
 #### SPARSE_HASHED
 The `SPARSE_HASHED` layout is similar to the `HASHED` layout, but it is optimized for sparse data. It uses less memory than the `HASHED` layout.
@@ -537,6 +541,27 @@ You can also use the dictionary in a JOIN query with other streams:
 SELECT * FROM orders JOIN mysql_dict_mutable AS customers
 ON orders.customer_id = customers.c_custkey
 SETTINGS join_algorithm = 'direct';
+```
+
+### Create a dictionary from a PostgreSQL table {#create_dictionary_pg}
+
+For example, you can create a dictionary, referencing a PostgreSQL table:
+
+```sql
+CREATE DICTIONARY dict_pg_table (
+    ip string,
+    desc string
+)
+PRIMARY KEY ip
+SOURCE(POSTGRESQL(HOST 'pg.aivencloud.com' PORT 28851 USER 'avnadmin' PASSWORD '..' TABLE 'ip' DB 'defaultdb'))
+LIFETIME(0)
+LAYOUT(COMPLEX_KEY_HASHED());
+```
+
+Then you can query the dictionary with the `dict_get` function:
+
+```sql
+SELECT dict_get('dict_pg_table','desc','192.168.1.1');
 ```
 
 ## Limitations
