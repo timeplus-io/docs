@@ -347,6 +347,7 @@ const sidebars = {
             "sql-system-pause",
             "sql-system-resume",
             "sql-truncate-stream",
+            "sql-use",
           ],
         },
         {
