@@ -114,7 +114,7 @@ Otherwise, if you run queries with `dedup(table(my_stream),id)` the earliest eve
 
 ### date_diff_within
 
-`date_diff_within(timegap,time1, time2)` returns true or false. This function only works in [Range Bidirectional Join](/joins##range-join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
+`date_diff_within(timegap,time1, time2)` returns true or false. This function only works in [Range Bidirectional Join](/joins#range-join). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
 
 ✅ streaming query
 

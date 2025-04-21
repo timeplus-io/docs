@@ -28,7 +28,7 @@ Timeplus scales easily from edge devices to multi-node clusters, and with its Ap
 
 Stream processing involves combining multiple data sources, and [MULTI-JOINs](/joins) are essential for enriching and correlating events in streaming queries. Timeplus allows you to run ad-hoc historical queries on the same data, reducing the need for denormalization in downstream data warehouses.
 
-In many cases, Business Intelligence and analytical queries can be executed directly in Timeplus, eliminating the need for a separate data warehouse. [ASOF JOINs](/joins#append-asof-versioned) enable approximate time-based lookups for comparing recent versus historical data.
+In many cases, Business Intelligence and analytical queries can be executed directly in Timeplus, eliminating the need for a separate data warehouse. [ASOF JOINs](/joins) enable approximate time-based lookups for comparing recent versus historical data.
 
 ## Python and JavaScript UDF {#udf}
 We understand that SQL may not be able to express all business logic for streaming or querying. [JavaScript](/js-udf) and Python User Defined Functions (UDFs) and User Defined Aggregate Functions (UDAFs) can be used to extend Timeplus to encapsulate custom logic for both stateless and stateful queries.

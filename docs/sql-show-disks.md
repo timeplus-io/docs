@@ -10,4 +10,4 @@ SHOW DISKS;
 ```
 
 ## See also
-* [CREATE DISKS](/sql-create-disks) - Create disks
+* [CREATE DISKS](/sql-create-disk) - Create disks

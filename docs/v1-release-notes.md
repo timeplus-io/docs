@@ -40,7 +40,7 @@ _Timeplus Console:_
 
 _Timeplus Core Engine (Proton v1.5.7):_
 
-- You can now join multiple [versioned streams](/versioned-stream) using `LEFT JOIN` and by assigning primary key(s). Results will be emitted whenever there are updates to either side of the JOIN. [Learn more](/joins#version-left-version)
+- You can now join multiple [versioned streams](/versioned-stream) using `LEFT JOIN` and by assigning primary key(s). Results will be emitted whenever there are updates to either side of the JOIN. [Learn more](/joins)
 - New examples in the Timeplus Proton repo /examples folder:
   - [One Billion Rows Challenge (1BRC)](https://github.com/timeplus-io/proton/tree/develop/examples/onebrc), contributed by Timeplus Community member [Saïd Abiola](https://github.com/ayewo)
   - [Real-time retrieval-augmented generation (RAG)](https://github.com/timeplus-io/proton/tree/develop/examples/real-time-ai)
