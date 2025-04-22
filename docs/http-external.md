@@ -61,6 +61,24 @@ Then you can insert data via a materialized view or just
 INSERT INTO opensearch_t1(name,gpa,grad_year) VALUES('Jonathan Powers',3.85,2025);
 ```
 
+#### Write to Splunk {#example-write-to-splunk}
+Follow [the guide](https://docs.splunk.com/Documentation/Splunk/9.4.1/Data/UsetheHTTPEventCollector) to set up and use HTTP Event Collector(HEC) in Splunk. Make sure you create a HEC token for the desired index and enable it.
+
+Create the HTTP external stream in Timeplus:
+```sql
+CREATE EXTERNAL STREAM http_splunk_t1 (event string)
+SETTINGS
+type = 'http',
+data_format = 'JSONEachRow',
+http_header_Authorization='Splunk the-hec-token',
+url = 'http://host:8088/services/collector/event'
+```
+
+Then you can insert data via a materialized view or just
+```sql
+INSERT INTO http_splunk_t1 VALUES('test1'),('test2');
+```
+
 #### Trigger Slack Notifications {#example-trigger-slack}
 
 You can follow [the guide](https://api.slack.com/messaging/webhooks) to configure an "incoming webhook" to send notifications to a Slack channel.
@@ -97,7 +115,7 @@ The `data_format` specifies how the HTTP POST body is constructed. We have built
 
 Other supported values for `data_format` are:
 
-- JSONEachRow: parse each row of the message as a single JSON document. The top level JSON key/value pairs will be parsed as the columns.
+- JSONEachRow: each row of the message as a single JSON document. The top level JSON key/value pairs will be parsed or constructed as the columns. If you need the POST body to be a JSON array, set `output_format_json_array_of_rows=1` in the `INSERT` or `CREATE MATERIALIZED VIEW` settings.
 - CSV: less commonly used.
 - TSV: similar to CSV but tab as the separator
 - ProtobufSingle: for single Protobuf message per message
@@ -105,7 +123,8 @@ Other supported values for `data_format` are:
 - Avro
 - RawBLOB: the default value. Read/write message as plain text.
 
-For data formats which write multiple rows into one single message (such as `JSONEachRow` or `CSV`), two more advanced settings are available:
+#### http_header_Authorization
+You can set key/value pairs in HTTP header, using the format `http_header_key=value`. For example to set the Authorization header for Splunk HEC, you can use `http_header_Authorization=Splunk hec_token`.
 
 ## Virtual Columns
 While reading from an S3 external table, you can use the following virtual columns:
