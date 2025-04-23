@@ -38,8 +38,8 @@ Next, download and install the Timeplus plugin in your Grafana deployment. For e
 cd /var/lib/grafana
 mkdir plugins
 cd plugins
-wget d.timeplus.com/grafana/timeplus-proton-datasource-2.1.0.zip
-unzip timeplus-proton-datasource-2.1.0.zip
+wget d.timeplus.com/grafana/timeplus-proton-datasource-2.1.2.zip
+unzip timeplus-proton-datasource-2.1.2.zip
 ```
 
 After installing the plugin, restart Grafana to enable it:
@@ -77,6 +77,17 @@ Grafana will now load the live data from Timeplus and display it as a line chart
 With this setup, you can now use Grafana to monitor live prices and transaction data in the cryptocurrency market. Additionally, you can expand this dashboard by adding SQL-based alerts or logic to detect potential trading signals in real time.
 
 ## Change Log {#changelog}
+
+### 2.1.2
+Released on 02-04-2025
+
+* Fix ref id for data frames
+
+### 2.1.1
+Released on 01-22-2025
+
+* Propagate the error message from the backend to the frontend
+* Set batch size to 1000 and batch interval to 100ms for the streaming query
 
 ### 2.1.0
 Released on 01-12-2025
