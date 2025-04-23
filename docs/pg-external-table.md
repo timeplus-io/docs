@@ -21,7 +21,8 @@ SETTINGS type='postgresql',
          database='..',
          secure=true|false,
          config_file='..',
-         table='..';
+         table='..',
+         pooled_connections=16; -- optional, the maximum pooled connections to the database. Default 16.
 ```
 
 The required settings are type and address. For other settings, the default values are
