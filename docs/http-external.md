@@ -115,7 +115,7 @@ The `data_format` specifies how the HTTP POST body is constructed. We have built
 
 Other supported values for `data_format` are:
 
-- JSONEachRow: each row of the message as a single JSON document. The top level JSON key/value pairs will be parsed or constructed as the columns. If you need the POST body to be a JSON array, set `output_format_json_array_of_rows=1` in the `INSERT` or `CREATE MATERIALIZED VIEW` settings.
+- JSONEachRow: each row of the message as a single JSON document. The top level JSON key/value pairs will be parsed or constructed as the columns. If you need the POST body to be a JSON array for multiple rows in a batch, also set `output_format_json_array_of_rows=1` in the DDL. If you need each POST body represents a single row as a JSON object, set `one_message_per_row=true`.
 - CSV: less commonly used.
 - TSV: similar to CSV but tab as the separator
 - ProtobufSingle: for single Protobuf message per message
@@ -125,6 +125,26 @@ Other supported values for `data_format` are:
 
 #### http_header_Authorization
 You can set key/value pairs in HTTP header, using the format `http_header_key=value`. For example to set the Authorization header for Splunk HEC, you can use `http_header_Authorization=Splunk hec_token`.
+
+#### output_format_json_array_of_rows
+If you need the POST body to be a JSON array for multiple rows in a batch, set `output_format_json_array_of_rows=1`, e.g.
+```sql
+CREATE EXTERNAL STREAM http_openobserve_t1 (
+  level string,
+  job string,
+  log string
+) SETTINGS
+type = 'http',
+data_format = 'JSONEachRow',
+output_format_json_array_of_rows = 1,
+username='..',
+password='..',
+url = 'https://api.openobserve.ai/api/../default/_json'
+```
+
+#### max_insert_block_bytes
+
+#### one_message_per_row
 
 ## Virtual Columns
 While reading from an S3 external table, you can use the following virtual columns:
