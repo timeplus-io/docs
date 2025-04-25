@@ -2,7 +2,9 @@
 
 [Stream](/working-with-streams) is a key [concept](/glossary) in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage `TABLE` in Timeplus.
 
-Syntax:
+## Syntax
+
+### Append Stream
 
 ```sql
 CREATE STREAM [IF NOT EXISTS] [db.]<stream_name>
@@ -10,7 +12,8 @@ CREATE STREAM [IF NOT EXISTS] [db.]<stream_name>
     <col_name1> <col_type_1> [DEFAULT <col_expr_1>] [compression_codec_1],
     <col_name1> <col_type_2> [DEFAULT <col_expr_2>] [compression_codec_2]
 )
-SETTINGS <event_time_column>='<col>', <key1>=<value1>, <key2>=<value2>, ...
+[TTL expr]
+[SETTINGS <event_time_column>='<col>', <key1>=<value1>, <key2>=<value2>, ...]
 ```
 
 :::info
@@ -20,6 +23,10 @@ Stream creation is an async process.
 :::
 
 If you omit the database name, `default` will be used. Stream name can be any utf-8 characters and needs backtick quoted if there are spaces in between. Column name can be any utf-8 characters and needs backtick quoted if there are spaces in between.
+
+### Mutable Stream
+
+Mutable Streams are available in Timeplus Enterprise. Guide: [CREATE MUTABLE STREAM](/sql-create-mutable-stream)
 
 ### Versioned Stream
 
@@ -44,10 +51,6 @@ SETTINGS mode='changelog_kv', version_column='i';
 ```
 
 The default `version_column` is `_tp_time`. For the data with same primary key(s), Proton will use the ones with maximum value of  `version_column`. So by default, it tracks the most recent data for same primary key(s). If there are late events, you can use specify other column to determine the end state for your live data.
-
-### Mutable Stream
-
-[CREATE MUTABLE STREAM](/sql-create-mutable-stream)
 
 ## SETTINGS
 #### mode
@@ -131,3 +134,25 @@ This is an advanced setting. Default value is `hybrid` to use both a streaming s
 It can be:
 * `streaming`: Use only streaming storage, together with settings `logstore_codec`, `logstore_retention_bytes`, `logstore_retention_ms`.
 * `memory`: put data in memory only, mainly for testing.
+
+## TTL (Time-To-Live) {#ttl}
+
+The [logstore_retention_bytes](#logstore_retention_bytes) and [logstore_retention_ms](#logstore_retention_ms) settings control the maximum size and time to keep the streaming storage. The historical storage for the stream is controlled by the TTL expression.
+
+Syntax:
+```sql
+TTL time_column + interval
+```
+
+For example, `TTL _tp_time + INTERVAL 1 DAY` will delete rows older than one day, `TTL _tp_time + INTERVAL 7 DAY` will delete rows older than one week.
+
+For [S3 Tried Storage](/tiered-storage#create-a-stream-with-the-policy), you can also specify when the cold data will be moved to S3. For example:
+```sql
+CREATE STREAM my_stream (
+    id uint32,
+    name string,
+    age uint8
+)
+TTL to_start_of_day(_tp_time) + interval 7 day to volume 'cold'
+SETTINGS storage_policy = 'hcs';
+```
