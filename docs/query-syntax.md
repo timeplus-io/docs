@@ -55,6 +55,35 @@ EMIT ON UPDATE WITH BATCH 1s WITH DELAY 1s AND TIMEOUT 5s
 EMIT LAST 1h ON PROCTIME -- this will be deprecated in the future
 ```
 
+## WITH DELAY {#emit_delay}
+
+By default, the query engine will emit the results immediately when the window is closed or other conditions are met. This behavior can be customized using the `WITH DELAY` clause. It allows you to specify extra time to progress the watermark, which can be useful for handling late data.
+
+For example, if you want to wait for 1 second before emitting the results, you can use the following syntax:
+
+```sql
+EMIT AFTER WINDOW CLOSE WITH DELAY 1s
+```
+
+Please check the interactive demo on [Understanding Watermark](/understanding-watermark).
+
+## WITH DELAY AND TIMEOUT {#emit_timeout}
+
+For time window based aggregations, when the window is closed is decided by the watermark. A new event outside the window will progress the watermark and inform the query engine to close the previous window and to emit aggregation results.
+
+Say you only get one event for the time window. Since there is no more event, the watermark cannot be moved so the window won't be closed.
+
+`EMIT .. TIMEOUT` is to force the window close, with a timeout after seeing last event.
+
+Please note, if there no single event in the data stream, or in the time window, Proton won't emit result. For example, in the following SQL, you won't get 0 as the count:
+
+```sql
+SELECT window_start, count() as count FROM tumble(stream,2s)
+GROUP BY window_start
+```
+
+Even you add `EMIT .. TIMEOUT` in the SQL, it won't trigger timeout, because the query engine doesn't see any event in the window. If you need to detect such missing event for certain time window, one workaround is to create a heartbeat stream and use `UNION` to create a subquery to combine both heartbeat stream and target stream, for a time window, if all observed events are from heartbeat stream, this means there is no event in the target stream. Please discuss more with us in community slack.
+
 ### EMIT AFTER WINDOW CLOSE {#emit_after}
 
 You can omit `EMIT AFTER WINDOW CLOSE`, since this is the default behavior for time window aggregations. For example:
@@ -153,23 +182,6 @@ You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, eve
 ### EMIT ON UPDATE WITH BATCH .. {#emit_on_update_with_batch}
 
 You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Proton will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
-
-### EMIT TIMEOUT{#emit_timeout}
-
-For time window based aggregations, when the window is closed is decided by the watermark. A new event outside the window will progress the watermark and inform the query engine to close the previous window and to emit aggregation results.
-
-Say you only get one event for the time window. Since there is no more event, the watermark cannot be moved so the window won't be closed.
-
-`EMIT TIMEOUT` is to force the window close, with a timeout after seeing last event.
-
-Please note, if there no single event in the data stream, or in the time window, Proton won't emit result. For example, in the following SQL, you won't get 0 as the count:
-
-```sql
-SELECT window_start, count() as count FROM tumble(stream,2s)
-GROUP BY window_start
-```
-
-Even you add `EMIT TIMEOUT` in the SQL, it won't trigger timeout, because the query engine doesn't see any event in the window. If you need to detect such missing event for certain time window, one workaround is to create a heartbeat stream and use `UNION` to create a subquery to combine both heartbeat stream and target stream, for a time window, if all observed events are from heartbeat stream, this means there is no event in the target stream. Please discuss more with us in community slack.
 
 ### EMIT LAST
 
