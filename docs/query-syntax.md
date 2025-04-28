@@ -39,14 +39,13 @@ As an advanced feature, Timeplus supports various policies to emit results durin
 For [global aggregations](/stream-query#global-aggregation), the syntax is:
 
 ```sql
-EMIT [STREAM|CHANGELOG|DELTA]
+EMIT [STREAM|CHANGELOG]
  [PERIODIC <interval> [REPEAT]]
  [ON UPDATE [WITH BATCH <interval>] ]
 ```
 
 By default `EMIT STREAM` and `PERIODIC 2s` are applied. Advanced settings:
 * `EMIT CHANGELOG` works for [global aggregations](/stream-query#global-aggregation) and [non-aggregation tail/filter](/stream-query#non-aggregation). It will output `+1` or `-1` for `_tp_delta` column.
-* `EMIT DELTA` only works for [global aggregations](/stream-query#global-aggregation). It only outputs the delta result.
 
 For [time-window aggregations](/stream-query#window-aggregation), the syntax is:
 
