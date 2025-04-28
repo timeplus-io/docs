@@ -39,17 +39,25 @@ As an advanced feature, Timeplus supports various policies to emit results durin
 The syntax is:
 
 ```sql
-EMIT
- [AFTER WATERMARK [WITH DELAY <interval>]
- [PERIODIC <interval> [REPEAT]]
- [ON UPDATE]
-  - [[ AND ]TIMEOUT <interval>]
-  - [[ AND ]LAST <interval> [ON PROCTIME]]
+EMIT [STREAM|CHANGELOG|DELTA]
+ [AFTER WINDOW CLOSE [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
+ [PERIODIC <interval> [REPEAT] [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
+ [ON UPDATE [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
+ [ON UPDATE WITH BATCH <interval>  [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
 ```
 
-### EMIT AFTER WATERMARK {#emit_after_wm}
+Examples:
+```sql
+EMIT STREAM AFTER WINDOW CLOSE WITH DELAY 1s AND TIMEOUT 5s
+EMIT STREAM PERIODIC 1s REPEAT WITH DELAY 1s AND TIMEOUT 5s
+EMIT ON UPDATE WITH DELAY 1s AND TIMEOUT 5s
+EMIT ON UPDATE WITH BATCH 1s WITH DELAY 1s AND TIMEOUT 5s
+EMIT LAST 1h ON PROCTIME -- this will be deprecated in the future
+```
 
-You can omit `EMIT AFTER WATERMARK`, since this is the default behavior for time window aggregations. For example:
+### EMIT AFTER WINDOW CLOSE {#emit_after}
+
+You can omit `EMIT AFTER WINDOW CLOSE`, since this is the default behavior for time window aggregations. For example:
 
 ```sql
 SELECT device, max(cpu_usage)
@@ -59,7 +67,7 @@ GROUP BY device, window_end
 
 The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](/stream-query#window-watermark), which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
 
-### EMIT AFTER WATERMARK WITH DELAY {#emit_after_wm_with_delay}
+### EMIT AFTER WINDOW CLOSE WITH DELAY {#emit_after_with_delay}
 
 Example:
 
@@ -67,7 +75,7 @@ Example:
 SELECT device, max(cpu_usage)
 FROM tumble(device_utils, 5s)
 GROUP BY device, widnow_end
-EMIT AFTER WATERMARK WITH DELAY 2s;
+EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
 The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `device_utils`. Every time a window is closed, Timeplus Proton waits for another 2 seconds and then emits the aggregation results.
@@ -136,9 +144,13 @@ During the 5 second tumble window, even the window is not closed, as long as the
 
 :::info
 
-This is a new emit policy added in Proton 1.5.
+This is going to be removed. Please use the new syntax: `EMIT ON UPDATE WITH BATCH`
 
 :::
+
+You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Proton will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
+
+### EMIT ON UPDATE WITH BATCH .. {#emit_on_update_with_batch}
 
 You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Proton will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
 
