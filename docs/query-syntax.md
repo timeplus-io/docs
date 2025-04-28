@@ -55,7 +55,7 @@ EMIT ON UPDATE WITH BATCH 1s WITH DELAY 1s AND TIMEOUT 5s
 EMIT LAST 1h ON PROCTIME -- this will be deprecated in the future
 ```
 
-## WITH DELAY {#emit_delay}
+### WITH DELAY {#emit_delay}
 
 By default, the query engine will emit the results immediately when the window is closed or other conditions are met. This behavior can be customized using the `WITH DELAY` clause. It allows you to specify extra time to progress the watermark, which can be useful for handling late data.
 
@@ -67,7 +67,7 @@ EMIT AFTER WINDOW CLOSE WITH DELAY 1s
 
 Please check the interactive demo on [Understanding Watermark](/understanding-watermark).
 
-## WITH DELAY AND TIMEOUT {#emit_timeout}
+### WITH DELAY AND TIMEOUT {#emit_timeout}
 
 For time window based aggregations, when the window is closed is decided by the watermark. A new event outside the window will progress the watermark and inform the query engine to close the previous window and to emit aggregation results.
 
