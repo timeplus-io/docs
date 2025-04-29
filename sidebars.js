@@ -491,7 +491,7 @@ const sidebars = {
           id: "integration-grafana",
           customProps: { tag: "Popular" },
         },
-        "integration-metabase",
+        // "integration-metabase",
         "sling",
         "kafka-connect",
         {
