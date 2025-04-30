@@ -95,7 +95,7 @@ SETTINGS type='s3',
 ```
 
 #### Read from a GCS bucket
-To read data from Google Cloud Storage, please follow [the guide](https://cloud.google.com/storage/docs/authentication/hmackeys) to generate HMAC keys and use them as the access key and secret key. You don't need to set the `region` or `bucket`. Put those information in the `endpoint` setting.
+To read data from Google Cloud Storage, please follow [the guide](https://cloud.google.com/storage/docs/authentication/hmackeys) to generate HMAC keys and use them as the access key and secret key. You don't need to set the `region` or `bucket`. Put the bucket name in the `endpoint` setting.
 ```sql
 CREATE EXTERNAL TABLE nyc_fhvhv(
 `hvfhs_license_num` nullable (string),
