@@ -36,20 +36,73 @@ Timeplus supports some advanced `SETTINGS` to fine tune the streaming query proc
 
 As an advanced feature, Timeplus supports various policies to emit results during streaming query.
 
-The syntax is:
+:::info
+Please note, we updated the EMIT syntax in [Timeplus Enterprise 2.7.6](/enterprise-v2.7#2_7_6). Please upgrade to the latest version to use those refined emit polices.
+:::
+
+For [global aggregations](/stream-query#global-aggregation), the syntax is:
+
+```sql
+EMIT [STREAM|CHANGELOG]
+ [PERIODIC <interval> [REPEAT]]
+ [ON UPDATE [WITH BATCH <interval>] ]
+```
+
+By default `EMIT STREAM` and `PERIODIC 2s` are applied. Advanced settings:
+* `EMIT CHANGELOG` works for [global aggregations](/stream-query#global-aggregation) and [non-aggregation tail/filter](/stream-query#non-aggregation). It will output `+1` or `-1` for `_tp_delta` column.
+
+For [time-window aggregations](/stream-query#window-aggregation), the syntax is:
 
 ```sql
 EMIT
- [AFTER WATERMARK [WITH DELAY <interval>]
- [PERIODIC <interval> [REPEAT]]
- [ON UPDATE]
-  - [[ AND ]TIMEOUT <interval>]
-  - [[ AND ]LAST <interval> [ON PROCTIME]]
+ [AFTER WINDOW CLOSE [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
+ [PERIODIC <interval> [REPEAT] [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
+ [ON UPDATE [WITH BATCH <interval>] [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
+```
+You can only choose one of the emit policies: `AFTER WINDOW CLOSE`, `PERIODIC`, or `ON UPDATE`. If you omit any of them, the default policy is `AFTER WINDOW CLOSE`.
+
+Examples:
+```sql
+EMIT STREAM AFTER WINDOW CLOSE WITH DELAY 1s AND TIMEOUT 5s
+EMIT STREAM PERIODIC 1s REPEAT WITH DELAY 1s AND TIMEOUT 5s
+EMIT ON UPDATE WITH DELAY 1s AND TIMEOUT 5s
+EMIT ON UPDATE WITH BATCH 1s WITH DELAY 1s AND TIMEOUT 5s
 ```
 
-### EMIT AFTER WATERMARK {#emit_after_wm}
+### EMIT .. WITH DELAY {#emit_delay}
 
-You can omit `EMIT AFTER WATERMARK`, since this is the default behavior for time window aggregations. For example:
+`WITH DELAY` and `AND TIMEOUT` only can be applied to time-window based aggregations.
+
+By default, the query engine will emit the results immediately when the window is closed or other conditions are met. This behavior can be customized using the `WITH DELAY` clause. It allows you to specify extra time to progress the watermark, which can be useful for handling late data.
+
+For example, if you want to wait for 1 second before emitting the results, you can use the following syntax:
+
+```sql
+EMIT AFTER WINDOW CLOSE WITH DELAY 1s
+```
+
+Please check the interactive demo on [Understanding Watermark](/understanding-watermark).
+
+### EMIT .. WITH DELAY AND TIMEOUT {#emit_timeout}
+
+For time window based aggregations, when the window is closed is decided by the watermark. A new event outside the window will progress the watermark and inform the query engine to close the previous window and to emit aggregation results.
+
+Say you only get one event for the time window. Since there is no more event, the watermark cannot be moved so the window won't be closed.
+
+`EMIT .. TIMEOUT` is to force the window close, with a timeout after seeing last event.
+
+Please note, if there no single event in the data stream, or in the time window, Proton won't emit result. For example, in the following SQL, you won't get 0 as the count:
+
+```sql
+SELECT window_start, count() as count FROM tumble(stream,2s)
+GROUP BY window_start
+```
+
+Even you add `EMIT .. TIMEOUT` in the SQL, it won't trigger timeout, because the query engine doesn't see any event in the window. If you need to detect such missing event for certain time window, one workaround is to create a heartbeat stream and use `UNION` to create a subquery to combine both heartbeat stream and target stream, for a time window, if all observed events are from heartbeat stream, this means there is no event in the target stream. Please discuss more with us in community slack.
+
+### EMIT AFTER WINDOW CLOSE {#emit_after}
+
+You can omit `EMIT AFTER WINDOW CLOSE`, since this is the default behavior for time window aggregations. For example:
 
 ```sql
 SELECT device, max(cpu_usage)
@@ -59,7 +112,7 @@ GROUP BY device, window_end
 
 The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](/stream-query#window-watermark), which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
 
-### EMIT AFTER WATERMARK WITH DELAY {#emit_after_wm_with_delay}
+### EMIT AFTER WINDOW CLOSE WITH DELAY {#emit_after_with_delay}
 
 Example:
 
@@ -67,7 +120,7 @@ Example:
 SELECT device, max(cpu_usage)
 FROM tumble(device_utils, 5s)
 GROUP BY device, widnow_end
-EMIT AFTER WATERMARK WITH DELAY 2s;
+EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
 The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `device_utils`. Every time a window is closed, Timeplus Proton waits for another 2 seconds and then emits the aggregation results.
@@ -110,12 +163,6 @@ EMIT PERIODIC 3s REPEAT
 
 ### EMIT ON UPDATE {#emit_on_update}
 
-:::info
-
-This is a new emit policy added in Proton 1.5.
-
-:::
-
 Since Proton 1.5, you can apply `EMIT ON UPDATE` in time windows, such as tumble/hop/session, with `GROUP BY` keys. For example:
 
 ```sql
@@ -132,106 +179,25 @@ EMIT ON UPDATE
 
 During the 5 second tumble window, even the window is not closed, as long as the aggregation value(`cnt`) for the same `cid` is different , the results will be emitted.
 
-### EMIT PERIODIC .. ON UPDATE {#emit_periodic_on_update}
+### EMIT ON UPDATE WITH DELAY {#emit_on_update_with_delay}
 
-:::info
+Adding the `WITH DELAY` to `EMIT ON UPDATE` will allow late event for the window aggregation.
 
-This is a new emit policy added in Proton 1.5.
+```sql
+SELECT
+  window_start, cid, count() AS cnt
+FROM
+  tumble(car_live_data, 5s)
+WHERE
+  cid IN ('c00033', 'c00022')
+GROUP BY
+  window_start, cid
+EMIT ON UPDATE WITH DELAY 2s
+```
 
-:::
+### EMIT ON UPDATE WITH BATCH {#emit_on_update_with_batch}
 
 You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Proton will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
-
-### EMIT TIMEOUT{#emit_timeout}
-
-For time window based aggregations, when the window is closed is decided by the watermark. A new event outside the window will progress the watermark and inform the query engine to close the previous window and to emit aggregation results.
-
-Say you only get one event for the time window. Since there is no more event, the watermark cannot be moved so the window won't be closed.
-
-`EMIT TIMEOUT` is to force the window close, with a timeout after seeing last event.
-
-Please note, if there no single event in the data stream, or in the time window, Proton won't emit result. For example, in the following SQL, you won't get 0 as the count:
-
-```sql
-SELECT window_start, count() as count FROM tumble(stream,2s)
-GROUP BY window_start
-```
-
-Even you add `EMIT TIMEOUT` in the SQL, it won't trigger timeout, because the query engine doesn't see any event in the window. If you need to detect such missing event for certain time window, one workaround is to create a heartbeat stream and use `UNION` to create a subquery to combine both heartbeat stream and target stream, for a time window, if all observed events are from heartbeat stream, this means there is no event in the target stream. Please discuss more with us in community slack.
-
-### EMIT LAST
-
-In streaming processing, there is one typical query which is processing the last X seconds / minutes / hours of data. For example, show me the cpu usage per device in the last 1 hour. We call this type of processing `Last X Streaming Processing` in Timeplus and Timeplus provides a specialized SQL extension for ease of use: `EMIT LAST <n><UNIT>`. As in other parts of streaming queries, users can use interval shortcuts here.
-
-:::info
-
-By default, `EMIT LAST` uses the event time. Timeplus Proton will seek both streaming storage and historical to backfill data in last X time range. `EMIT LAST .. ON PROCTIME` uses the wall clock time to do the seek.
-
-:::
-
-#### EMIT LAST for Streaming Tail
-
-Tailing events whose event timestamps are in the last X range.
-
-Examples
-
-```sql
-SELECT *
-FROM device_utils
-WHERE cpu_usage > 80
-EMIT LAST 5m
-```
-
-The above example filters events in the `device_utils` stream where `cpu_usage` is greater than 80% and events are appended in the last 5 minutes. Internally, Timeplus seeks streaming storage back to 5 minutes (wall-clock time from now) and tailing the data from there.
-
-#### EMIT LAST for Global Aggregation
-
-```sql
-SELECT <column_name1>, <column_name2>, <aggr_function>
-FROM <stream_name>
-[WHERE clause]
-GROUP BY ...
-EMIT LAST INTERVAL <n> <UNIT>
-SETTINGS max_keep_windows=<window_count>
-```
-
-**Note** Internally Timeplus chops streaming data into small windows and does the aggregation in each small window and as time goes, it slides out old small windows to keep the overall time window fixed and keep the incremental aggregation efficient. By default, the maximum keeping windows is 100. If the last X interval is very big and the periodic emit interval is small,
-then users will need to explicitly set up a bigger max window : `last_x_interval / periodic_emit_interval`.
-
-Examples
-
-```sql
-SELECT device, count(*)
-FROM device_utils
-WHERE cpu_usage > 80
-GROUP BY device
-EMIT PERIODIC 5s AND LAST 1h
-SETTINGS max_keep_windows=720;
-```
-
-#### EMIT LAST for Windowed Aggregation
-
-```sql
-SELECT <column_name1>, <column_name2>, <aggr_function>
-FROM <streaming_window_function>(<stream_name>, [<time_column>], [<window_size>], ...)
-[WHERE clause]
-GROUP BY ...
-EMIT LAST INTERVAL <n> <UNIT>
-SETTINGS max_keep_windows=<window_count>
-```
-
-Examples
-
-```sql
-SELECT device, window_end, count(*)
-FROM tumble(device_utils, 5s)
-WHERE cpu_usage > 80
-GROUP BY device, window_end
-EMIT LAST 1h
-SETTINGS max_keep_windows=720;
-```
-
-Similarly, we can apply the last X on hopping window.
 
 ## PARTITION BY
 
