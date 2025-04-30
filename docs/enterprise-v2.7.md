@@ -51,11 +51,12 @@ Component versions:
 
 Compared to the [2.7.5](#2_7_5) release:
 * timeplusd 2.7.37 -> 2.7.45
+  * added new setting [mv_preferred_exec_node](/sql-create-materialized-view#mv_preferred_exec_node) while creating materialized view
+  * added new EMIT policy `EMIT ON UPDATE WITH DELAY`. The SQL syntax for EMIT has been refactored. [Learn more](/query-syntax#emit)
   * fixed global aggregation with `EMIT ON UPDATE` in multi-shard environments
   * fixed concurrency issues in hybrid aggregation
   * support incremental checkpoints for hybrid hash join
   * fixed grouping key issues in hybrid aggregation
-  * added new setting [mv_preferred_exec_node](/sql-create-materialized-view#mv_preferred_exec_node) while creating materialized view
 
 #### Known issues {#known_issue_2_7_6}
 1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
