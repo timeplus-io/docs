@@ -35,7 +35,7 @@ Key highlights of this release:
 
 ## Releases
 ### 2.7.6 {#2_7_6}
-Released on 04-30-2025. Installation options:
+Released on 04-29-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_6)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.11 ..`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.6`
@@ -61,9 +61,10 @@ Compared to the [2.7.5](#2_7_5) release:
 1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
 1. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+
 ### 2.7.5 {#2_7_5}
 Released on 04-14-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_4)
+* For Linux or Mac users: [Downloads](/release-downloads#2_7_4)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.9 ..`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.5`
 
