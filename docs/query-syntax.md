@@ -36,6 +36,10 @@ Timeplus supports some advanced `SETTINGS` to fine tune the streaming query proc
 
 As an advanced feature, Timeplus supports various policies to emit results during streaming query.
 
+:::info
+Please note, we updated the EMIT syntax in [Timeplus Enterprise 2.7.6](/enterprise-v2.7#2_7_6). Please upgrade to the latest version to use those refined emit polices.
+:::
+
 For [global aggregations](/stream-query#global-aggregation), the syntax is:
 
 ```sql
@@ -65,7 +69,7 @@ EMIT ON UPDATE WITH DELAY 1s AND TIMEOUT 5s
 EMIT ON UPDATE WITH BATCH 1s WITH DELAY 1s AND TIMEOUT 5s
 ```
 
-### WITH DELAY {#emit_delay}
+### EMIT .. WITH DELAY {#emit_delay}
 
 `WITH DELAY` and `AND TIMEOUT` only can be applied to time-window based aggregations.
 
@@ -79,7 +83,7 @@ EMIT AFTER WINDOW CLOSE WITH DELAY 1s
 
 Please check the interactive demo on [Understanding Watermark](/understanding-watermark).
 
-### WITH DELAY AND TIMEOUT {#emit_timeout}
+### EMIT .. WITH DELAY AND TIMEOUT {#emit_timeout}
 
 For time window based aggregations, when the window is closed is decided by the watermark. A new event outside the window will progress the watermark and inform the query engine to close the previous window and to emit aggregation results.
 
@@ -159,12 +163,6 @@ EMIT PERIODIC 3s REPEAT
 
 ### EMIT ON UPDATE {#emit_on_update}
 
-:::info
-
-This is a new emit policy added in Proton 1.5.
-
-:::
-
 Since Proton 1.5, you can apply `EMIT ON UPDATE` in time windows, such as tumble/hop/session, with `GROUP BY` keys. For example:
 
 ```sql
@@ -181,7 +179,23 @@ EMIT ON UPDATE
 
 During the 5 second tumble window, even the window is not closed, as long as the aggregation value(`cnt`) for the same `cid` is different , the results will be emitted.
 
-### EMIT ON UPDATE WITH BATCH .. {#emit_on_update_with_batch}
+### EMIT ON UPDATE WITH DELAY {#emit_on_update_with_delay}
+
+Adding the `WITH DELAY` to `EMIT ON UPDATE` will allow late event for the window aggregation.
+
+```sql
+SELECT
+  window_start, cid, count() AS cnt
+FROM
+  tumble(car_live_data, 5s)
+WHERE
+  cid IN ('c00033', 'c00022')
+GROUP BY
+  window_start, cid
+EMIT ON UPDATE WITH DELAY 2s
+```
+
+### EMIT ON UPDATE WITH BATCH {#emit_on_update_with_batch}
 
 You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Proton will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
 
