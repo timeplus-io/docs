@@ -13,5 +13,5 @@ Please note, once the view is created based on a streaming query, you cannot tur
 To create a vanilla view:
 
 ```sql
-CREATE VIEW [IF NOT EXISTS] <view_name> AS <SELECT ...>
+CREATE VIEW [IF NOT EXISTS] [db.]<view_name> AS <SELECT ...>
 ```

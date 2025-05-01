@@ -4,7 +4,7 @@ The difference between a materialized view and a regular view is that the materi
 To create a materialized view:
 
 ```sql
-CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name>
+CREATE MATERIALIZED VIEW [IF NOT EXISTS] [db.]<view_name>
 AS <SELECT ...>
 ```
 
@@ -41,7 +41,7 @@ Use cases for specifying a target stream:
 To create a materialized view with the target stream:
 
 ```sql
-CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name>
+CREATE MATERIALIZED VIEW [IF NOT EXISTS] [db.]<view_name>
 INTO <target_stream> AS <SELECT ...>
 ```
 
