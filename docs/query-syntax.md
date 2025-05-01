@@ -416,7 +416,7 @@ Let's change `tumble(stream, 5s)` to `tumble(stream, timestmap, 5s)` :
 SELECT device, max(cpu_usage)
 FROM tumble(devices, timestamp, 5s)
 GROUP BY device, window_end
-EMIT AFTER WATERMARK WITH DELAY 2s;
+EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
 Same as the above delayed tumble window aggregation, except in this query, user specifies a **specific time column** `timestamp` for tumble windowing.
@@ -427,7 +427,7 @@ The example below is so called processing time processing which uses wall clock 
 SELECT device, max(cpu_usage)
 FROM tumble(devices, now64(3, 'UTC'), 5s)
 GROUP BY device, window_end
-EMIT AFTER WATERMARK WITH DELAY 2s;
+EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
 ### Hop Streaming Window Aggregation {#hop}
@@ -468,7 +468,7 @@ Except that the hop window can have overlaps, other semantics are identical to t
 SELECT device, max(cpu_usage)
 FROM hop(device_utils, 2s, 5s)
 GROUP BY device, window_end
-EMIT AFTER WATERMARK;
+EMIT AFTER WINDOW CLOSE;
 ```
 
 The above example SQL continuously aggregates max cpu usage per device per hop window for stream `device_utils`. Every time a window is closed, Timeplus emits the aggregation results.
