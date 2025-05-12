@@ -8,6 +8,12 @@ Released on 03-24-2025 ([Change logs](/enterprise-v2.8#2_8_0)).
 * Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.8.0-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.8.0-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.8.0-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.8.0-darwin-arm64.tar.gz)
 * All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.0`
 
+### v2.8.1-rc.7 {#2_8_1-rc.7}
+Released on 05-08-2025 ([Change logs](/enterprise-v2.8#2_8_1)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.8.1-rc.7-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.8.1-rc.7-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.8.1-rc.7-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.8.1-rc.7-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.1-rc.7`
+
 ## 2.7 {#2_7}
 ### v2.7.7 {#2_7_7}
 Released on 05-08-2025 ([Change logs](/enterprise-v2.7#2_7_7)).
