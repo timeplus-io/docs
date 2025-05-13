@@ -45,19 +45,19 @@ Component versions:
 #### Changelog {#changelog_2_8_1-rc.7}
 Compared to the [2.8.0](/enterprise-v2.8#2_8_0) release:
 * timeplusd 2.8.14 -> 2.8.25
-  * Support writing Kafka message timestamp
-  * Enable IPv6 support for KeyValueService 
-  * Emit on update with delay
+  * Support writing Kafka message timestamp via [_tp_time](/proton-kafka#_tp_time)
+  * Enable IPv6 support for KeyValueService
+  * Simplified the [EMIT syntax](/query-syntax#emit) to make it easier to read and use.
+  * Support [EMIT ON UPDATE WITH DELAY](/query-syntax#emit_on_update_with_delay)
+  * Support [EMIT ON UPDATE](/query-syntax#emit_on_update) for multiple shards
   * Transfer leadership to preferred node after election
-  * Pin materialized view execution node 
+  * Pin materialized view execution node [Learn more](/sql-create-materialized-view#mv_preferred_exec_node)
   * Improve async checkpointing
-  * Avoid loading Python scripts during analysis 
-  * Fixes: implicit conversion, hybrid aggregation, grouping keys
+  * Avoid loading Python scripts during analysis
   * Incremental checkpoint for hybrid hash join
-  * Add support for external ClickHouse table metrics 
+  * Add support for external ClickHouse table metrics
   * Multiple JavaScript VMs support
   * Upgraded Pulsar CPP client to v3.7.0
-  * Support 'emit on update' for multiple shards
   * Support for nullable JS UDFs and inference of numbers as strings in REST API
   * Enable incremental checkpointing by default
   * Support sqlanalysis show disks and other small SQL enhancements
