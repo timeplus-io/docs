@@ -31,7 +31,7 @@ We recommend using stable releases for production deployment. Engineering builds
 
 ### 2.8.1 (Preview) {#2_8_1-rc.7}
 Released on 05-08-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_1-rc.7)
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.1-rc.7`
 * We will provide new Helm Charts for Kubernetes deployment when v2.8 is GA.
 
@@ -42,7 +42,7 @@ Component versions:
 * timeplus_connector 2.2.8
 * timeplus cli 1.2.12
 
-#### Changelog {#changelog_2_8_0}
+#### Changelog {#changelog_2_8_1-rc.7}
 Compared to the [2.8.0](/enterprise-v2.8#2_8_0) release:
 * timeplusd 2.8.14 -> 2.8.25
   * Support writing Kafka message timestamp
@@ -61,6 +61,7 @@ Compared to the [2.8.0](/enterprise-v2.8#2_8_0) release:
   * Support for nullable JS UDFs and inference of numbers as strings in REST API
   * Enable incremental checkpointing by default
   * Support sqlanalysis show disks and other small SQL enhancements
+
 ### 2.8.0 (Preview) {#2_8_0}
 Released on 03-25-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_0)
