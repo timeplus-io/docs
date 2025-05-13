@@ -1,5 +1,5 @@
 # ALTER STREAM
-Currently we don't recommend to alter the schema of streams in Timeplus. You can modify the retention policy for historical store via [MODIFY TTL](#ttl) and modify the retention policy for streaming storage via [MODIFY SETTING](#modify_setting). For mutable streams, you can also run `MODIFY SETTING` to change the RocksDB settings.
+You can modify the retention policy for historical store via [MODIFY TTL](#ttl) and modify the retention policy for streaming storage via [MODIFY SETTING](#modify_setting). For mutable streams, you can also run `MODIFY SETTING` to change the RocksDB settings.
 
 You can also use [ALTER VIEW](/sql-alter-view) to modify the settings of materialized views (only available in Timeplus Enterprise).
 
@@ -69,7 +69,14 @@ Syntax:
 ALTER STREAM stream_name ADD COLUMN column_name data_type
 ```
 
-`DELETE COLUMN` or `RENAME COLUMN` are not supported yet. Contact us if you have strong use cases.
+`DELETE COLUMN` is not supported yet. Contact us if you have strong use cases.
+
+## RENAME COLUMN
+Since Timeplus Enterprise 2.9, you can rename columns in append streams.
+
+```sql
+ALTER STREAM stream_name RENAME COLUMN column_name TO new_column_name
+```
 
 ## ADD INDEX
 
