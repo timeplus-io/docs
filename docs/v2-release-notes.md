@@ -5,7 +5,7 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 ## May 12, 2025
 
 ### Timeplus Enterprise v2.7.6, 2.7.7
-* The [EMIT Policies](/query-sytnax) have been updated, for example `EMIT AFTER WATERMARK` has been changed to `EMIT AFTER WINDOW CLOSE`.
+* The [EMIT Policies](/query-syntax) have been updated, for example `EMIT AFTER WATERMARK` has been changed to `EMIT AFTER WINDOW CLOSE`.
 * Patch releases with bug fixes.
 
 ### Timeplus Go Driver v2.1.1
