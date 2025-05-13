@@ -29,6 +29,39 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.1 (Preview) {#2_8_1-rc.7}
+Released on 05-08-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.1-rc.7`
+* We will provide new Helm Charts for Kubernetes deployment when v2.8 is GA.
+
+Component versions:
+* timeplusd 2.8.25
+* timeplus_web 2.8.7
+* timeplus_appserver 2.8.5
+* timeplus_connector 2.2.8
+* timeplus cli 1.2.12
+
+#### Changelog {#changelog_2_8_1-rc.7}
+Compared to the [2.8.0](/enterprise-v2.8#2_8_0) release:
+* timeplusd 2.8.14 -> 2.8.25
+  * Support writing Kafka message timestamp
+  * Enable IPv6 support for KeyValueService 
+  * Emit on update with delay
+  * Transfer leadership to preferred node after election
+  * Pin materialized view execution node 
+  * Improve async checkpointing
+  * Avoid loading Python scripts during analysis 
+  * Fixes: implicit conversion, hybrid aggregation, grouping keys
+  * Incremental checkpoint for hybrid hash join
+  * Add support for external ClickHouse table metrics 
+  * Multiple JavaScript VMs support
+  * Upgraded Pulsar CPP client to v3.7.0
+  * Support 'emit on update' for multiple shards
+  * Support for nullable JS UDFs and inference of numbers as strings in REST API
+  * Enable incremental checkpointing by default
+  * Support sqlanalysis show disks and other small SQL enhancements
+
 ### 2.8.0 (Preview) {#2_8_0}
 Released on 03-25-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_0)
