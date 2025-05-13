@@ -246,9 +246,11 @@ You can read the timestamp of the message via `_tp_time`, e.g.
 SELECT _tp_time, raw FROM foo;
 ```
 
+Starting from Timeplus Enterprise 2.8.1, you can also specify the message timestamp by set a value to the `_tp_time` column.
+
 #### _tp_message_key
 
-Starting from Timeplus Enterprise 2.4, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuitive and flexible way to read the message key in the preferred format.
+Starting from Timeplus Enterprise 2.4, you can define the `_tp_message_key` column to read or write the message key in the preferred format.
 
 For example:
 ```sql
