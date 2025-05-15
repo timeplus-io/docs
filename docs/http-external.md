@@ -14,23 +14,19 @@ CREATE EXTERNAL STREAM [IF NOT EXISTS] name
 SETTINGS
     type = 'http',
     url = '', -- the HTTP URL the external stream read/write data from/to
-    data_format = '..', -- case-sentive, currently support OpenSearch and ElasticSearch
+    data_format = '..', -- case-sentive, besides common ones as JSONEachRow, also support OpenSearch and ElasticSearch
     write_method = 'POST', -- optional, the HTTP method for write, default to POST
     compression_method = 'none', -- optional, method for handle request/response body
     use_chunked_encoding = true, -- optional, use Chunked Transfer Encoding for sending data
     http_header_..= '..', -- optional, HTTP header key-value pairs
-    -- optional batch settings
-    max_insert_block_size = 65409, -- how many rows at most ( this is a threshold value, not a precise value ) can be written into one single request
-    max_insert_block_bytes = 1024 * 1024, -- how big one request body can be ( this is a threshold value, not a precise value )
-    insert_block_timeout_ms = 500, -- how long it should wait for data for a request, i.e. how frequently it sends data
     -- optional auth settings
-    username = '', -- usename for HTTP basic authentication ( conflicts with http_header_Authorization )
-    password = '', -- password for HTTP basic authentication
+    username = '..', -- usename for HTTP basic authentication ( conflicts with http_header_Authorization )
+    password = '..', -- password for HTTP basic authentication
     -- optiona SSL related settings
-    ssl_ca_cert_file = '', -- the path of the CA certificate file
-    ssl_ca_pem = '', -- the content of the CA certificate file (in PEM format), conflicts with ssl_ca_cert_file
-    skip_ssl_cert_check = false, -- set to true to skip verifying server's certificate
-    client_key = '', -- the private key for client
+    ssl_ca_cert_file = '..', -- the path of the CA certificate file
+    ssl_ca_pem = '..', -- the content of the CA certificate file (in PEM format), conflicts with ssl_ca_cert_file
+    skip_ssl_cert_check = true|false, -- optional, default to false. Set it to true for self-signed certificate
+    client_key = '..', -- the private key for client
     -- timeout settings
     http_keep_alive_timeout = 10, -- timeout (in seconds) for HTTP keep-alive connection
     send_timeout = 300, -- seconds
@@ -51,8 +47,8 @@ CREATE EXTERNAL STREAM opensearch_t1 (
 ) SETTINGS
 type = 'http',
 data_format = 'OpenSearch', --can also use the alias "ElasticSearch"
-url = 'https://opensearch.g.aivencloud.com:28851/students/_bulk',
-username='avnadmin',
+url = 'https://opensearch.company.com:9200/students/_bulk',
+username='admin',
 password='..'
 ```
 
@@ -95,7 +91,17 @@ Then you can insert data via a materialized view or just
 INSERT INTO http_slack_t1 VALUES('Hello World!');
 ```
 
-Please follow Slack's [text formats](https://api.slack.com/reference/surfaces/formatting) guide to add rich text to your messages. Please note not all features are supported, and you may need to construct a complex JSON payload.
+The above example only supports plain text message. If you want to send messages with rich format, such as quote, new line, you need to create blocks and sections with markdown format. Please follow Slack's [text formats](https://api.slack.com/reference/surfaces/formatting) guide to add rich text to your messages. Please note not all features are supported, and you may need to construct a complex JSON payload.
+```sql
+CREATE EXTERNAL STREAM http_slack_t2 (text string) SETTINGS
+type = 'http', data_format='RawBLOB',
+url = 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX'
+;
+INSERT INTO http_slack_t2 VALUES('{"blocks":[{"type":"section","text":{"type":"mrkdwn","text":"line1\nline2"}}]}');
+INSERT INTO http_slack_t2 VALUES('{"blocks":[{"type":"section","text":{"type":"mrkdwn","text":"This is unquoted text\n>This is quoted text\n>This is still quoted text\nThis is unquoted text again"}}]}');
+```
+
+Since the Slack HTTP API only supports one message per request, in the `INSERT` or `CREATE MATERIALIZED VIEW`, add `SETTINGS max_insert_block_size=1 ` to ensure the HTTP external stream only send one row for one request.
 
 ### DDL Settings
 
@@ -142,21 +148,8 @@ password='..',
 url = 'https://api.openobserve.ai/api/../default/_json'
 ```
 
-#### max_insert_block_bytes
-
-#### one_message_per_row
-
-## Virtual Columns
-While reading from an S3 external table, you can use the following virtual columns:
-* `_path` — Path to the file. Type: `low_cardinalty(string)`. In case of archive, shows path in a format: `"{path_to_archive}::{path_to_file_inside_archive}"`
-* `_file` — Name of the file. Type: `low_cardinalty(string)`. In case of archive shows name of the file inside the archive.
-
 ## DROP EXTERNAL STREAM
 
 ```sql
 DROP STREAM [IF EXISTS] name
 ```
-
-## Limitations
-
-1. The UI wizard to setup HTTP External Stream is coming soon. Before it's ready, you need the SQL DDL.
