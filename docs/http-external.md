@@ -76,7 +76,7 @@ INSERT INTO http_splunk_t1 VALUES('test1'),('test2');
 ```
 
 #### Write to BigQuery {#example-write-to-bigquery}
-Follow [the guide](https://cloud.google.com/bigquery/docs/authentication) to choose the proper authentication to Google Cloud, such as via the gcloud CLI `gcloud auth print-access-token`.
+Follow [the guide](https://cloud.google.com/bigquery/docs/authentication) to choose the proper authentication to Google Cloud, such as via the gcloud CLI `gcloud auth application-default print-access-token`.
 
 Create the HTTP external stream in Timeplus:
 ```sql
@@ -88,14 +88,14 @@ http_header_Authorization='Bearer $OAUTH_TOKEN',
 url = 'https://bigquery.googleapis.com/bigquery/v2/projects/$PROJECT/datasets/$DATASET/tables/$TABLE/insertAll'
 ```
 
-Replace the `OAUTH_TOKEN` with the output of `gcloud auth print-access-token` or other secure way to obtain OAuth token. Replace `PROJECT`, `DATASET` and `TABLE` to match your BigQuery table path.
+Replace the `OAUTH_TOKEN` with the output of `gcloud auth application-default print-access-token` or other secure way to obtain OAuth token. Replace `PROJECT`, `DATASET` and `TABLE` to match your BigQuery table path.
 
 Then you can insert data via a materialized view or just
 ```sql
 INSERT INTO http_bigquery_t1 VALUES('{"rows":[{"json":{"num":2,"str":"from Timeplus"}}]}');
 ```
 
-YOu can insert multiple rows to the `rows` array. When the inline templates are ready, we will update the example.
+You can insert multiple rows to the `rows` array. When the inline templates are ready, we will update the example.
 
 #### Trigger Slack Notifications {#example-trigger-slack}
 
