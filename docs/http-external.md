@@ -14,7 +14,7 @@ CREATE EXTERNAL STREAM [IF NOT EXISTS] name
 SETTINGS
     type = 'http',
     url = '', -- the HTTP URL the external stream read/write data from/to
-    data_format = '..', -- case-sentive, besides common ones as JSONEachRow, also support OpenSearch and ElasticSearch
+    data_format = '..', -- case-sentive, besides common ones as JSONEachRow, also support OpenSearch and ElasticSearch. Use Template to create customized payload
     write_method = 'POST', -- optional, the HTTP method for write, default to POST
     compression_method = 'none', -- optional, method for handle request/response body
     use_chunked_encoding = true, -- optional, use Chunked Transfer Encoding for sending data
@@ -22,6 +22,10 @@ SETTINGS
     -- optional auth settings
     username = '..', -- usename for HTTP basic authentication ( conflicts with http_header_Authorization )
     password = '..', -- password for HTTP basic authentication
+    -- settings for Template format
+    format_template_resultset_format = '..',
+    format_template_row_format = '..',
+    format_template_rows_between_delimiter = '..', --default to '\n'
     -- optiona SSL related settings
     ssl_ca_cert_file = '..', -- the path of the CA certificate file
     ssl_ca_pem = '..', -- the content of the CA certificate file (in PEM format), conflicts with ssl_ca_cert_file
@@ -74,28 +78,74 @@ Then you can insert data via a materialized view or just
 ```sql
 INSERT INTO http_splunk_t1 VALUES('test1'),('test2');
 ```
+#### Write to Algolia {#example-write-to-algolia}
+
+The [Algolia Ingestion API](https://www.algolia.com/doc/rest-api/ingestion/) accepts multiple rows in a single request in the following JSON payload:
+```json
+{
+  "action":"addObject",
+  "records":[
+    {"objectID":"id1","column1":"value1","column2":"value2"},
+    {"objectID":"id2","column1":"value1","column2":"value2"},
+  ]
+}
+```
+The `objectID` need to be unique for each record. Assuming the document contains 3 columns: `firstname`, `lastname`, and `zip_code`, you can create the HTTP external stream as this:
+```sql
+CREATE EXTERNAL STREAM http_algolia_t1 (
+    objectID string default uuid(),
+    firstname string,
+    lastname string,
+    zip_code int32)
+SETTINGS
+type = 'http',
+http_header_x_algolia_application_id='..',
+http_header_x_algolia_api_key='..',
+url = 'https://data.us.algolia.com/2/tasks/../push',
+data_format = 'Template',
+format_template_resultset_format='{"action":"addObject","records":[${data}]}',
+format_template_row_format='{"objectID":${objectID:JSON},"firstname":${firstname:JSON},"lastname":${lastname:JSON},"zip_code":${zip_code:JSON}}',
+format_template_rows_between_delimiter=','
+```
+
+Follow the [documentation](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/connectors/push/) to create a "Push to Algolia" connector, and obtain the task ID, as well as application ID and API key.
+
+You can insert multiple rows to the algolia index via materialized views or `INSERT` command:
+```sql
+INSERT INTO http_algolia_t1(firstname,lastname,zip_code)
+VALUES('firstnameA','lastnameA',123),('firstnameB','lastnameB',987)
+```
 
 #### Write to BigQuery {#example-write-to-bigquery}
+
+Assume you have created a table in BigQuery with 2 columns:
+```sql
+create table `PROJECT.DATASET.http_sink_t1`(
+    num int,
+    str string);
+```
+
 Follow [the guide](https://cloud.google.com/bigquery/docs/authentication) to choose the proper authentication to Google Cloud, such as via the gcloud CLI `gcloud auth application-default print-access-token`.
 
 Create the HTTP external stream in Timeplus:
 ```sql
-CREATE EXTERNAL STREAM http_bigquery_t1 (raw string)
+CREATE EXTERNAL STREAM http_bigquery_t1 (num int,str string)
 SETTINGS
 type = 'http',
-data_format = 'RawBLOB',
 http_header_Authorization='Bearer $OAUTH_TOKEN',
-url = 'https://bigquery.googleapis.com/bigquery/v2/projects/$PROJECT/datasets/$DATASET/tables/$TABLE/insertAll'
+url = 'https://bigquery.googleapis.com/bigquery/v2/projects/$PROJECT/datasets/$DATASET/tables/$TABLE/insertAll',
+data_format = 'Template',
+format_template_resultset_format='{"rows":[${data}]}',
+format_template_row_format='{"json":{"num":${num:JSON},"str":${str:JSON}}}',
+format_template_rows_between_delimiter=','
 ```
 
-Replace the `OAUTH_TOKEN` with the output of `gcloud auth application-default print-access-token` or other secure way to obtain OAuth token. Replace `PROJECT`, `DATASET` and `TABLE` to match your BigQuery table path.
+Replace the `OAUTH_TOKEN` with the output of `gcloud auth application-default print-access-token` or other secure way to obtain OAuth token. Replace `PROJECT`, `DATASET` and `TABLE` to match your BigQuery table path. Also change `format_template_row_format` to match the table schema.
 
-Then you can insert data via a materialized view or just
+Then you can insert data via a materialized view or just via `INSERT` command:
 ```sql
-INSERT INTO http_bigquery_t1 VALUES('{"rows":[{"json":{"num":2,"str":"from Timeplus"}}]}');
+INSERT INTO http_bigquery_t1 VALUES(10,'A'),(11,'B');
 ```
-
-You can insert multiple rows to the `rows` array. When the inline templates are ready, we will update the example.
 
 #### Trigger Slack Notifications {#example-trigger-slack}
 
@@ -103,27 +153,21 @@ You can follow [the guide](https://api.slack.com/messaging/webhooks) to configur
 
 ```sql
 CREATE EXTERNAL STREAM http_slack_t1 (text string) SETTINGS
-type = 'http',
-data_format = 'JSONEachRow',
+type = 'http', data_format='Template',
+format_template_resultset_format='{"blocks":[{"type":"section","text":{"type":"mrkdwn","text":"${data}"}}]}',
+format_template_row_format='${text:Raw}',
 url = 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX'
 ```
 
-Then you can insert data via a materialized view or just
+Then you can insert data via a materialized view or just via `INSERT` command:
 ```sql
 INSERT INTO http_slack_t1 VALUES('Hello World!');
+INSERT INTO http_slack_t1 VALUES('line1\nline2');
+INSERT INTO http_slack_t1 VALUES('msg1'),('msg2');
+INSERT INTO http_slack_t1 VALUES('This is unquoted text\n>This is quoted text\n>This is still quoted text\nThis is unquoted text again');
 ```
 
-The above example only supports plain text message. If you want to send messages with rich format, such as quote, new line, you need to create blocks and sections with markdown format. Please follow Slack's [text formats](https://api.slack.com/reference/surfaces/formatting) guide to add rich text to your messages. Please note not all features are supported, and you may need to construct a complex JSON payload.
-```sql
-CREATE EXTERNAL STREAM http_slack_t2 (text string) SETTINGS
-type = 'http', data_format='RawBLOB',
-url = 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX'
-;
-INSERT INTO http_slack_t2 VALUES('{"blocks":[{"type":"section","text":{"type":"mrkdwn","text":"line1\nline2"}}]}');
-INSERT INTO http_slack_t2 VALUES('{"blocks":[{"type":"section","text":{"type":"mrkdwn","text":"This is unquoted text\n>This is quoted text\n>This is still quoted text\nThis is unquoted text again"}}]}');
-```
-
-Since the Slack HTTP API only supports one message per request, in the `INSERT` or `CREATE MATERIALIZED VIEW`, add `SETTINGS max_insert_block_size=1 ` to ensure the HTTP external stream only send one row for one request.
+Please follow Slack's [text formats](https://api.slack.com/reference/surfaces/formatting) guide to add rich text to your messages.
 
 ### DDL Settings
 
@@ -150,6 +194,46 @@ Other supported values for `data_format` are:
 - Protobuf: there could be multiple Protobuf messages in a single message.
 - Avro
 - RawBLOB: the default value. Read/write message as plain text.
+- Template: create the payload with customized templates
+
+#### format_template_resultset_format
+When you set `date_format` to `Template`, you need to specify both `format_template_resultset_format` and `format_template_row_format`, and optionally `format_template_rows_between_delimiter`.
+
+`format_template_resultset_format` controls how all the rows will be combined to create the POST payload, and contains the following placeholders:
+- `data` is the rows with data in `format_template_row_format`, separated by `format_template_rows_between_delimiter`.
+- `totals` is the row with total values.
+- `min` is the row with minimum values.
+- `max` is the row with maximum values.
+- `rows_before_limit` is the minimal number of rows there would have been without LIMIT.
+- `time` is the request execution time in seconds.
+- `rows_read` is the number of rows has been read.
+- `bytes_read` is the number of bytes (uncompressed) has been read.
+
+For example:
+- To send markdown messages to Slack, the template is `'{"blocks":[{"type":"section","text":{"type":"mrkdwn","text":"${data}"}}]}'`
+- To send rows to BigQuery, the template is `'{"rows":[${data}]}'`
+
+#### format_template_row_format
+
+The setting specifies format strings for rows with the following syntax:
+```
+delimiter_1${column_1:serializeAs_1}delimiter_2${column_2:serializeAs_2} ... delimiter_N
+```
+For example:
+- To send markdown messages to Slack, the template is `'${text:Raw}'`
+- To send rows to BigQuery, the template is `'{"json":{"num":${num:JSON},"str":${str:JSON}}}'` (replace the column names per your table schema)
+
+The following escaping rules are supported:
+  | Rules             | Description                          |
+  |-------------------|--------------------------------------|
+  | `CSV`, `JSON`, `XML` | Similar to the formats of the same names |
+  | `Escaped` | Similar to `TSV` |
+  | `Quoted` | Similar to `Values` |
+  | `Raw` | 	Without escaping, similar to `TSVRaw`|
+
+#### format_template_rows_between_delimiter
+The setting format_template_rows_between_delimiter setting specifies the delimiter between rows, which is printed (or expected) after every row except the last one (`\`n by default)
+
 
 #### http_header_Authorization
 You can set key/value pairs in HTTP header, using the format `http_header_key=value`. For example to set the Authorization header for Splunk HEC, you can use `http_header_Authorization=Splunk hec_token`.

@@ -84,6 +84,11 @@ const sidebars = {
               type: "doc",
               id: "pulsar-external-stream",
             },
+            {
+              type: "doc",
+              id: "http-external",
+              customProps: { tag: "New" },
+            },
           ],
         },
         {
