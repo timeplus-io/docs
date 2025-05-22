@@ -1,5 +1,7 @@
 # Arrays, Maps, Tuples
 
+## Arrays
+
 ### array_cast
 
 `array_cast(element1,element2,..)` create a new array with the given elements, e.g. `array_cast(1,2)` will get `[1,2]` Please note, the elements should be in the same type, such as `array_cast('a','n')`, not `array_cast('a',0)`
