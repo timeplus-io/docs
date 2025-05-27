@@ -50,17 +50,20 @@ Component versions:
 * timeplus cli 2.9.0
 
 #### Changelog {#changelog_2_9_0}
-Compared to the [2.8.0](/enterprise-v2.8#2_8_0) release:
+Compared to the [2.8.1](/enterprise-v2.8#2_8_0) release:
 * timeplusd 2.8.14 -> 2.9.7
   * TODO
 * timeplus_web 2.8.7 -> 2.9.22
   * TODO
 * timeplus_appserver 2.8.5 -> 2.9.19
-  * TODO
+  * package with timeplus_web static files
+  * support new database types, such as MySQL/Postgres/Iceberg external tables
+  * updated proton-go-driver to support new json type
 * timeplus_connector 2.2.8 -> 2.9.0
-  * TODO
-* timeplus cli 1.2.12 -> 2.9.0
-  * TODO
+  * removed the support for internal k/v service, since metadata is saved in mutable streams in v2.9
+* timeplus cli 2.8.0 -> 2.9.0
+  * No longer need to start/stop the timeplus_web component.
+  * Load `timeplus_connector.yaml` from the relative path or via `BENTHOS_CONFIG_PATH` environment variable.
 
 Upgrade Instructions:
 
