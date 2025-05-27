@@ -1,7 +1,5 @@
 # Data Types
 
-In most cases, you don't need to create streams manually or specify the data type for the columns. Timeplus source will automatically create the streams/columns with proper types when you load data from Kafka/CSV/etc.
-
 Like many analytics systems, the following common types are supported.
 
 | Category                      | Type       | Example                              | Note                                                         | Related functions                                            |
@@ -11,6 +9,7 @@ Like many analytics systems, the following common types are supported.
 |                               | float      | -3.1415                              | default with 4 bytes. Same as `float32`. You can also use `float64` or `double` for 8 bytes | [to_float](/functions_for_type#to_float)                      |
 | Boolean Type                  | bool       | true                                 | true or false                                                |                                                              |
 | String Type                   | string     | 'Hello'                              | strings of an arbitrary length. You can also use `varchar` To create string columns with fixed size in bytes, use `fixed_string(positiveInt)` | [to_string](/functions_for_type#to_string), [etc.](/functions_for_text) |
+| JSON Type                   | json     | '\{"a":1,"b":["x","y"]\}'                              | New in Timeplus Enterprise 2.9. The JSON document is stored in a more optimzied, columnar-like layout to improve query performance. |
 | Universally Unique Identifier | uuid       | 1f71acbf-59fc-427d-a634-1679b48029a9 | a universally unique identifier (UUID) is a 16-byte number used to identify records. For detailed information about the UUID, see [Wikipedia](https://en.wikipedia.org/wiki/Universally_unique_identifier) | [uuid](/functions_for_text#uuid)                              |
 | IP address                    | ipv4       | '116.253.40.133'                     | IPv4 addresses. Stored in 4 bytes as uint32.                 | [to_ipv4](/functions_for_url#to_ipv4)                         |
 |                               | ipv6       | '2a02:aa08:e000:3100::2'             | IPv6 addresses. Stored in 16 bytes as uint128.               | [to_ipv6](/functions_for_url#to_ipv6)                         |
