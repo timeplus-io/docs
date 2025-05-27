@@ -14,16 +14,17 @@ Key highlights of this release:
 * Online schema evolution for Mutable Stream
 * Versioned Mutable Stream
 * Coalesced Mutable Stream
-* Native JSON field type (rather than string)
-* json_encode / json_cast functions to convert row to json string and vice versa
+* Native JSON field type
+* [json_encode](/functions_for_json#json_encode) / [json_cast](/functions_for_json#json_cast) functions to convert row with multiple columns to json string or new json type
 * Dead Letter Queue
-* Native HTTP External Stream to Splunk and Elastic Search
+* [Native HTTP External Stream](/http-external) to Splunk and Elastic Search
 * JIT streaming processing for big perf / efficiency improvements
 * Parameterized Views
 * Mutable Stream Enhancements : TTL, Drop / Rebuild Secondary Indexes etc
 * Large cardinality sessionization
 * Distributed LogStream
-* Python UDF on ARM MacOS
+* [Python UDF](/py-udf) now supports Arm CPU on Linux or MacOS
+* The refined UI to visualize nodes in a cluster
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -51,21 +52,15 @@ Component versions:
 #### Changelog {#changelog_2_9_0}
 Compared to the [2.8.0](/enterprise-v2.8#2_8_0) release:
 * timeplusd 2.8.14 -> 2.9.7
-  * Timeplus can read or write data in Apache Iceberg tables.
-  * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
-  * Use S3 as the [tiered storage](/tiered-storage) for streams.
-  * New SQL command to [rename streams](/sql-rename-stream).
-  * List all tables in a remote MySQL database via [CREATE DATABASE .. SETTINGS type='mysql'](/sql-create-database).
-  * Improved the experience of installing Python libraries for [Python UDF](/py-udf#install_pip).
-  * New SQL functions: [group_array_sorted](/functions_for_agg#group_array_sorted), [group_array_sample](/functions_for_agg#group_array_sample), [histogram](/functions_for_agg#histogram).
+  * TODO
 * timeplus_web 2.8.7 -> 2.9.22
-  * A new page to visualize nodes in a cluster.
-  * New page to view the details of streams or materialized views.
-  * Able to select a database while viewing the data lineage page.
+  * TODO
 * timeplus_appserver 2.8.5 -> 2.9.19
-  * Enhanced [REST API](/rest) to update column comments, get Python UDF status and cluster information.
+  * TODO
 * timeplus_connector 2.2.8 -> 2.9.0
+  * TODO
 * timeplus cli 1.2.12 -> 2.9.0
+  * TODO
 
 Upgrade Instructions:
 
