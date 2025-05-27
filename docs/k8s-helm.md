@@ -477,6 +477,38 @@ There are a lot of other configurations available to customize the deployment. S
 
 ## Upgrade guide
 
+### v6 to v7
+:::info
+[Timeplus Enterprise 2.7](/enterprise-v2.7)'s helm chart versions are v6.0.x.
+[Timeplus Enterprise 2.8](/enterprise-v2.8)'s helm chart versions are v7.0.x.
+:::
+
+By default, the v7 helm chart is configured to use new mutable stream based KV store. If you've decided not to run the migration, you can just use `helm upgrade` to upgrade the chart.
+
+If you have decided to run the migration, here are the steps to follow:
+
+1. Update the `values.yaml` to enable Timeplus CLI and disable both Timeplus connector and appserver
+```yaml
+timeplusCli:
+  enabled: true
+timeplusConnector:
+  enabled: false
+timeplusAppserver:
+  enabled: false
+```
+2. Use `helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise --version v7.x.x` to upgrade your Timeplus Enterprise deployment with v7 chart.
+3. Use `kubectl -n $NS get pods` to check the status of the pods. Please make sure that:
+    1. `timeplusd` pods has been upgraded to 2.8.x 
+    2. `timeplus-appserver` pod is terminated
+    3. `timeplus-connector` pod is terminated
+    4. `timeplus-cli` pod is up and running
+4. Run `kubectl -n $NS exec timeplus-cli -it -- /bin/bash`
+5. Run `./bin/timeplus migrate kv --host timeplusd-0.timeplusd-svc.<namespace>.svc.cluster.local -p <password>`
+    1. Replace `<namespace>` with the namespace that Timeplus Enterprise is deployed to
+    2. Replace `<password>` with the admin password. If you haven't customized it via `values.yaml`, please use the default password `timeplusd@t+`
+6. Wait until the command above finishes. It should be very fast. In case of any error, please contact Timeplus support.
+7. Once migration succeed, you can revert the `values.yaml` change you have done for step 1 and run `helm upgrade` to apply the change.
+
 ### v5 to v6
 :::info
 [Timeplus Enterprise 2.6](/enterprise-v2.6)'s helm chart versions are v5.0.x.
