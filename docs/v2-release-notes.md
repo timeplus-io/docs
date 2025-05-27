@@ -2,6 +2,12 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## May 26, 2025
+
+### Timeplus Native JDBC v2.0.10
+* Upgraded aircompressor to 0.27 to fix a security risk
+* Upgraded proton-jdbc from 0.6.0 to 0.7.1
+
 ## May 12, 2025
 
 ### Timeplus Enterprise v2.7.6, 2.7.7
