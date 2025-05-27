@@ -57,17 +57,22 @@ Copy and paste the following yaml snippet into `values.yaml`.
 ```yaml
 timeplusd:
   replicas: 3
+  # Uncomment the following two linges to use headless service if you are going to deploy Timeplus to GKE.
+  # service:
+  #  clusterIP: None
   storage:
     stream:
       className: <Your storage class name>
       size: 100Gi
-      # Keep this to be `null` if you are on Amazon EKS with EBS CSI controller.
+      # Keep this to be `false` if you are on Amazon EKS with EBS CSI controller.
       # Otherwise please carefully check your provisioner and set them properly.
-      selector: null
+      selector: false
     history:
       className: <Your storage class name>
       size: 100Gi
-      selector: null
+      selector: false
+    service:
+      clusterIP: None
     log:
       # This log PV is optional. If you have log collect service enabled on your k8s cluster, you can set this to be false.
       # If log PV is disabled, the log file will be gone after pod restarts.
