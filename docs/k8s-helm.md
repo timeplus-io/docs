@@ -57,7 +57,7 @@ Copy and paste the following yaml snippet into `values.yaml`.
 ```yaml
 timeplusd:
   replicas: 3
-  # Uncomment the following two linges to use headless service if you are going to deploy Timeplus to GKE.
+  # Uncomment the following two lines to use headless service if you are going to deploy Timeplus to GKE.
   # service:
   #  clusterIP: None
   storage:
