@@ -14,7 +14,7 @@ For visual learning, you can watch the following video:
 - Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, Google GKE, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
 - Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. Please refer to [Planning capacity](#planning-capacity) section for production deployment.
 * Network access to Internet. If your environment is air-gapped, please refer to [Offline installation](#offline-installation).
-* Port 8464 needs to be open between k8s nodes. Timeplus cluster communicates to each other via port 8464.
+* Port 8464 needs to be open on each k8s node. The pods behind timeplusd Statefulset uses this port to talk to each other.
 
 ## Quickstart with self-hosted Kubernetes
 
@@ -72,8 +72,6 @@ timeplusd:
       className: <Your storage class name>
       size: 100Gi
       selector: false
-    service:
-      clusterIP: None
     log:
       # This log PV is optional. If you have log collect service enabled on your k8s cluster, you can set this to be false.
       # If log PV is disabled, the log file will be gone after pod restarts.
@@ -519,6 +517,6 @@ If something goes wrong, you can run the following commands to get more informat
 
 ### Timeplusd keep restarting with `bootstrap: Failed to send request=Hello to peer node` error
 
-This error indicates that timeplusd cannot communicate to its peer node. Most likely the network between different k8s node is blocked. Timeplusd talks to each other via port 8464 so please make sure this port is open. A typical way to check is to 
-1. Create 2 testing pods on **different** k8s nodes, try to check if you can access port 8464 from pod 1 on node 1 to pod 2 on node 2. Most likely it will fail.
-2. Create 2 testing pods on the **same** k8s node, try to check if you can access port 8464 from pod 1 to pod 2. If this works, then it proves that the issue is on inter-node network. You can check if there is any firewall settings that blocks port 8464.
+This error indicates that timeplusd cannot connect to its peer node. Most likely the network (port 8464) between different k8s node is blocked. A typical way to check is to 
+1. Create 2 testing pods on **different** k8s nodes, check if you can access port 8464 from pod 1 on node 1 to pod 2 on node 2. Most likely it will fail in this case.
+2. Create 2 testing pods on the **same** k8s node, check if you can access port 8464 from pod 1 to pod 2 on the same node. If this works, then it proves that there is an issue with inter-node network. You can check if there is any firewall settings that block port 8464.
