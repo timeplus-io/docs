@@ -30,8 +30,8 @@ Key highlights of this release:
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
 ### 2.8.1 {#2_8_1}
-Released on 05-28-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh`
+Released on 05-27-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_1)
 * For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.4 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.1`
 
@@ -43,7 +43,7 @@ Component versions:
 * timeplus cli 1.2.12
 
 #### Changelog {#changelog_2_8_1}
-Compared to the [2.8.1-rc7](/enterprise-v2.8#2_8_1-rc.7) release:
+Compared to the [2.8.1-rc7](#2_8_1-rc.7) release:
 * timeplusd 2.8.25 -> 2.8.26
   * Support rename stream and column name.
   * Support setting of connection_timeout_ms for Kafka external stream.

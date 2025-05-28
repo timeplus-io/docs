@@ -35,7 +35,7 @@ Key highlights of this release:
 
 ## Releases
 ### 2.7.8 {#2_7_8}
-Released on 05-28-2025. Installation options:
+Released on 05-27-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_8)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.16 ..`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.8`
@@ -52,7 +52,7 @@ Component versions:
 Compared to the [2.7.7](#2_7_7) release:
 * timeplusd 2.7.46 -> 2.7.47
   * support renaming stream column name
-  * fixed known stabilization issues 
+  * fixed known stabilization issues
 #### Known issues {#known_issue_2_7_7}
 1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
@@ -75,7 +75,7 @@ Component versions:
 
 Compared to the [2.7.6](#2_7_6) release:
 * timeplusd 2.7.45 -> 2.7.46
-  * fixed Python UDF known stablization issues 
+  * fixed Python UDF known stablization issues
 #### Known issues {#known_issue_2_7_7}
 1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
