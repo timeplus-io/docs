@@ -11,9 +11,10 @@ For visual learning, you can watch the following video:
 ## Prerequisites
 
 - Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
-- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
+- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, Google GKE, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
 - Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. Please refer to [Planning capacity](#planning-capacity) section for production deployment.
 * Network access to Internet. If your environment is air-gapped, please refer to [Offline installation](#offline-installation).
+* Port 8464 needs to be open between k8s nodes. Timeplus cluster communicates to each other via port 8464.
 
 ## Quickstart with self-hosted Kubernetes
 
@@ -57,7 +58,7 @@ Copy and paste the following yaml snippet into `values.yaml`.
 ```yaml
 timeplusd:
   replicas: 3
-  # Uncomment the following two lines to use headless service if you are going to deploy Timeplus to GKE.
+  # Uncomment the following two lines to use headless service if you are going to deploy Timeplus to Google GKE.
   # service:
   #  clusterIP: None
   storage:
