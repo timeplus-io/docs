@@ -52,7 +52,7 @@ Component versions:
 Compared to the [2.7.7](#2_7_7) release:
 * timeplusd 2.7.46 -> 2.7.47
   * support renaming stream column name
-  * fixed known stablization issues 
+  * fixed known stabilization issues 
 #### Known issues {#known_issue_2_7_7}
 1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
