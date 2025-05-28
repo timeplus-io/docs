@@ -397,14 +397,6 @@ kubectl get pvc -n $NS proton-data -o=jsonpath='{.spec.volumeName}'
 
 It should return the name you used in your new PV, in this example it is `pvc-manual-vol-0d628e0096371cb67`.
 
-### Troubleshooting
-
-If something goes wrong, you can run the following commands to get more information.
-
-1. `kubectl get pods -n $NS`: Make sure all pods are in `Running` status and the `READY` is `1/1`.
-2. `kubectl logs <pod> -n $NS`: Try to check the logs of each pod to make sure there is no obvious errors.
-3. Run `kubectl cluster-info dump -n $NS` to dump all the information and send it to us.
-
 ## Configuration Guide
 
 You may want to customize the configurations of Timeplus Appserver or Timeplusd. Here is a quick example of how to modify the `values.yaml`. For the list of available configuration items, please refer to the docs of [Timeplus Appserver](./server_config#appserver) and [Timeplusd](./server_config#timeplusd).
@@ -516,3 +508,17 @@ timeplusd:
 |`timeplusd.ingress.enabled`|`ingress.timeplusd.enabled`|
 |`ingress.enabled`|`ingress.timeplusd.enabled`, `ingress.appserver.enabled`|
 |`ingress.domain`|`ingress.timeplusd.domain`, `ingress.appserver.domain`|
+
+## Troubleshooting
+
+If something goes wrong, you can run the following commands to get more information.
+
+1. `kubectl get pods -n $NS`: Make sure all pods are in `Running` status and the `READY` is `1/1`.
+2. `kubectl logs <pod> -n $NS`: Try to check the logs of each pod to make sure there is no obvious errors.
+3. Run `kubectl cluster-info dump -n $NS` to dump all the information and send it to us.
+
+### Timeplusd keep restarting with `bootstrap: Failed to send request=Hello to peer node` error
+
+This error indicates that timeplusd cannot communicate to its peer node. Most likely the network between different k8s node is blocked. Timeplusd talks to each other via port 8464 so please make sure this port is open. A typical way to check is to 
+1. Create 2 testing pods on **different** k8s nodes, try to check if you can access port 8464 from pod 1 on node 1 to pod 2 on node 2. Most likely it will fail.
+2. Create 2 testing pods on the **same** k8s node, try to check if you can access port 8464 from pod 1 to pod 2. If this works, then it proves that the issue is on inter-node network. You can check if there is any firewall settings that blocks port 8464.
