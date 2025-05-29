@@ -49,7 +49,7 @@ Component versions:
 Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
 * timeplusd 2.8.26 -> 2.9.7
   *   New Features:
-      *   **Parametrised Views:** You can now create parametrised views, allowing for more dynamic and reusable view definitions.
+      *   **Parameterized Views:** You can now create [parameterized views](/view#parameterized-views), allowing for more dynamic and reusable view definitions.
       *   **JIT Compilation for Queries:** Introduced Just-In-Time (JIT) compilation for queries, potentially improving execution performance for certain query types.
       *   **New JSON Data Type & SQL Functions:** Added a native JSON data type and SQL functions [json_encode](/functions_for_json#json_encode) / [json_cast](/functions_for_json#json_cast) for powerful JSON manipulation.
       *   **Mutable Stream TTL:** You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
