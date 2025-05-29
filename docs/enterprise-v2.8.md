@@ -29,6 +29,36 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.1 {#2_8_1}
+Released on 05-27-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_1)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.4 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.1`
+
+Component versions:
+* timeplusd 2.8.26
+* timeplus_web 2.8.7
+* timeplus_appserver 2.8.5
+* timeplus_connector 2.2.8
+* timeplus cli 1.2.12
+
+#### Changelog {#changelog_2_8_1}
+Compared to the [2.8.1-rc7](#2_8_1-rc.7) release:
+* timeplusd 2.8.25 -> 2.8.26
+  * Support rename stream and column name.
+  * Support setting of connection_timeout_ms for Kafka external stream.
+  * Improve distributed queries and external stream nodes.
+  * Improve secondary index column validation.
+  * Fix ingest timeout issue during data ingestion.
+  * Improve checkpoint cleanup.
+  * Improve normal function behavior and emit on updates.
+  * Fix issues with 2-level aggregation and changelog emit.
+  * Improve edge cases when TCP connections aren't ready.
+  * Impove distributed query for historical query on mutable/append streams.
+  * Improve left range join under certain conditions.
+  * Fix Kafka external stream parsing issue.
+  * Improve mutable stream creation flow when defined via engine.
+
 ### 2.8.1 (Preview) {#2_8_1-rc.7}
 Released on 05-08-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh`

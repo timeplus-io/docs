@@ -2,7 +2,7 @@
 
 # Retrieve and process S3 file listings to generate download Markdown
 aws s3 ls s3://timeplus.io/dist/timeplus_enterprise/ \
-  | grep -v -E 'sp-demo|rc' \
+  | grep -v -E 'sp-demo|-rc[.-]' \
   | awk '
 BEGIN {
   print "# Package Downloads\n"
@@ -15,13 +15,20 @@ BEGIN {
 # Process each line with tar.gz file
 /tar\.gz$/ {
   # Extract version and architecture
-  split($NF, parts, "-")
-  version = parts[3]
-  sub(/^v/, "", version)
+  filename = $NF
+  gsub(/\.tar\.gz$/, "", filename)
+  split(filename, parts, "-")
 
-  # Get architecture components
-  arch = parts[4] "-" parts[5]
-  gsub(/\.tar\.gz$/, "", arch)
+  # Handle preview versions (e.g., v2.9.0-preview.0)
+  if (parts[4] ~ /^preview\./) {
+    version = parts[3] "-" parts[4]
+    arch = parts[5] "-" parts[6]
+  } else {
+    version = parts[3]
+    arch = parts[4] "-" parts[5]
+  }
+
+  sub(/^v/, "", version)
 
   # Store in version map
   version_map[version] = 1
