@@ -11,9 +11,10 @@ For visual learning, you can watch the following video:
 ## Prerequisites
 
 - Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
-- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
+- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, Google GKE, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
 - Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. Please refer to [Planning capacity](#planning-capacity) section for production deployment.
 * Network access to Internet. If your environment is air-gapped, please refer to [Offline installation](#offline-installation).
+* Port 8464 needs to be open on each k8s node. The pods behind timeplusd Statefulset uses this port to talk to each other.
 
 ## Quickstart with self-hosted Kubernetes
 
@@ -57,17 +58,20 @@ Copy and paste the following yaml snippet into `values.yaml`.
 ```yaml
 timeplusd:
   replicas: 3
+  # Uncomment the following two lines to use headless service if you are going to deploy Timeplus to Google GKE.
+  # service:
+  #  clusterIP: None
   storage:
     stream:
       className: <Your storage class name>
       size: 100Gi
-      # Keep this to be `null` if you are on Amazon EKS with EBS CSI controller.
+      # Keep this to be `false` if you are on Amazon EKS with EBS CSI controller.
       # Otherwise please carefully check your provisioner and set them properly.
-      selector: null
+      selector: false
     history:
       className: <Your storage class name>
       size: 100Gi
-      selector: null
+      selector: false
     log:
       # This log PV is optional. If you have log collect service enabled on your k8s cluster, you can set this to be false.
       # If log PV is disabled, the log file will be gone after pod restarts.
@@ -391,14 +395,6 @@ kubectl get pvc -n $NS proton-data -o=jsonpath='{.spec.volumeName}'
 
 It should return the name you used in your new PV, in this example it is `pvc-manual-vol-0d628e0096371cb67`.
 
-### Troubleshooting
-
-If something goes wrong, you can run the following commands to get more information.
-
-1. `kubectl get pods -n $NS`: Make sure all pods are in `Running` status and the `READY` is `1/1`.
-2. `kubectl logs <pod> -n $NS`: Try to check the logs of each pod to make sure there is no obvious errors.
-3. Run `kubectl cluster-info dump -n $NS` to dump all the information and send it to us.
-
 ## Configuration Guide
 
 You may want to customize the configurations of Timeplus Appserver or Timeplusd. Here is a quick example of how to modify the `values.yaml`. For the list of available configuration items, please refer to the docs of [Timeplus Appserver](./server_config#appserver) and [Timeplusd](./server_config#timeplusd).
@@ -510,3 +506,17 @@ timeplusd:
 |`timeplusd.ingress.enabled`|`ingress.timeplusd.enabled`|
 |`ingress.enabled`|`ingress.timeplusd.enabled`, `ingress.appserver.enabled`|
 |`ingress.domain`|`ingress.timeplusd.domain`, `ingress.appserver.domain`|
+
+## Troubleshooting
+
+If something goes wrong, you can run the following commands to get more information.
+
+1. `kubectl get pods -n $NS`: Make sure all pods are in `Running` status and the `READY` is `1/1`.
+2. `kubectl logs <pod> -n $NS`: Try to check the logs of each pod to make sure there is no obvious errors.
+3. Run `kubectl cluster-info dump -n $NS` to dump all the information and send it to us.
+
+### Timeplusd keep restarting with `bootstrap: Failed to send request=Hello to peer node` error
+
+This error indicates that timeplusd cannot connect to its peer node. Most likely the network (port 8464) between different k8s node is blocked. A typical way to check is to 
+1. Create 2 testing pods on **different** k8s nodes, check if you can access port 8464 from pod 1 on node 1 to pod 2 on node 2. Most likely it will fail in this case.
+2. Create 2 testing pods on the **same** k8s node, check if you can access port 8464 from pod 1 to pod 2 on the same node. If this works, then it proves that there is an issue with inter-node network. You can check if there is any firewall settings that block port 8464.
