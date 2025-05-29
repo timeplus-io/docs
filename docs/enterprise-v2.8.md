@@ -124,9 +124,22 @@ Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
 * timeplus_connector 2.2.8. No changes.
 * timeplus cli 1.2.12. No changes.
 
-Upgrade Instructions:
+#### Upgrade Instructions
 
-In 2.8, we changed the default way to save metadata. It's recommended to test the 2.8.0 with a fresh installation. We will provide a migration tool to help users migrate previous releases to 2.8.
+Prior to Timeplus Enterprise 2.8, we use an internal KV store to persist the metadata for Timeplus appserver and connector. To simplify the architecture, starting from Timeplus Enterprise 2.8, we are deprecating the KV store and use a mutable stream (`neutron._timeplus_appserver_metastore`) to store those data. The KV store will be completely removed in the next 2.9 release.
+
+The core functionality of the Timeplus Enterprise will still work even if you don't migrate the metadata. If you match all the conditions below, you can safely skip the migration:
+
+1. All the resources are created via SQL or through timeplusd directly. No resources are created via Timeplus web console or Timeplus appserver REST API.
+2. You don't use sources, sinks, dashboards, or alerts.
+
+If you are still not sure, here are the things that would be broken without migration:
+1. Sources, sinks, dashboards, alerts will be lost.
+2. Some metadata such as descriptions, owner of the resource will be lost. It won't impact the functionality of the resource though.
+3. Workspace setting will be lost.
+4. Query history will be lost.
+
+For Kubernetes users, please follow [the guide](/k8s-helm#v6-to-v7) to do the migration.
 
 #### Known issues {#known_issue_2_8_0}
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
