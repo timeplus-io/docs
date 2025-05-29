@@ -15,7 +15,8 @@ Key highlights of this release:
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
 * Use S3 as the [tiered storage](/tiered-storage) for streams.
-* New SQL command to [rename streams](/sql-rename-stream).
+* New SQL command to [rename streams](/sql-rename-stream) or [columns](/sql-alter-stream#rename-column).
+* JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
 * A new page to visualize nodes in a cluster.
 * New page to view the details of streams or materialized views.
 
@@ -43,9 +44,9 @@ Component versions:
 * timeplus cli 1.2.12
 
 #### Changelog {#changelog_2_8_1}
-Compared to the [2.8.1-rc7](#2_8_1-rc.7) release:
+Compared to the [2.8.1 (Preview)](#2_8_1-rc.7) release:
 * timeplusd 2.8.25 -> 2.8.26
-  * Support rename stream and column name.
+  * Support [rename stream](/sql-rename-stream) and [column name](/sql-alter-stream#rename-column).
   * Support setting of connection_timeout_ms for Kafka external stream.
   * Improve distributed queries and external stream nodes.
   * Improve secondary index column validation.
@@ -58,6 +59,7 @@ Compared to the [2.8.1-rc7](#2_8_1-rc.7) release:
   * Improve left range join under certain conditions.
   * Fix Kafka external stream parsing issue.
   * Improve mutable stream creation flow when defined via engine.
+  * When using `CREATE OR REPLACE FORMAT SCHEMA` to update an existing schema, and using `DROP FORMAT SCHEMA` to delete a schema, Timeplus will clean up the Protobuf schema cache to avoid misleading errors.
 
 ### 2.8.1 (Preview) {#2_8_1-rc.7}
 Released on 05-08-2025. Installation options:

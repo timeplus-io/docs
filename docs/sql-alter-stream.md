@@ -69,7 +69,20 @@ Syntax:
 ALTER STREAM stream_name ADD COLUMN column_name data_type
 ```
 
-`DELETE COLUMN` or `RENAME COLUMN` are not supported yet. Contact us if you have strong use cases.
+## RENAME COLUMN
+:::info
+This feature is available in v2.8.1 or above.
+:::
+
+You can rename a column in an existing stream. The existing data will be available to query via the new column name.
+
+Syntax:
+```sql
+ALTER STREAM stream_name RENAME COLUMN old_column_name TO new_column_name
+```
+
+
+`DELETE COLUMN` is not supported yet. Contact us if you have strong use cases.
 
 ## ADD INDEX
 
