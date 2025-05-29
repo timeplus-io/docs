@@ -379,6 +379,11 @@ const sidebars = {
           ],
         },
         "grok",
+        {
+          type: "doc",
+          id: "jit",
+          customProps: { tag: "Enterprise" },
+        },
       ],
     },
     {
