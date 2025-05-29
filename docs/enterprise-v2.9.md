@@ -50,12 +50,12 @@ Component versions:
 * timeplus cli 2.9.0
 
 #### Changelog {#changelog_2_9_0-preview_0}
-Compared to the [2.8.1](/enterprise-v2.8#2_8_0) release:
-* timeplusd 2.8.14 -> 2.9.7
+Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
+* timeplusd 2.8.26 -> 2.9.7
   * TODO
-* timeplus_web 2.8.7 -> 2.9.27
+* timeplus_web 2.8.8 -> 2.9.27
   * TODO
-* timeplus_appserver 2.8.5 -> 2.9.24
+* timeplus_appserver 2.8.6 -> 2.9.24
   * package with timeplus_web static files
   * support new database types, such as MySQL/Postgres/Iceberg external tables
   * updated proton-go-driver to support new json type
