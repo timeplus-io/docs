@@ -75,7 +75,7 @@ Component versions:
 
 Compared to the [2.7.6](#2_7_6) release:
 * timeplusd 2.7.45 -> 2.7.46
-  * fixed Python UDF known stablization issues
+  * fixed Python UDF known stabilization issues
 #### Known issues {#known_issue_2_7_7}
 1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.

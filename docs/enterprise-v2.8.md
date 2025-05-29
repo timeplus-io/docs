@@ -29,7 +29,7 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 2.8.1 {#2_8_1}
+### 2.8.1 (Public GA) {#2_8_1}
 Released on 05-27-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_1)
 * For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.4 ..
@@ -54,7 +54,7 @@ Compared to the [2.8.1-rc7](#2_8_1-rc.7) release:
   * Improve normal function behavior and emit on updates.
   * Fix issues with 2-level aggregation and changelog emit.
   * Improve edge cases when TCP connections aren't ready.
-  * Impove distributed query for historical query on mutable/append streams.
+  * Improve distributed query for historical query on mutable/append streams.
   * Improve left range join under certain conditions.
   * Fix Kafka external stream parsing issue.
   * Improve mutable stream creation flow when defined via engine.
