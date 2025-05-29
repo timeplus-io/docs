@@ -178,8 +178,24 @@ This will query all existing data and accept new incoming data.
 Mutable stream can also be used in [JOINs](/joins).
 
 ## Advanced Settings
-### Retention Policy for Streaming Storage
-Like normal streams in Timeplus, mutable streams use both streaming storage and historical storage. New data are added to the streaming storage first, then continuously write to the historical data with deduplication/merging process. When you create the mutable stream, you can configure the maximum size of the streaming storage or Time-To-Live (TTL).
+
+### Retention Policy for Historical Storage{#ttl_seconds}
+Like normal streams in Timeplus, mutable streams use both streaming storage and historical storage. New data are added to the streaming storage first, then continuously write to the historical data with deduplication/merging process.
+
+Starting from Timeplus Enterprise 2.9, you can set `ttl_seconds` on mutable streams. If the data is older than this value, it is scheduled to be pruned in the next key compaction cycle. Default value is -1. Any value less than 0 means this feature is disabled.
+
+```sql
+CREATE MUTABLE STREAM ..
+(
+  ..
+)
+PRIMARY KEY ..
+SETTINGS
+    ttl_seconds=604800; -- 7 days
+```
+
+### Retention Policy for Streaming Storage {#streaming_ttl}
+When you create the mutable stream, you can configure the maximum size of the streaming storage or Time-To-Live (TTL).
 
 For example, if you want to keep up to 8GB or half an hour data in the streaming storage, you can add the following settings in the DDL:
 ```sql

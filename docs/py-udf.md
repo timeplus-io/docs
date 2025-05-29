@@ -283,8 +283,6 @@ curl -X DELETE http://localhost:8123/timeplusd/v1/python_packages/numpy
 Currently we don't support updating Python libraries. You can delete the library and reinstall it with the desired version.
 
 ## Limitations
-Timeplus Enterprise v2.7 is the first version that supports Python UDFs. The following limitations apply:
-- Python UDFs are only available in Linux x86_64 bare metal or containerized deployments.
-- For Linux x86_64 bare metal deployments, Glibc version 2.35 or higher is required.
+- For Linux bare metal deployments, Glibc version 2.35 or higher is required.
 - Only Python 3.10 is supported. Contact us if you need to install a specific version.
 - Not all Python libraries can be installed in Timeplus Enterprise. Contact us if you need to install a specific library.

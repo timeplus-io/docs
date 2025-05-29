@@ -27,7 +27,8 @@ SETTINGS type='clickhouse',
          database='..',
          secure=true|false,
          config_file='..',
-         table='..';
+         table='..',
+         pooled_connections=3000; -- optional, the maximum pooled connections to the database. Default 3000.
 ```
 
 The required settings are type and address. For other settings, the default values are
