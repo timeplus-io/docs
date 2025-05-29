@@ -10,21 +10,17 @@ Each release of Timeplus Enterprise includes the following components:
 Each component maintains its own version numbers. The version number for each Timeplus Enterprise release represents a verified combination of these components.
 
 ## Key Highlights
-Key highlights of this release:
-* Online schema evolution for Mutable Stream
-* Versioned Mutable Stream
-* Coalesced Mutable Stream
-* Native JSON field type
-* [json_encode](/functions_for_json#json_encode) / [json_cast](/functions_for_json#json_cast) functions to convert row with multiple columns to json string or new json type
-* Dead Letter Queue
-* [Native HTTP External Stream](/http-external) to Splunk and Elastic Search
-* JIT streaming processing for big perf / efficiency improvements
-* Parameterized Views
-* Mutable Stream Enhancements : TTL, Drop / Rebuild Secondary Indexes etc
-* Large cardinality sessionization
-* Distributed LogStream
-* [Python UDF](/py-udf) now supports Arm CPU on Linux or MacOS
-* The refined UI to visualize nodes in a cluster
+Key highlights of the Timeplus 2.9 release include:
+
+*   **Enhanced Mutable Streams:** Introducing online schema evolution, versioning, coalesced storage, Time-To-Live (TTL), and secondary index management capabilities.
+*   **Native JSON Support:** A new native JSON data type and powerful [json_encode](/functions_for_json#json_encode) / [json_cast](/functions_for_json#json_cast) functions simplify working with JSON.
+*   **Improved Data Integrity:** Dead Letter Queue (DLQ) support for Materialized Views ensures robust data processing.
+*   **Expanded Connectivity:** Native [HTTP External Stream](/http-external) for seamless integration with systems like Splunk, Elasticsearch, and more.
+*   **Performance Boost:** JIT (Just-In-Time) compilation for streaming queries delivers significant performance and efficiency improvements. Large cardinality sessionization.
+*   **Parameterized Views:** Create Parameterized Views for more flexible and reusable query patterns.
+*   **Scalable Log Processing:** Distributed LogStream enables efficient handling of large volumes of log data.
+*   **Broader UDF Support:** Python UDFs now run on ARM CPUs (Linux/macOS), and JavaScript UDFs benefit from multiple V8 instances.
+*   **Refined Cluster UI:** The web console offers an improved experience for visualizing and managing cluster nodes.
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -55,13 +51,13 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
   *   New Features:
       *   **Parametrised Views:** You can now create parametrised views, allowing for more dynamic and reusable view definitions.
       *   **JIT Compilation for Queries:** Introduced Just-In-Time (JIT) compilation for queries, potentially improving execution performance for certain query types.
-      *   **New JSON SQL Functions:** Added [json_encode](/functions_for_json#json_encode) / [json_cast](/functions_for_json#json_cast) SQL functions for easier JSON data manipulation and a new native JSON data type.
-      *   **Mutable Stream TTL:** You can now define Time-To-Live (TTL) for data in mutable streams.
+      *   **New JSON Data Type & SQL Functions:** Added a native JSON data type and SQL functions [json_encode](/functions_for_json#json_encode) / [json_cast](/functions_for_json#json_cast) for powerful JSON manipulation.
+      *   **Mutable Stream TTL:** You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
       *   **Materialized View DLQ:** Introduced Dead Letter Queue (DLQ) support for materialized views to handle data processing errors more robustly.
-      *   **HTTP External Stream:** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
-      *   **Python UDFs on ARM:** Python User-Defined Functions (UDFs) are now supported on ARM-based architectures, expanding platform compatibility.
-      *   **Improved JavaScript UDFs:** Enhanced JavaScript UDF execution with support for multiple V8 instances for better concurrency and isolation.
-      *   **Log Stream Virtual Columns:** Log streams now include `_filepath` and `_filename` virtual columns for richer data source context.
+      *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
+      *   **Python UDFs on ARM:** Python User-Defined Functions (UDFs) are now supported on ARM-based architectures (Linux/macOS), expanding platform compatibility.
+      *   **Improved JavaScript UDFs:** Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation.
+      *   **Log Stream Virtual Columns:** Log streams now include `_filepath` and `_filename` virtual columns, providing richer context about the data source.
       *   **UUID as Primary Key:** Mutable streams now support the `UUID` data type for primary key columns.
   *   SQL and Data Model Enhancements:
       *   **Advanced `EMIT` Clause:** The `EMIT` clause for changelog generation now supports `EMIT ON UPDATE WITH DELAY` and `EMIT AFTER KEY EXPIRE` options for more granular control over streaming results.
@@ -74,6 +70,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **Optimized Connection Pooling:** Refactored internal connection pooling for improved performance and resource management.
       *   **Parallel Log Processing:** Log files from sources can now be processed in parallel for faster data ingestion.
       *   **Coalesced Mutable Streams:** Introduced coalesced mutable streams for optimized storage and querying of updatable data.
+      *   **Distributed LogStream:** Enhanced LogStream capabilities for distributed environments, improving scalability for log data processing.
   *   Monitoring and Management:
       *   **New System Views:** Introduced additional built-in system views (e.g., for troubleshooting distributed queries, MVs, query memory, and checkpoint status) for enhanced system observability.
       *   **Versioned `SHOW CREATE`:** The `SHOW CREATE` command now displays multi-versioned definitions for streams, views, MVs, UDFs, format schemas, and databases, aiding in tracking changes.
@@ -114,9 +111,9 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **Improved Cluster Details Page:** Enhanced the cluster details page with a top statistics bar, better data presentation, and improved node details view.
       *   Enhanced cluster data generation and retrieval for UI display.
 * timeplus_appserver 2.8.6 -> 2.9.24
-  * package with timeplus_web static files
-  * support new database types, such as MySQL/Postgres/Iceberg external tables
-  * updated proton-go-driver to support new json type
+  * Serves the updated Timeplus Web Console (v2.9.27) static files.
+  * Added backend support for new external table types including MySQL, PostgreSQL, and Iceberg.
+  * Updated internal drivers (e.g., proton-go-driver) to support the new native JSON data type.
 * timeplus_connector 2.2.8 -> 2.9.0
   * removed the support for internal k/v service, since metadata is saved in mutable streams in v2.9
 * timeplus cli 2.8.0 -> 2.9.0
