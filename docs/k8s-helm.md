@@ -434,8 +434,8 @@ There are a lot of other configurations available to customize the deployment. S
 | ingress.appserver | object | `{"domain":null,"enabled":false}` | Only Nginx controller is tested. https://kubernetes.github.io/ingress-nginx/ ingressClassName: nginx Uncomment the tls section below to enable https. You will need to follow   1. https://kubernetes.io/docs/concepts/services-networking/ingress/#tls   2. https://kubernetes.github.io/ingress-nginx/user-guide/tls/ to create a k8s secret that contains certificate and private key tls:   - hosts: [timeplus.local]   secretName: "secret-name" |
 | ingress.appserver.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
 | ingress.timeplusd.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
-| ingress.timeplusd.enabled | bool | `false` | To send REST API call to timeplusd, the URL will be http(s)://<publicDomain>:<port><restPath> e.g.   - curl http://timeplus.local/timeplusd/info   - curl http://timeplus.local/timeplusd/v1/ddl/streams |
-| ingress.timeplusd.httpSnapshotPath | string | `"/snapshot"` | * update thte `httpSnapshotPath` to be `/` and use different domain for appserver and timeplusd ingress |
+| ingress.timeplusd.enabled | bool | `false` | To send REST API call to timeplusd, the URL will be http(s)://\<publicDomain>:\<port>\<restPath> e.g.   - curl http://timeplus.local/timeplusd/info   - curl http://timeplus.local/timeplusd/v1/ddl/streams |
+| ingress.timeplusd.httpSnapshotPath | string | `"/snapshot"` | * update the `httpSnapshotPath` to be `/` and use different domain for appserver and timeplusd ingress |
 | prometheus_metrics.enabled | bool | `false` |  |
 | prometheus_metrics.remote_write_endpoint | string | `"http://timeplus-prometheus:80"` |  |
 | prometheus_metrics.vector.image | string | `"timberio/vector"` |  |
