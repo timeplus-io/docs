@@ -63,7 +63,6 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **Advanced `EMIT` Clause:** The `EMIT` clause for changelog generation now supports `EMIT ON UPDATE WITH DELAY` and `EMIT AFTER KEY EXPIRE` options for more granular control over streaming results.
       *   **`ALTER STREAM` for Multiple Columns:** You can now add or modify multiple columns in a single `ALTER STREAM` command.
       *   **Modifying Comments:** Added `ALTER COMMENT` support for streams, views, materialized views, KVStreams, and RandomStreams.
-      *   **Append-Only Stream Column Management:** Enabled renaming columns (including index columns) and adding new columns to append-only streams.
       *   **Mutable Stream Schema Evolution:** Support for adding new columns and dropping secondary indexes in mutable streams.
   *   Performance and Scalability:
       *   **Incremental Checkpointing:** Implemented and enabled incremental checkpointing by default for substreams, hybrid hash joins, and Materialized Views, significantly reducing recovery time and resource usage during stateful operations.
