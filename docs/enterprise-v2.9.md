@@ -56,7 +56,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **Materialized View DLQ:** Introduced Dead Letter Queue (DLQ) support for materialized views to handle data processing errors more robustly.
       *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
       *   **Python UDFs on ARM:** Python User-Defined Functions (UDFs) are now supported on ARM-based architectures (Linux/macOS), expanding platform compatibility.
-      *   **Improved JavaScript UDFs:** Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation.
+      *   **Improved JavaScript UDFs:** Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation (also available in 2.8.1 or above).
       *   **Log Stream Virtual Columns:** Log streams now include `_filepath` and `_filename` virtual columns, providing richer context about the data source.
       *   **UUID as Primary Key:** Mutable streams now support the `UUID` data type for primary key columns.
   *   SQL and Data Model Enhancements:
