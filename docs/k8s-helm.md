@@ -68,10 +68,13 @@ timeplusd:
       # Keep this to be `false` if you are on Amazon EKS with EBS CSI controller.
       # Otherwise please carefully check your provisioner and set them properly.
       selector: false
+      nativelogSubPath: ./nativelog
+      metastoreSubPath: ./metastore
     history:
       className: <Your storage class name>
       size: 100Gi
       selector: false
+      subPath: ./history
     log:
       # This log PV is optional. If you have log collect service enabled on your k8s cluster, you can set this to be false.
       # If log PV is disabled, the log file will be gone after pod restarts.
@@ -79,6 +82,7 @@ timeplusd:
       className: <Your storage class name>
       size: 10Gi
       selector: null
+      subPath: ./log
   defaultAdminPassword: timeplusd@t+
   resources:
     limits:
