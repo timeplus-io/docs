@@ -551,19 +551,23 @@ timeplusd:
 
 ### Using subPath
 
+:::info
+Please make sure you backup all the PVs before making any modifications. This operation will cause downtime of Timeplus Enterprise.
+:::
+
 Prior to helm chart v6.0.15 (Timeplus Enterprise v2.7.8), we don't set `subPath` for PVs mounted by timeplusd Statefulset. However, there are two issues:
 1. We mount both `/var/lib/timeplusd/nativelog` and `/var/lib/timeplusd/metastore` to the root path `timeplusd-stream` PV. There could be folder name conflicts.
 2. It doesn't work if you want to enforce [`readOnlyRootFilesystem`](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/).
 
-Since v6.0.15, you can configure subPath for each mount point to solve those issues. However, in order to do such upgrade, there are a few manual steps:
-1. Run `show databases` either via Timeplus Web Console or timeplusd client to get the list of databases you have. This is needed in the following steps.
-2. Update your existing `values.yaml` to put timeplusd into sleep mode so that you can access the pod and move the folders. You can simply add this `sleep: true` to `timeplusd` in your `values.yaml` and then use `helm upgrade` to upgrade the cluster.
+Since v6.0.15, you can configure subPath for each mount point to solve those issues. However, if you want to upgrade your existing cluster, you will need to follow the guide to manually upgrade:
+1. Run `show databases` either via Timeplus Web Console or timeplusd client to get the list of databases you have. You will need to edit the script on step 6 to include all databases you have.
+2. Add `sleep: true` to `timeplusd` in your `values.yaml` and then use `helm upgrade` to upgrade the cluster. This will put timeplusd into sleep mode so that you can access the pod.
 ```yaml
 timeplusd:
   sleep: true
 ```
 3. Once all timeplusd pod restarts you can use `kubectl -n $NS get pod timeplusd-0 -o=jsonpath='{.spec.containers[0].command}'` to check if the command is `["bash","-c","sleep 36000"]`
-4. `kubectl -n $NS exec timeplusd-0 -it -- /bin/bash` to log onto the pod and run `ls -l /var/lib/timeplusd/metastore`. You should be able to see the list of folders like this:
+4. Eun `kubectl -n $NS exec timeplusd-0 -it -- /bin/bash` to access the pod and run `ls -l /var/lib/timeplusd/metastore`. You should be able to see the list of folders like this:
 ```bash
 drwxrws--- 20 timeplus timeplus      4096 Jun  2 20:48 default
 drwxrws---  3 timeplus timeplus        52 May 27 00:02 mydb
@@ -576,13 +580,12 @@ drwxrws---  6 timeplus timeplus       190 May  8 05:52 system
 -rw-rw----  1 timeplus timeplus 775365053 Jun  2 23:12 timeplusd-server.log
 -rw-rw----  1 timeplus timeplus  70759684 May 29 10:57 timeplusd-server.log.0.gz
 ```
-5. Make sure the list contains:
+5. The list should contain:
     1. A `kv` and a `log` folder.
     2. A `raft` folder.
     3. For each database you have, there should be a folder here. For example, there should be at least `neutron` and `system` folders. Please make sure the list matches the result of your `show databases` command run on step 1.
-    4. A few logs file if you don't have a dedicated PV mounted for logs.
-6. Edit the following script accordingly and then Run to run the bash scripts.
-
+    4. A few logs file if you don't have a dedicated PV mounted for logs. You can ignore those files.
+6. Edit the following script accordingly and then run the bash scripts.
 ```bash
 cd /var/lib/timeplusd/metastore/
 
@@ -592,19 +595,28 @@ mkdir metastore
 mv kv metastore/
 mv log metastore/
 
-# Add any databases you have created 
+# -------- EDIT -----------
+# Make sure the list contains "raft" and all your databases 
 declare -a dbs=("raft" "neutron" "system" "default")
+# ----- END OF EDIT -------
 
 for db in "${dbs[@]}"
 do
    mv $db nativelog/
 done
+
+cd /var/lib/timeplusd
+mkdir history
+shopt -s extglob
+mv !(history) history
 ```
-7. Run `ls -l /var/lib/timeplusd/metastore` and make sure there are only `metastore` and `nativelog` folders. It is OK to contain some log files.
-8. Run `ls -l /var/lib/timeplusd/metastore/metastore` and make sure there are only `kv` and `log` folders.
-9. Run `ls -l /var/lib/timeplusd/metastore/nativelog` and make sure there is a `raft` folder and folders match your database.
-10. Repeat step 4 to 9 for each timeplusd pod (`timeplusd-1`, `timeplusd-2`).
-11. Update the `values.yaml` to set the subpath properly
+7. After running the script above, the folder structure should be ready. Do the following checks to make sure it has been done properly
+    1. Run `ls -l /var/lib/timeplusd/metastore` and make sure there are only `metastore` and `nativelog` folders. It is OK to contain some log files.
+    2. Run `ls -l /var/lib/timeplusd/metastore/metastore` and make sure there are only `kv` and `log` folders.
+    3. Run `ls -l /var/lib/timeplusd/metastore/nativelog` and make sure there is a `raft` folder and folders match your database.
+    4. Run `ls -l /var/lib/timeplusd` and make sure there are `history`, `metastore`, and `nativelog` folders.
+8. Repeat step 4 to 7 for each timeplusd pod (`timeplusd-1`, `timeplusd-2`).
+9. Update the `values.yaml` to set the subpath properly and remove `sleep`. Run `helm upgrade`
 ```yaml
 timeplusd:
   sleep: false
@@ -618,8 +630,7 @@ timeplusd:
     history:
       subPath: ./history
 ```
-6. Use `ls /var/lib/timeplusd/metastore`, `ls /var/lib/timeplusd/nativelog`, `ls /var/lib/timeplusd` to make sure the PVs are mounted properly.
-7. Remove the `sleep: true` to bring timeplusd back.
+10. After timeplusd restarts, the migration is done.
 
 ## Troubleshooting
 
