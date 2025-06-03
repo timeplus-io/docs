@@ -46,6 +46,7 @@ For [global aggregations](/stream-query#global-aggregation), the syntax is:
 EMIT [STREAM|CHANGELOG]
  [PERIODIC <interval> [REPEAT]]
  [ON UPDATE [WITH BATCH <interval>] ]
+ [AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <internal> [AND TIMEOUT <internal>]]
 ```
 
 By default `EMIT STREAM` and `PERIODIC 2s` are applied. Advanced settings:
@@ -198,6 +199,41 @@ EMIT ON UPDATE WITH DELAY 2s
 ### EMIT ON UPDATE WITH BATCH {#emit_on_update_with_batch}
 
 You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Proton will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
+
+### EMIT AFTER KEY EXPIRE IDENTIFIED BY .. WITH MAXSPAN .. AND TIMEOUT .. {#emit_after_key_expire}
+This emit policy is introduced in Timeplus Enterprise 2.9. Please watch the presentation from 2.9 launch webinar:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qDauSMTf0vU?si=V-menfV1qY-aU4ab&amp;start=1150" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+The syntax is:
+```sql
+EMIT AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <internal> [AND TIMEOUT <internal>]
+```
+
+Note:
+* `EMIT AFTER KEY EXPIRE` will emit results when the keys are expired. This EMIT policy ought to be applied to a global aggregation with a primary key as `GROUP BY`, usually using an ID for multiple tracing events.
+* `IDENTIFIED BY col` will calcuate the span of the trace, usually you can set `IDENTIFIED BY _tp_time`.
+* `MAXSPAN interval` to identify whether the span of the related events over a certain interval, for example `MAXSPAN 500ms` to flag those events with same tracing ID but over 0.5 second span.
+* `ONLY`: if you add this keyword, then only those events over the `MAXSPAN` will be emitted, other events less than the `MAXSPAN` will be omitted, so that you can focus on those events over the SLA.
+* `AND TIMEOUT interval` to avoid waiting for late events for too long.
+
+It's recommended to use `SETTINGS default_hash_table='hybrid'` to avoid putting too many data in memory.
+
+Here is an example to get the log streams and only show the events with over 0.5 second as the end-to-end latency.
+```sql
+WITH grouped AS(
+    SELECT
+        trace_id,
+        min(start_time) AS start_ts,
+        max(end_time) AS end_ts,
+        date_diff('ms', start_ts, end_ts) AS span_ms,
+        group_array(json_encode(span_id, parent_span_id, name, start_time, end_time, attributes)) AS trace_events
+    FROM otel_traces
+    GROUP BY trace_id
+    EMIT AFTER KEY EXPIRE IDENTIFIED BY end_time WITH MAXSPAN 500ms AND TIMEOUT 2s
+)
+SELECT json_encode(trace_id, start_ts, end_ts, span_ms, trace_events) AS event FROM grouped
+SETTINGS default_hash_table='hybrid', max_hot_keys=1000000, allow_independent_shard_processing=true;
+```
 
 ## PARTITION BY
 
