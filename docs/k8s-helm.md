@@ -549,6 +549,78 @@ timeplusd:
 |`ingress.enabled`|`ingress.timeplusd.enabled`, `ingress.appserver.enabled`|
 |`ingress.domain`|`ingress.timeplusd.domain`, `ingress.appserver.domain`|
 
+### Using subPath
+
+Prior to helm chart v6.0.15 (Timeplus Enterprise v2.7.8), we don't set `subPath` for PVs mounted by timeplusd Statefulset. However, there are two issues:
+1. We mount both `/var/lib/timeplusd/nativelog` and `/var/lib/timeplusd/metastore` to the root path `timeplusd-stream` PV. There could be folder name conflicts.
+2. It doesn't work if you want to enforce [`readOnlyRootFilesystem`](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/).
+
+Since v6.0.15, you can configure subPath for each mount point to solve those issues. However, in order to do such upgrade, there are a few manual steps:
+1. Run `show databases` either via Timeplus Web Console or timeplusd client to get the list of databases you have. This is needed in the following steps.
+2. Update your existing `values.yaml` to put timeplusd into sleep mode so that you can access the pod and move the folders. You can simply add this `sleep: true` to `timeplusd` in your `values.yaml` and then use `helm upgrade` to upgrade the cluster.
+```yaml
+timeplusd:
+  sleep: true
+```
+3. Once all timeplusd pod restarts you can use `kubectl -n $NS get pod timeplusd-0 -o=jsonpath='{.spec.containers[0].command}'` to check if the command is `["bash","-c","sleep 36000"]`
+4. `kubectl -n $NS exec timeplusd-0 -it -- /bin/bash` to log onto the pod and run `ls -l /var/lib/timeplusd/metastore`. You should be able to see the list of folders like this:
+```bash
+drwxrws--- 20 timeplus timeplus      4096 Jun  2 20:48 default
+drwxrws---  3 timeplus timeplus        52 May 27 00:02 mydb
+drwxrws---  2 timeplus timeplus      4096 Jun  2 22:26 kv
+drwxrws---  2 timeplus timeplus       122 Mar  5 19:17 log
+drwxrws---  3 timeplus timeplus        52 Mar  5 19:42 neutron
+drwxrws---  2 timeplus timeplus      4096 Jun  2 22:26 raft
+drwxrws---  6 timeplus timeplus       190 May  8 05:52 system
+-rw-rw----  1 timeplus timeplus 905030177 Jun  2 23:11 timeplusd-server.err.log
+-rw-rw----  1 timeplus timeplus 775365053 Jun  2 23:12 timeplusd-server.log
+-rw-rw----  1 timeplus timeplus  70759684 May 29 10:57 timeplusd-server.log.0.gz
+```
+5. Make sure the list contains:
+    1. A `kv` and a `log` folder.
+    2. A `raft` folder.
+    3. For each database you have, there should be a folder here. For example, there should be at least `neutron` and `system` folders. Please make sure the list matches the result of your `show databases` command run on step 1.
+    4. A few logs file if you don't have a dedicated PV mounted for logs.
+6. Edit the following script accordingly and then Run to run the bash scripts.
+
+```bash
+cd /var/lib/timeplusd/metastore/
+
+mkdir nativelog
+mkdir metastore
+
+mv kv metastore/
+mv log metastore/
+
+# Add any databases you have created 
+declare -a dbs=("raft" "neutron" "system" "default")
+
+for db in "${dbs[@]}"
+do
+   mv $db nativelog/
+done
+```
+7. Run `ls -l /var/lib/timeplusd/metastore` and make sure there are only `metastore` and `nativelog` folders. It is OK to contain some log files.
+8. Run `ls -l /var/lib/timeplusd/metastore/metastore` and make sure there are only `kv` and `log` folders.
+9. Run `ls -l /var/lib/timeplusd/metastore/nativelog` and make sure there is a `raft` folder and folders match your database.
+10. Repeat step 4 to 9 for each timeplusd pod (`timeplusd-1`, `timeplusd-2`).
+11. Update the `values.yaml` to set the subpath properly
+```yaml
+timeplusd:
+  sleep: false
+  storage:
+    # You can remove this log section if you have disabled log PV in you original values.yaml.
+    log:
+      subPath: ./log
+    stream:
+      nativelogSubPath: ./nativelog
+      metastoreSubPath: ./metastore
+    history:
+      subPath: ./history
+```
+6. Use `ls /var/lib/timeplusd/metastore`, `ls /var/lib/timeplusd/nativelog`, `ls /var/lib/timeplusd` to make sure the PVs are mounted properly.
+7. Remove the `sleep: true` to bring timeplusd back.
+
 ## Troubleshooting
 
 If something goes wrong, you can run the following commands to get more information.
