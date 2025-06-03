@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Retrieve and process S3 file listings to generate download Markdown
-aws s3 ls s3://timeplus.io/dist/timeplus_enterprise/ \
+TZ=":US/Pacific" aws s3 ls s3://timeplus.io/dist/timeplus_enterprise/ \
   | grep -v -E 'sp-demo|-rc[.-]' \
   | awk '
 BEGIN {
