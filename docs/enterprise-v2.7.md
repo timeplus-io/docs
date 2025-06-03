@@ -35,7 +35,7 @@ Key highlights of this release:
 
 ## Releases
 ### 2.7.8 {#2_7_8}
-Released on 05-27-2025. Installation options:
+Released on 05-30-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_8)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.16 ..`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.8`
