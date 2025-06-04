@@ -216,7 +216,7 @@ Note:
 * `ONLY`: if you add this keyword, then only those events over the `MAXSPAN` will be emitted, other events less than the `MAXSPAN` will be omitted, so that you can focus on those events over the SLA.
 * `AND TIMEOUT interval` to avoid waiting for late events for too long.
 
-It's recommended to use `SETTINGS default_hash_table='hybrid'` to avoid putting too many data in memory.
+It's required to use `SETTINGS default_hash_table='hybrid'` with this emit policy to avoid putting too many data in memory.
 
 Here is an example to get the log streams and only show the events with over 0.5 second as the end-to-end latency.
 ```sql
