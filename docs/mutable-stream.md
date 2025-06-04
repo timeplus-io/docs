@@ -26,7 +26,9 @@ SETTINGS
 ```
 
 Since Timeplus Enterprise 2.7, if you create a mutable stream with `low_cardinality` columns, the system will ignore the `low_cardinality` modifier to improve performance.
-[Learn more](/sql-create-mutable-stream)
+[Learn more](/sql-create-mutable-stream).
+
+`PARTITION BY`, `ORDER BY` or `SAMPLE BY` clauses are not allowed while creating the mutable stream.
 
 ## INSERT
 You can insert data to the mutable stream with the following SQL:
