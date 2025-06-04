@@ -22,7 +22,7 @@ SETTINGS
 
 Since Timeplus Enterprise 2.7, if you create a mutable stream with `low_cardinality` columns, the system will ignore the `low_cardinality` modifier to improve performance.
 
-Only the `PRIMARY KEY` is required. `INDEX`, `FAMILY`, or the `SETTINGS` are optional.
+Only the `PRIMARY KEY` is required. `INDEX`, `FAMILY`, or the `SETTINGS` are optional. `PARTITION BY`, `ORDER BY` or `SAMPLE BY` clauses are not allowed while creating the mutable stream.
 
 ## PRIMARY KEY
 Primary key is required for a mutable stream. It can be a single column or a composite key. The primary key is used for efficient data lookups, range scans and updates.
