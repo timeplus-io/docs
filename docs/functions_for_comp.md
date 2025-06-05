@@ -105,7 +105,7 @@ For example `select array_join([10,20]) as v, 'text' as t` will get 2 rows
 
 ### array_all
 
-`array_all([func,] array)` returns 1(true) or 0(false) if all elements in the array meets the condition. For example, `array_all([1,2])` return 1, and `array_all([0,0])`return 0. You can pass a lambda function to it as the first argument to customize the condition check, such as `array_all(x->x%2==0,[2,4,6])` to check whether each element in the array is even. It returns 1.
+`array_all([func,] array)` returns 1(true) or 0(false) if all elements in the array meets the condition. For example, `array_all([1,2])` return 1, and `array_all([0,0])`return 0. You can pass a lambda function to it as the first argument to customize the condition check, such as `array_all(x->x%2=0,[2,4,6])` to check whether each element in the array is even. It returns 1.
 
 ### array_avg
 
@@ -121,27 +121,27 @@ For example `select array_join([10,20]) as v, 'text' as t` will get 2 rows
 
 ### array_exists
 
-`array_exists([func,] array)` returns 1(true) or 0(false) if any element in the array meet the condition. For example, `array_exists([0,1,2])` return 1, and `array_exists([0,0])`return 0. You can pass a lambda function to it as the first argument to customize the condition check, such as `array_exists(x->x%2==0,[2,3,4])` to check whether any element in the array is even. It returns 1. To check whether all elements meet the condition, use `array_all`
+`array_exists([func,] array)` returns 1(true) or 0(false) if any element in the array meet the condition. For example, `array_exists([0,1,2])` return 1, and `array_exists([0,0])`return 0. You can pass a lambda function to it as the first argument to customize the condition check, such as `array_exists(x->x%2=0,[2,3,4])` to check whether any element in the array is even. It returns 1. To check whether all elements meet the condition, use `array_all`
 
 ### array_filter
 
-`array_filter(func, array)` returns an array containing only the element that matches the condition of the specified function. e.g. `array_filter(x->x%2==0, [1,2,3,4])`returns [2,4]
+`array_filter(func, array)` returns an array containing only the element that matches the condition of the specified function. e.g. `array_filter(x->x%2=0, [1,2,3,4])`returns [2,4]
 
 ### array_first
 
-`array_first(func, array)` returns the first element that matches the condition of the specified function. e.g. `array_first(x->x%2==0, [1,2,3,4])`returns 2.
+`array_first(func, array)` returns the first element that matches the condition of the specified function. e.g. `array_first(x->x%2=0, [1,2,3,4])`returns 2.
 
 ### array_first_index
 
-`array_first_index(func, array)` returns the index of the first element that matches the condition of the specified function. e.g. `array_first_index(x->x%2==0, [1,2,3,4])`returns 2.
+`array_first_index(func, array)` returns the index of the first element that matches the condition of the specified function. e.g. `array_first_index(x->x%2=0, [1,2,3,4])`returns 2.
 
 ### array_last
 
-`array_last(func, array)` returns the last element that matches the condition of the specified function. e.g. `array_last(x->x%2==0, [1,2,3,4])`returns 4. If nothing is found, it returns 0.
+`array_last(func, array)` returns the last element that matches the condition of the specified function. e.g. `array_last(x->x%2=0, [1,2,3,4])`returns 4. If nothing is found, it returns 0.
 
 ### array_last_index
 
-`array_last_index(func, array)` returns the index of the last element that matches the condition of the specified function. e.g. `array_last_index(x->x%2==0, [1,2,3,4])`returns 4. If nothing is found, it returns 0.
+`array_last_index(func, array)` returns the index of the last element that matches the condition of the specified function. e.g. `array_last_index(x->x%2=0, [1,2,3,4])`returns 4. If nothing is found, it returns 0.
 
 ### array_map
 
