@@ -1,4 +1,5 @@
 .dbt
+.ipynb
 .sql
 100x
 10s
@@ -8,6 +9,7 @@
 30m
 30min
 30s
+500x1024x1024
 _tp_message_key
 Abiola
 ack
@@ -21,8 +23,11 @@ adv_udaf
 air-gapped
 Airbyte
 AirByte
+aircompressor
 aiven
 Aiven
+algolia
+Algolia
 AMD64
 api_key
 apiKey
@@ -51,6 +56,7 @@ ASN
 ASOF
 asof
 AssumeRole
+AST
 async
 Async
 atan
@@ -117,6 +123,7 @@ changelog_2_4_15
 changelog_2_4_16
 changelog_kv
 ChatGPT
+Checkpointing
 checkpointing
 CICD
 cid
@@ -144,6 +151,7 @@ cloudtrail
 Cloudtrail
 CloudTrail
 CloudWatch
+clusterIP
 CockroachDB
 codec
 Codec
@@ -167,8 +175,10 @@ connect-aiven
 connect-kafka
 connect-rp-cloud
 connect-upstash
+CPP
 cpu
 cpu-consuming
+CPUs
 CPython
 CRM
 Crul
@@ -202,6 +212,7 @@ DateTime
 datetime64
 datetime64
 dateTime64
+DBAPI
 DBeaver
 dbeaver
 dbeaver_native
@@ -231,6 +242,7 @@ desynchronized
 DevOps
 diag
 DigitalOcean
+DLQ
 DNS
 Downsample
 downsample
@@ -246,6 +258,7 @@ EBS
 EC2
 ECS
 EKS
+ElasticSearch
 Emet-Labs
 emit_after_wm
 emit_after_wm_with_delay
@@ -267,6 +280,8 @@ ETL
 eu-central-1
 event1event2
 example-mysql
+example_gravitino
+example_s3table
 failover
 FetchRequests
 fintech
@@ -285,6 +300,7 @@ frontend
 fsync
 Fullscreen
 fullscreen
+gcloud
 GCS
 GDPR
 GenericContainer
@@ -309,6 +325,7 @@ GitHub
 Github
 github.com
 GitOps
+GKE
 GLIBC
 Glibc
 glibc
@@ -335,7 +352,9 @@ hardcoded
 hardcoding
 HashiCorp
 HashIndex
+HEC
 highlevel
+HMAC
 homebrew
 Homebrew
 host1
@@ -358,6 +377,7 @@ influxdb
 InfluxDB
 infograph
 Ingestions
+ingressClassName
 init
 init_sql
 int128
@@ -408,6 +428,9 @@ jdbc:proton
 JDK
 JetStream
 JIRA
+JIT
+JIT-compilation
+JIT-compiled
 Jitsu
 jitter
 joda
@@ -418,6 +441,8 @@ js-udaf
 js-udf
 JSON
 json
+json_cast
+json_encode
 json_has
 json_query
 json_value
@@ -436,6 +461,7 @@ K8s
 kafka
 Kafka-compatiable
 kafka-connect-timeplus
+kafka_schema_registry_credentials
 kafka_schema_registry_url
 kcat
 keep-alives
@@ -469,6 +495,7 @@ logstore
 Logstore
 logstore_retention_bytes
 logstore_retention_ms
+LogStream
 lookups
 low_cardinality
 lttb
@@ -479,6 +506,7 @@ macOS
 mapName
 marimo
 max_ack_pending
+MAXSPAN
 md4
 MD4
 md5
@@ -511,6 +539,7 @@ mv
 MV
 mv_memory_usage
 mview
+MVs
 mysql
 mysql_cdc
 Nagle
@@ -547,6 +576,7 @@ num_of_trips
 numpy
 Numpy
 NVMe
+OAuth
 oauth2
 oauth2
 OAuth2
@@ -564,6 +594,7 @@ onboarding
 Onboarding
 onprem
 openjdk
+OpenSearch
 openssl
 OPENSSLDIR
 OpenTelemetry
@@ -616,6 +647,7 @@ Protobuf
 Protobuf-encoded
 protobuf_complex
 ProtobufSingle
+proton-jdbc
 ProtonWebSocket
 psql
 publicDomain
@@ -633,6 +665,8 @@ python_libs
 Pytorch
 Q1
 quantile
+query_sparksql
+query_timeplus
 queryable
 quickstart
 quickstart
@@ -642,6 +676,7 @@ R2
 RabbitMQ
 rand64
 random_printable_ascii
+RandomStreams
 RawBLOB
 RBAC
 rdkafka
@@ -688,6 +723,7 @@ SASL
 sasl_mechanism
 SASL_SSL
 Saïd
+Scalable
 scalable
 schema_registry_api_key
 schema_registry_api_secret
@@ -704,17 +740,21 @@ SDK
 sdk
 SDKs
 seatunnel
+secretName
 Serverless
 ServiceNow
+sessionization
 set_ssl_cert
 SFTP
 SGD
 sharded
 sharding
+sharding_expr
 signup
 signups
 SigV4
 SIMD
+skip_ssl_cert_check
 Sklearn
 SLA
 sla
@@ -735,6 +775,7 @@ sql
 SQLAlchemy
 sqlalchemy
 SqlAlchemy
+sqlanalysis
 SQLs
 sqrt
 SQS
@@ -743,6 +784,8 @@ SSD
 SSD_CACHE
 ssl
 SSL
+ssl_ca_cert_file
+ssl_ca_pem
 SSL_CTX_set1_curves_list
 SSL_CTX_set1_sigalgs_list
 stackoverflow
@@ -759,10 +802,12 @@ storages
 str
 stream_ttl
 streamgen
+streaming_ttl
 streamlit
 Streamlit
 StreamNative
 StreamNATSCSV
+Strictnesses
 strictnesses
 Sts
 sub-commmands
@@ -770,6 +815,8 @@ subcommand
 subdirectories
 sublicense
 subnet
+subpath
+subPath
 subqueries
 subquery
 Subquery
@@ -858,6 +905,7 @@ tripB
 TSV
 ttl
 TTL
+ttl_seconds
 tz
 TZ
 udaf
@@ -868,6 +916,7 @@ udf
 UDF
 UDFs
 UI
+UI/UX
 uid
 uint
 uint128
@@ -876,6 +925,7 @@ uint32
 uint64
 UINT64_MAX
 uint8
+UIs
 Unarchive
 uncomment
 Uncomment
@@ -887,6 +937,7 @@ unpause
 UNPAUSE
 untrusted
 untuple
+updatable
 upsert
 UPSERT
 Upsert
@@ -939,6 +990,7 @@ wikipedia
 WIP
 workspaceID
 workspaces
+write_via_mv
 x64
 x86_64
 Xie

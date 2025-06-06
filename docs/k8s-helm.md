@@ -508,7 +508,7 @@ timeplusAppserver:
 ```
 2. Use `helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise --version v7.x.x` to upgrade your Timeplus Enterprise deployment with v7 chart.
 3. Use `kubectl -n $NS get pods` to check the status of the pods. Please make sure that:
-    1. `timeplusd` pods has been upgraded to 2.8.x 
+    1. `timeplusd` pods has been upgraded to 2.8.x
     2. `timeplus-appserver` pod is terminated
     3. `timeplus-connector` pod is terminated
     4. `timeplus-cli` pod is up and running
@@ -567,7 +567,7 @@ timeplusd:
   sleep: true
 ```
 3. Once all timeplusd pod restarts you can use `kubectl -n $NS get pod timeplusd-0 -o=jsonpath='{.spec.containers[0].command}'` to check if the command is `["bash","-c","sleep 36000"]`
-4. Eun `kubectl -n $NS exec timeplusd-0 -it -- /bin/bash` to access the pod and run `ls -l /var/lib/timeplusd/metastore`. You should be able to see the list of folders like this:
+4. Run `kubectl -n $NS exec timeplusd-0 -it -- /bin/bash` to access the pod and run `ls -l /var/lib/timeplusd/metastore`. You should be able to see the list of folders like this:
 ```bash
 drwxrws--- 20 timeplus timeplus      4096 Jun  2 20:48 default
 drwxrws---  3 timeplus timeplus        52 May 27 00:02 mydb
@@ -596,7 +596,7 @@ mv kv metastore/
 mv log metastore/
 
 # -------- EDIT -----------
-# Make sure the list contains "raft" and all your databases 
+# Make sure the list contains "raft" and all your databases
 declare -a dbs=("raft" "neutron" "system" "default")
 # ----- END OF EDIT -------
 
@@ -642,6 +642,6 @@ If something goes wrong, you can run the following commands to get more informat
 
 ### Timeplusd keep restarting with `bootstrap: Failed to send request=Hello to peer node` error
 
-This error indicates that timeplusd cannot connect to its peer node. Most likely the network (port 8464) between different k8s node is blocked. A typical way to check is to 
+This error indicates that timeplusd cannot connect to its peer node. Most likely the network (port 8464) between different k8s node is blocked. A typical way to check is to
 1. Create 2 testing pods on **different** k8s nodes, check if you can access port 8464 from pod 1 on node 1 to pod 2 on node 2. Most likely it will fail in this case.
 2. Create 2 testing pods on the **same** k8s node, check if you can access port 8464 from pod 1 to pod 2 on the same node. If this works, then it proves that there is an issue with inter-node network. You can check if there is any firewall settings that block port 8464.
