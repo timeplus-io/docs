@@ -84,6 +84,11 @@ const sidebars = {
               type: "doc",
               id: "pulsar-external-stream",
             },
+            {
+              type: "doc",
+              id: "http-external",
+              customProps: { tag: "New" },
+            },
           ],
         },
         {
@@ -374,6 +379,11 @@ const sidebars = {
           ],
         },
         "grok",
+        {
+          type: "doc",
+          id: "jit",
+          customProps: { tag: "Enterprise" },
+        },
       ],
     },
     {
@@ -518,6 +528,7 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
+        "enterprise-v2.9",
         "enterprise-v2.8",
         "enterprise-v2.7",
         "enterprise-v2.6",

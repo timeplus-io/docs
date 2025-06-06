@@ -1,5 +1,5 @@
 # ALTER STREAM
-Currently we don't recommend to alter the schema of streams in Timeplus. You can modify the retention policy for historical store via [MODIFY TTL](#ttl) and modify the retention policy for streaming storage via [MODIFY SETTING](#modify_setting). For mutable streams, you can also run `MODIFY SETTING` to change the RocksDB settings.
+You can modify the retention policy for historical store via [MODIFY TTL](#ttl) and modify the retention policy for streaming storage via [MODIFY SETTING](#modify_setting). For mutable streams, you can also run `MODIFY SETTING` to change the RocksDB settings.
 
 You can also use [ALTER VIEW](/sql-alter-view) to modify the settings of materialized views (only available in Timeplus Enterprise).
 
@@ -69,26 +69,27 @@ Syntax:
 ALTER STREAM stream_name ADD COLUMN column_name data_type
 ```
 
-## RENAME COLUMN
-:::info
-This feature is available in v2.8.1 or above.
-:::
-
-You can rename a column in an existing stream. The existing data will be available to query via the new column name.
-
-Syntax:
-```sql
-ALTER STREAM stream_name RENAME COLUMN old_column_name TO new_column_name
-```
-
-
 `DELETE COLUMN` is not supported yet. Contact us if you have strong use cases.
+
+## RENAME COLUMN
+Since Timeplus Enterprise 2.9, you can rename columns in append streams.
+
+```sql
+ALTER STREAM stream_name RENAME COLUMN column_name TO new_column_name
+```
 
 ## ADD INDEX
 
 Since Timeplus Enterprise v2.6.0, you can add an index to a mutable stream.
 ```sql
-ALTER STREAM mutable_stream ADD INDEX column_name
+ALTER STREAM mutable_stream ADD INDEX index_name
+```
+
+## DROP INDEX
+
+Since Timeplus Enterprise v2.9.0, you can drop an index from a mutable stream.
+```sql
+ALTER STREAM mutable_stream DROP INDEX index_name
 ```
 
 ## DROP PARTITION

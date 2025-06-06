@@ -4,7 +4,7 @@ There are two types of views in Timeplus: logical view (or just view ) and mater
 
 ## View
 
-If you have a common query you'll run multiple times a week or month, you can save them as a "Bookmark". While you can load the bookmarked query in the query editor without typing it again, you can't refer to bookmarked queries in a query. This is where views come in.
+If you have a common query you'll run multiple times a week or month, you can save it as a "Bookmark" in web console. While you can load the bookmarked query in the query editor without typing it again, you can't refer to bookmarked queries in a SQL query. This is where views come in.
 
 You can create views for all kinds of queries, and refer to the views in other queries.
 
@@ -23,6 +23,17 @@ To delete a vanilla view
 
 ```sql
 DROP VIEW [IF EXISTS] <view_name>
+```
+
+### Parameterized Views
+Starting from Timeplus Enterprise 2.9, you can create views with parameters. For example:
+```sql
+-- create a parameterized view with one int8 parameter
+create view github_param_view as
+select * from github_events limit {limit:int8};
+
+-- run a SQL with the view and the parameter value
+select * from github_param_view(limit=2);
 ```
 
 ## Materialized view {#m_view}
