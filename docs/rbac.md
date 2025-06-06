@@ -47,7 +47,7 @@ GRANT SHOW ON default.* TO read_only;
 The following SQL creates a user and assign the specific role to it.
 ```sql
 CREATE USER user_name IDENTIFIED WITH plaintext_password BY 'password';
-GRANT user_name TO role_name;
+GRANT role_name TO user_name;
 ```
 
 ### Drop a user

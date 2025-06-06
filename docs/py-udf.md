@@ -252,23 +252,23 @@ docker exec -it container_name timeplusd python --config-file /etc/timeplusd-ser
 You can also call the REST API of timeplusd in Timeplus Enterprise v2.7 or above.
 
 :::info
-The following `curl` sample commands assume the timeplusd server is running on `localhost:8123`, with `default` as the user with an empty password. More commonly, you need to set the HTTP headers `x-timeplus-user` and `x-timeplus-key` with the user and password, such as `curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" ..`.
+To access the REST API, you need to create an administrator account and set the HTTP headers `x-timeplus-user` and `x-timeplus-key` with the user and password, such as `curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" ..`.
 :::
 
 For example, if you want to install the `numpy` library, you can use the following command:
 ```bash
-curl -X POST http://localhost:8123/timeplusd/v1/python_packages -d '{"packages": [{"name": "numpy"}]}'
+curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" -X POST http://localhost:8123/timeplusd/v1/python_packages -d '{"packages": [{"name": "numpy"}]}'
 ```
 
 If you need to install a specific version of a library, you can specify it in the `version` field. For example, to install `numpy` version `2.2.3`, you can use the following command:
 ```bash
-curl -X POST http://localhost:8123/timeplusd/v1/python_packages -d '{"packages": [{"name": "numpy", "version": "2.2.3"}]}'
+curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" -X POST http://localhost:8123/timeplusd/v1/python_packages -d '{"packages": [{"name": "numpy", "version": "2.2.3"}]}'
 ```
 
 ### List Python Libraries {#list_lib}
 To list the extra Python libraries installed in Timeplus Enterprise, you can use the following command:
 ```bash
-curl http://localhost:8123/timeplusd/v1/python_packages
+curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" http://localhost:8123/timeplusd/v1/python_packages
 ```
 
 ### Delete Python Libraries {#delete_lib}
@@ -276,7 +276,7 @@ To delete Python libraries, you can call the REST API of timeplusd in Timeplus E
 
 For example, if you want to delete the `numpy` library, you can use the following command:
 ```bash
-curl -X DELETE http://localhost:8123/timeplusd/v1/python_packages/numpy
+curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" -X DELETE http://localhost:8123/timeplusd/v1/python_packages/numpy
 ```
 
 ### Update Python Libraries {#update_lib}

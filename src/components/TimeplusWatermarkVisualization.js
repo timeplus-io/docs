@@ -376,7 +376,7 @@ const TimeplusWatermarkVisualization = () => {
                 GROUP BY
               </span> window_start <br />
               <span style={{ color: "#569CD6" }}>
-                EMIT AFTER WATERMARK
+                EMIT AFTER WINDOW CLOSE
               </span>{" "}
               <span style={{ color: "#569CD6" }}>WITH DELAY</span> {lag / 1000}s
             </code>

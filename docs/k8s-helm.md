@@ -11,9 +11,10 @@ For visual learning, you can watch the following video:
 ## Prerequisites
 
 - Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)
-- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
+- Ensure you have [Kubernetes](https://kubernetes.io/) 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, Google GKE, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
 - Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each `timeplusd` requires 2 cores and 4GB memory. Please refer to [Planning capacity](#planning-capacity) section for production deployment.
 * Network access to Internet. If your environment is air-gapped, please refer to [Offline installation](#offline-installation).
+* Port 8464 needs to be open on each k8s node. The pods behind timeplusd Statefulset uses this port to talk to each other.
 
 ## Quickstart with self-hosted Kubernetes
 
@@ -57,17 +58,23 @@ Copy and paste the following yaml snippet into `values.yaml`.
 ```yaml
 timeplusd:
   replicas: 3
+  # Uncomment the following two lines to use headless service if you are going to deploy Timeplus to Google GKE.
+  # service:
+  #  clusterIP: None
   storage:
     stream:
       className: <Your storage class name>
       size: 100Gi
-      # Keep this to be `null` if you are on Amazon EKS with EBS CSI controller.
+      # Keep this to be `false` if you are on Amazon EKS with EBS CSI controller.
       # Otherwise please carefully check your provisioner and set them properly.
-      selector: null
+      selector: false
+      nativelogSubPath: ./nativelog
+      metastoreSubPath: ./metastore
     history:
       className: <Your storage class name>
       size: 100Gi
-      selector: null
+      selector: false
+      subPath: ./history
     log:
       # This log PV is optional. If you have log collect service enabled on your k8s cluster, you can set this to be false.
       # If log PV is disabled, the log file will be gone after pod restarts.
@@ -75,6 +82,7 @@ timeplusd:
       className: <Your storage class name>
       size: 10Gi
       selector: null
+      subPath: ./log
   defaultAdminPassword: timeplusd@t+
   resources:
     limits:
@@ -391,14 +399,6 @@ kubectl get pvc -n $NS proton-data -o=jsonpath='{.spec.volumeName}'
 
 It should return the name you used in your new PV, in this example it is `pvc-manual-vol-0d628e0096371cb67`.
 
-### Troubleshooting
-
-If something goes wrong, you can run the following commands to get more information.
-
-1. `kubectl get pods -n $NS`: Make sure all pods are in `Running` status and the `READY` is `1/1`.
-2. `kubectl logs <pod> -n $NS`: Try to check the logs of each pod to make sure there is no obvious errors.
-3. Run `kubectl cluster-info dump -n $NS` to dump all the information and send it to us.
-
 ## Configuration Guide
 
 You may want to customize the configurations of Timeplus Appserver or Timeplusd. Here is a quick example of how to modify the `values.yaml`. For the list of available configuration items, please refer to the docs of [Timeplus Appserver](./server_config#appserver) and [Timeplusd](./server_config#timeplusd).
@@ -430,7 +430,7 @@ There are a lot of other configurations available to customize the deployment. S
 |-----|------|---------|-------------|
 | global.affinity | object | `{}` | This is the global affinity settings. Once set, it will be applied to every single component. If you'd like to set affinity for each component, you can set `affinity` under component name. For example you can use `timeplusd.affinity` to control the affinity of timeplusd Refer to https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ |
 | global.imagePullPolicy | string | `"IfNotPresent"` | This setting is available for each component as well. |
-| global.imageRegistry | string | `""` | This setting is available for each component as well. |
+| global.imageRegistry | string | `"docker.timeplus.com"` | This setting is available for each component as well. |
 | global.nodeSelector | object | `{}` | See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector |
 | global.pvcDeleteOnStsDelete | bool | `false` | Only valid with k8s >= 1.27.0. Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention |
 | global.pvcDeleteOnStsScale | bool | `false` | Only valid with k8s >= 1.27.0. Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention |
@@ -438,7 +438,7 @@ There are a lot of other configurations available to customize the deployment. S
 | ingress.appserver | object | `{"domain":null,"enabled":false}` | Only Nginx controller is tested. https://kubernetes.github.io/ingress-nginx/ ingressClassName: nginx Uncomment the tls section below to enable https. You will need to follow   1. https://kubernetes.io/docs/concepts/services-networking/ingress/#tls   2. https://kubernetes.github.io/ingress-nginx/user-guide/tls/ to create a k8s secret that contains certificate and private key tls:   - hosts: [timeplus.local]   secretName: "secret-name" |
 | ingress.appserver.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
 | ingress.timeplusd.domain | string | `nil` | If you want use an ip, please remove it. it's will match all (equal *). |
-| ingress.timeplusd.enabled | bool | `false` | |
+| ingress.timeplusd.enabled | bool | `false` | To send REST API call to timeplusd, the URL will be http(s)://\<publicDomain>:\<port>\<restPath> e.g.   - curl http://timeplus.local/timeplusd/info   - curl http://timeplus.local/timeplusd/v1/ddl/streams |
 | ingress.timeplusd.httpSnapshotPath | string | `"/snapshot"` | * update the `httpSnapshotPath` to be `/` and use different domain for appserver and timeplusd ingress |
 | prometheus_metrics.enabled | bool | `false` |  |
 | prometheus_metrics.remote_write_endpoint | string | `"http://timeplus-prometheus:80"` |  |
@@ -450,6 +450,7 @@ There are a lot of other configurations available to customize the deployment. S
 | timeplusAppserver.extraContainers | list | `[]` | Extra containers that to be run together with the main container. |
 | timeplusAppserver.extraVolumes | list | `[]` | Extra volumes that to be mounted |
 | timeplusAppserver.image | string | `"timeplus/timeplus-appserver"` |  |
+| timeplusAppserver.metastoreType | string | `"stream"` |  |
 | timeplusCli.enabled | bool | `false` |  |
 | timeplusCli.image | string | `"timeplus/timeplus-cli"` |  |
 | timeplusConnector.configMap | object | `{"logger":{"add_timestamp":true,"file":{"path":"/timeplus/connector-server.log","rotate":true,"rotate_max_age_days":1},"level":"INFO"}}` | With this default config map, the logs will be written to local ephemeral volume. You can set configMap to be `null` and the logs will be written to stdout. However, you will not be able to view logs of the source and sink on UI if it is `null`. |
@@ -459,27 +460,64 @@ There are a lot of other configurations available to customize the deployment. S
 | timeplusConnector.image | string | `"timeplus/timeplus-connector"` |  |
 | timeplusWeb.enabled | bool | `true` |  |
 | timeplusWeb.image | string | `"timeplus/timeplus-web"` |  |
+| timeplusd.computeNode | object | `{"config":{},"replicas":0,"resources":{"limits":{"cpu":"32","memory":"60Gi"},"requests":{"cpu":"2","memory":"4Gi"}}}` | Compute node |
 | timeplusd.config | object | `{}` | Configurations for timeplusd. See https://docs.timeplus.com/server_config#timeplusd |
 | timeplusd.defaultAdminPassword | string | `"timeplusd@t+"` | Timeplus appserver will use this username and password to connect to timeplusd to perform some administration operations such as user management. |
+| timeplusd.enableCoreDump | bool | `false` |  |
 | timeplusd.enabled | bool | `true` |  |
 | timeplusd.extraContainers | list | `[]` | Extra containers that to be run together with the main container. |
+| timeplusd.extraEnvs | list | `[]` | Extra environment variables |
 | timeplusd.extraInitContainers | list | `[]` | Extra init containers. It will be run before other init containers. |
 | timeplusd.extraUsers | object | `{}` | Extra users |
 | timeplusd.extraVolumes | list | `[]` | Extra volumes that to be mounted |
 | timeplusd.image | string | `"timeplus/timeplusd"` |  |
 | timeplusd.initJob.image | string | `"timeplus/boson"` |  |
 | timeplusd.livenessProbe | object | `{"failureThreshold":20,"httpGet":{"path":"/timeplusd/ping","port":"http-streaming","scheme":"HTTP"},"initialDelaySeconds":30,"periodSeconds":30,"successThreshold":1,"timeoutSeconds":1}` | K8s liveness probe for timeplusd. Please refer to https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
-| timeplusd.replicas | int | `3` | Current only support replicas 1 or 3 |
+| timeplusd.replicas | int | `3` | A typical deployment contains 1, 3, or 5 replicas. The max number of Metadata node is 3. If you specify more than 3 replicas, the first 3 will always be Metadata and Data node and the rest of them will be Data node only. |
 | timeplusd.resources | object | `{"limits":{"cpu":"32","memory":"60Gi"},"requests":{"cpu":"2","memory":"4Gi"}}` | Make sure at least 2 cores are assigned to each timeplusd |
+| timeplusd.service.clusterIP | string | `nil` | Set clusterIP to be `None` to create a headless service. |
 | timeplusd.service.nodePort | int | `30863` |  |
 | timeplusd.service.type | string | `"ClusterIP"` | Update type to `NodePort` if you want to access timeplusd directly (rest API, metrics, and etc.) |
 | timeplusd.serviceAccountName | string | `""` |  |
-| timeplusd.storage.history | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-history"}},"size":"100Gi"}` | PV settings for historical storage. |
-| timeplusd.storage.log | object | `{"className":"local-storage","enabled":true,"selector":{"matchLabels":{"app":"timeplusd-log"}},"size":"30Gi"}` | PV settings for logs. |
+| timeplusd.sleep | bool | `false` | Don't start timeplusd automatically when pod is up. Instead, just run sleep command so that you can exec into the pod to debug. |
+| timeplusd.storage.history | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-history"}},"size":"100Gi","subPath":"./"}` | PV settings for historical storage. |
+| timeplusd.storage.log | object | `{"className":"local-storage","enabled":true,"selector":{"matchLabels":{"app":"timeplusd-log"}},"size":"30Gi","subPath":"./"}` | PV settings for logs. |
 | timeplusd.storage.log.enabled | bool | `true` | When disabled, log will be written to stream storage (/var/lib/timeplusd/nativelog) |
-| timeplusd.storage.stream | object | `{"className":"local-storage","selector":{"matchLabels":{"app":"timeplusd-data-stream"}},"size":"100Gi"}` | PV settings for streaming storage. |
+| timeplusd.storage.stream | object | `{"className":"local-storage","metastoreSubPath":"./","nativelogSubPath":"./","selector":{"matchLabels":{"app":"timeplusd-data-stream"}},"size":"100Gi"}` | PV settings for streaming storage. |
 
 ## Upgrade guide
+
+### v6 to v7
+:::info
+[Timeplus Enterprise 2.7](/enterprise-v2.7)'s helm chart versions are v6.0.x.
+[Timeplus Enterprise 2.8](/enterprise-v2.8)'s helm chart versions are v7.0.x.
+:::
+
+By default, the v7 helm chart is configured to use new mutable stream based KV store. If you've decided not to run the migration, you can just use `helm upgrade` to upgrade the chart.
+
+If you have decided to run the migration, here are the steps to follow:
+
+1. Update the `values.yaml` to enable Timeplus CLI and disable both Timeplus connector and appserver
+```yaml
+timeplusCli:
+  enabled: true
+timeplusConnector:
+  enabled: false
+timeplusAppserver:
+  enabled: false
+```
+2. Use `helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise --version v7.x.x` to upgrade your Timeplus Enterprise deployment with v7 chart.
+3. Use `kubectl -n $NS get pods` to check the status of the pods. Please make sure that:
+    1. `timeplusd` pods has been upgraded to 2.8.x 
+    2. `timeplus-appserver` pod is terminated
+    3. `timeplus-connector` pod is terminated
+    4. `timeplus-cli` pod is up and running
+4. Run `kubectl -n $NS exec timeplus-cli -it -- /bin/bash`
+5. Run `./bin/timeplus migrate kv --host timeplusd-0.timeplusd-svc.<namespace>.svc.cluster.local -p <password>`
+    1. Replace `<namespace>` with the namespace that Timeplus Enterprise is deployed to
+    2. Replace `<password>` with the admin password. If you haven't customized it via `values.yaml`, please use the default password `timeplusd@t+`
+6. Wait until the command above finishes. It should be very fast. In case of any error, please contact Timeplus support.
+7. Once migration succeed, you can revert the `values.yaml` change you have done for step 1 and run `helm upgrade` to apply the change.
 
 ### v5 to v6
 :::info
@@ -510,3 +548,100 @@ timeplusd:
 |`timeplusd.ingress.enabled`|`ingress.timeplusd.enabled`|
 |`ingress.enabled`|`ingress.timeplusd.enabled`, `ingress.appserver.enabled`|
 |`ingress.domain`|`ingress.timeplusd.domain`, `ingress.appserver.domain`|
+
+### Using subPath
+
+:::info
+Please make sure you backup all the PVs before making any modifications. This operation will cause downtime of Timeplus Enterprise.
+:::
+
+Prior to helm chart v6.0.15 (Timeplus Enterprise v2.7.8), we don't set `subPath` for PVs mounted by timeplusd Statefulset. However, there are two issues:
+1. We mount both `/var/lib/timeplusd/nativelog` and `/var/lib/timeplusd/metastore` to the root path `timeplusd-stream` PV. There could be folder name conflicts.
+2. It doesn't work if you want to enforce [`readOnlyRootFilesystem`](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/).
+
+Since v6.0.15, you can configure subPath for each mount point to solve those issues. However, if you want to upgrade your existing cluster, you will need to follow the guide to manually upgrade:
+1. Run `show databases` either via Timeplus Web Console or timeplusd client to get the list of databases you have. You will need to edit the script on step 6 to include all databases you have.
+2. Add `sleep: true` to `timeplusd` in your `values.yaml` and then use `helm upgrade` to upgrade the cluster. This will put timeplusd into sleep mode so that you can access the pod.
+```yaml
+timeplusd:
+  sleep: true
+```
+3. Once all timeplusd pod restarts you can use `kubectl -n $NS get pod timeplusd-0 -o=jsonpath='{.spec.containers[0].command}'` to check if the command is `["bash","-c","sleep 36000"]`
+4. Eun `kubectl -n $NS exec timeplusd-0 -it -- /bin/bash` to access the pod and run `ls -l /var/lib/timeplusd/metastore`. You should be able to see the list of folders like this:
+```bash
+drwxrws--- 20 timeplus timeplus      4096 Jun  2 20:48 default
+drwxrws---  3 timeplus timeplus        52 May 27 00:02 mydb
+drwxrws---  2 timeplus timeplus      4096 Jun  2 22:26 kv
+drwxrws---  2 timeplus timeplus       122 Mar  5 19:17 log
+drwxrws---  3 timeplus timeplus        52 Mar  5 19:42 neutron
+drwxrws---  2 timeplus timeplus      4096 Jun  2 22:26 raft
+drwxrws---  6 timeplus timeplus       190 May  8 05:52 system
+-rw-rw----  1 timeplus timeplus 905030177 Jun  2 23:11 timeplusd-server.err.log
+-rw-rw----  1 timeplus timeplus 775365053 Jun  2 23:12 timeplusd-server.log
+-rw-rw----  1 timeplus timeplus  70759684 May 29 10:57 timeplusd-server.log.0.gz
+```
+5. The list should contain:
+    1. A `kv` and a `log` folder.
+    2. A `raft` folder.
+    3. For each database you have, there should be a folder here. For example, there should be at least `neutron` and `system` folders. Please make sure the list matches the result of your `show databases` command run on step 1.
+    4. A few logs file if you don't have a dedicated PV mounted for logs. You can ignore those files.
+6. Edit the following script accordingly and then run the bash scripts.
+```bash
+cd /var/lib/timeplusd/metastore/
+
+mkdir nativelog
+mkdir metastore
+
+mv kv metastore/
+mv log metastore/
+
+# -------- EDIT -----------
+# Make sure the list contains "raft" and all your databases 
+declare -a dbs=("raft" "neutron" "system" "default")
+# ----- END OF EDIT -------
+
+for db in "${dbs[@]}"
+do
+   mv $db nativelog/
+done
+
+cd /var/lib/timeplusd
+mkdir history
+shopt -s extglob
+mv !(history) history
+```
+7. After running the script above, the folder structure should be ready. Do the following checks to make sure it has been done properly
+    1. Run `ls -l /var/lib/timeplusd/metastore` and make sure there are only `metastore` and `nativelog` folders. It is OK to contain some log files.
+    2. Run `ls -l /var/lib/timeplusd/metastore/metastore` and make sure there are only `kv` and `log` folders.
+    3. Run `ls -l /var/lib/timeplusd/metastore/nativelog` and make sure there is a `raft` folder and folders match your database.
+    4. Run `ls -l /var/lib/timeplusd` and make sure there are `history`, `metastore`, and `nativelog` folders.
+8. Repeat step 4 to 7 for each timeplusd pod (`timeplusd-1`, `timeplusd-2`).
+9. Update the `values.yaml` to set the subpath properly and remove `sleep`. Run `helm upgrade`
+```yaml
+timeplusd:
+  sleep: false
+  storage:
+    # You can remove this log section if you have disabled log PV in you original values.yaml.
+    log:
+      subPath: ./log
+    stream:
+      nativelogSubPath: ./nativelog
+      metastoreSubPath: ./metastore
+    history:
+      subPath: ./history
+```
+10. After timeplusd restarts, the migration is done.
+
+## Troubleshooting
+
+If something goes wrong, you can run the following commands to get more information.
+
+1. `kubectl get pods -n $NS`: Make sure all pods are in `Running` status and the `READY` is `1/1`.
+2. `kubectl logs <pod> -n $NS`: Try to check the logs of each pod to make sure there is no obvious errors.
+3. Run `kubectl cluster-info dump -n $NS` to dump all the information and send it to us.
+
+### Timeplusd keep restarting with `bootstrap: Failed to send request=Hello to peer node` error
+
+This error indicates that timeplusd cannot connect to its peer node. Most likely the network (port 8464) between different k8s node is blocked. A typical way to check is to 
+1. Create 2 testing pods on **different** k8s nodes, check if you can access port 8464 from pod 1 on node 1 to pod 2 on node 2. Most likely it will fail in this case.
+2. Create 2 testing pods on the **same** k8s node, check if you can access port 8464 from pod 1 to pod 2 on the same node. If this works, then it proves that there is an issue with inter-node network. You can check if there is any firewall settings that block port 8464.

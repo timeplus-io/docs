@@ -15,7 +15,8 @@ Key highlights of this release:
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
 * Use S3 as the [tiered storage](/tiered-storage) for streams.
-* New SQL command to [rename streams](/sql-rename-stream).
+* New SQL command to [rename streams](/sql-rename-stream) or [columns](/sql-alter-stream#rename-column).
+* JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
 * A new page to visualize nodes in a cluster.
 * New page to view the details of streams or materialized views.
 
@@ -28,6 +29,70 @@ Key highlights of this release:
 
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
+
+### 2.8.1 (Public GA) {#2_8_1}
+Released on 05-27-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_1)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.4 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.1`
+
+Component versions:
+* timeplusd 2.8.26
+* timeplus_web 2.8.7
+* timeplus_appserver 2.8.5
+* timeplus_connector 2.2.8
+* timeplus cli 1.2.12
+
+#### Changelog {#changelog_2_8_1}
+Compared to the [2.8.1 (Preview)](#2_8_1-rc.7) release:
+* timeplusd 2.8.25 -> 2.8.26
+  * Support [rename stream](/sql-rename-stream) and [column name](/sql-alter-stream#rename-column).
+  * Support setting of connection_timeout_ms for Kafka external stream.
+  * Improve distributed queries and external stream nodes.
+  * Improve secondary index column validation.
+  * Fix ingest timeout issue during data ingestion.
+  * Improve checkpoint cleanup.
+  * Improve normal function behavior and emit on updates.
+  * Fix issues with 2-level aggregation and changelog emit.
+  * Improve edge cases when TCP connections aren't ready.
+  * Improve distributed query for historical query on mutable/append streams.
+  * Improve left range join under certain conditions.
+  * Fix Kafka external stream parsing issue.
+  * Improve mutable stream creation flow when defined via engine.
+  * When using `CREATE OR REPLACE FORMAT SCHEMA` to update an existing schema, and using `DROP FORMAT SCHEMA` to delete a schema, Timeplus will clean up the Protobuf schema cache to avoid misleading errors.
+
+### 2.8.1 (Preview) {#2_8_1-rc.7}
+Released on 05-08-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.1-rc.7`
+* We will provide new Helm Charts for Kubernetes deployment when v2.8 is GA.
+
+Component versions:
+* timeplusd 2.8.25
+* timeplus_web 2.8.7
+* timeplus_appserver 2.8.5
+* timeplus_connector 2.2.8
+* timeplus cli 1.2.12
+
+#### Changelog {#changelog_2_8_1-rc.7}
+Compared to the [2.8.0](/enterprise-v2.8#2_8_0) release:
+* timeplusd 2.8.14 -> 2.8.25
+  * Support writing Kafka message timestamp via [_tp_time](/proton-kafka#_tp_time)
+  * Enable IPv6 support for KeyValueService
+  * Simplified the [EMIT syntax](/query-syntax#emit) to make it easier to read and use.
+  * Support [EMIT ON UPDATE WITH DELAY](/query-syntax#emit_on_update_with_delay)
+  * Support [EMIT ON UPDATE](/query-syntax#emit_on_update) for multiple shards
+  * Transfer leadership to preferred node after election
+  * Pin materialized view execution node [Learn more](/sql-create-materialized-view#mv_preferred_exec_node)
+  * Improve async checkpointing
+  * Avoid loading Python scripts during analysis
+  * Incremental checkpoint for hybrid hash join
+  * Add support for external ClickHouse table metrics
+  * Multiple JavaScript VMs support
+  * Upgraded Pulsar CPP client to v3.7.0
+  * Support for nullable JS UDFs and inference of numbers as strings in REST API
+  * Enable incremental checkpointing by default
+  * Support sqlanalysis show disks and other small SQL enhancements
 
 ### 2.8.0 (Preview) {#2_8_0}
 Released on 03-25-2025. Installation options:
@@ -61,9 +126,22 @@ Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
 * timeplus_connector 2.2.8. No changes.
 * timeplus cli 1.2.12. No changes.
 
-Upgrade Instructions:
+#### Upgrade Instructions
 
-In 2.8, we changed the default way to save metadata. It's recommended to test the 2.8.0 with a fresh installation. We will provide a migration tool to help users migrate previous releases to 2.8.
+Prior to Timeplus Enterprise 2.8, we use an internal KV store to persist the metadata for Timeplus appserver and connector. To simplify the architecture, starting from Timeplus Enterprise 2.8, we are deprecating the KV store and use a mutable stream (`neutron._timeplus_appserver_metastore`) to store those data. The KV store will be completely removed in the next 2.9 release.
+
+The core functionality of the Timeplus Enterprise will still work even if you don't migrate the metadata. If you match all the conditions below, you can safely skip the migration:
+
+1. All the resources are created via SQL or through timeplusd directly. No resources are created via Timeplus web console or Timeplus appserver REST API.
+2. You don't use sources, sinks, dashboards, or alerts.
+
+If you are still not sure, here are the things that would be broken without migration:
+1. Sources, sinks, dashboards, alerts will be lost.
+2. Some metadata such as descriptions, owner of the resource will be lost. It won't impact the functionality of the resource though.
+3. Workspace setting will be lost.
+4. Query history will be lost.
+
+For Kubernetes users, please follow [the guide](/k8s-helm#v6-to-v7) to do the migration.
 
 #### Known issues {#known_issue_2_8_0}
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.

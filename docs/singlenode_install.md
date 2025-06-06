@@ -17,7 +17,7 @@ This script will download the latest release (based on your operating system and
 If you'd like to download the package for a certain feature release, you can run the following command:
 
 ```shell
-curl https://install.timeplus.com/2.6 | sh
+curl https://install.timeplus.com/2.7 | sh
 ```
 
 ### Manual Install

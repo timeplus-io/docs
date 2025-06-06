@@ -4,7 +4,7 @@ External stream for Kafka is official supported. The external stream for local l
 
 ## Kafka External Stream
 ```sql
-CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
+CREATE EXTERNAL STREAM [IF NOT EXISTS] [db.]stream_name (<col_name1> <col_type>)
 SETTINGS type='kafka',
          brokers='ip:9092',
          topic='..',

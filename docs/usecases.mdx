@@ -348,7 +348,7 @@ Given the similar scenario, the query with the advanced setting is
 ```sql
 SELECT window_start,window_end,sum(amount),count(*)
 FROM tumble(trips,end_time,1m) GROUP BY window_start,window_end
-EMIT AFTER WATERMARK AND DELAY 30s
+EMIT AFTER WINDOW CLOSE WITH DELAY 30s
 ```
 
 ### S-TOP-K: Getting the most common value for each streaming window {#s-top-k}

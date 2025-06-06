@@ -2,6 +2,38 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## May 26, 2025
+
+### Timeplus Native JDBC v2.0.10
+* Upgraded aircompressor to 0.27 to fix a security risk
+* Upgraded proton-jdbc from 0.6.0 to 0.7.1
+
+## May 12, 2025
+
+### Timeplus Enterprise v2.7.6, 2.7.7
+* The [EMIT Policies](/query-syntax) have been updated, for example `EMIT AFTER WATERMARK` has been changed to `EMIT AFTER WINDOW CLOSE`.
+* Patch releases with bug fixes.
+
+### Timeplus Go Driver v2.1.1
+The [proton-go-driver](https://github.com/timeplus-io/proton-go-driver) provides Go connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:
+* fixed the issue of nil elements in map
+
+## Apr 28, 2025
+
+### Timeplus Proton v1.6.15
+* fixed the issue that meta store raft service is hardcoded to listen on ipv6
+
+### Timeplus Connect v0.8.17
+[timeplus-connect](https://github.com/timeplus-io/timeplus-connect) provides Python connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:
+* added support for new `json` data type
+* other bug fixes and enhancements
+
+### Timeplus Go Driver v2.1.0
+The [proton-go-driver](https://github.com/timeplus-io/proton-go-driver) provides Go connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:
+* added support for new `json` data type
+* updated protocol to support receiving query id from the server
+* other refinements and sample code updates
+
 ## Apr 14, 2025
 
 ### Timeplus Enterprise v2.6.8, v2.7.4, v2.7.5

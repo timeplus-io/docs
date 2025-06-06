@@ -34,9 +34,110 @@ Key highlights of this release:
 3. For Kubernetes users, please follow [the guide](/k8s-helm#v5-to-v6) carefully since a few timeplusd built-in users are removed in the new helm chart, and you can configure ingress for Appserver and Timeplusd independently.
 
 ## Releases
+### 2.7.9 {#2_7_9}
+Released on 06-05-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_9)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.18 ..`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.9`
+
+Component versions:
+* timeplusd 2.7.48
+* timeplus_web 2.2.12
+* timeplus_appserver 2.2.13
+* timeplus_connector 2.2.8
+* timeplus cli 1.2.12
+
+#### Changelog {#changelog_2_7_9}
+
+Compared to the [2.7.8](#2_7_8) release:
+* timeplusd 2.7.47 -> 2.7.48
+  * enhanced on parsing Kafka Protobuf data
+  * enhanced metadata update exception handling
+  * fixed check size, depth, size etc when there is cyclic AST ref
+#### Known issues {#known_issue_2_7_9}
+1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+1. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+
+
+### 2.7.8 {#2_7_8}
+Released on 05-30-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_8)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.16 ..`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.8`
+
+Component versions:
+* timeplusd 2.7.47
+* timeplus_web 2.2.12
+* timeplus_appserver 2.2.13
+* timeplus_connector 2.2.8
+* timeplus cli 1.2.12
+
+#### Changelog {#changelog_2_7_8}
+
+Compared to the [2.7.7](#2_7_7) release:
+* timeplusd 2.7.46 -> 2.7.47
+  * support renaming stream column name
+  * fixed known stabilization issues
+#### Known issues {#known_issue_2_7_8}
+1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+1. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+
+### 2.7.7 {#2_7_7}
+Released on 05-06-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_7)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.12 ..`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.7`
+
+Component versions:
+* timeplusd 2.7.46
+* timeplus_web 2.2.12
+* timeplus_appserver 2.2.13
+* timeplus_connector 2.2.8
+* timeplus cli 1.2.12
+
+#### Changelog {#changelog_2_7_7}
+
+Compared to the [2.7.6](#2_7_6) release:
+* timeplusd 2.7.45 -> 2.7.46
+  * fixed Python UDF known stabilization issues
+#### Known issues {#known_issue_2_7_7}
+1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+1. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+### 2.7.6 {#2_7_6}
+Released on 04-29-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_6)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.11 ..`
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.6`
+
+Component versions:
+* timeplusd 2.7.45
+* timeplus_web 2.2.12
+* timeplus_appserver 2.2.13
+* timeplus_connector 2.2.8
+* timeplus cli 1.2.12
+
+#### Changelog {#changelog_2_7_6}
+
+Compared to the [2.7.5](#2_7_5) release:
+* timeplusd 2.7.37 -> 2.7.45
+  * added new setting [mv_preferred_exec_node](/sql-create-materialized-view#mv_preferred_exec_node) while creating materialized view
+  * added new EMIT policy `EMIT ON UPDATE WITH DELAY`. The SQL syntax for EMIT has been refactored. [Learn more](/query-syntax#emit)
+  * fixed global aggregation with `EMIT ON UPDATE` in multi-shard environments
+  * fixed concurrency issues in hybrid aggregation
+  * support incremental checkpoints for hybrid hash join
+  * fixed grouping key issues in hybrid aggregation
+
+#### Known issues {#known_issue_2_7_6}
+1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+1. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+1. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+
 ### 2.7.5 {#2_7_5}
 Released on 04-14-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.7 | sh` [Downloads](/release-downloads#2_7_4)
+* For Linux or Mac users: [Downloads](/release-downloads#2_7_4)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v6.0.9 ..`
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.5`
 

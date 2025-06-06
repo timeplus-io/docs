@@ -108,6 +108,12 @@ const config = {
             label: "Quickstart",
           },
           {
+            href: "https://demos.timeplus.com",
+            position: "left",
+            label: "Demos",
+            className: "navbar__link--active",
+          },
+          {
             href: "https://www.timeplus.com/download",
             position: "left",
             label: "Download",
@@ -196,8 +202,8 @@ const config = {
                 href: "https://github.com/timeplus-io/proton",
               },
               {
-                label: "Status",
-                href: "https://timeplus.statuspage.io",
+                label: "Demos",
+                href: "https://demos.timeplus.com",
               },
             ],
           },

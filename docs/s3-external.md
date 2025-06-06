@@ -94,6 +94,21 @@ SETTINGS type='s3',
   data_format='RawBLOB';
 ```
 
+#### Read from a GCS bucket
+To read data from Google Cloud Storage, please follow [the guide](https://cloud.google.com/storage/docs/authentication/hmackeys) to generate HMAC keys and use them as the access key and secret key. You don't need to set the `region` or `bucket`. Put the bucket name in the `endpoint` setting.
+```sql
+CREATE EXTERNAL TABLE nyc_fhvhv(
+`hvfhs_license_num` nullable (string),
+`dispatching_base_num` nullable (string),
+..
+)
+SETTINGS type='s3',
+  endpoint = 'https://storage.googleapis.com/timeplus-nyc-tlc',
+  access_key_id = 'GOOG..', --HMAC access ID
+  secret_access_key = '..', --HMAC secret key
+  read_from = 'fhvhv_tripdata_2025-02.parquet';
+```
+
 ### DDL Settings
 
 #### type
@@ -122,15 +137,15 @@ The `config_file` setting is available since Timeplus Enterprise 2.7. You can sp
 Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
 
 #### region
-The region where the S3 bucket is located, such as `us-west-1`.
+The region where the S3 bucket is located, such as `us-west-1`. Optional for GCS.
 
 #### bucket
-The name of the S3 bucket.
+The name of the S3 bucket. Optional for GCS.
 
 #### endpoint
 The endpoint of the S3-compatible object storage system. It's optional. If it's missing, Timeplus will use the default endpoint for the region.
 
-For example, if you have a minio running locally using the default ports. Then you should use `endpoint = 'http://localhost:9000'` to connect to the minio service.
+For example, if you have a minio running locally using the default ports. Then you should use `endpoint = 'http://localhost:9000'` to connect to the minio service. If you are connecting to Google Cloud Storage, set the endpoint to `'https://storage.googleapis.com/<bucket_name>'`.
 
 #### data_format
 The `data_format` is optional. When it's missing, Timeplus will try to infer the data format from the file extension in `read_from` or `write_to`.

@@ -89,7 +89,7 @@ For more advanced scenarios, you can add delay to the trigger policy, such as ad
 ```sql
 select window_start, window_end, count(*) as count, max(c1) as max_c1
 from tumble(my_stream,order_time, 5s) group by window_start, window_end
-emit after watermark with delay 2s
+EMIT AFTER WINDOW CLOSE WITH DELAY 2s
 ```
 
 We built [a tool](/understanding-watermark) to visualize the window aggregation with watermark processing delay.
