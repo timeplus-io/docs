@@ -84,19 +84,17 @@ CREATE EXTERNAL STREAM IF NOT EXISTS github_events(
     type string
 )
 SETTINGS type='kafka',
-    brokers='{kafka_broker}',
+    brokers='kafka.demo.timeplus.com:9092',
     topic='github_events',
     security_protocol='SASL_SSL',
-    sasl_mechanism='SCRAM-SHA-256',
-    username='readonly',
-    password='{kafka_pwd}',
+    username='demo',
+    password='demo123',
     skip_ssl_cert_check=true,
     data_format='JSONEachRow',
     one_message_per_row=true
 ```
 
 Notes:
-- Replace `{kafka_broker}` and `{kafka_pwd}` with your actual Kafka broker address and password
 - The Kafka topic contains live GitHub events data in JSON format
 - If you have too many columns or variable schema, you can create a stream with a single string column and parse the JSON at query time
 
