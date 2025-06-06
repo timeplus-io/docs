@@ -44,8 +44,8 @@ Component versions:
 * timeplus cli 1.2.12
 
 #### Changelog {#changelog_2_8_1}
-Compared to the [2.8.1 (Preview)](#2_8_1-rc.7) release:
-* timeplusd 2.8.25 -> 2.8.26
+Compared to the [2.8.0 (Preview)](#2_8_0) release:
+* timeplusd 2.8.14 -> 2.8.26
   * Support [rename stream](/sql-rename-stream) and [column name](/sql-alter-stream#rename-column).
   * Support setting of connection_timeout_ms for Kafka external stream.
   * Improve distributed queries and external stream nodes.
@@ -60,23 +60,6 @@ Compared to the [2.8.1 (Preview)](#2_8_1-rc.7) release:
   * Fix Kafka external stream parsing issue.
   * Improve mutable stream creation flow when defined via engine.
   * When using `CREATE OR REPLACE FORMAT SCHEMA` to update an existing schema, and using `DROP FORMAT SCHEMA` to delete a schema, Timeplus will clean up the Protobuf schema cache to avoid misleading errors.
-
-### 2.8.1 (Preview) {#2_8_1-rc.7}
-Released on 05-08-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh`
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.1-rc.7`
-* We will provide new Helm Charts for Kubernetes deployment when v2.8 is GA.
-
-Component versions:
-* timeplusd 2.8.25
-* timeplus_web 2.8.7
-* timeplus_appserver 2.8.5
-* timeplus_connector 2.2.8
-* timeplus cli 1.2.12
-
-#### Changelog {#changelog_2_8_1-rc.7}
-Compared to the [2.8.0](/enterprise-v2.8#2_8_0) release:
-* timeplusd 2.8.14 -> 2.8.25
   * Support writing Kafka message timestamp via [_tp_time](/proton-kafka#_tp_time)
   * Enable IPv6 support for KeyValueService
   * Simplified the [EMIT syntax](/query-syntax#emit) to make it easier to read and use.

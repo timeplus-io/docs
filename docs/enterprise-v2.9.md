@@ -46,25 +46,8 @@ Component versions:
 * timeplus cli 2.9.0
 
 #### Changelog {#changelog_2_9_0-preview_1}
-Compared to the [2.9.0-preview.0](#2_9_0-preview_0) release:
-* timeplusd 2.9.7 -> 2.9.9-rc.2
-
-### 2.9.0 (Preview 0) {#2_9_0-preview_0}
-Released on 05-28-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.9 | sh` [Downloads](/release-downloads#2_9_0-preview_0)
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.9.0-preview.0`
-* We will provide new Helm Charts for Kubernetes deployment when v2.9 is GA.
-
-Component versions:
-* timeplusd 2.9.7
-* timeplus_web 2.9.27
-* timeplus_appserver 2.9.24
-* timeplus_connector 2.9.0
-* timeplus cli 2.9.0
-
-#### Changelog {#changelog_2_9_0-preview_0}
 Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
-* timeplusd 2.8.26 -> 2.9.7
+* timeplusd 2.8.26 -> 2.9.9-rc.2
   *   New Features:
       *   **Parameterized Views:** You can now create [parameterized views](/view#parameterized-views), allowing for more dynamic and reusable view definitions.
       *   **JIT Compilation for Queries:** Introduced [Just-In-Time (JIT) compilation](/jit) for queries, potentially improving execution performance for certain query types.
