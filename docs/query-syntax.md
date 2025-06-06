@@ -214,7 +214,7 @@ Note:
 * `IDENTIFIED BY col` will calcuate the span of the trace, usually you can set `IDENTIFIED BY _tp_time`.
 * `MAXSPAN interval` to identify whether the span of the related events over a certain interval, for example `MAXSPAN 500ms` to flag those events with same tracing ID but over 0.5 second span.
 * `ONLY`: if you add this keyword, then only those events over the `MAXSPAN` will be emitted, other events less than the `MAXSPAN` will be omitted, so that you can focus on those events over the SLA.
-* `AND TIMEOUT interval` to avoid waiting for late events for too long.
+* `AND TIMEOUT interval` to avoid waiting for late events for too long. If there is no more events with the same key (e.g. tracing ID) after this interval, Timeplus will close the session for the key and emit results.
 
 It's required to use `SETTINGS default_hash_table='hybrid'` with this emit policy to avoid putting too many data in memory.
 
