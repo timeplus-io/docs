@@ -97,32 +97,6 @@ The Alert Rules tab lists all defined alert rules. You can edit  or delete the r
 
 
 
-## Apikey
-
-- [API Key | Timeplus](https://docs.timeplus.com/apikey): This page is deprecated. API Key is only applicable to Timeplus Cloud, which is no longer available.
-
-# API Key
-
-This page is deprecated. API Key is only applicable to Timeplus Cloud, which is no longer available.
-
-The REST API of Timeplus Cloud is secured by API keys.
-
-For Timeplus Enterprise self-hosted deployments, you need to set HTTP Authorization header to be Basic [Base64 encoded user:password].
-
-For example, if the username is admin and the password is password (not recommended to set this in production), you can generate the base64 encoded string for admin:password as YWRtaW46cGFzc3dvcmQ, via the command line echo -n "admin:password" | base64. Then set the HTTP header Authorization as Basic YWRtaW46cGFzc3dvcmQ. This also can be set in curl via -u admin:password flag.
-
-You need to create an API key to access the Timeplus REST API in the cloud. Here’s how to create one:
-
-1. Click on your avatar in the top right corner. In the dropdown, click Personal Settings.
-
-1. In the API Keys section, click the Create API Key button.
-
-1. Enter an optional description for the key, choose an expiration date if needed, and click Create.
-
-1. The API key will only be shown to you once - make sure you securely save it right away. You won’t be able to retrieve the key again later in the console.
-
-
-
 ## Automq-kafka-source
 
 - [Load streaming data from AutoMQ | Timeplus](https://docs.timeplus.com/automq-kafka-source): AutoMQ is a cloud-native version of Kafka redesigned for cloud environments. AutoMQ is open source and fully compatible with the Kafka protocol, fully leveraging cloud benefits. Compared to self-managed Apache Kafka, AutoMQ, with its cloud-native architecture, offers features like capacity auto-scaling, self-balancing of network traffic, moving partition in seconds. These features contribute to a significantly lower Total Cost of Ownership (TCO) for users.
@@ -168,10 +142,6 @@ Integrate Timeplus to your tool stacks.
 
 Grafana has long been one of the most popular tools for real-time monitoring and data visualization, helping organizations track metrics and analyze trends through a single, user-friendly interface. For self-hosted Timeplus Enterprise or Timeplus Proton, you can try the Grafana plugin for Timeplus with the source code at GitHub. This plugin was designed to leverage Grafana’s new Grafana Live capability, allowing users to keep their SQL query results up-to-date without the need to refresh their dashboards. Check out here for sample setup.
 
-## 📄️ Integration with Metabase
-
-For self-hosted Timeplus Enterprise or Timeplus Proton, you can use the Timeplus plugin for Metabase to visualize the SQL results with JDBC driver.
-
 ## 📄️ Load MySQL/Postgres/CSV/S3 to Timeplus via Sling CLI
 
 Sling is a powerful data integration CLI tool. Whether ingesting CSV or JSON files, transferring data between databases, or exporting a custom SQL query to a Parquet file — Sling is the solution that empowers you to achieve it effortlessly.
@@ -207,7 +177,7 @@ Overview of the SQL commands supported by Timeplus.
 
 ## 📄️ ALTER STREAM
 
-Currently we don't recommend to alter the schema of streams in Timeplus. You can modify the retention policy for historical store via MODIFY TTL and modify the retention policy for streaming storage via MODIFY SETTING. For mutable streams, you can also run MODIFY SETTING to change the RocksDB settings.
+You can modify the retention policy for historical store via MODIFY TTL and modify the retention policy for streaming storage via MODIFY SETTING. For mutable streams, you can also run MODIFY SETTING to change the RocksDB settings.
 
 ## 📄️ ALTER VIEW
 
@@ -1446,14 +1416,12 @@ Parts of the Timeplus product are powered by open source projects.
 
 ## Datatypes
 
-- [Data Types | Timeplus](https://docs.timeplus.com/datatypes): In most cases, you don't need to create streams manually or specify the data type for the columns. Timeplus source will automatically create the streams/columns with proper types when you load data from Kafka/CSV/etc.
+- [Data Types | Timeplus](https://docs.timeplus.com/datatypes): Like many analytics systems, the following common types are supported.
 
 - Query & SQL Reference
 - Data Types
 
 # Data Types
-
-In most cases, you don't need to create streams manually or specify the data type for the columns. Timeplus source will automatically create the streams/columns with proper types when you load data from Kafka/CSV/etc.
 
 Like many analytics systems, the following common types are supported.
 
@@ -2369,11 +2337,167 @@ Key highlights of this release:
 
 ## Releases​
 
+### 2.7.9​
+
+Released on 06-05-2025. Installation options:
+
+- For Linux or Mac users: curl https://install.timeplus.com/2.7 | sh Downloads
+- For Kubernetes users: helm install timeplus/timeplus-enterprise --version v6.0.18 ..
+- For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.9
+
+Component versions:
+
+- timeplusd 2.7.48
+- timeplus_web 2.2.12
+- timeplus_appserver 2.2.13
+- timeplus_connector 2.2.8
+- timeplus cli 1.2.12
+
+#### Changelog​
+
+Compared to the 2.7.8 release:
+
+- timeplusd 2.7.47 -> 2.7.48
+
+enhanced on parsing Kafka Protobuf data
+enhanced metadata update exception handling
+fixed check size, depth, size etc when there is cyclic AST ref
+- enhanced on parsing Kafka Protobuf data
+- enhanced metadata update exception handling
+- fixed check size, depth, size etc when there is cyclic AST ref
+
+- enhanced on parsing Kafka Protobuf data
+- enhanced metadata update exception handling
+- fixed check size, depth, size etc when there is cyclic AST ref
+
+#### Known issues​
+
+1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+2. The timeplus_connector component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+3. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+
+### 2.7.8​
+
+Released on 05-30-2025. Installation options:
+
+- For Linux or Mac users: curl https://install.timeplus.com/2.7 | sh Downloads
+- For Kubernetes users: helm install timeplus/timeplus-enterprise --version v6.0.16 ..
+- For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.8
+
+Component versions:
+
+- timeplusd 2.7.47
+- timeplus_web 2.2.12
+- timeplus_appserver 2.2.13
+- timeplus_connector 2.2.8
+- timeplus cli 1.2.12
+
+#### Changelog​
+
+Compared to the 2.7.7 release:
+
+- timeplusd 2.7.46 -> 2.7.47
+
+support renaming stream column name
+fixed known stabilization issues
+- support renaming stream column name
+- fixed known stabilization issues
+
+- support renaming stream column name
+- fixed known stabilization issues
+
+#### Known issues​
+
+1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+2. The timeplus_connector component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+3. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+
+### 2.7.7​
+
+Released on 05-06-2025. Installation options:
+
+- For Linux or Mac users: curl https://install.timeplus.com/2.7 | sh Downloads
+- For Kubernetes users: helm install timeplus/timeplus-enterprise --version v6.0.12 ..
+- For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.7
+
+Component versions:
+
+- timeplusd 2.7.46
+- timeplus_web 2.2.12
+- timeplus_appserver 2.2.13
+- timeplus_connector 2.2.8
+- timeplus cli 1.2.12
+
+#### Changelog​
+
+Compared to the 2.7.6 release:
+
+- timeplusd 2.7.45 -> 2.7.46
+
+fixed Python UDF known stabilization issues
+- fixed Python UDF known stabilization issues
+
+- fixed Python UDF known stabilization issues
+
+#### Known issues​
+
+1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+2. The timeplus_connector component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+3. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+
+### 2.7.6​
+
+Released on 04-29-2025. Installation options:
+
+- For Linux or Mac users: curl https://install.timeplus.com/2.7 | sh Downloads
+- For Kubernetes users: helm install timeplus/timeplus-enterprise --version v6.0.11 ..
+- For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.6
+
+Component versions:
+
+- timeplusd 2.7.45
+- timeplus_web 2.2.12
+- timeplus_appserver 2.2.13
+- timeplus_connector 2.2.8
+- timeplus cli 1.2.12
+
+#### Changelog​
+
+Compared to the 2.7.5 release:
+
+- timeplusd 2.7.37 -> 2.7.45
+
+added new setting mv_preferred_exec_node while creating materialized view
+added new EMIT policy EMIT ON UPDATE WITH DELAY. The SQL syntax for EMIT has been refactored. Learn more
+fixed global aggregation with EMIT ON UPDATE in multi-shard environments
+fixed concurrency issues in hybrid aggregation
+support incremental checkpoints for hybrid hash join
+fixed grouping key issues in hybrid aggregation
+- added new setting mv_preferred_exec_node while creating materialized view
+- added new EMIT policy EMIT ON UPDATE WITH DELAY. The SQL syntax for EMIT has been refactored. Learn more
+- fixed global aggregation with EMIT ON UPDATE in multi-shard environments
+- fixed concurrency issues in hybrid aggregation
+- support incremental checkpoints for hybrid hash join
+- fixed grouping key issues in hybrid aggregation
+
+- added new setting mv_preferred_exec_node while creating materialized view
+- added new EMIT policy EMIT ON UPDATE WITH DELAY. The SQL syntax for EMIT has been refactored. Learn more
+- fixed global aggregation with EMIT ON UPDATE in multi-shard environments
+- fixed concurrency issues in hybrid aggregation
+- support incremental checkpoints for hybrid hash join
+- fixed grouping key issues in hybrid aggregation
+
+#### Known issues​
+
+1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
+2. The timeplus_connector component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
+3. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+
 ### 2.7.5​
 
 Released on 04-14-2025. Installation options:
 
-- For Linux or Mac users: curl https://install.timeplus.com/2.7 | sh Downloads
+- For Linux or Mac users: Downloads
 - For Kubernetes users: helm install timeplus/timeplus-enterprise --version v6.0.9 ..
 - For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.5
 
@@ -2390,164 +2514,6 @@ Component versions:
 Compared to the 2.7.4 release:
 
 - timeplusd 2.7.35 -> 2.7.37
-
-cleanup Protobuf format schema cache
-fixed the issue for where 1=2
-fixed outdated recover sns for materialized views
-enabled incremental checkpoint by default
-improved robustness of checkpoints in edge cases
-fixed unknown source column
-- cleanup Protobuf format schema cache
-- fixed the issue for where 1=2
-- fixed outdated recover sns for materialized views
-- enabled incremental checkpoint by default
-- improved robustness of checkpoints in edge cases
-- fixed unknown source column
-
-- cleanup Protobuf format schema cache
-- fixed the issue for where 1=2
-- fixed outdated recover sns for materialized views
-- enabled incremental checkpoint by default
-- improved robustness of checkpoints in edge cases
-- fixed unknown source column
-
-#### Known issues​
-
-1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
-2. The timeplus_connector component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
-3. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
-
-### 2.7.4​
-
-Released on 04-03-2025. Installation options:
-
-- For Linux or Mac users: Downloads
-- For Kubernetes users: helm install timeplus/timeplus-enterprise --version v6.0.8 ..
-- For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.4
-
-Component versions:
-
-- timeplusd 2.7.35
-- timeplus_web 2.2.12
-- timeplus_appserver 2.2.13
-- timeplus_connector 2.2.8
-- timeplus cli 1.2.12
-
-#### Changelog​
-
-Compared to the 2.7.3 release:
-
-- timeplusd 2.7.29 -> 2.7.35
-
-enhanced logging level handling and crash prevention.
-added configurable timeout for stream DDL operations and ignore tp_sn when ingesting data.
-added support for multiple JavaScript VMs and ClickHouse data types on HTTP server port 8123.
-improved handling of shared state across modules.
-fixed invalid storage settings access, optimized hash map destruction, and improved stream semantic calculation.
-- enhanced logging level handling and crash prevention.
-- added configurable timeout for stream DDL operations and ignore tp_sn when ingesting data.
-- added support for multiple JavaScript VMs and ClickHouse data types on HTTP server port 8123.
-- improved handling of shared state across modules.
-- fixed invalid storage settings access, optimized hash map destruction, and improved stream semantic calculation.
-
-- enhanced logging level handling and crash prevention.
-- added configurable timeout for stream DDL operations and ignore tp_sn when ingesting data.
-- added support for multiple JavaScript VMs and ClickHouse data types on HTTP server port 8123.
-- improved handling of shared state across modules.
-- fixed invalid storage settings access, optimized hash map destruction, and improved stream semantic calculation.
-
-#### Known issues​
-
-1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
-2. The timeplus_connector component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
-3. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
-
-### 2.7.3​
-
-Released on 03-24-2025. Installation options:
-
-- For Linux or Mac users: Downloads
-- For Kubernetes users: helm install timeplus/timeplus-enterprise --version v6.0.7 ..
-- For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.3
-
-Component versions:
-
-- timeplusd 2.7.29
-- timeplus_web 2.2.12
-- timeplus_appserver 2.2.13
-- timeplus_connector 2.2.8
-- timeplus cli 1.2.12
-
-#### Changelog​
-
-Compared to the 2.7.2 release:
-
-- timeplusd 2.7.27 -> 2.7.29
-
-fixed the issue for Pulsar external stream with compressed message types and partitions
-improved JOIN between mutable streams
-- fixed the issue for Pulsar external stream with compressed message types and partitions
-- improved JOIN between mutable streams
-
-- fixed the issue for Pulsar external stream with compressed message types and partitions
-- improved JOIN between mutable streams
-
-#### Known issues​
-
-1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
-2. The timeplus_connector component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
-3. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
-
-### 2.7.2​
-
-Released on 03-18-2025. Installation options:
-
-- For Linux or Mac users: Downloads
-- For Kubernetes users: helm install timeplus/timeplus-enterprise --version v6.0.6 ..
-- For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.2
-
-Component versions:
-
-- timeplusd 2.7.27
-- timeplus_web 2.2.12
-- timeplus_appserver 2.2.13
-- timeplus_connector 2.2.8
-- timeplus cli 1.2.12
-
-#### Changelog​
-
-Compared to the 2.7.1 release:
-
-- timeplusd 2.7.26 -> 2.7.27
-
-fixed several problems causing aggregation function misbehavior
-- fixed several problems causing aggregation function misbehavior
-
-- fixed several problems causing aggregation function misbehavior
-
-#### Known issues​
-
-1. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
-2. The timeplus_connector component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
-3. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
-
-### 2.7.1​
-
-Released on 03-07-2025. Installation options:
-
-- For Linux or Mac users: Downloads
-- For Kubernetes users: helm install timeplus/timeplus-enterprise --version v6.0.4 ..
-- For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.1
-
-Component versions:
-
-- timeplusd 2.7.26
-- timeplus_web 2.2.12
-- timeplus_appserver 2.2.13
-- timeplus_connector 2.2.8
-- timeplus cli 1.2.12
-
-#### Changelog​
 
 ... (content truncated)
 
@@ -2578,7 +2544,8 @@ Key highlights of this release:
 - Timeplus can read or write data in Apache Iceberg tables. Learn more
 - Timeplus can read or write PostgreSQL tables directly via PostgreSQL External Table or look up data via dictionaries.
 - Use S3 as the tiered storage for streams.
-- New SQL command to rename streams.
+- New SQL command to rename streams or columns.
+- JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
 - A new page to visualize nodes in a cluster.
 - New page to view the details of streams or materialized views.
 
@@ -2587,6 +2554,120 @@ Key highlights of this release:
 ## Releases​
 
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
+
+### 2.8.1 (Public GA)​
+
+Released on 05-27-2025. Installation options:
+
+- For Linux or Mac users: curl https://install.timeplus.com/2.8 | sh Downloads
+- For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.4 ..
+- For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.1
+
+Component versions:
+
+- timeplusd 2.8.26
+- timeplus_web 2.8.7
+- timeplus_appserver 2.8.5
+- timeplus_connector 2.2.8
+- timeplus cli 1.2.12
+
+#### Changelog​
+
+Compared to the 2.8.0 (Preview) release:
+
+- timeplusd 2.8.14 -> 2.8.26
+
+Support rename stream and column name.
+Support setting of connection_timeout_ms for Kafka external stream.
+Improve distributed queries and external stream nodes.
+Improve secondary index column validation.
+Fix ingest timeout issue during data ingestion.
+Improve checkpoint cleanup.
+Improve normal function behavior and emit on updates.
+Fix issues with 2-level aggregation and changelog emit.
+Improve edge cases when TCP connections aren't ready.
+Improve distributed query for historical query on mutable/append streams.
+Improve left range join under certain conditions.
+Fix Kafka external stream parsing issue.
+Improve mutable stream creation flow when defined via engine.
+When using CREATE OR REPLACE FORMAT SCHEMA to update an existing schema, and using DROP FORMAT SCHEMA to delete a schema, Timeplus will clean up the Protobuf schema cache to avoid misleading errors.
+Support writing Kafka message timestamp via _tp_time
+Enable IPv6 support for KeyValueService
+Simplified the EMIT syntax to make it easier to read and use.
+Support EMIT ON UPDATE WITH DELAY
+Support EMIT ON UPDATE for multiple shards
+Transfer leadership to preferred node after election
+Pin materialized view execution node Learn more
+Improve async checkpointing
+Avoid loading Python scripts during analysis
+Incremental checkpoint for hybrid hash join
+Add support for external ClickHouse table metrics
+Multiple JavaScript VMs support
+Upgraded Pulsar CPP client to v3.7.0
+Support for nullable JS UDFs and inference of numbers as strings in REST API
+Enable incremental checkpointing by default
+Support sqlanalysis show disks and other small SQL enhancements
+- Support rename stream and column name.
+- Support setting of connection_timeout_ms for Kafka external stream.
+- Improve distributed queries and external stream nodes.
+- Improve secondary index column validation.
+- Fix ingest timeout issue during data ingestion.
+- Improve checkpoint cleanup.
+- Improve normal function behavior and emit on updates.
+- Fix issues with 2-level aggregation and changelog emit.
+- Improve edge cases when TCP connections aren't ready.
+- Improve distributed query for historical query on mutable/append streams.
+- Improve left range join under certain conditions.
+- Fix Kafka external stream parsing issue.
+- Improve mutable stream creation flow when defined via engine.
+- When using CREATE OR REPLACE FORMAT SCHEMA to update an existing schema, and using DROP FORMAT SCHEMA to delete a schema, Timeplus will clean up the Protobuf schema cache to avoid misleading errors.
+- Support writing Kafka message timestamp via _tp_time
+- Enable IPv6 support for KeyValueService
+- Simplified the EMIT syntax to make it easier to read and use.
+- Support EMIT ON UPDATE WITH DELAY
+- Support EMIT ON UPDATE for multiple shards
+- Transfer leadership to preferred node after election
+- Pin materialized view execution node Learn more
+- Improve async checkpointing
+- Avoid loading Python scripts during analysis
+- Incremental checkpoint for hybrid hash join
+- Add support for external ClickHouse table metrics
+- Multiple JavaScript VMs support
+- Upgraded Pulsar CPP client to v3.7.0
+- Support for nullable JS UDFs and inference of numbers as strings in REST API
+- Enable incremental checkpointing by default
+- Support sqlanalysis show disks and other small SQL enhancements
+
+- Support rename stream and column name.
+- Support setting of connection_timeout_ms for Kafka external stream.
+- Improve distributed queries and external stream nodes.
+- Improve secondary index column validation.
+- Fix ingest timeout issue during data ingestion.
+- Improve checkpoint cleanup.
+- Improve normal function behavior and emit on updates.
+- Fix issues with 2-level aggregation and changelog emit.
+- Improve edge cases when TCP connections aren't ready.
+- Improve distributed query for historical query on mutable/append streams.
+- Improve left range join under certain conditions.
+- Fix Kafka external stream parsing issue.
+- Improve mutable stream creation flow when defined via engine.
+- When using CREATE OR REPLACE FORMAT SCHEMA to update an existing schema, and using DROP FORMAT SCHEMA to delete a schema, Timeplus will clean up the Protobuf schema cache to avoid misleading errors.
+- Support writing Kafka message timestamp via _tp_time
+- Enable IPv6 support for KeyValueService
+- Simplified the EMIT syntax to make it easier to read and use.
+- Support EMIT ON UPDATE WITH DELAY
+- Support EMIT ON UPDATE for multiple shards
+- Transfer leadership to preferred node after election
+- Pin materialized view execution node Learn more
+- Improve async checkpointing
+- Avoid loading Python scripts during analysis
+- Incremental checkpoint for hybrid hash join
+- Add support for external ClickHouse table metrics
+- Multiple JavaScript VMs support
+- Upgraded Pulsar CPP client to v3.7.0
+- Support for nullable JS UDFs and inference of numbers as strings in REST API
+- Enable incremental checkpointing by default
+- Support sqlanalysis show disks and other small SQL enhancements
 
 ### 2.8.0 (Preview)​
 
@@ -2647,38 +2728,146 @@ Enhanced REST API to update column comments, get Python UDF status and cluster i
 - Improved the experience of installing Python libraries for Python UDF.
 - New SQL functions: group_array_sorted, group_array_sample, histogram.
 
-- A new page to visualize nodes in a cluster.
-- New page to view the details of streams or materialized views.
-- Able to select a database while viewing the data lineage page.
+... (content truncated)
 
-- Enhanced REST API to update column comments, get Python UDF status and cluster information.
+## Enterprise-v2.9
 
-Upgrade Instructions:
+- [Timeplus Enterprise 2.9 | Timeplus](https://docs.timeplus.com/enterprise-v2.9): Each release of Timeplus Enterprise includes the following components:
 
-In 2.8, we changed the default way to save metadata. It's recommended to test the 2.8.0 with a fresh installation. We will provide a migration tool to help users migrate previous releases to 2.8.
+- Release Notes
+- Timeplus Enterprise 2.9
 
-#### Known issues​
+# Timeplus Enterprise 2.9
 
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize timeplus sync CLI or Timeplus External Stream for data migration.
-2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
-3. The timeplus_connector component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
-4. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.
+Each release of Timeplus Enterprise includes the following components:
 
-- Key Highlights
-- Supported OS
-- Releases2.8.0 (Preview)ChangelogKnown issues
-- 2.8.0 (Preview)ChangelogKnown issues
-- Changelog
-- Known issues
+- timeplusd: The core SQL engine
+- timeplus_appserver: The application server providing web console access and REST API
+- timeplus_web: The web console static resources. Starting from Timeplus Enterprise 2.9, this component is packaged into timeplus_appserver. No longer as a separate binary or container
+- timeplus_connector: The service providing extra sources and sinks, managed by timeplus_appserver
+- timeplus: The CLI (Command Line Interface) to start/stop/manage the deployment
 
-- 2.8.0 (Preview)ChangelogKnown issues
-- Changelog
-- Known issues
+Each component maintains its own version numbers. The version number for each Timeplus Enterprise release represents a verified combination of these components.
 
-- Changelog
-- Known issues
+## Key Highlights​
+
+Key highlights of the Timeplus 2.9 release include:
+
+- Enhanced Mutable Streams: Introducing online schema evolution, versioning, coalesced storage, Time-To-Live (TTL), and secondary index management capabilities.
+- Native JSON Support: A new native JSON data type and powerful json_encode / json_cast functions simplify working with JSON.
+- Improved Data Integrity: Dead Letter Queue (DLQ) support for Materialized Views ensures robust data processing.
+- Expanded Connectivity: Native HTTP External Stream for seamless integration with systems like Splunk, Elasticsearch, and more.
+- Performance Boost: JIT (Just-In-Time) compilation for streaming queries delivers significant performance and efficiency improvements. Large cardinality sessionization.
+- Parameterized Views: Create Parameterized Views for more flexible and reusable query patterns.
+- Scalable Log Processing: Distributed LogStream enables efficient handling of large volumes of log data.
+- Broader UDF Support: Python UDFs now run on ARM CPUs (Linux/macOS), and JavaScript UDFs benefit from multiple V8 instances.
+- Refined Cluster UI: The web console offers an improved experience for visualizing and managing cluster nodes.
+
+## Supported OS​
+
+## Releases​
+
+We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
+
+### 2.9.0 (Preview 1)​
+
+Released on 06-03-2025. Installation options:
+
+- For Linux or Mac users: curl https://install.timeplus.com/2.9 | sh Downloads
+- For Docker users (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.9.0-preview.1
+- We will provide new Helm Charts for Kubernetes deployment when v2.9 is GA.
+
+Component versions:
+
+- timeplusd 2.9.9-rc.2
+- timeplus_web 2.9.27
+- timeplus_appserver 2.9.24
+- timeplus_connector 2.9.0
+- timeplus cli 2.9.0
+
+#### Changelog​
+
+Compared to the 2.8.1 release:
+
+- timeplusd 2.8.26 -> 2.9.9-rc.2
+
+New Features:
+
+Parameterized Views: You can now create parameterized views, allowing for more dynamic and reusable view definitions.
+JIT Compilation for Queries: Introduced Just-In-Time (JIT) compilation for queries, potentially improving execution performance for certain query types.
+New JSON Data Type & SQL Functions: Added a native JSON data type and SQL functions json_encode / json_cast for powerful JSON manipulation.
+Mutable Stream TTL: You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
+Materialized View DLQ: Introduced Dead Letter Queue (DLQ) support for materialized views to handle data processing errors more robustly.
+HTTP External Stream: Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
+Python UDFs on ARM: Python User-Defined Functions (UDFs) are now supported on ARM-based architectures (Linux/macOS), expanding platform compatibility.
+Improved JavaScript UDFs: Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation (also available in 2.8.1 or above).
+Log Stream Virtual Columns: Log streams now include _filepath and _filename virtual columns, providing richer context about the data source.
+UUID as Primary Key: Mutable streams now support the UUID data type for primary key columns.
 
 
+SQL and Data Model Enhancements:
+
+Advanced EMIT Clause: The EMIT clause for changelog generation now supports EMIT ON UPDATE WITH DELAY and EMIT AFTER KEY EXPIRE options for more granular control over streaming results.
+ALTER STREAM for Multiple Columns: You can now add or modify multiple columns in a single ALTER STREAM command.
+Modifying Comments: Added ALTER COMMENT support for streams, views, materialized views, KVStreams, and RandomStreams.
+Mutable Stream Schema Evolution: Support for adding new columns and dropping secondary indexes in mutable streams.
+
+
+Performance and Scalability:
+
+Incremental Checkpointing: Implemented and enabled incremental checkpointing by default for substreams, hybrid hash joins, and Materialized Views, significantly reducing recovery time and resource usage during stateful operations.
+Optimized Connection Pooling: Refactored internal connection pooling for improved performance and resource management.
+Parallel Log Processing: Log files from sources can now be processed in parallel for faster data ingestion.
+Coalesced Mutable Streams: Introduced coalesced mutable streams for optimized storage and querying of updatable data.
+Distributed LogStream: Enhanced LogStream capabilities for distributed environments, improving scalability for log data processing.
+
+
+Monitoring and Management:
+
+New System Views: Introduced additional built-in system views (e.g., for troubleshooting distributed queries, MVs, query memory, and checkpoint status) for enhanced system observability.
+Versioned SHOW CREATE: The SHOW CREATE command now displays multi-versioned definitions for streams, views, MVs, UDFs, format schemas, and databases, aiding in tracking changes.
+Disk Metrics for Dictionaries: Added metrics to monitor disk size usage by dictionaries.
+MV Node Pinning & Placement: Added functionality to pin materialized view execution to specific cluster nodes and manage node placements for better resource control.
+Kafka External Stream Timeout: Added connection_timeout_ms setting for Kafka external streams.
+Dependency Checks for Storage Policies: Added checks for dependencies before allowing a storage policy or disk to be dropped.
+
+
+External Data Integration:
+
+Kafka Enhancements: Added support for writing Kafka message timestamps and improved error handling for Kafka external streams with _tp_time and CSV format.
+Iceberg Integration: Provided various bug fixes and enhancements for interacting with Apache Iceberg tables.
+Pulsar Client Upgrade: Upgraded the Pulsar C++ client to version 3.7.0.
+
+
+Security Enhancements:
+
+Improved mechanisms for password propagation within clustered environments.
+Support for utilizing user information from HTTP URL parameters for authentication or context.
+- New Features:
+
+Parameterized Views: You can now create parameterized views, allowing for more dynamic and reusable view definitions.
+JIT Compilation for Queries: Introduced Just-In-Time (JIT) compilation for queries, potentially improving execution performance for certain query types.
+New JSON Data Type & SQL Functions: Added a native JSON data type and SQL functions json_encode / json_cast for powerful JSON manipulation.
+Mutable Stream TTL: You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
+Materialized View DLQ: Introduced Dead Letter Queue (DLQ) support for materialized views to handle data processing errors more robustly.
+HTTP External Stream: Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
+Python UDFs on ARM: Python User-Defined Functions (UDFs) are now supported on ARM-based architectures (Linux/macOS), expanding platform compatibility.
+Improved JavaScript UDFs: Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation (also available in 2.8.1 or above).
+Log Stream Virtual Columns: Log streams now include _filepath and _filename virtual columns, providing richer context about the data source.
+UUID as Primary Key: Mutable streams now support the UUID data type for primary key columns.
+- Parameterized Views: You can now create parameterized views, allowing for more dynamic and reusable view definitions.
+- JIT Compilation for Queries: Introduced Just-In-Time (JIT) compilation for queries, potentially improving execution performance for certain query types.
+- New JSON Data Type & SQL Functions: Added a native JSON data type and SQL functions json_encode / json_cast for powerful JSON manipulation.
+- Mutable Stream TTL: You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
+- Materialized View DLQ: Introduced Dead Letter Queue (DLQ) support for materialized views to handle data processing errors more robustly.
+- HTTP External Stream: Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
+- Python UDFs on ARM: Python User-Defined Functions (UDFs) are now supported on ARM-based architectures (Linux/macOS), expanding platform compatibility.
+- Improved JavaScript UDFs: Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation (also available in 2.8.1 or above).
+- Log Stream Virtual Columns: Log streams now include _filepath and _filename virtual columns, providing richer context about the data source.
+- UUID as Primary Key: Mutable streams now support the UUID data type for primary key columns.
+- SQL and Data Model Enhancements:
+
+... (content truncated)
 
 ## Eventtime
 
@@ -3069,13 +3258,15 @@ histogram(column, bin_count) to calculate the histogram of the column. The bin c
 
 ## Functions_for_comp
 
-- [Arrays, Maps, Tuples | Timeplus](https://docs.timeplus.com/functions_for_comp): array_cast
+- [Arrays, Maps, Tuples | Timeplus](https://docs.timeplus.com/functions_for_comp): Arrays
 
 - Query & SQL Reference
 - Built-in Functions
 - Arrays, Maps, Tuples
 
 # Arrays, Maps, Tuples
+
+## Arrays​
 
 ### array_cast​
 
@@ -3107,7 +3298,7 @@ array_concat(array1,array2) Concatenates two arrays into one.
 
 ### array_difference​
 
-array_difference(arr) calculates the difference between adjacent array elements. Returns an array where the first element will be 0, the second is the difference between a[1] - a[0], etc.  e.g. array_difference([1,2,3,5])returns [0,1,1,2]
+array_difference(arr) calculates the difference between adjacent array elements. Returns an array where the first element will be 0, the second is the difference between a[2] - a[1], etc. e.g. array_difference([1,2,3,5])returns [0,1,1,2]
 
 ### array_distinct​
 
@@ -3171,7 +3362,7 @@ array_zip(arr1,arr2,.. arrN) group elements from different arrays to a new array
 
 ### array_all​
 
-array_all([func,] array) returns 1(true) or 0(false) if all elements in the array meets the condition. For example, array_all([1,2]) return 1, and array_all([0,0])return 0. You can pass a lambda function to it as the first argument to customize the condition check, such as array_all(x->x%2==0,[2,4,6]) to check whether each element in the array is even. It returns 1.
+array_all([func,] array) returns 1(true) or 0(false) if all elements in the array meets the condition. For example, array_all([1,2]) return 1, and array_all([0,0])return 0. You can pass a lambda function to it as the first argument to customize the condition check, such as array_all(x->x%2=0,[2,4,6]) to check whether each element in the array is even. It returns 1.
 
 ### array_avg​
 
@@ -3187,27 +3378,27 @@ array_cum_sum([func,] array) returns an array of partial sums of elements in the
 
 ### array_exists​
 
-array_exists([func,] array) returns 1(true) or 0(false) if any element in the array meet the condition. For example, array_exists([0,1,2]) return 1, and array_exists([0,0])return 0. You can pass a lambda function to it as the first argument to customize the condition check, such as array_exists(x->x%2==0,[2,3,4]) to check whether any element in the array is even. It returns 1. To check whether all elements meet the condition, use array_all
+array_exists([func,] array) returns 1(true) or 0(false) if any element in the array meet the condition. For example, array_exists([0,1,2]) return 1, and array_exists([0,0])return 0. You can pass a lambda function to it as the first argument to customize the condition check, such as array_exists(x->x%2=0,[2,3,4]) to check whether any element in the array is even. It returns 1. To check whether all elements meet the condition, use array_all
 
 ### array_filter​
 
-array_filter(func, array) returns an array containing only the element that matches the condition of the specified function. e.g. array_filter(x->x%2==0, [1,2,3,4])returns [2,4]
+array_filter(func, array) returns an array containing only the element that matches the condition of the specified function. e.g. array_filter(x->x%2=0, [1,2,3,4])returns [2,4]
 
 ### array_first​
 
-array_first(func, array) returns the first element that matches the condition of the specified function. e.g. array_first(x->x%2==0, [1,2,3,4])returns 2.
+array_first(func, array) returns the first element that matches the condition of the specified function. e.g. array_first(x->x%2=0, [1,2,3,4])returns 2.
 
 ### array_first_index​
 
-array_first_index(func, array) returns the index of the first element that matches the condition of the specified function. e.g. array_first_index(x->x%2==0, [1,2,3,4])returns 2.
+array_first_index(func, array) returns the index of the first element that matches the condition of the specified function. e.g. array_first_index(x->x%2=0, [1,2,3,4])returns 2.
 
 ### array_last​
 
-array_last(func, array) returns the last element that matches the condition of the specified function. e.g. array_last(x->x%2==0, [1,2,3,4])returns 4.  If nothing is found, it returns 0.
+array_last(func, array) returns the last element that matches the condition of the specified function. e.g. array_last(x->x%2=0, [1,2,3,4])returns 4. If nothing is found, it returns 0.
 
 ### array_last_index​
 
-array_last_index(func, array) returns the index of the last element that matches the condition of the specified function. e.g. array_last_index(x->x%2==0, [1,2,3,4])returns 4. If nothing is found, it returns 0.
+array_last_index(func, array) returns the index of the last element that matches the condition of the specified function. e.g. array_last_index(x->x%2=0, [1,2,3,4])returns 4. If nothing is found, it returns 0.
 
 ### array_map​
 
@@ -3215,15 +3406,19 @@ array_map(func, array) applies the function to every element in the array and re
 
 ### array_max​
 
-array_max(func, array) apply the function to every element in the array and then returns the maximum value e.g. array_max(x->x*x,[1,2])returns 4
+Overload 1: array_max(array) returns the maximum value in the array. e.g. array_max([1,2,3]) returns 3
+
+Overload 2: array_max(func, array) apply the function to every element in the array and then returns the maximum value e.g. array_max(x->x*x,[1,2])returns 4
 
 ### array_min​
 
-array_min(func, array) apply the function to every element in the array and then returns the minimum value e.g. array_min(x->x*x,[1,2])returns 1
+Overload 1: array_min(array) returns the minimum value in the array. e.g. array_min([1,2,3]) returns 1
+
+Overload 2: array_min(func, array) apply the function to every element in the array and then returns the minimum value e.g. array_min(x->x*x,[1,2])returns 1
 
 ### array_sort​
 
-array_sort(func, array) sorts the array elements in ascending order. e.g. array_sort([3,2,5,4]) returns [2,3,4,5]. You can pass a lambda function to it as the first argument to apply the function before the sort, e.g. array_sort(x->-x,[3,2,5,4])returns [5,4,3,2]
+array_sort([func,] array) sorts the array elements in ascending order. e.g. array_sort([3,2,5,4]) returns [2,3,4,5]. You can pass a lambda function to it as the first argument to apply the function before the sort, e.g. array_sort(x->-x,[3,2,5,4])returns [5,4,3,2]
 
 ### array_sum​
 
@@ -3237,6 +3432,8 @@ For example, array_fold(acc, x -> acc + (x * 2), [1, 2, 3, 4], to_int64(3)) will
 
 Make sure the return type of lambda function must be the same as the accumulator type.
 
+## Maps​
+
 ### map[key]​
 
 You can easily access any element in the map, just using mapName[keyName], such as kv['key1']
@@ -3248,6 +3445,8 @@ map_cast(array1, array2) to generate a map with keys from array1 and values from
 Alternatively, you can use map_cast(key1,value1,key2,value2..)
 
 Since Proton v1.4.2, a new extract_key_value_pairs function is added to extract key value pairs from a string to a map.
+
+## Tuples​
 
 ### tuple_cast​
 
@@ -3743,6 +3942,18 @@ json_value(json, path) allows you to access the nested JSON objects. For example
 
 json_query(json, path) allows you to access the nested JSON objects as JSON array or JSON object. If the value doesn't exist, an empty string will be returned. For example, json_query('{"a":true,"b":{"c":1}}','$.b.c') will return an array with 1 element  [1] In a more complex example, json_query('{"records":[{"b":{"c":1}},{"b":{"c":2}},{"b":{"c":3}}]}','$.records[*].b.c') will get [1,2,3]
 
+### json_encode​
+
+This function is available since Timeplus Enterprise v2.9.
+
+This takes one or more parameters and return a json string. You can also turn all column values in the row as a json string via json_encode(*).
+
+### json_cast​
+
+This function is available since Timeplus Enterprise v2.9.
+
+This takes one or more parameters and return a json object. You can also turn all column values in the row as a json object via json_cast(*).
+
 - json_extract_int
 - json_extract_float
 - json_extract_bool
@@ -3753,6 +3964,8 @@ json_query(json, path) allows you to access the nested JSON objects as JSON arra
 - json_has
 - json_value
 - json_query
+- json_encode
+- json_cast
 
 
 
@@ -4337,13 +4550,13 @@ substr(str,index [,length]) Returns the substring of str from index (starting fr
 
 substring(str,index [,length]) Alias of substr.
 
-### start_with​
+### starts_with​
 
-start_with(str,prefix) Determines whether a string starts with a specified prefix.
+starts_with(str,prefix) Determines whether a string starts with a specified prefix.
 
-### end_with​
+### ends_with​
 
-end_with(str,suffix) Determines whether a string ends with a specified suffix.
+ends_with(str,suffix) Determines whether a string ends with a specified suffix.
 
 ### trim​
 
@@ -4477,8 +4690,8 @@ format_readable_size(number) Returns a rounded number with suffix (KiB, GiB, etc
 - concat
 - substr
 - substring
-- start_with
-- end_with
+- starts_with
+- ends_with
 - trim
 - split_by_string
 - match
@@ -5113,6 +5326,213 @@ While using one of our SDK to connect to Timeplus, you can choose HTTP port 8123
 
 
 
+## Http-external
+
+- [HTTP External Stream | Timeplus](https://docs.timeplus.com/http-external): Since Timeplus Enterprise v2.9, Timeplus can send data to HTTP endpoints via the HTTP External Stream. You can use this feature to trigger Slack notifications or send streaming data to downstream systems, such as Splunk, Elasticsearch, or any other HTTP-based service.
+
+- Key Features
+- External Streams
+- HTTP External Stream
+
+# HTTP External Stream
+
+Since Timeplus Enterprise v2.9, Timeplus can send data to HTTP endpoints via the HTTP External Stream. You can use this feature to trigger Slack notifications or send streaming data to downstream systems, such as Splunk, Elasticsearch, or any other HTTP-based service.
+
+Currently, it only supports writing data to HTTP endpoints, but reading data from HTTP endpoints is not supported yet.
+
+## CREATE EXTERNAL STREAM​
+
+To create an external stream for HTTP endpoints, you can run the following DDL SQL:
+
+For the full list of settings, see the DDL Settings section.
+
+### Examples​
+
+#### Write to OpenSearch/ElasticSearch​
+
+Assuming you have created an index students in a deployment of OpenSearch or ElasticSearch, you can create the following external stream to write data to the index.
+
+Then you can insert data via a materialized view or just
+
+#### Write to Splunk​
+
+Follow the guide to set up and use HTTP Event Collector(HEC) in Splunk. Make sure you create a HEC token for the desired index and enable it.
+
+Create the HTTP external stream in Timeplus:
+
+Then you can insert data via a materialized view or just
+
+#### Write to Datadog​
+
+Create or use an existing API key with the proper permission for sending data.
+
+Create the HTTP external stream in Timeplus:
+
+Then you can insert data via a materialized view or just
+
+#### Write to Algolia​
+
+The Algolia Ingestion API accepts multiple rows in a single request in the following JSON payload:
+
+The objectID need to be unique for each record. Assuming the document contains 3 columns: firstname, lastname, and zip_code, you can create the HTTP external stream as this:
+
+Follow the documentation to create a "Push to Algolia" connector, and obtain the task ID, as well as application ID and API key.
+
+You can insert multiple rows to the algolia index via materialized views or INSERT command:
+
+#### Write to BigQuery​
+
+Assume you have created a table in BigQuery with 2 columns:
+
+Follow the guide to choose the proper authentication to Google Cloud, such as via the gcloud CLI gcloud auth application-default print-access-token.
+
+Create the HTTP external stream in Timeplus:
+
+Replace the OAUTH_TOKEN with the output of gcloud auth application-default print-access-token or other secure way to obtain OAuth token. Replace PROJECT, DATASET and TABLE to match your BigQuery table path. Also change format_template_row_format to match the table schema.
+
+Then you can insert data via a materialized view or just via INSERT command:
+
+#### Trigger Slack Notifications​
+
+You can follow the guide to configure an "incoming webhook" to send notifications to a Slack channel.
+
+Then you can insert data via a materialized view or just via INSERT command:
+
+Please follow Slack's text formats guide to add rich text to your messages.
+
+### DDL Settings​
+
+#### type​
+
+The type of the external stream. The value must be http to send data to HTTP endpoints.
+
+#### config_file​
+
+The config_file setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of key=value pairs, one pair per line. You can set the HTTP credentials or Authentication tokens in the file.
+
+Please follow the example in Kafka External Stream.
+
+#### url​
+
+The endpoint of the HTTP service. Different services and different use cases may have different endpoints. For example, to send data to a specified OpenSearch index, you can use http://host:port/my_index/_bulk. To send data to multiple indexes (depending on the column in the streaming SQL), you can use http://host:port/_bulk and also specify the output_format_opensearch_index_column.
+
+#### data_format​
+
+The data_format specifies how the HTTP POST body is constructed. We have built a special integration with OpenSearch or ElasticSearch, with data_format='OpenSearch' or data_format='ElasticSearch'.
+
+Other supported values for data_format are:
+
+- JSONEachRow: each row of the message as a single JSON document. The top level JSON key/value pairs will be parsed or constructed as the columns. If you need the POST body to be a JSON array for multiple rows in a batch, also set output_format_json_array_of_rows=1 in the DDL. If you need each POST body represents a single row as a JSON object, set one_message_per_row=true.
+- CSV: less commonly used.
+- TSV: similar to CSV but tab as the separator
+- ProtobufSingle: for single Protobuf message per message
+- Protobuf: there could be multiple Protobuf messages in a single message.
+- Avro
+- RawBLOB: the default value. Read/write message as plain text.
+- Template: create the payload with customized templates
+
+#### format_template_resultset_format​
+
+When you set date_format to Template, you need to specify both format_template_resultset_format and format_template_row_format, and optionally format_template_rows_between_delimiter.
+
+format_template_resultset_format controls how all the rows will be combined to create the POST payload, and contains the following placeholders:
+
+- data is the rows with data in format_template_row_format, separated by format_template_rows_between_delimiter.
+- totals is the row with total values.
+- min is the row with minimum values.
+- max is the row with maximum values.
+- rows_before_limit is the minimal number of rows there would have been without LIMIT.
+- time is the request execution time in seconds.
+- rows_read is the number of rows has been read.
+- bytes_read is the number of bytes (uncompressed) has been read.
+
+For example:
+
+- To send markdown messages to Slack, the template is '{"blocks":[{"type":"section","text":{"type":"mrkdwn","text":"${data}"}}]}'
+- To send rows to BigQuery, the template is '{"rows":[${data}]}'
+
+#### format_template_row_format​
+
+The setting specifies format strings for rows with the following syntax:
+
+For example:
+
+- To send markdown messages to Slack, the template is '${text:Raw}'
+- To send rows to BigQuery, the template is '{"json":{"num":${num:JSON},"str":${str:JSON}}}' (replace the column names per your table schema)
+
+The following escaping rules are supported:
+
+#### format_template_rows_between_delimiter​
+
+The setting format_template_rows_between_delimiter setting specifies the delimiter between rows, which is printed (or expected) after every row except the last one (\n by default)
+
+#### http_header_Authorization​
+
+You can set key/value pairs in HTTP header, using the format http_header_key=value. For example to set the Authorization header for Splunk HEC, you can use http_header_Authorization=Splunk hec_token.
+
+#### output_format_json_array_of_rows​
+
+If you need the POST body to be a JSON array for multiple rows in a batch, set output_format_json_array_of_rows=1, e.g.
+
+## DROP EXTERNAL STREAM​
+
+- CREATE EXTERNAL STREAMExamplesWrite to OpenSearch/ElasticSearchWrite to SplunkWrite to DatadogWrite to AlgoliaWrite to BigQueryTrigger Slack NotificationsDDL Settingstypeconfig_fileurldata_formatformat_template_resultset_formatformat_template_row_formatformat_template_rows_between_delimiterhttp_header_Authorizationoutput_format_json_array_of_rows
+- ExamplesWrite to OpenSearch/ElasticSearchWrite to SplunkWrite to DatadogWrite to AlgoliaWrite to BigQueryTrigger Slack Notifications
+- Write to OpenSearch/ElasticSearch
+- Write to Splunk
+- Write to Datadog
+- Write to Algolia
+- Write to BigQuery
+- Trigger Slack Notifications
+- DDL Settingstypeconfig_fileurldata_formatformat_template_resultset_formatformat_template_row_formatformat_template_rows_between_delimiterhttp_header_Authorizationoutput_format_json_array_of_rows
+- type
+- config_file
+- url
+- data_format
+- format_template_resultset_format
+- format_template_row_format
+- format_template_rows_between_delimiter
+- http_header_Authorization
+- output_format_json_array_of_rows
+- DROP EXTERNAL STREAM
+
+- ExamplesWrite to OpenSearch/ElasticSearchWrite to SplunkWrite to DatadogWrite to AlgoliaWrite to BigQueryTrigger Slack Notifications
+- Write to OpenSearch/ElasticSearch
+- Write to Splunk
+- Write to Datadog
+- Write to Algolia
+- Write to BigQuery
+- Trigger Slack Notifications
+- DDL Settingstypeconfig_fileurldata_formatformat_template_resultset_formatformat_template_row_formatformat_template_rows_between_delimiterhttp_header_Authorizationoutput_format_json_array_of_rows
+- type
+- config_file
+- url
+- data_format
+- format_template_resultset_format
+- format_template_row_format
+- format_template_rows_between_delimiter
+- http_header_Authorization
+- output_format_json_array_of_rows
+
+- Write to OpenSearch/ElasticSearch
+- Write to Splunk
+- Write to Datadog
+- Write to Algolia
+- Write to BigQuery
+- Trigger Slack Notifications
+
+- type
+- config_file
+- url
+- data_format
+- format_template_resultset_format
+- format_template_row_format
+- format_template_rows_between_delimiter
+- http_header_Authorization
+- output_format_json_array_of_rows
+
+
+
 ## Iceberg
 
 - [Iceberg Integration | Timeplus](https://docs.timeplus.com/iceberg): Apache Iceberg is an open table format for large-scale analytic datasets, designed for high performance and reliability. It provides an open, vendor-neutral solution that supports multiple engines, making it ideal for various analytics workloads. Initially, the Iceberg ecosystem was primarily built around Java, but with the increasing adoption of the REST catalog specification, Timeplus is among the first vendors to integrate with Iceberg purely in C++. This allows Timeplus users to stream data to Iceberg with a high performance, low memory footprint, and easy installation without relying on Java dependencies.
@@ -5708,6 +6128,12 @@ With this setup, you can now use Grafana to monitor live prices and transaction 
 
 ## Change Log​
 
+### 2.1.3​
+
+Released on 05-12-2025
+
+- Fix the render issue for nullable columns
+
 ### 2.1.2​
 
 Released on 02-04-2025
@@ -5743,7 +6169,8 @@ Released on 11-05-2024
 - Step 3: Configure the Plugin in Grafana
 - Step 4: Create a Dashboard and Visualize Data
 - Step 5: Example - Monitoring Real-Time Bitcoin Price
-- Change Log2.1.22.1.12.1.02.0.0
+- Change Log2.1.32.1.22.1.12.1.02.0.0
+- 2.1.3
 - 2.1.2
 - 2.1.1
 - 2.1.0
@@ -5755,6 +6182,7 @@ Released on 11-05-2024
 - Step 4: Create a Dashboard and Visualize Data
 - Step 5: Example - Monitoring Real-Time Bitcoin Price
 
+- 2.1.3
 - 2.1.2
 - 2.1.1
 - 2.1.0
@@ -5765,9 +6193,6 @@ Released on 11-05-2024
 ## Integration-metabase
 
 - [Integration with Metabase | Timeplus](https://docs.timeplus.com/integration-metabase): For self-hosted Timeplus Enterprise or Timeplus Proton, you can use the Timeplus plugin for Metabase to visualize the SQL results with JDBC driver.
-
-- Third-party Tools
-- Integration with Metabase
 
 # Integration with Metabase
 
@@ -5927,6 +6352,57 @@ Open a SQL script for this connection, type the sample SQL select 1 Ctrl+Enter t
 - Configuration
 - Example
 - DBeaver
+
+
+
+## Jit
+
+- [Just-In-Time (JIT) compilation | Timeplus](https://docs.timeplus.com/jit): Starting from Timeplus Enterprise 2.9, the JIT compilation is enabled by default. For example, if you need to run the following SQL multiple times:
+
+- Query & SQL Reference
+- Just-In-Time (JIT) compilation
+
+# Just-In-Time (JIT) compilation
+
+Starting from Timeplus Enterprise 2.9, the JIT compilation is enabled by default. For example, if you need to run the following SQL multiple times:
+
+Timeplus will compile the complex SQL expression to machine code to improve the runtime performance. For more technical details of the implementation, please check the blog.
+
+## Settings​
+
+The following settings can be overridden in the query time using SET key=value. You can also query the current value and description via
+
+### min_count_to_compile_expression​
+
+Minimum count of executing same expression before it is get compiled.
+
+uint64 type. Default to 3.
+
+### min_count_to_compile_aggregate_expression​
+
+The minimum number of identical aggregate expressions to start JIT-compilation. Works only if the compile_aggregate_expressions setting is enabled.
+
+uint64 type. Default to 3.
+
+### min_count_to_compile_sort_description​
+
+The number of identical sort descriptions before they are JIT-compiled.
+
+uint64 type. Default to 3.
+
+## Monitoring​
+
+You can run the following query to check the counts of JIT events:
+
+- Settingsmin_count_to_compile_expressionmin_count_to_compile_aggregate_expressionmin_count_to_compile_sort_description
+- min_count_to_compile_expression
+- min_count_to_compile_aggregate_expression
+- min_count_to_compile_sort_description
+- Monitoring
+
+- min_count_to_compile_expression
+- min_count_to_compile_aggregate_expression
+- min_count_to_compile_sort_description
 
 
 
@@ -6306,10 +6782,11 @@ For visual learning, you can watch the following video:
 ## Prerequisites​
 
 - Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the Helm documentation
-- Ensure you have Kubernetes 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
+- Ensure you have Kubernetes 1.25 or higher installed in your environment. We tested our software and installation process on Amazon EKS, Google GKE, and self-hosted Kubernetes. Other Kubernetes distributions should work in the similar way.
 - Ensure you have allocated enough resources for the deployment. For a 3-nodes cluster deployment, by default each timeplusd requires 2 cores and 4GB memory. Please refer to Planning capacity section for production deployment.
 
 - Network access to Internet. If your environment is air-gapped, please refer to Offline installation.
+- Port 8464 needs to be open on each k8s node. The pods behind timeplusd Statefulset uses this port to talk to each other.
 
 ## Quickstart with self-hosted Kubernetes​
 
@@ -6449,10 +6926,6 @@ The metrics of timeplusd are exposed at :9363/metrics. You will need to collect 
 - timeplusd-2.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics
 
 Similarly, for timeplus-connector, the metrics are exposed at :4196/metrics. For example http://timeplus-connector.my_ns:4196/metrics. You can refer to the docs on Redpanda Connect site for more details.
-
-If you are interested in building Grafana dashboards based on the metrics, please contact us.
-
-### Recover from EBS snapshots​
 
 ... (content truncated)
 
@@ -6764,7 +7237,9 @@ Learn more about why we introduced Mutable Streams by checking this blog.
 ## CREATE​
 
 Since Timeplus Enterprise 2.7, if you create a mutable stream with low_cardinality columns, the system will ignore the low_cardinality modifier to improve performance.
-Learn more
+Learn more.
+
+PARTITION BY, ORDER BY or SAMPLE BY clauses are not allowed while creating the mutable stream.
 
 ## INSERT​
 
@@ -6826,9 +7301,15 @@ Mutable stream can also be used in JOINs.
 
 ## Advanced Settings​
 
+### Retention Policy for Historical Storage​
+
+Like normal streams in Timeplus, mutable streams use both streaming storage and historical storage. New data are added to the streaming storage first, then continuously write to the historical data with deduplication/merging process.
+
+Starting from Timeplus Enterprise 2.9, you can set ttl_seconds on mutable streams. If the data is older than this value, it is scheduled to be pruned in the next key compaction cycle. Default value is -1. Any value less than 0 means this feature is disabled.
+
 ### Retention Policy for Streaming Storage​
 
-Like normal streams in Timeplus, mutable streams use both streaming storage and historical storage. New data are added to the streaming storage first, then continuously write to the historical data with deduplication/merging process. When you create the mutable stream, you can configure the maximum size of the streaming storage or Time-To-Live (TTL).
+When you create the mutable stream, you can configure the maximum size of the streaming storage or Time-To-Live (TTL).
 
 For example, if you want to keep up to 8GB or half an hour data in the streaming storage, you can add the following settings in the DDL:
 
@@ -6873,7 +7354,8 @@ Additionally, you can configure the number of threads for full-scan of the key s
 - Create a mutable stream
 - Load millions of rows
 - Query the mutable stream
-- Advanced SettingsRetention Policy for Streaming StorageSecondary IndexColumn FamilyMulti-shard
+- Advanced SettingsRetention Policy for Historical StorageRetention Policy for Streaming StorageSecondary IndexColumn FamilyMulti-shard
+- Retention Policy for Historical Storage
 - Retention Policy for Streaming Storage
 - Secondary Index
 - Column Family
@@ -6885,6 +7367,7 @@ Additionally, you can configure the number of threads for full-scan of the key s
 - Load millions of rows
 - Query the mutable stream
 
+- Retention Policy for Historical Storage
 - Retention Policy for Streaming Storage
 - Secondary Index
 - Column Family
@@ -7591,22 +8074,6 @@ Proton uses Apache License 2.0. See details in the LICENSE.
 
 
 
-## Proton-alter-stream
-
-- [ALTER STREAM | Timeplus](https://docs.timeplus.com/proton-alter-stream): Currently we don't recommend to alter the schema of streams in Proton. The only exception is you can modify the retention policy for historical store.
-
-# ALTER STREAM
-
-Currently we don't recommend to alter the schema of streams in Proton. The only exception is you can modify the retention policy for historical store.
-
-## MODIFY TTL​
-
-You can add or modify the retention policy. e.g.
-
-- MODIFY TTL
-
-
-
 ## Proton-architecture
 
 - [Architecture | Timeplus](https://docs.timeplus.com/proton-architecture): High Level Architecture
@@ -8044,34 +8511,6 @@ Like CREATE STREAM, stream deletion is an async process.
 
 - Manual Load Balancing
 - Auto Load Balancing
-
-
-
-## Proton-drop-stream
-
-- [DROP STREAM | Timeplus](https://docs.timeplus.com/proton-drop-stream): Run the following SQL to drop a stream, with all data in streaming storage and historical storage.
-
-# DROP STREAM
-
-Run the following SQL to drop a stream, with all data in streaming storage and historical storage.
-
-Like CREATE STREAM, stream deletion is an async process.
-
-In Timeplus Enterprise deployments, we recommend you to drop streams with GUI or Terraform Provider, to better tracking the lineage and permission.
-
-
-
-## Proton-drop-view
-
-- [DROP VIEW | Timeplus](https://docs.timeplus.com/proton-drop-view): Run the following SQL to drop a view or a materialized view.
-
-# DROP VIEW
-
-Run the following SQL to drop a view or a materialized view.
-
-Like CREATE STREAM, stream deletion is an async process.
-
-In Timeplus Enterprise deployments, we recommend you to drop views with GUI or Terraform Provider, to better tracking the lineage and permission.
 
 
 
@@ -8752,9 +9191,11 @@ Besides the message body, Timeplus provides several virtual columns for each mes
 
 You can read the timestamp of the message via _tp_time, e.g.
 
+Starting from Timeplus Enterprise 2.8.1, you can also specify the message timestamp by set a value to the _tp_time column.
+
 #### _tp_message_key​
 
-Starting from Timeplus Enterprise 2.4, you can define the _tp_message_key column when you create the external stream. This new approach provides more intuitive and flexible way to read the message key in the preferred format.
+Starting from Timeplus Enterprise 2.4, you can define the _tp_message_key column to read or write the message key in the preferred format.
 
 For example:
 
@@ -8794,10 +9235,6 @@ Since Timeplus Proton 1.5.11, a new setting kafka_max_message_size is available.
 ### Multiple columns to write to Kafka​
 
 To write data to Kafka topics, you can choose different data formats:
-
-##### RawBLOB​
-
-Write the content as pain text.
 
 ... (content truncated)
 
@@ -9587,7 +10024,7 @@ For example, with the timeplusd docker image, you can use the following command:
 
 You can also call the REST API of timeplusd in Timeplus Enterprise v2.7 or above.
 
-The following curl sample commands assume the timeplusd server is running on localhost:8123, with default as the user with an empty password. More commonly, you need to set the HTTP headers x-timeplus-user and x-timeplus-key with the user and password, such as curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" ...
+To access the REST API, you need to create an administrator account and set the HTTP headers x-timeplus-user and x-timeplus-key with the user and password, such as curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" ...
 
 For example, if you want to install the numpy library, you can use the following command:
 
@@ -9609,10 +10046,7 @@ Currently we don't support updating Python libraries. You can delete the library
 
 ## Limitations​
 
-Timeplus Enterprise v2.7 is the first version that supports Python UDFs. The following limitations apply:
-
-- Python UDFs are only available in Linux x86_64 bare metal or containerized deployments.
-- For Linux x86_64 bare metal deployments, Glibc version 2.35 or higher is required.
+- For Linux bare metal deployments, Glibc version 2.35 or higher is required.
 - Only Python 3.10 is supported. Contact us if you need to install a specific version.
 - Not all Python libraries can be installed in Timeplus Enterprise. Contact us if you need to install a specific library.
 
@@ -9863,15 +10297,49 @@ Timeplus supports some advanced SETTINGS to fine tune the streaming query proces
 
 As an advanced feature, Timeplus supports various policies to emit results during streaming query.
 
-The syntax is:
+Please note, we updated the EMIT syntax in Timeplus Enterprise 2.7.6. Please upgrade to the latest version to use those refined emit polices.
 
-### EMIT AFTER WATERMARK​
+For global aggregations, the syntax is:
 
-You can omit EMIT AFTER WATERMARK, since this is the default behavior for time window aggregations. For example:
+By default EMIT STREAM and PERIODIC 2s are applied. Advanced settings:
+
+- EMIT CHANGELOG works for global aggregations and non-aggregation tail/filter. It will output +1 or -1 for _tp_delta column.
+
+For time-window aggregations, the syntax is:
+
+You can only choose one of the emit policies: AFTER WINDOW CLOSE, PERIODIC, or ON UPDATE. If you omit any of them, the default policy is AFTER WINDOW CLOSE.
+
+Examples:
+
+### EMIT .. WITH DELAY​
+
+WITH DELAY and AND TIMEOUT only can be applied to time-window based aggregations.
+
+By default, the query engine will emit the results immediately when the window is closed or other conditions are met. This behavior can be customized using the WITH DELAY clause. It allows you to specify extra time to progress the watermark, which can be useful for handling late data.
+
+For example, if you want to wait for 1 second before emitting the results, you can use the following syntax:
+
+Please check the interactive demo on Understanding Watermark.
+
+### EMIT .. WITH DELAY AND TIMEOUT​
+
+For time window based aggregations, when the window is closed is decided by the watermark. A new event outside the window will progress the watermark and inform the query engine to close the previous window and to emit aggregation results.
+
+Say you only get one event for the time window. Since there is no more event, the watermark cannot be moved so the window won't be closed.
+
+EMIT .. TIMEOUT is to force the window close, with a timeout after seeing last event.
+
+Please note, if there no single event in the data stream, or in the time window, Proton won't emit result. For example, in the following SQL, you won't get 0 as the count:
+
+Even you add EMIT .. TIMEOUT in the SQL, it won't trigger timeout, because the query engine doesn't see any event in the window. If you need to detect such missing event for certain time window, one workaround is to create a heartbeat stream and use UNION to create a subquery to combine both heartbeat stream and target stream, for a time window, if all observed events are from heartbeat stream, this means there is no event in the target stream. Please discuss more with us in community slack.
+
+### EMIT AFTER WINDOW CLOSE​
+
+You can omit EMIT AFTER WINDOW CLOSE, since this is the default behavior for time window aggregations. For example:
 
 The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream devices_utils. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by Watermark, which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
 
-### EMIT AFTER WATERMARK WITH DELAY​
+### EMIT AFTER WINDOW CLOSE WITH DELAY​
 
 Example:
 
@@ -9897,56 +10365,35 @@ Starting from Timeplus Proton 1.6.2, you can optionally add REPEAT to the end of
 
 ### EMIT ON UPDATE​
 
-This is a new emit policy added in Proton 1.5.
-
 Since Proton 1.5, you can apply EMIT ON UPDATE in time windows, such as tumble/hop/session, with GROUP BY keys. For example:
 
 During the 5 second tumble window, even the window is not closed, as long as the aggregation value(cnt) for the same cid is different , the results will be emitted.
 
-### EMIT PERIODIC .. ON UPDATE​
+### EMIT ON UPDATE WITH DELAY​
 
-This is a new emit policy added in Proton 1.5.
+Adding the WITH DELAY to EMIT ON UPDATE will allow late event for the window aggregation.
+
+### EMIT ON UPDATE WITH BATCH​
 
 You can combine EMIT PERIODIC and EMIT ON UPDATE together. In this case, even the window is not closed, Proton will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
 
-### EMIT TIMEOUT​
+### EMIT AFTER KEY EXPIRE IDENTIFIED BY .. WITH MAXSPAN .. AND TIMEOUT ..​
 
-For time window based aggregations, when the window is closed is decided by the watermark. A new event outside the window will progress the watermark and inform the query engine to close the previous window and to emit aggregation results.
+This emit policy is introduced in Timeplus Enterprise 2.9. Please watch the presentation from 2.9 launch webinar:
 
-Say you only get one event for the time window. Since there is no more event, the watermark cannot be moved so the window won't be closed.
+The syntax is:
 
-EMIT TIMEOUT is to force the window close, with a timeout after seeing last event.
+Note:
 
-Please note, if there no single event in the data stream, or in the time window, Proton won't emit result. For example, in the following SQL, you won't get 0 as the count:
+- EMIT AFTER KEY EXPIRE will emit results when the keys are expired. This EMIT policy ought to be applied to a global aggregation with a primary key as GROUP BY, usually using an ID for multiple tracing events.
+- IDENTIFIED BY col will calculate the span of the trace, usually you can set IDENTIFIED BY _tp_time.
+- MAXSPAN interval to identify whether the span of the related events over a certain interval, for example MAXSPAN 500ms to flag those events with same tracing ID but over 0.5 second span.
+- ONLY: if you add this keyword, then only those events over the MAXSPAN will be emitted, other events less than the MAXSPAN will be omitted, so that you can focus on those events over the SLA.
+- AND TIMEOUT interval to avoid waiting for late events for too long. If there is no more events with the same key (e.g. tracing ID) after this interval, Timeplus will close the session for the key and emit results.
 
-Even you add EMIT TIMEOUT in the SQL, it won't trigger timeout, because the query engine doesn't see any event in the window. If you need to detect such missing event for certain time window, one workaround is to create a heartbeat stream and use UNION to create a subquery to combine both heartbeat stream and target stream, for a time window, if all observed events are from heartbeat stream, this means there is no event in the target stream. Please discuss more with us in community slack.
+It's required to use SETTINGS default_hash_table='hybrid' with this emit policy to avoid putting too many data in memory.
 
-### EMIT LAST​
-
-In streaming processing, there is one typical query which is processing the last X seconds / minutes / hours of data. For example, show me the cpu usage per device in the last 1 hour. We call this type of processing Last X Streaming Processing in Timeplus and Timeplus provides a specialized SQL extension for ease of use: EMIT LAST <n><UNIT>. As in other parts of streaming queries, users can use interval shortcuts here.
-
-By default, EMIT LAST uses the event time. Timeplus Proton will seek both streaming storage and historical to backfill data in last X time range. EMIT LAST .. ON PROCTIME uses the wall clock time to do the seek.
-
-#### EMIT LAST for Streaming Tail​
-
-Tailing events whose event timestamps are in the last X range.
-
-Examples
-
-The above example filters events in the device_utils stream where cpu_usage is greater than 80% and events are appended in the last 5 minutes. Internally, Timeplus seeks streaming storage back to 5 minutes (wall-clock time from now) and tailing the data from there.
-
-#### EMIT LAST for Global Aggregation​
-
-Note Internally Timeplus chops streaming data into small windows and does the aggregation in each small window and as time goes, it slides out old small windows to keep the overall time window fixed and keep the incremental aggregation efficient. By default, the maximum keeping windows is 100. If the last X interval is very big and the periodic emit interval is small,
-then users will need to explicitly set up a bigger max window : last_x_interval / periodic_emit_interval.
-
-Examples
-
-#### EMIT LAST for Windowed Aggregation​
-
-Examples
-
-Similarly, we can apply the last X on hopping window.
+Here is an example to get the log streams and only show the events with over 0.5 second as the end-to-end latency.
 
 ## PARTITION BY​
 
@@ -9996,32 +10443,6 @@ CTE with column alias is not supported.
 
 A window aggregate subquery contains windowed aggregation. There are some limitations users can do with this type of subquery.
 
-1. Timeplus supports window aggregation parent query over windowed aggregation subquery (hop over hop, tumble over tumble etc), but it only supports 2 levels. When laying window aggregation over window aggregation, please pay attention to the window size: the window
-2. Timeplus supports multiple outer global aggregations over a windowed subquery. (Not working for now).
-3. Timeplus allows arbitrary flat transformation (vanilla query) over a windows subquery until a system limit is hit.
-
-Examples
-
-### Global Aggregated Subquery​
-
-A global aggregated subquery contains global aggregation. There are some limitations users can do with global aggregated subquery:
-
-1. Timeplus supports global over global aggregation and there can be multiple levels until a system limit is hit.
-2. Flat transformation over global aggregation can be multiple levels until a system limit is hit.
-3. Window aggregation over global aggregation is not supported.
-
-Examples
-
-## Common Types of Queries​
-
-### Streaming Tailing​
-
-Examples
-
-The above example continuously evaluates the filter expression on the new events in the stream device_utils to filter out events which have cpu_usage less than 99. The final events will be streamed to clients.
-
-### Global Streaming Aggregation​
-
 ... (content truncated)
 
 ## Quickstart
@@ -10052,7 +10473,7 @@ The following section contains step-by-step instructions on how to easily get st
 
 If your server or computer is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies. For Windows users or Docker users, please follow our guide for running Timeplus Enterprise with Docker.
 
-This script will download the latest package (based on your operating system and CPU architecture) to the current folder. Uncompress the package and start the Timeplus Enterprise server.
+This script will download the latest package (based on your operating system and CPU architecture) to the current folder, uncompress the package and start the Timeplus Enterprise server. You can also download the package manually from here, uncompress it and start the server via timeplus/bin/timeplus start.
 
 ### Step 2: Setup the user account​
 
@@ -10402,14 +10823,37 @@ The new version of Timeplus Enterprise unlocks the full potential of Redpanda Co
 
 ## Release-downloads
 
-- [Package Downloads | Timeplus](https://docs.timeplus.com/release-downloads): 2.8
+- [Package Downloads | Timeplus](https://docs.timeplus.com/release-downloads): 2.9
 
 - Release Notes
 - Package Downloads
 
 # Package Downloads
 
+## 2.9​
+
+### v2.9.0-preview.1​
+
+Released on 06-03-2025 (Change logs).
+
+- Bare metal installation: Linux x86_64 | Linux ARM64 | macOS x86_64 | macOS ARM64
+- All-in-one Docker image (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.9.0-preview.1
+
+### v2.9.0-preview.0​
+
+Released on 05-28-2025 (Change logs).
+
+- Bare metal installation: Linux x86_64 | Linux ARM64 | macOS x86_64 | macOS ARM64
+- All-in-one Docker image (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.9.0-preview.0
+
 ## 2.8​
+
+### v2.8.1​
+
+Released on 05-27-2025 (Change logs).
+
+- Bare metal installation: Linux x86_64 | Linux ARM64 | macOS x86_64 | macOS ARM64
+- All-in-one Docker image (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.1
 
 ### v2.8.0​
 
@@ -10419,6 +10863,34 @@ Released on 03-24-2025 (Change logs).
 - All-in-one Docker image (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.0
 
 ## 2.7​
+
+### v2.7.9​
+
+Released on 06-05-2025 (Change logs).
+
+- Bare metal installation: Linux x86_64 | Linux ARM64 | macOS x86_64 | macOS ARM64
+- All-in-one Docker image (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.9
+
+### v2.7.8​
+
+Released on 05-30-2025 (Change logs).
+
+- Bare metal installation: Linux x86_64 | Linux ARM64 | macOS x86_64 | macOS ARM64
+- All-in-one Docker image (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.8
+
+### v2.7.7​
+
+Released on 05-06-2025 (Change logs).
+
+- Bare metal installation: Linux x86_64 | Linux ARM64 | macOS x86_64 | macOS ARM64
+- All-in-one Docker image (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.7
+
+### v2.7.6​
+
+Released on 04-29-2025 (Change logs).
+
+- Bare metal installation: Linux x86_64 | Linux ARM64 | macOS x86_64 | macOS ARM64
+- All-in-one Docker image (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.7.6
 
 ### v2.7.5​
 
@@ -10617,76 +11089,7 @@ Released on 06-19-2024 (Change logs).
 - Bare metal installation: Linux x86_64 | Linux ARM64 | macOS x86_64 | macOS ARM64
 - All-in-one Docker image (not recommended for production): docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.3.0
 
-- 2.8v2.8.0
-- v2.8.0
-- 2.7v2.7.5v2.7.4v2.7.3v2.7.2v2.7.1v2.7.0
-- v2.7.5
-- v2.7.4
-- v2.7.3
-- v2.7.2
-- v2.7.1
-- v2.7.0
-- 2.6v2.6.8v2.6.7v2.6.6v2.6.5v2.6.4v2.6.3v2.6.2v2.6.0
-- v2.6.8
-- v2.6.7
-- v2.6.6
-- v2.6.5
-- v2.6.4
-- v2.6.3
-- v2.6.2
-- v2.6.0
-- 2.5v2.5.12v2.5.11v2.5.10v2.5.9
-- v2.5.12
-- v2.5.11
-- v2.5.10
-- v2.5.9
-- 2.4v2.4.26v2.4.25v2.4.23v2.4.19v2.4.17v2.4.16v2.4.15
-- v2.4.26
-- v2.4.25
-- v2.4.23
-- v2.4.19
-- v2.4.17
-- v2.4.16
-- v2.4.15
-- 2.3v2.3.5v2.3.0
-- v2.3.5
-- v2.3.0
-
-- v2.8.0
-
-- v2.7.5
-- v2.7.4
-- v2.7.3
-- v2.7.2
-- v2.7.1
-- v2.7.0
-
-- v2.6.8
-- v2.6.7
-- v2.6.6
-- v2.6.5
-- v2.6.4
-- v2.6.3
-- v2.6.2
-- v2.6.0
-
-- v2.5.12
-- v2.5.11
-- v2.5.10
-- v2.5.9
-
-- v2.4.26
-- v2.4.25
-- v2.4.23
-- v2.4.19
-- v2.4.17
-- v2.4.16
-- v2.4.15
-
-- v2.3.5
-- v2.3.0
-
-
+... (content truncated)
 
 ## Release-notes
 
@@ -10700,6 +11103,8 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, includ
 
 Release notes by version:
 
+- Timeplus Enterprise 2.9
+- Timeplus Enterprise 2.8
 - Timeplus Enterprise 2.7
 - Timeplus Enterprise 2.6
 - Timeplus Enterprise 2.5
@@ -10853,6 +11258,10 @@ Since all CloudTrail events are put in the Records array, you can use array_join
 
 The following SQL creates an external table to read the S3 access logs in raw format, from a private S3 bucket, with static credentials.
 
+#### Read from a GCS bucket​
+
+To read data from Google Cloud Storage, please follow the guide to generate HMAC keys and use them as the access key and secret key. You don't need to set the region or bucket. Put the bucket name in the endpoint setting.
+
 ### DDL Settings​
 
 #### type​
@@ -10887,17 +11296,17 @@ Please follow the example in Kafka External Stream.
 
 #### region​
 
-The region where the S3 bucket is located, such as us-west-1.
+The region where the S3 bucket is located, such as us-west-1. Optional for GCS.
 
 #### bucket​
 
-The name of the S3 bucket.
+The name of the S3 bucket. Optional for GCS.
 
 #### endpoint​
 
 The endpoint of the S3-compatible object storage system. It's optional. If it's missing, Timeplus will use the default endpoint for the region.
 
-For example, if you have a minio running locally using the default ports. Then you should use endpoint = 'http://localhost:9000' to connect to the minio service.
+For example, if you have a minio running locally using the default ports. Then you should use endpoint = 'http://localhost:9000' to connect to the minio service. If you are connecting to Google Cloud Storage, set the endpoint to 'https://storage.googleapis.com/<bucket_name>'.
 
 #### data_format​
 
@@ -11003,8 +11412,6 @@ The maximum number of retries when an unexpected error occurs during writing to 
 
 When you write data to S3, you can partition the data by one or more columns. You can define the partition logic in the PARTITION BY clause, and use {_partition_id} in the write_to setting.
 
-For example, the following SQL creates an external table to write Kubernetes logs to S3, partitioned by the year and month of the timestamp and the container name, such as application_logs/202409/web.log.gzip:
-
 ... (content truncated)
 
 ## Search
@@ -11017,7 +11424,7 @@ For example, the following SQL creates an external table to write Kubernetes log
 - Product
 - Pricing
 - Open Source
-- Status
+- Demos
 
 - Blog
 - About Us
@@ -11688,7 +12095,7 @@ Please check Sling docs for more details.
 
 ## Sql-alter-stream
 
-- [ALTER STREAM | Timeplus](https://docs.timeplus.com/sql-alter-stream): Currently we don't recommend to alter the schema of streams in Timeplus. You can modify the retention policy for historical store via MODIFY TTL and modify the retention policy for streaming storage via MODIFY SETTING. For mutable streams, you can also run MODIFY SETTING to change the RocksDB settings.
+- [ALTER STREAM | Timeplus](https://docs.timeplus.com/sql-alter-stream): You can modify the retention policy for historical store via MODIFY TTL and modify the retention policy for streaming storage via MODIFY SETTING. For mutable streams, you can also run MODIFY SETTING to change the RocksDB settings.
 
 - Query & SQL Reference
 - SQL Commands
@@ -11696,7 +12103,7 @@ Please check Sling docs for more details.
 
 # ALTER STREAM
 
-Currently we don't recommend to alter the schema of streams in Timeplus. You can modify the retention policy for historical store via MODIFY TTL and modify the retention policy for streaming storage via MODIFY SETTING. For mutable streams, you can also run MODIFY SETTING to change the RocksDB settings.
+You can modify the retention policy for historical store via MODIFY TTL and modify the retention policy for streaming storage via MODIFY SETTING. For mutable streams, you can also run MODIFY SETTING to change the RocksDB settings.
 
 You can also use ALTER VIEW to modify the settings of materialized views (only available in Timeplus Enterprise).
 
@@ -11734,11 +12141,19 @@ You can add a column to an existing stream. The value of the new column in the e
 
 Syntax:
 
-DELETE COLUMN or RENAME COLUMN are not supported yet. Contact us if you have strong use cases.
+DELETE COLUMN is not supported yet. Contact us if you have strong use cases.
+
+## RENAME COLUMN​
+
+Since Timeplus Enterprise 2.9, you can rename columns in append streams.
 
 ## ADD INDEX​
 
 Since Timeplus Enterprise v2.6.0, you can add an index to a mutable stream.
+
+## DROP INDEX​
+
+Since Timeplus Enterprise v2.9.0, you can drop an index from a mutable stream.
 
 ## DROP PARTITION​
 
@@ -11767,7 +12182,9 @@ Such as
 - MODIFY QUERY SETTING
 - RESET QUERY SETTING
 - ADD COLUMN
+- RENAME COLUMN
 - ADD INDEX
+- DROP INDEX
 - DROP PARTITION
 - See also
 
@@ -12463,11 +12880,31 @@ The following settings are supported when you create a materialized view, with s
 
 By default, once the materialized view is created, the streaming query will start automatically. If you don't want to start the query immediately, you can set pause_on_start=true. The default value is false.
 
+### memory_weight​
+
+Starting from Timeplus Enterprise v2.3, when you create a materialized view with DDL SQL, you can add an optional memory_weight setting for those memory-consuming materialized views, e.g.
+
+When memory_weight is not set, by default the value is 0. When Timeplus Enterprise server starts, the system will list all materialized views, ordered by the memory weight and view names, and schedule them in the proper node.
+
+For example, in a 3-node cluster, you define 10 materialized views with names: mv1, mv2, .., mv9, mv10. If you create the first 6 materialized views with SETTINGS memory_weight = 10, then node1 will run mv1 and mv4; node2 will run mv2 and mv5; node3 will run mv3 and mv6; Other materialized views(mv7 to mv10) will be randomly scheduled on any nodes.
+
+It's recommended that each node in the Timeplus Enterprise cluster shares the same hardware specifications. For those resource-consuming materialized views, it's recommended to set the same memory_weight, such as 10, to get the expected behaviors to be dispatched to the proper nodes for load-balancing.
+
+### mv_preferred_exec_node​
+
+Starting from Timeplus Enterprise v2.7.6, when you create a materialized view with DDL SQL, you can add an optional mv_preferred_exec_node setting to explicitly assign a node to run the materialized view.
+
+In most cases, you don't need to specify this setting. Timeplus will automatically select an available node to run the materialized view. It's also recommended to set memory_weight to have the system to automatically choose the appropriate node for load balancing. If you need to fine-tune the load balancing or resource utilization, you can specify this setting. As a result, load balancing or failover won't be available when this is set. You cannot change the value after the materialized view is created, even the node is having issue. In this case, please drop and re-create the materialized view with new node ID.
+
 - Target Stream
-- Settingspause_on_start
+- Settingspause_on_startmemory_weightmv_preferred_exec_node
 - pause_on_start
+- memory_weight
+- mv_preferred_exec_node
 
 - pause_on_start
+- memory_weight
+- mv_preferred_exec_node
 
 
 
@@ -12485,7 +12922,7 @@ Regular streams in Timeplus are immutable, and stored in columnar format. Mutabl
 
 Since Timeplus Enterprise 2.7, if you create a mutable stream with low_cardinality columns, the system will ignore the low_cardinality modifier to improve performance.
 
-Only the PRIMARY KEY is required. INDEX, FAMILY, or the SETTINGS are optional.
+Only the PRIMARY KEY is required. INDEX, FAMILY, or the SETTINGS are optional. PARTITION BY, ORDER BY or SAMPLE BY clauses are not allowed while creating the mutable stream.
 
 ## PRIMARY KEY​
 
@@ -13185,7 +13622,7 @@ Note:
 
 Examples:
 
-This feature is only available in Timeplus Enterprise v2.7.x or above.
+OPTIMIZE is only available in Timeplus Enterprise v2.7.x or above, and ttl_seconds is available in Timeplus Enterprise v2.9.x or above.
 
 
 
@@ -14606,18 +15043,6 @@ In interactive mode timeplusd client shows query ID for every query. By default,
 
 
 
-## Transformation
-
-- [Data Transformation | Timeplus](https://docs.timeplus.com/transformation): You can transform data with streaming SQL. Views can be created manually via SQL in Timeplus, or with the dbt plugin.
-
-# Data Transformation
-
-You can transform data with streaming SQL. Views can be created manually via SQL in Timeplus, or with the dbt plugin.
-
-The Timeplus dbt plugin is in the early stage. Please contact us to arrange the integration.
-
-
-
 ## Troubleshooting
 
 - [Troubleshooting Guide | Timeplus](https://docs.timeplus.com/troubleshooting): This guide provides solutions to common issues you may encounter when using Timeplus.
@@ -15947,7 +16372,6 @@ Timeplus Cloud and Timeplus Enterprise:
 
 Timeplus Proton:
 
-- Added support for selecting message key from Apache Kafka external streams, via SELECT _message_key, * FROM external_stream.
 - Streaming processing now supports nullable data type.
 - External Table: ClickHouse external tables with names containing special characters (such as dashes) are now supported. Simply set table='test-a-b' in the CREATE EXTERNAL TABLE DDL.
 - External Stream: Error handling and connection pooling/retry for Kafka external streams have been greatly improved.
@@ -16005,6 +16429,47 @@ Proton:
 # Biweekly Updates
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
+
+## May 26, 2025​
+
+### Timeplus Native JDBC v2.0.10​
+
+- Upgraded aircompressor to 0.27 to fix a security risk
+- Upgraded proton-jdbc from 0.6.0 to 0.7.1
+
+## May 12, 2025​
+
+### Timeplus Enterprise v2.7.6, 2.7.7​
+
+- The EMIT Policies have been updated, for example EMIT AFTER WATERMARK has been changed to EMIT AFTER WINDOW CLOSE.
+- Patch releases with bug fixes.
+
+### Timeplus Go Driver v2.1.1​
+
+The proton-go-driver provides Go connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:
+
+- fixed the issue of nil elements in map
+
+## Apr 28, 2025​
+
+### Timeplus Proton v1.6.15​
+
+- fixed the issue that meta store raft service is hardcoded to listen on ipv6
+
+### Timeplus Connect v0.8.17​
+
+timeplus-connect provides Python connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:
+
+- added support for new json data type
+- other bug fixes and enhancements
+
+### Timeplus Go Driver v2.1.0​
+
+The proton-go-driver provides Go connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:
+
+- added support for new json data type
+- updated protocol to support receiving query id from the server
+- other refinements and sample code updates
 
 ## Apr 14, 2025​
 
@@ -16191,37 +16656,6 @@ Merry Christmas 🎄
 
 ### Timeplus Enterprise v2.5​
 
-- Timeplus Enterprise v2.5 is now Generally Available! This milestone marks a significant leap forward for our Timeplus Enterprise v2 which was released earlier this year. In this release, we pushed our unparalleled performance to a new level, natively integrated with Redpanda Connect and Apache Pulsar to access a rich ecosystem of enterprise and AI applications. Key breakthroughs:
-
-Materialized Views Auto-Rebalancing
-Performance Improvements
-Enterprise-Grade Real-Time Data Integration with 200+ Connectors from Redpanda Connect
-Pulsar External Stream to query or process data in Pulsar with SQL
-- Materialized Views Auto-Rebalancing
-- Performance Improvements
-- Enterprise-Grade Real-Time Data Integration with 200+ Connectors from Redpanda Connect
-- Pulsar External Stream to query or process data in Pulsar with SQL
-
-- Materialized Views Auto-Rebalancing
-- Performance Improvements
-- Enterprise-Grade Real-Time Data Integration with 200+ Connectors from Redpanda Connect
-- Pulsar External Stream to query or process data in Pulsar with SQL
-
-### Timeplus Proton v1.6.4​
-
-- Support more Linux distributions by lowering the required version for GLIBC. For AMD64 chips,the minimal version is 2.2.5, and for ARM64 chips, the minimal version is 2.17.
-
-### Timeplus Python Driver v0.2.13​
-
-- The new version adds support for dataframe and idempotent query.
-
-## Nov 25, 2024​
-
-### Timeplus Proton v1.6.3​
-
-- Enhanced the unique and unique_exact functions to support Changelog Streams.
-- Updated a few examples
-
 ... (content truncated)
 
 ## Versioned-stream
@@ -16346,7 +16780,7 @@ There are two types of views in Timeplus: logical view (or just view ) and mater
 
 ## View​
 
-If you have a common query you'll run multiple times a week or month, you can save them as a "Bookmark". While you can load the bookmarked query in the query editor without typing it again, you can't refer to bookmarked queries in a query. This is where views come in.
+If you have a common query you'll run multiple times a week or month, you can save it as a "Bookmark" in web console. While you can load the bookmarked query in the query editor without typing it again, you can't refer to bookmarked queries in a SQL query. This is where views come in.
 
 You can create views for all kinds of queries, and refer to the views in other queries.
 
@@ -16358,6 +16792,10 @@ Please note, once the view is created based on a streaming query, you cannot tur
 To create a vanilla view
 
 To delete a vanilla view
+
+### Parameterized Views​
+
+Starting from Timeplus Enterprise 2.9, you can create views with parameters. For example:
 
 ## Materialized view​
 
@@ -16386,8 +16824,11 @@ Pre-aggregation mode: SELECT * FROM table(materialized_view) where _tp_time in (
 
 We are considering providing new syntax to simplify this.
 
-- View
+- ViewParameterized Views
+- Parameterized Views
 - Materialized view
+
+- Parameterized Views
 
 
 
