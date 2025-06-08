@@ -22,13 +22,13 @@
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.19.2",
-    "@docusaurus/core": "^3.8.0",
-    "@docusaurus/plugin-google-gtag": "^3.8.0",
-    "@docusaurus/plugin-google-tag-manager": "^3.8.0",
-    "@docusaurus/preset-classic": "^3.8.0",
+    "@docusaurus/core": "^3.8.1",
+    "@docusaurus/plugin-google-gtag": "^3.8.1",
+    "@docusaurus/plugin-google-tag-manager": "^3.8.1",
+    "@docusaurus/preset-classic": "^3.8.1",
     "@docusaurus/react-loadable": "^6.0.0",
-    "@docusaurus/theme-mermaid": "^3.8.0",
-    "@docusaurus/theme-search-algolia": "^3.8.0",
+    "@docusaurus/theme-mermaid": "^3.8.1",
+    "@docusaurus/theme-search-algolia": "^3.8.1",
     "@iconify-json/logos": "1",
     "@mdx-js/react": "^3.1.0",
     "docusaurus-plugin-hubspot": "^1.0.1",
@@ -39,9 +39,9 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.8.0",
-    "@docusaurus/tsconfig": "3.8.0",
-    "@docusaurus/types": "3.8.0",
+    "@docusaurus/module-type-aliases": "3.8.1",
+    "@docusaurus/tsconfig": "3.8.1",
+    "@docusaurus/types": "3.8.1",
     "@types/react": "^19.1.6",
     "typescript": "~5.8.3"
   },
