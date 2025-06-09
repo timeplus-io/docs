@@ -2,6 +2,32 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Jun 9, 2025
+
+### Timeplus Proton 1.6.16
+* fixed the issue for [map_cast(array1,array2)](/functions_for_comp#map_cast)
+
+### Timeplus Enterprise v2.8 GA
+* 2.8.1 is the first GA version of [Timeplus Enterprise v2.8](/enterprise-v2.8), with the key features:
+  * New Compute Node server role to [run materialized views elastically](/proton-create-view#autoscaling_mv) with checkpoints on S3 storage.
+  * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
+  * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
+  * Use S3 as the [tiered storage](/tiered-storage) for streams.
+  * New SQL command to [rename streams](/sql-rename-stream) or [columns](/sql-alter-stream#rename-column).
+  * JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
+  * A new page to visualize nodes in a cluster.
+  * New page to view the details of streams or materialized views.
+
+### Timeplus Enterprise v2.7.8, v2.7.9
+Patch releases with bug fixes.
+
+### Timeplus Enterprise v2.9 Preview 1
+Another preview edition of [Timeplus Enterprise v2.9](enterprise-v2.9) with many new features. This is scheduled to be Generally Available (GA) by the end of August.
+
+### Timeplus Go Driver v2.1.2
+The [proton-go-driver](https://github.com/timeplus-io/proton-go-driver) provides Go connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:
+* simplify json marhsalling and support selecting nested fields
+
 ## May 26, 2025
 
 ### Timeplus Native JDBC v2.0.10
