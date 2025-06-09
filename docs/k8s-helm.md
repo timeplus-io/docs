@@ -81,7 +81,7 @@ timeplusd:
       enabled: true
       className: <Your storage class name>
       size: 10Gi
-      selector: null
+      selector: false
       subPath: ./log
   defaultAdminPassword: timeplusd@t+
   resources:
