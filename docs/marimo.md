@@ -14,7 +14,7 @@ This tutorial demonstrates how to query Apache Kafka with SQL using Timeplus Pro
 Run the following commands to set up the environment:
 
 ```bash
-curl https://astral.sh/uv/install.sh | sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
 curl https://install.timeplus.com/oss | sh
 ./proton server&
 uvx marimo run --sandbox https://raw.githubusercontent.com/timeplus-io/proton/refs/heads/develop/examples/marimo/github.py

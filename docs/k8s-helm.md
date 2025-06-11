@@ -105,7 +105,8 @@ In this step, we install the helm chart using release name `timeplus`.
 
 ```bash
 export RELEASE=timeplus
-helm -n $NS install -f values.yaml $RELEASE timeplus/timeplus-enterprise
+export VERSION=v7.0.4 # or the latest version you want to install
+helm -n $NS install -f values.yaml $RELEASE timeplus/timeplus-enterprise --version $VERSION
 ```
 
 You should see following output within a couple of minutes.
@@ -134,7 +135,7 @@ timeplusd-1                           1/1     Running     0          13m
 timeplusd-2                           1/1     Running     0          13m
 ```
 
-If any of the pod is in error status, you can try to use `kubectl describe pod <error pod> -n $NS` to debug. For more details, please refer to [Troubleshooting](#troubleshooting) section.
+If any of the pod is in error status, you can try to use `kubectl describe pod <error pod> -n $NS` to debug. For more details, please refer to [Troubleshooting](#troubleshooting) section. Starting from Timeplus Enterprise 2.9, the `timeplus-web` pod is no longer available.
 
 
 ### Expose the Timeplus Console

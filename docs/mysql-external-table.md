@@ -62,19 +62,6 @@ SETTINGS type='mysql',
          table='events'
 ```
 
-### Connect to Aiven for MySQL {#aiven}
-
-Example SQL to connect to [Aiven for MySQL](https://aiven.io/docs/products/mysql/get-started):
-
-```sql
-CREATE EXTERNAL TABLE mysql_aiven
-SETTINGS type='mysql',
-         address='abc.aivencloud.com:28851',
-         user='avnadmin',
-         password='..',
-         table='events';
-```
-
 ## Read data from MySQL {#read}
 
 Once the external table is created successfully, it means Timeplus can connect to the MySQL server and fetch the table schema.
