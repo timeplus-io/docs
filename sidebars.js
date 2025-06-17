@@ -351,6 +351,7 @@ const sidebars = {
             "sql-show-streams",
             "sql-system-pause",
             "sql-system-resume",
+            "sql-system-transfer-leader",
             "sql-truncate-stream",
             "sql-use",
           ],
