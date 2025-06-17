@@ -153,7 +153,7 @@ Please note all keys and values in the returned map are in string type. You can 
 
 ### uuid
 
-`uuid()` or `uuid(x)` Generates a universally unique identifier (UUID) which is a 16-byte number used to identify records. In order to generate multiple UUID in one row, pass a parameter in each function call, such as `SELECT uuid(1) as a, uuid(2) as b` Otherwise if there is no parameter while calling multiple `uuid` functions in one SQL statement, the same UUID value will be returned.
+`uuid()` or `uuid(x)` Generates a universally unique identifier (UUIDv4) which is a 16-byte number used to identify records. In order to generate multiple UUID in one row, pass a parameter in each function call, such as `SELECT uuid(1) as a, uuid(2) as b` Otherwise if there is no parameter while calling multiple `uuid` functions in one SQL statement, the same UUID value will be returned.
 
 ### base64_encode
 

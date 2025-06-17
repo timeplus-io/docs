@@ -239,7 +239,7 @@ To install new Python libraries, you can either call the REST API of timeplusd i
 #### Install via `timeplusd python pip` {#install_pip}
 Starting from Timeplus Enterprise v2.8, you can use the `timeplusd python pip install` command-line tool to install Python libraries. For example, to install the `numpy` library, you can use the following command:
 ```bash
-timeplusd python --config-file config.yaml -m pip install --user numpy
+timeplusd python --config-file ../conf/timeplusd.yaml -m pip install --user numpy
 ```
 
 For example, with the timeplusd docker image, you can use the following command:
