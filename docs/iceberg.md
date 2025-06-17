@@ -88,17 +88,11 @@ SETTINGS  type='iceberg',
 ```
 
 #### Gravitino Configuration
-Here is the sample configuration for Gravitino Iceberg REST Server 0.7.0:
+Here is the sample configuration for Gravitino Iceberg REST Server 0.9.0:
 
 ```properties
 # conf/gravitino-iceberg-rest-server.conf
-gravitino.iceberg-rest.catalog-backend = jdbc
-gravitino.iceberg-rest.catalog-backend-name = public
-gravitino.iceberg-rest.jdbc-driver = org.postgresql.Driver
-gravitino.iceberg-rest.uri = jdbc:postgresql://abc.aivencloud.com:28851/defaultdb?ssl=require
-gravitino.iceberg-rest.jdbc-user = avnadmin
-gravitino.iceberg-rest.jdbc-password = thepassword
-gravitino.iceberg-rest.jdbc-initialize = true
+gravitino.iceberg-rest.catalog-backend = memory
 
 gravitino.iceberg-rest.warehouse = s3://mybucket/demo/gravitino1
 gravitino.iceberg-rest.io-impl= org.apache.iceberg.aws.s3.S3FileIO
