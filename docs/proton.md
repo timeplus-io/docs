@@ -50,8 +50,9 @@ You can also run the following SQL to create a stream of random data:
 -- Create a stream with random data
 CREATE RANDOM STREAM devices(
   device string default 'device'||to_string(rand()%4),
-  temperature float default rand()%1000/10)
-  SETTINGS eps=10000 -- 10,000 events per second. Default to 1000
+  temperature float default rand()%1000/10
+)
+SETTINGS eps=10000 -- 10,000 events per second. Default to 1000
 ;
 
 -- Run the streaming SQL
