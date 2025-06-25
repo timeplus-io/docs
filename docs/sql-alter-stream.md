@@ -12,7 +12,7 @@ to_datetime(created_at) + INTERVAL 48 HOUR
 ```
 
 ## MODIFY SETTING{#modify_setting}
-You can add or modify the retention policy for streaming storage. e.g.
+You can add or modify the retention policy for streams or mutable streams, e.g.
 
 ```sql
 ALTER STREAM stream_name MODIFY SETTING
@@ -30,6 +30,11 @@ You can also change the codec for mutable streams. e.g.
 
 ```sql
 ALTER STREAM test MODIFY SETTING logstore_codec='lz4';
+```
+
+Starting from Timeplus Enterprise 2.8.2, you can also modify the TTL for mutable stream.
+```sql
+ALTER STREAM test MODIFY SETTING ttl_seconds = 10;
 ```
 
 ## MODIFY QUERY SETTING
@@ -69,6 +74,11 @@ Syntax:
 ALTER STREAM stream_name ADD COLUMN column_name data_type
 ```
 
+Since Timeplus Enterprise 2.8.2, you can also add multiple columns at once:
+```sql
+ALTER STREAM stream_99005 ADD COLUMN e int, ADD COLUMN f int;
+```
+
 `DELETE COLUMN` is not supported yet. Contact us if you have strong use cases.
 
 ## RENAME COLUMN
@@ -90,6 +100,28 @@ ALTER STREAM mutable_stream ADD INDEX index_name
 Since Timeplus Enterprise v2.9.0, you can drop an index from a mutable stream.
 ```sql
 ALTER STREAM mutable_stream DROP INDEX index_name
+```
+
+## MATERIALIZE INDEX
+Since Timeplus Enterprise 2.8.2, you can rebuild the secondary index `name` for the specified `partition_name`.
+```sql
+ALTER STREAM mutable_stream MATERIALIZE INDEX [IF EXISTS] name [IN PARTITION partition_name] SETTINGS mutations_sync = 2"
+```
+
+For example:
+```sql
+ALTER STREAM minmax_idx MATERIALIZE INDEX idx IN PARTITION 2 SETTINGS mutations_sync = 2
+```
+
+## CLEAR INDEX
+Since Timeplus Enterprise 2.8.2, you can delete the secondary index `name` from disk.
+```sql
+ALTER STREAM mutable_stream CLEAR INDEX [IF EXISTS] name [IN PARTITION partition_name] SETTINGS mutations_sync = 2"
+```
+
+For example:
+```sql
+ALTER STREAM minmax_idx CLEAR INDEX idx IN PARTITION 2 SETTINGS mutations_sync = 2
 ```
 
 ## DROP PARTITION

@@ -79,6 +79,14 @@ MongoDB connection string options as a URL formatted string. e.g. 'authSource=ad
 #### oid_columns
 A comma-separated list of columns that should be treated as oid in the `WHERE` clause. Default to `_id`.
 
+### Query Settings
+
+#### mongodb_throw_on_unsupported_query
+By default this setting is `true`. While querying the MongoDB external table with SQL, if the query contains `GROUP BY`, `HAVING` or other aggregations, Timeplus will throw exceptions. Set this to `false` or `0` to disable this behavior, and Timeplus will read full table data from MongoDB and execute the query in Timeplus. For example:
+```sql
+SELECT name, COUNT(*) AS cnt FROM mongodb_ext_table GROUP BY name HAVING cnt >5 SETTINGS mongodb_throw_on_unsupported_query = false;
+```
+
 ## DROP EXTERNAL TABLE
 
 ```sql

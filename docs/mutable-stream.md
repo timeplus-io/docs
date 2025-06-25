@@ -22,13 +22,18 @@ PRIMARY KEY (col1, col2)
 SETTINGS
     logstore_retention_bytes=..,
     logstore_retention_ms=..,
-    shards=..
+    shards=..,
+    version_column=..,
+    coalesced=..,
+    ttl_seconds=..
 ```
 
 Since Timeplus Enterprise 2.7, if you create a mutable stream with `low_cardinality` columns, the system will ignore the `low_cardinality` modifier to improve performance.
 [Learn more](/sql-create-mutable-stream).
 
 `PARTITION BY`, `ORDER BY` or `SAMPLE BY` clauses are not allowed while creating the mutable stream.
+
+Since Timeplus Enterprise 2.8.2, you can set `coalesced` (default to false). If it's true and the insert data only contains partial columns in the WAL, the partial columns will merge with the existing rows.[Learn more](#coalesced). Also, since 2.8.2, you can set `ttl_seconds` (default to -1). If it's set to a positive value, then data with primary key older than the `ttl_seconds` will be scheduled to be pruned in the next key compaction cycle. [Learn more](#ttl_seconds).
 
 ## INSERT
 You can insert data to the mutable stream with the following SQL:
@@ -184,7 +189,7 @@ Mutable stream can also be used in [JOINs](/joins).
 ### Retention Policy for Historical Storage{#ttl_seconds}
 Like normal streams in Timeplus, mutable streams use both streaming storage and historical storage. New data are added to the streaming storage first, then continuously write to the historical data with deduplication/merging process.
 
-Starting from Timeplus Enterprise 2.9, you can set `ttl_seconds` on mutable streams. If the data is older than this value, it is scheduled to be pruned in the next key compaction cycle. Default value is -1. Any value less than 0 means this feature is disabled.
+Starting from Timeplus Enterprise 2.9 (also backported to 2.8.2), you can set `ttl_seconds` on mutable streams. If the data is older than this value, it is scheduled to be pruned in the next key compaction cycle. Default value is -1. Any value less than 0 means this feature is disabled.
 
 ```sql
 CREATE MUTABLE STREAM ..
@@ -279,6 +284,36 @@ CREATE MUTABLE STREAM device_metrics
 PRIMARY KEY (device_id, timestamp, batch_id)
 SETTINGS shards=3
 ```
+
+### Coalesced and Versioned Mutable Stream {#coalesced}
+For a mutable stream with many columns, there are some cases that only some columns are updated over time. Create a mutable stream with `coalesced=true` setting to enable the partial merge. For example, given a mutable stream:
+```sql
+create mutable stream kv_99061_1 (
+       p string, m1 int, m2 int, m3 int, v uint64,
+       family cf1(m1),
+       family cf2(m2),
+       family cf3(m3),
+       family cf4(_tp_time)
+) primary key p
+settings coalesced = true;
+```
+If we insert one row with `m1=1`:
+```sql
+insert into kv_99061_1 (p, m1, _tp_time) values ('p1', 1, '2025-01-01T00:00:01');
+```
+Query the mutable stream. You will get one row.
+
+Then insert the other row with the same primary key and `m2=2`.
+```sql
+insert into kv_99061_1 (p, m2, _tp_time) values ('p1', 2, '2025-01-01T00:00:02');
+```
+Query it again with
+```sql
+select * from table(kv_99061_1);
+```
+You will see one row with m1 and m2 updated and other columns in the default vaule.
+
+Compared to the [Versioned Stream](versioned-stream), coalesced mutable streams don't require you to set all column values when you update a primary key. You can also set `version_column` to the column name to indicate which column with the verison number. Say there are updates for the same primary key, `v` as the `version_column`, the first update is "v=1,p=1,m=1" and the second update is "v=2,p=1,m=2". For some reasons, if Timeplus receives the second update first, then when it gets the "v=1,p=1,m=1", since the version is 1, lower than the current version, so this update will be reject and we keep the latest update as "v=2,p=1,m=2". This is beneficial specialy in distributed environment with potential out of order events.
 
 ## Performance Tuning {#tuning}
 If you are facing performance challenges with massive data in mutable streams, please consider adding [secondary indexes](#index), [column families](#column_family) and use [multiple shards](#shards).

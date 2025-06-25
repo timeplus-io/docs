@@ -161,6 +161,10 @@ Alias of [generate_uuidv4](#generate_uuidv4).
 
 Generates a universally unique identifier (UUIDv4) which is a 16-byte number used to identify records.
 
+### uuid7
+
+Alias of [generate_uuidv7](#generate_uuidv7).
+
 ### generate_uuidv7
 
 `generate_uuidv7()` Generates a universally unique identifier (UUIDv7), which contains the current Unix timestamp in milliseconds (48 bits), followed by version "7" (4 bits), a counter (42 bit) to distinguish UUIDs within a millisecond (including a variant field "2", 2 bit), and a random field (32 bits). For any given timestamp (unix_ts_ms), the counter starts at a random value and is incremented by 1 for each new UUID until the timestamp changes. In case the counter overflows, the timestamp field is incremented by 1 and the counter is reset to a random new start value.

@@ -63,3 +63,9 @@ This takes one or more parameters and return a json string. You can also turn al
 This function is available since Timeplus Enterprise v2.9.
 
 This takes one or more parameters and return a json object. You can also turn all column values in the row as a json object via `json_cast(*)`.
+
+### json_array_length
+Get the length of the JSON array. For example, `json_array_length('[3,4,5]')` will return `3`.
+
+### json_merge_patch
+Merge multiple JSON documents into one. For example, `json_merge_patch('{"a":1,"b":2}', '{"b":3,"c":4}')` will return `{"a":1,"b":3,"c":4}`. If the key exists in both documents, the value from the second document will overwrite the first one.
