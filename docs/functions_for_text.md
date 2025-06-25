@@ -153,7 +153,42 @@ Please note all keys and values in the returned map are in string type. You can 
 
 ### uuid
 
+Alias of [generate_uuidv4](#generate_uuidv4).
+
 `uuid()` or `uuid(x)` Generates a universally unique identifier (UUIDv4) which is a 16-byte number used to identify records. In order to generate multiple UUID in one row, pass a parameter in each function call, such as `SELECT uuid(1) as a, uuid(2) as b` Otherwise if there is no parameter while calling multiple `uuid` functions in one SQL statement, the same UUID value will be returned.
+
+### generate_uuidv4
+
+Generates a universally unique identifier (UUIDv4) which is a 16-byte number used to identify records.
+
+### generate_uuidv7
+
+`generate_uuidv7()` Generates a universally unique identifier (UUIDv7), which contains the current Unix timestamp in milliseconds (48 bits), followed by version "7" (4 bits), a counter (42 bit) to distinguish UUIDs within a millisecond (including a variant field "2", 2 bit), and a random field (32 bits). For any given timestamp (unix_ts_ms), the counter starts at a random value and is incremented by 1 for each new UUID until the timestamp changes. In case the counter overflows, the timestamp field is incremented by 1 and the counter is reset to a random new start value.
+
+### generate_uuidv7_thread_monotonic
+
+Generates a UUID version 7.
+
+The generated UUID contains the current Unix timestamp in milliseconds (48 bits), as [generate_uuidv7](#generate_uuidv7) but gives no guarantee on counter monotony across different simultaneous requests.
+Monotonicity within one timestamp is guaranteed only within the same thread calling this function to generate UUIDs.
+
+### generate_uuidv7_non_monotonic
+
+Generates a UUID version 7. This function is the fastest but it gives no monotonicity guarantees within a timestamp.
+
+
+### uuid_to_num
+`uuid_to_num(uuid)`
+Extract bytes from a UUID and convert them to a number. The result is a 128-bit integer, which is the same as the UUID in binary format. The argument needs to be a UUIDv4 or UUIDv7, not a string. If you get a string, use `uuid_to_num(to_uuid(uuid_string))` or `uuid_string_to_num(uuid_string)`.
+
+### uuid_string_to_num
+`uuid_string_to_num(string[, variant = 1])` Accepts string containing 36 characters in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx, and returns a `fixed_stringtring(16)` as its binary representation, with its format optionally specified by variant (Big-endian by default).
+
+### uuidv7_to_datetime
+`uuidv7_to_datetime(uuid [, timezone])` Returns the timestamp component of a UUID version 7.
+
+### to_uuid
+`to_uuid(string)` Converts a string in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx to a UUID. The string must be 36 characters long and contain only hexadecimal digits and hyphens.
 
 ### base64_encode
 
