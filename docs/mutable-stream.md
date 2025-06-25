@@ -311,9 +311,9 @@ Query it again with
 ```sql
 select * from table(kv_99061_1);
 ```
-You will see one row with m1 and m2 updated and other columns in the default vaule.
+You will see one row with m1 and m2 updated and other columns in the default value.
 
-Compared to the [Versioned Stream](versioned-stream), coalesced mutable streams don't require you to set all column values when you update a primary key. You can also set `version_column` to the column name to indicate which column with the verison number. Say there are updates for the same primary key, `v` as the `version_column`, the first update is "v=1,p=1,m=1" and the second update is "v=2,p=1,m=2". For some reasons, if Timeplus receives the second update first, then when it gets the "v=1,p=1,m=1", since the version is 1, lower than the current version, so this update will be reject and we keep the latest update as "v=2,p=1,m=2". This is beneficial specialy in distributed environment with potential out of order events.
+Compared to the [Versioned Stream](versioned-stream), coalesced mutable streams don't require you to set all column values when you update a primary key. You can also set `version_column` to the column name to indicate which column with the version number. Say there are updates for the same primary key, `v` as the `version_column`, the first update is "v=1,p=1,m=1" and the second update is "v=2,p=1,m=2". For some reasons, if Timeplus receives the second update first, then when it gets the "v=1,p=1,m=1", since the version is 1, lower than the current version, so this update will be reject and we keep the latest update as "v=2,p=1,m=2". This is beneficial specially in distributed environment with potential out of order events.
 
 ## Performance Tuning {#tuning}
 If you are facing performance challenges with massive data in mutable streams, please consider adding [secondary indexes](#index), [column families](#column_family) and use [multiple shards](#shards).

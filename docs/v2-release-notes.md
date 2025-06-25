@@ -29,7 +29,7 @@ Another preview edition of [Timeplus Enterprise v2.9](enterprise-v2.9) with many
 
 ### Timeplus Go Driver v2.1.2
 The [proton-go-driver](https://github.com/timeplus-io/proton-go-driver) provides Go connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:
-* simplify json marhsalling and support selecting nested fields
+* simplify json marshaling and support selecting nested fields
 
 ## May 26, 2025
 

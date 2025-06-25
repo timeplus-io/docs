@@ -83,6 +83,7 @@ backend
 Backend
 backfill
 backoff
+backported
 backtick
 base32-encoding
 base58
@@ -499,6 +500,8 @@ LogStream
 lookups
 low_cardinality
 lttb
+m1
+m2
 M2
 MacBookPro
 MacOS
@@ -526,6 +529,8 @@ minikube
 Minio
 minio
 modularized
+mongodb_throw_on_unsupported_query
+Monotonicity
 mouseover
 MQ
 mqtt
@@ -585,6 +590,8 @@ OBT
 odbc
 ODBC
 OHLC
+oid
+oid_columns
 okhttp
 OLAP
 OLTP
@@ -943,6 +950,7 @@ UPSERT
 Upsert
 UPSERTs
 Upstash
+uri
 URI
 url
 usecase
@@ -953,6 +961,9 @@ utf-8
 UTF-8
 uuid
 UUID
+UUIDs
+UUIDv4
+UUIDv7
 uv
 v1
 v1.4
