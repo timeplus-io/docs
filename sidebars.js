@@ -50,11 +50,12 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Key Features",
+      label: "Features",
       customProps: { tag: "Popular" },
       items: [
         "stream-query",
         "history",
+        "view",
         "joins",
         "proton-create-view",
         {
@@ -64,11 +65,14 @@ const sidebars = {
         },
         {
           type: "category",
-          label: "External Streams",
-          collapsed: false,
+          label: "Built-in Integrations",
           link: {
-            type: "doc",
-            id: "external-stream",
+            type: "generated-index",
+            title: "Built-in Integrations",
+            description:
+              "Connect to external systems via Timeplus core engine.",
+            slug: "/category/integrations",
+            keywords: ["integration"],
           },
           items: [
             {
@@ -76,6 +80,7 @@ const sidebars = {
               id: "proton-kafka",
               customProps: { tag: "Popular" },
             },
+            "proton-schema-registry",
             {
               type: "doc",
               id: "timeplus-external-stream",
@@ -89,12 +94,6 @@ const sidebars = {
               id: "http-external",
               customProps: { tag: "New" },
             },
-          ],
-        },
-        {
-          type: "category",
-          label: "External Tables",
-          items: [
             "proton-clickhouse-external-table",
             {
               type: "doc",
@@ -111,20 +110,21 @@ const sidebars = {
               id: "s3-external",
               customProps: { tag: "New" },
             },
+            {
+              type: "doc",
+              id: "iceberg",
+              label: "Iceberg External Table",
+              customProps: { tag: "New" },
+            },
           ],
         },
         {
           type: "doc",
-          id: "iceberg",
-          customProps: { tag: "New" },
-        },
-        "proton-schema-registry",
-        "proton-format-schema",
-        {
-          type: "doc",
           id: "redpanda-connect",
+          label: "More Integrations via Redpanda Connect",
           customProps: { tag: "Enterprise" },
         },
+        "proton-format-schema",
         {
           label: "Dictionary",
           type: "link",
@@ -282,12 +282,15 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Open Source",
+      label: "Timeplus Proton (OSS)",
+      link: {
+        type: "doc",
+        id: "proton",
+      },
       items: [
-        "proton",
         "proton-architecture",
-        "proton-create-stream",
-        "proton-manage-stream",
+        // "proton-create-stream",
+        // "proton-manage-stream",
         "proton-faq",
       ],
     },
@@ -407,7 +410,6 @@ const sidebars = {
           items: ["changelog-stream", "versioned-stream", "substream"],
         },
         "eventtime",
-        "view",
       ],
     },
     {
