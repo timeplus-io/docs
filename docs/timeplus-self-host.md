@@ -2,7 +2,7 @@
 
 Timeplus Enterprise is easy to deploy from edge devices to your data center. It is ideal for enterprise users with flexible deployment needs with advanced configurations needs.
 
-Timeplus Enterprise self-hosted edition shares many features as Timeplus Enterprise in the cloud. Comparing to Timeplus Proton, you can do more with Timeplus Enterprise, e.g.
+Comparing to Timeplus Proton, you can do more with Timeplus Enterprise, e.g.
 
 - Multi-node cluster for high availability and horizontal scalability
 - [Kubernetes Helm Chart](/cluster_install#k8s)
