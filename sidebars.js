@@ -50,18 +50,115 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Features",
-      customProps: { tag: "Popular" },
+      label: "Terms & Concepts",
+      link: {
+        type: "doc",
+        id: "glossary",
+      },
+      items: [
+        {
+          type: "category",
+          label: "Stream",
+          link: {
+            type: "doc",
+            id: "working-with-streams",
+          },
+          items: [
+            "changelog-stream",
+            "versioned-stream",
+            {
+              type: "doc",
+              id: "mutable-stream",
+              customProps: { tag: "Enterprise" },
+            },
+            "external-stream",
+            "substream",
+          ],
+        },
+        "eventtime",
+      ],
+    },
+    {
+      type: "category",
+      label: "Core Capabilities",
+      // customProps: { tag: "Popular" },
       items: [
         "stream-query",
         "history",
         "view",
         "joins",
+        "proton-format-schema",
         {
-          type: "doc",
-          id: "mutable-stream",
+          label: "Dictionary",
+          type: "link",
+          href: "https://docs.timeplus.com/sql-create-dictionary",
           customProps: { tag: "Enterprise" },
         },
+        {
+          type: "category",
+          label: "User Defined Functions",
+          collapsed: false,
+          link: {
+            type: "doc",
+            id: "udf",
+          },
+          items: [
+            "sql-udf",
+            "remote-udf",
+            "js-udf",
+            {
+              type: "doc",
+              id: "py-udf",
+              customProps: { tag: "New" },
+            },
+          ],
+        },
+        {
+          type: "category",
+          label: "Web Console",
+          customProps: { tag: "Enterprise" },
+          items: [
+            "ingestion",
+            // {
+            //   type: "category",
+            //   label: "Getting Data In",
+            //   link: {
+            //     type: "doc",
+            //     id: "ingestion",
+            //   },
+            //   items: ["confluent-cloud-source"],
+            // },
+            {
+              type: "doc",
+              id: "destination",
+            },
+            {
+              type: "doc",
+              label: "Data Visualization",
+              id: "viz",
+            },
+            {
+              type: "doc",
+              id: "alert",
+            },
+          ],
+        },
+        {
+          type: "doc",
+          id: "idempotent",
+          customProps: { tag: "Enterprise" },
+        },
+        {
+          type: "doc",
+          id: "tiered-storage",
+          customProps: { tag: "Enterprise" },
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Integrations",
+      items: [
         {
           type: "category",
           label: "Built-in Integrations",
@@ -138,91 +235,127 @@ const sidebars = {
           type: "doc",
           id: "redpanda-connect",
           label: "More Integrations via Redpanda Connect",
-          customProps: { tag: "Enterprise" },
-        },
-        "proton-format-schema",
-        {
-          label: "Dictionary",
-          type: "link",
-          href: "https://docs.timeplus.com/sql-create-dictionary",
-          customProps: { tag: "Enterprise" },
         },
         {
           type: "category",
-          label: "User Defined Functions",
-          collapsed: false,
-          link: {
-            type: "doc",
-            id: "udf",
-          },
+          label: "CLI, APIs & SDKs",
           items: [
-            "sql-udf",
-            "remote-udf",
-            "js-udf",
+            "proton-client",
             {
               type: "doc",
-              id: "py-udf",
-              customProps: { tag: "New" },
+              id: "timeplusd-client",
+              customProps: { tag: "Enterprise" },
             },
-          ],
-        },
-        {
-          type: "category",
-          label: "Web Console",
-          customProps: { tag: "Enterprise" },
-          items: [
             {
               type: "category",
-              label: "Getting Data In",
-              //collapsed: false,
+              label: "timeplus (CLI)",
+              customProps: { tag: "Enterprise" },
               link: {
                 type: "doc",
-                id: "ingestion",
+                id: "cli-reference",
               },
               items: [
-                "confluent-cloud-source",
-                {
-                  type: "doc",
-                  id: "ingest-api",
-                  customProps: { tag: "Enterprise" },
-                },
+                "cli-backup",
+                "cli-diag",
+                "cli-help",
+                "cli-license",
+                "cli-migrate",
+                "cli-restart",
+                "cli-restore",
+                "cli-service",
+                "cli-start",
+                "cli-status",
+                "cli-stop",
+                "cli-sync",
+                "cli-user",
+                "cli-version",
               ],
             },
+            "jdbc",
+            {
+              label: "ODBC Driver",
+              type: "link",
+              href: "https://github.com/timeplus-io/proton-odbc",
+            },
+            "timeplus-connect",
+            // {
+            //   label: "Python Driver",
+            //   type: "link",
+            //   href: "https://github.com/timeplus-io/proton-python-driver",
+            // },
+            {
+              label: "Go Driver",
+              type: "link",
+              href: "https://github.com/timeplus-io/proton-go-driver",
+            },
+            {
+              label: "C++ Client",
+              type: "link",
+              href: "https://github.com/timeplus-io/timeplus-cpp",
+            },
+            {
+              label: "Rust Client",
+              type: "link",
+              href: "https://crates.io/crates/proton_client",
+            },
+            {
+              label: "Timeplus REST API",
+              type: "link",
+              href: "https://docs.timeplus.com/rest",
+            },
+            "proton-ingest-api",
             {
               type: "doc",
-              id: "destination",
+              id: "ingest-api",
+              customProps: { tag: "Enterprise" },
             },
             {
               type: "doc",
-              label: "Data Visualization",
-              id: "viz",
-            },
-            {
-              type: "doc",
-              id: "alert",
+              id: "query-api",
+              customProps: { tag: "Enterprise" },
             },
           ],
         },
         {
-          type: "doc",
-          id: "idempotent",
-          customProps: { tag: "Enterprise" },
-        },
-        {
-          type: "doc",
-          id: "tiered-storage",
-          customProps: { tag: "Enterprise" },
+          type: "category",
+          label: "Third-party Tools",
+          link: {
+            type: "generated-index",
+            title: "Third-party Tools",
+            description: "Integrate Timeplus to your tool stacks.",
+            slug: "/category/tools",
+            keywords: ["guides"],
+          },
+          items: [
+            {
+              type: "doc",
+              id: "integration-grafana",
+              customProps: { tag: "Popular" },
+            },
+            "sling",
+            "kafka-connect",
+            {
+              label: "Push data to Timeplus via Airbyte",
+              type: "link",
+              href: "https://airbyte.com/connectors/timeplus",
+            },
+            {
+              label: "Push data to Timeplus via Meltano",
+              type: "link",
+              href: "https://www.timeplus.com/post/meltano-timeplus-target",
+            },
+            "flyway",
+            "terraform",
+          ],
         },
       ],
     },
-    /*"timeplus-enterprise",*/
     {
       type: "category",
       label: "Deployment & Operations",
       items: [
         {
           type: "category",
-          //collapsed: false,
           label: "Timeplus Enterprise Self-hosted",
           link: {
             type: "doc",
@@ -296,12 +429,7 @@ const sidebars = {
         type: "doc",
         id: "proton",
       },
-      items: [
-        "proton-architecture",
-        // "proton-create-stream",
-        // "proton-manage-stream",
-        "proton-faq",
-      ],
+      items: ["proton-architecture", "proton-faq"],
     },
     {
       type: "category",
@@ -401,141 +529,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Concepts",
-      //collapsed: false,
-      link: {
-        type: "doc",
-        id: "glossary",
-      },
-      items: [
-        {
-          type: "category",
-          label: "Stream",
-          //collapsed: false,
-          link: {
-            type: "doc",
-            id: "working-with-streams",
-          },
-          items: ["changelog-stream", "versioned-stream", "substream"],
-        },
-        "eventtime",
-        "external-stream",
-      ],
-    },
-    {
-      type: "category",
-      label: "Clients, APIs & SDKs",
-      items: [
-        "proton-client",
-        {
-          type: "doc",
-          id: "timeplusd-client",
-          customProps: { tag: "Enterprise" },
-        },
-        {
-          type: "category",
-          label: "timeplus (CLI)",
-          customProps: { tag: "Enterprise" },
-          link: {
-            type: "doc",
-            id: "cli-reference",
-          },
-          items: [
-            "cli-backup",
-            "cli-diag",
-            "cli-help",
-            "cli-license",
-            "cli-migrate",
-            "cli-restart",
-            "cli-restore",
-            "cli-service",
-            "cli-start",
-            "cli-status",
-            "cli-stop",
-            "cli-sync",
-            "cli-user",
-            "cli-version",
-          ],
-        },
-        "jdbc",
-        {
-          label: "ODBC Driver",
-          type: "link",
-          href: "https://github.com/timeplus-io/proton-odbc",
-        },
-        "timeplus-connect",
-        // {
-        //   label: "Python Driver",
-        //   type: "link",
-        //   href: "https://github.com/timeplus-io/proton-python-driver",
-        // },
-        {
-          label: "Go Driver",
-          type: "link",
-          href: "https://github.com/timeplus-io/proton-go-driver",
-        },
-        {
-          label: "C++ Client",
-          type: "link",
-          href: "https://github.com/timeplus-io/timeplus-cpp",
-        },
-        {
-          label: "Rust Client",
-          type: "link",
-          href: "https://crates.io/crates/proton_client",
-        },
-        {
-          label: "Timeplus REST API",
-          type: "link",
-          href: "https://docs.timeplus.com/rest",
-        },
-        "proton-ingest-api",
-        {
-          type: "doc",
-          id: "query-api",
-          customProps: { tag: "Enterprise" },
-        },
-      ],
-    },
-    {
-      type: "category",
-      label: "Third-party Tools",
-      //collapsed: false,
-      link: {
-        type: "generated-index",
-        title: "Third-party Tools",
-        description: "Integrate Timeplus to your tool stacks.",
-        slug: "/category/tools",
-        keywords: ["guides"],
-      },
-      items: [
-        {
-          type: "doc",
-          id: "integration-grafana",
-          customProps: { tag: "Popular" },
-        },
-        // "integration-metabase",
-        "sling",
-        "kafka-connect",
-        {
-          label: "Push data to Timeplus via Airbyte",
-          type: "link",
-          href: "https://airbyte.com/connectors/timeplus",
-        },
-        {
-          label: "Push data to Timeplus via Meltano",
-          type: "link",
-          href: "https://www.timeplus.com/post/meltano-timeplus-target",
-        },
-        "flyway",
-        "terraform",
-      ],
-    },
-    /*"faq" */
-    {
-      type: "category",
       label: "Release Notes",
-      //collapsed: false,
       link: {
         type: "doc",
         id: "release-notes",
