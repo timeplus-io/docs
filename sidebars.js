@@ -181,7 +181,6 @@ const sidebars = {
                 id: "ingestion",
               },
               items: [
-                "kafka-source",
                 "confluent-cloud-source",
                 {
                   type: "doc",
