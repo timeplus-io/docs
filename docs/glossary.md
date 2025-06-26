@@ -30,11 +30,6 @@ Event time is used to identify when the event is generated, like a birthday to a
 
 Learn more: [Event time](/eventtime)
 
-## generator {#generator}
-
-Only available in Timeplus Enterprise, not in Timeplus Proton.
-
-Learn more [Streaming Generator](/stream-generator)
 
 ## materialized view {#mview}
 
@@ -81,11 +76,3 @@ When you create a source and preview the data, you can choose a column as the ti
 You can define reusable SQL statements as views, so that you can query them as if they are streams `select .. from view1 ..` By default, views don't take any extra computing or storage resources. They are expanded to the SQL definition when they are queried. You can also create materialized views to 'materialize' them (keeping running them in the background and saving the results to the disk).
 
 Learn more: [View](/view) and [Materialized View](/view#m_view)
-
-## workspace {#workspace}
-
-Only available in Timeplus Enterprise, not in Timeplus Proton.
-
-A workspace is the isolated storage and computing unit for you to run streaming data collection and analysis. Every user can create up to 1 free workspace and join many workspaces. Usually a group of users in the same organization join the same workspace, to build one or more streaming analytics solutions.
-
-By default, each workspace can save up to 20GB data and with a limit for concurrent queries. If you need more resources, please contact support@timeplus.com to increase the limit.
