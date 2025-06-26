@@ -32,7 +32,7 @@ Run the following SQL to drop a stream or an external stream, with all data in s
 DROP STREAM [IF EXISTS] db.<stream_name>;
 ```
 
-Like [CREATE STREAM](/proton-create-stream), stream deletion is an async process.
+Like [CREATE STREAM](/sql-create-stream), stream deletion is an async process.
 
 :::info note for Timeplus Enterprise users
 

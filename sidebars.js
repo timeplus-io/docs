@@ -57,7 +57,6 @@ const sidebars = {
         "history",
         "view",
         "joins",
-        "proton-create-view",
         {
           type: "doc",
           id: "mutable-stream",

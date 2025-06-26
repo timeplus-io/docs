@@ -15,7 +15,7 @@ This architecture transparently serves data to users based on query type from bo
 
 Configure types of streams to optimize performance.
 
-* [Append-only streams:](/proton-create-stream#append-only-stream)
+* [Append-only streams:](/sql-create-stream#append-stream)
 Excel at complex aggregations, storing data in a columnar format for faster access and processing.
 * [Mutable streams:](/mutable-stream) Support UPSERTs and DELETEs, ideal for applications like Materialized Caches or GDPR compliance, using a row-based store optimized for fast data retrieval and query consistency.
 

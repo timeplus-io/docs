@@ -17,7 +17,7 @@ In this example, you create a stream `dim_products` in `changelog_kv` mode with 
 
 :::info
 
-The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](/proton-create-stream#changelog-stream)
+The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL.
 
 :::
 

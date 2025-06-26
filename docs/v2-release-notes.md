@@ -12,7 +12,7 @@ No public releases for the past 2 weeks. We are working on the next release of T
 
 ### Timeplus Enterprise v2.8 GA
 * 2.8.1 is the first GA version of [Timeplus Enterprise v2.8](/enterprise-v2.8), with the key features:
-  * New Compute Node server role to [run materialized views elastically](/proton-create-view#autoscaling_mv) with checkpoints on S3 storage.
+  * New Compute Node server role to [run materialized views elastically](/view#autoscaling_mv) with checkpoints on S3 storage.
   * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
   * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
   * Use S3 as the [tiered storage](/tiered-storage) for streams.
@@ -81,7 +81,7 @@ You can add connection to Timeplus Proton or Timeplus Enterprise in [marimo](/ma
 
 ### Timeplus Enterprise v2.8 (Preview)
 [Timeplus Enterprise v2.8.0](/enterprise-v2.8) is now available as a technical preview for the 2.8 release. Not ready for production use but feel free to try the new features and provide feedback.
-* New Compute Node server role to [run materialized views elastically](/proton-create-view#autoscaling_mv) with checkpoints on S3 storage.
+* New Compute Node server role to [run materialized views elastically](/view#autoscaling_mv) with checkpoints on S3 storage.
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
 * Use S3 as the [tiered storage](/tiered-storage) for streams.
@@ -213,7 +213,7 @@ Merry Christmas 🎄
 
 ### Timeplus Enterprise v2.5
  * [Timeplus Enterprise v2.5](/enterprise-v2.5) is now Generally Available! This milestone marks a significant leap forward for our Timeplus Enterprise v2 which was released earlier this year. In this release, we pushed our unparalleled performance to a new level, natively integrated with Redpanda Connect and Apache Pulsar to access a rich ecosystem of enterprise and AI applications. Key breakthroughs:
-    * [Materialized Views Auto-Rebalancing](/proton-create-view#auto-balancing)
+    * [Materialized Views Auto-Rebalancing](/view#auto-balancing)
     * Performance Improvements
     * Enterprise-Grade Real-Time Data Integration with [200+ Connectors from Redpanda Connect](/redpanda-connect)
     * [Pulsar External Stream](pulsar-external-stream) to query or process data in Pulsar with SQL
@@ -249,7 +249,7 @@ Merry Christmas 🎄
 ### Documentation Updates
 * Updated the guide of [Ingest REST API](/ingest-api) to add more instructions for self-hosting Timeplus Enterprise. API keys are only available in Timeplus Cloud. For self-hosting deployment, please encode the username and password with base64, and set it in the HTTP Authorization header.
 * Updated the structure of [Kafka external stream](/proton-kafka). Mentioned `RawBLOB` as a supported data format.
-* Added documentation for materialized view [load balancing](/proton-create-view#memory_weight).
+* Added documentation for materialized view [load balancing](/view#memory_weight).
 
 ## Oct 28, 2024
 
