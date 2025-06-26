@@ -426,6 +426,7 @@ const sidebars = {
           items: ["changelog-stream", "versioned-stream", "substream"],
         },
         "eventtime",
+        "external-stream",
       ],
     },
     {
