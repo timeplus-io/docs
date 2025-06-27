@@ -1,17 +1,4 @@
-# Timeplus Enterprise
-
-Timeplus Enterprise is a high-performance converged platform that unifies streaming and historical data processing, to empower developers to build the most powerful and reliable streaming analytics applications, at speed and scale, anywhere.
-
-Timeplus Enterprise provides the following major features:
-
-* [Streaming SQL](/query-syntax)
-* [Streaming Data Collection](/ingestion)
-* [Streaming Visualization](/viz)
-* [Streaming Alerts and Destinations](/destination)
-
-Timeplus Enterprise is available as a fully-managed cloud service with zero ops and elastic scaling, or as a self-hosted deployment, ideal for enterprise users requiring flexible and advanced configurations.
-
-## Quickstart for Timeplus Enterprise self-hosting
+# Timeplus Enterprise Quickstart
 
 The following section contains step-by-step instructions on how to easily get started with a self-hosted Timeplus Enterprise.
 

@@ -1,4 +1,4 @@
-# View & Materialized View
+# Materialized View
 Real-time data pipelines are built via [Materialized Views](#m_view) in Timeplus.
 
 There are two types of views in Timeplus: logical view (or just view) and materialized view.
@@ -176,3 +176,10 @@ DROP VIEW [IF EXISTS] db.<view_name>;
 ```
 
 Like [CREATE STREAM](/sql-create-stream), stream deletion is an async process.
+
+### Checkpint Settings
+TODO
+### Storage Settings
+TODO
+### Best Practices
+TODO
