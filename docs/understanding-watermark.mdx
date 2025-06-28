@@ -4,7 +4,7 @@ import TimeplusWatermarkVisualization from '@site/src/components/TimeplusWaterma
 
 In stream processing, a watermark is a mechanism used to track the progress of data processing in one or more streams. It helps determine when all events up to a specific timestamp have likely arrived, enabling the system to process time-based operations like [window aggregations](/stream-query#window-aggregation).
 
-Since stream processing deals with unbounded, out-of-order data, watermarks are essential for defining bounded windows and for discarding late or outdated data in a consistent way. Watermarks allow the system to advance event-time, trigger computations (e.g., closing a [tumbling window](/functions_for_streaming#tumble) and [emitting results](/query-syntax#emit)), and maintain accuracy even when data arrives with delays.
+Since stream processing deals with unbounded, out-of-order data, watermarks are essential for defining bounded windows and for discarding late or outdated data in a consistent way. Watermarks allow the system to advance event-time, trigger computations (e.g., closing a [tumbling window](/functions_for_streaming#tumble) and [emitting results](/streaming-aggregations#emit)), and maintain accuracy even when data arrives with delays.
 
 ## Try It Out
 

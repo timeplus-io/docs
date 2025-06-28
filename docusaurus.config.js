@@ -141,12 +141,6 @@ const config = {
             label: "Send Data Out",
           },
           {
-            type: "doc",
-            position: "left",
-            docId: "functions",
-            label: "SQL Reference",
-          },
-          {
             href: "https://www.timeplus.com",
             position: "left",
             label: "Company",

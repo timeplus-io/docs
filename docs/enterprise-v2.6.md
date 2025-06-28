@@ -245,7 +245,7 @@ Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
 * timeplusd 2.4.27 -> 2.5.10
   * Performance Enhancements:
     * Introduced hybrid hash table technology for streaming SQL with JOINs or aggregations. Configure via `SETTINGS default_hash_table='hybrid'` to optimize memory usage for large data streams.
-    * Improved performance for [EMIT ON UPDATE](/query-syntax#emit_on_update) queries. Memory optimization available through `SETTINGS optimize_aggregation_emit_on_updates=false`.
+    * Improved performance for [EMIT ON UPDATE](/streaming-aggregations#emit_on_update) queries. Memory optimization available through `SETTINGS optimize_aggregation_emit_on_updates=false`.
     * Enhanced read/write performance for ClickHouse external tables with configurable `pooled_connections` setting (default: 3000).
   * Monitoring and Management:
     * Added [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log) system streams for comprehensive resource monitoring.
@@ -253,7 +253,7 @@ Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
     * A `_tp_sn` column is added to each stream (except external streams or random streams), as the sequence number in the unified streaming and historical storage. This column is used for data replication among the cluster. By default, it is hidden in the query results. You can show it by setting `SETTINGS asterisk_include_tp_sn_column=true`. This setting is required when you use `INSERT..SELECT` SQL to copy data between streams: `INSERT INTO stream2 SELECT * FROM stream1 SETTINGS asterisk_include_tp_sn_column=true`.
   * New Features:
     * Support for continuous data writing to remote Timeplus deployments via setting a [Timeplus external stream](/timeplus-external-stream) as the target in a materialized view.
-    * New [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax for emitting the last aggregation result even when there is no new event.
+    * New [EMIT PERIODIC .. REPEAT](/streaming-aggregations#emit_periodic_repeat) syntax for emitting the last aggregation result even when there is no new event.
     * Able to create or drop databases via SQL in a cluster. The web console will be enhanced to support different databases in the next release.
     * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.
     * Able to add new columns to a stream via `ALTER STREAM stream_name ADD COLUMN column_name data_type`, in both a single node or multi-node cluster.
