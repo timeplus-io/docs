@@ -28,8 +28,6 @@ Timeplus Proton uses ClickHouse as a table store engine inside of each stream (a
 curl https://install.timeplus.com/oss | sh
 ```
 
-For more guidelines, please check the [installation guide](/install#proton) for Docker or Homebrew.
-
 ### Timeplus Cloud Demo
 
 Don't want to setup by yourself? Try Timeplus in [Cloud](https://demo.timeplus.cloud/).

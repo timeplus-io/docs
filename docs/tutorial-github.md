@@ -66,7 +66,7 @@ SELECT count(*) FROM github_events
 
 This will show how many new events received, since the query is started. So you may see a number like 158, then a couple seconds later, 334.
 
-This is so-called [Global Aggregation](/query-syntax#global).
+This is so-called [Global Aggregation](/streaming-aggregations#global).
 
 #### Tumble Aggregation
 

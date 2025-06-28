@@ -12,7 +12,7 @@ We will update the beta version from time to time and list key enhancements in t
   * Enhanced `dedup` function to only cache the unique keys for a given time period. This is useful to suppress the same alerts in the short time period.
   * Support sub-stream, e.g. `select cid,speed_kmh, lag(speed_kmh) OVER (PARTITION BY cid) as last_spd from car_live_data`
 * Source, sink, API and SDK
-  * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our [terminology](/glossary#workspace)
+  * Updated Python SDK https://pypi.org/project/timeplus/ to auto-delete the query history, refine error handling, Please note there is a breaking change, `Env().tenant(id)` is changed to `Env().workspace(id)` to be align with our terminology.
   * Updated the REST API to show the optional description for source/sink, and replace "tenant" with "workspace-id" in the documentation.
   * The Kafka sink no longer auto-create the topics
 

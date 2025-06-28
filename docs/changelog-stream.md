@@ -1,4 +1,4 @@
-# Changelog Stream
+# Changelog Key Value Stream
 
 When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. Data can be updated or deleted. You can use Changelog Stream in JOIN either on the left or on the right. Timeplus will automatically choose the latest version.
 
@@ -17,7 +17,7 @@ In this example, you create a stream `dim_products` in `changelog_kv` mode with 
 
 :::info
 
-The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL. [Learn more](/proton-create-stream#changelog-stream)
+The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL.
 
 :::
 
@@ -403,7 +403,7 @@ Debezium also read all existing rows and generate messages like this
 
 ### Load data to Timeplus
 
-You can follow this [guide](/kafka-source) to add 2 data sources to load data from Kafka or Redpanda.  For example:
+You can follow this [guide](/proton-kafka) to add 2 external streams to load data from Kafka or Redpanda.  For example:
 
 * Data source name `s1` to load data from topic `doc.public.dim_products` and put in a new stream `rawcdc_dim_products`
 * Data source name `s2` to load data from topic `doc.public.orders` and put in a new stream `rawcdc_orders`

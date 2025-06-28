@@ -12,7 +12,7 @@ No public releases for the past 2 weeks. We are working on the next release of T
 
 ### Timeplus Enterprise v2.8 GA
 * 2.8.1 is the first GA version of [Timeplus Enterprise v2.8](/enterprise-v2.8), with the key features:
-  * New Compute Node server role to [run materialized views elastically](/proton-create-view#autoscaling_mv) with checkpoints on S3 storage.
+  * New Compute Node server role to [run materialized views elastically](/view#autoscaling_mv) with checkpoints on S3 storage.
   * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
   * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
   * Use S3 as the [tiered storage](/tiered-storage) for streams.
@@ -81,7 +81,7 @@ You can add connection to Timeplus Proton or Timeplus Enterprise in [marimo](/ma
 
 ### Timeplus Enterprise v2.8 (Preview)
 [Timeplus Enterprise v2.8.0](/enterprise-v2.8) is now available as a technical preview for the 2.8 release. Not ready for production use but feel free to try the new features and provide feedback.
-* New Compute Node server role to [run materialized views elastically](/proton-create-view#autoscaling_mv) with checkpoints on S3 storage.
+* New Compute Node server role to [run materialized views elastically](/view#autoscaling_mv) with checkpoints on S3 storage.
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
 * Use S3 as the [tiered storage](/tiered-storage) for streams.
@@ -213,7 +213,7 @@ Merry Christmas 🎄
 
 ### Timeplus Enterprise v2.5
  * [Timeplus Enterprise v2.5](/enterprise-v2.5) is now Generally Available! This milestone marks a significant leap forward for our Timeplus Enterprise v2 which was released earlier this year. In this release, we pushed our unparalleled performance to a new level, natively integrated with Redpanda Connect and Apache Pulsar to access a rich ecosystem of enterprise and AI applications. Key breakthroughs:
-    * [Materialized Views Auto-Rebalancing](/proton-create-view#auto-balancing)
+    * [Materialized Views Auto-Rebalancing](/view#auto-balancing)
     * Performance Improvements
     * Enterprise-Grade Real-Time Data Integration with [200+ Connectors from Redpanda Connect](/redpanda-connect)
     * [Pulsar External Stream](pulsar-external-stream) to query or process data in Pulsar with SQL
@@ -231,7 +231,7 @@ Merry Christmas 🎄
 * Updated a few [examples](https://github.com/timeplus-io/proton/tree/develop/examples)
   * [CDC(Change Data Capture)](https://github.com/timeplus-io/proton/tree/develop/examples/cdc) example with Debezium and MySQL.
   * Use latest [Grafana Plugin](https://github.com/timeplus-io/proton-grafana-source) in [IoT demo with awesome sensor app](https://github.com/timeplus-io/proton/tree/develop/examples/awesome-sensor-logger) and [Carsharing data generator](https://github.com/timeplus-io/proton/tree/develop/examples/grafana).
-  * A new sample to [detect idle stream ingestion](https://github.com/timeplus-io/proton/tree/develop/examples/broken-stream-monitor) using the new [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax.
+  * A new sample to [detect idle stream ingestion](https://github.com/timeplus-io/proton/tree/develop/examples/broken-stream-monitor) using the new [EMIT PERIODIC .. REPEAT](/streaming-aggregations#emit_periodic_repeat) syntax.
 
 ### Timeplus Native JDBC v2.0.7
 * Fixed the issue of getTables method in [TimeplusDatabaseMetadata](https://github.com/timeplus-io/timeplus-native-jdbc/blob/main/timeplus-native-jdbc/src/main/java/com/timeplus/jdbc/TimeplusDatabaseMetadata.java), so that Timeplus streams, views and materialized views can be listed in SQL tools.
@@ -240,7 +240,7 @@ Merry Christmas 🎄
 ## Nov 11, 2024
 
 ### Timeplus Proton v1.6.2
-* Added a new [EMIT policy](/query-syntax#emit) in streaming SQL with global aggregation. The new [EMIT PERIODIC .. REPEAT](/query-syntax#emit_periodic_repeat) syntax will show the last aggregation result even there is no new event.
+* Added a new [EMIT policy](/streaming-aggregations#global) in streaming SQL with global aggregation. The new [EMIT PERIODIC .. REPEAT](/streaming-aggregations#emit_periodic_repeat) syntax will show the last aggregation result even there is no new event.
 * Fixed a bug that views with incorrect syntax could be created.
 
 ### Timeplus Grafana plugin v2.0.0
@@ -249,7 +249,7 @@ Merry Christmas 🎄
 ### Documentation Updates
 * Updated the guide of [Ingest REST API](/ingest-api) to add more instructions for self-hosting Timeplus Enterprise. API keys are only available in Timeplus Cloud. For self-hosting deployment, please encode the username and password with base64, and set it in the HTTP Authorization header.
 * Updated the structure of [Kafka external stream](/proton-kafka). Mentioned `RawBLOB` as a supported data format.
-* Added documentation for materialized view [load balancing](/proton-create-view#memory_weight).
+* Added documentation for materialized view [load balancing](/view#memory_weight).
 
 ## Oct 28, 2024
 

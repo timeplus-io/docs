@@ -6,8 +6,6 @@ Run the following SQL to drop a view or a materialized view.
 DROP VIEW [IF EXISTS] db.<view_name>;
 ```
 
-Like [CREATE STREAM](/proton-create-stream), stream deletion is an async process.
-
 Like [CREATE STREAM](/sql-create-stream), stream deletion is an async process.
 
 ## force_drop_big_stream

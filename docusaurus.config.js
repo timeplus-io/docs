@@ -7,6 +7,9 @@ const darkCodeTheme = themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
+  future: {
+    v4: true,
+  },
   title: "Timeplus",
   tagline: "Simple, powerful, cost-efficient stream processing",
   url: "https://docs.timeplus.com/",
@@ -136,12 +139,6 @@ const config = {
             position: "left",
             docId: "destination",
             label: "Send Data Out",
-          },
-          {
-            type: "doc",
-            position: "left",
-            docId: "functions",
-            label: "SQL Reference",
           },
           {
             href: "https://www.timeplus.com",

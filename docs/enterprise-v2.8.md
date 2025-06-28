@@ -11,7 +11,7 @@ Each component maintains its own version numbers. The version number for each Ti
 
 ## Key Highlights
 Key highlights of this release:
-* New Compute Node server role to [run materialized views elastically](/proton-create-view#autoscaling_mv) with checkpoints on S3 storage.
+* New Compute Node server role to [run materialized views elastically](/view#autoscaling_mv) with checkpoints on S3 storage.
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
 * Use S3 as the [tiered storage](/tiered-storage) for streams.
@@ -62,9 +62,9 @@ Compared to the [2.8.0 (Preview)](#2_8_0) release:
   * When using `CREATE OR REPLACE FORMAT SCHEMA` to update an existing schema, and using `DROP FORMAT SCHEMA` to delete a schema, Timeplus will clean up the Protobuf schema cache to avoid misleading errors.
   * Support writing Kafka message timestamp via [_tp_time](/proton-kafka#_tp_time)
   * Enable IPv6 support for KeyValueService
-  * Simplified the [EMIT syntax](/query-syntax#emit) to make it easier to read and use.
-  * Support [EMIT ON UPDATE WITH DELAY](/query-syntax#emit_on_update_with_delay)
-  * Support [EMIT ON UPDATE](/query-syntax#emit_on_update) for multiple shards
+  * Simplified the [EMIT syntax](/streaming-aggregations#emit) to make it easier to read and use.
+  * Support [EMIT ON UPDATE WITH DELAY](/streaming-aggregations#emit_on_update_with_delay)
+  * Support [EMIT ON UPDATE](/streaming-aggregations#emit_on_update) for multiple shards
   * Transfer leadership to preferred node after election
   * Pin materialized view execution node [Learn more](/sql-create-materialized-view#mv_preferred_exec_node)
   * Improve async checkpointing

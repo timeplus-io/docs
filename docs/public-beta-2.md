@@ -144,7 +144,7 @@ The [Meltano plugin for Timeplus](https://github.com/timeplus-io/target-timeplus
 - In the query history page, the column for SQL statements is now wider, allowing you to see more.
 - In the query editor page, function descriptions are added to the auto-complete tooltip box.
 - We've made it easier to multi-task in Timeplus by letting you open new browser tabs. for example, when you are writing SQL in the **Query** page, and need to create a new view, you can right click **Views** in the left-side navigation menu and open a tab.
-- We refined the documentation of [Ingest API](/ingest-api) and added code examples for Node/curl/Python/Java. [A new quickstart](/quickstart-ingest-api) for the Ingest API is added too.
+- We refined the documentation of [Ingest API](/ingest-api) and added code examples for Node/curl/Python/Java.
 
 ## April 3, 2023
 
@@ -215,7 +215,7 @@ Enhancements:
 
 - New features
 
-  - [Global aggregation](/query-syntax#global) now supports sub-second emit intervals. e.g. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
+  - [Global aggregation](/streaming-aggregations#global) now supports sub-second emit intervals. e.g. `select max(_tp_time),count(*),avg(speed_kmh) from car_live_data emit periodic 100ms`
   - You can now create multiple materialized views to write data to the same stream. A typical usage of this feature is to apply multiple processing logics on the same raw data and send to the same stream for aggregated results. For materialized views, Timeplus maintains the state of the query, which will work better for long running queries and failover.
   - (Experimental) After creating a new stream, you can choose to add a few rows directly in the Console UI, without creating a Source or posting via REST API. Contact us if you want to try this feature.
   - (Experimental) Built-in support for CDC ([Change Data Capture](https://en.wikipedia.org/wiki/Change_data_capture)) has been added in Timeplus backend and the console UI will be ready soon. You can create data streams in different modes. By default, it's append-only. You can also create the streams to accept change logs from [Debezium](https://debezium.io/) for INSERT, UPDATE, and DELETE. The streaming aggregation results will reflect the latest data change. Contact us if you want to try this feature.

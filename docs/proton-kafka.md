@@ -1,6 +1,6 @@
 # Kafka External Stream
 
-You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus with [External Stream](/external-stream). Combining with [Materialized View](/proton-create-view#m_view) and [Target Stream](/proton-create-view#target-stream), you can also write data to Apache Kafka with External Stream.
+You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus with [External Stream](/external-stream). Combining with [Materialized View](/view#m_view) and [Target Stream](/view#target-stream), you can also write data to Apache Kafka with External Stream.
 
 ## Tutorial with Docker Compose {#tutorial}
 
