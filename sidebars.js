@@ -40,7 +40,16 @@ const sidebars = {
           type: "doc",
           id: "why-timeplus",
         },
-        "showcases",
+        {
+          type: "doc",
+          id: "architecture",
+          customProps: { tag: "TODO" },
+        },
+        {
+          type: "doc",
+          id: "showcases",
+          customProps: { tag: "TODO" },
+        },
       ],
     },
     {
@@ -399,7 +408,8 @@ const sidebars = {
         id: "proton",
       },
       items: [
-        "proton-architecture",
+        "compare",
+        // "proton-architecture",
         "proton-faq",
         {
           type: "doc",
@@ -600,6 +610,12 @@ const sidebars = {
           ],
         },
       ],
+    },
+    {
+      type: "doc",
+      id: "faq",
+      label: "FAQ",
+      customProps: { tag: "TODO" },
     },
     "getting-help",
     "credits",
