@@ -11,11 +11,11 @@ Timeplus streams offer high performance, resiliency, and seamless querying by us
 
 This architecture transparently serves data to users based on query type from both, often eliminating the need for Apache Kafka as a commit log or a separate downstream database, streamlining your data infrastructure.
 
-## Append-Only and Mutable Streams {#streams}
+## Append and Mutable Streams {#streams}
 
 Configure types of streams to optimize performance.
 
-* [Append-only streams:](/sql-create-stream#append-stream)
+* [Append streams:](/append-stream)
 Excel at complex aggregations, storing data in a columnar format for faster access and processing.
 * [Mutable streams:](/mutable-stream) Support UPSERTs and DELETEs, ideal for applications like Materialized Caches or GDPR compliance, using a row-based store optimized for fast data retrieval and query consistency.
 
@@ -31,7 +31,7 @@ Stream processing involves combining multiple data sources, and [MULTI-JOINs](/j
 In many cases, Business Intelligence and analytical queries can be executed directly in Timeplus, eliminating the need for a separate data warehouse. [ASOF JOINs](/joins) enable approximate time-based lookups for comparing recent versus historical data.
 
 ## Python and JavaScript UDF {#udf}
-We understand that SQL may not be able to express all business logic for streaming or querying. [JavaScript](/js-udf) and Python User Defined Functions (UDFs) and User Defined Aggregate Functions (UDAFs) can be used to extend Timeplus to encapsulate custom logic for both stateless and stateful queries.
+We understand that SQL may not be able to express all business logic for streaming or querying. [JavaScript](/js-udf) and [Python](/py-udf) User Defined Functions (UDFs) and User Defined Aggregate Functions (UDAFs) can be used to extend Timeplus to encapsulate custom logic for both stateless and stateful queries.
 
 With Python UDFs, this opens up the possibility to bring in pre-existing and popular libraries, including data science and machine learning libraries!
 

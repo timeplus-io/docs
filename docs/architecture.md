@@ -2,9 +2,9 @@
 
 ## High Level Architecture
 
-The following diagram depicts the high level architecture of Timeplus (TODO, staring from a single node).
+The following diagram depicts the high level architecture of Timeplus SQL engine, starting from a single node deployment.
 
-![Proton Architecture](/img/proton-high-level-arch.gif)
+![Architecture](/img/proton-high-level-arch.gif)
 
 All of the components / functionalities are built into one single binary.
 

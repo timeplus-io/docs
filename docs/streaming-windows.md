@@ -1,5 +1,5 @@
-# Streaming Windows
-### Tumble Streaming Window Aggregation {#tumble}
+# Tumble/Hop/Session Windows
+### Tumble {#tumble}
 
 Tumble slices the unbounded data into different windows according to its parameters. Internally, Timeplus observes the data streaming and automatically decides when to close a sliced window and emit the final results for that window.
 
@@ -64,7 +64,7 @@ GROUP BY device, window_end
 EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
-### Hop Streaming Window Aggregation {#hop}
+### Hop {#hop}
 
 Like [Tumble](#tumble), Hop also slices the unbounded streaming data into smaller windows, and it has an additional sliding step.
 
@@ -107,6 +107,6 @@ EMIT AFTER WINDOW CLOSE;
 
 The above example SQL continuously aggregates max cpu usage per device per hop window for stream `device_utils`. Every time a window is closed, Timeplus emits the aggregation results.
 
-### Session Streaming Window Aggregation {#session}
+### Session {#session}
 
 This is similar to tumble and hop window. Please check the [session](/functions_for_streaming#session) function.

@@ -4,6 +4,61 @@ At Timeplus, we drink our own champagne and apply our technologies in many diffe
 
 If you have an interesting use case you'd like to share, please join the [Timeplus Community Slack](https://timeplus.com/slack).
 
+## Real-Time Analytics
+
+### Optimized MySQL-to-ClickHouse CDC Pipeline {#cdc}
+
+[Salla](https://salla.com/), Saudi Arabia's leading e-commerce platform provider, partnered with Timeplus to improve the efficiency of its CDC and ETL data pipeline, from MySQL to ClickHouse. By implementing Timeplus Enterprise, they significantly reduced the CPU and memory footprint of ClickHouse and expanded the scope of analytics to handle e-commerce data from thousands of MySQL tables.
+
+Salla chose Timeplus Enterprise to modernize their data infrastructure, by adding Timeplus between the Kafka and ClickHouse.
+![diagram](https://static.wixstatic.com/media/3796d3_e2dc78b7abe1410dbbfb50a15a076637~mv2.png/v1/fill/w_940,h_209,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3796d3_e2dc78b7abe1410dbbfb50a15a076637~mv2.png)
+
+[Read case study](https://www.timeplus.com/post/customer-story-salla)
+
+### ksqlDB Alternative
+
+[ksqlDB](https://www.confluent.io/product/ksqldb/), a stream processing engine by Confluent, is primarily designed for consuming data from Apache Kafka topics, performing stateless or stateful transformations, and writing results back to Kafka. For comprehensive analytical querying, data typically needs to be offloaded to specialized downstream systems. While ksqlDB offers some capabilities for querying derived state (e.g., materialized views), these ad-hoc queries are generally restricted to primary key lookups or simple range scans.
+
+1️⃣ Limited Ad-Hoc Querying and Join Capabilities: ksqlDB's query capabilities fall short of those offered by traditional databases or data warehouses, primarily supporting key-based lookups and range scans. Its JOIN operations are also restricted, often limited to primary key relationships.
+
+2️⃣ Performance Considerations: ksqlDB's performance can be affected by serialization/deserialization overhead between Apache Kafka and its underlying state store (RocksDB). Its tight coupling with Kafka, involving frequent data transmission and reception, can contribute to increased latency and operational costs.
+
+3️⃣ State Management Complexity: Managing ksqlDB state stores can be challenging due to limitations in Time-To-Live (TTL) configurations and other storage settings. State persistence, often reliant on Kafka topics, can lead to increased storage and network bandwidth requirements for achieving high availability and resilience.
+
+Timeplus is designed from the ground up in C++ based on database technology but extended for Stream Processing. his allows for a much simpler and more performant system for data ingestion, processing and analytics all in one single binary. Data products created within Timeplus can be pushed out to external systems via Streaming or or consumed via Ad-hoc querying. As such it can easily integrate into the wider ecosystem of systems that integrate with Apache Kafka or Database/BI Tools.
+
+[Learn more](https://demos.timeplus.com/#/id/ksql_alternative).
+
+## Observability
+
+### OpenTelemetry + SQL
+
+[OpenTelemetry (OTel)](https://opentelemetry.io/) provides a standardized framework of APIs, SDKs, and tools for instrumenting, generating, collecting, and exporting telemetry data (metrics, logs, and traces). This data is crucial for analyzing software performance and behavior. OTel collectors, deployable on systems such as Linux, can export this data, often as JSON documents, to messaging systems like Apache Kafka. Timeplus can then consume this data for streaming ETL, data routing, alert generation, and real-time visualization.
+
+![o11y](https://demos.timeplus.com/screenshots/opentelemetry/lineage.png)
+
+[Learn more](https://demos.timeplus.com/#/id/opentelemetry).
+
+## AI
+
+### Real-Time AI Hallucination Detection
+
+While AI agents get smarter and more independent, what happens when they make mistakes? It’s important that we have a way to watch them closely and catch errors as they happen.
+
+We built an application where two AI agents play chess against each other (based on the autogen core samples). Each agent uses a language model to think about the game and make moves. It looks simple, but it's actually a great way to test and learn how AI agents behave.
+
+![checkBot](https://static.wixstatic.com/media/3796d3_3e6447350fce43eba42602443fa0d418~mv2.png/v1/fill/w_740,h_361,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3796d3_3e6447350fce43eba42602443fa0d418~mv2.png)
+
+[Blog](https://www.timeplus.com/post/ai-chess-hallucination-detection)
+
+### Real-Time AI and Machine Learning with SQL and Python UDF
+
+SQL and Python are two of the most widely used tools in the data domain, both have their strengths and weaknesses, and understanding when to use each can help maximize efficiency and performance in data analysis, machine learning, and data transformation tasks.
+
+![UDF](https://static.wixstatic.com/media/3796d3_7e2fb7d83d474e04a410d3ebd20b8cb6~mv2.png/v1/fill/w_740,h_471,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3796d3_7e2fb7d83d474e04a410d3ebd20b8cb6~mv2.png)
+
+[Blog](https://www.timeplus.com/post/python-udf)
+
 ## FinTech
 
 ### Real-time post-trade analytics {#posttrade}

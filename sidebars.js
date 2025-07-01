@@ -43,17 +43,14 @@ const sidebars = {
         {
           type: "doc",
           id: "glossary",
-          customProps: { tag: "TODO" },
         },
         {
           type: "doc",
           id: "architecture",
-          customProps: { tag: "TODO" },
         },
         {
           type: "doc",
           id: "showcases",
-          customProps: { tag: "TODO" },
         },
       ],
     },
@@ -66,6 +63,8 @@ const sidebars = {
       type: "category",
       label: "Guides & Tutorials",
       items: [
+        "ingestion",
+        "destination",
         "understanding-watermark",
         "tutorial-sql-kafka",
         "tutorial-github",
@@ -91,15 +90,6 @@ const sidebars = {
         "tutorial-testcontainers-java",
       ],
     },
-    // {
-    //   type: "category",
-    //   label: "Terms & Concepts",
-    //   link: {
-    //     type: "doc",
-    //     id: "glossary",
-    //   },
-    //   items: ["eventtime"],
-    // },
     {
       type: "category",
       label: "Core Features",
@@ -248,30 +238,9 @@ const sidebars = {
           customProps: { tag: "Enterprise" },
         },
         {
-          type: "category",
-          label: "Web Console",
+          type: "doc",
+          id: "viz",
           customProps: { tag: "Enterprise" },
-          items: [
-            "ingestion",
-            // {
-            //   type: "category",
-            //   label: "Getting Data In",
-            //   link: {
-            //     type: "doc",
-            //     id: "ingestion",
-            //   },
-            //   items: ["confluent-cloud-source"],
-            // },
-            {
-              type: "doc",
-              id: "destination",
-            },
-            {
-              type: "doc",
-              label: "Data Visualization",
-              id: "viz",
-            },
-          ],
         },
         {
           type: "doc",
@@ -343,6 +312,7 @@ const sidebars = {
             "sql-show-functions",
             "sql-show-streams",
             "sql-system-pause",
+            "sql-system-recover",
             "sql-system-resume",
             "sql-system-transfer-leader",
             "sql-truncate-stream",
