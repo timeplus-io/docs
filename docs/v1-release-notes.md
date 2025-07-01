@@ -108,7 +108,7 @@ _Timeplus Cloud:_
 _Proton:_
 
 - Proton can now natively integrate with ClickHouse, available for both ClickHouse Cloud or local/self-managed versions of ClickHouse. [Learn more](https://www.timeplus.com/post/proton-clickhouse-integration)
-- Bulk CSV import is enhanced, in Proton 1.5.2. You can load billions of rows in multiple CSV files via a single SQL. [Learn more](/proton-howto#csv)
+- Bulk CSV import is enhanced, in Proton 1.5.2. You can load billions of rows in multiple CSV files via a single SQL.
 - Kafka Schema Registry is supported with Protobuf and Avro format (Proton 1.5.2). [Learn more](/proton-schema-registry)
 - Self-signed HTTPS certification for Schema Registry is supported (Proton 1.5.3).
 - Proton now can be compiled on SUSE Linux.
@@ -143,7 +143,6 @@ _Proton (Current version: v1.4.2):_
 - For random streams, you can now define the EPS (event per second) as a number between 0 to 1. For example, eps=0.5 means generating an event every 2 seconds.
 - A new [extract_key_value_pairs](/functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
 - We’ve refined the anonymous telemetry configuration. Regardless if it’s a single binary or Docker deployment, you can set a `TELEMETRY_ENABLED` environment variable. The reporting interval is adjusted from 2 minutes to 5 minutes.
-- Enhancements to our docs: re-organized Proton docs, added a [“Proton How To“ page](/proton-howto), and updated details on using certifications for [Kafka external stream](/proton-kafka#create-external-stream).
 
 _Timeplus Cloud:_
 

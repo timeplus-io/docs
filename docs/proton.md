@@ -24,9 +24,34 @@ Timeplus Proton uses ClickHouse as a table store engine inside of each stream (a
 
 ## ⚡ Deployment
 
+Proton can be installed as a single binary on Linux or Mac, via:
+
 ```shell
 curl https://install.timeplus.com/oss | sh
 ```
+
+Once the `proton` binary is available, you can run Timeplus Proton in different modes:
+
+- **Local Mode.** You run `proton local` to start it for fast processing on local and remote files using SQL without having to install a full server
+- **Config-less Mode.** You run `proton server` to start the server and put the config/logs/data in the current folder `proton-data`. Then use `proton client` in the other terminal to start the SQL client.
+- **Server Mode.** You run `sudo proton install` to install the server in predefined path and a default configuration file. Then you can run `sudo proton server -C /etc/proton-server/config.yaml` to start the server and use `proton client` in the other terminal to start the SQL client.
+
+For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
+
+```shell
+brew tap timeplus-io/timeplus
+brew install proton
+```
+
+You can also install Proton in Docker, Docker Compose or Kubernetes.
+
+```bash
+docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
+```
+
+Please check [Server Ports](/proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
+
+The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
 
 ### Timeplus Cloud Demo
 

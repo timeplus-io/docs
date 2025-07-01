@@ -390,15 +390,12 @@ const sidebars = {
         id: "proton",
       },
       items: [
-        "compare",
-        // "proton-architecture",
-        "proton-faq",
         {
           type: "doc",
-          label: "How to Use Proton",
-          id: "proton-howto",
-          customProps: { tag: "TODO" },
+          label: "vs. Timeplus Enterprise",
+          id: "compare",
         },
+        "proton-faq",
       ],
     },
     {
@@ -485,7 +482,11 @@ const sidebars = {
             },
           ],
         },
-        "redpanda-connect",
+        {
+          type: "doc",
+          id: "redpanda-connect",
+          customProps: { tag: "Enterprise" },
+        },
         {
           type: "category",
           label: "Third-party Tools",
@@ -597,7 +598,6 @@ const sidebars = {
       type: "doc",
       id: "faq",
       label: "FAQ",
-      customProps: { tag: "TODO" },
     },
     "getting-help",
     "credits",
