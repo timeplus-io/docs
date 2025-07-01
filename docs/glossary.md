@@ -1,14 +1,14 @@
 # Key Terms and Concepts
 
-This page lists key terms and concepts in Timeplus. Please check the sub-pages for more details.
+This page lists key terms and concepts in Timeplus, from A to Z.
 
 ## bookmark {#bookmark}
 
-Query bookmarks, only available in Timeplus Enterprise, not in Timeplus Proton.
+Query bookmarks or SQL scripts, only available in Timeplus Enterprise, not in Timeplus Proton.
 
 You can save the common SQL statements as bookmarks. They can be run quickly in the web console by a single click. You can create, list, edit, remove bookmarks in the query page.
 
-Both bookmarks and [views](/glossary#view) can help you easily re-run a query. However views are defined in the streaming database and you can query the view directly via `select .. from ..` But bookmarks are just UI shortcuts. When you click the bookmark, the original SQL statement will be pre-filled in the query console. You cannot run `select .. from my_bookmark`
+Both bookmarks and [views](/glossary#view) can help you easily re-run a query. However views are defined in the Timeplus SQL engine and you can query the view directly via `select .. from ..` But bookmarks are just UI shortcuts. When you click the bookmark, the original SQL statement will be pre-filled in the query console. You cannot run `select .. from my_bookmark`
 
 
 
@@ -22,7 +22,7 @@ CTEs can be thought of as alternatives to derived tables ([subquery](https://en.
 
 Only available in Timeplus Enterprise, not in Timeplus Proton.
 
-You can create multiple dashboards in a workspace, and add multiple charts to a dashboard. You can also add [filters](/viz#filter) or Markdown (experimental).
+You can create multiple dashboards, and add multiple charts to a dashboard. You can also add [filters](/viz#filter) or Markdown (experimental).
 
 ## event time
 
@@ -30,10 +30,23 @@ Event time is used to identify when the event is generated, like a birthday to a
 
 Learn more: [Event time](/eventtime)
 
+## external stream {#external_stream}
+
+You can create external streams to read or write data from/to external systems in the streaming way. Timeplus supports external streams to Apache Kafka, Apache Pulsar, and other streaming data platforms.
+
+Learn more: [External Stream](/external-stream)
+
+## external table {#external_table}
+You can create external tables to read or write data from/to external systems in the non-streaming way. Timeplus supports external tables to ClickHouse, PostgreSQL, MySQL, etc.
+
 
 ## materialized view {#mview}
 
-A special view that is kept running in the background and persistent the query results in an internal stream.
+Real-time data pipelines are built via materialized views in Timeplus.
+
+The difference between a materialized view and a regular view is that the materialized view is running in background after creation and the resulting stream is physically written to internal storage (hence it's called materialized).
+
+Once the materialized view is created, Timeplus will run the query in the background continuously and incrementally emit the calculated results according to the semantics of its underlying streaming select.
 
 ## query {#query}
 
@@ -45,13 +58,13 @@ Learn more: [Streaming Query](/stream-query) and [Non-Streaming Query](/history)
 
 a.k.a. destination. Only available in Timeplus Enterprise, not in Timeplus Proton.
 
-Timeplus enables you to send real-time insights to other systems, either to notify individuals or power up downstream applications.
+Timeplus enables you to send real-time insights or transformed data to other systems, either to notify individuals or power up downstream applications.
 
 Learn more: [Destination](/destination).
 
 ## source {#source}
 
-A source is a background job in Timeplus Enterprise to load data into a [stream](#stream). For Kafka API compatible streaming data platform, you need to create external streams.
+A source is a background job in Timeplus Enterprise to load data into a [stream](#stream). For Kafka API compatible streaming data platform, you need to create [Kafka external streams](/proton-kafka).
 
 Learn more: [Data Collection](/ingestion)
 
@@ -60,12 +73,6 @@ Learn more: [Data Collection](/ingestion)
 Timeplus is a streaming analytics platform and data lives in streams. Timeplus `streams` are similar to `tables` in the traditional SQL databases. Both of them are essentially datasets. The key difference is that Timeplus stream is an append-only, unbounded, constantly changing events group.
 
 Learn more: [Stream](/working-with-streams)
-
-## external stream {#external_stream}
-
-You can create external streams to read data from Kafka API compatible streaming data platform.
-
-Learn more: [External Stream](/external-stream)
 
 ## timestamp column
 

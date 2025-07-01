@@ -42,6 +42,11 @@ const sidebars = {
         },
         {
           type: "doc",
+          id: "glossary",
+          customProps: { tag: "TODO" },
+        },
+        {
+          type: "doc",
           id: "architecture",
           customProps: { tag: "TODO" },
         },
