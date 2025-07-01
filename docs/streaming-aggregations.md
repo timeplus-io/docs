@@ -1,4 +1,4 @@
-# Streaming Aggregations
+# Aggregations & Emit Polices
 ### Global Streaming Aggregation {#global}
 
 In Timeplus, we define global aggregation as an aggregation query without using streaming windows like tumble, hop. Unlike streaming window aggregation, global streaming aggregation doesn't slice
@@ -107,7 +107,7 @@ FROM tumble(device_utils, 5s)
 GROUP BY device, window_end
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](/stream-query#window-watermark), which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
+The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](/understanding-watermark), which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
 
 ### EMIT AFTER WINDOW CLOSE WITH DELAY {#emit_after_with_delay}
 
@@ -137,7 +137,7 @@ EMIT PERIODIC 5s
 
 For [Global Streaming Aggregation](#global) the default periodic emit interval is `2s`, i.e. 2 seconds.
 
-Since Proton 1.5, you can also apply `EMIT PERIODIC` in time windows, such as tumble/hop/session.
+You can also apply `EMIT PERIODIC` in time windows, such as tumble/hop/session.
 
 When you run a tumble window aggregation, by default Timeplus will emit results when the window is closed. So `tumble(stream,5s)` will emit results every 5 seconds, unless there is no event in the window to progress the watermark.
 
@@ -160,7 +160,7 @@ EMIT PERIODIC 3s REPEAT
 
 ### EMIT ON UPDATE {#emit_on_update}
 
-Since Proton 1.5, you can apply `EMIT ON UPDATE` in time windows, such as tumble/hop/session, with `GROUP BY` keys. For example:
+You can apply `EMIT ON UPDATE` in time windows, such as tumble/hop/session, with `GROUP BY` keys. For example:
 
 ```sql
 SELECT
@@ -194,7 +194,18 @@ EMIT ON UPDATE WITH DELAY 2s
 
 ### EMIT ON UPDATE WITH BATCH {#emit_on_update_with_batch}
 
-You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Proton will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
+You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Timeplus will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
+```sql
+SELECT
+  window_start, cid, count() AS cnt
+FROM
+  tumble(car_live_data, 5s)
+WHERE
+  cid IN ('c00033', 'c00022')
+GROUP BY
+  window_start, cid
+EMIT ON UPDATE WITH BATCH 2s
+```
 
 ### EMIT AFTER KEY EXPIRE IDENTIFIED BY .. WITH MAXSPAN .. AND TIMEOUT .. {#emit_after_key_expire}
 This emit policy is introduced in Timeplus Enterprise 2.9. Please watch the presentation from 2.9 launch webinar:

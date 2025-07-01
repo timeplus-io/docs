@@ -1,4 +1,4 @@
-# Query Syntax
+# Syntax
 
 Timeplus introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
 
@@ -35,7 +35,7 @@ Timeplus supports some advanced `SETTINGS` to fine tune the streaming query proc
 
 ## PARTITION BY
 
-`PARTITION BY` in Streaming SQL is to create [substreams](/substream).
+`PARTITION BY` in Streaming SQL is to create substreams.
 
 ## GROUP BY and HAVING {#group_having}
 

@@ -88,7 +88,7 @@ CREATE STREAM stream
 SETTINGS event_time_column = 'timestamp';
 ```
 
-Please note there will be the 4th column in the stream, which is \_tp_time as the [Event Time](/eventtime).
+Please note there will be the 4th column in the stream, which is \_tp_time as the [Event Time](/glossary#event_time).
 
 To import CSV content, use the [file](https://clickhouse.com/docs/en/sql-reference/table-functions/file) table function to set the file path and header and data types.
 

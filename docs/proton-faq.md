@@ -106,7 +106,7 @@ We're currently building out resources where you can learn about Timeplus Proton
 
 - [GitHub](https://github.com/timeplus-io/proton/)
 - [Documentation](/proton)
-- [High-level architecture](/proton-architecture)
+- [High-level architecture](/architecture)
 - [Videos](https://youtube.com/@timeplusdata)
 - [Wiki](https://github.com/timeplus-io/proton/wiki)
 

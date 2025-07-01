@@ -15,7 +15,7 @@ We will update the beta version from time to time and list key enhancements in t
 
 **Other UI Enhancements**
 
-- In the results table of the Query page, for date/time columns, we now show the original timestamp (no longer showing the browser's local timezone). In Timeplus, by default the \_tp_time column is created in the UTC timezone. Please check the [\_tp_time (Event time)](/eventtime) for details.
+- In the results table of the Query page, for date/time columns, we now show the original timestamp (no longer showing the browser's local timezone). In Timeplus, by default the \_tp_time column is created in the UTC timezone. Please check the [\_tp_time (Event time)](/glossary#event_time) for details.
 - Improved how expiry dates are shown for API keys in Personal Settings.
 
 **Streaming Database and SQLs**

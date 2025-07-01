@@ -168,6 +168,7 @@ const sidebars = {
                   label: "HTTP Write",
                   customProps: { tag: "Enterprise" },
                 },
+                "log-stream",
               ],
             },
             {
@@ -224,7 +225,13 @@ const sidebars = {
         {
           type: "category",
           label: "Stream Processing",
-          items: ["joins", "streaming-windows", "streaming-aggregations"],
+          items: [
+            "stream-query",
+            "history",
+            "joins",
+            "streaming-windows",
+            "streaming-aggregations",
+          ],
         },
         {
           type: "category",
@@ -284,8 +291,8 @@ const sidebars = {
       // customProps: { tag: "Popular" },
       items: [
         "query-syntax",
-        "datatypes",
         "query-settings",
+        "datatypes",
         {
           type: "category",
           label: "Statements",
