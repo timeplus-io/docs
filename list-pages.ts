@@ -35,44 +35,46 @@ type SidebarsConfig = {
 };
 
 /**
- * Parses the first line of a markdown file to find the H1 header.
- * Example: "# My Page Title" -> "My Page Title"
+ * Scans a markdown/mdx file to find the first H1 header (e.g., "# Title").
+ * This is more robust than checking only the first line, as MDX files can have
+ * imports or frontmatter before the title.
  * @param docId The ID of the doc, which corresponds to the filename (without extension).
  * @returns The extracted header title, or the original docId if not found.
  */
 async function getTitleFromMarkdown(docId: string): Promise<string> {
-  // Docusaurus can use .md or .mdx files. We check for both.
-  const mdPath = path.resolve(DOCS_FOLDER_PATH, `${docId}.md`);
   const mdxPath = path.resolve(DOCS_FOLDER_PATH, `${docId}.mdx`);
+  const mdPath = path.resolve(DOCS_FOLDER_PATH, `${docId}.md`);
 
   let filePath: string | null = null;
 
-  if (await Bun.file(mdPath).exists()) {
-    filePath = mdPath;
-  } else if (await Bun.file(mdxPath).exists()) {
+  if (await Bun.file(mdxPath).exists()) {
     filePath = mdxPath;
+  } else if (await Bun.file(mdPath).exists()) {
+    filePath = mdPath;
   }
 
   if (!filePath) {
-    // If the file doesn't exist, return the id as a fallback.
-    return docId;
+    return docId; // File not found, return ID as fallback.
   }
 
   try {
     const file = Bun.file(filePath);
     const content = await file.text();
-    const firstLine = content.split('\n')[0].trim();
-
-    // Match a markdown H1 header, e.g., "# Title"
-    const match = firstLine.match(/^#\s+(.*)/);
+    
+    // Use a multiline regex to find the first H1 header anywhere in the file.
+    // The 'm' flag makes '^' match the beginning of a line, not just the string.
+    const match = content.match(/^#\s+(.*)/m);
+    
     if (match && match[1]) {
-      return match[1];
+      // match[1] is the captured group (the text after '# ').
+      return match[1].trim(); 
     }
+
   } catch (error) {
     console.warn(`Could not read file for docId: ${docId}`, error);
   }
 
-  // Fallback to the id if no title is found in the file
+  // Fallback to the id if no H1 header is found in the file.
   return docId;
 }
 
@@ -96,7 +98,7 @@ async function getItemName(item: SidebarItem): Promise<string> {
     }
     return item.label;
   }
-
+  
   // If it's a doc without a label, parse the markdown file.
   if (item.type === 'doc' && 'id' in item) {
     return getTitleFromMarkdown(item.id);
@@ -116,19 +118,12 @@ async function printTree(items: SidebarItem[], prefix: string): Promise<void> {
     const item = items[i];
     const isLast = i === items.length - 1;
 
-    // Tree drawing characters
-    // '├──' for an intermediate item
-    // '└──' for the last item in a list
     const connector = isLast ? '└──' : '├──';
     const name = await getItemName(item);
-
+    
     console.log(`${prefix}${connector} ${name}`);
 
-    // If the item is a category, recurse into its children.
     if (typeof item === 'object' && item.type === 'category' && item.items) {
-      // The prefix for children needs to extend the current tree lines.
-      // '│   ' if the parent is not the last item (to draw a continuing line)
-      // '    ' if the parent is the last item (no more lines needed from this level)
       const childPrefix = prefix + (isLast ? '    ' : '│   ');
       await printTree(item.items, childPrefix);
     }
@@ -142,15 +137,12 @@ async function main() {
   console.log(`Parsing documentation structure from ${SIDEBARS_FILE_PATH}...\n`);
 
   try {
-    // Dynamically require the CommonJS sidebars.js file.
-    // path.resolve ensures the path is correct regardless of where the script is run from.
     const sidebars: SidebarsConfig = require(path.resolve(SIDEBARS_FILE_PATH));
 
-    // Iterate over each sidebar defined in the file (e.g., 'docSidebar', 'apiSidebar').
     for (const [sidebarName, items] of Object.entries(sidebars)) {
-      console.log(sidebarName); // Print the root of the tree
+      console.log(sidebarName);
       await printTree(items, '');
-      console.log(''); // Add a blank line between different sidebars
+      console.log('');
     }
   } catch (error) {
     if (error instanceof Error && 'code' in error && error.code === 'MODULE_NOT_FOUND') {
