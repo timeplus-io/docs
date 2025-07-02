@@ -25,7 +25,7 @@ Salla chose Timeplus Enterprise to modernize their data infrastructure, by addin
 
 3️⃣ State Management Complexity: Managing ksqlDB state stores can be challenging due to limitations in Time-To-Live (TTL) configurations and other storage settings. State persistence, often reliant on Kafka topics, can lead to increased storage and network bandwidth requirements for achieving high availability and resilience.
 
-Timeplus is designed from the ground up in C++ based on database technology but extended for Stream Processing. his allows for a much simpler and more performant system for data ingestion, processing and analytics all in one single binary. Data products created within Timeplus can be pushed out to external systems via Streaming or or consumed via Ad-hoc querying. As such it can easily integrate into the wider ecosystem of systems that integrate with Apache Kafka or Database/BI Tools.
+Timeplus is designed from the ground up in C++ based on database technology but extended for Stream Processing. his allows for a much simpler and more performant system for data ingestion, processing and analytics all in one single binary. Data products created within Timeplus can be pushed out to external systems via Streaming or consumed via Ad-hoc querying. As such it can easily integrate into the wider ecosystem of systems that integrate with Apache Kafka or Database/BI Tools.
 
 [Learn more](https://demos.timeplus.com/#/id/ksql_alternative).
 
@@ -47,7 +47,7 @@ While AI agents get smarter and more independent, what happens when they make mi
 
 We built an application where two AI agents play chess against each other (based on the autogen core samples). Each agent uses a language model to think about the game and make moves. It looks simple, but it's actually a great way to test and learn how AI agents behave.
 
-![checkBot](https://static.wixstatic.com/media/3796d3_3e6447350fce43eba42602443fa0d418~mv2.png/v1/fill/w_740,h_361,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3796d3_3e6447350fce43eba42602443fa0d418~mv2.png)
+![chess](https://static.wixstatic.com/media/3796d3_3e6447350fce43eba42602443fa0d418~mv2.png/v1/fill/w_740,h_361,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3796d3_3e6447350fce43eba42602443fa0d418~mv2.png)
 
 [Blog](https://www.timeplus.com/post/ai-chess-hallucination-detection)
 
