@@ -63,8 +63,6 @@ const sidebars = {
       type: "category",
       label: "Guides & Tutorials",
       items: [
-        "ingestion",
-        "destination",
         "understanding-watermark",
         "tutorial-sql-kafka",
         "tutorial-github",
@@ -123,6 +121,22 @@ const sidebars = {
           },
           items: ["checkpoint-settings"],
         },
+        {
+          type: "category",
+          label: "Data Ingestion",
+          link: {
+            type: "doc",
+            id: "ingestion",
+          },
+          items: [
+            {
+              type: "doc",
+              id: "idempotent",
+              customProps: { tag: "Enterprise" },
+            },
+          ],
+        },
+        "destination",
         {
           type: "category",
           label: "External Streams & Tables",
@@ -230,6 +244,11 @@ const sidebars = {
             "joins",
             "streaming-windows",
             "streaming-aggregations",
+            {
+              type: "doc",
+              id: "jit",
+              customProps: { tag: "Enterprise" },
+            },
           ],
         },
         {
@@ -239,17 +258,12 @@ const sidebars = {
         },
         {
           type: "doc",
-          id: "viz",
-          customProps: { tag: "Enterprise" },
-        },
-        {
-          type: "doc",
-          id: "idempotent",
-          customProps: { tag: "Enterprise" },
-        },
-        {
-          type: "doc",
           id: "tiered-storage",
+          customProps: { tag: "Enterprise" },
+        },
+        {
+          type: "doc",
+          id: "viz",
           customProps: { tag: "Enterprise" },
         },
       ],
@@ -375,11 +389,6 @@ const sidebars = {
           ],
         },
         "grok",
-        {
-          type: "doc",
-          id: "jit",
-          customProps: { tag: "Enterprise" },
-        },
       ],
     },
     {
