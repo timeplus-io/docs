@@ -177,9 +177,6 @@ DROP VIEW [IF EXISTS] db.<view_name>;
 
 Like [CREATE STREAM](/sql-create-stream), stream deletion is an async process.
 
-### Checkpint Settings
-TODO
-### Storage Settings
-TODO
 ### Best Practices
-TODO
+
+* It's recommended to specify [a target stream](#target-stream) when creating a materialized view, no matter a stream in Timeplus, an external stream to Apache Kafka, Apache Pulsar, or external tables to ClickHouse, S3, Iceberg, etc.

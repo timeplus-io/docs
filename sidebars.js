@@ -116,6 +116,15 @@ const sidebars = {
         },
         {
           type: "category",
+          label: "Materialized Views",
+          link: {
+            type: "doc",
+            id: "view",
+          },
+          items: ["checkpoint-settings"],
+        },
+        {
+          type: "category",
           label: "External Streams & Tables",
           // link: {
           //   type: "generated-index",
@@ -222,15 +231,6 @@ const sidebars = {
             "streaming-windows",
             "streaming-aggregations",
           ],
-        },
-        {
-          type: "category",
-          label: "Materialized Views",
-          link: {
-            type: "doc",
-            id: "view",
-          },
-          items: ["checkpoint-settings"],
         },
         {
           type: "doc",
