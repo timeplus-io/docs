@@ -1,12 +1,15 @@
-# Single Node Install
+# Deploy on Bare Metal
 
-Timeplus Enterprise can be easily installed on a single node, with or without Docker.
+Timeplus Enterprise can be easily installed bare metal Linux or MacOS, as a single node or multi-node clsuter.
 
-## Bare Metal Install{#bare_metal}
+## Single Node Install
 
 ### Install Script
 
-If your server or computer is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies. For Windows users, please follow [our guide](#docker) for running Timeplus Enterprise with Docker.
+If your server or computer is running Linux or MacOS, you can run the following command to download the package and start Timeplus Enterprise without any other dependencies.
+:::info
+For Windows users, please follow [our guide](#docker) for running Timeplus Enterprise with Docker.
+:::
 
 ```shell
 curl https://install.timeplus.com | sh
@@ -17,8 +20,9 @@ This script will download the latest release (based on your operating system and
 If you'd like to download the package for a certain feature release, you can run the following command:
 
 ```shell
-curl https://install.timeplus.com/2.7 | sh
+curl https://install.timeplus.com/2.8 | sh
 ```
+Replace `2.8` with the desired version number.
 
 ### Manual Install
 You can also download packages manually with the following links:
@@ -50,6 +54,12 @@ It is also possible to only start/stop single process by running `timeplus start
 
 For more information, please check the [CLI Reference](/cli-reference).
 
+### Upgrade {#upgrade}
+To upgrade Timeplus Enterprise, run `timeplus stop` to stop all the services. Then replace all the binaries to the higher version of Timeplus Enterprise release and then run `timeplus start`.
+
+### Uninstall {#uninstall}
+Timeplus Enterprise has no external dependencies. Just run `timeplus stop` then delete the timeplus folder.
+
 ## Docker Install{#docker}
 
 Alternatively, run the following command to start Timeplus Enterprise with [Docker](https://www.docker.com/get-started/):
@@ -79,13 +89,46 @@ This stack demonstrates how to run streaming ETL, getting data from Kafka API, a
 * [Tutorial – Streaming ETL: Kafka to Kafka](/tutorial-sql-etl)
 * [Tutorial – Streaming ETL: Kafka to ClickHouse](/tutorial-sql-etl-kafka-to-ch)
 
+## Cluster Install
+Timeplus Enterprise can be installed in multi-node cluster mode for high availability and horizontal scalability. This page shares how to install Timeplus cluster on bare metal. Pleae refer to [this guide](/k8s-helm) to deploy Timeplus Enterprise on Kubernetes.
+
+### Multi-Node Cluster
+
+There are multiple ways to setup a cluster without Kubernetes. One easy solution is to run all components in one node, and the rest of nodes running the timeplusd only. For other deployment options, please contact [support](mailto:support@timeplus.com) or message us in our [Slack Community](https://timeplus.com/slack).
+
+Choose one node as the lead node, say its hostname is `timeplus-server1`. Stop all services via `timeplus stop` command. Then configure environment variables.
+```bash
+export ADVERTISED_HOST=timeplus-server1
+export METADATA_NODE_QUORUM=timeplus-server1:8464,timeplus-server2:8464,timeplus-server3:8464
+export TIMEPLUSD_REPLICAS=3
+```
+Then run `timeplus start` to start all services, including timeplusd, timeplus_web, timeplus_appserver and timeplus_connector.
+
+On the second node, first make sure all services are stopped via `timeplus stop`.
+Then configure environment variables.
+```bash
+export ADVERTISED_HOST=timeplus-server2
+export METADATA_NODE_QUORUM=timeplus-server1:8464,timeplus-server2:8464,timeplus-server3:8464
+```
+Then run `timeplus start -s timeplusd` to only start timeplusd services.
+
+Similarly on the third node, set `export ADVERTISED_HOST=timeplus-server3` and the same `METADATA_NODE_QUORUM` and only start timeplusd.
+
+### Single-Host Cluster {#single-host-cluster}
+
+Starting from [Timeplus Enterprise v2.7](/enterprise-v2.7), you can also easily setup multiple timeplusd processes on the same host by running the `timeplusd server` with `node-index` option. This is useful for testing multi-node cluster.
+```bash
+./timeplusd server --node-index=1
+./timeplusd server --node-index=2
+./timeplusd server --node-index=3
+```
+
+Timeplusd will automatically bind to different ports for each node. You can run `timeplusd client` to connect to one node and check the status of the cluster via:
+```sql
+SELECT * FROM system.cluster
+```
+
 ## License Management{#license}
 When you start Timeplus Enterprise and access the web console for the first time, the 30-day free trial starts. When it ends, the software stops working.
 
 Please check [the guide](/server_config#license) to update licenses.
-
-## Upgrade {#upgrade}
-To upgrade Timeplus Enterprise, run `timeplus stop` to stop all the services. Then replace all the binaries to the higher version of Timeplus Enterprise release and then run `timeplus start`.
-
-## Uninstall {#uninstall}
-Timeplus Enterprise has no external dependencies. Just run `timeplus stop` then delete the timeplus folder.

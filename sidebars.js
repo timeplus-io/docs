@@ -537,13 +537,8 @@ const sidebars = {
         {
           type: "category",
           label: "Timeplus Enterprise Self-hosted",
-          link: {
-            type: "doc",
-            id: "timeplus-self-host",
-          },
           items: [
-            "singlenode_install",
-            "cluster_install",
+            "bare-metal-install",
             {
               type: "doc",
               id: "k8s-helm",
