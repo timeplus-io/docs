@@ -1,4 +1,4 @@
-# Materialized View
+# View and Materialized View
 Real-time data pipelines are built via [Materialized Views](#m_view) in Timeplus.
 
 There are two types of views in Timeplus: logical view (or just view) and materialized view.
