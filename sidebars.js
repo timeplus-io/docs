@@ -609,7 +609,7 @@ const sidebars = {
       label: "FAQ",
     },
     "getting-help",
-    "credits",
+    // "credits",
   ],
 };
 
