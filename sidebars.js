@@ -109,7 +109,11 @@ const sidebars = {
               id: "mutable-stream",
               customProps: { tag: "Enterprise" },
             },
-            // "substream",
+            {
+              label: "Random Stream",
+              type: "link",
+              href: "https://docs.timeplus.com/sql-create-random-stream",
+            },
           ],
         },
         {
