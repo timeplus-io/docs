@@ -309,6 +309,10 @@ SYSTEM PAUSE MATERIALIZED VIEW
 
 SYSTEM RESUME MATERIALIZED VIEW
 
+## 📄️ SYSTEM TRANSFER LEADER
+
+Transfer the leader of a materialized view to another node in the cluster.
+
 ## 📄️ TRUNCATE STREAM
 
 Run the following SQL to remove the historical data from a stream, keeping the schema and the stream itself.
@@ -3446,6 +3450,10 @@ Alternatively, you can use map_cast(key1,value1,key2,value2..)
 
 Since Proton v1.4.2, a new extract_key_value_pairs function is added to extract key value pairs from a string to a map.
 
+### map_from_arrays​
+
+Alias for the above map_cast function.
+
 ## Tuples​
 
 ### tuple_cast​
@@ -3459,10 +3467,6 @@ untuple(a_tuple) show elements in the tuple.
 The names of the result columns are implementation-specific and subject to change. Do not assume specific column names after untuple.
 
 ### tuple_element​
-
-tuple_element(a_tuple, index, [, default_value]) or tuple_element(a_tuple, name, [, default_value])
-
-A function that allows getting a column from a tuple.
 
 ... (content truncated)
 
@@ -3954,6 +3958,14 @@ This function is available since Timeplus Enterprise v2.9.
 
 This takes one or more parameters and return a json object. You can also turn all column values in the row as a json object via json_cast(*).
 
+### json_array_length​
+
+Get the length of the JSON array. For example, json_array_length('[3,4,5]') will return 3.
+
+### json_merge_patch​
+
+Merge multiple JSON documents into one. For example, json_merge_patch('{"a":1,"b":2}', '{"b":3,"c":4}') will return {"a":1,"b":3,"c":4}. If the key exists in both documents, the value from the second document will overwrite the first one.
+
 - json_extract_int
 - json_extract_float
 - json_extract_bool
@@ -3966,6 +3978,8 @@ This takes one or more parameters and return a json object. You can also turn al
 - json_query
 - json_encode
 - json_cast
+- json_array_length
+- json_merge_patch
 
 
 
@@ -4650,7 +4664,49 @@ unhex(string) Performs the opposite operation of hex. It interprets each pair of
 
 ### uuid​
 
-uuid() or uuid(x) Generates a universally unique identifier (UUID) which is a 16-byte number used to identify records. In order to generate multiple UUID in one row, pass a parameter in each function call, such as SELECT uuid(1) as a, uuid(2) as b Otherwise if there is no parameter while calling multiple uuid functions in one SQL statement, the same UUID value will be returned.
+Alias of generate_uuidv4.
+
+uuid() or uuid(x) Generates a universally unique identifier (UUIDv4) which is a 16-byte number used to identify records. In order to generate multiple UUID in one row, pass a parameter in each function call, such as SELECT uuid(1) as a, uuid(2) as b Otherwise if there is no parameter while calling multiple uuid functions in one SQL statement, the same UUID value will be returned.
+
+### generate_uuidv4​
+
+Generates a universally unique identifier (UUIDv4) which is a 16-byte number used to identify records.
+
+### uuid7​
+
+Alias of generate_uuidv7.
+
+### generate_uuidv7​
+
+generate_uuidv7() Generates a universally unique identifier (UUIDv7), which contains the current Unix timestamp in milliseconds (48 bits), followed by version "7" (4 bits), a counter (42 bit) to distinguish UUIDs within a millisecond (including a variant field "2", 2 bit), and a random field (32 bits). For any given timestamp (unix_ts_ms), the counter starts at a random value and is incremented by 1 for each new UUID until the timestamp changes. In case the counter overflows, the timestamp field is incremented by 1 and the counter is reset to a random new start value.
+
+### generate_uuidv7_thread_monotonic​
+
+Generates a UUID version 7.
+
+The generated UUID contains the current Unix timestamp in milliseconds (48 bits), as generate_uuidv7 but gives no guarantee on counter monotony across different simultaneous requests.
+Monotonicity within one timestamp is guaranteed only within the same thread calling this function to generate UUIDs.
+
+### generate_uuidv7_non_monotonic​
+
+Generates a UUID version 7. This function is the fastest but it gives no monotonicity guarantees within a timestamp.
+
+### uuid_to_num​
+
+uuid_to_num(uuid)
+Extract bytes from a UUID and convert them to a number. The result is a 128-bit integer, which is the same as the UUID in binary format. The argument needs to be a UUIDv4 or UUIDv7, not a string. If you get a string, use uuid_to_num(to_uuid(uuid_string)) or uuid_string_to_num(uuid_string).
+
+### uuid_string_to_num​
+
+uuid_string_to_num(string[, variant = 1]) Accepts string containing 36 characters in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx, and returns a fixed_stringtring(16) as its binary representation, with its format optionally specified by variant (Big-endian by default).
+
+### uuidv7_to_datetime​
+
+uuidv7_to_datetime(uuid [, timezone]) Returns the timestamp component of a UUID version 7.
+
+### to_uuid​
+
+to_uuid(string) Converts a string in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx to a UUID. The string must be 36 characters long and contain only hexadecimal digits and hyphens.
 
 ### base64_encode​
 
@@ -4708,6 +4764,15 @@ format_readable_size(number) Returns a rounded number with suffix (KiB, GiB, etc
 - hex
 - unhex
 - uuid
+- generate_uuidv4
+- uuid7
+- generate_uuidv7
+- generate_uuidv7_thread_monotonic
+- generate_uuidv7_non_monotonic
+- uuid_to_num
+- uuid_string_to_num
+- uuidv7_to_datetime
+- to_uuid
 - base64_encode
 - base64_decode
 - base58_encode
@@ -5328,7 +5393,7 @@ While using one of our SDK to connect to Timeplus, you can choose HTTP port 8123
 
 ## Http-external
 
-- [HTTP External Stream | Timeplus](https://docs.timeplus.com/http-external): Since Timeplus Enterprise v2.9, Timeplus can send data to HTTP endpoints via the HTTP External Stream. You can use this feature to trigger Slack notifications or send streaming data to downstream systems, such as Splunk, Elasticsearch, or any other HTTP-based service.
+- [HTTP External Stream | Timeplus](https://docs.timeplus.com/http-external): Since Timeplus Enterprise v2.9 and v2.8.2, you can send data to HTTP endpoints via the HTTP External Stream. You can use this feature to trigger Slack notifications or send streaming data to downstream systems, such as Splunk, Datadog, Elasticsearch, Databricks, or any other HTTP-based service.
 
 - Key Features
 - External Streams
@@ -5336,7 +5401,7 @@ While using one of our SDK to connect to Timeplus, you can choose HTTP port 8123
 
 # HTTP External Stream
 
-Since Timeplus Enterprise v2.9, Timeplus can send data to HTTP endpoints via the HTTP External Stream. You can use this feature to trigger Slack notifications or send streaming data to downstream systems, such as Splunk, Elasticsearch, or any other HTTP-based service.
+Since Timeplus Enterprise v2.9 and v2.8.2, you can send data to HTTP endpoints via the HTTP External Stream. You can use this feature to trigger Slack notifications or send streaming data to downstream systems, such as Splunk, Datadog, Elasticsearch, Databricks, or any other HTTP-based service.
 
 Currently, it only supports writing data to HTTP endpoints, but reading data from HTTP endpoints is not supported yet.
 
@@ -5391,6 +5456,20 @@ Create the HTTP external stream in Timeplus:
 Replace the OAUTH_TOKEN with the output of gcloud auth application-default print-access-token or other secure way to obtain OAuth token. Replace PROJECT, DATASET and TABLE to match your BigQuery table path. Also change format_template_row_format to match the table schema.
 
 Then you can insert data via a materialized view or just via INSERT command:
+
+#### Write to Databricks​
+
+Follow the guide to create an access token for your Databricks workspace.
+
+Assume you have created a table in Databricks SQL warehouse with 2 columns:
+
+Create the HTTP external stream in Timeplus:
+
+Replace the TOKEN, HOST, and WAREHOUSE_ID to match your Databricks settings. Also change format_template_row_format and format_template_row_format to match the table schema.
+
+Then you can insert data via a materialized view or just via INSERT command:
+
+This will insert one row per request. We plan to support batch insert and Databricks specific format to support different table schemas in the future.
 
 #### Trigger Slack Notifications​
 
@@ -5476,13 +5555,14 @@ If you need the POST body to be a JSON array for multiple rows in a batch, set o
 
 ## DROP EXTERNAL STREAM​
 
-- CREATE EXTERNAL STREAMExamplesWrite to OpenSearch/ElasticSearchWrite to SplunkWrite to DatadogWrite to AlgoliaWrite to BigQueryTrigger Slack NotificationsDDL Settingstypeconfig_fileurldata_formatformat_template_resultset_formatformat_template_row_formatformat_template_rows_between_delimiterhttp_header_Authorizationoutput_format_json_array_of_rows
-- ExamplesWrite to OpenSearch/ElasticSearchWrite to SplunkWrite to DatadogWrite to AlgoliaWrite to BigQueryTrigger Slack Notifications
+- CREATE EXTERNAL STREAMExamplesWrite to OpenSearch/ElasticSearchWrite to SplunkWrite to DatadogWrite to AlgoliaWrite to BigQueryWrite to DatabricksTrigger Slack NotificationsDDL Settingstypeconfig_fileurldata_formatformat_template_resultset_formatformat_template_row_formatformat_template_rows_between_delimiterhttp_header_Authorizationoutput_format_json_array_of_rows
+- ExamplesWrite to OpenSearch/ElasticSearchWrite to SplunkWrite to DatadogWrite to AlgoliaWrite to BigQueryWrite to DatabricksTrigger Slack Notifications
 - Write to OpenSearch/ElasticSearch
 - Write to Splunk
 - Write to Datadog
 - Write to Algolia
 - Write to BigQuery
+- Write to Databricks
 - Trigger Slack Notifications
 - DDL Settingstypeconfig_fileurldata_formatformat_template_resultset_formatformat_template_row_formatformat_template_rows_between_delimiterhttp_header_Authorizationoutput_format_json_array_of_rows
 - type
@@ -5496,12 +5576,13 @@ If you need the POST body to be a JSON array for multiple rows in a batch, set o
 - output_format_json_array_of_rows
 - DROP EXTERNAL STREAM
 
-- ExamplesWrite to OpenSearch/ElasticSearchWrite to SplunkWrite to DatadogWrite to AlgoliaWrite to BigQueryTrigger Slack Notifications
+- ExamplesWrite to OpenSearch/ElasticSearchWrite to SplunkWrite to DatadogWrite to AlgoliaWrite to BigQueryWrite to DatabricksTrigger Slack Notifications
 - Write to OpenSearch/ElasticSearch
 - Write to Splunk
 - Write to Datadog
 - Write to Algolia
 - Write to BigQuery
+- Write to Databricks
 - Trigger Slack Notifications
 - DDL Settingstypeconfig_fileurldata_formatformat_template_resultset_formatformat_template_row_formatformat_template_rows_between_delimiterhttp_header_Authorizationoutput_format_json_array_of_rows
 - type
@@ -5519,6 +5600,7 @@ If you need the POST body to be a JSON array for multiple rows in a batch, set o
 - Write to Datadog
 - Write to Algolia
 - Write to BigQuery
+- Write to Databricks
 - Trigger Slack Notifications
 
 - type
@@ -5582,7 +5664,7 @@ If you want to create new Iceberg tables from Timeplus, you can also set storage
 
 #### Gravitino Configuration​
 
-Here is the sample configuration for Gravitino Iceberg REST Server 0.7.0:
+Here is the sample configuration for Gravitino Iceberg REST Server 0.9.0:
 
 ## Creating and Writing to an Iceberg Table​
 
@@ -6826,7 +6908,7 @@ You should see following output within a couple of minutes.
 
 To make sure everything is up and running, run kubectl get pods -n $NS to check the stack status
 
-If any of the pod is in error status, you can try to use kubectl describe pod <error pod> -n $NS to debug. For more details, please refer to Troubleshooting section.
+If any of the pod is in error status, you can try to use kubectl describe pod <error pod> -n $NS to debug. For more details, please refer to Troubleshooting section. Starting from Timeplus Enterprise 2.9, the timeplus-web pod is no longer available.
 
 ### Expose the Timeplus Console​
 
@@ -6924,8 +7006,6 @@ The metrics of timeplusd are exposed at :9363/metrics. You will need to collect 
 - timeplusd-0.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics
 - timeplusd-1.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics
 - timeplusd-2.timeplusd-svc.my_ns.svc.cluster.local:9363/metrics
-
-Similarly, for timeplus-connector, the metrics are exposed at :4196/metrics. For example http://timeplus-connector.my_ns:4196/metrics. You can refer to the docs on Redpanda Connect site for more details.
 
 ... (content truncated)
 
@@ -7144,7 +7224,6 @@ To query a Kafka topic using SQL, create an external stream in Timeplus Proton:
 
 Notes:
 
-- Replace {kafka_broker} and {kafka_pwd} with your actual Kafka broker address and password
 - The Kafka topic contains live GitHub events data in JSON format
 - If you have too many columns or variable schema, you can create a stream with a single string column and parse the JSON at query time
 
@@ -7217,6 +7296,110 @@ For more information and examples, visit the Timeplus GitHub repository.
 
 
 
+## Mongo-external
+
+- [MongoDB External Table | Timeplus](https://docs.timeplus.com/mongo-external): Since Timeplus Enterprise v2.9 and v2.8.2, you can send data to and read data from MongoDB collections via the MongoDB External Table.
+
+# MongoDB External Table
+
+Since Timeplus Enterprise v2.9 and v2.8.2, you can send data to and read data from MongoDB collections via the MongoDB External Table.
+
+## CREATE EXTERNAL TABLE​
+
+To create an external table for MongoDB, you can run the following DDL SQL:
+
+For the full list of settings, see the DDL Settings section.
+
+### Examples​
+
+#### Write to Self-Hosting MongoDB​
+
+Assuming you have created an index students in a deployment of OpenSearch or ElasticSearch, you can create the following external stream to write data to the index.
+
+Then you can insert data via a materialized view or just
+
+#### Write to MongoDB Atlas​
+
+The MongoDB Atlas by default shows the connection URI in the format mongodb+srv://<username>:<password>@<cluster-address>/<default-auth-db>. The mongodb+srv protocol is not supported yet. Please use the mongodb protocol instead. You can find the connection URI in the MongoDB Atlas UI, and choose C++ driver and 3.1.x as the version. The connection URI will look like this:
+
+#### Read From MongoDB​
+
+You can also read data from MongoDB collections via the external table. The following example reads data from the students collection in MongoDB.
+
+You can also filter the data using a WHERE clause or apply aggregations on the data. Timeplus will try best to push down the filter and aggregation operations to the MongoDB, so that only the necessary data is transferred from MongoDB to Timeplus.
+
+### DDL Settings​
+
+#### type​
+
+The type of the external stream. The value must be mongodb to send data to MongoDB.
+
+#### uri​
+
+The endpoint of the MongoDB service.
+
+#### collection​
+
+The name of the MongoDB collection to read/write data from/to.
+
+#### connection_options​
+
+MongoDB connection string options as a URL formatted string. e.g. 'authSource=admin&ssl=true'.
+
+#### oid_columns​
+
+A comma-separated list of columns that should be treated as oid in the WHERE clause. Default to _id.
+
+### Query Settings​
+
+#### mongodb_throw_on_unsupported_query​
+
+By default this setting is true. While querying the MongoDB external table with SQL, if the query contains GROUP BY, HAVING or other aggregations, Timeplus will throw exceptions. Set this to false or 0 to disable this behavior, and Timeplus will read full table data from MongoDB and execute the query in Timeplus. For example:
+
+## DROP EXTERNAL TABLE​
+
+- CREATE EXTERNAL TABLEExamplesWrite to Self-Hosting MongoDBWrite to MongoDB AtlasRead From MongoDBDDL Settingstypeuricollectionconnection_optionsoid_columnsQuery Settingsmongodb_throw_on_unsupported_query
+- ExamplesWrite to Self-Hosting MongoDBWrite to MongoDB AtlasRead From MongoDB
+- Write to Self-Hosting MongoDB
+- Write to MongoDB Atlas
+- Read From MongoDB
+- DDL Settingstypeuricollectionconnection_optionsoid_columns
+- type
+- uri
+- collection
+- connection_options
+- oid_columns
+- Query Settingsmongodb_throw_on_unsupported_query
+- mongodb_throw_on_unsupported_query
+- DROP EXTERNAL TABLE
+
+- ExamplesWrite to Self-Hosting MongoDBWrite to MongoDB AtlasRead From MongoDB
+- Write to Self-Hosting MongoDB
+- Write to MongoDB Atlas
+- Read From MongoDB
+- DDL Settingstypeuricollectionconnection_optionsoid_columns
+- type
+- uri
+- collection
+- connection_options
+- oid_columns
+- Query Settingsmongodb_throw_on_unsupported_query
+- mongodb_throw_on_unsupported_query
+
+- Write to Self-Hosting MongoDB
+- Write to MongoDB Atlas
+- Read From MongoDB
+
+- type
+- uri
+- collection
+- connection_options
+- oid_columns
+
+- mongodb_throw_on_unsupported_query
+
+
+
 ## Mutable-stream
 
 - [Mutable Stream | Timeplus](https://docs.timeplus.com/mutable-stream): This type of stream is only available in Timeplus Enterprise, with high performance query and UPSERT (UPDATE or INSERT). Starting from Timeplus Enterprise 2.7, mutable streams are enhanced to support DELETE operation.
@@ -7240,6 +7423,8 @@ Since Timeplus Enterprise 2.7, if you create a mutable stream with low_cardinali
 Learn more.
 
 PARTITION BY, ORDER BY or SAMPLE BY clauses are not allowed while creating the mutable stream.
+
+Since Timeplus Enterprise 2.8.2, you can set coalesced (default to false). If it's true and the insert data only contains partial columns in the WAL, the partial columns will merge with the existing rows.Learn more. Also, since 2.8.2, you can set ttl_seconds (default to -1). If it's set to a positive value, then data with primary key older than the ttl_seconds will be scheduled to be pruned in the next key compaction cycle. Learn more.
 
 ## INSERT​
 
@@ -7305,7 +7490,7 @@ Mutable stream can also be used in JOINs.
 
 Like normal streams in Timeplus, mutable streams use both streaming storage and historical storage. New data are added to the streaming storage first, then continuously write to the historical data with deduplication/merging process.
 
-Starting from Timeplus Enterprise 2.9, you can set ttl_seconds on mutable streams. If the data is older than this value, it is scheduled to be pruned in the next key compaction cycle. Default value is -1. Any value less than 0 means this feature is disabled.
+Starting from Timeplus Enterprise 2.9 (also backported to 2.8.2), you can set ttl_seconds on mutable streams. If the data is older than this value, it is scheduled to be pruned in the next key compaction cycle. Default value is -1. Any value less than 0 means this feature is disabled.
 
 ### Retention Policy for Streaming Storage​
 
@@ -7337,6 +7522,22 @@ Taking the previous device_metrics as an example, the lat and lon are commonly q
 
 Another optimization is to create multiple shards to partition the data when it scales. For example, to create 3 shards for device_metrics:
 
+### Coalesced and Versioned Mutable Stream​
+
+For a mutable stream with many columns, there are some cases that only some columns are updated over time. Create a mutable stream with coalesced=true setting to enable the partial merge. For example, given a mutable stream:
+
+If we insert one row with m1=1:
+
+Query the mutable stream. You will get one row.
+
+Then insert the other row with the same primary key and m2=2.
+
+Query it again with
+
+You will see one row with m1 and m2 updated and other columns in the default value.
+
+Compared to the Versioned Stream, coalesced mutable streams don't require you to set all column values when you update a primary key. You can also set version_column to the column name to indicate which column with the version number. Say there are updates for the same primary key, v as the version_column, the first update is "v=1,p=1,m=1" and the second update is "v=2,p=1,m=2". For some reasons, if Timeplus receives the second update first, then when it gets the "v=1,p=1,m=1", since the version is 1, lower than the current version, so this update will be reject and we keep the latest update as "v=2,p=1,m=2". This is beneficial specially in distributed environment with potential out of order events.
+
 ## Performance Tuning​
 
 If you are facing performance challenges with massive data in mutable streams, please consider adding secondary indexes, column families and use multiple shards.
@@ -7354,12 +7555,13 @@ Additionally, you can configure the number of threads for full-scan of the key s
 - Create a mutable stream
 - Load millions of rows
 - Query the mutable stream
-- Advanced SettingsRetention Policy for Historical StorageRetention Policy for Streaming StorageSecondary IndexColumn FamilyMulti-shard
+- Advanced SettingsRetention Policy for Historical StorageRetention Policy for Streaming StorageSecondary IndexColumn FamilyMulti-shardCoalesced and Versioned Mutable Stream
 - Retention Policy for Historical Storage
 - Retention Policy for Streaming Storage
 - Secondary Index
 - Column Family
 - Multi-shard
+- Coalesced and Versioned Mutable Stream
 - Performance Tuningkey_space_full_scan_threads
 - key_space_full_scan_threads
 
@@ -7372,6 +7574,7 @@ Additionally, you can configure the number of threads for full-scan of the key s
 - Secondary Index
 - Column Family
 - Multi-shard
+- Coalesced and Versioned Mutable Stream
 
 - key_space_full_scan_threads
 
@@ -7422,10 +7625,6 @@ You can define the external table and use it to read data from the MySQL table, 
 
 Example SQL to connect to a local MySQL server without password:
 
-### Connect to Aiven for MySQL​
-
-Example SQL to connect to Aiven for MySQL:
-
 ## Read data from MySQL​
 
 Once the external table is created successfully, it means Timeplus can connect to the MySQL server and fetch the table schema.
@@ -7460,10 +7659,9 @@ In Timeplus Enterprise, additional performance tuning settings are available, su
 
 All MySQL data types are supported in the external table. While reading or writing data, Timeplus applies a data type mapping, such as converting Timeplus' uint8 to MySQL's SMALLINT. If you find anything wrong with the data type, please let us know.
 
-- CREATE EXTERNAL TABLESyntaxConnect to a local MySQLConnect to Aiven for MySQL
+- CREATE EXTERNAL TABLESyntaxConnect to a local MySQL
 - Syntax
 - Connect to a local MySQL
-- Connect to Aiven for MySQL
 - Read data from MySQL
 - Write data to MySQLBatching Settings
 - Batching Settings
@@ -7471,7 +7669,6 @@ All MySQL data types are supported in the external table. While reading or writi
 
 - Syntax
 - Connect to a local MySQL
-- Connect to Aiven for MySQL
 
 - Batching Settings
 
@@ -12113,11 +12310,13 @@ You can add or modify the retention policy. e.g.
 
 ## MODIFY SETTING​
 
-You can add or modify the retention policy for streaming storage. e.g.
+You can add or modify the retention policy for streams or mutable streams, e.g.
 
 Starting from Timeplus Enterprise 2.7, you can also modify the RocksDB settings for mutable streams. e.g.
 
 You can also change the codec for mutable streams. e.g.
+
+Starting from Timeplus Enterprise 2.8.2, you can also modify the TTL for mutable stream.
 
 ## MODIFY QUERY SETTING​
 
@@ -12141,6 +12340,8 @@ You can add a column to an existing stream. The value of the new column in the e
 
 Syntax:
 
+Since Timeplus Enterprise 2.8.2, you can also add multiple columns at once:
+
 DELETE COLUMN is not supported yet. Contact us if you have strong use cases.
 
 ## RENAME COLUMN​
@@ -12154,6 +12355,18 @@ Since Timeplus Enterprise v2.6.0, you can add an index to a mutable stream.
 ## DROP INDEX​
 
 Since Timeplus Enterprise v2.9.0, you can drop an index from a mutable stream.
+
+## MATERIALIZE INDEX​
+
+Since Timeplus Enterprise 2.8.2, you can rebuild the secondary index name for the specified partition_name.
+
+For example:
+
+## CLEAR INDEX​
+
+Since Timeplus Enterprise 2.8.2, you can delete the secondary index name from disk.
+
+For example:
 
 ## DROP PARTITION​
 
@@ -12185,6 +12398,8 @@ Such as
 - RENAME COLUMN
 - ADD INDEX
 - DROP INDEX
+- MATERIALIZE INDEX
+- CLEAR INDEX
 - DROP PARTITION
 - See also
 
@@ -13937,6 +14152,24 @@ This command is only available in Timeplus Enterprise v2.7.0 or above. In earlie
 
 
 
+## Sql-system-transfer-leader
+
+- [SYSTEM TRANSFER LEADER | Timeplus](https://docs.timeplus.com/sql-system-transfer-leader): Transfer the leader of a materialized view to another node in the cluster.
+
+- Query & SQL Reference
+- SQL Commands
+- SYSTEM TRANSFER LEADER
+
+# SYSTEM TRANSFER LEADER
+
+Transfer the leader of a materialized view to another node in the cluster.
+
+For example:
+
+This feature is only available in Timeplus Enterprise v2.5.x or above. This SQL need to be run on the lead node of the cluster.
+
+
+
 ## Sql-system-unpause
 
 - [SYSTEM UNPAUSE | Timeplus](https://docs.timeplus.com/sql-system-unpause): SYSTEM UNPAUSE MATERIALIZED VIEW
@@ -14883,7 +15116,7 @@ For example, on the edge server, you collect the real-time web access log and on
 
 Timeplus Enterprise is easy to deploy from edge devices to your data center. It is ideal for enterprise users with flexible deployment needs with advanced configurations needs.
 
-Timeplus Enterprise self-hosted edition shares many features as Timeplus Enterprise in the cloud. Comparing to Timeplus Proton, you can do more with Timeplus Enterprise, e.g.
+Comparing to Timeplus Proton, you can do more with Timeplus Enterprise, e.g.
 
 - Multi-node cluster for high availability and horizontal scalability
 - Kubernetes Helm Chart
@@ -16430,6 +16663,60 @@ Proton:
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
+## Jun 23, 2025​
+
+No public releases for the past 2 weeks. We are working on the next release of Timeplus Enterprise v2.9, which includes external tables for MongoDB.
+
+## Jun 9, 2025​
+
+### Timeplus Proton 1.6.16​
+
+- fixed the issue for map_cast(array1,array2)
+
+### Timeplus Enterprise v2.8 GA​
+
+- 2.8.1 is the first GA version of Timeplus Enterprise v2.8, with the key features:
+
+New Compute Node server role to run materialized views elastically with checkpoints on S3 storage.
+Timeplus can read or write data in Apache Iceberg tables. Learn more
+Timeplus can read or write PostgreSQL tables directly via PostgreSQL External Table or look up data via dictionaries.
+Use S3 as the tiered storage for streams.
+New SQL command to rename streams or columns.
+JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
+A new page to visualize nodes in a cluster.
+New page to view the details of streams or materialized views.
+- New Compute Node server role to run materialized views elastically with checkpoints on S3 storage.
+- Timeplus can read or write data in Apache Iceberg tables. Learn more
+- Timeplus can read or write PostgreSQL tables directly via PostgreSQL External Table or look up data via dictionaries.
+- Use S3 as the tiered storage for streams.
+- New SQL command to rename streams or columns.
+- JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
+- A new page to visualize nodes in a cluster.
+- New page to view the details of streams or materialized views.
+
+- New Compute Node server role to run materialized views elastically with checkpoints on S3 storage.
+- Timeplus can read or write data in Apache Iceberg tables. Learn more
+- Timeplus can read or write PostgreSQL tables directly via PostgreSQL External Table or look up data via dictionaries.
+- Use S3 as the tiered storage for streams.
+- New SQL command to rename streams or columns.
+- JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
+- A new page to visualize nodes in a cluster.
+- New page to view the details of streams or materialized views.
+
+### Timeplus Enterprise v2.7.8, v2.7.9​
+
+Patch releases with bug fixes.
+
+### Timeplus Enterprise v2.9 Preview 1​
+
+Another preview edition of Timeplus Enterprise v2.9 with many new features. This is scheduled to be Generally Available (GA) by the end of August.
+
+### Timeplus Go Driver v2.1.2​
+
+The proton-go-driver provides Go connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:
+
+- simplify json marshaling and support selecting nested fields
+
 ## May 26, 2025​
 
 ### Timeplus Native JDBC v2.0.10​
@@ -16614,48 +16901,6 @@ The new version of Grafana plugin improved the batching strategy to render resul
 
 Timeplus Enterprise v2.6 is now Generally Available! Key breakthroughs:
 
-- Revolutionary hybrid hash table technology. For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. This is helpful for preventing the memory limits from being exceeded for large data streams with hundreds of GB of data. You can adjust the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
-- Enhanced operational visibility. Gain complete transparency into your system's performance through comprehensive monitoring of materialized views and streams. Track state changes, errors, and throughput metrics via system.stream_state_log and system.stream_metric_log.
-- Advanced cross-deployment integration. Seamlessly write data to remote Timeplus deployments by configuring Timeplus external stream as targets in materialized views.
-- Improved data management capabilities. Add new columns to an existing stream. Truncate historical data for streams. Create new databases to organize your streams and materialized views.
-- Optimized ClickHouse integration. Significant performance improvements for read/write operations with ClickHouse external tables.
-- Enhanced user experience. New UI wizards for Coinbase data sources and Apache Pulsar external streams, alongside a redesigned SQL Console and SQL Helper interface for improved usability. Quick access to streams, dashboards, and common actions via Command+K (Mac) or Windows+K (PC) keyboard shortcuts.
-
-### Timeplus Proton v1.6.9​
-
-- Timeplus external stream is now available in Timeplus Proton. You can read or write data across Timeplus deployments. Learn more.
-
-### Timeplus Grafana plugin v2.1.0​
-
-The new version of Grafana plugin supports query variables and annotations. The SQL editor is enlarged for better readability and editing experience.
-
-## Jan 6, 2025​
-
-Happy New Year 🎉
-
-### Timeplus Proton v1.6.8​
-
-- Pulsar external stream is now available in Timeplus Proton. You can use Pulsar external stream to query or process data in Pulsar with SQL. Learn more.
-
-## Dec 23, 2024​
-
-Merry Christmas 🎄
-
-### Timeplus Proton v1.6.7​
-
-- console.log(..) function is available in JavaScript UDF. The log messages will be available in the server logs, such as /var/log/proton-server/proton-server.log .
-- New SQL functions: largest_triangle_three_buckets, avg_time_weighted and median_time_weighted.
-- Enhance the dedup function to support the edge case that multiple columns with the same name.
-- Fixed the issue that Timeplus Proton binary cannot be ran in macOS v15.x with Apple chips.
-
-### Timeplus as Flyway Community DB Support​
-
-- A Timeplus plugin is available for Redgate Flyway. You can use Flyway to manage your Timeplus database resources. Learn More.
-
-## Dec 9, 2024​
-
-### Timeplus Enterprise v2.5​
-
 ... (content truncated)
 
 ## Versioned-stream
@@ -16769,12 +17014,12 @@ You may set a time-based or size-based retention policy for the streaming storag
 
 ## View
 
-- [View | Timeplus](https://docs.timeplus.com/view): There are two types of views in Timeplus: logical view (or just view ) and materialized view.
+- [Materialized View | Timeplus](https://docs.timeplus.com/view): There are two types of views in Timeplus: logical view (or just view ) and materialized view.
 
 - Concepts
-- View
+- Materialized View
 
-# View
+# Materialized View
 
 There are two types of views in Timeplus: logical view (or just view ) and materialized view.
 
