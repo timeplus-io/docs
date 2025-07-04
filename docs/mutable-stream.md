@@ -189,7 +189,7 @@ Mutable stream can also be used in [JOINs](/joins).
 ### Retention Policy for Historical Storage{#ttl_seconds}
 Like normal streams in Timeplus, mutable streams use both streaming storage and historical storage. New data are added to the streaming storage first, then continuously write to the historical data with deduplication/merging process.
 
-Starting from Timeplus Enterprise 2.9 (also backported to 2.8.2), you can set `ttl_seconds` on mutable streams. If the data is older than this value, it is scheduled to be pruned in the next key compaction cycle. Default value is -1. Any value less than 0 means this feature is disabled.
+Starting from Timeplus Enterprise 2.9 (also backported to 2.8.2), you can set `ttl_seconds` on mutable streams. If the data's age (based on when the data is inserted, not _tp_time or particular columns) is older than this value, it is scheduled to be pruned in the next key compaction cycle. Default value is -1. Any value less than 0 means this feature is disabled.
 
 ```sql
 CREATE MUTABLE STREAM ..
@@ -286,7 +286,7 @@ SETTINGS shards=3
 ```
 
 ### Coalesced and Versioned Mutable Stream {#coalesced}
-For a mutable stream with many columns, there are some cases that only some columns are updated over time. Create a mutable stream with `coalesced=true` setting to enable the partial merge. For example, given a mutable stream:
+For a mutable stream with many columns, there are some cases that only some columns are updated over time. Create a mutable stream with [Column Family](#column_family) and `coalesced=true` setting to enable the partial merge. For example, given a mutable stream:
 ```sql
 create mutable stream kv_99061_1 (
        p string, m1 int, m2 int, m3 int, v uint64,

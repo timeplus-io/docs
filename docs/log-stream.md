@@ -1,12 +1,6 @@
-# Read Log Files
+# Log Files
 
-You can use Proton as a lightweight and high-performance tool for log analysis. Please check [the blog](https://www.timeplus.com/post/log-stream-analysis) for more details.
-
-:::info
-
-Please note this feature is in Technical Preview. More settings to be added/tuned.
-
-:::
+You can use Timeplus as a lightweight and high-performance tool for log analysis. Please check [the blog](https://www.timeplus.com/post/log-stream-analysis) for more details.
 
 ## Syntax
 
@@ -30,6 +24,3 @@ The required settings:
 * log_dir
 * timestamp_regex
 * row_delimiter. Only 1 capturing group is expected in the regex.
-
-
-

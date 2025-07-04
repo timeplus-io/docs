@@ -15,9 +15,9 @@ Key highlights of this release:
 * Connecting to various input or output systems via Redpanda Connect. [Learn more](/redpanda-connect).
 * Creating and managing users in the Web Console. You can change the password and assign the user either Administrator or Read-only role.
 * New [migrate](/cli-migrate) subcommand in [timeplus CLI](/cli-reference) for data migration and backup/restore.
-* Materialized views auto-rebalancing in the cluster mode. [Learn more](/proton-create-view#auto-balancing).
+* Materialized views auto-rebalancing in the cluster mode. [Learn more](/view#auto-balancing).
 * Approximately 30% faster data ingestion and replication in the cluster mode.
-* Performance improvement for [ASOF JOIN](/joins) and [EMIT ON UPDATE](/query-syntax#emit_on_update).
+* Performance improvement for [ASOF JOIN](/joins) and [EMIT ON UPDATE](/streaming-aggregations#emit_on_update).
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -125,9 +125,9 @@ Compared to the [2.4.23](/enterprise-v2.4#2_4_23) release:
   * new type of [External Streams for Apache Pulsar](/pulsar-external-stream).
   * for bare metal installation, previously you can login with the username `default` with empty password. To improve the security, this user has been removed.
   * enhancement for nullable data types in streaming and historical queries.
-  * Materialized views auto-rebalancing in the cluster mode.[Learn more](/proton-create-view#auto-balancing).
+  * Materialized views auto-rebalancing in the cluster mode.[Learn more](/view#auto-balancing).
   * Approximately 30% faster data ingestion and replication in the cluster mode.
-  * Performance improvement for [ASOF JOIN](/joins) and [EMIT ON UPDATE](/query-syntax#emit_on_update).
+  * Performance improvement for [ASOF JOIN](/joins) and [EMIT ON UPDATE](/streaming-aggregations#emit_on_update).
 * timeplus_web 1.4.33 -> 2.0.6
   * UI to add/remove user or change role and password. This works for both single node and cluster.
   * UI for inputs/outputs from Redpanda Connect.

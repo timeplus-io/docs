@@ -2,7 +2,13 @@
 
 Timeplus provides out-of-box charts and dashboards. You can also create [sinks](/destination) to send downsampled data to Kafka or other message buses, or notify others via email/slack. You can even send new messages to Kafka, then consume such messages timely in the downstream system. This could be a solution for alerting and automation.
 
-Since it's a common use case to define and manage alerts, Timeplus started supporting alerts out-of-box.
+Since it's a common use case to define and manage alerts, Timeplus supports alerting out-of-box.\
+
+:::warning
+Starting from Timeplus Enterprise v2.9, the alerting feature will be provided by the core SQL engine, with increased performance and stability, as well as SQL based manageability.
+
+The previous alerting feature will be deprecated in the future releases.
+:::
 
 ## Create New Alert Rule
 

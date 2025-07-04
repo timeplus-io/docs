@@ -69,48 +69,10 @@ Window based aggregation is a typical analytic method in stream analysis. Each w
 
 When using the window function for aggregation, the event time is used to decide whether the event is in that window. In the case the user does not specify the timestamp, the default one will be used. The user can also use any field in that event which is a datetime type as timestamp or dynamically generate a datetime field as timestamp.
 
-Two typical window functions are [tumble](/functions_for_streaming#tumble) and [hop](/functions_for_streaming#hop).
-
-For example:
-
-```sql
-select window_start, window_end, count(*) as count, max(c1) as max_c1
-from tumble(my_stream,order_time, 5s) group by window_start, window_end
-```
-
-#### Window watermark
-
-Window aggregation is triggered per-window. There is an internal watermark mechanism in Timeplus to check if all the events in the specific window have arrived or not. Once the watermark has shown that all events in that window are available, the aggregated analysis result will be triggered and sent to the client.
-
-#### Watermark and delay
-
-For more advanced scenarios, you can add delay to the trigger policy, such as adding 2 more seconds delay to allow more late events to be considered in each time window.
-
-```sql
-select window_start, window_end, count(*) as count, max(c1) as max_c1
-from tumble(my_stream,order_time, 5s) group by window_start, window_end
-EMIT AFTER WINDOW CLOSE WITH DELAY 2s
-```
-
-We built [a tool](/understanding-watermark) to visualize the window aggregation with watermark processing delay.
+[Learn More](/streaming-windows).
 
 ### Global aggregation
 
 Global aggregation will start the aggregation for all incoming events since the query is submitted, and never ends.
 
-For example, if the user want to know what is the total number event in real time:
-
-```sql
-select count(*) from my_stream
-```
-
-#### Set trigger interval
-
-Global aggregation is triggered periodically with an interval (by default, every 2 seconds). The user can specify the interval in the query statement.
-
-A more complex example is:
-
-```sql
-select count(*) from my_stream where type='order'
-emit periodic 5s
-```
+[Learn More](streaming-aggregations#global).

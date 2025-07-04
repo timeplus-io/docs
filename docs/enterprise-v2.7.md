@@ -124,7 +124,7 @@ Component versions:
 Compared to the [2.7.5](#2_7_5) release:
 * timeplusd 2.7.37 -> 2.7.45
   * added new setting [mv_preferred_exec_node](/sql-create-materialized-view#mv_preferred_exec_node) while creating materialized view
-  * added new EMIT policy `EMIT ON UPDATE WITH DELAY`. The SQL syntax for EMIT has been refactored. [Learn more](/query-syntax#emit)
+  * added new EMIT policy `EMIT ON UPDATE WITH DELAY`. The SQL syntax for EMIT has been refactored. [Learn more](/streaming-aggregations#emit)
   * fixed global aggregation with `EMIT ON UPDATE` in multi-shard environments
   * fixed concurrency issues in hybrid aggregation
   * support incremental checkpoints for hybrid hash join
@@ -300,7 +300,7 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
     * **Delete data:** You can now delete data from streams with the [DELETE](/sql-delete) SQL command. This is optimized for mutable streams with primary keys in the condition.
     * `SYSTEM UNPAUSE MATERIALIZED VIEW` command is renamed to [SYSTEM RESUME MATERIALIZED VIEW](/sql-system-resume).
     * Able to configure `license_key_path` and `license_file_path` in the `server/config.yaml` file to specify the license key without web console interaction.
-    * Introduced a simple way to setup multiple timeplusd processes on the same host by running the `timeplusd server --node-index=1` command. [Learn more](/cluster_install#single-host-cluster)
+    * Introduced a simple way to setup multiple timeplusd processes on the same host by running the `timeplusd server --node-index=1` command. [Learn more](/bare-metal-install#single-host-cluster)
     * To improve performance, we have optimized the schema for [system.stream_metric_log](/system-stream-metric-log) and [system.stream_state_log](/system-stream-state-log).
   * Security Enhancements:
     * **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.

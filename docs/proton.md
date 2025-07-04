@@ -1,6 +1,6 @@
 # Timeplus Proton
 
-Timeplus Proton is a stream processing engine and database. It is fast and lightweight alternative to ksqlDB or Apache Flink, powered by the libraries and engines in ClickHouse. It enables developers to solve streaming data processing, multi-stream JOINs, sophisticated incremental materialized views, routing and analytics challenges from Apache Kafka, Redpanda and more sources, and send aggregated data to the downstream systems. Timeplus Proton is the core engine of [Timeplus Enterprise](/timeplus-enterprise).
+Timeplus Proton is a stream processing engine and database. It is fast and lightweight alternative to ksqlDB or Apache Flink, powered by the libraries and engines in ClickHouse. It enables developers to solve streaming data processing, multi-stream JOINs, sophisticated incremental materialized views, routing and analytics challenges from Apache Kafka, Redpanda and more sources, and send aggregated data to the downstream systems. Timeplus Proton is the core engine of Timeplus Enterprise.
 
 ## 💪 Why use Timeplus Proton?
 
@@ -11,7 +11,7 @@ Timeplus Proton is a stream processing engine and database. It is fast and light
 5. **Best streaming SQL engine for [Kafka](https://kafka.apache.org/), [Redpanda](https://redpanda.com/), or [Pulsar](https://pulsar.apache.org/).** Query the live data in Kafka or other compatible streaming data platforms, with [external streams](/proton-kafka).
 
 ![Proton Architecture](/img/proton-arch.png)
-See our [architecture](/proton-architecture) doc for technical details and our [FAQ](/proton-faq) for more information.
+See our [architecture](/architecture) doc for technical details and our [FAQ](/proton-faq) for more information.
 
 ## How is it different from ClickHouse?
 ClickHouse is an extremely performant Data Warehouse built for fast analytical queries on large amounts of data. While it does support ingesting data from streaming sources such as Apache Kafka, it is itself not a stream processing engine which can transform and join streaming event data based on time-based semantics to detect patterns that need to be acted upon as soon as it happens. ClickHouse also has incremental materialized view capability but is limited to creating materialized view off of ingestion of blocks to a single table.
@@ -24,11 +24,34 @@ Timeplus Proton uses ClickHouse as a table store engine inside of each stream (a
 
 ## ⚡ Deployment
 
+Proton can be installed as a single binary on Linux or Mac, via:
+
 ```shell
 curl https://install.timeplus.com/oss | sh
 ```
 
-For more guidelines, please check the [installation guide](/install#proton) for Docker or Homebrew.
+Once the `proton` binary is available, you can run Timeplus Proton in different modes:
+
+- **Local Mode.** You run `proton local` to start it for fast processing on local and remote files using SQL without having to install a full server
+- **Config-less Mode.** You run `proton server` to start the server and put the config/logs/data in the current folder `proton-data`. Then use `proton client` in the other terminal to start the SQL client.
+- **Server Mode.** You run `sudo proton install` to install the server in predefined path and a default configuration file. Then you can run `sudo proton server -C /etc/proton-server/config.yaml` to start the server and use `proton client` in the other terminal to start the SQL client.
+
+For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
+
+```shell
+brew tap timeplus-io/timeplus
+brew install proton
+```
+
+You can also install Proton in Docker, Docker Compose or Kubernetes.
+
+```bash
+docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
+```
+
+Please check [Server Ports](/proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
+
+The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
 
 ### Timeplus Cloud Demo
 

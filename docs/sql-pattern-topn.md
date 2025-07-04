@@ -38,7 +38,7 @@ Result:
 | ------------------------------ |
 | [ [ "add", 86342, 0 ], [ "service", 82013, 0 ], [ "cancel", 4291, 0 ] ] |
 
-Please note, this sample query is a [Global Aggregation](/query-syntax#global), which calculate and emit results every 2 seconds. You can also use various time windows to run the aggregation, e.g.
+Please note, this sample query is a [Global Aggregation](/streaming-aggregations#global), which calculate and emit results every 2 seconds. You can also use various time windows to run the aggregation, e.g.
 
 ```sql
 select window_start, top_k(action,3)

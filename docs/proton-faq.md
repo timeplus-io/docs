@@ -1,4 +1,4 @@
-# FAQ
+# Timeplus Proton FAQ
 
 On September 21, 2023, Timeplus announced the open source project: [Timeplus Proton](https://github.com/timeplus-io/proton/). We're using this FAQ as the primary reference for learning about what Timeplus Proton is, how we licensed the code open source, how you can use Timeplus Proton today, and more.
 
@@ -36,16 +36,7 @@ Apache License 2.0 also prevents any contributor to Timeplus Proton—a member o
 
 ## What features are available with Timeplus Proton versus Timeplus Enterprise? {#compare}
 
-Timeplus Proton powers unified streaming and data processing on a single database node. Its commercial counterpart supports advanced deployment strategy and includes enterprise-ready features. There are some other differences we would like to clarify.
-
-|                               | **Timeplus Proton**                                                                                                                                                                    | **Timeplus Enterprise**                                                                                                                                                                                                          |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Deployment**                | <ul><li>Single-node Docker image</li><li>Single binary on Mac/Linux</li></ul>                                                                                                          | <ul><li>Single node</li><li>Cluster</li><li>Kubernetes-based “bring your own cloud” (BYOC)</li><li>Fully-managed cloud service</li></ul>                                                                               |
-| **Data sources**              | <ul><li>Random streams</li><li>External streams to Apache Kafka, Confluent Cloud, Redpanda, Apache Pulsar</li><li>[Streaming ingestion via REST API (compact mode only)](/proton-ingest-api)</li><li>External tables to ClickHouse</li></ul> | <ul><li>Everything in Timeplus Proton</li><li>Hundreds of connectors from Redpanda Connect</li><li>External streams to another Timeplus Proton or Timeplus Enterprise deployment</li><li>WebSocket and HTTP Stream</li><li>NATS</li><li>CSV upload</li><li>[Streaming ingestion via REST API (with API key and flexible modes)](/ingest-api)</li></ul> |
-| **Data destinations (sinks)** | <ul><li>External streams to Apache Kafka, Confluent Cloud, Redpanda, Apache Pulsar</li><li>External tables to ClickHouse</li></ul>                                                                                                          | <ul><li>Everything in Timeplus Proton</li><li>Hundreds of connectors from Redpanda Connect</li><li>External streams to another Timeplus Proton or Timeplus Enterprise deployment</li><li>Slack</li><li>Webhook</li></ul>                                                                                                      |
-| **Support**                   | <ul><li>Community support from GitHub and Slack</li></ul>                                                                                                                              | <ul><li>Enterprise support via email, Slack, and Zoom, with a SLA</li></ul>                                                                                                                                                      |
-
-These details are subject to change, but we'll do our best to make sure they accurately represent the latest roadmaps for Timeplus Proton and Timeplus Enterprise.
+Please refer to our [comparison page](/compare) for a detailed comparison of Timeplus Proton and Timeplus Enterprise.
 
 ## My organization already uses ClickHouse—are there plans to integrate Timeplus Proton with the open source ClickHouse project?
 
@@ -61,7 +52,7 @@ Short answer: very easy. We designed Timeplus Proton's usage to be similar to Cl
 - The SQL keyword `AS` is required to create a temporary name for a table, stream, or a column.
 - We renamed data types and functions to remove camelcase. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Timeplus Proton. Our [functions](/functions) docs have additional details.
 - Not all ClickHouse functions are currently enabled in Timeplus Proton or work in a streaming query. If we should add or enhance the functions available in Timeplus Proton, let us know in the [GitHub issues](https://github.com/timeplus-io/proton/issues).
-- Materialized Views in ClickHouse works for one source table, and data is processed at the index time. In Timeplus Proton, you can define a [Materialized View](/proton-create-view#m_view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Timeplus Proton continuously runs the query and sends the results to the internal stream or the target stream.
+- Materialized Views in ClickHouse works for one source table, and data is processed at the index time. In Timeplus Proton, you can define a [Materialized View](/view#m_view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Timeplus Proton continuously runs the query and sends the results to the internal stream or the target stream.
 - In Timeplus Proton, [JOINs](/joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
 
 See the documentation for full usage details.
@@ -115,7 +106,7 @@ We're currently building out resources where you can learn about Timeplus Proton
 
 - [GitHub](https://github.com/timeplus-io/proton/)
 - [Documentation](/proton)
-- [High-level architecture](/proton-architecture)
+- [High-level architecture](/architecture)
 - [Videos](https://youtube.com/@timeplusdata)
 - [Wiki](https://github.com/timeplus-io/proton/wiki)
 

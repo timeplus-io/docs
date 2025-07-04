@@ -1,37 +1,7 @@
-# Timeplus Proton
+# Timeplus Enterprise FAQ
 
-## How to install Proton {#install}
+This document provides answers to frequently asked questions about Timeplus Enterprise, including its features, usage, and troubleshooting.
 
-Proton can be installed as a single binary on Linux or Mac, via:
-
-```shell
-curl https://install.timeplus.com/oss | sh
-```
-
-Once the `proton` binary is available, you can run Timeplus Proton in different modes:
-
-- **Local Mode.** You run `proton local` to start it for fast processing on local and remote files using SQL without having to install a full server
-- **Config-less Mode.** You run `proton server` to start the server and put the config/logs/data in the current folder `proton-data`. Then use `proton client` in the other terminal to start the SQL client.
-- **Server Mode.** You run `sudo proton install` to install the server in predefined path and a default configuration file. Then you can run `sudo proton server -C /etc/proton-server/config.yaml` to start the server and use `proton client` in the other terminal to start the SQL client.
-
-For Mac users, you can also use [Homebrew](https://brew.sh/) to manage the install/upgrade/uninstall:
-
-```shell
-brew tap timeplus-io/timeplus
-brew install proton
-```
-
-You can also install Proton in Docker, Docker Compose or Kubernetes.
-
-```bash
-docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
-```
-
-Please check [Server Ports](/proton-ports) to determine which ports to expose, so that other tools can connect to Timeplus, such as DBeaver.
-
-The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
-
-Running the single node Proton via Kubernetes is possible. We recommend you [contact us](mailto:support@timeplus.com) to deploy Timeplus Enterprise for on-prem deployment.
 
 ## How to read/write Kafka or Redpanda {#kafka}
 
@@ -88,7 +58,7 @@ CREATE STREAM stream
 SETTINGS event_time_column = 'timestamp';
 ```
 
-Please note there will be the 4th column in the stream, which is \_tp_time as the [Event Time](/eventtime).
+Please note there will be the 4th column in the stream, which is \_tp_time as the [Event Time](/glossary#event_time).
 
 To import CSV content, use the [file](https://clickhouse.com/docs/en/sql-reference/table-functions/file) table function to set the file path and header and data types.
 
@@ -149,3 +119,24 @@ The following drivers are available:
 - https://github.com/timeplus-io/proton-java-driver JDBC and other Java clients
 - https://github.com/timeplus-io/proton-go-driver for Golang
 - https://github.com/timeplus-io/proton-python-driver for Python
+
+
+## Get the number of failed materialized views via prometheus {#failed_mv}
+
+Follow the [Prometheus Integration](/prometheus) to access the metrics endpoint of timeplusd.
+
+You can use `TimeplusdMaterializedView_QueryStatus` metrics to check the status code of the materialized views.
+```
+Initializing = 0,
+CheckingDependencies = 1,
+BuildingPipeline = 2,
+ExecutingPipeline = 3,
+
+Error = 4,
+Suspended = 5,
+Paused = 6,
+
+AutoRecovering = 10,
+Resuming = 11,
+Recovering = 12,
+```

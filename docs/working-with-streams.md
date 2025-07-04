@@ -1,4 +1,4 @@
-# Stream
+# Streams
 
 ## All data live in streams
 

@@ -39,7 +39,7 @@ output:
   label: my_s3_output
 
   aws_s3:
-    bucket: TODO
+    bucket: name
     path: '${! meta("kafka_topic") }/${! json("message.id") }.json'
 
   # Optional list of processing steps

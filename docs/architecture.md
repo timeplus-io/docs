@@ -2,15 +2,15 @@
 
 ## High Level Architecture
 
-The following diagram depicts the high level architecture of Proton.
+The following diagram depicts the high level architecture of Timeplus SQL engine, starting from a single node deployment.
 
-![Proton Architecture](/img/proton-high-level-arch.gif)
+![Architecture](/img/proton-high-level-arch.gif)
 
 All of the components / functionalities are built into one single binary.
 
 ## Data Storage
 
-Users can create a stream by using `CREATE STREAM ...` [DDL SQL](/proton-create-stream). Every stream has 2 parts at storage layer by default:
+Users can create a stream by using `CREATE STREAM ...` [DDL SQL](/sql-create-stream). Every stream has 2 parts at storage layer by default:
 
 1. the real-time streaming data part, backed by Timeplus NativeLog
 2. the historical data part, backed by ClickHouse historical data store.

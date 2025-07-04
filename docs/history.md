@@ -1,4 +1,4 @@
-# OLAP Query
+# Historical Data Processing
 
 In addition to stream processing, Timeplus also store and serve for historical data, like many OLAP databases. By default, data are saved in Timeplus' columnar storage, with optional secondary indexes. For [mutable streams](/mutable-stream), historical data are saved in row-based storage, for fast update and range queries.
 

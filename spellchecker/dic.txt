@@ -9,6 +9,7 @@
 30m
 30min
 30s
+3x
 500x1024x1024
 _tp_message_key
 Abiola
@@ -69,6 +70,7 @@ auth_params
 auth_type
 auto-rebalancing
 Auto-Rebalancing
+autogen
 AutoMQ
 autoscaling
 autoscaling_mv
@@ -237,6 +239,7 @@ deployable
 deploymentSlackWebhook
 deploymentSlackWebhookHundreds
 deploymentWebSocket
+deserialization
 deserialize
 destination-timeplus
 desynchronized
@@ -442,9 +445,11 @@ js-udaf
 js-udf
 JSON
 json
+json_array_length
 json_cast
 json_encode
 json_has
+json_merge_patch
 json_query
 json_value
 JSONEachRow
@@ -467,6 +472,7 @@ kafka_schema_registry_url
 kcat
 keep-alives
 Keycloak
+KeyValueService
 KiB
 Kinesis
 kinesis
@@ -530,6 +536,7 @@ Minio
 minio
 modularized
 mongodb_throw_on_unsupported_query
+monotonicity
 Monotonicity
 mouseover
 MQ
@@ -581,10 +588,12 @@ num_of_trips
 numpy
 Numpy
 NVMe
+o11y
 OAuth
 oauth2
 oauth2
 OAuth2
+Observability
 observability
 OBT
 odbc
@@ -609,6 +618,7 @@ ORM
 os
 oss
 OSS
+OTel
 owlshop-frontend-events
 p90
 P90
@@ -650,6 +660,7 @@ ProduceRequests
 producerequests
 productional
 programmatically
+prometheus
 Protobuf
 Protobuf-encoded
 protobuf_complex
@@ -724,6 +735,7 @@ S3-based
 S3-compatible
 sa-east-1
 SaaS
+Salla
 sasl
 sasl
 SASL
@@ -861,6 +873,7 @@ timeplus
 timeplus-appserver
 timeplus-connect
 timeplus-connector
+timeplus-enterprise
 timeplus-io
 Timeplus-native-jdbc
 timeplus-native-jdbc
@@ -877,6 +890,7 @@ timeplusd-client
 timeplusd_address:9363
 TimeplusDatabaseMetadata
 TimeplusSinkConnector
+TimeplusStreaming
 TimeplusWatermarkVisualization
 timeplusWeb
 timezones
@@ -921,6 +935,7 @@ udaf-example
 udaf-lifecycle
 udf
 UDF
+UDFDynamic
 UDFs
 UI
 UI/UX

@@ -40,7 +40,7 @@ timeplus/timeplus-enterprise	v6.0.4       	2.7.1      	Helm chart for deploying 
 timeplus/timeplus-enterprise	v6.0.3       	2.7.0      	Helm chart for deploying a cluster of Timeplus ...
 ```
 
-Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](/enterprise-releases). Prior to v3.0.0 chart version, the `APP VERSION` is the same version as the timeplusd component.
+Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](/release-notes). Prior to v3.0.0 chart version, the `APP VERSION` is the same version as the timeplusd component.
 
 ### Create Namespace
 
@@ -233,7 +233,7 @@ This helm chart follows [Semantic Versioning](https://semver.org/). It is always
 #### Check if there is an incompatible breaking change needing manual actions
 
 Each major chart version contains a new major Timeplus Enterprise version. If you are not going to upgrade the major version, you can just go ahead to run the helm upgrade command. Otherwise, please check:
-1. The [release notes](/release-notes) of Timeplus Enterprise to confirm the target version can be upgraded in-place, by reusing the current data and configuration. For example [2.3](/enterprise-v2.3) and [2.4](/enterprise-releases) are incompatible and you have to use migration tools.
+1. The [release notes](/release-notes) of Timeplus Enterprise to confirm the target version can be upgraded in-place, by reusing the current data and configuration. For example [2.3](/enterprise-v2.3) and [2.4](/enterprise-v2.4) are incompatible and you have to use migration tools.
 2. The [upgrade guide](#upgrade-guide) of helm chart. You may need to modify your `values.yaml` according to the guide before upgrade.
 
 #### Run helm upgrade
