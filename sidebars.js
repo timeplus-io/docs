@@ -320,6 +320,7 @@ const sidebars = {
             "sql-drop-function",
             "sql-drop-stream",
             "sql-drop-view",
+            "sql-explain",
             "sql-optimize",
             "sql-rename-stream",
             "sql-show-create",
