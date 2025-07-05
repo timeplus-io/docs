@@ -497,6 +497,111 @@ EXPLAIN PIPELINE SELECT sum(number) FROM numbers_mt(100000) GROUP BY number % 4;
 │         NumbersRange 0 → 1      │
 └─────────────────────────────────┘
 ```
+#### graph
+With `graph` = 1, the result is shown in graph description language.
+
+Example:
+
+```sql
+EXPLAIN PIPELINE graph=1 SELECT sum(number) FROM numbers_mt(100000) GROUP BY number % 4;
+```
+
+```
+┌─explain───────────────────────────────────────┐
+│ digraph                                       │
+│ {                                             │
+│   rankdir="LR";                               │
+│   { node [shape = rect]                       │
+│         n1 [label="NumbersRange"];            │
+│     subgraph cluster_0 {                      │
+│       label ="Expression";                    │
+│       style=filled;                           │
+│       color=lightgrey;                        │
+│       node [style=filled,color=white];        │
+│       { rank = same;                          │
+│         n2 [label="ExpressionTransform"];     │
+│       }                                       │
+│     }                                         │
+│     subgraph cluster_1 {                      │
+│       label ="Expression";                    │
+│       style=filled;                           │
+│       color=lightgrey;                        │
+│       node [style=filled,color=white];        │
+│       { rank = same;                          │
+│         n5 [label="ExpressionTransform × 2"]; │
+│       }                                       │
+│     }                                         │
+│     subgraph cluster_2 {                      │
+│       label ="Aggregating";                   │
+│       style=filled;                           │
+│       color=lightgrey;                        │
+│       node [style=filled,color=white];        │
+│       { rank = same;                          │
+│         n3 [label="AggregatingTransform"];    │
+│         n4 [label="Resize"];                  │
+│       }                                       │
+│     }                                         │
+│   }                                           │
+│   n1 -> n2 [label=""];                        │
+│   n2 -> n3 [label=""];                        │
+│   n3 -> n4 [label=""];                        │
+│   n4 -> n5 [label="× 2"];                     │
+│ }                                             │
+└───────────────────────────────────────────────┘
+```
+
+#### compact
+
+Example:
+
+```sql
+EXPLAIN PIPELINE graph=1, compact=1 SELECT sum(number) FROM numbers_mt(100000) GROUP BY number % 4;
+```
+```
+┌─explain───────────────────────────────────────┐
+│ digraph                                       │
+│ {                                             │
+│   rankdir="LR";                               │
+│   { node [shape = rect]                       │
+│         n1 [label="NumbersRange"];            │
+│     subgraph cluster_0 {                      │
+│       label ="Aggregating";                   │
+│       style=filled;                           │
+│       color=lightgrey;                        │
+│       node [style=filled,color=white];        │
+│       { rank = same;                          │
+│         n3 [label="AggregatingTransform"];    │
+│         n4 [label="Resize"];                  │
+│       }                                       │
+│     }                                         │
+│     subgraph cluster_1 {                      │
+│       label ="Expression";                    │
+│       style=filled;                           │
+│       color=lightgrey;                        │
+│       node [style=filled,color=white];        │
+│       { rank = same;                          │
+│         n2 [label="ExpressionTransform"];     │
+│       }                                       │
+│     }                                         │
+│     subgraph cluster_2 {                      │
+│       label ="Expression";                    │
+│       style=filled;                           │
+│       color=lightgrey;                        │
+│       node [style=filled,color=white];        │
+│       { rank = same;                          │
+│         n5 [label="ExpressionTransform × 2"]; │
+│       }                                       │
+│     }                                         │
+│   }                                           │
+│   n1 -> n2 [label=""];                        │
+│   n3 -> n4 [label=""];                        │
+│   n4 -> n5 [label="× 2"];                     │
+│   n2 -> n3 [label=""];                        │
+│ }                                             │
+└───────────────────────────────────────────────┘
+```
+
+
 ### EXPLAIN ESTIMATE {#explain-estimate}
 
 Shows the estimated number of rows, marks and parts to be read from the streams while processing the query.
