@@ -58,6 +58,14 @@ Copy and paste the following yaml snippet into `values.yaml`.
 ```yaml
 timeplusd:
   replicas: 3
+
+  # You can configure compute nodes here if the workload is large.
+  # For more details about compute node, please refer to https://docs.timeplus.com/view#autoscaling_mv
+  computeNode:
+    # number of compute nodes
+    replicas: 0
+    # resources: ...
+    
   # Uncomment the following two lines to use headless service if you are going to deploy Timeplus to Google GKE.
   # service:
   #  clusterIP: None
