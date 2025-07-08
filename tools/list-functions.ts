@@ -51,6 +51,7 @@ Options:
   --missing  Show functions from CSV that are not documented
   --stats    Show documentation coverage statistics
   --sample   Show random sample of missing functions (default 10)
+  --debug    Show CSV filtering debug information
   --help     Show this help message
 
 Examples:
@@ -60,29 +61,49 @@ Examples:
   bun run tools/list-functions.ts --missing         # Show undocumented functions
   bun run tools/list-functions.ts --stats           # Show coverage statistics
   bun run tools/list-functions.ts --sample 5        # Show 5 random missing functions
+  bun run tools/list-functions.ts --debug           # Show filtering debug info
   bun run tools/list-functions.ts --plain | wc -l   # Count functions
 `);
 }
 
 function parseCSV(content: string): CSVFunctionInfo[] {
   const lines = content.trim().split("\n");
-  const headers = lines[0].split(",");
   const functions: CSVFunctionInfo[] = [];
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",");
-    if (values.length >= 10) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Simple CSV parsing - split by comma and handle the 10 expected columns
+    const values = line.split(",");
+
+    // We expect exactly 10 columns, but some might be empty
+    if (values.length >= 1) {
+      const name = values[0] || "";
+
+      // Skip invalid function names (empty, starts with quotes, starts with dash, etc.)
+      if (
+        !name ||
+        name.startsWith('"') ||
+        name.startsWith("-") ||
+        name.includes("\n") ||
+        name.includes("\r") ||
+        name.length === 0
+      ) {
+        continue;
+      }
+
       functions.push({
-        name: values[0],
-        is_aggregate: values[1] === "1",
-        case_insensitive: values[2] === "1",
-        alias_to: values[3],
-        create_query: values[4],
-        origin: values[5],
-        syntax: values[6],
-        arguments: values[7],
-        returned_value: values[8],
-        categories: values[9],
+        name: name,
+        is_aggregate: (values[1] || "0") === "1",
+        case_insensitive: (values[2] || "0") === "1",
+        alias_to: values[3] || "",
+        create_query: values[4] || "",
+        origin: values[5] || "",
+        syntax: values[6] || "",
+        arguments: values[7] || "",
+        returned_value: values[8] || "",
+        categories: values[9] || "",
       });
     }
   }
@@ -101,22 +122,74 @@ async function loadCSVFunctions(toolsPath: string): Promise<CSVFunctionInfo[]> {
   }
 }
 
-function filterCSVFunctions(csvFunctions: CSVFunctionInfo[]): string[] {
-  return csvFunctions
+function filterCSVFunctions(csvFunctions: CSVFunctionInfo[]): {
+  filtered: string[];
+  stats: {
+    total: number;
+    internal: number;
+    aliases: number;
+    pythonUdf: number;
+    empty: number;
+    invalid: number;
+    final: number;
+  };
+} {
+  const stats = {
+    total: csvFunctions.length,
+    internal: 0,
+    aliases: 0,
+    pythonUdf: 0,
+    empty: 0,
+    invalid: 0,
+    final: 0,
+  };
+
+  const filtered = csvFunctions
     .filter((func) => {
+      // Skip empty names
+      if (!func.name || func.name.trim() === "") {
+        stats.empty++;
+        return false;
+      }
+
+      // Skip invalid function names (quotes, dashes, special chars)
+      if (
+        func.name.startsWith('"') ||
+        func.name.startsWith("-") ||
+        func.name.includes("\n") ||
+        func.name.includes("\r") ||
+        !/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(func.name)
+      ) {
+        stats.invalid++;
+        return false;
+      }
+
       // Skip internal functions (starting with __)
-      if (func.name.startsWith("__")) return false;
+      if (func.name.startsWith("__")) {
+        stats.internal++;
+        return false;
+      }
 
       // Skip if it's an alias to another function
-      if (func.alias_to && func.alias_to.trim() !== "") return false;
+      if (func.alias_to && func.alias_to.trim() !== "") {
+        stats.aliases++;
+        return false;
+      }
 
       // Skip certain origins or categories if needed
-      if (func.origin === "PythonUserDefined") return false;
+      if (func.origin === "PythonUserDefined") {
+        stats.pythonUdf++;
+        return false;
+      }
 
       return true;
     })
     .map((func) => func.name.toLowerCase())
     .sort();
+
+  stats.final = filtered.length;
+
+  return { filtered, stats };
 }
 
 async function main() {
@@ -127,6 +200,7 @@ async function main() {
   const showMissing = process.argv.includes("--missing");
   const showStats = process.argv.includes("--stats");
   const showSample = process.argv.includes("--sample");
+  const showDebug = process.argv.includes("--debug");
   const showHelpFlag = process.argv.includes("--help");
 
   // Get sample size from --sample argument
@@ -187,10 +261,26 @@ async function main() {
     // Sort functions alphabetically by name
     allFunctions.sort((a, b) => a.name.localeCompare(b.name));
 
-    if (showStats) {
+    if (showDebug) {
+      // Show filtering debug information
+      const csvFunctions = await loadCSVFunctions(toolsPath);
+      const { filtered: csvFunctionNames, stats } =
+        filterCSVFunctions(csvFunctions);
+
+      console.log("🔍 CSV Filtering Debug Information\n");
+      console.log("=".repeat(50));
+      console.log(`📊 Total rows in CSV: ${stats.total}`);
+      console.log(`🔒 Internal functions (__*): ${stats.internal}`);
+      console.log(`🔗 Alias functions: ${stats.aliases}`);
+      console.log(`🐍 Python UDF functions: ${stats.pythonUdf}`);
+      console.log(`❌ Empty names: ${stats.empty}`);
+      console.log(`⚠️  Invalid function names: ${stats.invalid}`);
+      console.log(`✅ Final filtered functions: ${stats.final}`);
+      console.log(`📉 Filtered out: ${stats.total - stats.final}`);
+    } else if (showStats) {
       // Load CSV functions for comparison
       const csvFunctions = await loadCSVFunctions(toolsPath);
-      const csvFunctionNames = filterCSVFunctions(csvFunctions);
+      const { filtered: csvFunctionNames } = filterCSVFunctions(csvFunctions);
       const documentedFunctionNames = allFunctions.map((f) =>
         f.name.toLowerCase(),
       );
@@ -229,10 +319,30 @@ async function main() {
             `  ${category}: ${byCategory[category].length} functions`,
           );
         });
+
+      // Show missing functions count by first letter
+      const missingFunctions = csvFunctionNames.filter(
+        (csvFunc) => !documentedFunctionNames.includes(csvFunc),
+      );
+      const missingByLetter = missingFunctions.reduce(
+        (acc, func) => {
+          const letter = func[0].toUpperCase();
+          acc[letter] = (acc[letter] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
+
+      console.log(`\n🔤 Missing functions by first letter:`);
+      Object.keys(missingByLetter)
+        .sort()
+        .forEach((letter) => {
+          console.log(`  ${letter}: ${missingByLetter[letter]} functions`);
+        });
     } else if (showSample) {
       // Show random sample of missing functions
       const csvFunctions = await loadCSVFunctions(toolsPath);
-      const csvFunctionNames = filterCSVFunctions(csvFunctions);
+      const { filtered: csvFunctionNames } = filterCSVFunctions(csvFunctions);
       const documentedFunctionNames = allFunctions.map((f) =>
         f.name.toLowerCase(),
       );
@@ -261,7 +371,7 @@ async function main() {
     } else if (showMissing) {
       // Find functions in CSV that are not documented
       const csvFunctions = await loadCSVFunctions(toolsPath);
-      const csvFunctionNames = filterCSVFunctions(csvFunctions);
+      const { filtered: csvFunctionNames } = filterCSVFunctions(csvFunctions);
       const documentedFunctionNames = allFunctions.map((f) =>
         f.name.toLowerCase(),
       );
@@ -288,8 +398,9 @@ async function main() {
           console.log(`  ${funcName}`);
         }
 
-        console.log("\n" + "=".repeat(60));
+        console.log("\n" + "=".repeat(50));
         console.log(`📊 Summary:`);
+        console.log(`  Total CSV rows: ${csvFunctions.length}`);
         console.log(`  Total SQL functions: ${csvFunctionNames.length}`);
         console.log(
           `  Documented functions: ${documentedFunctionNames.length}`,
@@ -298,6 +409,23 @@ async function main() {
         console.log(
           `  Coverage: ${((documentedFunctionNames.length / csvFunctionNames.length) * 100).toFixed(1)}%`,
         );
+
+        // Show missing functions count by first letter
+        const missingByLetter = missingFunctions.reduce(
+          (acc, func) => {
+            const letter = func[0].toUpperCase();
+            acc[letter] = (acc[letter] || 0) + 1;
+            return acc;
+          },
+          {} as Record<string, number>,
+        );
+
+        console.log(`\n🔤 Missing functions by first letter:`);
+        Object.keys(missingByLetter)
+          .sort()
+          .forEach((letter) => {
+            console.log(`  ${letter}: ${missingByLetter[letter]} functions`);
+          });
       }
     } else if (jsonOutput) {
       // JSON output with full metadata

@@ -12,5 +12,6 @@ This folder contains a set of tools to automate the routine docs work. You shoul
   - `bun tools/list-functions.ts --stats` for documentation coverage statistics
   - `bun tools/list-functions.ts --missing` to show functions from CSV that are not documented
   - `bun tools/list-functions.ts --sample [N]` to show N random missing functions (default 10)
+  - `bun tools/list-functions.ts --debug` to show CSV filtering debug information
 
 Other files probably are outdated.
