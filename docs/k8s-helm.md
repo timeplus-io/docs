@@ -60,7 +60,8 @@ timeplusd:
   replicas: 3
 
   # You can configure compute nodes here if the workload is large.
-  # For more details about compute node, please refer to https://docs.timeplus.com/view#autoscaling_mv
+  # For more details about compute node, please refer to https://docs.timeplus.com/view#autoscaling_mv. 
+  # For autoscaling, please refer to the "Autoscaling" section in this doc.
   computeNode:
     # number of compute nodes
     replicas: 0
@@ -209,6 +210,29 @@ timeplusd:
       size: 250Gi
 ```
 
+### Autoscaling
+
+:::info
+[Metrics Server](https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/#metrics-server) is required to enable the autoscaling feature.
+:::
+
+In order to leverage the [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) feature of k8s to scale timeplusd to support dynamic workload, you can use the following template:
+
+```yaml
+timeplusd:
+  computeNode:
+    autoscaling:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 3
+      targetCPUUtilizationPercentage: 75
+      targetMemoryUtilizationPercentage: 75
+  # resources: ...
+```
+
+By enabling this autoscaling of compute node, a `HorizontalPodAutoscaler` will be created under the same namespace to adjust the `replicas` of the deployment of the timeplusd compute node based on the CPU and Memory utilization.
+
+With the config above, the `replicas` of the deployment will be set to `1` initially. That means only one compute node pod will be created. The HPA controller will then try to keep the average utilization of the pods of the deployment at 75%. If current metrics are too away from the desired value (75%), the HPA controller will try to adjust the replicas to make the average utilization closer than the desire value. For more details regards how it works, please refer to the [algorithm docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#algorithm-details).
 
 ## Operations
 
