@@ -2,7 +2,7 @@
 
 # Retrieve and process S3 file listings to generate download Markdown
 TZ=":US/Pacific" aws s3 ls s3://timeplus.io/dist/timeplus_enterprise/ \
-  | grep -v -E 'sp-demo|-rc[.-]' \
+  | grep -v -E 'sp-demo|-rc[.-]|-ai' \
   | awk '
 BEGIN {
   print "# Package Downloads\n"
