@@ -1,10 +1,10 @@
 files:
   - "docs/*"
 dictionaries:
-  - spellchecker/dic.txt
+  - tools/spellchecker/dic.txt
 reports:
-  - spellchecker/report.json
-  - spellchecker/report.junit.xml
+  - tools/spellchecker/report.json
+  - tools/spellchecker/report.junit.xml
 ignore:
   - "[A-Z0-9]{6}"
   - "\\b\\w+=\\w+\\b"

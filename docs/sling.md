@@ -48,7 +48,7 @@ Sling supports many databases and storage systems. Data in those systems can be 
 ## Install Sling
 Similar to Timeplus, Sling is a single binary, running natively on the OS without Java/Docker.
 
-For best compatibility with Timeplus Enterprise, please download the latest release from https://github.com/timeplus-io/sling-cli/releases The latest [offical release](https://github.com/slingdata-io/sling-cli/releases) of Sling CLI may or may not work with Timeplus.
+For best compatibility with Timeplus Enterprise, please download the latest release from https://github.com/timeplus-io/sling-cli/releases The latest [official release](https://github.com/slingdata-io/sling-cli/releases) of Sling CLI may or may not work with Timeplus.
 
 ## Configure Sling to connect to Timeplus
 
