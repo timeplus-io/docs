@@ -195,3 +195,9 @@ This function also takes an optional third parameter to specify an end time for 
 
 ### histogram
 `histogram(column, bin_count)` to calculate the histogram of the column. The bin count should be a positive integer.
+
+### kurt_pop
+`kurt_pop(expr)` Computes the [kurtosis](https://en.wikipedia.org/wiki/Kurtosis) of a sequence.
+
+### kurt_samp
+`kurt_samp(expr)` Computes the [sample kurtosis](https://en.wikipedia.org/wiki/Kurtosis) of a sequence. It represents an unbiased estimate of the kurtosis of a random variable if passed values form its sample.
