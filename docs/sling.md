@@ -1,5 +1,7 @@
 # Load MySQL/Postgres/CSV/S3 to Timeplus via Sling CLI
 
+While Kafka and Debezium provide robust Change Data Capture (CDC) capabilities for streaming data from MySQL or PostgreSQL to other systems, they may introduce unnecessary complexity for historical data migration scenarios. The infrastructure requirements for Kafka clusters and JVM-based deployments can present significant operational overhead. Sling offers a lightweight alternative for data transfer operations to and from Timeplus, utilizing YAML-based configuration files and scheduled execution through cron jobs.
+
 [Sling](https://slingdata.io/) is a powerful data integration CLI tool. Whether ingesting CSV or JSON files, transferring data between databases, or exporting a custom SQL query to a Parquet file — Sling is the solution that empowers you to achieve it effortlessly.
 
 Since from [v1.2.14](https://github.com/slingdata-io/sling-cli/releases/tag/v1.2.14), Sling adds built-in support for Timeplus. You just need a single binary for your OS to load any data to Timeplus, with a simple command such as:
@@ -44,33 +46,9 @@ Sling supports many databases and storage systems. Data in those systems can be 
 , [Wasabi](https://docs.slingdata.io/connections/file-connections/wasabi)
 
 ## Install Sling
-Similar to Timeplus, Sling is a single binary, running natively on the OS without Java/Docker. Installing it is easy:
+Similar to Timeplus, Sling is a single binary, running natively on the OS without Java/Docker.
 
-Mac:
-```bash
-brew install slingdata-io/sling/sling
-```
-
-Windows:
-```bash
-scoop bucket add sling https://github.com/slingdata-io/scoop-sling.git
-scoop install sling
-```
-
-Linux:
-```bash
-curl -LO 'https://github.com/slingdata-io/sling-cli/releases/latest/download/sling_linux_amd64.tar.gz' \
-  && tar xf sling_linux_amd64.tar.gz \
-  && rm -f sling_linux_amd64.tar.gz \
-  && chmod +x sling
-```
-
-You can also run it via Docker:
-```bash
-docker pull slingdata/sling
-
-docker run --rm -i slingdata/sling --help
-```
+For best compatibility with Timeplus Enterprise, please download the latest release from https://github.com/timeplus-io/sling-cli/releases The latest [offical release](https://github.com/slingdata-io/sling-cli/releases) of Sling CLI may or may not work with Timeplus.
 
 ## Configure Sling to connect to Timeplus
 
