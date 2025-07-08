@@ -164,8 +164,8 @@ function filterCSVFunctions(csvFunctions: CSVFunctionInfo[]): {
         return false;
       }
 
-      // Skip internal functions (starting with __)
-      if (func.name.startsWith("__")) {
+      // Skip internal functions (starting with _ or __)
+      if (func.name.startsWith("_")) {
         stats.internal++;
         return false;
       }
@@ -270,7 +270,7 @@ async function main() {
       console.log("🔍 CSV Filtering Debug Information\n");
       console.log("=".repeat(50));
       console.log(`📊 Total rows in CSV: ${stats.total}`);
-      console.log(`🔒 Internal functions (__*): ${stats.internal}`);
+      console.log(`🔒 Internal functions (_*): ${stats.internal}`);
       console.log(`🔗 Alias functions: ${stats.aliases}`);
       console.log(`🐍 Python UDF functions: ${stats.pythonUdf}`);
       console.log(`❌ Empty names: ${stats.empty}`);
@@ -335,7 +335,7 @@ async function main() {
 
       console.log(`\n🔤 Missing functions by first letter:`);
       Object.keys(missingByLetter)
-        .sort()
+        .sort((a, b) => missingByLetter[b] - missingByLetter[a])
         .forEach((letter) => {
           console.log(`  ${letter}: ${missingByLetter[letter]} functions`);
         });
@@ -422,7 +422,7 @@ async function main() {
 
         console.log(`\n🔤 Missing functions by first letter:`);
         Object.keys(missingByLetter)
-          .sort()
+          .sort((a, b) => missingByLetter[b] - missingByLetter[a])
           .forEach((letter) => {
             console.log(`  ${letter}: ${missingByLetter[letter]} functions`);
           });
