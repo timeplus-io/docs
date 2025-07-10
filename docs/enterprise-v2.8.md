@@ -38,10 +38,10 @@ Released on 05-27-2025. Installation options:
 
 Component versions:
 * timeplusd 2.8.26
-* timeplus_web 2.8.7
-* timeplus_appserver 2.8.5
+* timeplus_web 2.8.8
+* timeplus_appserver 2.8.6
 * timeplus_connector 2.2.8
-* timeplus cli 1.2.12
+* timeplus cli 2.8.0
 
 #### Changelog {#changelog_2_8_1}
 Compared to the [2.8.0 (Preview)](#2_8_0) release:
@@ -76,6 +76,14 @@ Compared to the [2.8.0 (Preview)](#2_8_0) release:
   * Support for nullable JS UDFs and inference of numbers as strings in REST API
   * Enable incremental checkpointing by default
   * Support sqlanalysis show disks and other small SQL enhancements
+* timeplus_web 2.8.7 -> 2.8.8
+  * For data lineage, listing pages for streams, materialized views and other SQL resources, show a drop-down list for database namespaces from A to Z.
+* timeplus_appserver 2.8.5 -> 2.8.6
+  * Enhanced [REST API](/rest) to support database namespaces.
+* timeplus cli 1.2.12 -> 2.8.0
+  * Added a new [timeplus migrate kv](/cli-migrate#kv) command to migrate metadata from kv system to mutable streams.
+  * Added extra wait while starting the components and activate the free trial.
+
 
 ### 2.8.0 (Preview) {#2_8_0}
 Released on 03-25-2025. Installation options:
