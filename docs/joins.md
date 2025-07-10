@@ -109,7 +109,7 @@ We can categorize them into the following categories:
 
 Bidirectional join needs to buffer all data for the left stream and right stream and build hash tables for both of them. Whenever there are new or updated rows appearing on either side, the other side’s hash table is probed to see if a join can be matched.
 
-#### Append JOIN Append{#append-join-append}
+#### Append INNER/LEFT ALL JOIN Append{#append-join-append}
 
 This may look like the most easy-to-understand scenario. You can try this type of join if you have 2 streams with incoming new data.
 
@@ -123,7 +123,7 @@ left_append JOIN right_append
 ON left_append.k = right_append.kk
 ```
 
-#### Mutable JOIN Mutable{#mutable-join-mutable}
+#### Mutable INNER/LEFT/FULL ALL JOIN Mutable{#mutable-join-mutable}
 
 Both [Mutable Streams](/mutable-stream) and [Versioned Streams](/versioned-stream) can be joined together. This is production ready. We also provide [Changelog Streams](/changelog-stream) joining Changelog Stream as an experimental feature.
 
@@ -192,7 +192,7 @@ You can also put mutable streams, versioned stream or changelog stream on the le
 #### Static JOIN Static
 You can put static tables or external tables on the both side of the join. This will be identical to the common OLAP databases.
 
-#### Append JOIN Mutable
+#### Append INNER/LEFT ALL JOIN Mutable
 The right side can be a mutable stream, versioned stream or changelog stream.
 
 ```sql
@@ -272,11 +272,11 @@ SETTINGS join_algorithm = 'direct';
 SELECT * FROM test_left LEFT JOIN test_right ON test_left.v = test_right.v1
 SETTINGS join_algorithm = 'direct';
 ```
-#### Append ASOF JOIN Append
+#### Append INNER/LEFT ASOF JOIN Append
 
 ASOF enrichment join keeps multiple versions(by default 3 versions) of values for the same join key in the hash table and the values are sorted by ASOF unequal join key. This can be customized by setting the `keep_versions`.
 
-#### Append ASOF JOIN Mutable
+#### Append INNER/LEFT ASOF JOIN Mutable
 Example:
 ```sql
 CREATE STREAM append(i int, k string);
@@ -290,13 +290,13 @@ INSERT INTO versioned_kv(j, k, kk) VALUES (100, 'a', 'bb'), (101, 'a', 'cc'), (1
 INSERT INTO append(i, k) VALUES (99, 'a');
 ```
 
-#### Append LETEST JOIN Append
+#### Append INNER/LEFT LATEST JOIN Append
 
 Similar to `ALL JOIN` above, but we only keep the latest version of value for each join key.
 
 The right side of the `LATEST JOIN` can be an append stream or mutable stream(including versioned stream).
 
-#### Append LETEST JOIN Mutable
+#### Append INNER/LEFT LATEST JOIN Mutable
 
 ```sql
 CREATE STREAM append(i int, k string);

@@ -4,7 +4,7 @@ Regular streams in Timeplus are immutable, and stored in columnar format. Mutabl
 
 
 ```sql
-CREATE MUTABLE STREAM [IF NOT EXISTS] stream_name (
+CREATE MUTABLE STREAM [IF NOT EXISTS] [db.]stream_name (
     <col1> <col_type> [DEFAULT|ALIAS expr1],
     <col2> <col_type> [DEFAULT|ALIAS expr2],
     <col3> <col_type> [DEFAULT|ALIAS expr3],

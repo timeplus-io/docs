@@ -246,9 +246,11 @@ You can read the timestamp of the message via `_tp_time`, e.g.
 SELECT _tp_time, raw FROM foo;
 ```
 
+Starting from Timeplus Enterprise 2.8.1, you can also specify the message timestamp by set a value to the `_tp_time` column.
+
 #### _tp_message_key
 
-Starting from Timeplus Enterprise 2.4, you can define the `_tp_message_key` column when you create the external stream. This new approach provides more intuitive and flexible way to read the message key in the preferred format.
+Starting from Timeplus Enterprise 2.4, you can define the `_tp_message_key` column to read or write the message key in the preferred format.
 
 For example:
 ```sql
@@ -680,3 +682,4 @@ There are some limitations for the Kafka-based external streams, because Timeplu
 2. `_tp_time` is available in the external streams (since Proton 1.3.30). `_tp_append_time` is set only when message timestamp is an append time.
 3. Unlike normal streams, there is no historical storage for the external streams. In recent versions, you can run `table(kafka_ext_stream)` but it will scan all messages in the topic, unless you are running a `count()`. If you need to frequently run query for historical data, you can use a Materialized View to query the Kafka External Stream and save the data in Timeplus columnar or row storage. This will improve the query performance.
 4. There is no retention policy for the external streams in Timeplus. You need to configure the retention policy on Kafka/Confluent/Redpanda. If the data is no longer available in the external systems, they cannot be searched in Timeplus either.
+5. Consumer group settings are not available for Kafka external streams, as Timeplus internally manages message offsets without utilizing consumer groups.

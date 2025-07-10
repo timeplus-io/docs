@@ -5,7 +5,7 @@ Timeplus supports 3 types of external tables: ClickHouse, MySQL, and S3. Reading
 ## ClickHouse/MySQL External Table
 
 ```sql
-CREATE EXTERNAL TABLE name
+CREATE EXTERNAL TABLE [db.]name
 SETTINGS type='clickhouse|mysql',
          address='..',
          user='..',
@@ -28,7 +28,7 @@ You don't need to specify the columns, since the table schema will be fetched fr
 ## S3 External Table
 
 ```sql
-CREATE EXTERNAL TABLE [IF NOT EXISTS] name
+CREATE EXTERNAL TABLE [IF NOT EXISTS] [db.]name
     (<col_name1> <col_type1>, <col_name2> <col_type2>, ...)
 PARTITION BY .. -- optional
 SETTINGS
@@ -49,7 +49,7 @@ SETTINGS
 Once the external table is created successfully, you can run the following SQL to list the columns:
 
 ```sql
-DESCRIBE name
+DESCRIBE [db.]name
 ```
 
 :::info

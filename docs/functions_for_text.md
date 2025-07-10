@@ -32,11 +32,11 @@ For example, `format('{} {}', 'Hello', 'World')`gets `Hello World`
 
 `substring(str,index [,length])` Alias of [substr](#substr).
 
-### start_with
-`start_with(str,prefix)` Determines whether a string starts with a specified prefix.
+### starts_with
+`starts_with(str,prefix)` Determines whether a string starts with a specified prefix.
 
-### end_with
-`end_with(str,suffix)` Determines whether a string ends with a specified suffix.
+### ends_with
+`ends_with(str,suffix)` Determines whether a string ends with a specified suffix.
 
 ### trim
 

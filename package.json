@@ -14,20 +14,21 @@
     "write-translations": "docusaurus write-translations",
     "rest-doc": "redocly bundle external@latest --output external.yaml && redocly build-docs ./external.yaml -o static/rest.html && rm ./external.yaml",
     "crowdin": "crowdin",
+    "llmstxt": "mdctl llmstxt -f https://docs.timeplus.com/sitemap.xml > static/llms-full.txt",
     "spellcheck": "spellchecker --config spellchecker/config.yml",
     "en-pdf-list": "npx docusaurus-prince-pdf -u https://docs.timeplus.com --list-only",
     "en-pdf-gen": "npx docusaurus-prince-pdf -u https://docs.timeplus.com --pdf-only",
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
-    "@algolia/autocomplete-core": "^1.18.1",
-    "@docusaurus/core": "^3.7.0",
-    "@docusaurus/plugin-google-gtag": "^3.7.0",
-    "@docusaurus/plugin-google-tag-manager": "^3.7.0",
-    "@docusaurus/preset-classic": "^3.7.0",
+    "@algolia/autocomplete-core": "^1.19.2",
+    "@docusaurus/core": "^3.8.0",
+    "@docusaurus/plugin-google-gtag": "^3.8.0",
+    "@docusaurus/plugin-google-tag-manager": "^3.8.0",
+    "@docusaurus/preset-classic": "^3.8.0",
     "@docusaurus/react-loadable": "^6.0.0",
-    "@docusaurus/theme-mermaid": "^3.7.0",
-    "@docusaurus/theme-search-algolia": "^3.7.0",
+    "@docusaurus/theme-mermaid": "^3.8.0",
+    "@docusaurus/theme-search-algolia": "^3.8.0",
     "@iconify-json/logos": "1",
     "@mdx-js/react": "^3.1.0",
     "docusaurus-plugin-hubspot": "^1.0.1",
@@ -38,10 +39,10 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.7.0",
-    "@docusaurus/tsconfig": "3.7.0",
-    "@docusaurus/types": "3.7.0",
-    "@types/react": "^19.1.2",
+    "@docusaurus/module-type-aliases": "3.8.0",
+    "@docusaurus/tsconfig": "3.8.0",
+    "@docusaurus/types": "3.8.0",
+    "@types/react": "^19.1.6",
     "typescript": "~5.8.3"
   },
   "engines": {

@@ -23,7 +23,7 @@ If your server or computer is running Linux or MacOS, you can run the following 
 curl https://install.timeplus.com | sh
 ```
 
-This script will download the latest package (based on your operating system and CPU architecture) to the current folder. Uncompress the package and start the Timeplus Enterprise server.
+This script will download the latest package (based on your operating system and CPU architecture) to the current folder, uncompress the package and start the Timeplus Enterprise server. You can also download the package manually from [here](/release-downloads), uncompress it and start the server via `timeplus/bin/timeplus start`.
 
 ### Step 2: Setup the user account {#step2}
 Access the Timeplus Enterprise web console via http://localhost:8000. On your first login, please create an account with a password to start the 30-day free trial.
