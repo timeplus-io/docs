@@ -3,7 +3,7 @@ Starting from [Timeplus Enterprise 2.9](/enterprise-v2.9), you can create alerts
 
 ## Syntax
 ```sql
-CREATE [OR REPLACE] ALERT [IF NOT EXIST] [database.]alert_name
+CREATE [OR REPLACE] ALERT [IF NOT EXISTS] [database.]alert_name
 BATCH <N> EVENTS WITH TIMEOUT <nUnit>
 LIMIT <N> ALERTS PER <nUnit>
 AS <select_query>

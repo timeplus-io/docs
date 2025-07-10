@@ -10,7 +10,7 @@ Starting with Timeplus Enterprise v2.9, the alert feature has been moved from th
 
 ### Syntax
 ```sql
-CREATE [OR REPLACE] ALERT [IF NOT EXIST] [database.]alert_name
+CREATE [OR REPLACE] ALERT [IF NOT EXISTS] [database.]alert_name
 BATCH <N> EVENTS WITH TIMEOUT <nUnit>
 LIMIT <N> ALERTS PER <nUnit>
 AS <select_query>
