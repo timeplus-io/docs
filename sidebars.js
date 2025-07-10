@@ -586,8 +586,11 @@ const sidebars = {
         "enterprise-v2.7",
         "enterprise-v2.6",
         "enterprise-v2.5",
-        "enterprise-v2.4",
-        "enterprise-v2.3",
+        {
+          type: "category",
+          label: "Older 2.x Releases",
+          items: ["enterprise-v2.4", "enterprise-v2.3"],
+        },
         "v2-release-notes",
         "release-downloads",
         {
