@@ -19,3 +19,11 @@ SHOW CREATE FORMAT SCHEMA schema_name
 ```sql
 SHOW CREATE FUNCTION func_name
 ```
+
+## Show Details For An Alert
+
+```sql
+SHOW CREATE ALERT [database.]alert_name
+```
+
+If you add `SETTINGS show_multi_versions=true`, it will list earlier versions.
