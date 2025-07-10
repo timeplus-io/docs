@@ -1,12 +1,10 @@
 # Alert
 
-Timeplus provides out-of-box charts and dashboards. You can also create [sinks](/destination) to send downsampled data to Kafka or other message buses, or notify others via email/slack. You can even send new messages to Kafka, then consume such messages timely in the downstream system. This could be a solution for alerting and automation.
+Timeplus alerts enable you to monitor your streaming data and automatically trigger actions when specific conditions are met. When your streaming queries detect events of interest, alerts can notify stakeholders via email or Slack, send data to downstream systems like Kafka, or execute custom Python functions for automated responses.
 
-Since it's a common use case to define and manage alerts, Timeplus supports alerting out-of-box.
-
-Before Timeplus Enterprise v2.9, the alert feature was implemented in the application server. To improve performance, stability and SQL-based manageability, the alert feature is available in the core engine since v2.9.
-
-The previous alerting feature will be deprecated in the future releases.
+:::info
+Starting with Timeplus Enterprise v2.9, the alert feature has been moved from the application server to the core engine for improved performance, stability, and SQL-based management. The previous application-level alerting feature will be deprecated in future releases.
+:::
 
 ## Create New Alert
 
