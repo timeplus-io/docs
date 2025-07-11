@@ -12,11 +12,11 @@
     "description": "The title of the 404 page"
   },
   "theme.NotFound.p1": {
-    "message": "We could not find what you were looking for.",
+    "message": "We've recently reorganized our documentation to provide you with better, more focused content. Try using our search feature (press / or use the search box) to find what you're looking for, or click the logo or any link in the top banner to access the updated navigation menu.",
     "description": "The first paragraph of the 404 page"
   },
   "theme.NotFound.p2": {
-    "message": "Please contact the owner of the site that linked you to the original URL and let them know their link is broken.",
+    "message": "If you can't find what you need, please join our community Slack at https://timeplus.com/slack for help.",
     "description": "The 2nd paragraph of the 404 page"
   },
   "theme.admonition.note": {

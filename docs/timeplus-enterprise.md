@@ -10,4 +10,4 @@ We've recently reorganized our documentation to provide you with better, more fo
 
 ## Need Help?
 
-If you can't find what you're looking for, please use the search function (Command/Control + K) or browse our updated navigation menu.
+If you can't find what you're looking for, please use the search function (press / or use the search box) or click the logo or any link in the top banner to access the updated navigation menu.
