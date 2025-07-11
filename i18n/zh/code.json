@@ -12,11 +12,11 @@
     "description": "404 页面的标题"
   },
   "theme.NotFound.p1": {
-    "message": "我们找不到您要找的页面。",
+    "message": "We've recently reorganized our documentation to provide you with better, more focused content. Try using our search feature (press / or use the search box) to find what you're looking for, or click the logo or any link in the top banner to access the updated navigation menu.",
     "description": "404 页面的第一段"
   },
   "theme.NotFound.p2": {
-    "message": "请联系为你提供连接的人, 让他们知道这个链接不可用.",
+    "message": "If you can't find what you need, please join our community Slack at https://timeplus.com/slack for help.",
     "description": "404 页面的第二段"
   },
   "theme.admonition.note": {
