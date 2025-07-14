@@ -46,9 +46,23 @@ Component versions:
 #### Changelog {#changelog_2_8_2}
 Compared to the [2.8.1](#2_8_1) release:
 * timeplusd 2.8.26 -> 2.8.27
-  * Support abc
+  * Some new features and enhancements in 2.9 are ported to 2.8.2:
+    *   **New JSON Data Type & SQL Functions:** Added a native JSON data type and SQL functions [json_encode](/functions_for_json#json_encode) / [json_cast](/functions_for_json#json_cast) for powerful JSON manipulation.
+    *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
 * timeplus_web 2.8.8 -> 2.8.12
-  * Support abc
+  * Some new UI features and enhancements in 2.9 are ported to 2.8.2:
+      *   **Materialized Views (MVs):**
+          *   Added UI support for **pausing and resuming** materialized views.
+          *   Introduced **Dead Letter Queue (DLQ)** support and UI for MVs.
+          *   Improved MV details page, monitoring, and statistics display.
+          *   Enabled **modifying comments** for MVs via DDL.
+          *   Added ability to inspect MV status data by navigating to the query page.
+      *   **Improved Cluster Details Page:** Enhanced the cluster details page with a top statistics bar, better data presentation, and improved node details view.
+      *   Enhanced cluster data generation and retrieval for UI display.
+      * In stream and materialized view list page, the earliest and latest columns have been removed to improve performance.
+      * In the SQL Query page, side panel is simplified by removing the snippets and functions accordion.
+      * In database selector, the empty database is shown as dimmed.
+      * In the materialized listing page, the "Pause" button is moved to the detailed page.
 * timeplus_appserver 2.8.6 -> 2.8.10
   * Upgraded the `proton-go-driver` from [v2.0.19](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.0.19) to [v2.1.2](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.1.2) to support new json data type and various bug fixes.
   * Supported new database types: MySQL, PostgreSQL, and Iceberg. Skip stream statistics if the database is external.
