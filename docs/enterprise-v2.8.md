@@ -30,6 +30,33 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.2 (Public GA) {#2_8_2}
+Released on 07-??-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_2)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.5 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.2`
+
+Component versions:
+* timeplusd 2.8.27
+* timeplus_web 2.8.12
+* timeplus_appserver 2.8.10
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+
+#### Changelog {#changelog_2_8_2}
+Compared to the [2.8.1](#2_8_1) release:
+* timeplusd 2.8.26 -> 2.8.27
+  * Support abc
+* timeplus_web 2.8.8 -> 2.8.12
+  * Support abc
+* timeplus_appserver 2.8.6 -> 2.8.10
+  * Upgraded the `proton-go-driver` from [v2.0.19](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.0.19) to [v2.1.2](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.1.2) to support new json data type and various bug fixes.
+  * Supported new database types: MySQL, PostgreSQL, and Iceberg. Skip stream statistics if the database is external.
+  * Improved the performance of checking statistics for materialized views and streams.
+* timeplus_connector 2.2.8 --> 2.8.1
+  * Upgraded the `proton-go-driver` from [v2.0.19](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.0.19) to [v2.1.2](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.1.2) to support new json data type and various bug fixes.
+* timeplus cli 2.8.0. No changes.
+
 ### 2.8.1 (Public GA) {#2_8_1}
 Released on 05-27-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_1)
@@ -80,6 +107,7 @@ Compared to the [2.8.0 (Preview)](#2_8_0) release:
   * For data lineage, listing pages for streams, materialized views and other SQL resources, show a drop-down list for database namespaces from A to Z.
 * timeplus_appserver 2.8.5 -> 2.8.6
   * Enhanced [REST API](/rest) to support database namespaces.
+* timeplus_connector 2.2.8. No changes.
 * timeplus cli 1.2.12 -> 2.8.0
   * Added a new [timeplus migrate kv](/cli-migrate#kv) command to migrate metadata from kv system to mutable streams.
   * Added extra wait while starting the components and activate the free trial.
