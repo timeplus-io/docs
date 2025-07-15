@@ -32,38 +32,48 @@ Key highlights of the Timeplus 2.9 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 2.9.0 (Preview 1) {#2_9_0-preview_1}
-Released on 06-03-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.9 | sh` [Downloads](/release-downloads#2_9_0-preview_1)
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.9.0-preview.1`
+### 2.9.0 (Preview 2) {#2_9_0-preview_2}
+Released on 07-15-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.9 | sh` [Downloads](/release-downloads#2_9_0-preview_2)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.9.0-preview.2`
 * We will provide new Helm Charts for Kubernetes deployment when v2.9 is GA.
 
 Component versions:
-* timeplusd 2.9.9-rc.2
-* timeplus_web 2.9.27
-* timeplus_appserver 2.9.24
-* timeplus_connector 2.9.0
+* timeplusd 2.9.9-rc.20
+* timeplus_web 2.9.35
+* timeplus_appserver 2.9.34
+* timeplus_connector 2.9.1
 * timeplus cli 2.9.0
 
-#### Changelog {#changelog_2_9_0-preview_1}
+#### Changelog {#changelog_2_9_0-preview_2}
 Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
-* timeplusd 2.8.26 -> 2.9.9-rc.2
+* timeplusd 2.8.26 -> 2.9.9-rc.20
   *   New Features:
       *   **Parameterized Views:** You can now create [parameterized views](/view#parameterized-views), allowing for more dynamic and reusable view definitions.
       *   **JIT Compilation for Queries:** Introduced [Just-In-Time (JIT) compilation](/jit) for queries, potentially improving execution performance for certain query types.
-      *   **New JSON Data Type & SQL Functions:** Added a native JSON data type and SQL functions [json_encode](/functions_for_json#json_encode) / [json_cast](/functions_for_json#json_cast) for powerful JSON manipulation.
+      *   **New JSON Data Type & SQL Functions:** Added a native JSON data type and SQL functions [json_encode](/functions_for_json#json_encode), [json_cast](/functions_for_json#json_cast), [json_array_length](/functions_for_json#json_array_length), [json_merge_patch](/functions_for_json#json_merge_patch) for powerful JSON manipulation.
       *   **Mutable Stream TTL:** You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
       *   **Materialized View DLQ:** Introduced Dead Letter Queue (DLQ) support for materialized views to handle data processing errors more robustly.
       *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
+      *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
+      * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
+      * Enhanced [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`
+      * Native support for Alerts.
       *   **Python UDFs on ARM:** Python User-Defined Functions (UDFs) are now supported on ARM-based architectures (Linux/macOS), expanding platform compatibility.
-      *   **Improved JavaScript UDFs:** Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation (also available in 2.8.1 or above).
+      *   **Improved JavaScript UDFs:** Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation (also available in 2.8.1 or above). JavaScript User Defined Aggregation Function supports null value as input.
       *   **Log Stream Virtual Columns:** Log streams now include `_filepath` and `_filename` virtual columns, providing richer context about the data source.
       *   **UUID as Primary Key:** Mutable streams now support the `UUID` data type for primary key columns.
+      * Support [SQL UDF](/sql-udf) on cluster. Support [UUIDv7 functions](/functions_for_text#uuid7)
   *   SQL and Data Model Enhancements:
       *   **Advanced `EMIT` Clause:** The `EMIT` clause for changelog generation now supports `EMIT ON UPDATE WITH DELAY` and `EMIT AFTER KEY EXPIRE` options for more granular control over streaming results.
       *   **`ALTER STREAM` for Multiple Columns:** You can now add or modify multiple columns in a single `ALTER STREAM` command.
       *   **Modifying Comments:** Added `ALTER COMMENT` support for streams, views, materialized views, KVStreams, and RandomStreams.
       *   **Mutable Stream Schema Evolution:** Support for adding new columns and dropping secondary indexes in mutable streams.
+      * Support writing to nested array of records Avro schemas
+      * Enhanced [Kafka External Stream](/proton-kafka) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`
+      * New query setting [precise_float_parsing](/query-settings#precise_float_parsing) to precisely handle float numbers.
+      * Added emit policy `EMIT TIMEOUT` and `EMIT PER EVENT`
+      * Added new functions `array_partial_sort` and `array_partial_reverse_sort`
   *   Performance and Scalability:
       *   **Incremental Checkpointing:** Implemented and enabled incremental checkpointing by default for substreams, hybrid hash joins, and Materialized Views, significantly reducing recovery time and resource usage during stateful operations.
       *   **Optimized Connection Pooling:** Refactored internal connection pooling for improved performance and resource management.
@@ -77,6 +87,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **MV Node Pinning & Placement:** Added functionality to pin materialized view execution to specific cluster nodes and manage node placements for better resource control.
       *   **Kafka External Stream Timeout:** Added `connection_timeout_ms` setting for Kafka external streams.
       *   **Dependency Checks for Storage Policies:** Added checks for dependencies before allowing a storage policy or disk to be dropped.
+      *   [A set of views](/system-views) are provided in the `system` namespace that enable effective troubleshooting and monitoring of your streaming data operations
   *   External Data Integration:
       *   **Kafka Enhancements:** Added support for writing Kafka message timestamps and improved error handling for Kafka external streams with `_tp_time` and CSV format.
       *   **Iceberg Integration:** Provided various bug fixes and enhancements for interacting with Apache Iceberg tables.
@@ -84,20 +95,23 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
   *   Security Enhancements:
       *   Improved mechanisms for password propagation within clustered environments.
       *   Support for utilizing user information from HTTP URL parameters for authentication or context.
-* timeplus_web 2.8.8 -> 2.9.27
+* timeplus_web 2.8.8 -> 2.9.35
   *   UI/UX Enhancements:
       *   **New Log Viewer:** Introduced a significantly improved log viewer with enhanced filtering capabilities, better timeline interactions, improved tooltip displays, and refined time range calculations.
       *   **Database Selector:** Improved the database selector in the UI, including dimming databases without resources and separating system databases for better clarity.
       *   **Data Lineage:** Enhanced data lineage visualization to display nodes from other databases.
       *   **Timezone Persistence:** User-selected timezone preferences are now persisted in local storage for a consistent experience.
       *   Improved layout for HTTP source creation and other external stream Guided Data Ingestion (GDI) UIs.
+      *   **SQL Query:** side panel is simplified by removing the snippets and functions accordion, long SQL statement is wrapped by default, cursor position is kept when you switch pages or tabs.
   *   Resource Management (Streams, MVs, Views, UDFs):
+      * Replaced the Redpanda-Connect based HTTP sink and Slack sink with the new [HTTP External Stream](/http-external) in the core engine.
       *   **Materialized Views (MVs):**
           *   Added UI support for **pausing and resuming** materialized views.
           *   Introduced **Dead Letter Queue (DLQ)** support and UI for MVs.
           *   Improved MV details page, monitoring, and statistics display.
           *   Enabled **modifying comments** for MVs via DDL.
           *   Added ability to inspect MV status data by navigating to the query page.
+          *   Moved the "Pause" button to the detailed page.
       *   **Streams:**
           *   Improved Stream details page.
           *   Enabled **modifying comments** for streams via DDL.
@@ -109,12 +123,16 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
   *   Cluster Management:
       *   **Improved Cluster Details Page:** Enhanced the cluster details page with a top statistics bar, better data presentation, and improved node details view.
       *   Enhanced cluster data generation and retrieval for UI display.
-* timeplus_appserver 2.8.6 -> 2.9.24
-  * Serves the updated Timeplus Web Console (v2.9.27) static files.
+      *   Added the log view to the node page
+* timeplus_appserver 2.8.6 -> 2.9.34
+  * Serves the updated Timeplus Web Console static files.
   * Added backend support for new external table types including MySQL, PostgreSQL, and Iceberg.
-  * Updated internal drivers (e.g., proton-go-driver) to support the new native JSON data type.
-* timeplus_connector 2.2.8 -> 2.9.0
+  * Upgraded the `proton-go-driver` from [v2.0.19](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.0.19) to [v2.1.2](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.1.2) to support new json data type and various bug fixes.
+  * New REST API for pipeline management.
+  * Improved the performance of checking statistics for materialized views and streams.
+* timeplus_connector 2.2.8 -> 2.9.1
   * removed the support for internal k/v service, since metadata is saved in mutable streams in v2.9
+  * Upgraded the `proton-go-driver` from [v2.0.19](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.0.19) to [v2.1.2](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.1.2) to support new json data type and various bug fixes.
 * timeplus cli 2.8.0 -> 2.9.0
   * No longer need to start/stop the timeplus_web component.
   * Load `timeplus_connector.yaml` from the relative path or via `BENTHOS_CONFIG_PATH` environment variable.
@@ -123,7 +141,7 @@ Upgrade Instructions:
 
 If you install Timeplus Enterprise 2.7 or earlier, the metadata for the Redpanda Connect sources and sinks are saved in a special key/value service. v2.8 switches to mutable streams for such metadata by default and provides a migration tool. In 2.9, all metadata are saved in mutable streams and the previous key/value service has been removed. Please upgrade to 2.8 first if you are on 2.7 or earlier. Then upgrade to 2.9.
 
-#### Known issues {#known_issue_2_9_0-preview_0}
+#### Known issues {#known_issue_2_9_0-preview_2}
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.9.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
 2. For existing deployments with any version from 2.3 to 2.7, please upgrade to 2.8 first and migrate the metadata. .
 3. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
