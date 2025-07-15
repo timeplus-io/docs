@@ -63,7 +63,7 @@ Compared to the [2.8.1](#2_8_1) release:
     * New query setting [precise_float_parsing](/query-settings#precise_float_parsing) to precisely handle float numbers.
     * JavaScript User Defined Aggregation Function supports null value as input.
     * Support [UUIDv7 functions](/functions_for_text#uuid7)
-    * [A set of views](/system-views) are provided in the `system` namespacethat enable effective troubleshooting and monitoring of your streaming data operations
+    * [A set of views](/system-views) are provided in the `system` namespace that enable effective troubleshooting and monitoring of your streaming data operations
     * Improved the support for gRPC protocol.
     * New table function [rowify](/functions_for_streaming#rowify)
     * Support [EMIT TIMEOUT](/streaming-aggregations#emit-timeout) for both global aggregations and window aggregations.
