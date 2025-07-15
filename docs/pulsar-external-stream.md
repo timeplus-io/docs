@@ -154,6 +154,21 @@ the sequence number in Timeplus, in int64 type.
 #### _tp_message_key
 the message key (a.k.a partition key). Can be empty.
 
+#### _tp_message_headers
+
+Starting from Timeplus Enterprise 2.8.2, you can read and write custom headers via this column.
+
+Define the column in the DDL:
+```sql
+CREATE EXTERNAL STREAM example (
+    s string,
+    i int,
+    ...,
+    _tp_message_headers map(string, string)
+) settings type='pulsar',...;
+```
+Then insert data to the external stream via `INSERT INTO` or materialized views, with a map of string pairs as custom headers for each message.
+
 ### Query Settings
 #### shards
 You can read in specified Pulsar partitions. By default, all partitions will be read. But you can also read from a single partition via the `shards` setting, e.g.
