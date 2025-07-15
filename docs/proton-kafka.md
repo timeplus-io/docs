@@ -546,8 +546,20 @@ When you insert data, the shard ID will be calculated based on the `sharding_exp
 
 #### _tp_message_headers {#write_message_headers}
 
-Starting from Timeplus Proton 1.6.11 and Timeplus Enterprise 2.7, you can read the Kafka message headers as `map(string,string)` via the `_tp_message_headers` virtual column. Writing custom headers is not supported yet. Please contact us if you need this feature.
+Starting from Timeplus Proton 1.6.11 and Timeplus Enterprise 2.7, you can read the Kafka message headers as `map(string,string)` via the `_tp_message_headers` virtual column.
 
+Starting from Timeplus Enterprise 2.8.2, you can also write custom headers via this column.
+
+Define the column in the DDL:
+```sql
+CREATE EXTERNAL STREAM example (
+    s string,
+    i int,
+    ...,
+    _tp_message_headers map(string, string)
+) settings type='kafka',...;
+```
+Then insert data to the external stream via `INSERT INTO` or materialized views, with a map of string pairs as custom headers for each message.
 
 ## DROP EXTERNAL STREAM
 

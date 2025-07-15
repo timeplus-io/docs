@@ -4,6 +4,7 @@ const newWords = [
   "dictionaries",
   "dictionary",
   "disks",
+  "emit",
   "external",
   "format",
   "functions",
