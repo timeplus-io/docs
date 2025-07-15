@@ -98,8 +98,10 @@ Possible values:
 * `auto`: When set to auto, hash join is tried first, and the algorithm is switched on the fly to another algorithm if the memory limit is violated.
 
 ## precise_float_parsing
-By default this setting is disabled. Setting this to 1 to handle precise parsing for float values. For example:
+By default this setting is disabled. Setting this to 1 or `true` to handle precise parsing for float values. For example:
 ```sql
 select to_float32('6.000000000000001e-9')
 settings precise_float_parsing=1
 ```
+
+Please note, enabling this can slow down the query performance to some extent. One of the common use cases is the upstream, such as CDC, shares the precise float numbers as string values in Kafka or Pulsar messages. You can add this setting to the materialized view to parse the float value from string precisely.
