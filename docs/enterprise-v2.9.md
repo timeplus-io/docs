@@ -58,7 +58,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
       * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
       * Enhanced [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`
-      * Native support for Alerts.
+      * Build and manage [Alerts](/alert) with SQL. Monitor your streaming data and automatically trigger actions when specific conditions are met.
       *   **Python UDFs on ARM:** Python User-Defined Functions (UDFs) are now supported on ARM-based architectures (Linux/macOS), expanding platform compatibility.
       *   **Improved JavaScript UDFs:** Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation (also available in 2.8.1 or above). JavaScript User Defined Aggregation Function supports null value as input.
       *   **Log Stream Virtual Columns:** Log streams now include `_filepath` and `_filename` virtual columns, providing richer context about the data source.

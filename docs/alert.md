@@ -47,7 +47,7 @@ def alert_action_proton_new_star(value):
     return 0
 $$
 ```
-Please note, similar to the Python UDF, the input paramter of the Python UDF is an array, instead of a single event.
+Please note, similar to the Python UDF, the input parameter of the Python UDF is an array, instead of a single event.
 
 ## List Alerts
 ```sql

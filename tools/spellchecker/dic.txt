@@ -184,6 +184,7 @@ cpu-consuming
 CPUs
 CPython
 CRM
+cron
 Crul
 csv
 CSV
@@ -770,6 +771,7 @@ SGD
 sharded
 sharding
 sharding_expr
+show_uuid
 signup
 signups
 SigV4
@@ -977,6 +979,7 @@ utf-8
 UTF-8
 uuid
 UUID
+uuid7
 UUIDs
 UUIDv4
 UUIDv7

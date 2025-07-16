@@ -6,8 +6,8 @@ Starting from [Timeplus Enterprise 2.9](/enterprise-v2.9), you can create alerts
 CREATE [OR REPLACE] ALERT [IF NOT EXISTS] [database.]alert_name
 BATCH <N> EVENTS WITH TIMEOUT <nUnit>
 LIMIT <N> ALERTS PER <nUnit>
+CALL <python_udf_name>
 AS <select_query>
-CALL <python_udf_name>;
 ```
 
 For example:
@@ -15,8 +15,8 @@ For example:
 CREATE ALERT default.test
 BATCH 10 EVENTS WITH TIMEOUT 5s
 LIMIT 1 ALERTS PER 15s
-AS SELECT value FROM default.foo
-CALL send_to_http;
+CALL send_to_http
+AS SELECT value FROM default.foo;
 ```
 
 ## Limitations
@@ -27,24 +27,20 @@ CALL send_to_http;
 * The checkpoints of the alerts are available in `system.alert_ckpt_log` stream with the `_tp_sn` column.
 
 ## Python UDF
-You can import Python libraries and build the custom alert action via [Python UDF](/py-udf). The return value doesn't matter. Here is an example:
+You can import Python libraries and build the custom alert action via [Python UDF](/py-udf). The return value doesn't matter. Here is an example to send events to a specific Slack channel via Slack webhook:
 
 ```sql
-CREATE OR REPLACE FUNCTION send_to_http(value uint16)
-RETURNS bool LANGUAGE PYTHON AS
-$$
-import datetime
+CREATE OR REPLACE FUNCTION alert_action_proton_new_star(actor string) RETURNS int LANGUAGE PYTHON AS $$
 import json
 import requests
-
-def send_to_http(value):
-    if len(value) < 1:
-    return False
-
-    resp = requests.post("http://mock_server:7890/alerts", data=json.dumps({"ts": str(datetime.datetime.utcnow()), "data": value}))
-    return resp.status_code < 300
-$$;
+def alert_action_proton_new_star(value):
+    for i in range(len(value)):
+        github_id=value[i]
+        requests.post("https://hooks.slack.com/services/T123/B456/other_id", data=json.dumps({"text": f"New 🌟 for Timeplus Proton from https://github.com/{github_id}"}))
+    return 0
+$$
 ```
+Please note, similar to the Python UDF, the input parameter of the Python UDF is an array, instead of a single event.
 
 ## See also
 * [SHOW ALERTS](/sql-show-alerts) - Show alerts
