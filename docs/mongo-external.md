@@ -19,7 +19,7 @@ For the full list of settings, see the [DDL Settings](#ddl-settings) section.
 ### Examples
 
 #### Write to Self-Hosting MongoDB
-Assuming you have created an index `students` in a deployment of OpenSearch or ElasticSearch, you can create the following external stream to write data to the index.
+Assuming you have created an index `students` in a deployment of MongoDB, you can create the following external stream to write data to the index.
 
 ```sql
 CREATE EXTERNAL TABLE mongodb_t1 (

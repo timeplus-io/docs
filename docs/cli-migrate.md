@@ -94,6 +94,15 @@ timeplus migrate run -p plan_file_path
 
 If there is anything wrong during the migration and you want to try it again, this `clean` sub-command will delete the migrated resource in target Timeplus, so that you can recreate them in the next `timeplus migrate run`.
 
+## timeplus migrate kv --host [host] -p [password] {#kv}
+Since Timeplus Enterprise v2.8, the application metadata is stored in mutable streams, instead of a special key-value subsystem as part of timeplusd. If you previously deployed Timeplus Enterprise v2.7 or earlier, and want to keep the metadata after upgrading to v2.8 or later, you need to run the following migration tool:
+
+```bash
+./bin/timeplus migrate kv --host <timeplusd_host> -p <password>
+```
+
+If you don't run the migration script, the previously saved query bookmarks, dashboards or alerts won't be visible in the new deployment.
+
 ## Limitations
 
 1. There is no checkpoint or error recovering for now. While migrating streams with lots of data, it is possible to experience network interruption. In this case, you can turn on `use_timeplusd_for_data_migration` setting and use timeplusd instead of the application server to run the migration script. You can also run `migrate clean` command to clean up the half-done resources and retry.

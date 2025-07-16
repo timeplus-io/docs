@@ -199,3 +199,10 @@ from changelog(car_live_data, cid, _tp_time, true)
 ✅ streaming query
 
 🚫 historical query
+
+### rowify
+
+A table function that takes a stream or a CTE as the parameter. Split batch input into separate rows output. For example:
+```sql
+SELECT sum(value) FROM rowify(<stream or cte>) EMIT ON UPDATE
+```

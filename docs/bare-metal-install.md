@@ -1,6 +1,6 @@
 # Deploy on Bare Metal
 
-Timeplus Enterprise can be easily installed bare metal Linux or MacOS, as a single node or multi-node clsuter.
+Timeplus Enterprise can be easily installed bare metal Linux or MacOS, as a single node or multi-node cluster.
 
 ## Single Node Install
 
@@ -90,7 +90,7 @@ This stack demonstrates how to run streaming ETL, getting data from Kafka API, a
 * [Tutorial – Streaming ETL: Kafka to ClickHouse](/tutorial-sql-etl-kafka-to-ch)
 
 ## Cluster Install
-Timeplus Enterprise can be installed in multi-node cluster mode for high availability and horizontal scalability. This page shares how to install Timeplus cluster on bare metal. Pleae refer to [this guide](/k8s-helm) to deploy Timeplus Enterprise on Kubernetes.
+Timeplus Enterprise can be installed in multi-node cluster mode for high availability and horizontal scalability. This page shares how to install Timeplus cluster on bare metal. Please refer to [this guide](/k8s-helm) to deploy Timeplus Enterprise on Kubernetes.
 
 ### Multi-Node Cluster
 

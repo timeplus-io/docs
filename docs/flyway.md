@@ -2,7 +2,7 @@
 
 [Redgate Flyway](https://www.red-gate.com/) extends DevOps to databases to accelerate software delivery and ensure quality code. From version control to continuous delivery, Flyway builds on application delivery processes to automate database deployments.
 
-A database extension for Timeplus is available at [GitHub](https://github.com/timeplus-io/flyway-community-db-support). If you already use Flyway in your DevOps toolchain, you can use Flyway to manage SQL resources with version control and continuous delivery. Comparing to [Timeplus Terraform Provider](/terraform), currently the flyway support has some [limitations](#limitations).
+A database extension for Timeplus is available at [GitHub](https://github.com/timeplus-io/flyway-community-db-support). If you already use Flyway in your DevOps toolchain, you can use Flyway to manage SQL resources with version control and continuous delivery.
 
 ## Demo
 Check out this short video that demonstrates how to create, update and clean up Timeplus resources with Flyway.

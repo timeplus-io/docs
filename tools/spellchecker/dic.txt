@@ -724,6 +724,7 @@ roadmaps
 RocksDB
 rocksdb
 RocNet
+rowify
 rpconnect
 s-agg-recent
 s-downsampling

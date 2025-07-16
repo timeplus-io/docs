@@ -241,3 +241,14 @@ WITH grouped AS(
 SELECT json_encode(trace_id, start_ts, end_ts, span_ms, trace_events) AS event FROM grouped
 SETTINGS default_hash_table='hybrid', max_hot_keys=1000000, allow_independent_shard_processing=true;
 ```
+
+### EMIT TIMEOUT
+You can apply `EMIT TIMEOUT` on global aggregation, e.g.
+```sql
+SELECT count() FROM t EMIT TIMEOUT 1s;
+```
+
+It also can be applied to window aggregations and `EMIT AFTER WINDOW CLOSE` is automatically appended, e.g.
+```sql
+SELECT count() FROM tumble(t,5s) GROUP BY window_start EMIT TIMEOUT 1s;
+```

@@ -29,6 +29,29 @@ Key highlights of this release:
 ## Releases
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
+### 2.5.13 (Public GA) {#2_5_13}
+Built on 07-08-2025. You can install via:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.5 | sh` [Downloads](/release-downloads#2_5_13)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v4.0.12 ..`
+* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.13`
+
+Component versions:
+* timeplusd 2.4.30
+* timeplus_web 2.0.6
+* timeplus_appserver 2.0.9
+* timeplus_connector 2.0.3
+* timeplus cli 1.2.8
+
+#### Changelog {#changelog_2_5_13}
+
+Compared to the [2.5.12](#2_5_12) release:
+* timeplusd 2.4.27 -> 2.4.30
+  * Bug fixes without new features
+
+#### Known issues {#known_issue_2_5_13}
+1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.
+
 ### 2.5.12 (Public GA) {#2_5_12}
 Built on 01-09-2025. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.5 | sh` [Downloads](/release-downloads#2_5_12)
@@ -42,7 +65,7 @@ Component versions:
 * timeplus_connector 2.0.3
 * timeplus cli 1.2.8
 
-#### Changelog {#changelog_2_5_11}
+#### Changelog {#changelog_2_5_12}
 
 Compared to the [2.5.11](#2_5_11) release:
 * timeplusd 2.4.26 -> 2.4.27

@@ -21,6 +21,8 @@ SETTINGS type='mysql',
          database='..',
          config_file='..',
          table='..',
+         replace_query=false, -- optional, if it is ture, use REPLACE INTO instead of INSERT INTO
+         on_duplicate_clause='..', -- optinal, set the expression for ON DUPLICATE KEY
          pooled_connections=16; -- optional, the maximum pooled connections to the database. Default 16.
 ```
 
