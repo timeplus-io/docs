@@ -1,47 +1,72 @@
 # Alert
 
-Timeplus provides out-of-box charts and dashboards. You can also create [sinks](/destination) to send downsampled data to Kafka or other message buses, or notify others via email/slack. You can even send new messages to Kafka, then consume such messages timely in the downstream system. This could be a solution for alerting and automation.
+Timeplus alerts enable you to monitor your streaming data and automatically trigger actions when specific conditions are met. When your streaming queries detect events of interest, alerts can notify stakeholders via email or Slack, send data to downstream systems like Apache Kafka, or execute custom Python functions for automated responses.
 
-Since it's a common use case to define and manage alerts, Timeplus supports alerting out-of-box.\
-
-:::warning
-Starting from Timeplus Enterprise v2.9, the alerting feature will be provided by the core SQL engine, with increased performance and stability, as well as SQL based manageability.
-
-The previous alerting feature will be deprecated in the future releases.
+:::info
+Starting with Timeplus Enterprise v2.9, the alert feature has been moved from the application server to the core engine for improved performance, stability, and SQL-based management. The previous application-level alerting feature will be deprecated in future releases.
 :::
 
-## Create New Alert Rule
+## Create New Alert
 
-Access the `/console/alerts` page to open the new Alert Manager.
+### Syntax
+```sql
+CREATE [OR REPLACE] ALERT [IF NOT EXISTS] [database.]alert_name
+BATCH <N> EVENTS WITH TIMEOUT <nUnit>
+LIMIT <N> ALERTS PER <nUnit>
+CALL <python_udf_name>
+AS <select_query>;
+```
 
-You can check the button to create a new alert. Parameters:
+For example:
+```sql
+CREATE ALERT default.test
+BATCH 10 EVENTS WITH TIMEOUT 5s
+LIMIT 1 ALERTS PER 15s
+CALL alert_action_proton_new_star
+AS SELECT actor FROM github_events WHERE repo='timeplus-io/proton' AND type='WatchEvent'
+```
 
-* Name: required, a unique name to identify the alert among other alerts in your workspace.
-* Severity: Critical, High, Low
-* Description: optional text to describe the purpose or logic of the alert
-* Trigger SQL: required. A streaming SQL. Once there is any new result from the query, Timeplus will fire the alert.
-* Clear SQL: optional. Another streaming SQL. Once there is any new result from the query, Timeplus will set this alert as resolved.
-* Output: currently we support Slack and PagerDuty to notify the users.
-  * Slack:
-    * Webhook URL: required. Please follow the [guide](/destination#slack) to create one from slack.com.
-    * (Trigger) message body: optional. The message title is `New Alert alert on ALERT_NAME is triggered!` By default the message is ` Event: JSON` You can customize the default template. Refer to the value for each column using the `{{.column}}` expression.
-    * (Clear) message body: optional. The message title is ` Alert alert on ALERT_NAME is resolved!` By default the message is ` Event: JSON` You can customize the default template. Refer to the value for each column using the `{{.column}}` expression.
-  * PagerDuty:
-    * Routing Key: required. 32 character Integration Key for an integration on a PagerDuty service or rule set.  Please check the PagerDuty documentation for details.
-    * Component: optional, the additional context about what component goes wrong.
+### Limitations
+* The alerts only run on the metadata leader node.
+* The return value of the Python UDF is ignored.
+* The select query cannot include any aggregation or JOIN. You can create a materialized view with complex JOIN or aggregation logic to cache the alert events and `SELECT` the target stream of the materialized view in the alert definition.
+* Check `system.stream_state_log` for the alert states or logs.
+* The checkpoints of the alerts are available in `system.alert_ckpt_log` stream with the `_tp_sn` column.
 
-Example:
+### Python UDF
+You can import Python libraries and build the custom alert action via [Python UDF](/py-udf). The return value doesn't matter. Here is an example to send events to a specific Slack channel via Slack webhook:
 
-* You can set the Trigger SQL as `select avg(speed_kmh) as avg from tumble(car_live_data,5s) group by window_start having avg>51`
-* Clear SQL as `select avg(speed_kmh) as avg from tumble(car_live_data,5s) group by window_start having avg<=51`
-* The message body for trigger message is `Avg car speed is {{.avg}}`
+```sql
+CREATE OR REPLACE FUNCTION alert_action_proton_new_star(actor string) RETURNS int LANGUAGE PYTHON AS $$
+import json
+import requests
+def alert_action_proton_new_star(value):
+    for i in range(len(value)):
+        github_id=value[i]
+        requests.post("https://hooks.slack.com/services/T123/B456/other_id", data=json.dumps({"text": f"New 🌟 for Timeplus Proton from https://github.com/{github_id}"}))
+    return 0
+$$
+```
+Please note, similar to the Python UDF, the input paramter of the Python UDF is an array, instead of a single event.
 
 ## List Alerts
+```sql
+SHOW ALERTS [FROM database_name] [SETTINGS verbose=true]
+```
 
-The **Alerts** tab shows the alert history. The alert status is either ALERT or OK. You can manually resolve an alert in ALERT status.
+Without `SETTINGS verbose=true`, it lists the alert name and its UUID. With `SETTINGS verbose=true`, the following columns are added:
+* version
+* last_modified
+* last_modified_by
+* created
+* created_by
 
+## Show Alert Definition
+```sql
+SHOW CREATE ALERT [database.]alert_name [SETTINGS show_multi_versions=true]
+```
 
-
-## List Alerts Rules
-
-The **Alert Rules** tab lists all defined alert rules. You can edit  or delete the rule or resolve one alert no matter what status it is.
+## Drop Alerts
+```sql
+DROP ALERT [database.]alert_name
+```
