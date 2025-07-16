@@ -1,6 +1,6 @@
 # Alert
 
-Timeplus alerts enable you to monitor your streaming data and automatically trigger actions when specific conditions are met. When your streaming queries detect events of interest, alerts can notify stakeholders via email or Slack, send data to downstream systems like Kafka, or execute custom Python functions for automated responses.
+Timeplus alerts enable you to monitor your streaming data and automatically trigger actions when specific conditions are met. When your streaming queries detect events of interest, alerts can notify stakeholders via email or Slack, send data to downstream systems like Apache Kafka, or execute custom Python functions for automated responses.
 
 :::info
 Starting with Timeplus Enterprise v2.9, the alert feature has been moved from the application server to the core engine for improved performance, stability, and SQL-based management. The previous application-level alerting feature will be deprecated in future releases.
@@ -13,8 +13,8 @@ Starting with Timeplus Enterprise v2.9, the alert feature has been moved from th
 CREATE [OR REPLACE] ALERT [IF NOT EXISTS] [database.]alert_name
 BATCH <N> EVENTS WITH TIMEOUT <nUnit>
 LIMIT <N> ALERTS PER <nUnit>
-AS <select_query>
-CALL <python_udf_name>;
+CALL <python_udf_name>
+AS <select_query>;
 ```
 
 For example:
@@ -22,41 +22,44 @@ For example:
 CREATE ALERT default.test
 BATCH 10 EVENTS WITH TIMEOUT 5s
 LIMIT 1 ALERTS PER 15s
-AS SELECT value FROM default.foo
-CALL send_to_http;
+CALL alert_action_proton_new_star
+AS SELECT actor FROM github_events WHERE repo='timeplus-io/proton' AND type='WatchEvent'
 ```
 
 ### Limitations
 * The alerts only run on the metadata leader node.
 * The return value of the Python UDF is ignored.
-* The select query cannot include any aggregation or JOIN.
+* The select query cannot include any aggregation or JOIN. You can create a materialized view with complex JOIN or aggregation logic to cache the alert events and `SELECT` the target stream of the materialized view in the alert definition.
 * Check `system.stream_state_log` for the alert states or logs.
 * The checkpoints of the alerts are available in `system.alert_ckpt_log` stream with the `_tp_sn` column.
 
 ### Python UDF
-You can import Python libraries and build the custom alert action via [Python UDF](/py-udf). The return value doesn't matter. Here is an example:
+You can import Python libraries and build the custom alert action via [Python UDF](/py-udf). The return value doesn't matter. Here is an example to send events to a specific Slack channel via Slack webhook:
 
 ```sql
-CREATE OR REPLACE FUNCTION send_to_http(value uint16)
-RETURNS bool LANGUAGE PYTHON AS
-$$
-import datetime
+CREATE OR REPLACE FUNCTION alert_action_proton_new_star(actor string) RETURNS int LANGUAGE PYTHON AS $$
 import json
 import requests
-
-def send_to_http(value):
-    if len(value) < 1:
-    return False
-
-    resp = requests.post("http://mock_server:7890/alerts", data=json.dumps({"ts": str(datetime.datetime.utcnow()), "data": value}))
-    return resp.status_code < 300
-$$;
+def alert_action_proton_new_star(value):
+    for i in range(len(value)):
+        github_id=value[i]
+        requests.post("https://hooks.slack.com/services/T123/B456/other_id", data=json.dumps({"text": f"New 🌟 for Timeplus Proton from https://github.com/{github_id}"}))
+    return 0
+$$
 ```
+Please note, similar to the Python UDF, the input paramter of the Python UDF is an array, instead of a single event.
 
 ## List Alerts
 ```sql
 SHOW ALERTS [FROM database_name] [SETTINGS verbose=true]
 ```
+
+Without `SETTINGS verbose=true`, it lists the alert name and its UUID. With `SETTINGS verbose=true`, the following columns are added:
+* version
+* last_modified
+* last_modified_by
+* created
+* created_by
 
 ## Show Alert Definition
 ```sql
