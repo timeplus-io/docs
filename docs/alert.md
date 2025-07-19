@@ -37,17 +37,17 @@ AS SELECT actor FROM github_events WHERE repo='timeplus-io/proton' AND type='Wat
 You can import Python libraries and build the custom alert action via [Python UDF](/py-udf). The return value doesn't matter. Here is an example to send events to a specific Slack channel via Slack webhook:
 
 ```sql
-CREATE OR REPLACE FUNCTION alert_action_proton_new_star(actor string) RETURNS int LANGUAGE PYTHON AS $$
+CREATE OR REPLACE FUNCTION alert_action_proton_new_star(actor string) RETURNS string LANGUAGE PYTHON AS $$
 import json
 import requests
 def alert_action_proton_new_star(value):
     for i in range(len(value)):
         github_id=value[i]
         requests.post("https://hooks.slack.com/services/T123/B456/other_id", data=json.dumps({"text": f"New 🌟 for Timeplus Proton from https://github.com/{github_id}"}))
-    return 0
+    return value
 $$
 ```
-Please note, similar to the Python UDF, the input parameter of the Python UDF is an array, instead of a single event.
+Please note, similar to regular Python UDF, the input parameter of the Python UDF is an array, instead of a single event. The return value can be anything but you can return the input value, so that you can test the Python UDF via `SELECT udf_name(input)`.
 
 ## List Alerts
 ```sql
