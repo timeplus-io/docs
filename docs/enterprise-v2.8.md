@@ -39,7 +39,7 @@ Released on 07-??-2025. Installation options:
 Component versions:
 * timeplusd 2.8.27
 * timeplus_web 2.8.12
-* timeplus_appserver 2.8.10
+* timeplus_appserver 2.8.11
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
 
@@ -65,8 +65,8 @@ Compared to the [2.8.1](#2_8_1) release:
     * Support [UUIDv7 functions](/functions_for_text#uuid7)
     * [A set of views](/system-views) are provided in the `system` namespace that enable effective troubleshooting and monitoring of your streaming data operations
     * Improved the support for gRPC protocol.
-    * New table function [rowify](/functions_for_streaming#rowify)
     * Support [EMIT TIMEOUT](/streaming-aggregations#emit-timeout) for both global aggregations and window aggregations.
+    * Able to change log level during runtime via [SYSTEM SET LOG LEVEL](/sql-system-set-log-level) or REST API.
 * timeplus_web 2.8.8 -> 2.8.12
   * Some new UI features and enhancements in 2.9 are ported to 2.8.2:
       *   **Materialized Views (MVs):**
@@ -81,10 +81,12 @@ Compared to the [2.8.1](#2_8_1) release:
       * In the SQL Query page, side panel is simplified by removing the snippets and functions accordion.
       * In database selector, the empty database is shown as dimmed.
       * In the materialized listing page, the "Pause" button is moved to the detailed page.
-* timeplus_appserver 2.8.6 -> 2.8.10
+* timeplus_appserver 2.8.6 -> 2.8.11
   * Upgraded the `proton-go-driver` from [v2.0.19](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.0.19) to [v2.1.2](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.1.2) to support new json data type and various bug fixes.
   * Supported new database types: MySQL, PostgreSQL, and Iceberg. Skip stream statistics if the database is external.
   * Improved the performance of checking statistics for materialized views and streams.
+  * Able to pause and resume materialized views asynchronously.
+  * Able to transfer leadership of a materialized view to another node.
 * timeplus_connector 2.2.8 --> 2.8.1
   * Upgraded the `proton-go-driver` from [v2.0.19](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.0.19) to [v2.1.2](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.1.2) to support new json data type and various bug fixes.
 * timeplus cli 2.8.0. No changes.
