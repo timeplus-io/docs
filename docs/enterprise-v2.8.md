@@ -48,16 +48,18 @@ Compared to the [2.8.1](#2_8_1) release:
 * timeplusd 2.8.26 -> 2.8.27
   * Some new features and enhancements in 2.9 are ported to 2.8.2:
     *   **New JSON Data Type & SQL Functions:** Added a native JSON data type and SQL functions [json_encode](/functions_for_json#json_encode), [json_cast](/functions_for_json#json_cast), [json_array_length](/functions_for_json#json_array_length), [json_merge_patch](/functions_for_json#json_merge_patch) for powerful JSON manipulation.
-    *   **Coalesced Mutable Streams:** Introduced coalesced mutable streams for optimized storage and querying of updatable data.
-    *   **Mutable Stream TTL:** You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
+    * Mutable Stream Enhancements
+      * Introduced coalesced mutable streams for optimized storage and querying of updatable data.
+      * You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
+      * Able to [add new columns](/sql-alter-stream#add-column) for an existing mutable stream.
+      * Able to add or drop secondary index for mutable streams.
+      * Able to set `version_column` to make sure only rows with higher value of the `version_column` will override the rows with same primary key. This setting can work with or without `coalesced`.
+      * Support the `UUID` data type for primary key columns.
     *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
     *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
     * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
     * Enhanced [Kafka External Stream](/proton-kafka) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`.
     * Enhanced [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`.
-    * Able to [add new columns](/sql-alter-stream#add-column) for an existing mutable stream.
-    * Able to add or drop secondary index for mutable streams.
-    *   **UUID as Primary Key:** Mutable streams now support the `UUID` data type for primary key columns.
     * Support [map_from_arrays](/functions_for_comp#map_from_arrays) and [map_cast](/functions_for_comp#map_cast) with 4 or more parameters.
     * [SHOW CREATE](/sql-show-create#show_multi_versions) command supports `show_multi_versions=true` to get the history of the object.
     * New query setting [precise_float_parsing](/query-settings#precise_float_parsing) to precisely handle float numbers.
