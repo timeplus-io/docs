@@ -53,8 +53,8 @@ Compared to the [2.8.1](#2_8_1) release:
     *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
     *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
     * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
-    * Enhanced [Kafka External Stream](/proton-kafka) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`
-    * Enhanced [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`
+    * Enhanced [Kafka External Stream](/proton-kafka) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`.
+    * Enhanced [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`.
     * Able to [add new columns](/sql-alter-stream#add-column) for an existing mutable stream.
     * Able to add or drop secondary index for mutable streams.
     *   **UUID as Primary Key:** Mutable streams now support the `UUID` data type for primary key columns.
@@ -62,8 +62,9 @@ Compared to the [2.8.1](#2_8_1) release:
     * [SHOW CREATE](/sql-show-create#show_multi_versions) command supports `show_multi_versions=true` to get the history of the object.
     * New query setting [precise_float_parsing](/query-settings#precise_float_parsing) to precisely handle float numbers.
     * JavaScript User Defined Aggregation Function supports null value as input.
-    * Support [UUIDv7 functions](/functions_for_text#uuid7)
-    * [A set of views](/system-views) are provided in the `system` namespace that enable effective troubleshooting and monitoring of your streaming data operations
+    * Support [UUIDv7 functions](/functions_for_text#uuid7).
+    * Support [ULID functions](/functions_for_text#generate_ulid).
+    * [A set of views](/system-views) are provided in the `system` namespace that enable effective troubleshooting and monitoring of your streaming data operations.
     * Improved the support for gRPC protocol.
     * Support [EMIT TIMEOUT](/streaming-aggregations#emit-timeout) for both global aggregations and window aggregations.
     * Able to change log level during runtime via [SYSTEM SET LOG LEVEL](/sql-system-set-log-level) or REST API.

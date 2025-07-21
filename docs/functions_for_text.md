@@ -194,6 +194,13 @@ Extract bytes from a UUID and convert them to a number. The result is a 128-bit 
 ### to_uuid
 `to_uuid(string)` Converts a string in the format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx to a UUID. The string must be 36 characters long and contain only hexadecimal digits and hyphens.
 
+### generate_ulid
+`generate_ulid([x])` generate a [ULID](https://github.com/ulid/spec).
+If you just need to generate one ULID, no need to specify the parameter. But if in one SQL, you need to generate different ULID, you can set different value as the parameter to make sure the function call won't be cached. For example `SELECT generate_ulid(1),generate_ulid(2)`.
+
+### ulid_string_to_datetime
+`ulid_string_to_datetime(ulid [, timezone])` extracts the timestamp from a [ULID](https://github.com/ulid/spec).
+
 ### base64_encode
 
 `base64_encode(string)` Encodes a string or fixed_string as base64.
