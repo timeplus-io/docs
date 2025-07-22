@@ -336,6 +336,7 @@ const sidebars = {
             "sql-system-pause",
             "sql-system-recover",
             "sql-system-resume",
+            "sql-system-set-log-level",
             "sql-system-transfer-leader",
             "sql-truncate-stream",
             "sql-use",

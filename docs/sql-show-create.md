@@ -77,4 +77,3 @@ Besides the `statement` column, there is also a `placements` column with content
 		}
 	]
 }
-```

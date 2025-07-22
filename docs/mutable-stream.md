@@ -33,7 +33,10 @@ Since Timeplus Enterprise 2.7, if you create a mutable stream with `low_cardinal
 
 `PARTITION BY`, `ORDER BY` or `SAMPLE BY` clauses are not allowed while creating the mutable stream.
 
-Since Timeplus Enterprise 2.8.2, you can set `coalesced` (default to false). If it's true and the insert data only contains partial columns in the WAL, the partial columns will merge with the existing rows.[Learn more](#coalesced). Also, since 2.8.2, you can set `ttl_seconds` (default to -1). If it's set to a positive value, then data with primary key older than the `ttl_seconds` will be scheduled to be pruned in the next key compaction cycle. [Learn more](#ttl_seconds).
+Since Timeplus Enterprise 2.8.2, the following features are added:
+* you can set `coalesced` (default to false). If it's true and the insert data only contains partial columns in the WAL, the partial columns will merge with the existing rows. [Learn more](#coalesced).
+* you can set `ttl_seconds` (default to -1). If it's set to a positive value, then data with primary key older than the `ttl_seconds` will be scheduled to be pruned in the next key compaction cycle. [Learn more](#ttl_seconds).
+* you can set `version_column` to make sure only rows with higher value of the `version_column` will override the rows with same primary key. This setting can work with or without `coalesced`.
 
 ## INSERT
 You can insert data to the mutable stream with the following SQL:
