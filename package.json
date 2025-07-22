@@ -33,7 +33,7 @@
     "@mdx-js/react": "^3.1.0",
     "docusaurus-plugin-hubspot": "^1.0.1",
     "mdx-mermaid": "^2.0.3",
-    "mermaid": "^11.8.1",
+    "mermaid": "^11.9.0",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
