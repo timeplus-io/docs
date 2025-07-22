@@ -1,0 +1,749 @@
+# Introduction | Timeplus
+
+> Timeplus is a simple, powerful, and cost-efficient stream processing platform.
+
+## Alert
+
+- [Alert | Timeplus](https://docs.timeplus.com/alert): Timeplus alerts enable you to monitor your streaming data and automatically trigger actions when specific conditions are met. When your streaming queries detect events of interest, alerts can notify stakeholders via email or Slack, send data to downstream systems like Apache Kafka, or execute custom Python functions for automated responses.
+
+## Append-stream
+
+- [Append Stream | Timeplus](https://docs.timeplus.com/append-stream): By default, the streams in Timeplus are Append Streams:
+
+## Architecture
+
+- [Architecture | Timeplus](https://docs.timeplus.com/architecture): High Level Architecture
+
+## Automq-kafka-source
+
+- [Load streaming data from AutoMQ | Timeplus](https://docs.timeplus.com/automq-kafka-source): AutoMQ is a cloud-native version of Kafka redesigned for cloud environments. AutoMQ is open source and fully compatible with the Kafka protocol, fully leveraging cloud benefits. Compared to self-managed Apache Kafka, AutoMQ, with its cloud-native architecture, offers features like capacity auto-scaling, self-balancing of network traffic, moving partition in seconds. These features contribute to a significantly lower Total Cost of Ownership (TCO) for users.
+
+## Bare-metal-install
+
+- [Deploy on Bare Metal | Timeplus](https://docs.timeplus.com/bare-metal-install): Timeplus Enterprise can be easily installed bare metal Linux or MacOS, as a single node or multi-node cluster.
+
+## Category
+
+- [Third-party Tools | Timeplus](https://docs.timeplus.com/category/tools): Integrate Timeplus to your tool stacks.
+
+- [SQL Statements | Timeplus](https://docs.timeplus.com/category/commands): Overview of the SQL commands supported by Timeplus.
+
+- [Regular Functions | Timeplus](https://docs.timeplus.com/category/functions): Integrate Timeplus to your tool stacks.
+
+## Changelog-stream
+
+- [Changelog Key Value Stream | Timeplus](https://docs.timeplus.com/changelog-stream): When you create a stream with the mode changelog_kv, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. Data can be updated or deleted. You can use Changelog Stream in JOIN either on the left or on the right. Timeplus will automatically choose the latest version.
+
+## Checkpoint-settings
+
+- [Checkpoint Settings | Timeplus](https://docs.timeplus.com/checkpoint-settings): For materialized views, checkpoint settings control how and where checkpoints are created, as well as whether they are incremental or asynchronous. This can be specified in the checkpoint_settings section of the materialized view settings.
+
+## Cli-backup
+
+- [timeplus backup | Timeplus](https://docs.timeplus.com/cli-backup): Create a Timeplus Enterprise backup file.
+
+## Cli-diag
+
+- [timeplus diag | Timeplus](https://docs.timeplus.com/cli-diag): Run diagnostics of Timeplus Enterprise services.
+
+## Cli-help
+
+- [timeplus help | Timeplus](https://docs.timeplus.com/cli-help): timeplus help
+
+## Cli-license
+
+- [timeplus license | Timeplus](https://docs.timeplus.com/cli-license): Manage Timeplus Enterprise licenses via CLI.
+
+## Cli-migrate
+
+- [timeplus migrate | Timeplus](https://docs.timeplus.com/cli-migrate): Migrate data and resources between Timeplus deployments, including:
+
+## Cli-reference
+
+- [CLI Reference | Timeplus](https://docs.timeplus.com/cli-reference): Besides timeplusd-client, Timeplus also provide the timeplus command line interface to help you manage the self-hosted deployments.
+
+## Cli-restart
+
+- [timeplus restart | Timeplus](https://docs.timeplus.com/cli-restart): Restart the Timeplus Enterprise services in the current node.
+
+## Cli-restore
+
+- [timeplus restore | Timeplus](https://docs.timeplus.com/cli-restore): Restore from a Timeplus Enterprise backup file.
+
+## Cli-service
+
+- [timeplus service | Timeplus](https://docs.timeplus.com/cli-service): Add Timeplus Enterprise services to Linux systemd control. This feature is not available for macOS.
+
+## Cli-start
+
+- [timeplus start | Timeplus](https://docs.timeplus.com/cli-start): Start the Timeplus Enterprise services in the current node.
+
+## Cli-status
+
+- [timeplus status | Timeplus](https://docs.timeplus.com/cli-status): Show the status for Timeplus Enterprise services.
+
+## Cli-stop
+
+- [timeplus stop | Timeplus](https://docs.timeplus.com/cli-stop): Stop the Timeplus Enterprise services in the current node.
+
+## Cli-sync
+
+- [timeplus sync | Timeplus](https://docs.timeplus.com/cli-sync): Synchronizes resources to Timeplus Enterprise.
+
+## Cli-user
+
+- [timeplus user | Timeplus](https://docs.timeplus.com/cli-user): This command is no longer available since Timeplus Enterprise 2.7. Please manage the users and groups via the web console or Helm chart.
+
+## Cli-version
+
+- [timeplus version | Timeplus](https://docs.timeplus.com/cli-version): Show Timeplus Enterprise version and component versions.
+
+## Compare
+
+- [Timeplus Proton vs. Timeplus Enterprise | Timeplus](https://docs.timeplus.com/compare): Timeplus Proton powers unified streaming and data processing on a single database node. Its commercial counterpart, Timeplus Enterprise, supports advanced deployment strategy and includes enterprise-ready features.
+
+## Credits
+
+- [Credits | Timeplus](https://docs.timeplus.com/credits): Parts of the Timeplus product are powered by open source projects.
+
+## Datatypes
+
+- [Data Types | Timeplus](https://docs.timeplus.com/datatypes): Like many analytics systems, the following common types are supported.
+
+## Destination
+
+- [Sending Data Out | Timeplus](https://docs.timeplus.com/destination): With Timeplus Console, you can easily explore and analyze streaming data, with intuitive UI, standard SQL and streaming charts. But you won't stop here. Timeplus enables you to setup real-time data pipelines to send data to other systems, or notify individuals or power up downstream applications.
+
+## Enterprise-v2.3
+
+- [Timeplus Enterprise 2.3 | Timeplus](https://docs.timeplus.com/enterprise-v2.3): This page lists the release history of Timeplus Enterprise.
+
+## Enterprise-v2.4
+
+- [Timeplus Enterprise 2.4 | Timeplus](https://docs.timeplus.com/enterprise-v2.4): Each release of Timeplus Enterprise includes the following components:
+
+## Enterprise-v2.5
+
+- [Timeplus Enterprise 2.5 | Timeplus](https://docs.timeplus.com/enterprise-v2.5): Each release of Timeplus Enterprise includes the following components:
+
+## Enterprise-v2.6
+
+- [Timeplus Enterprise 2.6 | Timeplus](https://docs.timeplus.com/enterprise-v2.6): Each release of Timeplus Enterprise includes the following components:
+
+## Enterprise-v2.7
+
+- [Timeplus Enterprise 2.7 | Timeplus](https://docs.timeplus.com/enterprise-v2.7): Each release of Timeplus Enterprise includes the following components:
+
+## Enterprise-v2.8
+
+- [Timeplus Enterprise 2.8 | Timeplus](https://docs.timeplus.com/enterprise-v2.8): Each release of Timeplus Enterprise includes the following components:
+
+## Enterprise-v2.9
+
+- [Timeplus Enterprise 2.9 | Timeplus](https://docs.timeplus.com/enterprise-v2.9): Each release of Timeplus Enterprise includes the following components:
+
+## External-stream
+
+- [External Stream | Timeplus](https://docs.timeplus.com/external-stream): You can create External Streams in Timeplus to query data in the external systems without loading the data into Timeplus. The main benefit for doing so is to keep a single source of truth in the external systems (e.g. Apache Kafka), without duplicating them. In many cases, this can also achieve even lower latency to process Kafka or Pulsar data, because the data is read directly by Timeplus core engine, without other components, such as Redpanda Connect or Airbyte.
+
+## Faq
+
+- [Timeplus Enterprise FAQ | Timeplus](https://docs.timeplus.com/faq): This document provides answers to frequently asked questions about Timeplus Enterprise, including its features, usage, and troubleshooting.
+
+## Flyway
+
+- [DevOps with Flyway | Timeplus](https://docs.timeplus.com/flyway): Redgate Flyway extends DevOps to databases to accelerate software delivery and ensure quality code. From version control to continuous delivery, Flyway builds on application delivery processes to automate database deployments.
+
+## Functions
+
+- [SQL Functions | Timeplus](https://docs.timeplus.com/functions): Timeplus supports ANSI-SQL standard syntax. The following functions are provided for various use cases. Most of the functions in ClickHouse are available in Timeplus, with different naming conventions (for example arrayjoin instead of arrayJoin). New functions are added for streaming processing. Please contact us if you need more functions.
+
+## Functions_for_agg
+
+- [Aggregation Functions | Timeplus](https://docs.timeplus.com/functions_for_agg): count
+
+## Functions_for_comp
+
+- [Arrays, Maps, Tuples | Timeplus](https://docs.timeplus.com/functions_for_comp): Arrays
+
+## Functions_for_datetime
+
+- [Process Date and Time | Timeplus](https://docs.timeplus.com/functions_for_datetime): year
+
+## Functions_for_dict
+
+- [Dictionaries | Timeplus](https://docs.timeplus.com/functions_for_dict): Functions for working with dictionaries.
+
+## Functions_for_fin
+
+- [Financial | Timeplus](https://docs.timeplus.com/functions_for_fin): xirr
+
+## Functions_for_geo
+
+- [Geo Location | Timeplus](https://docs.timeplus.com/functions_for_geo): pointinpolygon
+
+## Functions_for_hash
+
+- [Hash | Timeplus](https://docs.timeplus.com/functions_for_hash): Hash functions can be used for the deterministic pseudo-random shuffling of elements.
+
+## Functions_for_json
+
+- [Process JSON | Timeplus](https://docs.timeplus.com/functions_for_json): Various functions are provided to extract values from JSON documents. You can also use the shortcut :true,"b"1}}. Then you can convert it to other data types using to_int() or ::int shortcut.
+
+## Functions_for_logic
+
+- [Logic | Timeplus](https://docs.timeplus.com/functions_for_logic): if
+
+## Functions_for_math
+
+- [Math | Timeplus](https://docs.timeplus.com/functions_for_math): abs
+
+## Functions_for_random
+
+- [Random Data Generation | Timeplus](https://docs.timeplus.com/functions_for_random): You can use the following functions to generate random data in Timeplus.
+
+## Functions_for_streaming
+
+- [Streaming Processing Functions | Timeplus](https://docs.timeplus.com/functions_for_streaming): The following functions are supported in streaming query, but not all of them support historical query. Please check the tag like this.
+
+## Functions_for_text
+
+- [Process Text | Timeplus](https://docs.timeplus.com/functions_for_text): lower
+
+## Functions_for_type
+
+- [Type Conversion | Timeplus](https://docs.timeplus.com/functions_for_type): to_time
+
+## Functions_for_url
+
+- [Process URL and IP | Timeplus](https://docs.timeplus.com/functions_for_url): protocol
+
+## Getting-help
+
+- [Getting Help | Timeplus](https://docs.timeplus.com/getting-help): If you have questions or get stuck, we are happy to help.
+
+## Glossary
+
+- [Key Terms and Concepts | Timeplus](https://docs.timeplus.com/glossary): This page lists key terms and concepts in Timeplus, from A to Z.
+
+## Grok
+
+- [Grok Patterns | Timeplus](https://docs.timeplus.com/grok): Timeplus supports grok function to extract structured data from unstructured text.
+
+## History
+
+- [Historical Data Processing | Timeplus](https://docs.timeplus.com/history): In addition to stream processing, Timeplus also store and serve for historical data, like many OLAP databases. By default, data are saved in Timeplus' columnar storage, with optional secondary indexes. For mutable streams, historical data are saved in row-based storage, for fast update and range queries.
+
+## Http-external
+
+- [HTTP External Stream | Timeplus](https://docs.timeplus.com/http-external): Since Timeplus Enterprise v2.9 and v2.8.2, you can send data to HTTP endpoints via the HTTP External Stream. You can use this feature to trigger Slack notifications or send streaming data to downstream systems, such as Splunk, Datadog, Elasticsearch, Databricks, or any other HTTP-based service.
+
+## Iceberg
+
+- [Iceberg Integration | Timeplus](https://docs.timeplus.com/iceberg): Apache Iceberg is an open table format for large-scale analytic datasets, designed for high performance and reliability. It provides an open, vendor-neutral solution that supports multiple engines, making it ideal for various analytics workloads. Initially, the Iceberg ecosystem was primarily built around Java, but with the increasing adoption of the REST catalog specification, Timeplus is among the first vendors to integrate with Iceberg purely in C++. This allows Timeplus users to stream data to Iceberg with a high performance, low memory footprint, and easy installation without relying on Java dependencies.
+
+## Idempotent
+
+- [Insert Idempotency | Timeplus](https://docs.timeplus.com/idempotent): Since Timeplus Enterprise v2.4 there are new settings idempotentid and enableidempotent_processing:
+
+## Ingest-api
+
+- [Push data to Timeplus via ingest REST API | Timeplus](https://docs.timeplus.com/ingest-api): As a generic solution, you can call the ingestion REST API to push data to Timeplus, with any preferred languages. In many cases, you can configure other systems or tools to push data directly to Timeplus via the ingest REST as the webhook endpoint, without writing code.
+
+## Ingestion
+
+- [Getting Data In | Timeplus](https://docs.timeplus.com/ingestion): Timeplus supports multiple ways to load data into the system, or access the external data without copying them in Timeplus:
+
+## Integration-grafana
+
+- [Integration with Grafana | Timeplus](https://docs.timeplus.com/integration-grafana): Grafana has long been one of the most popular tools for real-time monitoring and data visualization, helping organizations track metrics and analyze trends through a single, user-friendly interface. For self-hosted Timeplus Enterprise or Timeplus Proton, you can try the Grafana plugin for Timeplus with the source code at GitHub. This plugin was designed to leverage Grafana’s new Grafana Live capability, allowing users to keep their SQL query results up-to-date without the need to refresh their dashboards. Check out here for sample setup.
+
+## Jdbc
+
+- [JDBC Drivers | Timeplus](https://docs.timeplus.com/jdbc): Timeplus provides 2 types of JDBC drivers:
+
+## Jit
+
+- [Just-In-Time (JIT) compilation | Timeplus](https://docs.timeplus.com/jit): Starting from Timeplus Enterprise 2.9, the JIT compilation is enabled by default. For example, if you need to run the following SQL multiple times:
+
+## Joins
+
+- [Streaming Joins | Timeplus](https://docs.timeplus.com/joins): JOIN is a key feature in Timeplus to combine data from different sources and freshness into a new stream.
+
+## Js-udf
+
+- [JavaScript UDF | Timeplus](https://docs.timeplus.com/js-udf): Timeplus supports JavaScript-based UDF running in the SQL engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by V8). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
+
+## K8s-helm
+
+- [Deploy on Kubernetes with Helm | Timeplus](https://docs.timeplus.com/k8s-helm): You can deploy Timeplus Enterprise on a Kubernetes cluster with Helm.
+
+## Kafka-connect
+
+- [Push data to Timeplus via Kafka Connect | Timeplus](https://docs.timeplus.com/kafka-connect): Kafka Connect is a framework for connecting Kafka with external systems such as databases, key-value stores, search indexes, and file systems, using so-called Connectors.
+
+## Log-stream
+
+- [Log Files | Timeplus](https://docs.timeplus.com/log-stream): You can use Timeplus as a lightweight and high-performance tool for log analysis. Please check the blog for more details.
+
+## Marimo
+
+- [Query Kafka with SQL using marimo Python Notebook | Timeplus](https://docs.timeplus.com/marimo): This tutorial demonstrates how to query Apache Kafka with SQL using Timeplus Proton and marimo notebooks. You'll learn how to set up a lightweight environment to process and visualize streaming data from Kafka without complex infrastructure requirements.
+
+## Mongo-external
+
+- [MongoDB External Table | Timeplus](https://docs.timeplus.com/mongo-external): Since Timeplus Enterprise v2.9 and v2.8.2, you can send data to and read data from MongoDB collections via the MongoDB External Table.
+
+## Mutable-stream
+
+- [Mutable Stream | Timeplus](https://docs.timeplus.com/mutable-stream): This type of stream is only available in Timeplus Enterprise, with high performance query and UPSERT (UPDATE or INSERT). Starting from Timeplus Enterprise 2.7, mutable streams are enhanced to support DELETE operation.
+
+## Mysql-external-table
+
+- [MySQL External Table | Timeplus](https://docs.timeplus.com/mysql-external-table): Timeplus can read or write MySQL tables directly. This unlocks a set of new use cases, such as
+
+## Pg-external-table
+
+- [PostgreSQL External Table | Timeplus](https://docs.timeplus.com/pg-external-table): Timeplus can read or write PostgreSQL tables directly. This unlocks a set of new use cases, such as
+
+## Private-beta-1
+
+- [Timeplus Cloud Private Beta 1 | Timeplus](https://docs.timeplus.com/private-beta-1): We are thrilled to launch the first private beta of Timeplus cloud release. A lot of cool features and unlimited possibilities. We will update the beta version from time to time and list key enhancements in this page.
+
+## Private-beta-2
+
+- [Timeplus Cloud Private Beta 2 | Timeplus](https://docs.timeplus.com/private-beta-2): We are thrilled to launch the second private beta of Timeplus cloud release. Comparing to the Private Beta 1, most of the backend and frontend changes are incremental enhancements, except the entry point is changed from https//beta.timeplus.cloud/TENANT
+
+## Prometheus
+
+- [Prometheus Integration | Timeplus](https://docs.timeplus.com/prometheus): Timeplus Enterprise exposes a number of metrics that can be scraped by Prometheus. These metrics can be integrated with dashboards and alerting systems like Grafana or Datadog.
+
+## Proton
+
+- [Timeplus Proton | Timeplus](https://docs.timeplus.com/proton): Timeplus Proton is a stream processing engine and database. It is fast and lightweight alternative to ksqlDB or Apache Flink, powered by the libraries and engines in ClickHouse. It enables developers to solve streaming data processing, multi-stream JOINs, sophisticated incremental materialized views, routing and analytics challenges from Apache Kafka, Redpanda and more sources, and send aggregated data to the downstream systems. Timeplus Proton is the core engine of Timeplus Enterprise.
+
+## Proton-clickhouse-external-table
+
+- [ClickHouse External Table | Timeplus](https://docs.timeplus.com/proton-clickhouse-external-table): Timeplus can read or write ClickHouse tables directly. This unlocks a set of new use cases, such as
+
+## Proton-client
+
+- [proton-client | Timeplus](https://docs.timeplus.com/proton-client): Timeplus Proton provides a native command-line client: proton-client to run SQL commands. You can also launch the client via proton client.
+
+## Proton-faq
+
+- [Timeplus Proton FAQ | Timeplus](https://docs.timeplus.com/proton-faq): On September 21, 2023, Timeplus announced the open source project: Timeplus Proton. We're using this FAQ as the primary reference for learning about what Timeplus Proton is, how we licensed the code open source, how you can use Timeplus Proton today, and more.
+
+## Proton-format-schema
+
+- [Protobuf/Avro Schema | Timeplus](https://docs.timeplus.com/proton-format-schema): Timeplus supports reading or writing messages in Protobuf or Avro format for Kafka External Stream or Pulsar External Stream. This document covers how to process data without a Schema Registry. Check this page if your Kafka topics are associated with a Schema Registry.
+
+## Proton-ingest-api
+
+- [Proton Ingest REST API | Timeplus](https://docs.timeplus.com/proton-ingest-api): You can run INSERT INTO stream VALUES (..) SQL to insert data to Timeplus Proton or timeplusd in Timeplus Enterprise. You can also call the ingestion REST API to push data to Timeplus Proton or timeplusd, with any preferred languages. Timeplus Enterprise also provides REST API in the application sever. Comparing to that REST API, the Proton/Timeplusd Ingest REST API performs better, but doesn't support API Key, or flexible payload schema.
+
+## Proton-kafka
+
+- [Kafka External Stream | Timeplus](https://docs.timeplus.com/proton-kafka): You can read data from Apache Kafka (as well as Confluent Cloud, or Redpanda) in Timeplus with External Stream. Combining with Materialized View and Target Stream, you can also write data to Apache Kafka with External Stream.
+
+## Proton-ports
+
+- [Server Ports | Timeplus](https://docs.timeplus.com/proton-ports): Timeplus serves on many ports for different purposes. Only few of them are exposed in sample Docker Compose files.
+
+## Proton-schema-registry
+
+- [Kafka Schema Registry | Timeplus](https://docs.timeplus.com/proton-schema-registry): Read Messages in Protobuf or Avro Schema
+
+## Public-beta-1
+
+- [Timeplus Cloud Public Beta 1 | Timeplus](https://docs.timeplus.com/public-beta-1): We are thrilled to launch the public beta of Timeplus cloud release.
+
+## Public-beta-2
+
+- [Timeplus Cloud Public Beta 2 | Timeplus](https://docs.timeplus.com/public-beta-2): We are thrilled to launch the next phase of the public beta of Timeplus cloud release. Compared to our Public Beta 1, most of the backend and frontend changes are incremental enhancements, except the entry point is changed from https//us.timeplus.cloud
+
+## Pulsar-external-stream
+
+- [Pulsar External Stream | Timeplus](https://docs.timeplus.com/pulsar-external-stream): Apache® Pulsar™ is a multi-tenant, high-performance solution for server-to-server messaging.
+
+## Py-udf
+
+- [Python UDF | Timeplus](https://docs.timeplus.com/py-udf): In addition to Remote UDF and JavaScript UDF, starting from v2.7, Timeplus Enterprise also supports Python-based UDF, as a feature in technical preview. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embedded Python 3.10 runtime in Timeplus core engine. No need to deploy extra server/service for the UDF.
+
+## Query-api
+
+- [Query API with Server-sent Events (SSE) | Timeplus](https://docs.timeplus.com/query-api): All Timeplus functions are available through REST API. To support real-time query result pushed from server to client side, there are two popular solutions, websocket and server-sent events. Timeplus is now leveraging server-sent events to push real-time query results to the client.
+
+## Query-settings
+
+- [Query Settings | Timeplus](https://docs.timeplus.com/query-settings): Timeplus supports some advanced SETTINGS to fine tune the streaming query processing behaviors, listed below:
+
+## Query-syntax
+
+- [Syntax | Timeplus](https://docs.timeplus.com/query-syntax): Timeplus introduces several SQL extensions to support streaming processing. The overall syntax looks like this:
+
+## Quickstart
+
+- [Timeplus Enterprise Quickstart | Timeplus](https://docs.timeplus.com/quickstart): The following section contains step-by-step instructions on how to easily get started with a self-hosted Timeplus Enterprise.
+
+## Rbac
+
+- [Role-Based Access Control | Timeplus](https://docs.timeplus.com/rbac): Timeplus Enterprise supports access control management based on RBAC approach.
+
+## Redpanda-connect
+
+- [Redpanda Connect | Timeplus](https://docs.timeplus.com/redpanda-connect): Since December 2022, Timeplus has utilized the Benthos framework to connect with external systems beyond Kafka and ClickHouse. For example, WebSocket sources are powered by Redpanda Connect. We offer a user-friendly wizard that allows developers to effortlessly consume data from WebSockets.
+
+## Release-downloads
+
+- [Package Downloads | Timeplus](https://docs.timeplus.com/release-downloads): 2.9
+
+## Release-notes
+
+- [Release Notes | Timeplus](https://docs.timeplus.com/release-notes): This page summarizes changes for Timeplus Enterprise and Timeplus Proton, including new features and important bug fixes.
+
+## Remote-udf
+
+- [Remote UDF | Timeplus](https://docs.timeplus.com/remote-udf): Register a webhook as the UDF. You may use any programming language/framework to develop/deploy the webhook. A good starting point is using AWS Lambda.
+
+## S3-external
+
+- [S3 External Table | Timeplus](https://docs.timeplus.com/s3-external): Amazon S3 is cloud object storage with industry-leading scalability, data availability, security, and performance.
+
+## Search
+
+- [Search the documentation | Timeplus](https://docs.timeplus.com/search): No description available
+
+## Server_config
+
+- [Server Configuration | Timeplus](https://docs.timeplus.com/server_config): When you run Timeplus Enterprise in a self-hosted environment, the default settings are designed to accommodate common use cases with ease and optimal performance. The server can be configured via the web console, or via Kubernetes Helm chart, or via environment variables and local configuration files if you are running Timeplus Enterprise on bare metal.
+
+## Showcases
+
+- [Showcases | Timeplus](https://docs.timeplus.com/showcases): At Timeplus, we drink our own champagne and apply our technologies in many different use cases. Many our customers also contribute creative ways to build real-time solutions with Timeplus. This document lists known use cases in different categories. Hopefully this can inspire you to gain more insights from real-time data with low cost and effort.
+
+## Sling
+
+- [Load MySQL/Postgres/CSV/S3 to Timeplus via Sling CLI | Timeplus](https://docs.timeplus.com/sling): While Kafka and Debezium provide robust Change Data Capture (CDC) capabilities for streaming data from MySQL or PostgreSQL to other systems, they may introduce unnecessary complexity for historical data migration scenarios. The infrastructure requirements for Kafka clusters and JVM-based deployments can present significant operational overhead. Sling offers a lightweight alternative for data transfer operations to and from Timeplus, utilizing YAML-based configuration files and scheduled execution through cron jobs.
+
+## Sql-alter-stream
+
+- [ALTER STREAM | Timeplus](https://docs.timeplus.com/sql-alter-stream): You can modify the retention policy for historical store via MODIFY TTL and modify the retention policy for streaming storage via MODIFY SETTING. For mutable streams, you can also run MODIFY SETTING to change the RocksDB settings.
+
+## Sql-alter-view
+
+- [ALTER VIEW | Timeplus](https://docs.timeplus.com/sql-alter-view): You can use this SQL to change a view or a materialized view. Today only the settings can be changed. To change the SQL query behinds the view, you have to drop and re-create it.
+
+## Sql-create-alert
+
+- [CREATE ALERT | Timeplus](https://docs.timeplus.com/sql-create-alert): Starting from Timeplus Enterprise 2.9, you can create alerts to monitor your streaming data and automatically trigger actions when specific conditions are met.
+
+## Sql-create-database
+
+- [CREATE DATABASE | Timeplus](https://docs.timeplus.com/sql-create-database): Starting from Timeplus Enterprise 2.6, you can create a database to organize your streams, materialized views and other resources. The database is a logical container to help you to manage and query the data more efficiently.
+
+## Sql-create-dictionary
+
+- [CREATE DICTIONARY | Timeplus](https://docs.timeplus.com/sql-create-dictionary): Starting from Timeplus Enterprise 2.7, you can create dictionaries to store key-value pairs in memory, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
+
+## Sql-create-disk
+
+- [CREATE DISK | Timeplus](https://docs.timeplus.com/sql-create-disk): By default, Timeplus only created a default disk for local storage.
+
+## Sql-create-external-stream
+
+- [CREATE EXTERNAL STREAM | Timeplus](https://docs.timeplus.com/sql-create-external-stream): External stream for Kafka is official supported. The external stream for local log files is at technical preview. In Timeplus Enterprise, it also supports another type of External Stream to read/write data for a remote Timeplus Enterprise.
+
+## Sql-create-external-table
+
+- [CREATE EXTERNAL TABLE | Timeplus](https://docs.timeplus.com/sql-create-external-table): Timeplus supports 3 types of external tables: ClickHouse, MySQL, and S3. Reading data from external tables are bounded, which means the query will end when all the data is read. Writing data to external tables are unbounded, which means the query will keep running until you cancel it.
+
+## Sql-create-format-schema
+
+- [CREATE FORMAT | Timeplus](https://docs.timeplus.com/sql-create-format-schema): Timeplus supports reading or writing messages in Protobuf or Avro format. This document covers how to process data without a Schema Registry. Check this page if your Kafka topics are associated with a Schema Registry.
+
+## Sql-create-function
+
+- [CREATE FUNCTION | Timeplus](https://docs.timeplus.com/sql-create-function): Timeplus supports four ways to develop/register UDF. Please check UDF page for the overview.
+
+## Sql-create-materialized-view
+
+- [CREATE MATERIALIZED VIEW | Timeplus](https://docs.timeplus.com/sql-create-materialized-view): The difference between a materialized view and a regular view is that the materialized view is running in background after creation and the resulting stream is physically written to internal storage (hence it's called materialized).
+
+## Sql-create-mutable-stream
+
+- [CREATE MUTABLE STREAM | Timeplus](https://docs.timeplus.com/sql-create-mutable-stream): Regular streams in Timeplus are immutable, and stored in columnar format. Mutable streams are stored in row format (implemented via RocksDB), and can be updated or deleted. It is only available in Timeplus Enterprise. Please check this page for details.
+
+## Sql-create-random-stream
+
+- [CREATE RANDOM STREAM | Timeplus](https://docs.timeplus.com/sql-create-random-stream): You may use this special stream to generate random data for tests. For example:
+
+## Sql-create-remote-function
+
+- [CREATE REMOTE FUNCTION | Timeplus](https://docs.timeplus.com/sql-create-remote-function): At Timeplus, we leverage SQL to make powerful streaming analytics more accessible to a broad range of users. Without SQL, you have to learn and call low-level programming API, then compile/package/deploy them to get analytics results. This is a repetitive and tedious process, even for small changes.
+
+## Sql-create-stream
+
+- [CREATE STREAM | Timeplus](https://docs.timeplus.com/sql-create-stream): Stream is a key concept in Timeplus. All data lives in streams, no matter static data or data in motion. We don't recommend you to create or manage TABLE in Timeplus.
+
+## Sql-create-view
+
+- [CREATE VIEW | Timeplus](https://docs.timeplus.com/sql-create-view): There are two types of views in Timeplus: logical view (or just view ) and materialized view.
+
+## Sql-delete
+
+- [DELETE | Timeplus](https://docs.timeplus.com/sql-delete): Starting from Timeplus Enterprise 2.7, you can delete data from the streams.
+
+## Sql-drop-alert
+
+- [DROP ALERT | Timeplus](https://docs.timeplus.com/sql-drop-alert): Starting from Timeplus Enterprise 2.9, you can create alerts to monitor your streaming data and automatically trigger actions when specific conditions are met.
+
+## Sql-drop-database
+
+- [DROP DATABASE | Timeplus](https://docs.timeplus.com/sql-drop-database): Starting from Timeplus Enterprise 2.6, you can create a database to organize your streams, materialized views and other resources. The database is a logical container to help you to manage and query the data more efficiently.
+
+## Sql-drop-dictionary
+
+- [DROP DICTIONARY | Timeplus](https://docs.timeplus.com/sql-drop-dictionary): Starting from Timeplus Enterprise 2.7, you can create dictionaries to store key-value pairs in memory, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
+
+## Sql-drop-external-table
+
+- [DROP EXTERNAL TABLE | Timeplus](https://docs.timeplus.com/sql-drop-external-table): Run the following SQL to drop an external table from Timeplus, while keeping the data in external database intact.
+
+## Sql-drop-format-schema
+
+- [DROP FORMAT SCHEMA | Timeplus](https://docs.timeplus.com/sql-drop-format-schema): No description available
+
+## Sql-drop-function
+
+- [DROP FUNCTION | Timeplus](https://docs.timeplus.com/sql-drop-function): No matter UDF or UDAF, you can remove the function via DROP FUNCTION
+
+## Sql-drop-stream
+
+- [DROP STREAM | Timeplus](https://docs.timeplus.com/sql-drop-stream): Run the following SQL to drop a stream or an external stream, with all data in streaming storage and historical storage.
+
+## Sql-drop-view
+
+- [DROP VIEW | Timeplus](https://docs.timeplus.com/sql-drop-view): Run the following SQL to drop a view or a materialized view.
+
+## Sql-explain
+
+- [EXPLAIN | Timeplus](https://docs.timeplus.com/sql-explain): The execution of a query in Timeplus is decomposed into many steps. Each step of the query execution can be analyzed and troubleshooted using the corresponding EXPLAIN query. These steps are summarized in the chart below:
+
+## Sql-optimize
+
+- [OPTIMIZE | Timeplus](https://docs.timeplus.com/sql-optimize): Run the following SQL to initiate an unscheduled merge of a mutable stream or a table with MergeTree engine. This will reorganize the data in the stream and optimize the performance of the stream. Note that we generally recommend against using OPTIMIZE STREAM ... FINAL as its use case is meant for administration, not for daily operations.
+
+## Sql-pattern-topn
+
+- [Top-N | Timeplus](https://docs.timeplus.com/sql-pattern-topn): You can get the top-most or bottom-most events in a Timeplus stream or a view, based on a condition.
+
+## Sql-rename-stream
+
+- [RENAME STREAM | Timeplus](https://docs.timeplus.com/sql-rename-stream): You can rename a stream using the RENAME STREAM statement.
+
+## Sql-show-alerts
+
+- [SHOW ALERTS | Timeplus](https://docs.timeplus.com/sql-show-alerts): Starting from Timeplus Enterprise 2.9, you can create alerts to monitor your streaming data and automatically trigger actions when specific conditions are met.
+
+## Sql-show-create
+
+- [SHOW CREATE | Timeplus](https://docs.timeplus.com/sql-show-create): Show Details For A Stream
+
+## Sql-show-databases
+
+- [SHOW DATABASES | Timeplus](https://docs.timeplus.com/sql-show-databases): Starting from Timeplus Enterprise 2.6, you can create a database to organize your streams, materialized views and other resources. The database is a logical container to help you to manage and query the data more efficiently.
+
+## Sql-show-dictionaries
+
+- [SHOW DICTIONARIES | Timeplus](https://docs.timeplus.com/sql-show-dictionaries): Starting from Timeplus Enterprise 2.7, you can create dictionaries to store key-value pairs in memory, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
+
+## Sql-show-disks
+
+- [SHOW DISKS | Timeplus](https://docs.timeplus.com/sql-show-disks): Starting from Timeplus Enterprise 2.8, you can create S3 disks for tiered storage or autoscaling materialized views.
+
+## Sql-show-format-schemas
+
+- [SHOW FORMAT SCHEMAS | Timeplus](https://docs.timeplus.com/sql-show-format-schemas): List schemas in the current Timeplus deployment:
+
+## Sql-show-functions
+
+- [SHOW FUNCTIONS | Timeplus](https://docs.timeplus.com/sql-show-functions): List available User-Defined Functions.
+
+## Sql-show-streams
+
+- [SHOW STREAMS | Timeplus](https://docs.timeplus.com/sql-show-streams): List Streams From Current Database
+
+## Sql-system-pause
+
+- [SYSTEM PAUSE | Timeplus](https://docs.timeplus.com/sql-system-pause): SYSTEM PAUSE MATERIALIZED VIEW
+
+## Sql-system-recover
+
+- [SYSTEM RECOVER | Timeplus](https://docs.timeplus.com/sql-system-recover): This is an advanced feature, for debugging purpose.
+
+## Sql-system-resume
+
+- [SYSTEM RESUME | Timeplus](https://docs.timeplus.com/sql-system-resume): SYSTEM RESUME MATERIALIZED VIEW
+
+## Sql-system-transfer-leader
+
+- [SYSTEM TRANSFER LEADER | Timeplus](https://docs.timeplus.com/sql-system-transfer-leader): Transfer the leader of a materialized view to another node in the cluster.
+
+## Sql-truncate-stream
+
+- [TRUNCATE STREAM | Timeplus](https://docs.timeplus.com/sql-truncate-stream): Run the following SQL to remove the historical data from a stream, keeping the schema and the stream itself.
+
+## Sql-udf
+
+- [SQL UDF | Timeplus](https://docs.timeplus.com/sql-udf): SQL UDFs are simple yet powerful extensions to SQL on Timeplus. You can create common SQL snippets as SQL UDFs and reuse them in your queries. They provide a layer of abstraction to make your queries more readable and modularized. Unlike UDFs that are written in other programming languages, SQL UDFs are stateless and have the best performance, powered by Timeplus C++ engine.
+
+## Sql-use
+
+- [USE | Timeplus](https://docs.timeplus.com/sql-use): Starting from Timeplus Enterprise 2.6, you can create a database to organize Timeplus streams, materialized views, or connect to other systems such as MySQL and Iceberg without creating multiple external tables repeating the connection information.
+
+## Stream-query
+
+- [Streaming Query | Timeplus](https://docs.timeplus.com/stream-query): Query is unbounded by default
+
+## Streaming-aggregations
+
+- [Aggregations & Emit Polices | Timeplus](https://docs.timeplus.com/streaming-aggregations): Global Streaming Aggregation
+
+## Streaming-windows
+
+- [Tumble/Hop/Session Windows | Timeplus](https://docs.timeplus.com/streaming-windows): Tumble
+
+## System-stream-metric-log
+
+- [system.stream_metric_log | Timeplus](https://docs.timeplus.com/system-stream-metric-log): You can query the system.streammetriclog stream to check the performance and usage statistics.
+
+## System-stream-state-log
+
+- [system.stream_state_log | Timeplus](https://docs.timeplus.com/system-stream-state-log): You can query the system.streamstatelog stream to check the state changes of database resources in Timeplus. This stream gives you full visibility of the state of the streams, materialized views, and other resources in Timeplus.
+
+## System-views
+
+- [Views in system namespace | Timeplus](https://docs.timeplus.com/system-views): Timeplus provides system views that enable effective troubleshooting and monitoring of your streaming data operations.
+
+## Terraform
+
+- [Terraform Provider | Timeplus](https://docs.timeplus.com/terraform): HashiCorp Terraform is an Infrastructure as Code tool that lets you define both cloud and on-prem resources in human-readable configuration files.
+
+## Tiered-storage
+
+- [Tiered Storage | Timeplus](https://docs.timeplus.com/tiered-storage): Since Timeplus Enterprise 2.8, we have introduced a new feature called Tiered Storage. This feature allows users to store data in a mix of local and remote storage. For example, users can store hot data in a local high-performance storage(e.g. NVMe SSD) for quick access and move the data to object storage(e.g. S3) for long-term retention.
+
+## Timeplus-connect
+
+- [timeplus-connect (Python) | Timeplus](https://docs.timeplus.com/timeplus-connect): timeplus-connect is the recommended Python library to connect to Timeplus Proton and Timeplus Enterprise. It's a high performance database driver for connecting Timeplus to Python, Pandas, and Superset
+
+## Timeplus-enterprise
+
+- [Page Moved | Timeplus](https://docs.timeplus.com/timeplus-enterprise): We've recently reorganized our documentation to provide you with better, more focused content. If you arrived here from a search engine or bookmark, the information you're looking for has likely moved to one of these updated pages:
+
+## Timeplus-external-stream
+
+- [Timeplus External Stream | Timeplus](https://docs.timeplus.com/timeplus-external-stream): In addition to Kafka External Stream and Pulsar External Stream, Timeplus also supports another type of external stream to read/write data from/to another Timeplus Enterprise or Timeplus Proton deployment.
+
+## Timeplusd-client
+
+- [timeplusd-client | Timeplus](https://docs.timeplus.com/timeplusd-client): Timeplus Enterprise provides a command-line interface (CLI) to run SQL commands via timeplusd client. The timeplusd executable is available in the timeplus/bin folder of the bare metal packages and in the PATH of the timeplus/timeplusd Docker image.
+
+## Troubleshooting
+
+- [Troubleshooting Guide | Timeplus](https://docs.timeplus.com/troubleshooting): This guide provides solutions to common issues you may encounter when using Timeplus.
+
+## Tutorial-cdc-rpcn-pg-to-ch
+
+- [Streaming CDC: PostgreSQL to ClickHouse via Redpanda Connect | Timeplus](https://docs.timeplus.com/tutorial-cdc-rpcn-pg-to-ch): It's a common practice to utilize Debezium as the engine for implementing CDC, Change Data Capture. Then push the changes into Apache Kafka, and subsequently direct them to various destinations via Kafka Connect or Apache Flink.
+
+## Tutorial-github
+
+- [Query Kafka with SQL (GitHub live data) | Timeplus](https://docs.timeplus.com/tutorial-github): In this tutorial, you will process real-time data from GitHub. We have setup a public accessible Kafka cluster for you to consume data from Kafka topic. If you are on Timeplus Enterprise, you can also build real-time dashboards and alerts.
+
+## Tutorial-kv
+
+- [UPSERT with Versioned Stream | Timeplus](https://docs.timeplus.com/tutorial-kv): By default, streams in Timeplus are in append-only mode. When you create a stream with the mode versioned_kv, you can update the data with same primary key(s). When you query the stream with table function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
+
+## Tutorial-python-udf
+
+- [Python UDF for Real-Time Machine Learning | Timeplus](https://docs.timeplus.com/tutorial-python-udf): SQL and Python are two of the most widely used tools in the data domain, both have their strengths and weaknesses, and understanding when to use each can help maximize efficiency and performance in data analysis, machine learning, and data transformation tasks.
+
+## Tutorial-sql-connect-ch
+
+- [Connect to ClickHouse | Timeplus](https://docs.timeplus.com/tutorial-sql-connect-ch): You can define the external table and use it to read data from the ClickHouse table, or write to it.
+
+## Tutorial-sql-connect-kafka
+
+- [Connect to Kafka, Confluent, Redpanda, Aiven, etc. | Timeplus](https://docs.timeplus.com/tutorial-sql-connect-kafka): Connect to local Kafka or Redpanda
+
+## Tutorial-sql-etl
+
+- [Streaming ETL: Kafka to Kafka | Timeplus](https://docs.timeplus.com/tutorial-sql-etl): You can quickly build streaming ETL pipelines with Timeplus. For example, the original web access logs in Kafka topics contain the raw IP address. To further protect user privacy, you can build a data pipeline to read new data from Kafka, masking the IP address and send to a different Kafka topic.
+
+## Tutorial-sql-etl-kafka-to-ch
+
+- [Streaming ETL: Kafka to ClickHouse | Timeplus](https://docs.timeplus.com/tutorial-sql-etl-kafka-to-ch): This video demonstrates how to read live data from Redpanda, apply stream processing and send results to ClickHouse. Related blog.
+
+## Tutorial-sql-etl-mysql-to-ch
+
+- [Streaming ETL: MySQL to ClickHouse | Timeplus](https://docs.timeplus.com/tutorial-sql-etl-mysql-to-ch): A Docker Compose stack is provided at https://github.com/timeplus-io/proton/tree/develop/examples/cdc, to demonstrate how to mirror the data from MySQL to ClickHouse. The common use case is to keep MySQL as the transactional database, while using ClickHouse for the analytics workload.
+
+## Tutorial-sql-join
+
+- [Streaming JOIN | Timeplus](https://docs.timeplus.com/tutorial-sql-join): 1. This tutorial is mainly for Timeplus Proton users. For Timeplus Enterprise users, please check the guide for connecting Timeplus with Confluent Cloud with web UI. SQL in this guide can be ran both in Timeplus Proton and Timeplus Enterprise.
+
+## Tutorial-sql-kafka
+
+- [Query Kafka with SQL (mock data) | Timeplus](https://docs.timeplus.com/tutorial-sql-kafka): This tutorial is mainly for SQL users. For Timeplus Enterprise users, you can also use the UI wizard. SQL in this guide can be ran both in Timeplus Proton and Timeplus Enterprise.
+
+## Tutorial-sql-read-avro
+
+- [Encode/Decode Avro Messages | Timeplus](https://docs.timeplus.com/tutorial-sql-read-avro): Example: Read Avro Encoded Data in Confluent Cloud
+
+## Tutorial-testcontainers-java
+
+- [Automation with Testcontainers | Timeplus](https://docs.timeplus.com/tutorial-testcontainers-java): Testcontainers is a Java library that supports JUnit tests, providing lightweight, throwaway instances of common databases (including Timeplus), message brokers, or anything else that can run in a Docker container. You don't need to write docker-compose files, or call the Docker API, or mock the infrastructure by yourself. Simply run your test code, containers will be created and deleted automatically.
+
+## Udf
+
+- [User-Defined Functions | Timeplus](https://docs.timeplus.com/udf): At Timeplus, we leverage SQL to make powerful streaming analytics more accessible to a broad range of users. Without SQL, you have to learn and call low-level programming API, then compile/package/deploy them to get analytics results. This is a repetitive and tedious process, even for small changes.
+
+## Understanding-watermark
+
+- [Understanding Watermark | Timeplus](https://docs.timeplus.com/understanding-watermark): In stream processing, a watermark is a mechanism used to track the progress of data processing in one or more streams. It helps determine when all events up to a specific timestamp have likely arrived, enabling the system to process time-based operations like window aggregations.
+
+## Usecases
+
+- [More Query Examples | Timeplus](https://docs.timeplus.com/usecases): This document demonstrates some typical query patterns that you can achieve in Timeplus to solve various use cases.
+
+## V1-release-notes
+
+- [Timeplus Cloud v1 and Proton | Timeplus](https://docs.timeplus.com/v1-release-notes): This page summarizes changes for each major update in Proton and Timeplus Cloud, including new features and important bug fixes.
+
+## V2-release-notes
+
+- [Biweekly Updates | Timeplus](https://docs.timeplus.com/v2-release-notes): This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
+
+## Versioned-stream
+
+- [Versioned Key Value Stream | Timeplus](https://docs.timeplus.com/versioned-stream): When you create a stream with the mode versioned_kv, the data in the stream is no longer append-only. When you query the stream with table function, only the latest version for the same primary key(s) will be shown. When you use this stream as "right-table" in a streaming JOIN with other streams, Timeplus will automatically choose the closest version.
+
+## View
+
+- [View and Materialized View | Timeplus](https://docs.timeplus.com/view): Real-time data pipelines are built via Materialized Views in Timeplus.
+
+## Viz
+
+- [Data Visualization | Timeplus](https://docs.timeplus.com/viz): Timeplus provides out-of-box streaming charts and dashboards to visualize the real-time data and understand the pattern/trend. You can also integrate Timeplus with your external BI systems, such as Redash, Metabase, Grafana, etc.
+
+## Why-timeplus
+
+- [Why Timeplus? | Timeplus](https://docs.timeplus.com/why-timeplus): Timeplus simplifies stateful stream processing and analytics with a fast, single-binary engine. Using SQL as a domain-specific language and both row and column-based state stores, it enables developers to build real-time applications, data pipelines, and analytical dashboards at the edge or in the cloud, reducing the cost, time, and complexity of multi-component stacks.
+
+## Working-with-streams
+
+- [Streams | Timeplus](https://docs.timeplus.com/working-with-streams): All data live in streams
+
+

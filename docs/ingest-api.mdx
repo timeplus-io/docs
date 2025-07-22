@@ -40,7 +40,7 @@ The endpoint for real-time data ingestion is `https://host/{workspace-id}/api/v1
 1. If you self-host Timeplus Enterprise, depending on whether you enable HTTPS, choose `http` or `https` accordingly. The workspace ID is `default`.
 2. You need to send `POST` request to this endpoint.
 
-### Options
+### format
 
 Depending on your use cases, there are many options to push data to Timeplus via REST API. You can set different `Content-Type` in the HTTP Header, and add the `format` query parameter in the URL.
 
@@ -575,3 +575,6 @@ For example:
 ```
 
 You can also use one of our SDKs to ingest data without handling the low level details of REST API.
+
+### db
+If you need to pushd data to a stream other than `default` database, you can add the `db` parameter. For example  `ingest?format=lines&db=mydb`.

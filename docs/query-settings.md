@@ -84,6 +84,21 @@ Default: false
 
 Whether to enable idempotent processing for the query. If set to true, the query will be processed idempotently. If set to 0, the query will be processed non-idempotently. [Learn more](/idempotent).
 
+## join_max_buffered_bytes
+Type: uint64
+
+Default: 524288000 (500MB)
+
+Maximum size of the buffer for streaming join operations. Affects memory usage and performance.
+
+Example:
+
+```sql
+SELECT * FROM tableA
+LEFT JOIN tableB ON tableA.id=tableB.id
+SETTINGS join_max_buffered_bytes=8589934592;
+```
+
 ## join_algorithm
 Type: string
 

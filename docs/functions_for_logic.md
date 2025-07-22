@@ -43,6 +43,18 @@ END AS result
 FROM ..
 ```
 
+### and
+`and(val1, val2...)` Calculates the logical conjunction of two or more values.
+
+### or
+`or(val1, val2...)` Calculates the logical disjunction of two or more values.
+
+### not
+`not(val)` Calculates the logical negation of a value.
+
+### xor
+`xor(val1, val2...)` Calculates the logical exclusive disjunction of two or more values. For more than two input values, the function first xor-s the first two values, then xor-s the result with the third value etc.
+
 ### sleep
 `sleep(seconds)`
 

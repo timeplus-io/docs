@@ -20,6 +20,14 @@ SHOW CREATE FORMAT SCHEMA schema_name
 SHOW CREATE FUNCTION func_name
 ```
 
+## Show Details For An Alert
+
+```sql
+SHOW CREATE ALERT [database.]alert_name
+```
+
+If you add `SETTINGS show_multi_versions=true`, it will list earlier versions.
+
 ## show_uuid
 Starting from Timeplus Enterprise v2.7, you can show the uuid of the SQL object to map the name with folder name in file systems via `settings show_uuid=true`.
 
@@ -69,4 +77,3 @@ Besides the `statement` column, there is also a `placements` column with content
 		}
 	]
 }
-```

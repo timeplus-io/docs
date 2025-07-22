@@ -2,8 +2,13 @@
 
 This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a biweekly basis, including new features and important bug fixes.
 
-## Jun 23, 2025
-No public releases for the past 2 weeks. We are working on the next release of Timeplus Enterprise v2.9, which includes [external tables for MongoDB](/mongo-external).
+## Jul 21, 2025
+
+### Timeplus Enterprise v2.5.13
+ * [Timeplus Enterprise v2.5.13](/enterprise-v2.5#2_5_13): bug fixes without new features
+
+### Timeplus Enterprise v2.9 Preview 2
+Another preview edition of [Timeplus Enterprise v2.9](enterprise-v2.9) with many new features. This is scheduled to be Generally Available (GA) by the end of August.
 
 ## Jun 9, 2025
 
