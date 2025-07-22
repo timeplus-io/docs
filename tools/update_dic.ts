@@ -16,7 +16,7 @@ function updateDictionary() {
         const content = readFileSync(DIC_PATH, 'utf-8');
         const lines = content.split('\n');
         
-        // Track seen words (case-insensitive) and preserve first occurrence
+        // Track seen lines (exact matches only) and preserve first occurrence
         const seen = new Set<string>();
         const uniqueLines: string[] = [];
         
@@ -28,9 +28,9 @@ function updateDictionary() {
                 continue;
             }
             
-            const lower = trimmed.toLowerCase();
-            if (!seen.has(lower)) {
-                seen.add(lower);
+            // Only remove exact duplicates, preserve case variations
+            if (!seen.has(trimmed)) {
+                seen.add(trimmed);
                 uniqueLines.push(trimmed);
             }
         }
