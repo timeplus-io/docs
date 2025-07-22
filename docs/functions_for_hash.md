@@ -16,3 +16,15 @@ Hash functions can be used for the deterministic pseudo-random shuffling of elem
 ### weak_hash32
 
 `weak_hash32(data)` Calculates a `uint32` from any data type.
+
+### kostik_consistent_hash
+`kostikConsistentHash(input, n)` An O(1) time and space consistent hash algorithm by Konstantin 'kostik' Oblakov.
+
+### xx_hash32
+`xx_hash32(str)` Calculates xxHash from a string.
+
+### xx_hash64
+`xx_hash64(str)` Calculates xxHash from a string.
+
+### xxh3
+`xxh3(expr)` Produces a 64-bit [xxh3](https://github.com/Cyan4973/xxHash) hash value.

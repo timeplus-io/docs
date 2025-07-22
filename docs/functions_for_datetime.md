@@ -138,6 +138,9 @@ Please refer to [to_time](/functions_for_type#to_time)
 
 `today()` returns the current date.
 
+### yesterday
+`yesterday()` returns yesterday as `date` type.
+
 ### to_YYYYMM
 
 `to_YYYYMM(date)` returns a number. For example `to_YYYYMM(today())` will return the number `202202`
