@@ -586,6 +586,10 @@
 
 - [SYSTEM RESUME | Timeplus](https://docs.timeplus.com/sql-system-resume): SYSTEM RESUME MATERIALIZED VIEW
 
+## Sql-system-set-log-level
+
+- [SYSTEM SET LOG LEVEL | Timeplus](https://docs.timeplus.com/sql-system-set-log-level): This feature is available in Timeplus Enterprise v2.8.2 or above. Not available in Timeplus Proton.
+
 ## Sql-system-transfer-leader
 
 - [SYSTEM TRANSFER LEADER | Timeplus](https://docs.timeplus.com/sql-system-transfer-leader): Transfer the leader of a materialized view to another node in the cluster.
