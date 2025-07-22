@@ -1,4 +1,4 @@
-# This file is generated from nextgen(timeplusd v2.9.9-rc.23,7/21/2025) via SQL:  SELECT  name, is_aggregate, case_insensitive, alias_to,create_query,origin, syntax, arguments,returned_value,categories FROM system.functions where not (origin in ('PythonUserDefined','JavaScriptUserDefined')) order by name
+# This file is generated from nextgen(timeplusd v2.9.9-rc.23,7/21/2025) via SQL:  select * from (select name, is_aggregate, case_insensitive, alias_to,create_query,origin, syntax, arguments,returned_value,categories from system.functions where not (origin in ('PythonUserDefined','JavaScriptUserDefined')) union all select name,0 as is_aggregate,0 as case_insensitive, '' as alias_to,'' as create_query,null as origin, '' as syntax, '' as arguments,'' as returned_value,'table' as categories from system.table_functions) order by name
 name,is_aggregate,case_insensitive,alias_to,create_query,origin,syntax,arguments,returned_value,categories
 DATE_FORMAT,0,1,format_datetime,,System,,,,
 INET6_ATON,0,1,ipv6_string_to_num,,System,,,,
@@ -188,6 +188,7 @@ boot_time,0,1,,,System,,,,
 bounding_ratio,1,1,,,System,,,,
 build_id,0,1,,,System,,,,
 byte_size,0,1,,,System,,,,
+call,0,0,,,,,,,table
 case_with_expr,0,1,,,System,,,,
 case_with_expression,0,1,,,System,,,,
 case_without_expr,0,1,,,System,,,,
@@ -197,6 +198,7 @@ categorical_information_value,1,1,,,System,,,,
 cbrt,0,1,,,System,,,,
 ceil,0,1,,,System,,,,
 ceiling,0,1,ceil,,System,,,,
+changelog,0,0,,,,,,,table
 char,0,1,,,System,,,,
 char_length,0,1,length_utf8,,System,,,,
 character_length,0,1,length_utf8,,System,,,,
@@ -262,6 +264,7 @@ decode_url_component,0,1,,,System,,,,
 decode_url_form_component,0,1,,,System,,,,
 decode_xml_component,0,1,,,System,,,,
 decrypt,0,1,,,System,,,,
+dedup,0,0,,,,,,,table
 default_profiles,0,1,,,System,,,,
 default_roles,0,1,,,System,,,,
 default_value_of_argument_type,0,1,,,System,,,,
@@ -316,6 +319,7 @@ dict_get_uuid,0,1,,,System,,,,
 dict_get_uuid_or_default,0,1,,,System,,,,
 dict_has,0,1,,,System,,,,
 dict_is_in,0,1,,,System,,,,
+dictionary,0,0,,,,,,,table
 display_name,0,0,,,System,,,,Other
 distance_l1,0,1,l1_distance,,System,,,,
 distance_l2,0,1,l2_distance,,System,,,,
@@ -373,6 +377,7 @@ erf,0,1,,,System,,,,
 erfc,0,1,,,System,,,,
 error_code_to_name,0,1,,,System,,,,
 eval_ml_method,0,1,,,System,,,,
+executable,0,0,,,,,,,table
 exp,0,1,,,System,,,,
 exp10,0,1,,,System,,,,
 exp2,0,1,,,System,,,,
@@ -397,6 +402,7 @@ factorial,0,1,,,System,,,,Mathematical
 farm_fingerprint64,0,1,,,System,,,,
 farm_hash64,0,1,,,System,,,,
 file,0,1,,,System,,,,
+file,0,0,,,,,,,table
 filesystem_available,0,1,,,System,,,,
 filesystem_capacity,0,1,,,System,,,,
 filesystem_unreserved,0,1,,,System,,,,
@@ -433,6 +439,7 @@ full_host_name,0,1,,,System,,,,
 fuzz_bits,0,1,,,System,,,,
 gcc_murmur_hash,0,1,,,System,,,,
 gcd,0,1,,,System,,,,
+generate_random,0,0,,,,,,,table
 generate_ulid,0,1,,,System,,,,ULID
 generate_uuidv4,0,1,uuid,,System,,,,
 generate_uuidv7,0,1,,,System,generate_uuidv7([expression]),"- expression:The expression is used to bypass common subexpression elimination if the function is called multiple times in a query but otherwise ignored. Optional.
@@ -495,6 +502,7 @@ hashid,0,1,,,System,,,,
 hex,0,1,,,System,,,,
 histogram,1,1,,,System,,,,
 hive_hash,0,1,,,System,,,,
+hop,0,0,,,,,,,table
 hostname,0,1,,,System,,,,
 hour,0,1,to_hour,,System,,,,
 hypot,0,1,,,System,,,,
@@ -510,6 +518,7 @@ index_hint,0,1,,,System,,,,
 index_of,0,1,,,System,,,,
 initial_query_id,0,1,,,System,,,,
 initialize_aggregation,0,1,,,System,,,,
+input,0,0,,,,,,,table
 int_div,0,1,,,System,,,,
 int_div_or_null,0,1,,,System,,,,
 int_div_or_zero,0,1,,,System,,,,
@@ -796,9 +805,12 @@ nothing,1,1,,,System,,,,
 now,0,1,,,System,,,,
 now64,0,1,,,System,,,,
 now_in_block,0,1,,,System,,,,
+null,0,0,,,,,,,table
 null_if,0,1,,,System,,,,
 null_in,0,1,,,System,,,,
 null_in_ignore_set,0,1,,,System,,,,
+numbers,0,0,,,,,,,table
+numbers_mt,0,0,,,,,,,table
 or,0,1,,,System,,,,
 p90,1,1,,,System,,,,
 p95,1,1,,,System,,,,
@@ -952,6 +964,8 @@ reinterpret_as_uint32,0,1,,,System,,,,
 reinterpret_as_uint64,0,1,,,System,,,,
 reinterpret_as_uint8,0,1,,,System,,,,
 reinterpret_as_uuid,0,1,,,System,,,,
+remote,0,0,,,,,,,table
+remote_secure,0,0,,,,,,,table
 repeat,0,1,,,System,,,,
 replace,0,1,replace_all,,System,,,,
 replace_all,0,1,,,System,,,,
@@ -979,6 +993,7 @@ round_duration,0,1,,,System,,,,
 round_to_exp2,0,1,,,System,,,,
 row_number,1,1,,,System,,,,
 row_number_in_block,0,1,,,System,,,,
+rowify,0,0,,,,,,,table
 rpad,0,1,right_pad,,System,,,,
 running_accumulate,0,1,,,System,,,,
 running_concurrency,0,1,,,System,,,,
@@ -990,6 +1005,7 @@ sequence_count,1,1,,,System,,,,
 sequence_match,1,1,,,System,,,,
 sequence_next_node,1,1,,,System,,,,
 server_uuid,0,1,,,System,,,,
+session,0,0,,,,,,,table
 sha1,0,1,,,System,,,,
 sha224,0,1,,,System,,,,
 sha256,0,1,,,System,,,,
@@ -1063,6 +1079,7 @@ sum_map_with_overflow,1,1,,,System,,,,
 sum_mapped_arrays,1,1,,,System,,,,
 sum_with_overflow,1,1,,,System,,,,
 svg,0,1,,,System,,,,
+table,0,0,,,,,,,table
 tan,0,1,,,System,,,,
 tanh,0,1,,,System,,,,
 tcp_port,0,1,,,System,,,,
@@ -1271,6 +1288,7 @@ truncate,0,1,trunc,,System,,,,
 try_base58_decode,0,1,,,System,,,,
 try_base64_decode,0,1,,,System,,,,
 try_decrypt,0,1,,,System,,,,
+tumble,0,0,,,,,,,table
 tuple_cast,0,1,,,System,,,,
 tuple_divide,0,1,,,System,,,,
 tuple_divide_by_number,0,1,,,System,,,,
@@ -1298,6 +1316,7 @@ unique_up_to,1,1,,,System,,,,
 upper,0,1,,,System,,,,
 upper_utf8,0,1,,,System,,,,
 uptime,0,1,,,System,,,,
+url,0,0,,,,,,,table
 url_hash,0,1,,,System,,,,
 url_hierarchy,0,1,,,System,,,,
 url_path_hierarchy,0,1,,,System,,,,
@@ -1310,6 +1329,7 @@ uuid_string_to_num,0,1,,,System,,,,
 uuid_to_num,0,0,,,System,,,,UUID
 uuidv7_to_datetime,0,0,,,System,,,,UUID
 validate_nested_array_sizes,0,1,,,System,,,,
+values,0,0,,,,,,,table
 var_pop,1,1,,,System,,,,
 var_pop_stable,1,1,,,System,,,,
 var_samp,1,1,,,System,,,,
@@ -1323,6 +1343,8 @@ variant_type,0,1,,,System,variant_type(variant),"- variant:Variant column
 vector_difference,0,1,tuple_minus,,System,,,,
 vector_sum,0,1,tuple_plus,,System,,,,
 version,0,1,,,System,,,,
+view,0,0,,,,,,,table
+viewExplain,0,0,,,,,,,table
 visible_width,0,1,,,System,,,,
 visit_param_extract_bool,0,1,simple_json_extract_bool,,System,,,,
 visit_param_extract_float,0,1,simple_json_extract_float,,System,,,,
@@ -1358,3 +1380,5 @@ yandex_consistent_hash,0,1,kostik_consistent_hash,,System,,,,
 year,0,1,to_year,,System,,,,
 yearweek,0,1,to_year_week,,System,,,,
 yesterday,0,1,,,System,,,,
+zeros,0,0,,,,,,,table
+zeros_mt,0,0,,,,,,,table
