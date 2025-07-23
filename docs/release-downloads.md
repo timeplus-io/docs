@@ -148,6 +148,12 @@ Released on 01-14-2025 ([Change logs](/enterprise-v2.6#2_6_0)).
 
 ## 2.5 {#2_5}
 
+### v2.5.14 {#2_5_14}
+Released on 07-22-2025 ([Change logs](/enterprise-v2.5#2_5_14)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.5.14-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.5.14-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.5.14-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.5.14-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.5.14`
+
 ### v2.5.13 {#2_5_13}
 Released on 07-08-2025 ([Change logs](/enterprise-v2.5#2_5_13)).
 
