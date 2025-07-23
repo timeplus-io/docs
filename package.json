@@ -22,10 +22,10 @@
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.19.2",
-    "@docusaurus/core": "^3.8.1",
+    "@docusaurus/core": "https://github.com/algolia/docsearch/releases/download/v4.0.0-beta.4/docusaurus-core-3.8.1.tgz",
     "@docusaurus/plugin-google-gtag": "^3.8.1",
     "@docusaurus/plugin-google-tag-manager": "^3.8.1",
-    "@docusaurus/preset-classic": "^3.8.1",
+    "@docusaurus/preset-classic": "https://github.com/algolia/docsearch/releases/download/v4.0.0-beta.4/docusaurus-preset-classic-3.8.1.tgz",
     "@docusaurus/react-loadable": "^6.0.0",
     "@docusaurus/theme-mermaid": "^3.8.1",
     "@docusaurus/theme-search-algolia": "^3.8.1",
@@ -44,6 +44,11 @@
     "@docusaurus/types": "3.8.1",
     "@types/react": "^19.1.8",
     "typescript": "~5.8.3"
+  },
+  "resolutions": {
+    "@docusaurus/utils": "https://github.com/algolia/docsearch/releases/download/v4.0.0-beta.4/docusaurus-utils-3.8.1.tgz",
+    "@docusaurus/theme-search-algolia": "https://github.com/algolia/docsearch/releases/download/v4.0.0-beta.4/docusaurus-theme-search-algolia-3.8.1.tgz",
+    "@docusaurus/theme-translations": "https://github.com/algolia/docsearch/releases/download/v4.0.0-beta.4/docusaurus-theme-translations-3.8.1.tgz"
   },
   "engines": {
     "node": ">=18.0"
