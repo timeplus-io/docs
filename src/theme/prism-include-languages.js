@@ -39,6 +39,7 @@ const newWords = [
   "int64",
   "int8",
   "javascript",
+  "latest",
   "leader",
   "like",
   "materialize",

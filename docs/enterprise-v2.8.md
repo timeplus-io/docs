@@ -70,6 +70,7 @@ Compared to the [2.8.1](#2_8_1) release:
     * Improved the support for gRPC protocol.
     * Support [EMIT TIMEOUT](/streaming-aggregations#emit-timeout) for both global aggregations and window aggregations.
     * Able to change log level during runtime via [SYSTEM SET LOG LEVEL](/sql-system-set-log-level) or REST API.
+    * Support new JOIN type [FULL LATEST JOIN](/joins#full-latest-join).
 * timeplus_web 2.8.8 -> 2.8.12
   * Some new UI features and enhancements in 2.9 are ported to 2.8.2:
       *   **Materialized Views (MVs):**

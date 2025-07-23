@@ -134,6 +134,30 @@ FROM left_vk JOIN right_vk
 ON left_vk.k = right_vk.kk
 ```
 
+#### Append/VersionedKV/Mutable FULL LATEST JOIN Append/VersionedKV/Mutable {#full-latest-join}
+Starting from Timeplus Enterprise v2.8.2, you can use `FULL LATEST JOIN` to join an append stream with a mutable stream, versioned stream or changelog stream. Compared to `FULL ALL JOIN`, the This will keep the latest version of the both sides for each join key.
+
+Example:
+
+```sql
+select t1.col_k, t1.col_v, t2.col_j from left as t1 full latest join right as t2 on t1.col_k = t2.col_k;
+select t1.col_k, t1.col_v, t2.col_j from left as t1 full all join right as t2 on t1.col_k = t2.col_k;
+
+           left           right         full latest join     full [all] join
+        col_k, col_v    col_k, col_j  col_k, col_v, col_j   col_k, col_v, col_j
+
+t1->    1, 'v1'                            =>  1,'v1',''       =>  1,'v1',''
+
+t2->    2, 'v2'                            =>  2,'v2',''       =>  2,'v2',''
+
+t3->                     2, 'j2'           =>  2,'v2','j2'     =>  2,'v2','j2'
+
+t4->    1, 'vv1'                           =>  1,'vv1',''      =>  1,'vv1',''
+
+t5->                     1, 'j1'           =>  1,'vv1','j1'    =>  1,'v1','j1'
+                                                                   1,'vv1','j1'
+```
+
 #### Self Join
 
 You can also join a stream to itself. A typical use case is to check whether there is a certain pattern for the data in the same stream, for example, whether for the same credit card, within 2 minutes, there is a big purchase after a small purchase. This could be a pattern for fraud.
