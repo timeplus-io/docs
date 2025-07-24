@@ -72,7 +72,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       * Support writing to nested array of records Avro schemas
       * Enhanced [Kafka External Stream](/proton-kafka) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`
       * New query setting [precise_float_parsing](/query-settings#precise_float_parsing) to precisely handle float numbers.
-      * Added emit policy `EMIT TIMEOUT` and `EMIT PER EVENT`
+      * Added emit policy [EMIT TIMEOUT](/streaming-aggregations#emit-timeout) and [EMIT PER EVENT](/streaming-aggregations#emit-per-event).
       * Added new functions `array_partial_sort` and `array_partial_reverse_sort`
   *   Performance and Scalability:
       *   **Incremental Checkpointing:** Implemented and enabled incremental checkpointing by default for substreams, hybrid hash joins, and Materialized Views, significantly reducing recovery time and resource usage during stateful operations.

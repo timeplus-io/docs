@@ -252,3 +252,47 @@ It also can be applied to window aggregations and `EMIT AFTER WINDOW CLOSE` is a
 ```sql
 SELECT count() FROM tumble(t,5s) GROUP BY window_start EMIT TIMEOUT 1s;
 ```
+
+### EMIT PER EVENT
+This new emit policy is introduced in Timeplus Enterprise 2.9 Preview 2. It allows you to emit results for every event in the stream, which can be useful for debugging or monitoring purposes.
+
+For example, if you create a random stream `market_data` and run:
+```sql
+select count() from market_data
+```
+You will get the count of all events in the stream, every 2 seconds by default. Such as 10, 20, 30, etc.
+
+If you want to emit results for every event, you can use:
+```sql
+select count() from market_data emit per event
+```
+You will get the count of all events in the stream, every time a new event is added to the stream. Such as 1, 2, 3, 4, 5, etc.
+
+This new emit policy is useful for specific use cases where you want to see the results of your query for every event in the stream. It can be particularly useful for debugging or monitoring purposes, as it allows you to see the results of your query in real-time as new events are added to the stream.
+
+For high throughput streams, you may want to use this emit policy with caution, as it can generate a lot of output and may impact the performance of your query.
+
+There are some limitations for this emit policy:
+
+It does not support parallel processing, so it may not be suitable for high throughput streams. If there are multiple partitions for the Kafka external stream or multiple shards for the Timeplus stream, this emit policy will not work.
+
+One workaround is to use `SHUFFLE BY` to shuffle the data into one partition or shard, but this may impact the performance of your query. For example, you can use:
+```sql
+select type, count() from github_events shuffle by type group by type emit per event;
+```
+
+The other possible workaround if the stream's sharding expression is based on id, for example:
+```sql
+create stream multi_shards_stream(id int, ...) settings shards=3, sharding_expr='weak_hash32(id)';
+```
+In this case, you can set `allow_independent_shard_processing=true` to process in parallel.
+
+```sql
+SELECT id, count() FROM multi_shards_stream GROUP BY id EMIT PER EVENT
+SETTINGS allow_independent_shard_processing=true;
+```
+
+The other limitation is that it does not support substream processing. For example, the following query will not work:
+```sql
+SELECT id, count() FROM single_shard_stream partition by id EMIT PER EVENT
+```
