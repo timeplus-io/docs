@@ -105,12 +105,12 @@ const config = {
           href: "/",
         },
         items: [
-          {
-            type: "doc",
-            position: "left",
-            docId: "quickstart",
-            label: "Quickstart",
-          },
+          // {
+          //   type: "doc",
+          //   position: "left",
+          //   docId: "quickstart",
+          //   label: "Quickstart",
+          // },
           {
             href: "https://demos.timeplus.com",
             position: "left",
