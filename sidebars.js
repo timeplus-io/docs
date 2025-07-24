@@ -376,6 +376,7 @@ const sidebars = {
             },
             "functions_for_agg",
             "functions_for_streaming",
+            "functions_for_table",
             {
               type: "category",
               label: "User Defined Functions",

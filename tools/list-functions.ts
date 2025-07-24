@@ -19,6 +19,15 @@
 import { readdir, readFile } from "fs/promises";
 import { join } from "path";
 
+/**
+ * Functions to ignore from the CSV - these are internal or system functions
+ * that should not be listed in the documentation
+ */
+const IGNORED_FUNCTIONS = new Set([
+  "validate_nested_array_sizes",
+  "_internal_function_1",
+]);
+
 interface FunctionInfo {
   name: string;
   file: string;
@@ -53,6 +62,11 @@ Options:
   --sample   Show random sample of missing functions (default 10)
   --debug    Show CSV filtering debug information
   --help     Show this help message
+
+Configuration:
+  The script ignores certain internal functions defined in IGNORED_FUNCTIONS
+  within this file. Add function names to this list to exclude them from
+  all outputs.
 
 Examples:
   bun run tools/list-functions.ts                    # Formatted output with categories
@@ -141,6 +155,7 @@ function filterCSVFunctions(csvFunctions: CSVFunctionInfo[]): {
     pythonUdf: 0,
     empty: 0,
     invalid: 0,
+    ignored: 0,
     final: 0,
   };
 
@@ -179,6 +194,12 @@ function filterCSVFunctions(csvFunctions: CSVFunctionInfo[]): {
       // Skip certain origins or categories if needed
       if (func.origin === "PythonUserDefined") {
         stats.pythonUdf++;
+        return false;
+      }
+
+      // Skip functions in the ignore list
+      if (IGNORED_FUNCTIONS.has(func.name)) {
+        stats.ignored++;
         return false;
       }
 
@@ -275,6 +296,7 @@ async function main() {
       console.log(`🐍 Python UDF functions: ${stats.pythonUdf}`);
       console.log(`❌ Empty names: ${stats.empty}`);
       console.log(`⚠️  Invalid function names: ${stats.invalid}`);
+      console.log(`🚫 Ignored functions: ${stats.ignored}`);
       console.log(`✅ Final filtered functions: ${stats.final}`);
       console.log(`📉 Filtered out: ${stats.total - stats.final}`);
     } else if (showStats) {
