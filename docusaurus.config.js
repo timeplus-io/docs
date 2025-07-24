@@ -89,10 +89,10 @@ const config = {
         maxHeadingLevel: 6,
       },
       algolia: {
-        appId: "UCWO77T9MZ",
-        apiKey: "57b8ba245e7467472b18e6cbf5cfd384",
-        indexName: "public_docs",
-        askAi: "qmQ1BJuwj2X9",
+        appId: "9IV0P6OE4K",
+        apiKey: "ed69e90cdcb54d99af90c95574b6fc4a",
+        indexName: "docs.timeplus.cm",
+        askAi: "HoTc2tNwsghX",
       },
       navbar: {
         title: "Docs",
