@@ -1,4 +1,4 @@
-# This file is generated from nextgen(timeplusd v2.9.9-rc.23,7/21/2025) via SQL:  select * from (select name, is_aggregate, case_insensitive, alias_to,create_query,origin, syntax, arguments,returned_value,categories from system.functions where not (origin in ('PythonUserDefined','JavaScriptUserDefined')) union all select name,0 as is_aggregate,0 as case_insensitive, '' as alias_to,'' as create_query,null as origin, '' as syntax, '' as arguments,'' as returned_value,'table' as categories from system.table_functions) order by name
+# This file is generated from nextgen(timeplusd v2.9.9-rc.24,7/24/2025) via SQL:  select * from (select name, is_aggregate, case_insensitive, alias_to,create_query,origin, syntax, arguments,returned_value,categories from system.functions where not (origin in ('PythonUserDefined','JavaScriptUserDefined')) union all select name,0 as is_aggregate,0 as case_insensitive, '' as alias_to,'' as create_query,null as origin, '' as syntax, '' as arguments,'' as returned_value,'table' as categories from system.table_functions) order by name
 name,is_aggregate,case_insensitive,alias_to,create_query,origin,syntax,arguments,returned_value,categories
 DATE_FORMAT,0,1,format_datetime,,System,,,,
 INET6_ATON,0,1,ipv6_string_to_num,,System,,,,
@@ -1301,7 +1301,7 @@ tuple_negate,0,1,,,System,,,,
 tuple_plus,0,1,,,System,,,,
 tuple_to_name_value_pairs,0,1,,,System,,,,
 ucase,0,1,upper,,System,,,,
-ulid_string_to_dateFixedStringtime,0,1,,,System,,,,ULID
+ulid_string_to_datetime,0,1,,,System,,,,ULID
 unbin,0,1,,,System,,,,
 unhex,0,1,,,System,,,,
 uniq,1,1,unique,,System,,,,
