@@ -26,7 +26,6 @@ To support a variety of use cases efficiently, Timeplus offers multiple types of
 
 > Note: Timeplus also supports [External Tables](/sql-create-external-table), which allow **historical queries and inserts** only (e.g., against ClickHouse, MySQL, PostgreSQL, MongoDB, etc.).
 
----
 
 ## Stream Internals
 
@@ -44,7 +43,5 @@ The **streaming store** is essentially the **Write-Ahead Log** (internally calle
 For more information, refer to the [high-level architecture](/architecture) page.
 
 The **historical store** asynchronously derives its data from the WAL through a dedicated background thread. It performs periodic **compaction**, **merge**, and **compression**, making it highly efficient for [historical analytic queries](/history) and **streaming backfills**.
-
----
 
 To learn more about stream lifecycle operations (Create, Read, Delete, Update) and advanced configurations like **TTL**, **key versioning**, and other stream settings, refer to the SQL Reference documentation. To learning more about external streams
