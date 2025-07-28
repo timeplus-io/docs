@@ -1,4 +1,3 @@
-
 # Streams
 
 ## Types of Streams
@@ -48,4 +47,4 @@ The **historical store** asynchronously derives its data from the WAL through a 
 
 ---
 
-To learn more about stream lifecycle operations (Create, Read, Delete, Update) and advanced configurations like **TTL**, **key versioning**, and other stream settings, refer to the SQL Reference documentation. To learning more about external streams, refer to [external stream](/external-stream) pages for more details.
+To learn more about stream lifecycle operations (Create, Read, Delete, Update) and advanced configurations like **TTL**, **key versioning**, and other stream settings, refer to the SQL Reference documentation. To learning more about external streams
