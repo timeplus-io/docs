@@ -1,11 +1,11 @@
 # Streams
 
-## Types of Streams
-
 Timeplus `streams` are conceptually similar to `tables` in traditional SQL databases—they both hold data. However, there are key differences:
 
 * A **Timeplus stream** tracks changes and updates through its underlying **Write-Ahead Log (WAL)**, which powers incremental processing.
 * Timeplus supports **both incremental stream processing and historical queries** over stream data.
+
+## Types of Streams
 
 To support a variety of use cases efficiently, Timeplus offers multiple types of streams:
 
