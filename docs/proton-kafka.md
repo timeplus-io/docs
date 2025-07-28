@@ -82,7 +82,7 @@ The supported values for `sasl_mechanism` are:
 
 #### username / password
 
-Required when `sasl_mechanism` is used. 
+Required when `sasl_mechanism` ise set to SCRAM-SHA-256 or SCRAM-SHA-512. 
 
 Alternatively, use [`config_file`](#config_file) to securely pass credentials.
 
@@ -96,7 +96,6 @@ password=my_password
 data_format='Avro'
 one_message_per_row=true
 ```
-
 
 This is especially useful in Kubernetes environments with secrets managed via [HashiCorp Vault](https://learn.hashicorp.com/tutorials/vault/kubernetes-sidecar).
 
@@ -174,15 +173,26 @@ Used for advanced configurations. These settings are passed directly to the Kafk
 
 For more, see the [Advanced Settings](#advanced_settings) section.
 
-## Read Data in Kafka
+## Reading Data from Kafka
 
-Timeplus supports read Kafka message in different data formats: raw as string, CSV, TSV, JSON, Protobuf, Avro etc. 
+Timeplus allows reading Kafka messages in multiple data formats, including:
 
-### Read as String 
+* Plain string (raw)
+* CSV / TSV
+* JSON
+* Protobuf
+* Avro
 
-If the Kafka messages contain unstructure text data, or there are no builtin formats to parse the message, users can read Kafka message as string. 
+### Reading Kafka Messages as Raw String 
 
-Example:
+Use this mode when:
+
+* Messages contain **unstructured text or binary data**
+* No built-in format is applicable
+* You want to **debug raw Kafka messages**
+
+#### Example
+
 ```sql
 CREATE EXTERNAL STREAM ext_github_events
          (raw string)
@@ -191,9 +201,10 @@ SETTINGS type='kafka',
          topic='application_logs'
 ```
 
-Then we can use other functions like regex string processing or JSON extract etc functions to further process the raw string. Consuming the Kafka message as it is is very useful for debugging as well.  
+Users can use functions like regex string processing or JSON extract etc functions to further process the raw string.
 
-Here is one plain text application log parsing example by using regex functions:
+#### Regex Example – Parse Application Logs
+
 ```sql
 SELECT 
     to_time(extract(raw, '^(\\d{4}\\.\\d{2}\\.\\d{2} \\d{2}:\\d{2}:\\d{2}\\.\\d+)')) AS timestamp, 
@@ -202,11 +213,7 @@ SELECT
 FROM application_logs;
 ```
 
-### Read JSON Kafka Message 
-
-If Kafka message contains JSON text, users can two ways to process the data
-1. Read the text as plain string and then use JSON extract function or the shortcuts syntax to parse the json fields as columns manually  
-2. Use `JSONEachRow` data format to parse the JSON fields automatically
+### Reading JSON Kafka Message 
 
 Assuming Kafka message contains JSON text with this schema
 
@@ -221,21 +228,21 @@ Assuming Kafka message contains JSON text with this schema
 }
 ```
 
-To pase the JSON fields, we have the following methods.
+You can process JSON in two ways:
 
-#### Use JSON extract functions 
+#### Option A: Parse with JSON Extract Functions
 
-First define a simple Kafka external stream to read the message as string
+1. Create a raw stream:
 
 ```sql
 CREATE EXTERNAL STREAM ext_json_raw
     (raw string)
 SETTINGS type='kafka',
          brokers='localhost:9092',
-         topic='github_events'
+         topic='github_events';
 ```
 
-And then use JSON extract function or shortcut syntaxes to extract the JSON fields.
+2. Extract fields using shortcut syntax:
 
 ```sql
 SELECT 
@@ -245,13 +252,12 @@ SELECT
     raw:payload AS payload,
     raw:repo AS repo,
     raw:type AS type
-FROM 
-    ext_json_raw;
-``` 
+FROM ext_json_raw;
+```
 
-This method is most flexible and can handle dynamic JSON text with new fields or missing fields and it can also extract nested JSON fields. 
+This method is most flexible and is best for dynamic JSON text with new fields or missing fields and it can also extract nested JSON fields. 
 
-#### Use JSONEachRow data format
+#### Option B: Use `JSONEachRow` Format
 
 Define a Kafka external stream with columns which are mapped to the JSON fields and also specify the `data_format` as `JSONEachRow`. 
 
@@ -275,7 +281,7 @@ When users query the `ext_json_parsed` stream, the JSON fields will be parsed an
 
 This method is most convient when the JSON text is in stable schema and can be used to extract JSON fields at top level. 
 
-### Read as CSV
+### Reading CSV Kafka Messages 
 
 Similar to data format `JSONEachRow`, users can read Kafka message in CSV format.
 
@@ -295,141 +301,140 @@ SETTINGS type='kafka',
          data_format='CSV';
 ```
 
-### Read as TSV 
+###  Reading TSV Kafka Messages
 
-Similar to reading data in data format CSV, it is tab separated.
+Identical to CSV, but expects **tab-separated values**:
 
-### Read Avro Kafka Message
-
-To read Avro-encoded Kafka message, please refer to [Avro Schema](/proton-format-schema) and [Avro Schema Registry](/proton-schema-registry) for details.
-
-### Read Protobuf Kafka Message
-
-To read Protobuf-encoded Kafka message, please refer to [Protobuf Schema](/proton-format-schema) and [Protobuf Schema Registry](/proton-schema-registry) for details.
-
-### Read Kafka Message Metadata
-
-Besides the message body, Timeplus provides several `virtual columns` which map to the metadata of each Kafka message.
-
-#### _tp_time
-
-`_tp_time` is mapped to the timestamp of a Kafka message in Kafka external stream which has `datetime64(3, 'UTC')` column type. When reading from a Kafka topic, the Kafka message timestamp will be set to `_tp_time` automatically. 
-
-For example:
 ```sql
-SELECT _tp_time, raw FROM foo;
+SETTINGS data_format='TSV';
 ```
 
-When writing to a Kafka topic, if `_tp_time` exists in the schema, it will be set to the timetamps of the Kafka message automatically. 
+### Reading Avro or Protobuf Messages
 
-#### _tp_message_key
+To read Avro-encoded / Protobuf-encoded Kafka message, please refer to [Schema](/proton-format-schema) and [Schema Registry](/proton-schema-registry) for details.
 
-`_tp_message_key` is mapped to the key of a Kafka message in Kafka external stream which as `string` column type.  When reading from a Kafka topic, the Kafka message key will be set to `_tp_message_key` automatically. 
+### Accessing Kafka Message Metadata
 
-For example:
+Timeplus provides **virtual columns** for Kafka message metadata.
+
+| Virtual Column        | Description                    | Type                   |
+| --------------------- | ------------------------------ | ---------------------- |
+| `_tp_time`            | Kafka message timestamp        | `datetime64(3, 'UTC')` |
+| `_tp_message_key`     | Kafka message key              | `string`               |
+| `_tp_message_headers` | Kafka headers as key-value map | `map(string, string)`  |
+| `_tp_sn`              | Kafka message offset           | `int64`                |
+| `_tp_shard`           | Kafka partition ID             | `int32`                |
+
+
+### Examples
+
 ```sql
-SELECT _tp_message_key, raw FROM foo;
+-- View message time and payload
+SELECT _tp_time, raw FROM ext_github_events;
+
+-- View message key
+SELECT _tp_message_key, raw FROM ext_github_events;
+
+-- Access headers
+SELECT _tp_message_headers['trace_id'], raw FROM ext_github_events;
+
+-- View message offset and partition
+SELECT _tp_sn, _tp_shard, raw FROM ext_github_events;
 ```
 
-Regarding how to use `_tp_message_key` to write the message key when inserting data into the Kafka topic, please refer to [write message key section](#write_message_key).
+### Query Settings for External Kafka Streams
 
-#### _tp_message_headers
+Timeplus supports several query-level settings to control how data is read from Kafka topics. These settings can be especially useful for targeting specific partitions or replaying messages from a defined point in time.
 
-`_tp_message_headers` is mapped to the headers of a Kafka message in Kafka external stream, which has `map(string, string)` column type.
+#### Read from Specific Kafka Partitions
 
-For example:
-```sql
-SELECT _tp_message_headers, raw FROM foo;
-```
+By default, Timeplus reads from **all partitions** of a Kafka topic. You can override this by using the `shards` setting to specify which partitions to read from.
 
-To get the value for a certain key in the header, users can access it via `_tp_message_headers['key']`. 
-
-For example:
-```sql
-SELECT _tp_message_headers['key'], raw FROM foo;
-```
-
-#### _tp_sn
-
-`_tp_sn` is mapped to the offset of a Kafka message in Kafka external stream, which has `int64` column type.
-
-For example:
-```sql
-SELECT _tp_sn, raw FROM foo;
-```
-
-#### _tp_shard
-
-`tp_shard` is mapped to the partition ID of a Kafka message in Kafka external stream, which has `int32` column type.
-
-For example:
-```sql
-SELECT _tp_shard, raw FROM foo;
-```
-
-### Query Settings
-
-#### Read Specific Kafka Partitions
-
- With `shards` setting, users can query specified Kafka partitions. By default, all partitions will be read. e.g.
+##### Read from a Single Partition
 
 ```sql
 SELECT raw FROM ext_stream SETTINGS shards='0'
 ```
 
-Or specify a set of partition ID, separated by comma, e.g.
+##### Read from Multiple Partitions
+
+Separate partition IDs with commas:
 
 ```sql
 SELECT raw FROM ext_stream SETTINGS shards='0,2'
 ```
 
-#### Rewind via seek_to
+#### Rewind via `seek_to`
 
-When users run `SELECT raw FROM ext_stream `, Timeplus will read only the new messages in the topic.
+By default, Timeplus only reads **new messages** published after the query starts. To read historical messages, use the `seek_to` setting.
 
-Users can use `seek_to` query setting to rewind to a specific offset or timestamp per partition.
+#### Rewind to the Earliest Offset (All Partitions)
 
-Rewind to earliest offsets for all partitions.
 ```sql
 SELECT raw FROM ext_stream SETTINGS seek_to='earliest'
 ```
 
-Rewind to a specific offset for partitions: seek to offset 5 for partition 1, 3 for partition 2 and 11 for partition 3 respectively 
-```
+#### Rewind to Specific Offsets (Per Partition)
+
+Offsets are specified **in partition order**. For example:
+
+```sql
 SELECT raw FROM ext_stream SETTINGS seek_to='5,3,11'
 ```
 
-Rewind to a specific timestamp for all partitions.
-```
+This seeks to:
+
+* Offset `5` in partition `0`
+* Offset `3` in partition `1`
+* Offset `11` in partition `2`
+
+#### Rewind to a Specific Timestamp (All Partitions)
+
+You can also rewind based on a timestamp:
+
+```sql
 SELECT raw FROM ext_stream SETTINGS seek_to='2025-01-01T00:00:00.000'
 ```
 
+:::info
+
+Timeplus will use Kafka API to convert the timestamp to the corresponding offsets for each partition internally.
+
+:::
+
 ## Write Data to Kafka
 
-### Write as String 
+Timeplus supports writing data to Kafka using various encoding formats such as strings, JSON, CSV, TSV, Avro, and Protobuf. You can write to Kafka using SQL `INSERT` statements, the [Ingest REST API](/proton-ingest-api), or as the target of a [Materialized View](/sql-create-materialized-view).
 
-Users can encode data as string in Kafka message and write to the Kafka topic. 
+### Write as Raw String 
 
-For example:
+You can encode data as a raw string in Kafka messages:
+
 ```sql
-CREATE EXTERNAL STREAM ext_github_events
-         (raw string)
+CREATE EXTERNAL STREAM ext_github_events (raw string)
 SETTINGS type='kafka',
          brokers='localhost:9092',
          topic='github_events'
 ```
 
-Then use either `INSERT INTO <stream_name> VALUES (v)`, or [Ingest REST API](/proton-ingest-api), or set it as the target stream for a Materialized View to write message to the Kafka topic. The actual `data_format` value is `RawBLOB` but this can be omitted. By default `one_message_per_row` is `true`.
+You can then write data via:
+
+* `INSERT INTO ext_github_events VALUES ('some string')`
+* [Ingest REST API](/proton-ingest-api)
+* Materialized View
+
 
 :::info
-Setting `kafka_max_message_size`. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message, ensuring it won't exceed the `kafka_max_message_size` limit.
+
+Internally, the `data_format` is `RawBLOB`, and `one_message_per_row=true` by default.
+
+Pay attention to setting `kafka_max_message_size`. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message, ensuring it won't exceed the `kafka_max_message_size` limit.
 :::
 
-### Write as JSONEachRow
+### Write as `JSONEachRow`
 
-Users can use `data_format='JSONEachRow',one_message_per_row=true` to inform Timeplus to encode columns in each row as a JSON document. 
+Encode each row as a separate JSON object (aka JSONL or jsonlines):
 
-For example:
 ```sql
 CREATE EXTERNAL STREAM target(
     _tp_time datetime64(3),
@@ -468,14 +473,12 @@ SETTINGS type='kafka', brokers='redpanda:9092', topic='masked-fe-event',
 
 The default value of one_message_per_row is false for `data_format='JSONEachRow'` and true for `data_format='RawBLOB'`.
 
-Pay attention to `kafka_max_message_size`. When multiple rows can be written to the same Kafka message, this setting will control how maximum amount of data will be batched in a single Kafka message on client side to avoid exceeding the Kafka broker's message size limit.
 :::
 
 ### Write as CSV
 
-Users can use `data_format='CSV'` to inform Timeplus to encode columns in each row as one CSV line. 
+Each row is encoded as one CSV line:
 
-For example:
 ```sql
 CREATE EXTERNAL STREAM target(
     _tp_time datetime64(3),
@@ -496,7 +499,7 @@ The messages will be generated in the specific topic as
 
 ### Write as TSV
 
-Similar to CSV but using tab as the separator.
+Same as CSV,  but uses **tab characters** as delimiters instead of commas.
 
 ### Write as ProtobufSingle
 
@@ -521,18 +524,20 @@ CREATE EXTERNAL STREAM foo (
 ) SETTINGS type='kafka',...;
 ```
 
-When insert a row to the stream like:
+After inserting a row to the stream like this:
 ```sql
 INSERT INTO foo(id,name,_tp_message_key) VALUES (1, 'John', 'some-key');
 ```
 
-`'some-key'` will be used for the message key for the Kafka message (and it will be excluded from the message body, so the message will be `{"id": 1, "name": "John"}` for the above SQL).
+* Kafka key will be `'some-key'`
+* Message body: `{"id": 1, "name": "John"}`. Kafka key was excluded from the message body.
 
-`_tp_message_key` support the following types: `uint8`, `uint16`, `uint32`, `uint64`, `int8`, `int16`, `int32`, `int64`, `bool`, `float32`, `float64`, `string`, and `fixed_string`.
+`_tp_message_key` supports these types:
 
-`_tp_message_key` also support `nullable`. Thus we can create an external stream with optional message key. 
+* Numeric: `uint8/16/32/64`, `int8/16/32/64`
+* Others: `string`, `bool`, `float32`, `float64`, `fixed_string`
+* Nullable are also supported:
 
-For example:
 ```sql
 CREATE EXTERNAL STREAM foo (
     id int32,
@@ -543,9 +548,8 @@ CREATE EXTERNAL STREAM foo (
 
 #### _tp_message_headers
 
-If users like to populate Kafka message headers when producing data to a Kafka topic, users can define the `_tp_message_headers` column when creating the external stream.
+Add Kafka headers via `_tp_message_headers` (map of key-value pairs):
 
-For example:
 ```sql
 CREATE EXTERNAL STREAM example (
     s string,
@@ -557,24 +561,26 @@ CREATE EXTERNAL STREAM example (
 
 Then insert rows to the external stream via `INSERT INTO` or Materialized Views, the `_tp_message_headers` will be set to the headers of the Kafka message.
 
-#### sharding_expr
+#### sharding_expr (Partition Logic)
 
-`sharding_expr` allows users to control the distribution of each row to the target partition of the topic when writing.
+`sharding_expr` is used to control how rows are distributed to Kafka partitions:
 
-For example:
 ```sql
 CREATE EXTERNAL STREAM foo (
     id int32,..
 ) SETTINGS type='kafka', sharding_expr='hash(id)'...;
 ```
 
-When insertint rows, the partition ID will be evaluated based on the `sharding_expr` and Timeplus will put the message into the corresponding partition of the topic.
+When inserting rows, the partition ID will be evaluated based on the `sharding_expr` and Timeplus will put the message into the corresponding Kafka partition.
 
 ## Properties for Kafka client {#advanced_settings}
 
-For more advanced scenarios, users may like to fine tune the Kafka consumer, producer and topic behaviors while creating Kafka external streams. Users can specify these fine tune settings via `properties=`, and they will be passed to the underlying librdkafka Kafka client. For full detailed configurations supported by librdkafka, please refer to its [configurations](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
+In advanced use cases, you may want to fine-tune the behavior of the Kafka consumer, producer, or topic when creating Kafka external streams. Timeplus allows this through the `properties` setting, which passes configuration options directly to the underlying [librdkafka](https://github.com/confluentinc/librdkafka) client.
 
-For example:
+These settings can control aspects like message size limits, retry behavior, timeouts, and more. For a full list of available configuration options, refer to the [librdkafka configuration documentation](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
+
+### Example
+
 ```sql
 CREATE EXTERNAL STREAM ext_github_events(raw string)
 SETTINGS type='kafka',
@@ -583,7 +589,10 @@ SETTINGS type='kafka',
          properties='message.max.bytes=1000000;message.timeout.ms=6000'
 ```
 
-Please note, most of properties in [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) are supported. The following ones are accepted in Timeplus today. Please check the configuration guide of [librdkafka](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md) for details.
+This example sets the maximum Kafka message size to 1MB and the message timeout to 6 seconds.
+
+Please note while most configuration properties from `librdkafka` are supported, Timeplus may restrict or ignore certain settings. Here is the list of supported settings.
+
 
 (C/P legend: C = Consumer, P = Producer, * = both)
 
