@@ -162,7 +162,7 @@ Use either:
 * `ssl_ca_cert_file='/path/to/cert.pem'`
 * `ssl_ca_pem='-----BEGIN CERTIFICATE-----\n...'`
 
-#### `skip_ssl_cert_check`
+#### skip_ssl_cert_check
 
 * Default: `false`
 * Set to `true` to **bypass SSL verification**.
@@ -173,7 +173,7 @@ Used for advanced configurations. These settings are passed directly to the Kafk
 
 For more, see the [Advanced Settings](#advanced_settings) section.
 
-## Reading Data from Kafka
+## Read Data from Kafka
 
 Timeplus allows reading Kafka messages in multiple data formats, including:
 
@@ -183,7 +183,7 @@ Timeplus allows reading Kafka messages in multiple data formats, including:
 * Protobuf
 * Avro
 
-### Reading Kafka Messages as Raw String 
+### Read Kafka Messages as Raw String 
 
 Use this mode when:
 
@@ -213,7 +213,7 @@ SELECT
 FROM application_logs;
 ```
 
-### Reading JSON Kafka Message 
+### Read JSON Kafka Message 
 
 Assuming Kafka message contains JSON text with this schema
 
@@ -242,7 +242,7 @@ SETTINGS type='kafka',
          topic='github_events';
 ```
 
-2. Extract fields using shortcut syntax:
+2. Extract fields using JSON extract shortcut syntax:
 
 ```sql
 SELECT 
@@ -257,7 +257,7 @@ FROM ext_json_raw;
 
 This method is most flexible and is best for dynamic JSON text with new fields or missing fields and it can also extract nested JSON fields. 
 
-#### Option B: Use `JSONEachRow` Format
+#### Option B: Use JSONEachRow Format
 
 Define a Kafka external stream with columns which are mapped to the JSON fields and also specify the `data_format` as `JSONEachRow`. 
 
@@ -281,7 +281,7 @@ When users query the `ext_json_parsed` stream, the JSON fields will be parsed an
 
 This method is most convient when the JSON text is in stable schema and can be used to extract JSON fields at top level. 
 
-### Reading CSV Kafka Messages 
+### Read CSV Kafka Messages 
 
 Similar to data format `JSONEachRow`, users can read Kafka message in CSV format.
 
@@ -301,7 +301,7 @@ SETTINGS type='kafka',
          data_format='CSV';
 ```
 
-###  Reading TSV Kafka Messages
+###  Read TSV Kafka Messages
 
 Identical to CSV, but expects **tab-separated values**:
 
@@ -309,11 +309,11 @@ Identical to CSV, but expects **tab-separated values**:
 SETTINGS data_format='TSV';
 ```
 
-### Reading Avro or Protobuf Messages
+### Read Avro or Protobuf Messages
 
 To read Avro-encoded / Protobuf-encoded Kafka message, please refer to [Schema](/proton-format-schema) and [Schema Registry](/proton-schema-registry) for details.
 
-### Accessing Kafka Message Metadata
+### Access Kafka Message Metadata
 
 Timeplus provides **virtual columns** for Kafka message metadata.
 
@@ -342,7 +342,7 @@ SELECT _tp_message_headers['trace_id'], raw FROM ext_github_events;
 SELECT _tp_sn, _tp_shard, raw FROM ext_github_events;
 ```
 
-### Query Settings for External Kafka Streams
+### Query Settings for Kafka External Streams
 
 Timeplus supports several query-level settings to control how data is read from Kafka topics. These settings can be especially useful for targeting specific partitions or replaying messages from a defined point in time.
 
@@ -364,7 +364,7 @@ Separate partition IDs with commas:
 SELECT raw FROM ext_stream SETTINGS shards='0,2'
 ```
 
-#### Rewind via `seek_to`
+#### Rewind via seek_to
 
 By default, Timeplus only reads **new messages** published after the query starts. To read historical messages, use the `seek_to` setting.
 
@@ -431,7 +431,7 @@ Internally, the `data_format` is `RawBLOB`, and `one_message_per_row=true` by de
 Pay attention to setting `kafka_max_message_size`. When multiple rows can be written to the same Kafka message, this setting will control how many data will be put in a Kafka message, ensuring it won't exceed the `kafka_max_message_size` limit.
 :::
 
-### Write as `JSONEachRow`
+### Write as JSONEachRow
 
 Encode each row as a separate JSON object (aka JSONL or jsonlines):
 
@@ -591,7 +591,10 @@ SETTINGS type='kafka',
 
 This example sets the maximum Kafka message size to 1MB and the message timeout to 6 seconds.
 
-Please note while most configuration properties from `librdkafka` are supported, Timeplus may restrict or ignore certain settings. Here is the list of supported settings.
+### Kafka Client Properties 
+
+Please note while most configuration properties from `librdkafka` are supported, Timeplus may restrict or ignore certain settings. Here is the list of supported properties.
+
 
 
 (C/P legend: C = Consumer, P = Producer, * = both)
