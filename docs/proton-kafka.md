@@ -575,7 +575,7 @@ When inserting rows, the partition ID will be evaluated based on the `sharding_e
 
 ## Properties for Kafka client {#advanced_settings}
 
-In advanced use cases, you may want to fine-tune the behavior of the Kafka consumer, producer, or topic when creating Kafka external streams. Timeplus allows this through the `properties` setting, which passes configuration options directly to the underlying [librdkafka](https://github.com/confluentinc/librdkafka) client.
+In advanced use cases, you may want to fine-tune the behavior of the Kafka consumer, producer, or topic when creating Kafka external streams. For example, fine tune the consumeer, producer's latency, throughput etc. Timeplus allows these fine tuning through the `properties` setting, which passes configuration options directly to the underlying [librdkafka](https://github.com/confluentinc/librdkafka) client.
 
 These settings can control aspects like message size limits, retry behavior, timeouts, and more. For a full list of available configuration options, refer to the [librdkafka configuration documentation](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
 
