@@ -279,7 +279,7 @@ SETTINGS type='kafka',
 
 When users query the `ext_json_parsed` stream, the JSON fields will be parsed and cast to the target column type automatically. 
 
-This method is most convient when the JSON text is in stable schema and can be used to extract JSON fields at top level. 
+This method is most convenient when the JSON text is in stable schema and can be used to extract JSON fields at top level.
 
 ### Read CSV Kafka Messages 
 
