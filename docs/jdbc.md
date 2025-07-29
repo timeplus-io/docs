@@ -33,6 +33,15 @@ dependencies {
 
 Please note, by default Timeplus' query behavior is streaming SQL, looking for new data in the future and never ends. The `ResultSet.next()` can always return `true`.
 
+#### connect_timeout
+You can set the connection timeout by adding `connect_timeout=10` to the JDBC URL, which will wait for 10 seconds before giving up. For example: `jdbc:timeplus://host:port/database?connect_timeout=10`. The default is 0, which means no timeout.
+
+Alternatively, you can set the `connectTimeout` property programmatically, such as:
+```java
+TimeplusConfig config = TimeplusConfig.Builder.builder()
+    .connectTimeout(Duration.ofSeconds(10))
+    .build();
+```
 ### Example {#example_native}
 
 ```java
