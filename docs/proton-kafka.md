@@ -78,7 +78,7 @@ The supported values for `sasl_mechanism` are:
 - PLAIN: when setting security_protocol to SASL_SSL, this is the default value for sasl_mechanism.
 - SCRAM-SHA-256
 - SCRAM-SHA-512
-- AWS_MSK_IAM (for AWS MSK IAM role-based access)
+- AWS_MSK_IAM (for AWS MSK IAM role-based access when EC2 or Kubernetes pod is configured with a proper IAM role)
 
 #### username / password
 
