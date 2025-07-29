@@ -82,7 +82,7 @@ The supported values for `sasl_mechanism` are:
 
 #### username / password
 
-Required when `sasl_mechanism` ise set to SCRAM-SHA-256 or SCRAM-SHA-512. 
+Required when `sasl_mechanism` is set to SCRAM-SHA-256 or SCRAM-SHA-512. 
 
 Alternatively, use [`config_file`](#config_file) to securely pass credentials.
 
@@ -99,7 +99,7 @@ one_message_per_row=true
 
 This is especially useful in Kubernetes environments with secrets managed via [HashiCorp Vault](https://learn.hashicorp.com/tutorials/vault/kubernetes-sidecar).
 
-**HarshCorp Vault injection example:**
+**HarshiCorp Vault injection example:**
 
 ```yaml
 annotations:
@@ -116,7 +116,7 @@ annotations:
 
 :::info
 
-Please note values in settings in the DDL will override those in config_file and it will only merge the settings from the config_file which are not explicitly sepcified in the DDL. 
+Please note values in settings in the DDL will override those in config_file and it will only merge the settings from the config_file which are not explicitly specified in the DDL. 
 
 :::
 
@@ -191,10 +191,10 @@ Use this mode when:
 * No built-in format is applicable
 * You want to **debug raw Kafka messages**
 
-#### Example
+#### Raw String Example
 
 ```sql
-CREATE EXTERNAL STREAM ext_github_events
+CREATE EXTERNAL STREAM ext_application_logs
          (raw string)
 SETTINGS type='kafka',
          brokers='localhost:9092',
@@ -242,7 +242,7 @@ SETTINGS type='kafka',
          topic='github_events';
 ```
 
-2. Extract fields using JSON extract shortcut syntax:
+2. Extract fields using JSON extract shortcut syntax or [JSON extract functions](/functions_for_json):
 
 ```sql
 SELECT 
@@ -277,7 +277,7 @@ SETTINGS type='kafka',
          data_format='JSONEachRow'
 ```
 
-When users query the `ext_json_parsed` stream, the JSON fields will be parsed and casted to the target column type automatically. 
+When users query the `ext_json_parsed` stream, the JSON fields will be parsed and cast to the target column type automatically. 
 
 This method is most convient when the JSON text is in stable schema and can be used to extract JSON fields at top level. 
 
@@ -326,7 +326,7 @@ Timeplus provides **virtual columns** for Kafka message metadata.
 | `_tp_shard`           | Kafka partition ID             | `int32`                |
 
 
-### Examples
+### Kafka Message Metadata Examples
 
 ```sql
 -- View message time and payload
@@ -503,11 +503,11 @@ Same as CSV,  but uses **tab characters** as delimiters instead of commas.
 
 ### Write as ProtobufSingle
 
-To write Protobuf-encoded messages from Kafka topcis, please refer to [Protobuf Schema](/proton-format-schema), and [Kafka Schema Registry](/proton-schema-registry) pages for details.
+To write Protobuf-encoded messages from Kafka topics, please refer to [Protobuf Schema](/proton-format-schema), and [Kafka Schema Registry](/proton-schema-registry) pages for details.
 
 ### Write as Avro
 
-To write Avro-encoded messages from Kafka topcis, please refer to [Avro Schema](/proton-format-schema), and [Kafka Schema Registry](/proton-schema-registry) pages for details.
+To write Avro-encoded messages from Kafka topics, please refer to [Avro Schema](/proton-format-schema), and [Kafka Schema Registry](/proton-schema-registry) pages for details.
 
 ### Write Kafka Message Metadata 
 
@@ -561,7 +561,7 @@ CREATE EXTERNAL STREAM example (
 
 Then insert rows to the external stream via `INSERT INTO` or Materialized Views, the `_tp_message_headers` will be set to the headers of the Kafka message.
 
-#### sharding_expr (Partition Logic)
+#### sharding_expr {#sharding_expr}
 
 `sharding_expr` is used to control how rows are distributed to Kafka partitions:
 
@@ -579,7 +579,7 @@ In advanced use cases, you may want to fine-tune the behavior of the Kafka consu
 
 These settings can control aspects like message size limits, retry behavior, timeouts, and more. For a full list of available configuration options, refer to the [librdkafka configuration documentation](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
 
-### Example
+### Kafka Client Properties Example
 
 ```sql
 CREATE EXTERNAL STREAM ext_github_events(raw string)
@@ -594,8 +594,6 @@ This example sets the maximum Kafka message size to 1MB and the message timeout 
 ### Kafka Client Properties 
 
 Please note while most configuration properties from `librdkafka` are supported, Timeplus may restrict or ignore certain settings. Here is the list of supported properties.
-
-
 
 (C/P legend: C = Consumer, P = Producer, * = both)
 
