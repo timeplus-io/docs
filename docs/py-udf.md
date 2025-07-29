@@ -196,7 +196,7 @@ By default, Timeplus Enterprise ships a clean Python 3.10 environment, plus the 
   { "name": "packaging", "version": "24.2" },
   { "name": "pip", "version": "22.0.2" },
   { "name": "proton-driver", "version": "0.2.13" },
-  { "name": "pyautogen", "version": "0.7.3" },
+  { "name": "ag2", "version": "0.7.3" },
   { "name": "pydantic", "version": "2.10.6" },
   { "name": "pydantic_core", "version": "2.27.2" },
   { "name": "python-dotenv", "version": "1.0.1" },
