@@ -1,27 +1,52 @@
 # Streams
 
-## All data live in streams
+Timeplus `streams` are conceptually similar to `tables` in traditional SQL databases — they both hold data. However, there are key differences:
 
-Timeplus is a streaming analytics platform and data lives in streams. Timeplus `streams` are similar to `tables` in the traditional SQL databases. Both of them are essentially datasets. The key difference is that Timeplus stream is an append-only (by default), unbounded, constantly changing events group.
+* A **Timeplus stream** tracks changes and updates through its underlying **Write-Ahead Log (WAL)**, which powers incremental processing.
+* Timeplus supports **both incremental stream processing and historical queries** over stream data.
 
-Timeplus supports multiple types of streams:
+## Types of Streams
 
-1. By default, the streams are append-only and immutable (older data can be purged automatically by setting a retention policy).
-2. If you want to create a stream to track the latest value for a primary key or a set of keys, you can create [Mutable Streams](/mutable-stream). This is only available in Timeplus Enterprise.
-3. In [Timeplus Proton](/proton), you can also create [Versioned Streams](/versioned-stream) and [Changelog Stream](/changelog-stream). But those 2 stream modes will be deprecated and replaced by mutable streams.
-4. You can also define [External Streams](/external-stream) to run SQL against remote Kafka/Redpanda brokers, or the other Timeplus/Proton server.
+To support a variety of use cases efficiently, Timeplus offers multiple types of streams:
 
-## Create a stream
-You can create a stream via the Timeplus Console UI, or via [SQL](/sql-create-stream). When you [ingest data](/ingestion) into Timeplus from Kafka or file sources, streams can be created automatically to match the schema of the data.
+1. [Append Stream](/append-stream)
 
-## Query a stream
+   The default stream type in Timeplus. It uses columnar encoding and is optimized for **range scans** via a **sorting key**. It suits workloads with infrequent data mutations (e.g., `UPDATE` or `DELETE`).
 
-By default, querying the stream will continuously scan new events and output new results. It never ends unless the user cancels the query. For example, you can get the latest web logs with HTTP 500 error or get the min/max/avg of a metric for every minute from an IoT device. Please read [Streaming Queries](/stream-query) for more details.
+2. [Mutable Stream](/mutable-stream)
 
-If you only want to analyze the existing data and need an immediate response, you can run [Non-streaming Queries](/history) via the [table](/functions_for_streaming#table) function. This will turn the query in the bounded mode and only scan the existing data. For example, you can run `select count(*) from table(stream1)` to get the total number of rows in the data stream.
+   Row-encoded and similar in behavior to a **MySQL table**, where each primary key corresponds to a single row. It is optimized for **frequent data mutations** (`UPDATE`, `UPSERT`, `DELETE`) and supports **point and range queries** via **primary or secondary indexes**.
+
+3. [Versioned Key-Value Stream](/versioned-stream)
+
+   Similar to the mutable stream but uses **columnar encoding**. It offers better **compression** but lower performance for updates and point queries, especially when cardinality is high. Best suited for scenarios where **data mutations are less frequent**.
+
+4. [Changelog Key-Value Stream](/changelog-stream)
+
+   Designed to model **change data capture (CDC) events**, with **columnar encoding** for efficient downstream processing.
+
+5. [External Stream](/external-stream)
+
+   As the name implies, the data resides outside of Timeplus. Timeplus can reference external sources (e.g., a **Kafka topic**) and execute **streaming SQL** queries against them in real time.
+
+> Note: Timeplus also supports [External Tables](/sql-create-external-table), which allow **historical queries and inserts** only (e.g., against ClickHouse, MySQL, PostgreSQL, MongoDB, etc.).
 
 
+## Stream Internals
 
-## Delete a stream
+When users [create a stream](/sql-create-stream) in Timeplus, they can specify the number of **shards** for the stream. Each shard consists of two core components at the storage layer:
 
-From the web console, you can delete the stream. This will permanently delete all data in the stream and delete the stream itself. Data cannot be recovered after deletion.
+1. **Streaming Store**
+2. **Historical Store**
+
+The **streaming store** is essentially the **Write-Ahead Log** (internally called `NativeLog`). It supports:
+
+* High-concurrency [data ingestion](/ingestion)
+* [Incremental stream processing](/stream-query)
+* Real-time data replication
+
+For more information, refer to the [high-level architecture](/architecture) page.
+
+The **historical store** asynchronously derives its data from the WAL through a dedicated background thread. It performs periodic **compaction**, **merge**, and **compression**, making it highly efficient for [historical analytic queries](/history) and **streaming backfills**.
+
+To learn more about stream lifecycle operations (Create, Read, Delete, Update) and advanced configurations like **TTL**, **key versioning**, and other stream settings, refer to the SQL Reference documentation. To learning more about external streams, refer to [external stream](/external-stream) pages for more details.
