@@ -32,22 +32,22 @@ Key highlights of the Timeplus 2.9 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 2.9.0 (Preview 2) {#2_9_0-preview_2}
-Released on 07-15-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.9 | sh` [Downloads](/release-downloads#2_9_0-preview_2)
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.9.0-preview.2`
+### 2.9.0 (Preview 3) {#2_9_0-preview_3}
+Released on 07-31-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.9 | sh` [Downloads](/release-downloads#2_9_0-preview_3)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.9.0-preview.3`
 * We will provide new Helm Charts for Kubernetes deployment when v2.9 is GA.
 
 Component versions:
-* timeplusd 2.9.9-rc.20
-* timeplus_web 2.9.35
-* timeplus_appserver 2.9.34
+* timeplusd 2.9.9-rc.26
+* timeplus_web 2.9.40
+* timeplus_appserver 2.9.39
 * timeplus_connector 2.9.1
 * timeplus cli 2.9.0
 
-#### Changelog {#changelog_2_9_0-preview_2}
+#### Changelog {#changelog_2_9_0-preview_3}
 Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
-* timeplusd 2.8.26 -> 2.9.9-rc.20
+* timeplusd 2.8.26 -> 2.9.9-rc.26
   *   New Features:
       *   **Parameterized Views:** You can now create [parameterized views](/view#parameterized-views), allowing for more dynamic and reusable view definitions.
       *   **JIT Compilation for Queries:** Introduced [Just-In-Time (JIT) compilation](/jit) for queries, potentially improving execution performance for certain query types.
@@ -64,6 +64,8 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **Log Stream Virtual Columns:** Log streams now include `_filepath` and `_filename` virtual columns, providing richer context about the data source.
       *   **UUID as Primary Key:** Mutable streams now support the `UUID` data type for primary key columns.
       * Support [SQL UDF](/sql-udf) on cluster. Support [UUIDv7 functions](/functions_for_text#uuid7)
+      * Initial version of `CREATE TASK`.
+      * Initial version of `CREATE NULL STREAM`.
   *   SQL and Data Model Enhancements:
       *   **Advanced `EMIT` Clause:** The `EMIT` clause for changelog generation now supports `EMIT ON UPDATE WITH DELAY` and `EMIT AFTER KEY EXPIRE` options for more granular control over streaming results.
       *   **`ALTER STREAM` for Multiple Columns:** You can now add or modify multiple columns in a single `ALTER STREAM` command.
@@ -73,7 +75,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       * Enhanced [Kafka External Stream](/proton-kafka) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`
       * New query setting [precise_float_parsing](/query-settings#precise_float_parsing) to precisely handle float numbers.
       * Added emit policy [EMIT TIMEOUT](/streaming-aggregations#emit-timeout) and [EMIT PER EVENT](/streaming-aggregations#emit-per-event).
-      * Added new functions `array_partial_sort` and `array_partial_reverse_sort`
+      * Added new functions `array_partial_sort`, `array_partial_reverse_sort`, and `ulid_string_to_date_time`.
   *   Performance and Scalability:
       *   **Incremental Checkpointing:** Implemented and enabled incremental checkpointing by default for substreams, hybrid hash joins, and Materialized Views, significantly reducing recovery time and resource usage during stateful operations.
       *   **Optimized Connection Pooling:** Refactored internal connection pooling for improved performance and resource management.
@@ -95,7 +97,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
   *   Security Enhancements:
       *   Improved mechanisms for password propagation within clustered environments.
       *   Support for utilizing user information from HTTP URL parameters for authentication or context.
-* timeplus_web 2.8.8 -> 2.9.35
+* timeplus_web 2.8.8 -> 2.9.40
   *   UI/UX Enhancements:
       *   **New Log Viewer:** Introduced a significantly improved log viewer with enhanced filtering capabilities, better timeline interactions, improved tooltip displays, and refined time range calculations.
       *   **Database Selector:** Improved the database selector in the UI, including dimming databases without resources and separating system databases for better clarity.
@@ -124,12 +126,15 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **Improved Cluster Details Page:** Enhanced the cluster details page with a top statistics bar, better data presentation, and improved node details view.
       *   Enhanced cluster data generation and retrieval for UI display.
       *   Added the log view to the node page
-* timeplus_appserver 2.8.6 -> 2.9.34
+  * Removed the previous Redpanda Connect based alerts and replaced it with the new [Alerts](/alert) feature, which allows you to create alerts using SQL queries.
+* timeplus_appserver 2.8.6 -> 2.9.39
   * Serves the updated Timeplus Web Console static files.
   * Added backend support for new external table types including MySQL, PostgreSQL, and Iceberg.
   * Upgraded the `proton-go-driver` from [v2.0.19](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.0.19) to [v2.1.2](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.1.2) to support new json data type and various bug fixes.
   * New REST API for pipeline management.
   * Improved the performance of checking statistics for materialized views and streams.
+  * Removed the previous Redpanda Connect based alerts and replaced it with the new [Alerts](/alert) feature, which allows you to create alerts using SQL queries.
+  * On data lineage, show the last 1 minute metrics, instead of the last 30 minutes.
 * timeplus_connector 2.2.8 -> 2.9.1
   * removed the support for internal k/v service, since metadata is saved in mutable streams in v2.9
   * Upgraded the `proton-go-driver` from [v2.0.19](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.0.19) to [v2.1.2](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.1.2) to support new json data type and various bug fixes.

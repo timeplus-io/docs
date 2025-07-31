@@ -2,6 +2,12 @@
 
 ## 2.9 {#2_9}
 
+### v2.9.0-preview.3 {#2_9_0-preview_3}
+Released on 07-31-2025 ([Change logs](/enterprise-v2.9#2_9_0-preview_3)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v2.9.0-preview.3-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v2.9.0-preview.3-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v2.9.0-preview.3-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v2.9.0-preview.3-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.9.0-preview.3`
+
 ### v2.9.0-preview.2 {#2_9_0-preview_2}
 Released on 07-15-2025 ([Change logs](/enterprise-v2.9#2_9_0-preview_2)).
 
