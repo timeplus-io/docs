@@ -40,8 +40,6 @@ timeplus/timeplus-enterprise	v6.0.4       	2.7.1      	Helm chart for deploying 
 timeplus/timeplus-enterprise	v6.0.3       	2.7.0      	Helm chart for deploying a cluster of Timeplus ...
 ```
 
-Staring from v3.0.0 chart version, the `APP VERSION` is the same version as [Timeplus Enterprise](/release-notes). Prior to v3.0.0 chart version, the `APP VERSION` is the same version as the timeplusd component.
-
 ### Create Namespace
 
 User can choose to install the Timeplus Enterprise into different namespace. In this guide, we use namespace name `timeplus`.
@@ -226,11 +224,11 @@ helm -n $NS upgrade -f values.yaml $RELEASE timeplus/timeplus-enterprise
 Due to the [limitation of Kubernetes Statefulset](https://github.com/kubernetes/kubernetes/issues/68737), you will need to manually update the PV size for timeplusd. Notice that this will cause downtime of Timeplus Enterprise.
 
 1. Make sure the `global.pvcDeleteOnStsDelete` is not set or is set to be `false`. You can double check this by running command `kubectl -n <ns> get sts timeplusd -ojsonpath='{.spec.persistentVolumeClaimRetentionPolicy}'` and make sure both `whenDeleted` and `whenScaled` are `retain`. This is extremely important otherwise your PV may be deleted and all the data will be lost.
-1. Run `kubectl -n <ns> delete sts/timeplusd` to temporarily delete the statefulset. Wait until all timeplusd pods are terminated. This step is necessary to workaround the Kubernetes limitation.
+1. Run `kubectl -n <ns> delete sts/timeplusd` to temporarily delete the Statefulset. Wait until all timeplusd pods are terminated. This step is necessary to workaround the Kubernetes limitation.
 1. Run `kubectl -n <ns> get pvc` to list all the PVCs and their corresponding PVs. For each PV you want to resize, run command `kubectl -n edit pvc <pvc>` to update the `spec.resources.requests.storage`. Notice that all timeplusd replicas need to have the same storage size so please make sure all updated PVCs have the same storage size.
 1. Run `kubectl get pv <pv> -o=jsonpath='{.spec.capacity.storage}'` to make sure all corresponding PVs have been updated. It takes a while before Kubernetes update the capacity field of the PVC so as long as you can see the underlying storage size gets updated, you can process to the next step.
 1. Update the `timeplusd.storage.stream.size` and/or `timeplusd.storage.stream.history.size` in `values.yaml` that you used to deploy Timeplus Enterprise.
-1. Run helm upgrade command to upgrade the deployment. New statefulset will be created to pick up the PV size changes.
+1. Run helm upgrade command to upgrade the deployment. New Statefulset will be created to pick up the PV size changes.
 
 ### Upgrade Timeplus Enterprise
 
@@ -243,6 +241,20 @@ This helm chart follows [Semantic Versioning](https://semver.org/). It is always
 Each major chart version contains a new major Timeplus Enterprise version. If you are not going to upgrade the major version, you can just go ahead to run the helm upgrade command. Otherwise, please check:
 1. The [release notes](/release-notes) of Timeplus Enterprise to confirm the target version can be upgraded in-place, by reusing the current data and configuration. For example [2.3](/enterprise-v2.3) and [2.4](/enterprise-v2.4) are incompatible and you have to use migration tools.
 2. The [upgrade guide](#upgrade-guide) of helm chart. You may need to modify your `values.yaml` according to the guide before upgrade.
+
+#### Review the diff between versions
+
+Before upgrading, it's **strongly recommended** to compare the Helm template outputs between the current and target versions. This helps avoid surprises during upgrade.
+
+Use the following commands to generate the templates:
+```bash
+helm -n $NS template -f values.yaml $RELEASE timeplus/timeplus-enterprise --version <<CURRENT_VERSION>> > old.template.yaml
+helm -n $NS template -f new_values.yaml $RELEASE timeplus/timeplus-enterprise --version <<NEW_VERSION>> > new.template.yaml
+```
+
+Then use a diff tool to compare `old.template.yaml` and `new.template.yaml`.
+
+Please pay specially attention to any changes of `timeplusd-Statefulset`. Most of the Statefulset fields are immutable. If any of those fields change, you'll need to manually delete the StatefulSet before running helm `upgrade`. See [Update Immutable Fields of the StatefulSet](#update-immutable-fields-of-the-statefulset) for details.
 
 #### Run helm upgrade
 
@@ -257,6 +269,22 @@ helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise
 helm search repo timeplus -l
 helm -n $NS upgrade $RELEASE timeplus/timeplus-enterprise --version va.b.c
 ```
+
+#### Update immutable fields of the Statefulset
+
+If helm upgrade fails with an error like `Forbidden: updates to Statefulset spec for fields other than ...`.
+
+This means one or more immutable fields have changed. To proceed:
+
+1. Verify the PVC retention policy of the Statefulset
+```bash
+kubectl -n $NS get sts timeplusd -o=jsonpath='{.spec.persistentVolumeClaimRetentionPolicy}'
+```
+Ensure both `whenDeleted` and `whenScaled` are set to `Retain`. This preserves the PVCs even after the Statefulset is deleted.
+
+2. Run `kubectl -n $NS delete sts timeplusd` to delete the Statefulset
+3. Wait for all `timeplusd-<index>` pods to terminated
+4. Re-run `helm upgrade` command. A new Statefulset will be created and automatically reattach to the existing PVCs.
 
 ### Prometheus metrics
 
@@ -407,6 +435,29 @@ kubectl get pvc -n $NS proton-data -o=jsonpath='{.spec.volumeName}'
 ```
 
 It should return the name you used in your new PV, in this example it is `pvc-manual-vol-0d628e0096371cb67`.
+
+### Copy the logs from timeplusd pod to local disk
+
+Sometimes you may need to retrieve logs from a `timeplusd` pod for debugging.
+
+The logs of timeplusd are either under `/var/lib/timeplusd/nativelog` or `/var/log/timeplusd-server` depends on whether you’ve mounted a separated PV for log or not. You should be able to see 4 type of log files:
+1. `timeplusd-server.log`: Full logs (all levels)
+2. `timeplusd-server.err.log`: Error-only logs
+3. `timeplusd-server.log.x.gz`: Archived logs
+4. `timeplusd-server.err.log.x.gz`: Archived error logs
+
+Use `kubectl cp` to copy them to your local machine.
+```bash
+kubectl -n $NS cp timeplusd-0:/var/log/timeplusd-server/timeplusd-server.log ./timeplusd-server.log 
+```
+
+### Install debug tools inside the pod
+
+The timeplusd image includes only a minimal toolchain for security reasons. If you need additional tools, here's how to install them:
+
+* You can check if the tool is available on https://webinstall.dev/. For example, you can use `curl -sS https://webi.sh/jq | sh; \` to install `jq`
+* For AWS CLI, you can just follow https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html. Instead of using `sudo ./aws/install` to install, you can run `./aws/install -i /usr/local/aws-cli -b /usr/local/bin` to install it to a local folder.
+
 
 ## Configuration Guide
 
