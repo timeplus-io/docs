@@ -10,13 +10,18 @@ const config = {
   future: {
     v4: true,
   },
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: "warn",
+    },
+  },
   title: "Timeplus",
   tagline: "Simple, powerful, cost-efficient stream processing",
   url: "https://docs.timeplus.com/",
   baseUrl: "/",
   onBrokenLinks: "warn", // SHOULD BE throw
   onBrokenAnchors: "warn",
-  onBrokenMarkdownLinks: "warn",
+  // onBrokenMarkdownLinks: "warn", moved to `markdown.hooks.onBrokenMarkdownLinks`
   favicon: "img/favicon.ico",
   organizationName: "timeplus-io", // Usually your GitHub org/user name.
   projectName: "docs", // Usually your repo name.
