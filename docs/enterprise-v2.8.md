@@ -125,7 +125,7 @@ Compared to the [2.8.0 (Preview)](#2_8_0) release:
   * Fix Kafka external stream parsing issue.
   * Improve mutable stream creation flow when defined via engine.
   * When using `CREATE OR REPLACE FORMAT SCHEMA` to update an existing schema, and using `DROP FORMAT SCHEMA` to delete a schema, Timeplus will clean up the Protobuf schema cache to avoid misleading errors.
-  * Support writing Kafka message timestamp via [_tp_time](/proton-kafka#_tp_time)
+  * Support writing Kafka message timestamp via [_tp_time](/proton-kafka)
   * Enable IPv6 support for KeyValueService
   * Simplified the [EMIT syntax](/streaming-aggregations#emit) to make it easier to read and use.
   * Support [EMIT ON UPDATE WITH DELAY](/streaming-aggregations#emit_on_update_with_delay)
