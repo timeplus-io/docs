@@ -45,10 +45,9 @@ Component versions:
 
 Compared to the [2.4.26](#2_4_26) release:
 * timeplusd 2.3.34 -> 2.3.35
-  * fix window group by integral columns issue
-  * fix packed group by key and ts column mapping issue
-  * handle log corruption more gracefully
-  * fixes log truncation 
+  * fix: window group by integral columns for hopping window
+  * fix: data corruption hand recovery for power loss scenario 
+  * fix: log truncation and garbage collection 
 
 #### Known issues {#known_issue_2_4_27}
 1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
