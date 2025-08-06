@@ -28,6 +28,31 @@ Key highlights of this release:
 ## Releases
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
+### 2.4.27 (Stable) {#2_4_27}
+Built on 08-05-2025. You can install via:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.4 | sh` [Downloads](/release-downloads#2_4_27)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.11 ..`
+* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.27`
+
+Component versions:
+* timeplusd 2.3.35
+* timeplus_appserver 1.4.44
+* timeplus_web 1.4.33
+* timeplus_connector 1.5.5
+* timeplus cli 1.0.19
+
+#### Changelog {#changelog_2_4_27}
+
+Compared to the [2.4.26](#2_4_26) release:
+* timeplusd 2.3.34 -> 2.3.35
+  * fix: window group by integral columns for hopping window
+  * fix: data corruption hand recovery for power loss scenario 
+  * fix: log truncation and garbage collection 
+
+#### Known issues {#known_issue_2_4_27}
+1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+
+
 ### 2.4.26 (Stable) {#2_4_26}
 Built on 02-18-2025. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.4 | sh` [Downloads](/release-downloads#2_4_26)
