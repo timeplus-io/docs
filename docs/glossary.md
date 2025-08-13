@@ -1,4 +1,4 @@
-# Key Terms and Concepts
+# Concepts
 
 This page lists key terms and concepts in Timeplus, from A to Z.
 
