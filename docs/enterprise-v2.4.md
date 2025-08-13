@@ -28,6 +28,28 @@ Key highlights of this release:
 ## Releases
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
+### 2.4.28 (Stable) {#2_4_28}
+Built on 08-05-2025. You can install via:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.4 | sh` [Downloads](/release-downloads#2_4_28)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.12 ..`
+* For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.28`
+
+Component versions:
+* timeplusd 2.3.36
+* timeplus_appserver 1.4.44
+* timeplus_web 1.4.33
+* timeplus_connector 1.5.5
+* timeplus cli 1.0.19
+
+#### Changelog {#changelog_2_4_28}
+
+Compared to the [2.4.27](#2_4_27) release:
+* timeplusd 2.3.35 -> 2.3.36
+  * fix: timestamp sequence deserialization issue
+ 
+#### Known issues {#known_issue_2_4_28}
+1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+
 ### 2.4.27 (Stable) {#2_4_27}
 Built on 08-05-2025. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.4 | sh` [Downloads](/release-downloads#2_4_27)
