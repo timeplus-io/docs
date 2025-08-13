@@ -29,7 +29,7 @@ Key highlights of this release:
 Please use the stable releases for production deployment, while we also provide latest engineering builds for testing and evaluation.
 
 ### 2.4.28 (Stable) {#2_4_28}
-Built on 08-05-2025. You can install via:
+Built on 08-12-2025. You can install via:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.4 | sh` [Downloads](/release-downloads#2_4_28)
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v3.0.12 ..`
 * For Docker users (not for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.4.28`
