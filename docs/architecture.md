@@ -1,36 +1,74 @@
 # Architecture
 
-## High Level Architecture
+## High Level Architecture 
 
-The following diagram depicts the high level architecture of Timeplus SQL engine, starting from a single node deployment.
+The following diagram depicts the high level components of Timeplus core engine.
 
 ![Architecture](/img/proton-high-level-arch.gif)
 
-All of the components / functionalities are built into one single binary.
+### The Flow of Data
 
-## Data Storage
+When data is ingested into Timeplus, it first lands in the NativeLog. As soon as the log commit completes, the data becomes immediately available for streaming queries.
 
-Users can create a stream by using `CREATE STREAM ...` [DDL SQL](/sql-create-stream). Every stream has 2 parts at storage layer by default:
+In the background, dedicated threads continuously tail new entries from the NativeLog and flush them to the Historical Store in larger, optimized batches.
 
-1. the real-time streaming data part, backed by Timeplus NativeLog
-2. the historical data part, backed by ClickHouse historical data store.
+### NativeLog
 
-Fundamentally, a stream in Proton is a regular database table with a replicated Write-Ahead-Log (WAL) in front but is streaming queryable.
+The **Timeplus NativeLog** is the system’s write-ahead log (WAL) or journal: an append-only, high-throughput store optimized for low-latency, highly concurrent data ingestion. In a cluster deployment, it is replicated using **Multi-Raft** for fault tolerance. By enforcing a strict ordering of records, NativeLog forms the backbone of streaming processing in **Timeplus Core**.
 
-## Data Ingestion
+NativeLog uses its own record format, consisting of two high-level types:
 
-When users `INSERT INTO ...` data to Proton, the data always first lands in NativeLog which is immediately queryable. Since NativeLog is in essence a replicated Write-Ahead-Log (WAL) and is append-only, it can support high frequent, low latency and large concurrent data ingestion work loads.
+- **Control records** (a.k.a. meta records) – store metadata and operational information.
+- **Data records** – columnar-encoded for fast serialization/deserialization and efficient vectorized streaming execution.
 
-In background, there is a separate thread tailing the delta data from NativeLog and commits the data in bigger batch to the historical data store. Since Proton leverages ClickHouse for the historical part, its historical query processing is blazing fast as well.
+Each record is assigned a monotonically increasing sequence number—similar to a Kafka offset—which guarantees ordering.  
 
-## External Stream
+Lightweight indexes are maintained to support rapid rewind and replay operations by **timestamp** or **sequence number** in streaming queries.
 
-In quite lots of scenarios, data is already in Kafka / Redpanda or other streaming data hubs, users can create [external streams](/external-stream) to point to the streaming data hub and do streaming query processing directly and then either materialize them in Proton or send the query results to external systems.
+### Historical Store
 
+The **Historical Store** in Timeplus stores data **derived** from the **NativeLog**. It powers use cases such as:
 
+- **Historical queries** (a.k.a. *table queries* in Timeplus)
+- **Fast backfill** into streaming queries
+- Acting as a **serving layer** for downstream applications
 
-## Learn More
+Timeplus supports two storage encodings for the Historical Store: **columnar** and **row**.
 
-Interested users can refer [How Timeplus Unifies Streaming and Historical Data Processing](https://www.timeplus.com/post/unify-streaming-and-historical-data-processing) blog for more details regarding its academic foundation and latest industry developments. You can also check the video below from [Kris Jenkins's Developer Voices podcast](https://www.youtube.com/watch?v=TBcWABm8Cro). Jove shared our key decision choices, how Timeplus manages data and state, and how Timeplus achieves high performance with single binary.
+#### 1. Columnar Encoding (*Append Stream*)
+Optimized for **append-most workloads** with minimal data mutation, such as telemetry or event logs. Benefits include:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/QZ0le2WiJiY?si=eF45uwlXvFBpMR14" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+- High data compression ratios  
+- Blazing-fast scans for analytical workloads  
+- Backed by the **ClickHouse MergeTree** engine  
+
+This format is ideal when the dataset is largely immutable and query speed over large volumes is a priority.
+
+#### 2. Row Encoding (*Mutable Stream*)
+Designed for **frequently updated datasets** where `UPSERT` and `DELETE` operations are common. Features include:
+
+- Per-row **primary indexes**
+- **Secondary indexes** for flexible lookups
+- Faster and more efficient **point queries** compared to columnar storage
+
+Row encoding is the better choice when low-latency, high-frequency updates are required.
+
+## Deployment Architectures
+
+Timeplus supports multiple deployment architectures, allowing you to fine-tune the model **per Stream** or **per Materialized View**:
+
+- **MPP Shared-Nothing**  
+  Each node has its own compute and storage.  
+  Ideal for **ultra-low-latency** workloads where performance is critical.
+
+- **Shared-Storage**  
+  Compute nodes share a common storage layer (e.g., S3).  
+  Best for **large-scale ingestion**, **high concurrency**, and **high throughput** queries.
+
+- **Hybrid**  
+  Combine both models in the same cluster.  
+  Use the right architecture for each workload to balance latency and scalability.
+
+## References
+
+[How Timeplus Unifies Streaming and Historical Data Processing](https://www.timeplus.com/post/unify-streaming-and-historical-data-processing)
