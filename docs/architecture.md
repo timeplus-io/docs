@@ -37,13 +37,13 @@ Timeplus supports three query modes: **historical**, **streaming**, and **hybrid
   1. Data no longer exists in the NativeLog (due to retention policies).
   2. Pulling from the Historical Store is faster than rewinding the NativeLog to replay old events.
 
-  This allows seamless handling of scenarios like **fast backfill** and **mixed real-time + historical analysis** without breaking query continuity and also don't need yet another external batch system to load the historical data which usually introduce worse latency, inconsitency and cost.
+  This allows seamless handling of scenarios like **fast backfill** and **mixed real-time + historical analysis** without breaking query continuity and also don't need yet another external batch system to load the historical data which usually introduces latency, inconsitency and cost.
 
 ### The Dural Storage
 
 #### NativeLog
 
-The **Timeplus NativeLog** is the system’s write-ahead log (WAL) or journal: an append-only, high-throughput store optimized for low-latency, highly concurrent data ingestion. In a cluster deployment, it is replicated using **Multi-Raft** for fault tolerance. By enforcing a strict ordering of records, NativeLog forms the backbone of streaming processing in **Timeplus Core**.
+The **Timeplus NativeLog** is the system’s write-ahead log (WAL) or journal: an append-only, high-throughput store optimized for low-latency, highly concurrent data ingestion. In a cluster deployment, it is replicated using **Multi-Raft** for fault tolerance. By enforcing a strict ordering of records, NativeLog forms the backbone of streaming processing in **Timeplus Core**, it is also the building block of other internal components like the repliated meta store in Timeplus.
 
 NativeLog uses its own record format, consisting of two high-level types:
 
@@ -65,7 +65,7 @@ The **Historical Store** in Timeplus stores data **derived** from the **NativeLo
 Timeplus supports two storage encodings for the Historical Store: **columnar** and **row**.
 
 ##### 1. Columnar Encoding (*Append Stream*)
-Optimized for **append-most workloads** with minimal data mutation, such as telemetry or event logs. Benefits include:
+Optimized for **append-most workloads** with minimal data mutation, such as telemetry or events, logs, metrics etc. Benefits include:
 
 - High data compression ratios
 - Blazing-fast scans for analytical workloads
