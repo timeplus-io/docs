@@ -1,6 +1,6 @@
 # Architecture
 
-## High Level Architecture 
+## High Level Architecture
 
 The following diagram depicts the high level components of Timeplus core engine.
 
@@ -8,11 +8,40 @@ The following diagram depicts the high level components of Timeplus core engine.
 
 ### The Flow of Data
 
+#### Ingest
+
 When data is ingested into Timeplus, it first lands in the NativeLog. As soon as the log commit completes, the data becomes immediately available for streaming queries.
 
 In the background, dedicated threads continuously tail new entries from the NativeLog and flush them to the Historical Store in larger, optimized batches.
 
-### NativeLog
+#### Query
+
+Timeplus supports three query modes: **historical**, **streaming**, and **hybrid (streaming + historical)**.
+
+- **Historical Query (a.k.a. Table Query)**
+
+  Works like a traditional database query. Data is fetched directly from the **Historical Store**, and all standard database optimizations like the following apply. These optimizations accelerate large-scale scans and point lookups, making historical queries fast and efficient.
+  - Primary index
+  - Skipping index
+  - Secondary index
+  - Bloom filter
+  - Partition pruning
+
+- **Streaming Query**
+
+  Operates on the **NativeLog**, which stores records in sequence. Queries run incrementally, enabling real-time processing patterns such as **incremental ETL**, **joins**, and **aggregations**.
+
+- **Hybrid Query**
+
+  Streaming queries can automatically **backfill** from the Historical Store when:
+  1. Data no longer exists in the NativeLog (due to retention policies).
+  2. Pulling from the Historical Store is faster than rewinding the NativeLog to replay old events.
+
+  This allows seamless handling of scenarios like **fast backfill** and **mixed real-time + historical analysis** without breaking query continuity and also don't need yet another external batch system to load the historical data which usually introduce worse latency, inconsitency and cost.
+
+### The Dural Storage
+
+#### NativeLog
 
 The **Timeplus NativeLog** is the system’s write-ahead log (WAL) or journal: an append-only, high-throughput store optimized for low-latency, highly concurrent data ingestion. In a cluster deployment, it is replicated using **Multi-Raft** for fault tolerance. By enforcing a strict ordering of records, NativeLog forms the backbone of streaming processing in **Timeplus Core**.
 
@@ -21,11 +50,11 @@ NativeLog uses its own record format, consisting of two high-level types:
 - **Control records** (a.k.a. meta records) – store metadata and operational information.
 - **Data records** – columnar-encoded for fast serialization/deserialization and efficient vectorized streaming execution.
 
-Each record is assigned a monotonically increasing sequence number—similar to a Kafka offset—which guarantees ordering.  
+Each record is assigned a monotonically increasing sequence number—similar to a Kafka offset—which guarantees ordering.
 
 Lightweight indexes are maintained to support rapid rewind and replay operations by **timestamp** or **sequence number** in streaming queries.
 
-### Historical Store
+#### Historical Store
 
 The **Historical Store** in Timeplus stores data **derived** from the **NativeLog**. It powers use cases such as:
 
@@ -35,16 +64,16 @@ The **Historical Store** in Timeplus stores data **derived** from the **NativeLo
 
 Timeplus supports two storage encodings for the Historical Store: **columnar** and **row**.
 
-#### 1. Columnar Encoding (*Append Stream*)
+##### 1. Columnar Encoding (*Append Stream*)
 Optimized for **append-most workloads** with minimal data mutation, such as telemetry or event logs. Benefits include:
 
-- High data compression ratios  
-- Blazing-fast scans for analytical workloads  
-- Backed by the **ClickHouse MergeTree** engine  
+- High data compression ratios
+- Blazing-fast scans for analytical workloads
+- Backed by the **ClickHouse MergeTree** engine
 
 This format is ideal when the dataset is largely immutable and query speed over large volumes is a priority.
 
-#### 2. Row Encoding (*Mutable Stream*)
+##### 2. Row Encoding (*Mutable Stream*)
 Designed for **frequently updated datasets** where `UPSERT` and `DELETE` operations are common. Features include:
 
 - Per-row **primary indexes**
@@ -52,22 +81,6 @@ Designed for **frequently updated datasets** where `UPSERT` and `DELETE` operati
 - Faster and more efficient **point queries** compared to columnar storage
 
 Row encoding is the better choice when low-latency, high-frequency updates are required.
-
-## Deployment Architectures
-
-Timeplus supports multiple deployment architectures, allowing you to fine-tune the model **per Stream** or **per Materialized View**:
-
-- **MPP Shared-Nothing**  
-  Each node has its own compute and storage.  
-  Ideal for **ultra-low-latency** workloads where performance is critical.
-
-- **Shared-Storage**  
-  Compute nodes share a common storage layer (e.g., S3).  
-  Best for **large-scale ingestion**, **high concurrency**, and **high throughput** queries.
-
-- **Hybrid**  
-  Combine both models in the same cluster.  
-  Use the right architecture for each workload to balance latency and scalability.
 
 ## References
 
