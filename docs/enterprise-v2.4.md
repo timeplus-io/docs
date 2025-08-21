@@ -45,7 +45,7 @@ Component versions:
 
 Compared to the [2.4.28](#2_4_28) release:
 * timeplusd 2.3.36 -> 2.3.37
-  * fix: timestamp sequence deserialization issue
+  * fix: truncate garbage data at tail for reverse indexes
  
 #### Known issues {#known_issue_2_4_29}
 1. If you have deployed one of the [2.3.x releases](/enterprise-v2.3), you cannot reuse the data and configuration directly. Please have a clean installation of 2.4.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
