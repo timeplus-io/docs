@@ -3254,10 +3254,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@iconify-json/logos@1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@iconify-json/logos/-/logos-1.2.5.tgz#e3393741264ff59ee4e3e2805c3a0552d45d1141"
-  integrity sha512-WR8+9kFwx1tIR+hWpKYC+rpVkAuzHyaVxZRfhGGIjqCfgbodK7rS4+OZhktdKtZKKcdmhpLZKvlmRm4IA4dKRg==
+"@iconify-json/logos@1.2.9":
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/@iconify-json/logos/-/logos-1.2.9.tgz#cf148ae5443f217a6a8dd8c9fe188adcee69d05f"
+  integrity sha512-G6VCdFnwZcrT6Eveq3m43oJfLw/CX8plwFcE+2jgv3fiGB64pTmnU7Yd1MNZ/eA+/Re2iEDhuCfSNOWTHwwK8w==
   dependencies:
     "@iconify/types" "*"
 
