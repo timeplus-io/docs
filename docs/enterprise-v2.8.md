@@ -30,6 +30,84 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.3 (Public GA) {#2_8_3}
+Released on 09-01-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_3)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.22 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.3`
+
+Component versions:
+* timeplusd 2.8.28
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.12
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+
+#### Changelog {#changelog_2_8_3}
+Compared to the [2.8.2](#2_8_2) release:
+* timeplusd 2.8.27 -> 2.8.28
+  * Some new features and enhancements in 2.9 are ported to 2.8.3:
+    *   Refined connection timeouts and improved ClickHouse connection pooling.
+    *   Added SSL configuration support for ClickHouse connections.
+    *   Upgraded librdkafka and improved Kafka logging.
+    *   Enhanced log visibility and fixed log level propagation issues.
+    *   Added two-phase commit for local checkpoints.
+    *   Supported minimum auto checkpoint interval setting.
+    *   Improved checkpoint log handling (skip compacted logs, applied sequence numbers, fix unknown epoch dirs).
+    *   Refined recovery from failed checkpoint epochs.
+    *   Fixed hybrid changelog conversions and nullable key handling.
+    *   Improved hop/tumble window aggregations in hybrid execution.
+    *   Refined pure memory mode for hybrid hash tables.
+    *   Enhanced catch-up from historical store.
+    *   Added retries in stream sinks for reliability.
+    *   Enforced explicit INTO targets for scheduled Materialized Views.
+    *   Introduced DLQ support for failed MatView inserts.
+    *   Improved error reporting for abnormal finishes and refined consistency.
+    *   Supported secondary index on coalesced mutable streams.
+    *   Introduced rack-aware placement for distributed storage.
+    *   Optimized storage commit pool.
+    *   Performance tuning for batch Kafka ingestion.
+    *   Supported nullable key columns in mutable streams.
+    *   Fixed sparse column handling.
+    *   Improved reverse index consistency by truncating garbage data.
+    *   Supported auto-increment columns and auto-increment primary keys.
+    *   Improved schema subject naming.
+    *   Enhanced float parsing precision in VALUES format.
+    *   Fixed big-endian encoding for Kafka message keys.
+    *   Refined JSON encoding/casting with better null handling.
+* timeplus_web 2.8.12 -> 2.8.18
+  * Some new UI features and enhancements in 2.9 are ported to 2.8.3:
+      *   **Cluster Management:**
+          *   Enhanced cluster node generation, layout, and visualization.
+          *   Improved cluster table, warnings, and drilldown navigation.
+          *   Added MV balance page, later hidden for refinement.
+          *   Updated cluster page design and improved node stats/details.
+          *   Added percentage metrics in node stats and improved stats table layout.
+          *   Various UI/UX fixes (offline node opacity, layout adjustments).
+      *   **Materialized Views (MVs):**
+          *   Added pause, recover, and transfer actions to MV status page.
+          *   Improved MV action buttons and tables.
+          *   Fixed MV deletion issues in non-default DBs.
+          *   Enhanced MV/stream side panel and display of large diffs, memory, and source names.
+      *   **Data Lineage:**
+          *   Improved styles, filters, and node visualization.
+          *   Added metrics display on streams.
+          *   Enhanced handling of unselected nodes and error edges.
+          *   Fixed background colors, badges, and refresh issues.
+      *   **Schema & UDFs:**
+          *   Added SchemaEvolutionModal to UDF, Schema, and Stream pages.
+          *   Improved SchemaEvolution component (last modified info, copy, evolution handling).
+          *   Fixed schema evolution for non-default DBs.
+      *   **General Improvements:**
+          *   Unified workspace and user settings.
+          *   Added ButtonWithLoading component for better UX.
+          *   Fixed various UI issues.
+* timeplus_appserver 2.8.11 -> 2.8.12
+  * URL Encoding: Properly support spaces in resource names.
+  * Query: Correctly marshal nullable NaN values.
+* timeplus_connector 2.8.1. No changes
+* timeplus cli 2.8.0. No changes.
+
 ### 2.8.2 (Public GA) {#2_8_2}
 Released on 07-22-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_2)
