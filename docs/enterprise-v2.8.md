@@ -46,7 +46,7 @@ Component versions:
 #### Changelog {#changelog_2_8_3}
 Compared to the [2.8.2](#2_8_2) release:
 * timeplusd 2.8.27 -> 2.8.28
-  * New features, enhancements and bugfixes:
+  * New features, enhancements:
     *   Introduced DLQ support for Materialized View.
     *   Introduced rack-aware placement for distributed storage.
     *   Supported auto-increment columns and auto-increment primary keys for Mutable stream.
