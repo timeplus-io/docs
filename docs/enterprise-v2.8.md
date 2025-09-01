@@ -46,41 +46,43 @@ Component versions:
 #### Changelog {#changelog_2_8_3}
 Compared to the [2.8.2](#2_8_2) release:
 * timeplusd 2.8.27 -> 2.8.28
-  * Some new features and enhancements in 2.9 are ported to 2.8.3:
-    *   Refined connection timeouts and improved ClickHouse connection pooling.
-    *   Added SSL configuration support for ClickHouse connections.
-    *   Upgraded librdkafka and improved Kafka logging.
-    *   Enhanced log visibility and fixed log level propagation issues.
-    *   Added two-phase commit for local checkpoints.
-    *   Supported minimum auto checkpoint interval setting.
-    *   Improved checkpoint log handling (skip compacted logs, applied sequence numbers, fix unknown epoch dirs).
-    *   Refined recovery from failed checkpoint epochs.
-    *   Fixed hybrid changelog conversions and nullable key handling.
-    *   Improved hop/tumble window aggregations in hybrid execution.
-    *   Refined pure memory mode for hybrid hash tables.
-    *   Enhanced catch-up from historical store.
-    *   Added retries in stream sinks for reliability.
-    *   Enforced explicit INTO targets for scheduled Materialized Views.
-    *   Introduced DLQ support for failed MatView inserts.
-    *   Improved error reporting for abnormal finishes and refined consistency.
-    *   Supported secondary index on coalesced mutable streams.
+  * New features, enhancements:
+    *   Introduced DLQ support for Materialized View.
     *   Introduced rack-aware placement for distributed storage.
-    *   Optimized storage commit pool.
-    *   Performance tuning for batch Kafka ingestion.
-    *   Supported nullable key columns in mutable streams.
-    *   Fixed sparse column handling.
-    *   Improved reverse index consistency by truncating garbage data.
-    *   Supported auto-increment columns and auto-increment primary keys.
-    *   Improved schema subject naming.
-    *   Enhanced float parsing precision in VALUES format.
-    *   Fixed big-endian encoding for Kafka message keys.
+    *   Supported auto-increment columns and auto-increment primary keys for Mutable stream.
+    *   Supported nullable key columns in Mutable streams.
+    *   Supported secondary index on coalesced Mutable streams.
     *   Refined JSON encoding/casting with better null handling.
+    *   Added SSL configuration support for ClickHouse connections.
+    *   Refined connection timeouts and improved ClickHouse connection pooling for Materialiazed View.
+    *   Added two-phase commit for local checkpoints for Materialized View.
+    *   Supported minimum auto checkpoint interval setting for Materialized View.
+    *   Refined recovery from failed checkpoint epochs for Materialized View.
+    *   Improved hop/tumble window aggregations in hybrid execution for Materialized View.
+    *   Refined pure memory mode for hybrid hash tables for Materialized View.
+    *   Added retries in stream sinks for reliability for Materialized View.
+    *   Enforced explicit INTO targets for scheduled Materialized Views.
+    *   Improved error reporting for abnormal finishes and refined consistency for Materialized View.
+    *   Improved schema subject naming.
+    *   Upgraded librdkafka and improved Kafka logging.
+    *   Enhanced float parsing precision in VALUES format.
+    *   Storage commit pool enhancement.
+    *   Performance enhancements for batch Kafka ingestion.
+    *   Workload balance and backpressure handling for ReplicatedLog to improve the overall cluster stablity.
+    *   timeplusd log deduplication to save 3rd party's log aggregator's data volume
+  * Bugfixes:
+    *   Fixed hybrid changelog conversions and nullable key handling.
+    *   Fixed sparse column handling.
+    *   Fixed big-endian encoding for Kafka message keys.
+    *   Fixed backfill from historical store.
+    *   Fixed checkpoint log handling (skip compacted logs, applied sequence numbers, fix unknown epoch dirs).
+    *   Fixed dynamic changing log level propagation issues.
+    *   Fixed reverse index consistency by truncating garbage data.
 * timeplus_web 2.8.12 -> 2.8.18
-  * Some new UI features and enhancements in 2.9 are ported to 2.8.3:
+  * New UI features and enhancements:
       *   **Cluster Management:**
           *   Enhanced cluster node generation, layout, and visualization.
           *   Improved cluster table, warnings, and drilldown navigation.
-          *   Added MV balance page, later hidden for refinement.
           *   Updated cluster page design and improved node stats/details.
           *   Added percentage metrics in node stats and improved stats table layout.
           *   Various UI/UX fixes (offline node opacity, layout adjustments).
