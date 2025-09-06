@@ -1,5 +1,14 @@
 # Package Downloads
 
+## 3.0 {#3_0}
+
+### v3.0.1-preview.0 {#3_0_1-preview_0}
+Released on 09-06-2025 ([Change logs](/enterprise-v3.0#3_0_1-preview_0)).
+
+* Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v3.0.1-preview.0-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v3.0.1-preview.0-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v3.0.1-preview.0-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v3.0.1-preview.0-darwin-arm64.tar.gz)
+* All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.0.1-preview.0`
+
+
 ## 2.9 {#2_9}
 
 ### v2.9.0-preview.3 {#2_9_0-preview_3}
