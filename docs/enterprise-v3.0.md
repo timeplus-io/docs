@@ -142,7 +142,7 @@ Compared to the [2.9.0](/enterprise-v2.9#2_9.0) release:
   * No change
 Upgrade Instructions:
 
-If you install Timeplus Enterprise 2.7 or earlier, the metadata for the Redpanda Connect sources and sinks are saved in a special key/value service. v2.8 switches to mutable streams for such metadata by default and provides a migration tool. In 2.9, all metadata are saved in mutable streams and the previous key/value service has been removed. Please upgrade to 2.8 first if you are on 2.7 or earlier. Then upgrade to 2.9.
+If you install Timeplus Enterprise 2.7 or earlier, the metadata for the Redpanda Connect sources and sinks are saved in a special key/value service. v2.8 switches to mutable streams for such metadata by default and provides a migration tool. In 3.0, all metadata are saved in mutable streams and the previous key/value service has been removed. Please upgrade to 2.8 first if you are on 2.7 or earlier. Then upgrade to 3.0.
 
 #### Known issues {#known_issue_3_0_1-preview_0}
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 3.0.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
