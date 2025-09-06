@@ -3,7 +3,7 @@ Each release of Timeplus Enterprise includes the following components:
 
 * timeplusd: The core SQL engine
 * timeplus_appserver: The application server providing web console access and REST API
-* timeplus_web: The web console static resources. Starting from Timeplus Enterprise 2.9, this component is packaged into timeplus_appserver. No longer as a separate binary or container
+* timeplus_web: The web console static resources. Starting from Timeplus Enterprise 3.0, this component is packaged into timeplus_appserver. No longer as a separate binary or container
 * timeplus_connector: The service providing extra sources and sinks, managed by timeplus_appserver
 * timeplus: The CLI (Command Line Interface) to start/stop/manage the deployment
 
