@@ -53,7 +53,6 @@ Released on 09-06-2025. Installation options:
 
 Component versions:
 * timeplusd 3.0.1-rc.8
-* timeplus_web 3.0.2
 * timeplus_appserver 3.0.2
 * timeplus_connector 3.0.0
 * timeplus cli 2.9.0
