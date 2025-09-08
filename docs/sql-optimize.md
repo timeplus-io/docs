@@ -23,8 +23,3 @@ OPTIMIZE STREAM mutable DEDUPLICATE BY COLUMNS('column-matched-by-regex') EXCEPT
 OPTIMIZE STREAM mutable DEDUPLICATE BY COLUMNS('column-matched-by-regex') EXCEPT (colX, colY);
 OPTIMIZE STREAM mutable; -- if the mutable stream has ttl_seconds defined, this SQL command will trigger the process to remove records older than ttl_seconds
 ```
-
-
-:::info
-`OPTIMIZE` is only available in Timeplus Enterprise v2.7.x or above, and `ttl_seconds` is available in Timeplus Enterprise v2.9.x or above.
-:::

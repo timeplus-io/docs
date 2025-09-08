@@ -55,12 +55,10 @@ You can also use the shortcut `col:b[*]`.
 `json_query(json, path)` allows you to access the nested JSON objects as JSON array or JSON object. If the value doesn't exist, an empty string will be returned. For example, `json_query('{"a":true,"b":{"c":1}}','$.b.c')` will return an array with 1 element  `[1]` In a more complex example, `json_query('{"records":[{"b":{"c":1}},{"b":{"c":2}},{"b":{"c":3}}]}','$.records[*].b.c')` will get `[1,2,3]`
 
 ### json_encode
-This function is available since Timeplus Enterprise v2.9.
 
 This takes one or more parameters and return a json string. You can also turn all column values in the row as a json string via `json_encode(*)`.
 
 ### json_cast
-This function is available since Timeplus Enterprise v2.9.
 
 This takes one or more parameters and return a json object. You can also turn all column values in the row as a json object via `json_cast(*)`.
 

@@ -49,7 +49,7 @@ The output includes the following columns:
 * uuid
 
 ## verbose
-Starting from Timeplus Enterprise v2.9, you can use `settings verbose=true` to show extra information for materialized views.
+You can use `settings verbose=true` to show extra information for materialized views.
 
 For example:
 ```sql

@@ -1,6 +1,6 @@
 # MongoDB External Table
 
-Since Timeplus Enterprise [v2.9](/enterprise-v2.9) and v2.8.2, you can send data to and read data from MongoDB collections via the MongoDB External Table.
+You can send data to and read data from MongoDB collections via the MongoDB External Table.
 
 ## CREATE EXTERNAL TABLE
 

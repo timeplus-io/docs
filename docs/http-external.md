@@ -1,6 +1,6 @@
 # HTTP External Stream
 
-Since Timeplus Enterprise [v2.9](/enterprise-v2.9) and v2.8.2, you can send data to HTTP endpoints via the HTTP External Stream. You can use this feature to trigger Slack notifications or send streaming data to downstream systems, such as Splunk, Datadog, Elasticsearch, Databricks, or any other HTTP-based service.
+You can send data to HTTP endpoints via the HTTP External Stream. You can use this feature to trigger Slack notifications or send streaming data to downstream systems, such as Splunk, Datadog, Elasticsearch, Databricks, or any other HTTP-based service.
 
 Currently, it only supports writing data to HTTP endpoints, but reading data from HTTP endpoints is not supported yet.
 
