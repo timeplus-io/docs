@@ -39,15 +39,15 @@ Released on 09-06-2025. Installation options:
 * We will provide new Helm Charts for Kubernetes deployment when v3.0 is GA.
 
 Component versions:
-* timeplusd 3.0.1-rc.7
-* timeplus_web 3.0.1
-* timeplus_appserver 3.0.1
+* timeplusd 3.0.1-rc.8
+* timeplus_web 3.0.2
+* timeplus_appserver 3.0.2
 * timeplus_connector 3.0.0
 * timeplus cli 2.9.0
 
-#### Changelog {#changelog_3_0_1-preview_0}
+#### Changelog {#changelog_3_0_1-preview_1}
 Compared to the [2.9.0](/enterprise-v2.9#2_9.0) release:
-* timeplusd 2.9.9-rc.27 -> 3.0.1-rc.7
+* timeplusd 2.9.9-rc.27 -> 3.0.1-rc.8
   *   New Features:
       *   **Parameterized Views:** You can now create [parameterized views](/view#parameterized-views), allowing for more dynamic and reusable view definitions.
       *   **JIT Compilation for Queries:** Introduced [Just-In-Time (JIT) compilation](/jit) for queries, potentially improving execution performance for certain query types.
@@ -97,7 +97,7 @@ Compared to the [2.9.0](/enterprise-v2.9#2_9.0) release:
   *   Security Enhancements:
       *   Improved mechanisms for password propagation within clustered environments.
       *   Support for utilizing user information from HTTP URL parameters for authentication or context.
-* timeplus_web 2.8.8 -> 3.0.1
+* timeplus_web 2.8.8 -> 3.0.2
   *   UI/UX Enhancements:
       *   **New Log Viewer:** Introduced a significantly improved log viewer with enhanced filtering capabilities, better timeline interactions, improved tooltip displays, and refined time range calculations.
       *   **Database Selector:** Improved the database selector in the UI, including dimming databases without resources and separating system databases for better clarity.
@@ -127,7 +127,7 @@ Compared to the [2.9.0](/enterprise-v2.9#2_9.0) release:
       *   Enhanced cluster data generation and retrieval for UI display.
       *   Added the log view to the node page
   * Removed the previous Redpanda Connect based alerts and replaced it with the new [Alerts](/alert) feature, which allows you to create alerts using SQL queries.
-* timeplus_appserver 2.8.6 -> 3.0.1
+* timeplus_appserver 2.8.6 -> 3.0.2
   * Serves the updated Timeplus Web Console static files.
   * Added backend support for new external table types including MySQL, PostgreSQL, and Iceberg.
   * Upgraded the `proton-go-driver` from [v2.0.19](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.0.19) to [v2.1.2](https://github.com/timeplus-io/proton-go-driver/releases/tag/v2.1.2) to support new json data type and various bug fixes.
@@ -144,7 +144,7 @@ Upgrade Instructions:
 
 If you install Timeplus Enterprise 2.7 or earlier, the metadata for the Redpanda Connect sources and sinks are saved in a special key/value service. v2.8 switches to mutable streams for such metadata by default and provides a migration tool. In 3.0, all metadata are saved in mutable streams and the previous key/value service has been removed. Please upgrade to 2.8 first if you are on 2.7 or earlier. Then upgrade to 3.0.
 
-#### Known issues {#known_issue_3_0_1-preview_0}
+#### Known issues {#known_issue_3_0_1-preview_1}
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 3.0.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
 2. For existing deployments with any version from 2.3 to 2.7, please upgrade to 2.8 first and migrate the metadata. .
 3. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
