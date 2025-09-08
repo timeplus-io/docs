@@ -32,7 +32,7 @@ Key highlights of the Timeplus 3.0 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 3.0.1 (Preview 0) {#3_0_1-preview_0}
+### 3.0.1 (Preview 0) {#3_0_1-preview_1}
 Released on 09-06-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_0_1-preview_0)
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.0.1-preview.0`
