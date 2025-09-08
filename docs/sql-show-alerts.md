@@ -1,5 +1,5 @@
 # SHOW ALERTS
-Starting from [Timeplus Enterprise 2.9](/enterprise-v2.9), you can create alerts to monitor your streaming data and automatically trigger actions when specific conditions are met.
+You can create alerts to monitor your streaming data and automatically trigger actions when specific conditions are met.
 
 You can list all alerts in the current database via:
 ```sql

@@ -5,21 +5,15 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 ## Aug 4, 2025
 
 ### Timeplus Enterprise v2.8.2
- * [Timeplus Enterprise v2.8.2](/enterprise-v2.8#2_8_2): great improvements for performance and stability, as well as porting the new features from Timeplus Enterprise v2.9.
+ * [Timeplus Enterprise v2.8.2](/enterprise-v2.8#2_8_2): great improvements for performance and stability, as well as porting the new features from Timeplus Enterprise v3.0.
 
 ### Timeplus Enterprise v2.5.14
  * [Timeplus Enterprise v2.5.14](/enterprise-v2.5#2_5_14): handle log corruption more gracefully and fixes log truncation.
-
-### Timeplus Enterprise v2.9 Preview 3
-Another preview edition of [Timeplus Enterprise v2.9](/enterprise-v2.9) with many new features. This is scheduled to be Generally Available (GA) by the end of August.
 
 ## Jul 21, 2025
 
 ### Timeplus Enterprise v2.5.13
  * [Timeplus Enterprise v2.5.13](/enterprise-v2.5#2_5_13): bug fixes without new features
-
-### Timeplus Enterprise v2.9 Preview 2
-Another preview edition of [Timeplus Enterprise v2.9](enterprise-v2.9) with many new features. This is scheduled to be Generally Available (GA) by the end of August.
 
 ## Jun 9, 2025
 
@@ -39,9 +33,6 @@ Another preview edition of [Timeplus Enterprise v2.9](enterprise-v2.9) with many
 
 ### Timeplus Enterprise v2.7.8, v2.7.9
 Patch releases with bug fixes.
-
-### Timeplus Enterprise v2.9 Preview 1
-Another preview edition of [Timeplus Enterprise v2.9](enterprise-v2.9) with many new features. This is scheduled to be Generally Available (GA) by the end of August.
 
 ### Timeplus Go Driver v2.1.2
 The [proton-go-driver](https://github.com/timeplus-io/proton-go-driver) provides Go connector to interact with Timeplus Enterprise or Timeplus Proton. In this release:

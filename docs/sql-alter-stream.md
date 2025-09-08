@@ -97,7 +97,7 @@ ALTER STREAM mutable_stream ADD INDEX index_name
 
 ## DROP INDEX
 
-Since Timeplus Enterprise v2.9.0, you can drop an index from a mutable stream.
+You can drop an index from a mutable stream.
 ```sql
 ALTER STREAM mutable_stream DROP INDEX index_name
 ```

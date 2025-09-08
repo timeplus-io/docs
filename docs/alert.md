@@ -2,10 +2,6 @@
 
 Timeplus alerts enable you to monitor your streaming data and automatically trigger actions when specific conditions are met. When your streaming queries detect events of interest, alerts can notify stakeholders via email or Slack, send data to downstream systems like Apache Kafka, or execute custom Python functions for automated responses.
 
-:::info
-Starting with Timeplus Enterprise v2.9, the alert feature has been moved from the application server to the core engine for improved performance, stability, and SQL-based management. The previous application-level alerting feature will be deprecated in future releases.
-:::
-
 ## Create New Alert
 
 ### Syntax

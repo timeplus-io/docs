@@ -3,37 +3,37 @@
 ## Key Highlights
 Key highlights of the Timeplus 3.0 preview release include:
 
-*   **Zero Replication NativeLog** 
+- **Zero Replication NativeLog** 
 
-The Write-Ahead Log (NativeLog, a.k.a. Timeplus Streaming Store) now supports cloud object storage (e.g., S3) as its primary backend. This enables zero replication, multi-master writes, and very high throughput (several GB/s with batching). It also eliminates cross-AZ replication costs and reduces EBS-like IOPS/bandwidth expenses, making the cluster far more elastic and cost-efficient.
+  The Write-Ahead Log (`NativeLog`, a.k.a. Timeplus Streaming Store) now supports cloud object storage (e.g., S3) as its primary backend. This enables zero replication, multi-master writes, and very high throughput (several GB/s with batching). It also eliminates cross-AZ replication costs and reduces EBS-like IOPS/bandwidth expenses, making the cluster far more elastic and cost-efficient.
 
-*   **Zero Replication Query State Checkpoint** 
+- **Zero Replication Query State Checkpoint** 
 
-Materialized Views now support checkpointing query states directly to cloud object storage. Just like S3-based NativeLog, this dramatically improves elasticity and cost efficiency across the cluster.
+  Materialized Views now support checkpointing query states directly to cloud object storage. Just like Zero Replication NativeLog, this dramatically improves elasticity and cost efficiency across the cluster.
 
-*   **Scheduled Task Enhancements** 
+- **Scheduled Task Enhancements** 
 
-Scheduled tasks can now be distributed across all nodes based on resource utilization metrics, enabling more balanced and elastic scheduling.
+  Scheduled tasks can now be distributed across all nodes based on resource utilization metrics, enabling more balanced and elastic scheduling.
 
-*   **Alert Enhancements** 
+- **Alert Enhancements** 
 
-Similar to scheduled tasks, alerts can now run on any node, guided by resource utilization metrics, for improved elasticity and performance.
+  Similar to scheduled tasks, alerts can now run on any node, guided by resource utilization metrics, for improved elasticity and performance.
 
-*   **Cluster Elastic and Stability** 
+- **Cluster Elastic and Stability** 
 
-Overall cluster elasticity and stability have been significantly enhanced in this release.
+  Overall cluster elasticity and stability have been significantly enhanced in this release.
 
-*   **Timeplus Console** 
+- **Timeplus Console** 
 
-The Console has been upgraded with better system metrics, state monitoring, and the data lineage, materialized view and cluster detailed status etc enhancements — delivering a much improved operational experience.
+  The Console has been upgraded with better system metrics, state monitoring, and the data lineage, materialized view and cluster detailed status etc enhancements — delivering a much improved operational experience.
 
-*   **Deprecate timeplus_web**
+- **Deprecate timeplus_web**
 
-The `timeplus_web` component has been removed, simplifying installation and operations. The new web stack is more compact, efficient, and performant.
+  The `timeplus_web` component has been removed, simplifying installation and operations. The new web stack is more compact, efficient, and performant.
 
-*   **Deprecate kv_service** 
+- **Deprecate kv_service** 
 
-Metadata management in `timeplus_appserver` now leverages Timeplus Mutable Stream, making the internal `kv_service` obsolete. It has been deprecated and removed in this release.
+  Metadata management in `timeplus_appserver` now leverages Timeplus Mutable Stream, making the internal `kv_service` obsolete. It has been deprecated and removed in this release.
 
 ## Supported OS {#os}
 |Deployment Type| OS |
