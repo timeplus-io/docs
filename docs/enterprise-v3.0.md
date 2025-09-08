@@ -1,0 +1,59 @@
+# Timeplus Enterprise 3.0 (Preview)
+
+## Key Highlights
+Key highlights of the Timeplus 3.0 preview release include:
+
+*   **Zero Replication NativeLog** 
+
+The Write-Ahead Log (NativeLog, a.k.a. Timeplus Streaming Store) now supports cloud object storage (e.g., S3) as its primary backend. This enables zero replication, multi-master writes, and very high throughput (several GB/s with batching). It also eliminates cross-AZ replication costs and reduces EBS-like IOPS/bandwidth expenses, making the cluster far more elastic and cost-efficient.
+
+*   **Zero Replication Query State Checkpoint** 
+
+Materialized Views now support checkpointing query states directly to cloud object storage. Just like S3-based NativeLog, this dramatically improves elasticity and cost efficiency across the cluster.
+
+*   **Scheduled Task Enhancements** 
+
+Scheduled tasks can now be distributed across all nodes based on resource utilization metrics, enabling more balanced and elastic scheduling.
+
+*   **Alert Enhancements** 
+
+Similar to scheduled tasks, alerts can now run on any node, guided by resource utilization metrics, for improved elasticity and performance.
+
+*   **Cluster Elastic and Stability** 
+
+Overall cluster elasticity and stability have been significantly enhanced in this release.
+
+*   **Timeplus Console** 
+
+The Console has been upgraded with better system metrics, state monitoring, and the data lineage, materialized view and cluster detailed status etc enhancements — delivering a much improved operational experience.
+
+*   **Deprecate timeplus_web**
+
+The `timeplus_web` component has been removed, simplifying installation and operations. The new web stack is more compact, efficient, and performant.
+
+*   **Deprecate kv_service** 
+
+Metadata management in `timeplus_appserver` now leverages Timeplus Mutable Stream, making the internal `kv_service` obsolete. It has been deprecated and removed in this release.
+
+## Supported OS {#os}
+|Deployment Type| OS |
+|--|--|
+|Linux bare metal| x64 or ARM chips: Ubuntu 20.04+, RHEL 8+, Fedora 35+, Amazon Linux 2023|
+|Mac bare metal| Intel or Apple chips: macOS 14, macOS 15|
+|Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
+
+## Releases
+We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
+
+### 3.0.1 (Preview) {#3_0_1-preview_1}
+Released on 09-06-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_0_1-preview_1)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.0.1-preview.1`
+* We will provide new Helm Charts for Kubernetes deployment when v3.0 is GA.
+
+Component versions:
+* timeplusd 3.0.1-rc.8
+* timeplus_web 3.0.2
+* timeplus_appserver 3.0.2
+* timeplus_connector 3.0.0
+* timeplus cli 2.9.0

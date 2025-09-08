@@ -593,7 +593,7 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
-        "enterprise-v2.9",
+        "enterprise-v3.0",
         "enterprise-v2.8",
         "enterprise-v2.7",
         "enterprise-v2.6",
