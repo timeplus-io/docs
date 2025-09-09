@@ -49,10 +49,6 @@ const sidebars = {
           type: "doc",
           id: "cluster",
         },
-        {
-          type: "doc",
-          id: "glossary",
-        },
       ],
     },
     {
