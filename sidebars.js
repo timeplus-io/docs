@@ -587,7 +587,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Release Notes",
+      label: "Releases",
       link: {
         type: "doc",
         id: "release-notes",
