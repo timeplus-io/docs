@@ -4,7 +4,7 @@
 
 The diagram below illustrates the high-level components of the Timeplus core engine. The following sections explain how these components work together as a unified system.
 
-![cluster-deployment](/img/proton-high-level-arch.gif)
+![Architecture](/img/proton-high-level-arch.gif)
 
 ## Data Flow
 
