@@ -1,7 +1,4 @@
-# Timeplus Enterprise FAQ
-
-This document provides answers to frequently asked questions about Timeplus Enterprise, including its features, usage, and troubleshooting.
-
+# Timeplus Enterprise How Tos 
 
 ## How to read/write Kafka or Redpanda {#kafka}
 
