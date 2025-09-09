@@ -87,7 +87,7 @@ Timeplus natively connects to external storage systems through **External Stream
   Stream data directly from Kafka, Redpanda, or Pulsar into Timeplus. Use **Materialized Views** for incremental processing (e.g., ETL, filtering, joins, aggregations).
 
 - **Send Data to External Systems**  
-  Push processed results downstream to systems like **ClickHouse** for analytics or long-term storage.
+  Push processed results downstream to systems like ClickHouse, S3, Splunk etc for analytics or long-term storage.
 
 - **Keep Data Inside Timeplus**  
   Store **Materialized View outputs** in Timeplus itself to serve client queries with low latency.  
