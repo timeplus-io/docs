@@ -39,7 +39,7 @@ const sidebars = {
         {
           type: "doc",
           id: "why-timeplus",
-          label: "What is Timeplus",
+          label: "Why Timeplus",
         },
         {
           type: "doc",
