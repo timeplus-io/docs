@@ -9,7 +9,7 @@ It plugs right into the tools you already use — stream sources like Kafka, Red
 Timeplus isn’t just for streaming. It also supports scheduled batch jobs, so you can mix real-time and periodic workloads in one place. Pair it with Timeplus Alert to trigger actions on live data and manage the full lifecycle of your data applications—without duct-taping multiple tools together.
 
 ## Key Differentiations
-s
+
 **Timeplus** simplifies stateful stream processing and analytics with a fast, single-binary engine. Using SQL as a domain-specific language and both row and column-based state stores, it enables developers to build real-time applications, data pipelines, and analytical dashboards at the edge or in the cloud, reducing the cost, time, and complexity of multi-component stacks.
 
 ### Architecture: The Best of Both Worlds {#architecture}
