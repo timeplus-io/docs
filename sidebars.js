@@ -92,6 +92,11 @@ const sidebars = {
           type: "doc",
           id: "showcases",
         },
+        {
+          type: "doc",
+          id: "faq",
+          label: "How To",
+        },
       ]
     },
     {
@@ -618,13 +623,6 @@ const sidebars = {
         },
       ],
     },
-    {
-      type: "doc",
-      id: "faq",
-      label: "FAQ",
-    },
-    "getting-help",
-    // "credits",
   ],
 };
 
