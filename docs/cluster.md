@@ -1,5 +1,7 @@
 # Cluster
 
+## Overview 
+
 A Timeplus cluster is composed of nodes, each running the core engine **`timeplusd`**. The engine is packaged as a single binary, and its role in the cluster is determined entirely by configuration. Nodes can take on one or more roles: **metadata**, **data**, or **compute**.  
 
 **Metadata nodes** act as the brain of the cluster. They manage cluster topology after node discovery and store critical metadata such as streams, materialized views, tasks, alerts, UDFs, dictionaries, and user credentials etc. In addition, metadata nodes are responsible for essential internal system routines, including automatic load balancing, task scheduling, and alert scheduling. They also maintain internal system streams that provide observability into the cluster’s health and activity.  
