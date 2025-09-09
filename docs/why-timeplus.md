@@ -1,14 +1,16 @@
-# What is Timeplus
+# Why Timeplus
 
-Timeplus is a unified real-time data processing platform built for developers who need to move, transform, and act on data fast. At the heart of Timeplus is an incremental processing engine that uses modern vectorization (SIMD), just-in-time (JIT) compilation, and advanced database internals to ingest, transform, store, and serve data with low latency and high throughput.
+## Overview
+
+**Timeplus** is a unified real-time data processing platform built for developers who need to move, transform, and act on data fast. At the heart of Timeplus is an incremental processing engine that uses modern vectorization (SIMD), just-in-time (JIT) compilation, and advanced database internals to ingest, transform, store, and serve data with low latency and high throughput.
 
 It plugs right into the tools you already use — stream sources like Kafka, Redpanda, and Pulsar, and sinks like ClickHouse, Apache Iceberg, S3, Splunk, Elasticsearch, and MongoDB. You can easily build pipelines that consume events, run streaming ETL, joins, aggregations, filtering, and other transformations, then push the results wherever they need to go — fast.
 
 Timeplus isn’t just for streaming. It also supports scheduled batch jobs, so you can mix real-time and periodic workloads in one place. Pair it with Timeplus Alert to trigger actions on live data and manage the full lifecycle of your data applications—without duct-taping multiple tools together.
 
-## Why Timeplus
+## Key Differentiations
 
-Timeplus simplifies stateful stream processing and analytics with a fast, single-binary engine. Using SQL as a domain-specific language and both row and column-based state stores, it enables developers to build real-time applications, data pipelines, and analytical dashboards at the edge or in the cloud, reducing the cost, time, and complexity of multi-component stacks.
+**Timeplus** simplifies stateful stream processing and analytics with a fast, single-binary engine. Using SQL as a domain-specific language and both row and column-based state stores, it enables developers to build real-time applications, data pipelines, and analytical dashboards at the edge or in the cloud, reducing the cost, time, and complexity of multi-component stacks.
 
 ### Architecture: The Best of Both Worlds {#architecture}
 
@@ -75,4 +77,4 @@ SQL-based rules can be used to trigger or resolve alerts in systems such as Page
 
 ### Scalability and Elasticity 
 
-Timeplus supports three deployment models: **MPP (shared-nothing)** for on-premises setups where ultra-low latency is critical, **storage/compute separation** for elastic cloud-native environments using S3 (or similar object storage) to store the NativeLog, Historical Store, and Query State Checkpoints with zero replication overhead, and **hybrid mode** that combines both approaches. In storage/compute separation deployments, clusters integrate seamlessly with Kubernetes HPA or AWS Auto Scaling Groups, enabling highly concurrent continuous queries while scaling automatically with demand. Please refer [Timeplus Architecture](/architecture) for more details. 
+Timeplus supports three deployment models: **MPP (shared-nothing)** for on-premises setups where ultra-low latency is critical, **storage/compute separation** for elastic cloud-native environments using S3 (or similar object storage) to store the NativeLog, Historical Store, and Query State Checkpoints with zero replication overhead, and **hybrid mode** that combines both approaches. In storage/compute separation deployments, clusters integrate seamlessly with Kubernetes HPA or AWS Auto Scaling Groups, enabling highly concurrent continuous queries while scaling automatically with demand. Please refer [Timeplus Architecture](/architecture) and [cluster](/cluster) design for more details. 
