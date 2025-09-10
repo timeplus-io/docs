@@ -138,23 +138,13 @@ const sidebars = {
         },
         {
           type: "doc",
-          label: "Remote Timeplus",
-          id: "timeplus-external-stream",
-        },
-        {
-          type: "link",
-          label: "Timeplus Random Stream",
-          href: "https://docs.timeplus.com/sql-create-random-stream",
-        },
-        {
-          type: "doc",
           label: "MySQL",
           id: "mysql-external-table",
         },
         {
           type: "doc",
-          label: "PostgreSQL",
-          id: "pg-external-table",
+          label: "Apache Iceberg",
+          id: "iceberg-external-stream",
         },
         {
           type: "doc",
@@ -163,18 +153,28 @@ const sidebars = {
         },
         {
           type: "doc",
-          label: "Amazon S3",
-          id: "s3-external-table",
+          label: "PostgreSQL",
+          id: "pg-external-table",
         },
         {
           type: "doc",
-          id: "iceberg-external-stream",
-          label: "Apache Iceberg",
+          label: "S3",
+          id: "s3-external-table",
         },
         {
           type: "doc",
           label: "Log Stream",
           id: "log-stream",
+        },
+        {
+          type: "doc",
+          label: "Remote Timeplus",
+          id: "timeplus-source",
+        },
+        {
+          type: "link",
+          label: "Timeplus Random Stream",
+          href: "https://docs.timeplus.com/sql-create-random-stream",
         },
       ]
     },
@@ -301,13 +301,18 @@ const sidebars = {
         },
         {
           type: "doc",
-          label: "Remote Timeplus",
-          id: "timeplus-external-stream",
+          id: "iceberg-external-stream",
+          label: "Apache Iceberg",
         },
         {
           type: "doc",
           label: "ClickHouse",
           id: "clickhouse-external-table",
+        },
+        {
+          type: "doc",
+          label: "S3",
+          id: "s3-external-table",
         },
         {
            type: "doc",
@@ -356,13 +361,8 @@ const sidebars = {
         // },
         {
           type: "doc",
-          label: "Amazon S3",
-          id: "s3-external-table",
-        },
-        {
-          type: "doc",
-          id: "iceberg-external-stream",
-          label: "Apache Iceberg",
+          label: "Remote Timeplus",
+          id: "timeplus-sink",
         },
         {
            type: "doc",

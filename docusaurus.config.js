@@ -81,6 +81,10 @@ const config = {
             to: '/http-external-stream',
           },
           {
+            from: '/timeplus-external-stream',
+            to: '/timeplus-source',
+          },
+          {
             from: '/stream-query',
             to: '/streaming-query',
           },

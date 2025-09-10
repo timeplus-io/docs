@@ -1,4 +1,4 @@
-# Getting Data In
+# Connect Data In
 
 Timeplus supports multiple ways to load data into the system, or access the external data without copying them in Timeplus:
 
@@ -28,8 +28,6 @@ Choose "Data Collection" from the navigation menu to setup data access to other 
   * CSV: choose a CSV file and send to Timeplus. [Learn more](#csv)
   * Stream Ingestion: a wizard to guide you to push data to Timeplus via Ingest REST API. [Learn more](/ingest-api)
 * Redpanda Connect: available since Timeplus Enterprise 2.5 or above. Set up data access to other systems by editing a YAML file. Powered by Redpanda Connect, supported by Redpanda Data Inc. or Redpanda Community.
-
-
 
 ### Load streaming data from Apache Kafka {#kafka}
 
