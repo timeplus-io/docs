@@ -98,7 +98,7 @@ Once the materialized view is created, Timeplus will run the query in the backgr
 
 Timeplus provides powerful streaming analytics capabilities through the enhanced SQL. By default, queries are unbounded and keep pushing the latest results to the client. The unbounded query can be converted to a bounded query by applying the function [table()](/functions_for_streaming#table), when the user wants to ask the question about what has happened like the traditional SQL.
 
-Learn more: [Streaming Query](/stream-query) and [Non-Streaming Query](/history)
+Learn more: [Streaming Query](/stream-query) and [Non-Streaming Query](/historical-query)
 
 ## sink {#sink}
 
