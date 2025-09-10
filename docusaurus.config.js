@@ -44,11 +44,50 @@ const config = {
             from: '/faq',
             to: '/howtos',
           },
+          {
+            from: '/proton-kafka',
+            to: '/kafka-external-stream',
+          },
+          {
+            from: '/proton-schema-registry',
+            to: '/kafka-schema-registry',
+          },
+          {
+            from: '/proton-format-schema',
+            to: '/timeplus-format-schema',
+          },
+          {
+            from: '/proton-clickhouse-external-table',
+            to: '/clickhouse-external-table',
+          },
+          {
+            from: '/mongo-external',
+            to: '/mongo-external-table',
+          },
+          {
+            from: '/s3-external',
+            to: '/s3-external-table',
+          },
+          {
+            from: '/iceberg',
+            to: '/iceberg-external-stream',
+          },
+          {
+            from: '/stream-query',
+            to: '/streaming-query',
+          },
+          {
+            from: '/history',
+            to: '/historical-query',
+          },
+          {
+            from: '/joins',
+            to: '/streaming-joins',
+          },
         ],
       },
     ],
   ],
-
   presets: [
     [
       "classic",

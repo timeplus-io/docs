@@ -95,7 +95,131 @@ const sidebars = {
         {
           type: "doc",
           id: "howtos",
-          label: "How To",
+          label: "How Tos",
+        },
+      ]
+    },
+    {
+      type: "category",
+      label: "Connect Data In",
+      items: [
+        {
+          type: "doc",
+          label: "Native Client",
+          id: "native-client",
+        },
+        {
+          type: "category",
+          label: "Apache Kafka",
+          link: {
+            type: "doc",
+            id: "kafka-external-stream",
+          },
+          items: ["kafka-schema-registry", "timeplus-format-schema"],
+        },
+        {
+          type: "doc",
+          label: "Apache Pulsar",
+          id: "pulsar-external-stream",
+        },
+        {
+          type: "doc",
+          label: "Remote Timeplus",
+          id: "timeplus-external-stream",
+        },
+        {
+          type: "doc",
+          label: "ClickHouse",
+          id: "clickhouse-external-table",
+        },
+        {
+          type: "doc",
+          label: "MySQL",
+          id: "mysql-external-table",
+        },
+        {
+          type: "doc",
+          label: "PostgreSQL",
+          id: "pg-external-table",
+        },
+        {
+          type: "doc",
+          label: "MongoDB",
+          id: "mongo-external-table",
+        },
+        {
+          type: "doc",
+          label: "Amazon S3",
+          id: "s3-external-table",
+        },
+        {
+          type: "doc",
+          label: "Log Stream",
+          id: "log-stream",
+        },
+        {
+          type: "category",
+          label: "Data Ingestion",
+          link: {
+            type: "doc",
+            id: "ingestion",
+          },
+          items: [
+            {
+              type: "doc",
+              id: "idempotent",
+            },
+          ],
+        },
+      ]
+    },
+    {
+      type: "category",
+      label: "Process Data",
+      items: [
+        {
+          type: "doc",
+          id: "view",
+          label: "View",
+        },
+        {
+          type: "category",
+          label: "Materialized Views",
+          link: {
+            type: "doc",
+            id: "materialized_view",
+          },
+          items: ["checkpoint-settings"],
+        },
+        {
+          type: "doc",
+          id: "streaming-query",
+          label: "Streaming Query"
+        },
+        {
+          type: "doc",
+          id: "historical-query",
+          label: "Historical Query"
+        },
+        {
+          type: "doc",
+          id: "streaming-joins",
+          label: "Streaming Joins"
+        },
+        {
+          type: "doc",
+          id: "streaming-windows",
+          label: "Streaming Windows"
+        },
+        {
+          type: "doc",
+          id: "streaming-aggregations",
+          label: "Streaming Aggregations"
+        },
+        {
+          type: "doc",
+          id: "jit",
+          label: "Just-In-Time Compilation"
         },
       ]
     },
@@ -136,21 +260,6 @@ const sidebars = {
           },
           items: ["checkpoint-settings"],
         },
-        {
-          type: "category",
-          label: "Data Ingestion",
-          link: {
-            type: "doc",
-            id: "ingestion",
-          },
-          items: [
-            {
-              type: "doc",
-              id: "idempotent",
-              customProps: { tag: "Enterprise" },
-            },
-          ],
-        },
         "destination",
         {
           type: "category",
@@ -176,9 +285,9 @@ const sidebars = {
                   label: "Apache Kafka",
                   link: {
                     type: "doc",
-                    id: "proton-kafka",
+                    id: "kafka-external-stream",
                   },
-                  items: ["proton-schema-registry", "proton-format-schema"],
+                  items: ["kafka-schema-registry", "timeplus-format-schema"],
                 },
                 {
                   type: "doc",
@@ -205,7 +314,7 @@ const sidebars = {
               items: [
                 {
                   type: "doc",
-                  id: "proton-clickhouse-external-table",
+                  id: "clickhouse-external-table",
                   label: "ClickHouse",
                 },
                 {
@@ -222,19 +331,19 @@ const sidebars = {
                 },
                 {
                   type: "doc",
-                  id: "mongo-external",
+                  id: "mongo-external-table",
                   label: "MongoDB",
                   customProps: { tag: "Enterprise" },
                 },
                 {
                   type: "doc",
                   label: "Amazon S3",
-                  id: "s3-external",
+                  id: "s3-external-table",
                   customProps: { tag: "Enterprise" },
                 },
                 {
                   type: "doc",
-                  id: "iceberg",
+                  id: "iceberg-external-stream",
                   label: "Apache Iceberg",
                   customProps: { tag: "Enterprise" },
                 },
@@ -254,9 +363,9 @@ const sidebars = {
           type: "category",
           label: "Stream Processing",
           items: [
-            "stream-query",
-            "history",
-            "joins",
+            "streaming-query",
+            "historical-query",
+            "streaming-joins",
             "streaming-windows",
             "streaming-aggregations",
             {
