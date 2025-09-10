@@ -34,7 +34,7 @@ In the demo docker compose stack, a Redpanda container is started, together with
 
 The goal of this tutorial is to read these access logs and turn the sensitive IP addresses into md5 and ingest them to ClickHouse for more business analysis.
 
-To read data from Kafka or Redpanda, you just need to create an [Kafka External Stream](/proton-kafka) with the following DDL SQL:
+To read data from Kafka or Redpanda, you just need to create an [Kafka External Stream](/kafka-source) with the following DDL SQL:
 
 ```sql
 CREATE EXTERNAL STREAM frontend_events(raw string)

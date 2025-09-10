@@ -199,7 +199,7 @@ We will create a `init.sql` file under `src/test/resources`, so that the file is
 
 #### Create Kafka external streams
 
-First we will create 4 [Kafka External Streams](/proton-kafka) so that we can read data and write data.
+First we will create 4 [Kafka External Streams](/kafka-source) so that we can read data and write data.
 
 ```sql
 CREATE EXTERNAL STREAM input(raw string)
@@ -221,7 +221,7 @@ Please note:
 
 2. Kafka External Stream in Timeplus is bi-directional. You can read Kafka data by `SELECT.. FROM` or write data to Kafka via `INSERT INTO` or Materialized View target stream.
 
-3. For `primes` and `composites` external streams, we also defined the [_tp_message_key](/proton-kafka#_tp_message_key) virtual column to write the message key. The default key value is set to the message value.
+3. For `primes` and `composites` external streams, we also defined the [_tp_message_key](/kafka-source#_tp_message_key) virtual column to write the message key. The default key value is set to the message value.
 
 #### Create a JavaScript UDF to check prime numbers
 

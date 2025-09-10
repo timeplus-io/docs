@@ -24,7 +24,7 @@ After creating the account, login with that username and password.
 
 If your streaming data resides in or a publicly accessible Kafka or Pulsar instance, follow one of following docs to setup data access in Timeplus, then return here to complete the quickstart:
 
-- [Apache Kafka](/proton-kafka)
+- [Apache Kafka](/kafka-source)
 - Confluent Cloud
 - [Apache Pulsar](/pulsar-external-stream)
 - [REST API, SDK, and others](/ingestion)

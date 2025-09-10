@@ -24,7 +24,7 @@ SETTINGS type='kafka',
          config_file='..'
 ```
 
-Please check the [Kafka External Stream](/proton-kafka) for more details about the settings, and [this doc](/tutorial-sql-connect-kafka) for examples to connect to various Kafka API compatible message platforms.
+Please check the [Kafka External Stream](/kafka-source) for more details about the settings, and [this doc](/tutorial-sql-connect-kafka) for examples to connect to various Kafka API compatible message platforms.
 
 ## Pulsar External Stream
 ```sql

@@ -110,7 +110,7 @@ Learn more: [Destination](/destination).
 
 ## source {#source}
 
-A source is a background job in Timeplus Enterprise to load data into a [stream](#stream). For Kafka API compatible streaming data platform, you need to create [Kafka external streams](/proton-kafka).
+A source is a background job in Timeplus Enterprise to load data into a [stream](#stream). For Kafka API compatible streaming data platform, you need to create [Kafka external streams](/kafka-source).
 
 Learn more: [Data Collection](/ingestion)
 

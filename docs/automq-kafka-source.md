@@ -28,5 +28,5 @@ Click **Next**. Timeplus will connect to the server and list all topics. Choose 
 In the next step, confirm the schema of the Timeplus stream and specify a name. At the end of the wizard, an external stream will be created in Timeplus. You can query data or even write data to the AutoMQ topic with SQL.
 
 See also:
-* [Kafka External Stream](/proton-kafka)
+* [Kafka External Stream](/kafka-source)
 * [Tutorial: Streaming ETL from Kafka to ClickHouse](/tutorial-sql-etl-kafka-to-ch)

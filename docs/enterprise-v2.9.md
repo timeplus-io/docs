@@ -57,7 +57,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
       *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
       * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
-      * Enhanced [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`
+      * Enhanced [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`
       * Build and manage [Alerts](/alert) with SQL. Monitor your streaming data and automatically trigger actions when specific conditions are met.
       *   **Python UDFs on ARM:** Python User-Defined Functions (UDFs) are now supported on ARM-based architectures (Linux/macOS), expanding platform compatibility.
       *   **Improved JavaScript UDFs:** Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation (also available in 2.8.1 or above). JavaScript User Defined Aggregation Function supports null value as input.
@@ -72,7 +72,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **Modifying Comments:** Added `ALTER COMMENT` support for streams, views, materialized views, KVStreams, and RandomStreams.
       *   **Mutable Stream Schema Evolution:** Support for adding new columns and dropping secondary indexes in mutable streams.
       * Support writing to nested array of records Avro schemas
-      * Enhanced [Kafka External Stream](/proton-kafka) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`
+      * Enhanced [Kafka External Stream](/kafka-source) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`
       * New query setting [precise_float_parsing](/query-settings#precise_float_parsing) to precisely handle float numbers.
       * Added emit policy [EMIT TIMEOUT](/streaming-aggregations#emit-timeout) and [EMIT PER EVENT](/streaming-aggregations#emit-per-event).
       * Added new functions `array_partial_sort`, `array_partial_reverse_sort`, and `ulid_string_to_date_time`.

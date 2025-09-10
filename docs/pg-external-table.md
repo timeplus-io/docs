@@ -35,7 +35,7 @@ The required settings are type and address. For other settings, the default valu
 
 The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the PostgreSQL user and password in the file.
 
-Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
+Please follow the example in [Kafka External Stream](/kafka-source#config_file).
 
 You don't need to specify the columns, since the table schema will be fetched from the PostgreSQL server.
 

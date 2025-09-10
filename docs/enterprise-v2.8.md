@@ -138,8 +138,8 @@ Compared to the [2.8.1](#2_8_1) release:
     *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
     *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
     * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
-    * Enhanced [Kafka External Stream](/proton-kafka) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`.
-    * Enhanced [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`.
+    * Enhanced [Kafka External Stream](/kafka-source) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`.
+    * Enhanced [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`.
     * Support [map_from_arrays](/functions_for_comp#map_from_arrays) and [map_cast](/functions_for_comp#map_cast) with 4 or more parameters.
     * [SHOW CREATE](/sql-show-create#show_multi_versions) command supports `show_multi_versions=true` to get the history of the object.
     * New query setting [precise_float_parsing](/query-settings#precise_float_parsing) to precisely handle float numbers.
@@ -205,7 +205,7 @@ Compared to the [2.8.0 (Preview)](#2_8_0) release:
   * Fix Kafka external stream parsing issue.
   * Improve mutable stream creation flow when defined via engine.
   * When using `CREATE OR REPLACE FORMAT SCHEMA` to update an existing schema, and using `DROP FORMAT SCHEMA` to delete a schema, Timeplus will clean up the Protobuf schema cache to avoid misleading errors.
-  * Support writing Kafka message timestamp via [_tp_time](/proton-kafka)
+  * Support writing Kafka message timestamp via [_tp_time](/kafka-source)
   * Enable IPv6 support for KeyValueService
   * Simplified the [EMIT syntax](/streaming-aggregations#emit) to make it easier to read and use.
   * Support [EMIT ON UPDATE WITH DELAY](/streaming-aggregations#emit_on_update_with_delay)

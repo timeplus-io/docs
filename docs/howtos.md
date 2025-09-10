@@ -2,7 +2,7 @@
 
 ## How to read/write Kafka or Redpanda {#kafka}
 
-You use [External Stream](/proton-kafka) to read from Kafka topics or write data to the topics. We verified the integration with Apache Kafka, Confluent Cloud, Confluent Platform, Redpanda, WarpStream and many more.
+You use [External Stream](/kafka-source) to read from Kafka topics or write data to the topics. We verified the integration with Apache Kafka, Confluent Cloud, Confluent Platform, Redpanda, WarpStream and many more.
 
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name
@@ -37,7 +37,7 @@ You can use tools like Debezium to send CDC messages to Timeplus, or just use `I
 
 ## How to work with JSON {#json}
 
-Proton supports powerful, yet easy-to-use JSON processing. You can save the entire JSON document as a `raw` column in `string` type. Then use JSON path as the shortcut to access those values as string. For example `raw:a.b.c`. If your data is in int/float/bool or other type, you can also use `::` to convert them. For example `raw:a.b.c::int`. If you want to read JSON documents in Kafka topics, you can choose to read each JSON as a `raw` string, or read each top level key/value pairs as columns. Please check the [doc](/proton-kafka) for details.
+Proton supports powerful, yet easy-to-use JSON processing. You can save the entire JSON document as a `raw` column in `string` type. Then use JSON path as the shortcut to access those values as string. For example `raw:a.b.c`. If your data is in int/float/bool or other type, you can also use `::` to convert them. For example `raw:a.b.c::int`. If you want to read JSON documents in Kafka topics, you can choose to read each JSON as a `raw` string, or read each top level key/value pairs as columns. Please check the [doc](/kafka-source) for details.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dTKr1-B5clg?si=eaeQ21SjY8JpUXID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

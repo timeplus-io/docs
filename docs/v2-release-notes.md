@@ -255,7 +255,7 @@ Merry Christmas 🎄
 
 ### Documentation Updates
 * Updated the guide of [Ingest REST API](/ingest-api) to add more instructions for self-hosting Timeplus Enterprise. API keys are only available in Timeplus Cloud. For self-hosting deployment, please encode the username and password with base64, and set it in the HTTP Authorization header.
-* Updated the structure of [Kafka external stream](/proton-kafka). Mentioned `RawBLOB` as a supported data format.
+* Updated the structure of [Kafka external stream](/kafka-source). Mentioned `RawBLOB` as a supported data format.
 * Added documentation for materialized view [load balancing](/view#memory_weight).
 
 ## Oct 28, 2024

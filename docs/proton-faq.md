@@ -114,6 +114,6 @@ We also discuss our journey to releasing Timeplus Proton in open source in our [
 
 ## How can I get started?
 
-Learn how to pull and run the Timeplus Proton image and query a test stream in our [documentation](/proton#-deployment). To see a more complete use case in action, using Timeplus Proton, Redpanda, and sample live data, check out our [tutorial](/proton-kafka#tutorial) that leverages Docker Compose.
+Learn how to pull and run the Timeplus Proton image and query a test stream in our [documentation](/proton#-deployment). To see a more complete use case in action, using Timeplus Proton, Redpanda, and sample live data, check out our [tutorial](/kafka-source#tutorial) that leverages Docker Compose.
 
 If you need advanced deployment strategies or features, with Timeplus Proton running behind the scenes, please download the [Timeplus Enterprise](https://timeplus.com/install) package.

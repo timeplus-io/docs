@@ -86,7 +86,7 @@ The type of the external stream. The value must be `http` to send data to HTTP e
 #### config_file
 The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the HTTP credentials or Authentication tokens in the file.
 
-Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
+Please follow the example in [Kafka External Stream](/kafka-source#config_file).
 
 #### url
 The endpoint of the HTTP service. Different services and different use cases may have different endpoints. For example, to send data to a specified OpenSearch index, you can use `http://host:port/my_index/_bulk`. To send data to multiple indexes (depending on the column in the streaming SQL), you can use `http://host:port/_bulk` and also specify the `output_format_opensearch_index_column`.
