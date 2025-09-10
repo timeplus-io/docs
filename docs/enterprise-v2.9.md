@@ -15,7 +15,7 @@ Key highlights of the Timeplus 2.9 release include:
 *   **Enhanced Mutable Streams:** Introducing online schema evolution, versioning, coalesced storage, Time-To-Live (TTL), and secondary index management capabilities.
 *   **Native JSON Support:** A new native JSON data type and powerful [json_encode](/functions_for_json#json_encode) / [json_cast](/functions_for_json#json_cast) functions simplify working with JSON.
 *   **Improved Data Integrity:** Dead Letter Queue (DLQ) support for Materialized Views ensures robust data processing.
-*   **Expanded Connectivity:** Native [HTTP External Stream](/http-external) for seamless integration with systems like Splunk, Elasticsearch, and more.
+*   **Expanded Connectivity:** Native [HTTP External Stream](/http-external-stream) for seamless integration with systems like Splunk, Elasticsearch, and more.
 *   **Performance Boost:** [JIT (Just-In-Time) compilation](/jit) for streaming queries delivers significant performance and efficiency improvements. Large cardinality sessionization.
 *   **Parameterized Views:** Create [Parameterized Views](/view#parameterized-views) for more flexible and reusable query patterns.
 *   **Scalable Log Processing:** Distributed LogStream enables efficient handling of large volumes of log data.
@@ -54,7 +54,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **New JSON Data Type & SQL Functions:** Added a native JSON data type and SQL functions [json_encode](/functions_for_json#json_encode), [json_cast](/functions_for_json#json_cast), [json_array_length](/functions_for_json#json_array_length), [json_merge_patch](/functions_for_json#json_merge_patch) for powerful JSON manipulation.
       *   **Mutable Stream TTL:** You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
       *   **Materialized View DLQ:** Introduced Dead Letter Queue (DLQ) support for materialized views to handle data processing errors more robustly.
-      *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
+      *   **[HTTP External Stream](/http-external-stream):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
       *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
       * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
       * Enhanced [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-source) to support write message headers via `_tp_message_headers`
@@ -106,7 +106,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   Improved layout for HTTP source creation and other external stream Guided Data Ingestion (GDI) UIs.
       *   **SQL Query:** side panel is simplified by removing the snippets and functions accordion, long SQL statement is wrapped by default, cursor position is kept when you switch pages or tabs.
   *   Resource Management (Streams, MVs, Views, UDFs):
-      * Replaced the Redpanda-Connect based HTTP sink and Slack sink with the new [HTTP External Stream](/http-external) in the core engine.
+      * Replaced the Redpanda-Connect based HTTP sink and Slack sink with the new [HTTP External Stream](/http-external-stream) in the core engine.
       *   **Materialized Views (MVs):**
           *   Added UI support for **pausing and resuming** materialized views.
           *   Introduced **Dead Letter Queue (DLQ)** support and UI for MVs.
