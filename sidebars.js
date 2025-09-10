@@ -134,7 +134,7 @@ const sidebars = {
         {
           type: "doc",
           label: "Apache Pulsar",
-          id: "pulsar-external-stream",
+          id: "pulsar-source",
         },
         {
           type: "doc",
@@ -297,7 +297,7 @@ const sidebars = {
         {
           type: "doc",
           label: "Apache Pulsar",
-          id: "pulsar-external-stream",
+          id: "pulsar-sink",
         },
         {
           type: "doc",

@@ -49,6 +49,10 @@ const config = {
             to: '/kafka-source',
           },
           {
+            from: '/pulsar-external-stream',
+            to: '/pulsar-source',
+          },
+          {
             from: '/proton-schema-registry',
             to: '/kafka-schema-registry',
           },
