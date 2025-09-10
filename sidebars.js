@@ -159,7 +159,7 @@ const sidebars = {
         {
           type: "doc",
           label: "S3",
-          id: "s3-external-table",
+          id: "s3-source",
         },
         {
           type: "doc",
@@ -301,8 +301,8 @@ const sidebars = {
         },
         {
           type: "doc",
-          id: "iceberg-external-stream",
           label: "Apache Iceberg",
+          id: "iceberg-external-stream",
         },
         {
           type: "doc",
@@ -312,7 +312,7 @@ const sidebars = {
         {
           type: "doc",
           label: "S3",
-          id: "s3-external-table",
+          id: "s3-sink",
         },
         {
            type: "doc",

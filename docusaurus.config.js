@@ -70,7 +70,7 @@ const config = {
           },
           {
             from: '/s3-external',
-            to: '/s3-external-table',
+            to: '/s3-source',
           },
           {
             from: '/iceberg',

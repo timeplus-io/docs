@@ -1,10 +1,10 @@
-# S3 External Table
+## Overview 
 
 Amazon S3 is cloud object storage with industry-leading scalability, data availability, security, and performance.
 
 In [Timeplus Enterprise v2.7](/enterprise-v2.7), we added the first-class integration for S3-compatible object storage systems, as a new type of External Table. You can read or write data in Amazon S3 or S3-compatible cloud or local storage.
 
-## CREATE EXTERNAL TABLE
+## Create S3 External Table
 
 To create an external table for S3, you can run the following DDL SQL:
 
@@ -259,12 +259,6 @@ In most cases, you probably don't need a partition key, and if it is needed you 
 While reading from an S3 external table, you can use the following virtual columns:
 * `_path` — Path to the file. Type: `low_cardinalty(string)`. In case of archive, shows path in a format: `"{path_to_archive}::{path_to_file_inside_archive}"`
 * `_file` — Name of the file. Type: `low_cardinalty(string)`. In case of archive shows name of the file inside the archive.
-
-## DROP EXTERNAL TABLE
-
-```sql
-DROP STREAM [IF EXISTS] name
-```
 
 ## Limitations
 
