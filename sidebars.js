@@ -495,6 +495,11 @@ const sidebars = {
               href: "https://crates.io/crates/proton_client",
             },
             {
+              label: "OCamel Client",
+              type: "link",
+              href: "https://github.com/mfreeman451/proton-ocaml-driver",
+            },
+            {
               label: "Timeplus REST API",
               type: "link",
               href: "https://docs.timeplus.com/rest",
