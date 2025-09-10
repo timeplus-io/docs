@@ -74,7 +74,7 @@ const config = {
           },
           {
             from: '/iceberg',
-            to: '/iceberg-external-stream',
+            to: '/iceberg-source',
           },
           {
             from: '/http-external',

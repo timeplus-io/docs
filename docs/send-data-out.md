@@ -1,8 +1,9 @@
 #  Send Data Out
 
+## Overview
+
 With Timeplus Console, you can easily explore and analyze streaming data, with intuitive UI, standard SQL and streaming charts. But you won't stop here. Timeplus enables you to setup real-time data pipelines to send data to other systems, or notify individuals or power up downstream applications.
 
-## Overview
 Timeplus supports various systems as the downstreams:
 * [Send data to Kafka topics](#kafka)
 * [Send data to Pulsar topics](/pulsar-external-stream#write-data-to-pulsar)

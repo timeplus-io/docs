@@ -1,5 +1,7 @@
 # PostgreSQL External Table
 
+## Overview 
+
 Timeplus can read or write PostgreSQL tables directly. This unlocks a set of new use cases, such as
 
 - Use Timeplus to efficiently process real-time data in Kafka/Redpanda, apply flat transformation or stateful aggregation, then write the data to the local or remote PostgreSQL for further analysis or visualization.
@@ -8,9 +10,7 @@ Timeplus can read or write PostgreSQL tables directly. This unlocks a set of new
 
 This integration is done by introducing "External Table" in Timeplus. Similar to [External Stream](/external-stream), there is no data persisted in Timeplus. However, since the data in PostgreSQL is in the form of table, not data stream, so we call this as External Table. Currently, we support S3, MySQL, PostgreSQL and ClickHouse. In the roadmap, we will support more integration by introducing other types of External Table.
 
-## CREATE EXTERNAL TABLE
-
-### Syntax
+## Create PostgreSQL External Table
 
 ```sql
 CREATE EXTERNAL TABLE name
@@ -53,7 +53,7 @@ The data types in the output will be Timeplus data types, such as `uint8`, inste
 
 You can define the external table and use it to read data from the PostgreSQL table, or write to it.
 
-### Connect to a local PostgreSQL {#local}
+## Connect to a local PostgreSQL {#local}
 
 You can use the following command to start a local PostgreSQL via Docker:
 ```bash
@@ -90,7 +90,7 @@ Then query the table:
 SELECT * FROM pg_local;
 ```
 
-### Connect to Aiven for PostgreSQL {#aiven}
+## Connect to Aiven for PostgreSQL {#aiven}
 
 Example SQL to connect to [Aiven for PostgreSQL](https://aiven.io/docs/products/postgresql/get-started):
 

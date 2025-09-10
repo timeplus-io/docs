@@ -1,4 +1,4 @@
-# Iceberg Integration
+## Overview 
 
 [Apache Iceberg](https://iceberg.apache.org/) is an open table format for large-scale analytic datasets, designed for high performance and reliability. It provides an open, vendor-neutral solution that supports multiple engines, making it ideal for various analytics workloads. Initially, the Iceberg ecosystem was primarily built around Java, but with the increasing adoption of the REST catalog specification, Timeplus is among the first vendors to integrate with Iceberg purely in C++. This allows Timeplus users to stream data to Iceberg with a high performance, low memory footprint, and easy installation without relying on Java dependencies.
 
@@ -11,7 +11,7 @@ Since Timeplus Proton 1.7(to be released soon) and [Timeplus Enterprise 2.8](/en
 - Query your Iceberg tables with multiple engines including Timeplus, Apache Spark, Apache Flink, ClickHouse, DuckDB, and AWS Athena
 - Future-proof your data architecture with broad industry support and an active open-source community
 
-## CREATE DATABASE {#syntax}
+## Create Iceberg Database {#syntax}
 
 To create an Iceberg database in Timeplus, use the following syntax:
 
@@ -170,7 +170,7 @@ spark-sql -v --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.8.1,
 --conf spark.sql.catalog.spark_catalog.warehouse=s3://mybucket/demo/gravitino1
 ```
 
-## DROP DATABASE
+## Drop Iceberg Database
 
 ```sql
 DROP DATABASE demo CASCADE;

@@ -1,5 +1,7 @@
 # ClickHouse External Table
 
+## Overview
+
 Timeplus can read or write ClickHouse tables directly. This unlocks a set of new use cases, such as
 
 - Use Timeplus to efficiently process real-time data in Kafka/Redpanda, apply flat transformation or stateful aggregation, then write the data to the local or remote ClickHouse for further analysis or visualization.

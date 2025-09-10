@@ -4,7 +4,7 @@ You can send data to HTTP endpoints via the HTTP External Stream. You can use th
 
 Currently, it only supports writing data to HTTP endpoints, but reading data from HTTP endpoints is not supported yet.
 
-## CREATE EXTERNAL STREAM
+## Create HTTP External Stream
 
 To create an external stream for HTTP endpoints, you can run the following DDL SQL:
 
@@ -161,10 +161,4 @@ output_format_json_array_of_rows = 1,
 username='..',
 password='..',
 url = 'https://api.openobserve.ai/api/../default/_json'
-```
-
-## DROP EXTERNAL STREAM
-
-```sql
-DROP STREAM [IF EXISTS] name
 ```

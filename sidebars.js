@@ -144,7 +144,7 @@ const sidebars = {
         {
           type: "doc",
           label: "Apache Iceberg",
-          id: "iceberg-external-stream",
+          id: "iceberg-source",
         },
         {
           type: "doc",
@@ -226,11 +226,6 @@ const sidebars = {
           id: "jit",
           label: "Just-In-Time Compilation"
         },
-        {
-          label: "Dictionary",
-          type: "link",
-          href: "https://docs.timeplus.com/sql-create-dictionary",
-        },
       ]
     },
     {
@@ -269,6 +264,11 @@ const sidebars = {
           ],
         },
         {
+          label: "Dictionary",
+          type: "link",
+          href: "https://docs.timeplus.com/sql-create-dictionary",
+        },
+        {
           type: "doc",
           id: "viz",
           customProps: { tag: "Enterprise" },
@@ -302,7 +302,7 @@ const sidebars = {
         {
           type: "doc",
           label: "Apache Iceberg",
-          id: "iceberg-external-stream",
+          id: "iceberg-sink",
         },
         {
           type: "doc",
