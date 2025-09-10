@@ -136,7 +136,7 @@ Compared to the [2.8.1](#2_8_1) release:
       * Able to set `version_column` to make sure only rows with higher value of the `version_column` will override the rows with same primary key. This setting can work with or without `coalesced`.
       * Support the `UUID` data type for primary key columns.
     *   **[HTTP External Stream](/http-external-stream):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
-    *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
+    *   **[MongoDB External Table](/mongo-external-table):** Added a new type of external table to send streaming data to MongoDB.
     * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
     * Enhanced [Kafka External Stream](/kafka-source) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`.
     * Enhanced [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-source) to support write message headers via `_tp_message_headers`.

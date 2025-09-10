@@ -55,7 +55,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **Mutable Stream TTL:** You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
       *   **Materialized View DLQ:** Introduced Dead Letter Queue (DLQ) support for materialized views to handle data processing errors more robustly.
       *   **[HTTP External Stream](/http-external-stream):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
-      *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
+      *   **[MongoDB External Table](/mongo-external-table):** Added a new type of external table to send streaming data to MongoDB.
       * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
       * Enhanced [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-source) to support write message headers via `_tp_message_headers`
       * Build and manage [Alerts](/alert) with SQL. Monitor your streaming data and automatically trigger actions when specific conditions are met.
