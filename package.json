@@ -23,6 +23,7 @@
   "dependencies": {
     "@algolia/autocomplete-core": "^1.19.2",
     "@docusaurus/core": "https://github.com/algolia/docsearch/releases/download/v4.0.0-beta.4/docusaurus-core-3.8.1.tgz",
+    "@docusaurus/plugin-client-redirects": "^3.8.1",
     "@docusaurus/plugin-google-gtag": "^3.8.1",
     "@docusaurus/plugin-google-tag-manager": "^3.8.1",
     "@docusaurus/preset-classic": "https://github.com/algolia/docsearch/releases/download/v4.0.0-beta.4/docusaurus-preset-classic-3.8.1.tgz",

@@ -35,7 +35,21 @@ const config = {
     "/koala.js",
     "factorsai.js",
   ],
-  plugins: ["docusaurus-plugin-hubspot"],
+  plugins: [
+    "docusaurus-plugin-hubspot",
+
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            from: '/faq',
+            to: '/howtos',
+          },
+        ],
+      },
+    ],
+  ],
 
   presets: [
     [

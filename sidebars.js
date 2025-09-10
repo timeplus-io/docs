@@ -94,7 +94,7 @@ const sidebars = {
         },
         {
           type: "doc",
-          id: "faq",
+          id: "howtos",
           label: "How To",
         },
       ]
