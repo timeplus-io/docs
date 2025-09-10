@@ -8,7 +8,7 @@ Timeplus supports various systems as the downstreams:
 * [Send data to Kafka topics](#kafka)
 * [Send data to Pulsar topics](/pulsar-external-stream#write-data-to-pulsar)
 * [Send data to ClickHouse tables](/proton-clickhouse-external-table#write)
-* [Send data to another Timeplus deployment](/timeplus-external-stream)
+* [Send data to another Timeplus deployment](/timeplus-source)
 * [Send data to Webhook endpoints](#webhook)
 * [Notify others via Slack](#slack)
 * [Send data to other systems via Redpanda Connect](#rpconnect)

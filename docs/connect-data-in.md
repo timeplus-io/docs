@@ -3,7 +3,7 @@
 Timeplus supports multiple ways to load data into the system, or access the external data without copying them in Timeplus:
 
 - [External Stream for Apache Kafka](/external-stream), Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Proton.
-- [External Stream for Apache Pulsar](/pulsar-external-stream) is available in Timeplus Enterprise 2.5 and above.
+- [External Stream for Apache Pulsar](/pulsar-source) is available in Timeplus Enterprise 2.5 and above.
 - Source for extra wide range of data sources. This is only available in Timeplus Enterprise. This integrates with [Redpanda Connect](https://redpanda.com/connect), supporting 200+ connectors.
 - On Timeplus web console, you can also [upload CSV files](#csv) and import them into streams.
 - For Timeplus Enterprise, [REST API](/ingest-api) and SDKs are provided to push data to Timeplus programmatically.
@@ -15,7 +15,7 @@ Timeplus supports multiple ways to load data into the system, or access the exte
 Choose "Data Collection" from the navigation menu to setup data access to other systems. There are two categories:
 * Timeplus Connect: directly supported by Timeplus Inc, with easy-to-use setup wizards.
   * Demo Stream: generate random data for various use cases. [Learn more](#streamgen)
-  * Timeplus: read data from another Timeplus deployment. [Learn more](/timeplus-external-stream)
+  * Timeplus: read data from another Timeplus deployment. [Learn more](/timeplus-source)
   * Apache Kafka: setup external streams to read from Apache Kafka. [Learn more](#kafka)
   * Confluent Cloud: setup external streams to read from Confluent Cloud
   * Redpanda: setup external streams to read from Redpanda
@@ -39,7 +39,7 @@ As of today, Kafka is the primary data integration for Timeplus. With our strong
 
 Apache® Pulsar™ is a cloud-native, distributed, open source messaging and streaming platform for real-time workloads. Since Timeplus Enterprise 2.5, Pulsar External Streams can be created to read or write data for Pulsar.
 
-[Learn more.](/pulsar-external-stream)
+[Learn more.](/pulsar-source)
 
 ### Upload local files {#csv}
 

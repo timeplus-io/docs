@@ -29,7 +29,7 @@ Key highlights of this release:
 |Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
 
 ## Upgrade Guide
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. For bare metal users, you can upgrade from Timeplus Enterprise 2.6 to 2.7 by stopping components and replacing binary files.
 3. For Kubernetes users, please follow [the guide](/k8s-helm#v5-to-v6) carefully since a few timeplusd built-in users are removed in the new helm chart, and you can configure ingress for Appserver and Timeplusd independently.
 

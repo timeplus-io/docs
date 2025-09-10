@@ -1,6 +1,6 @@
 # CREATE EXTERNAL STREAM
 
-External stream for Kafka is official supported. The external stream for local log files is at technical preview. In Timeplus Enterprise, it also supports [another type of External Stream](/timeplus-external-stream) to read/write data for a remote Timeplus Enterprise.
+External stream for Kafka is official supported. The external stream for local log files is at technical preview. In Timeplus Enterprise, it also supports [another type of External Stream](/timeplus-source) to read/write data for a remote Timeplus Enterprise.
 
 ## Kafka External Stream
 ```sql

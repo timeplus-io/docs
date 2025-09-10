@@ -57,7 +57,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
       *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
       * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
-      * Enhanced [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`
+      * Enhanced [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-source) to support write message headers via `_tp_message_headers`
       * Build and manage [Alerts](/alert) with SQL. Monitor your streaming data and automatically trigger actions when specific conditions are met.
       *   **Python UDFs on ARM:** Python User-Defined Functions (UDFs) are now supported on ARM-based architectures (Linux/macOS), expanding platform compatibility.
       *   **Improved JavaScript UDFs:** Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation (also available in 2.8.1 or above). JavaScript User Defined Aggregation Function supports null value as input.
@@ -147,7 +147,7 @@ Upgrade Instructions:
 If you install Timeplus Enterprise 2.7 or earlier, the metadata for the Redpanda Connect sources and sinks are saved in a special key/value service. v2.8 switches to mutable streams for such metadata by default and provides a migration tool. In 2.9, all metadata are saved in mutable streams and the previous key/value service has been removed. Please upgrade to 2.8 first if you are on 2.7 or earlier. Then upgrade to 2.9.
 
 #### Known issues {#known_issue_2_9_0-preview_2}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.9.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.9.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. For existing deployments with any version from 2.3 to 2.7, please upgrade to 2.8 first and migrate the metadata. .
 3. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 4. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.

@@ -13,7 +13,7 @@ Each component maintains its own version numbers. The version number for each Ti
 Key highlights of this release:
 * **Revolutionary hybrid hash table technology.** For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. This is helpful for preventing the memory limits from being exceeded for large data streams with hundreds of GB of data. You can adjust the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
 * **Enhanced operational visibility.** Gain complete transparency into your system's performance through comprehensive monitoring of materialized views and streams. Track state changes, errors, and throughput metrics via [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log).
-* **Advanced cross-deployment integration.** Seamlessly write data to remote Timeplus deployments by configuring [Timeplus external stream](/timeplus-external-stream) as targets in materialized views.
+* **Advanced cross-deployment integration.** Seamlessly write data to remote Timeplus deployments by configuring [Timeplus external stream](/timeplus-source) as targets in materialized views.
 * **Improved data management capabilities.** Add new columns to an existing stream. Truncate historical data for streams. Create new databases to organize your streams and materialized views.
 * **Optimized ClickHouse integration.** Significant performance improvements for read/write operations with ClickHouse external tables.
 * **Enhanced user experience.** New UI wizards for Coinbase data sources and Apache Pulsar external streams, alongside a redesigned SQL Console and SQL Helper interface for improved usability. Quick access to streams, dashboards, and common actions via Command+K (Mac) or Windows+K (PC) keyboard shortcuts.
@@ -51,7 +51,7 @@ Upgrade Instructions:
 Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_6_8}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
 
@@ -80,7 +80,7 @@ Upgrade Instructions:
 Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_6_7}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
 
@@ -108,7 +108,7 @@ Upgrade Instructions:
 Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_6_6}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
 
@@ -136,7 +136,7 @@ Upgrade Instructions:
 Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_6_5}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
 
@@ -164,7 +164,7 @@ Upgrade Instructions:
 Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_6_4}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
 
@@ -192,7 +192,7 @@ Upgrade Instructions:
 Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_6_3}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
 
@@ -223,7 +223,7 @@ Upgrade Instructions:
 Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_6_2}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
 
@@ -252,7 +252,7 @@ Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
     * Implemented Kafka offset tracking in [system.stream_state_log](/system-stream-state-log), exportable via [timeplus diag](/cli-diag) command.
     * A `_tp_sn` column is added to each stream (except external streams or random streams), as the sequence number in the unified streaming and historical storage. This column is used for data replication among the cluster. By default, it is hidden in the query results. You can show it by setting `SETTINGS asterisk_include_tp_sn_column=true`. This setting is required when you use `INSERT..SELECT` SQL to copy data between streams: `INSERT INTO stream2 SELECT * FROM stream1 SETTINGS asterisk_include_tp_sn_column=true`.
   * New Features:
-    * Support for continuous data writing to remote Timeplus deployments via setting a [Timeplus external stream](/timeplus-external-stream) as the target in a materialized view.
+    * Support for continuous data writing to remote Timeplus deployments via setting a [Timeplus external stream](/timeplus-source) as the target in a materialized view.
     * New [EMIT PERIODIC .. REPEAT](/streaming-aggregations#emit_periodic_repeat) syntax for emitting the last aggregation result even when there is no new event.
     * Able to create or drop databases via SQL in a cluster. The web console will be enhanced to support different databases in the next release.
     * Historical data of a stream can be removed by `TRUNCATE STREAM stream_name`.
@@ -288,6 +288,6 @@ Upgrade Instructions:
 Users can upgrade from Timeplus Enterprise 2.5 to 2.6 by stopping components and replacing binary files, or by updating Docker/Kubernetes image versions while maintaining existing volumes.
 
 #### Known issues {#known_issue_2_6_0}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.6.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.

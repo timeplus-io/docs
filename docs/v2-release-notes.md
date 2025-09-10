@@ -187,13 +187,13 @@ The new version of Grafana plugin improved the batching strategy to render resul
 [Timeplus Enterprise v2.6](/enterprise-v2.6) is now Generally Available! Key breakthroughs:
 * **Revolutionary hybrid hash table technology.** For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. This is helpful for preventing the memory limits from being exceeded for large data streams with hundreds of GB of data. You can adjust the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
 * **Enhanced operational visibility.** Gain complete transparency into your system's performance through comprehensive monitoring of materialized views and streams. Track state changes, errors, and throughput metrics via [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log).
-* **Advanced cross-deployment integration.** Seamlessly write data to remote Timeplus deployments by configuring [Timeplus external stream](/timeplus-external-stream) as targets in materialized views.
+* **Advanced cross-deployment integration.** Seamlessly write data to remote Timeplus deployments by configuring [Timeplus external stream](/timeplus-source) as targets in materialized views.
 * **Improved data management capabilities.** Add new columns to an existing stream. Truncate historical data for streams. Create new databases to organize your streams and materialized views.
 * **Optimized ClickHouse integration.** Significant performance improvements for read/write operations with ClickHouse external tables.
 * **Enhanced user experience.** New UI wizards for Coinbase data sources and Apache Pulsar external streams, alongside a redesigned SQL Console and SQL Helper interface for improved usability. Quick access to streams, dashboards, and common actions via Command+K (Mac) or Windows+K (PC) keyboard shortcuts.
 
 ### Timeplus Proton v1.6.9
-* Timeplus external stream is now available in Timeplus Proton. You can read or write data across Timeplus deployments. [Learn more](/timeplus-external-stream).
+* Timeplus external stream is now available in Timeplus Proton. You can read or write data across Timeplus deployments. [Learn more](/timeplus-source).
 
 ### Timeplus Grafana plugin v2.1.0
 The new version of Grafana plugin supports query variables and annotations. The SQL editor is enlarged for better readability and editing experience.
@@ -202,7 +202,7 @@ The new version of Grafana plugin supports query variables and annotations. The 
 
 Happy New Year 🎉
 ### Timeplus Proton v1.6.8
-* Pulsar external stream is now available in Timeplus Proton. You can use Pulsar external stream to query or process data in Pulsar with SQL. [Learn more](/pulsar-external-stream).
+* Pulsar external stream is now available in Timeplus Proton. You can use Pulsar external stream to query or process data in Pulsar with SQL. [Learn more](/pulsar-source).
 
 ## Dec 23, 2024
 
@@ -305,7 +305,7 @@ Compared to v1.4.33 in Timeplus Enterprise self-hosted edition, the key enhancem
 * Refinements to error and warning messages, including avoid showing two messages for the same resource.
 * Moved the 'Send as Sink' button to the 'Save As' dropdown in the SQL Console.
 * Able to render large numbers such as int256 or uint256.
-* Wizard UI to create [Timeplus External Streams](/timeplus-external-stream).
+* Wizard UI to create [Timeplus External Streams](/timeplus-source).
 * Wizard UI to create [Mutable Streams](/mutable-stream).
 * Fix the issue where scrollbar is too thin.
 * In SQL Console, you can write multiple SQL statements and select one to run the statement.
@@ -356,7 +356,7 @@ We are actively working on the refinement to support latest Timeplus core engine
 ### Timeplus Enterprise v2.4.18
  * Timeplus Enterprise [v2.4.17](/enterprise-v2.4#2_4_17) and [v2.4.19](/enterprise-v2.4#2_4_19) are released.
  * The key changes are:
-    * support running [table function](/functions_for_streaming#table) on [Timeplus External Stream](/timeplus-external-stream)
+    * support running [table function](/functions_for_streaming#table) on [Timeplus External Stream](/timeplus-source)
     * better track memory usage in macOS and Docker container.
     * allow you to [drop streams](/sql-drop-stream#force_drop_big_stream) with `force_drop_big_stream=true`
     * use username:password for ingest API wizard
@@ -375,7 +375,7 @@ We are actively working on the refinement to support latest Timeplus core engine
  * Stream “mode” is renamed to stream “type” in the web console UI.
 
 ### Timeplus Proton v1.5.15
- * Timeplus Proton v1.5.15 is released, allowing Timeplus Enterprise v2.4 to read or write via external streams. [Learn more](/timeplus-external-stream)
+ * Timeplus Proton v1.5.15 is released, allowing Timeplus Enterprise v2.4 to read or write via external streams. [Learn more](/timeplus-source)
 
 ### Timeplus Native JDBC v2.0.4
     * Bug fix: For low_cardinality(nullable), nullable(uuid), map(low_cardinality) and tuple(low_cardinality)

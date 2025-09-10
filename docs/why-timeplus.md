@@ -51,7 +51,7 @@ With Python UDFs, this opens up the possibility to bring in pre-existing and pop
 
 ### External Stream, External Table {#external}
 
-We want to simplify the experience of joining data from Apache Kafka and writing results out to data warehouses such as Clickhouse, or another Timeplus instance. Timeplus implements native integration to these systems in timeplusd via EXTERNAL STREAM (with [Kafka](/kafka-source) and [Timeplus](/timeplus-external-stream)) and [EXTERNAL TABLE (with ClickHouse)](/proton-clickhouse-external-table). No need for deploying yet another Connector component.
+We want to simplify the experience of joining data from Apache Kafka and writing results out to data warehouses such as Clickhouse, or another Timeplus instance. Timeplus implements native integration to these systems in timeplusd via EXTERNAL STREAM (with [Kafka](/kafka-source) and [Timeplus](/timeplus-source)) and [EXTERNAL TABLE (with ClickHouse)](/proton-clickhouse-external-table). No need for deploying yet another Connector component.
 
 We understand that we cannot do this for all systems and for that, we have Timeplus Connector which can be configured to integrate with hundreds of other systems if needed.
 
