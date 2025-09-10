@@ -1,6 +1,6 @@
 ## Overview 
 
-In addition to [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream), Timeplus also supports another type of external stream to read/write data from/to another Timeplus Enterprise or Timeplus Proton deployment.
+In addition to [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-external-stream), Timeplus also supports another type of external stream to read/write data from/to another Timeplus Enterprise or Timeplus Proton deployment.
 
 ## Use Cases
 
@@ -29,7 +29,7 @@ Settings:
 * **password**: the password for the remote Timeplusd. The default value is an empty string.
 * **secure**: a bool for whether to use secure connection to the remote Timeplusd. The default value is false. Use port 9440 when `secure` is set to true, otherwise use port 8463.
 * **stream**: the stream name in the remote Timeplusd. It's required and there is no default value.
-* **config_file**: you can specify a config file to load the settings from. Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
+* **config_file**: you can specify a config file to load the settings from. Please follow the example in [Kafka External Stream](/kafka-source#config_file).
 
 ## Examples
 

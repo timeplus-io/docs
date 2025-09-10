@@ -17,7 +17,7 @@ Key highlights of this release:
 * New [migrate](/cli-migrate) subcommand in [timeplus CLI](/cli-reference) for data migration and backup/restore.
 * Materialized views auto-rebalancing in the cluster mode. [Learn more](/view#auto-balancing).
 * Approximately 30% faster data ingestion and replication in the cluster mode.
-* Performance improvement for [ASOF JOIN](/joins) and [EMIT ON UPDATE](/streaming-aggregations#emit_on_update).
+* Performance improvement for [ASOF JOIN](/streaming-joins) and [EMIT ON UPDATE](/streaming-aggregations#emit_on_update).
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -173,7 +173,7 @@ Compared to the [2.4.23](/enterprise-v2.4#2_4_23) release:
   * enhancement for nullable data types in streaming and historical queries.
   * Materialized views auto-rebalancing in the cluster mode.[Learn more](/view#auto-balancing).
   * Approximately 30% faster data ingestion and replication in the cluster mode.
-  * Performance improvement for [ASOF JOIN](/joins) and [EMIT ON UPDATE](/streaming-aggregations#emit_on_update).
+  * Performance improvement for [ASOF JOIN](/streaming-joins) and [EMIT ON UPDATE](/streaming-aggregations#emit_on_update).
 * timeplus_web 1.4.33 -> 2.0.6
   * UI to add/remove user or change role and password. This works for both single node and cluster.
   * UI for inputs/outputs from Redpanda Connect.

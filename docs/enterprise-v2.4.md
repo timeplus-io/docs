@@ -14,7 +14,7 @@ Key highlights of this release:
 * [Distributed Mutable Streams](/mutable-stream) for high performance query and UPSERT (UPDATE or INSERT), with primary keys, secondary keys, column families, sorting columns, parallel full scan and many more
 * [External Streams](/timeplus-source) to query or write to remote Timeplus, designed for data migration or hybrid deployment
 * Built-in system observability. Your workspace now comes with a system dashboard to monitor your cluster, including charts for running nodes and failed nodes, read/write throughput and EPS, used disk storage, and more. See additional metrics for resources in the details side panel, accessed via the data lineage or resource list pages, including status and any last errors
-* [Kafka schema registry support for Avro output format](/proton-schema-registry#write)
+* [Kafka schema registry support for Avro output format](/kafka-schema-registry#write)
 * Read/write Kafka message keys via [_tp_message_key column](/kafka-source#_tp_message_key)
 * More performance enhancements, including:
   * Concurrent and [idempotent data ingestion](/idempotent)
@@ -278,7 +278,7 @@ Components:
   * feat: primary key columns in secondary key
   * feat: support [ALTER STREAM .. ADD COLUMN ..](sql-alter-stream#add-column)
   * feat: _tp_message_key to [read/write message keys in Kafka](/kafka-source#_tp_message_key)
-  * feat: [Kafka schema registry support for Avro output format](/proton-schema-registry#write)
+  * feat: [Kafka schema registry support for Avro output format](/kafka-schema-registry#write)
   * feat: support [idempotent keys processing](/idempotent)
   * feat: collect node free memory usage. You can get it via `select cluster_id, node_id, os_memory_total_mb, os_memory_free_mb, memory_used_mb, disk_total_mb, disk_free_mb, timestamp from system.cluster`
   * fix: nullptr access in window function

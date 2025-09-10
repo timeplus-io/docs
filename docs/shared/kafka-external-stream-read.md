@@ -136,7 +136,7 @@ SETTINGS data_format='TSV';
 
 ### Read Avro or Protobuf Messages
 
-To read Avro-encoded / Protobuf-encoded Kafka message, please refer to [Schema](/proton-format-schema) and [Schema Registry](/proton-schema-registry) for details.
+To read Avro-encoded / Protobuf-encoded Kafka message, please refer to [Schema](/timeplus-format-schema) and [Schema Registry](/kafka-schema-registry) for details.
 
 ### Access Kafka Message Metadata
 

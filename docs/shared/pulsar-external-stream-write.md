@@ -128,7 +128,7 @@ Then you can run `INSERT INTO` or use a materialized view to write data to the t
 INSERT INTO stream_name(query,page_number,results_per_page) VALUES('test',1,100)
 ```
 
-Please refer to [Protobuf/Avro Schema](/proton-format-schema) for more details.
+Please refer to [Protobuf/Avro Schema](/timeplus-format-schema) for more details.
 
 #### Avro
 
@@ -166,7 +166,7 @@ Then you can run `INSERT INTO` or use a materialized view to write data to the t
 INSERT INTO stream_avro(name,favorite_number,favorite_color) VALUES('test',1,'red')
 ```
 
-Please refer to [Protobuf/Avro Schema](/proton-format-schema) for more details.
+Please refer to [Protobuf/Avro Schema](/timeplus-format-schema) for more details.
 
 ### Continuously Write to Pulsar via MV
 

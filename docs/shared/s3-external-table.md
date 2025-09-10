@@ -134,7 +134,7 @@ The AWS secret access key. It's optional when `use_environment_credentials` is `
 #### config_file
 The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the AWS access key ID and secret access key in the file.
 
-Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
+Please follow the example in [Kafka External Stream](/kafka-source#config_file).
 
 #### region
 The region where the S3 bucket is located, such as `us-west-1`. Optional for GCS.

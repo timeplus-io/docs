@@ -104,7 +104,7 @@ Type: string
 
 Default: `default`
 
-Specifies which [JOIN](/joins) algorithm is used.
+Specifies which [JOIN](/streaming-joins) algorithm is used.
 
 Possible values:
 * `default`: Same as `direct`,`parallel_hash`,`hash`, i.e. try to use direct join, parallel hash join, and hash join (in this order).

@@ -141,7 +141,7 @@ Set to `true` to ensure each Kafka message maps to exactly **one JSON document**
 
 #### kafka_schema_registry_url
 
-URL of the [Kafka Schema Registry](/proton-schema-registry), including the protocol is required (`http://` or `https://`).
+URL of the [Kafka Schema Registry](/kafka-schema-registry), including the protocol is required (`http://` or `https://`).
 
 #### kafka_schema_registry_credentials
 

@@ -52,7 +52,7 @@ To send data to Kafka, ClickHouse or other systems, you can submit a streaming S
 Timeplus supports various systems as the downstreams:
 * [Send data to Kafka topics](/destination#kafka)
 * [Send data to Pulsar topics](/pulsar-external-stream#write-data-to-pulsar)
-* [Send data to ClickHouse tables](/proton-clickhouse-external-table#write)
+* [Send data to ClickHouse tables](/clickhouse-external-table#write)
 * [Send data to another Timeplus deployment](/timeplus-source)
 * [Send data to Webhook endpoints](/destination#webhook)
 * [Notify others via Slack](/destination#slack)

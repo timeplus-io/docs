@@ -70,4 +70,4 @@ INSERT INTO my_ex_stream SETTINGS force_refresh_schema=true ...
 ```
 :::
 
-For the data type mappings between Avro and Timeplus data type, please check [this doc](/proton-format-schema#avro_types).
+For the data type mappings between Avro and Timeplus data type, please check [this doc](/timeplus-format-schema#avro_types).

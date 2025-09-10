@@ -1,6 +1,6 @@
 # Protobuf / Avro Schema
 
-Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format for [Kafka External Stream](/kafka-source) or [Pulsar External Stream](/pulsar-source). This document covers how to process data without a Schema Registry. Check [this page](/proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
+Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format for [Kafka External Stream](/kafka-source) or [Pulsar External Stream](/pulsar-source). This document covers how to process data without a Schema Registry. Check [this page](/kafka-schema-registry) if your Kafka topics are associated with a Schema Registry.
 
 ## Create Schema {#create}
 
@@ -46,7 +46,7 @@ Please note:
 1. If you want to ensure there is only a single Protobuf message per Kafka message, please set `data_format` to `ProtobufSingle`. If you set it to `Protobuf`, then there could be multiple Protobuf messages in a single Kafka message.
 2. The `format_schema` setting contains two parts: the registered schema name (in this example: schema_name), and the message type (in this example: SearchRequest). Combining them together with a semicolon.
 3. You can use this external stream to read or write Protobuf messages in the target Kafka/Confluent topics.
-4. For more advanced use cases, please check the [examples for complex schema](/proton-format-schema#protobuf_complex).
+4. For more advanced use cases, please check the [examples for complex schema](/timeplus-format-schema#protobuf_complex).
 
 ### Avro
 Available since Timeplus Proton 1.5.10.

@@ -40,7 +40,7 @@ Please refer to our [comparison page](/compare) for a detailed comparison of Tim
 
 ## My organization already uses ClickHouse—are there plans to integrate Timeplus Proton with the open source ClickHouse project?
 
-You can create an [External Table](/proton-clickhouse-external-table) to read or write ClickHouse tables from Timeplus Proton. Check the tutorials for how to build streaming ETL [from Kafka to ClickHouse](/tutorial-sql-etl-kafka-to-ch), or [from MySQL to ClickHouse](/tutorial-sql-etl-mysql-to-ch), via Timeplus.
+You can create an [External Table](/clickhouse-external-table) to read or write ClickHouse tables from Timeplus Proton. Check the tutorials for how to build streaming ETL [from Kafka to ClickHouse](/tutorial-sql-etl-kafka-to-ch), or [from MySQL to ClickHouse](/tutorial-sql-etl-mysql-to-ch), via Timeplus.
 
 We are also in conversation with the folks at ClickHouse, Inc., and the ClickHouse open source project at large, to scope the possibility of deep integration between the projects.
 
@@ -53,7 +53,7 @@ Short answer: very easy. We designed Timeplus Proton's usage to be similar to Cl
 - We renamed data types and functions to remove camelcase. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Timeplus Proton. Our [functions](/functions) docs have additional details.
 - Not all ClickHouse functions are currently enabled in Timeplus Proton or work in a streaming query. If we should add or enhance the functions available in Timeplus Proton, let us know in the [GitHub issues](https://github.com/timeplus-io/proton/issues).
 - Materialized Views in ClickHouse works for one source table, and data is processed at the index time. In Timeplus Proton, you can define a [Materialized View](/view#m_view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Timeplus Proton continuously runs the query and sends the results to the internal stream or the target stream.
-- In Timeplus Proton, [JOINs](/joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
+- In Timeplus Proton, [JOINs](/streaming-joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
 
 See the documentation for full usage details.
 

@@ -46,7 +46,7 @@ Note:
 * Two CTE are defined to parse the JSON attribute as columns
 * `SETTINGS seek_to='earliest'` is the special settings to fetch earliest data from the Kafka topic
 * `USING(id)` is same as `ON left.id=right.id`
-* Check [JOIN](/joins) for more options to join dynamic and static data
+* Check [JOIN](/streaming-joins) for more options to join dynamic and static data
 
 :::info
 

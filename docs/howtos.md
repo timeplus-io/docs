@@ -19,11 +19,11 @@ For PostgreSQL, MySQL or other OLTP databases, you can apply the CDC (Change Dat
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/j6FpXg5cfsA?si=Mo5UrviidxqkkXSb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-If you have data in local ClickHouse or ClickHouse Cloud, you can also use [External Table](/proton-clickhouse-external-table) to read data.
+If you have data in local ClickHouse or ClickHouse Cloud, you can also use [External Table](/clickhouse-external-table) to read data.
 
 ## How to read/write ClickHouse {#clickhouse}
 
-You use [External Table](/proton-clickhouse-external-table) to read from ClickHouse tables or write data to the ClickHouse tables. We verified the integration with self-hosted ClickHouse, ClickHouse Cloud, Aiven for ClickHouse and many more.
+You use [External Table](/clickhouse-external-table) to read from ClickHouse tables or write data to the ClickHouse tables. We verified the integration with self-hosted ClickHouse, ClickHouse Cloud, Aiven for ClickHouse and many more.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ga_DmCujEpw?si=ja2tmlcCbqa6HhwT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

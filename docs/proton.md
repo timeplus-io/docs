@@ -65,7 +65,7 @@ SQL is the main interface. You can start a new terminal window with `proton clie
 You can also integrate Timeplus Proton with Python/Java/Go SDK, REST API, or BI plugins. Please check [Integration](#integration).
 :::
 
-In the `proton client`, you can write SQL to create [External Stream for Kafka](/kafka-source) or [External Table for ClickHouse](/proton-clickhouse-external-table).
+In the `proton client`, you can write SQL to create [External Stream for Kafka](/kafka-source) or [External Table for ClickHouse](/clickhouse-external-table).
 
 You can also run the following SQL to create a stream of random data:
 
@@ -110,7 +110,7 @@ The following drivers are available:
 
 Integration with other systems:
 
-- ClickHouse https://docs.timeplus.com/proton-clickhouse-external-table
+- ClickHouse https://docs.timeplus.com/clickhouse-external-table
 - [Docker and Testcontainers](/tutorial-testcontainers-java)
 - [Sling](/sling)
 - Grafana https://github.com/timeplus-io/proton-grafana-source

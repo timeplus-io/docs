@@ -20,7 +20,7 @@ Choose "Data Collection" from the navigation menu to setup data access to other 
   * Confluent Cloud: setup external streams to read from Confluent Cloud
   * Redpanda: setup external streams to read from Redpanda
   * Apache Pulsar: setup external streams to read from Apache Pulsar. [Learn more](#pulsar)
-  * ClickHouse: setup external tables to read from ClickHouse, without duplicating data in Timeplus. [Learn more](/proton-clickhouse-external-table)
+  * ClickHouse: setup external tables to read from ClickHouse, without duplicating data in Timeplus. [Learn more](/clickhouse-external-table)
   * NATS: load data from NATS to Timeplus streams
   * WebSocket: load data from WebSocket to Timeplus streams
   * HTTP Stream: load data from HTTP stream to Timeplus streams
