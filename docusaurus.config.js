@@ -172,7 +172,6 @@ const config = {
         appId: "9IV0P6OE4K",
         apiKey: "ed69e90cdcb54d99af90c95574b6fc4a",
         indexName: "docs.timeplus.cm",
-        askAi: "HoTc2tNwsghX",
       },
       navbar: {
         title: "Docs",
