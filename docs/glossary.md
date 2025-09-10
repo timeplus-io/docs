@@ -106,7 +106,7 @@ a.k.a. destination. Only available in Timeplus Enterprise, not in Timeplus Proto
 
 Timeplus enables you to send real-time insights or transformed data to other systems, either to notify individuals or power up downstream applications.
 
-Learn more: [Destination](/destination).
+Learn more: [Destination](/send-data-out).
 
 ## source {#source}
 
