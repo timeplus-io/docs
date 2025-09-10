@@ -73,6 +73,10 @@ const config = {
             to: '/iceberg-external-stream',
           },
           {
+            from: '/http-external',
+            to: '/http-external-stream',
+          },
+          {
             from: '/stream-query',
             to: '/streaming-query',
           },

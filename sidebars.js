@@ -108,20 +108,20 @@ const sidebars = {
           label: "Overview",
           id: "connect-data-in",
         },
-        {
-          type: "category",
-          label: "Native Client",
-          link: {
-            type: "doc",
-            id: "native-client",
-          },
-          items: [
-            {
-              type: "doc",
-              id: "idempotent",
-            },
-          ],
-        },
+        // {
+        //   type: "category",
+        //   label: "Native Client",
+        //   link: {
+        //     type: "doc",
+        //     id: "native-client",
+        //   },
+        //   items: [
+        //     {
+        //       type: "doc",
+        //       id: "idempotent",
+        //     },
+        //   ],
+        // },
         {
           type: "category",
           label: "Apache Kafka",
@@ -284,11 +284,11 @@ const sidebars = {
           label: "Overview",
           id: "send-data-out",
         },
-        {
-          type: "doc",
-          label: "Native Client",
-          id: "native-client",
-        },
+        // {
+        //   type: "doc",
+        //   label: "Native Client",
+        //   id: "native-client",
+        // },
         {
           type: "category",
           label: "Apache Kafka",
@@ -314,20 +314,50 @@ const sidebars = {
           id: "clickhouse-external-table",
         },
         {
-          type: "doc",
-          label: "MySQL",
-          id: "mysql-external-table",
+           type: "doc",
+           label: "HTTP",
+           id: "http-external-stream",
         },
         {
-          type: "doc",
-          label: "PostgreSQL",
-          id: "pg-external-table",
+           type: "doc",
+           label: "Datadog",
+           id: "datadog-external",
         },
         {
-          type: "doc",
-          label: "MongoDB",
-          id: "mongo-external-table",
+           type: "doc",
+           label: "Splunk",
+           id: "splunk-external",
         },
+        {
+           type: "doc",
+           label: "Elastic Search",
+           id: "elastic-external",
+        },
+        {
+           type: "doc",
+           label: "Big Query",
+           id: "bigquery-external",
+        },
+        {
+           type: "doc",
+           label: "Databricks",
+           id: "databricks-external",
+        },
+        // {
+        //   type: "doc",
+        //   label: "MySQL",
+        //   id: "mysql-external-table",
+        // },
+        // {
+        //   type: "doc",
+        //   label: "PostgreSQL",
+        //   id: "pg-external-table",
+        // },
+        // {
+        //   type: "doc",
+        //   label: "MongoDB",
+        //   id: "mongo-external-table",
+        // },
         {
           type: "doc",
           label: "Amazon S3",
@@ -337,6 +367,11 @@ const sidebars = {
           type: "doc",
           id: "iceberg-external-stream",
           label: "Apache Iceberg",
+        },
+        {
+           type: "doc",
+           label: "Slack",
+           id: "slack-external",
         },
         {
           type: "doc",
