@@ -84,6 +84,14 @@ const config = {
             from: '/joins',
             to: '/streaming-joins',
           },
+          {
+            from: '/ingest',
+            to: '/connect-data-in',
+          },
+          {
+            from: '/destination',
+            to: '/send-data-out',
+          },
         ],
       },
     ],
@@ -182,19 +190,19 @@ const config = {
           {
             type: "doc",
             position: "left",
-            docId: "ingestion",
-            label: "Get Data In",
+            docId: "connect-data-in",
+            label: "Connect Data In",
           },
           {
             type: "doc",
             position: "left",
             docId: "query-syntax",
-            label: "Query Data",
+            label: "Process Data",
           },
           {
             type: "doc",
             position: "left",
-            docId: "destination",
+            docId: "send-data-out",
             label: "Send Data Out",
           },
           {
