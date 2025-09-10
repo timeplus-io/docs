@@ -104,6 +104,10 @@ const config = {
             from: '/destination',
             to: '/send-data-out',
           },
+          {
+            from: '/compare',
+            to: '/proton-oss-vs-enterprise',
+          },
         ],
       },
     ],

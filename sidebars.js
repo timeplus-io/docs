@@ -515,8 +515,8 @@ const sidebars = {
       items: [
         {
           type: "doc",
-          label: "vs. Timeplus Enterprise",
-          id: "compare",
+          label: "Proton OSS vs Enterprise",
+          id: "proton-oss-vs-enterprise",
         },
         "proton-faq",
       ],
