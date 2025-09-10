@@ -46,7 +46,7 @@ const config = {
           },
           {
             from: '/proton-kafka',
-            to: '/kafka-external-stream',
+            to: '/kafka-source',
           },
           {
             from: '/proton-schema-registry',

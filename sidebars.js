@@ -127,7 +127,7 @@ const sidebars = {
           label: "Apache Kafka",
           link: {
             type: "doc",
-            id: "kafka-external-stream",
+            id: "kafka-source",
           },
           items: ["kafka-schema-registry", "timeplus-format-schema"],
         },
@@ -290,13 +290,9 @@ const sidebars = {
         //   id: "native-client",
         // },
         {
-          type: "category",
+          type: "doc",
           label: "Apache Kafka",
-          link: {
-            type: "doc",
-            id: "kafka-external-stream",
-          },
-          items: ["kafka-schema-registry", "timeplus-format-schema"],
+          id: "kafka-sink",
         },
         {
           type: "doc",

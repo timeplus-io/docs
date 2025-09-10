@@ -1,7 +1,8 @@
-# Protobuf/Avro Schema
+# Protobuf / Avro Schema
+
 Timeplus supports reading or writing messages in [Protobuf](https://protobuf.dev/) or [Avro](https://avro.apache.org) format for [Kafka External Stream](/proton-kafka) or [Pulsar External Stream](/pulsar-external-stream). This document covers how to process data without a Schema Registry. Check [this page](/proton-schema-registry) if your Kafka topics are associated with a Schema Registry.
 
-## Create A Schema {#create}
+## Create Schema {#create}
 
 Without a Schema Registry, you need to define the Protobuf or Avro schema using SQL.
 
