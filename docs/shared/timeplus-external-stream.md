@@ -1,6 +1,6 @@
 ## Overview 
 
-In addition to [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-external-stream), Timeplus also supports another type of external stream to read/write data from/to another Timeplus Enterprise or Timeplus Proton deployment.
+In addition to [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-source), Timeplus also supports another type of external stream to read/write data from/to another Timeplus Enterprise or Timeplus Proton deployment.
 
 ## Use Cases
 

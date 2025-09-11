@@ -84,7 +84,7 @@ First product update in the Private Beta 2.
 
 * Source, sink, API and SDK
   * Released https://pypi.org/project/timeplus/0.2.0/ with optional tenant ID support.
-  * Supported Apache Pulsar and StreamNative Cloud as a data source or a data sink. You can load real-time data from Pulsar into Timeplus with REST API (web UI will be ready soon). [Learn more](/ingestion#pulsar)
+  * Supported Apache Pulsar and StreamNative Cloud as a data source or a data sink. You can load real-time data from Pulsar into Timeplus with REST API (web UI will be ready soon). [Learn more](/pulsar-source)
   * Added an experimental sink for Snowflake. You can send Timeplus real-time query results to Snowflake.
 * UI improvements
   * New login screen.

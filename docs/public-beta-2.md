@@ -227,7 +227,7 @@ Enhancements:
   - Stream list page shows the earliest and latest event time, helping you better understand the freshness for each data stream.
   - If you start running a streaming SQL then go to another page in Timeplus console, the query will be stopped automatically. This will reduce unnecessary server workload and the number of concurrent queries.
   - Improved the performance of query results in list mode.
-  - Performance tuning for [external streams](/external-stream) and [materialized views](/materialized-view#m_view).
+  - Performance tuning for [external streams](/external-stream) and [materialized views](/materialized-view).
 
 ## February 3, 2023
 

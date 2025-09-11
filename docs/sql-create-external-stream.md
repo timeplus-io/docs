@@ -49,7 +49,7 @@ SETTINGS
     config_file='..'
 ```
 
-Please check the [Pulsar External Stream](/pulsar-external-stream#ddl-settings) for more details.
+Please check the [Pulsar External Stream](/pulsar-source) for more details.
 
 ## Timeplus External Stream
 ```sql

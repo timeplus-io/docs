@@ -45,7 +45,7 @@ Event time is used almost everywhere in Timeplus data processing and analysis wo
 
 #### Specify during data ingestion
 
-When you [ingest data](/ingestion) into Timeplus, you can specify an attribute in the data which best represents the event time. Even if the attribute is in `String` type, Timeplus will automatically convert it to a timestamp for further processing.
+When you [ingest data](/connect-data-in) into Timeplus, you can specify an attribute in the data which best represents the event time. Even if the attribute is in `String` type, Timeplus will automatically convert it to a timestamp for further processing.
 
 If you don't choose an attribute in the wizard, then Timeplus will use the ingestion time to present the event time, i.e. when Timeplus receives the data. This may work well for most static or dimensional data, such as city names with zip codes.
 
@@ -98,7 +98,7 @@ Once the materialized view is created, Timeplus will run the query in the backgr
 
 Timeplus provides powerful streaming analytics capabilities through the enhanced SQL. By default, queries are unbounded and keep pushing the latest results to the client. The unbounded query can be converted to a bounded query by applying the function [table()](/functions_for_streaming#table), when the user wants to ask the question about what has happened like the traditional SQL.
 
-Learn more: [Streaming Query](/stream-query) and [Non-Streaming Query](/historical-query)
+Learn more: [Streaming Query](/streaming-query) and [Non-Streaming Query](/historical-query)
 
 ## sink {#sink}
 
@@ -112,7 +112,7 @@ Learn more: [Destination](/send-data-out).
 
 A source is a background job in Timeplus Enterprise to load data into a [stream](#stream). For Kafka API compatible streaming data platform, you need to create [Kafka external streams](/kafka-source).
 
-Learn more: [Data Collection](/ingestion)
+Learn more: [Data Collection](/connect-data-in)
 
 ## stream {#stream}
 
@@ -128,4 +128,4 @@ When you create a source and preview the data, you can choose a column as the ti
 
 You can define reusable SQL statements as views, so that you can query them as if they are streams `select .. from view1 ..` By default, views don't take any extra computing or storage resources. They are expanded to the SQL definition when they are queried. You can also create materialized views to 'materialize' them (keeping running them in the background and saving the results to the disk).
 
-Learn more: [View](/materialized-view) and [Materialized View](/materialized-view#m_view)
+Learn more: [View](/materialized-view) and [Materialized View](/materialized-view)

@@ -27,7 +27,7 @@ If your streaming data resides in or a publicly accessible Kafka or Pulsar insta
 - [Apache Kafka](/kafka-source)
 - Confluent Cloud
 - [Apache Pulsar](/pulsar-source)
-- [REST API, SDK, and others](/ingestion)
+- [REST API, SDK, and others](/connect-data-in)
 
 If you don't yet have a streaming data source and would like test out how Timeplus works, Timeplus provides a built-in data source to generate streaming data for some common use cases.
 
@@ -51,7 +51,7 @@ To send data to Kafka, ClickHouse or other systems, you can submit a streaming S
 
 Timeplus supports various systems as the downstreams:
 * [Send data to Kafka topics](/send-data-out#kafka)
-* [Send data to Pulsar topics](/pulsar-external-stream#write-data-to-pulsar)
+* [Send data to Pulsar topics](/pulsar-sink)
 * [Send data to ClickHouse tables](/clickhouse-external-table#write)
 * [Send data to another Timeplus deployment](/timeplus-source)
 * [Send data to Webhook endpoints](/send-data-out#webhook)

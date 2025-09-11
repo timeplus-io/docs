@@ -33,7 +33,7 @@ We will update the beta version from time to time and list key enhancements in t
   * In the source management page, we added a sparkline to show the throughput for each source. This sparkline auto-refreshes every 15 seconds.
   * When you create a new source and choose to send data to an existing stream, only the streams with matching schema will be shown. If no existing streams match, you have to create a new stream.
   * In the preview step, the first 3 rows will be fetched from the source. If Timeplus cannot detect the column data type automatically, the column type will be set as `unknown`. This could happen if the value in those 3 events contain `null`. Please check with your data source provider. If you are sure the future events will be in a certain data type, such as `string`, you can change the column type and choose to create a new stream to receive data from the source.
-* When you create a new [materialized view](/materialized-view#m_view), you can set a retention policy, specifying the max size or max age for the data in the materialized view.
+* When you create a new [materialized view](/materialized-view), you can set a retention policy, specifying the max size or max age for the data in the materialized view.
 * Clicking on a recent query on the homepage will now open the query page, instead of showing the query history.
 * We removed the purple page description banners formerly at the top of each page. If there is no object defined in a certain page, a customized help message is shown.
 * You can click-and-drag to resize column width in the streaming table (query page).

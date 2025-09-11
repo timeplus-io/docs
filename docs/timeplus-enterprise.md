@@ -5,7 +5,7 @@ We've recently reorganized our documentation to provide you with better, more fo
 * [Introduction to Timeplus Enterprise](/)
 * [Why Timeplus](/why-timeplus)
 * [Use cases](/showcases)
-* [Comparing Timeplus Enterprise and Timeplus Proton](/compare)
+* [Comparing Timeplus Enterprise and Timeplus Proton](/proton-oss-vs-enterprise)
 * [Deploying in Kubernetes or Bare Metal](/k8s-helm)
 
 ## Need Help?

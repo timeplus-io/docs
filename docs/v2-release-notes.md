@@ -23,7 +23,7 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 ### Timeplus Enterprise v2.8 GA
 * 2.8.1 is the first GA version of [Timeplus Enterprise v2.8](/enterprise-v2.8), with the key features:
   * New Compute Node server role to [run materialized views elastically](/materialized-view#autoscaling_mv) with checkpoints on S3 storage.
-  * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
+  * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-source)
   * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
   * Use S3 as the [tiered storage](/tiered-storage) for streams.
   * New SQL command to [rename streams](/sql-rename-stream) or [columns](/sql-alter-stream#rename-column).
@@ -89,7 +89,7 @@ You can add connection to Timeplus Proton or Timeplus Enterprise in [marimo](/ma
 ### Timeplus Enterprise v2.8 (Preview)
 [Timeplus Enterprise v2.8.0](/enterprise-v2.8) is now available as a technical preview for the 2.8 release. Not ready for production use but feel free to try the new features and provide feedback.
 * New Compute Node server role to [run materialized views elastically](/materialized-view#autoscaling_mv) with checkpoints on S3 storage.
-* Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
+* Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-source)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
 * Use S3 as the [tiered storage](/tiered-storage) for streams.
 * New SQL command to [rename streams](/sql-rename-stream).
@@ -223,7 +223,7 @@ Merry Christmas 🎄
     * [Materialized Views Auto-Rebalancing](/materialized-view#auto-balancing)
     * Performance Improvements
     * Enterprise-Grade Real-Time Data Integration with [200+ Connectors from Redpanda Connect](/redpanda-connect)
-    * [Pulsar External Stream](pulsar-external-stream) to query or process data in Pulsar with SQL
+    * [Pulsar External Stream](pulsar-source) to query or process data in Pulsar with SQL
 
 ### Timeplus Proton v1.6.4
 * Support more Linux distributions by lowering the required version for GLIBC. For AMD64 chips,the minimal version is 2.2.5, and for ARM64 chips, the minimal version is 2.17.

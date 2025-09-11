@@ -36,7 +36,7 @@ As an advanced feature, Timeplus supports various policies to emit results durin
 Please note, we updated the EMIT syntax in [Timeplus Enterprise 2.7.6](/enterprise-v2.7#2_7_6). Please upgrade to the latest version to use those refined emit polices.
 :::
 
-For [global aggregations](/stream-query#global-aggregation), the syntax is:
+For [global aggregations](/streaming-query#global-aggregation), the syntax is:
 
 ```sql
 EMIT [STREAM|CHANGELOG]
@@ -46,9 +46,9 @@ EMIT [STREAM|CHANGELOG]
 ```
 
 By default `EMIT STREAM` and `PERIODIC 2s` are applied. Advanced settings:
-* `EMIT CHANGELOG` works for [global aggregations](/stream-query#global-aggregation) and [non-aggregation tail/filter](/stream-query#non-aggregation). It will output `+1` or `-1` for `_tp_delta` column.
+* `EMIT CHANGELOG` works for [global aggregations](/streaming-query#global-aggregation) and [non-aggregation tail/filter](/streaming-query#non-aggregation). It will output `+1` or `-1` for `_tp_delta` column.
 
-For [time-window aggregations](/stream-query#window-aggregation), the syntax is:
+For [time-window aggregations](/streaming-query#window-aggregation), the syntax is:
 
 ```sql
 EMIT

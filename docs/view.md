@@ -33,7 +33,8 @@ CREATE VIEW view2 AS SELECT * FROM table(my_stream)
 ```
 Then each time you run `SELECT count(*) FROM view2` will return the current row number of the my_stream immediately without waiting for the future events.
 
-### Parameterized Views
+### Parameterized View
+
 Starting from Timeplus Enterprise 2.9, you can create views with parameters. For example:
 ```sql
 -- create a parameterized view with one int8 parameter

@@ -189,10 +189,10 @@ const sidebars = {
         },
         {
           type: "category",
-          label: "Materialized Views",
+          label: "Materialized View",
           link: {
             type: "doc",
-            id: "materialized_view",
+            id: "materialized-view",
           },
           items: ["checkpoint-settings"],
         },

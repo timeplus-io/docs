@@ -41,8 +41,8 @@ When users [create a stream](/sql-create-stream) in Timeplus, they can specify t
 
 The **streaming store** is essentially the **Write-Ahead Log** (internally called `NativeLog`). It supports:
 
-* High-concurrency [data ingestion](/ingestion)
-* [Incremental stream processing](/stream-query)
+* High-concurrency [data ingestion](/connect-data-in)
+* [Incremental stream processing](/streaming-query)
 * Real-time data replication
 
 For more information, refer to the [high-level architecture](/architecture) page.

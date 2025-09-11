@@ -36,7 +36,7 @@ Apache License 2.0 also prevents any contributor to Timeplus Proton—a member o
 
 ## What features are available with Timeplus Proton versus Timeplus Enterprise? {#compare}
 
-Please refer to our [comparison page](/compare) for a detailed comparison of Timeplus Proton and Timeplus Enterprise.
+Please refer to our [comparison page](/proton-oss-vs-enterprise) for a detailed comparison of Timeplus Proton and Timeplus Enterprise.
 
 ## My organization already uses ClickHouse—are there plans to integrate Timeplus Proton with the open source ClickHouse project?
 
@@ -52,7 +52,7 @@ Short answer: very easy. We designed Timeplus Proton's usage to be similar to Cl
 - The SQL keyword `AS` is required to create a temporary name for a table, stream, or a column.
 - We renamed data types and functions to remove camelcase. For example, ClickHouse's `toInt8()` is renamed `to_int8()` in Timeplus Proton. Our [functions](/functions) docs have additional details.
 - Not all ClickHouse functions are currently enabled in Timeplus Proton or work in a streaming query. If we should add or enhance the functions available in Timeplus Proton, let us know in the [GitHub issues](https://github.com/timeplus-io/proton/issues).
-- Materialized Views in ClickHouse works for one source table, and data is processed at the index time. In Timeplus Proton, you can define a [Materialized View](/materialized-view#m_view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Timeplus Proton continuously runs the query and sends the results to the internal stream or the target stream.
+- Materialized Views in ClickHouse works for one source table, and data is processed at the index time. In Timeplus Proton, you can define a [Materialized View](/materialized-view) with a streaming SQL, for any number of streams, with JOIN, CTE, or subqueries. Timeplus Proton continuously runs the query and sends the results to the internal stream or the target stream.
 - In Timeplus Proton, [JOINs](/streaming-joins) are a powerful and flexible means of combining data from multiple sources into a single stream.
 
 See the documentation for full usage details.
@@ -114,6 +114,6 @@ We also discuss our journey to releasing Timeplus Proton in open source in our [
 
 ## How can I get started?
 
-Learn how to pull and run the Timeplus Proton image and query a test stream in our [documentation](/proton#-deployment). To see a more complete use case in action, using Timeplus Proton, Redpanda, and sample live data, check out our [tutorial](/kafka-source#tutorial) that leverages Docker Compose.
+Learn how to pull and run the Timeplus Proton image and query a test stream in our [documentation](/proton#-deployment). To see a more complete use case in action, using Timeplus Proton, Redpanda, and sample live data, check out our tutorial that leverages Docker Compose.
 
 If you need advanced deployment strategies or features, with Timeplus Proton running behind the scenes, please download the [Timeplus Enterprise](https://timeplus.com/install) package.
