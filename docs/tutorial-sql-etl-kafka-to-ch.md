@@ -63,7 +63,7 @@ CREATE MATERIALIZED VIEW mv INTO ch_local AS
     FROM frontend_events;
 ```
 
-Once the materialized view is created, it will work as a background ETL job in Proton, to continuously read data from Kafka/Redpanda, apply transformations or aggregations, then send results to ClickHouse. To learn more about Materialized View in Proton, please refer to [this documentation](/materialized-view#m_view).
+Once the materialized view is created, it will work as a background ETL job in Proton, to continuously read data from Kafka/Redpanda, apply transformations or aggregations, then send results to ClickHouse. To learn more about Materialized View in Proton, please refer to [this documentation](/materialized-view).
 
 Now if you go back to ClickHouse and run `select * from events`, you will see new data coming at sub-second latency.
 

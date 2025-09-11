@@ -80,7 +80,7 @@ _Timeplus Proton:_
 
 - Streaming processing now supports nullable data type.
 - [External Table](/clickhouse-external-table#create-external-table): ClickHouse external tables with names containing special characters (such as dashes) are now supported. Simply set `table='test-a-b'` in the `CREATE EXTERNAL TABLE` DDL.
-- [External Stream](/kafka-source#create-external-stream): Error handling and connection pooling/retry for Kafka external streams have been greatly improved.
+- [External Stream](/kafka-source): Error handling and connection pooling/retry for Kafka external streams have been greatly improved.
 - Materialized View: Added option to [skip dirty/unexpected data](/query-syntax#settings). If you set `SETTINGS recovery_policy='best_effort'`, Timeplus will try up to 3 times, then skip dirty data and continue processing the rest of the data.
 
 _Timeplus Cloud and Timeplus Enterprise:_
@@ -226,7 +226,7 @@ _Proton:_
 - Proton JDBC driver is now available via [Maven](https://central.sonatype.com/artifact/com.timeplus/proton-jdbc).
 - You can now connect Proton to [Pulse](https://www.timestored.com/pulse/) for OHLC charts.
 - New functions added: [untuple](/functions_for_comp#untuple), [tuple_element](/functions_for_comp#tuple_element), [columns](/functions_for_comp#columns), [apply](/functions_for_comp#apply), [any](/functions_for_agg#any), and [last_value](/functions_for_agg#last_value).
-- You can now create an external stream with multiple columns while reading Kafka. [Learn more](/kafka-source#multi_col_read)
+- You can now create an external stream with multiple columns while reading Kafka. [Learn more](/kafka-source)
 
 _Timeplus Cloud:_
 

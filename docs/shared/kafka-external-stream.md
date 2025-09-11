@@ -2,7 +2,7 @@
 
 Timeplus allows users to **read from** and **write to** Apache Kafka (and compatible platforms like **Confluent Cloud** and **Redpanda**) using **Kafka External Streams**.
 
-By combining external streams with [Materialized Views](/view#m_view) and [Target Streams](/view#target-stream), users can build robust **real-time streaming pipelines**.
+By combining external streams with [Materialized Views](/materialized-view) and [Target Streams](/materialized-view#target-stream), users can build robust **real-time streaming pipelines**.
 
 ## Create Kafka External Stream
 
@@ -163,4 +163,4 @@ Use either:
 
 Used for advanced configurations. These settings are passed directly to the Kafka client ([librdkafka config options](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md)) to fine tune the Kafka producer, consumer or topic behaviors.
 
-For more, see the [Advanced Settings](#advanced_settings) section.
+For more, see the `Properties for Kafka client` section.
