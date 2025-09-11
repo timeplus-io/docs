@@ -240,8 +240,8 @@ group by window_start,window_end`
 
 ```sql
 SELECT cid,window_start,window_end,max(total_km)-min(total_km) AS trip_km
-FROM session(car_live_data, time, 5s, cid)
-GROUP BY __tp_session_id, cid, window_start, window_end
+FROM session(car_live_data, time, 5s)
+GROUP BY cid, window_start, window_end
 HAVING trip_km > 0
 ```
 
@@ -257,7 +257,7 @@ More complex queries can be created to aggregate the data by car id and trip end
 ```sql
 with query_1 AS (
 select cid,window_start AS w_start,window_end AS w_end,max(total_km)-min(total_km) AS trip_km
-from session(car_live_data,time,20m, cid) group by __tp_session_id, cid, window_start, window_end
+from session(car_live_data,time,20m) group by cid, window_start, window_end
 )
 select cid,window_start,window_end,sum(trip_km)
 from tumble(query_1,w_end,1h) group by cid,window_start,window_end
