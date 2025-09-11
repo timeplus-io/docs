@@ -1,5 +1,7 @@
 # Connect Data In
 
+## Overview
+
 Timeplus supports multiple ways to load data into the system, or access the external data without copying them in Timeplus:
 
 - [External Stream for Apache Kafka](/external-stream), Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Proton.
