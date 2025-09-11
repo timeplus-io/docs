@@ -4,7 +4,7 @@ This type of stream is only available in Timeplus Enterprise, with high performa
 
 As the name implies, the data in the stream is mutable. Value with the same primary key(s) will be overwritten.
 
-The primary use case of mutable streams is serving as the lookup/dimensional data in [Streaming JOIN](/joins), supporting millions or even billions of unique keys. You can also use mutable streams as the "fact table" to efficiently do range queries or filtering for denormalized data model, a.k.a. OBT (One Big Table).
+The primary use case of mutable streams is serving as the lookup/dimensional data in [Streaming JOIN](/streaming-joins), supporting millions or even billions of unique keys. You can also use mutable streams as the "fact table" to efficiently do range queries or filtering for denormalized data model, a.k.a. OBT (One Big Table).
 
 Learn more about why we introduced Mutable Streams by checking [this blog](https://www.timeplus.com/post/introducing-mutable-streams).
 
@@ -81,7 +81,7 @@ SELECT * FROM mutable_stream_name WHERE condition
 SELECT * FROM table(mutable_stream_name) WHERE condition
 ```
 
-Mutable streams can be used in [JOINs](/joins) or as the source or cache for [Dictionaries](/sql-create-dictionary).
+Mutable streams can be used in [JOINs](/streaming-joins) or as the source or cache for [Dictionaries](/sql-create-dictionary).
 
 ## Example
 
@@ -185,7 +185,7 @@ SELECT .. FROM mutable_stream
 ```
 This will query all existing data and accept new incoming data.
 
-Mutable stream can also be used in [JOINs](/joins).
+Mutable stream can also be used in [JOINs](/streaming-joins).
 
 ## Advanced Settings
 

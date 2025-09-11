@@ -1,13 +1,14 @@
-#  Sending Data Out
+#  Send Data Out
+
+## Overview
 
 With Timeplus Console, you can easily explore and analyze streaming data, with intuitive UI, standard SQL and streaming charts. But you won't stop here. Timeplus enables you to setup real-time data pipelines to send data to other systems, or notify individuals or power up downstream applications.
 
-## Overview
 Timeplus supports various systems as the downstreams:
 * [Send data to Kafka topics](#kafka)
-* [Send data to Pulsar topics](/pulsar-external-stream#write-data-to-pulsar)
-* [Send data to ClickHouse tables](/proton-clickhouse-external-table#write)
-* [Send data to another Timeplus deployment](/timeplus-external-stream)
+* [Send data to Pulsar topics](/pulsar-sink)
+* [Send data to ClickHouse tables](/clickhouse-external-table#write)
+* [Send data to another Timeplus deployment](/timeplus-source)
 * [Send data to Webhook endpoints](#webhook)
 * [Notify others via Slack](#slack)
 * [Send data to other systems via Redpanda Connect](#rpconnect)
@@ -32,7 +33,7 @@ Then choose "Apache Kafka". The following parameters are required:
 * Topic name: either an existing topic or specify the new topic name for Timeplus to create.
 * Authentication
 
-Please refer to the [this page](/ingestion#kafka) for details of the parameters. You can send data to Confluent Cloud, Confluent Platform, or custom managed Apache Kafka.
+Please refer to the [this page](/kafka-sink) for details of the parameters. You can send data to Confluent Cloud, Confluent Platform, or custom managed Apache Kafka.
 
 ## Trigger actions via Webhook{#webhook}
 

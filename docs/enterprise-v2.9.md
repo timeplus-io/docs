@@ -15,9 +15,9 @@ Key highlights of the Timeplus 2.9 release include:
 *   **Enhanced Mutable Streams:** Introducing online schema evolution, versioning, coalesced storage, Time-To-Live (TTL), and secondary index management capabilities.
 *   **Native JSON Support:** A new native JSON data type and powerful [json_encode](/functions_for_json#json_encode) / [json_cast](/functions_for_json#json_cast) functions simplify working with JSON.
 *   **Improved Data Integrity:** Dead Letter Queue (DLQ) support for Materialized Views ensures robust data processing.
-*   **Expanded Connectivity:** Native [HTTP External Stream](/http-external) for seamless integration with systems like Splunk, Elasticsearch, and more.
+*   **Expanded Connectivity:** Native [HTTP External Stream](/http-external-stream) for seamless integration with systems like Splunk, Elasticsearch, and more.
 *   **Performance Boost:** [JIT (Just-In-Time) compilation](/jit) for streaming queries delivers significant performance and efficiency improvements. Large cardinality sessionization.
-*   **Parameterized Views:** Create [Parameterized Views](/view#parameterized-views) for more flexible and reusable query patterns.
+*   **Parameterized Views:** Create [Parameterized Views](/view#parameterized-view) for more flexible and reusable query patterns.
 *   **Scalable Log Processing:** Distributed LogStream enables efficient handling of large volumes of log data.
 *   **Broader UDF Support:** Python UDFs now run on ARM CPUs (Linux/macOS), and JavaScript UDFs benefit from multiple V8 instances.
 *   **Refined Cluster UI:** The web console offers an improved experience for visualizing and managing cluster nodes.
@@ -34,7 +34,7 @@ We recommend using stable releases for production deployment. Engineering builds
 
 ### 2.9.0 (Preview 3) {#2_9_0-preview_3}
 Released on 07-31-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.9 | sh` [Downloads](/release-downloads#2_9_0-preview_3)
+* For Linux or Mac users: `curl https://install.timeplus.com/2.9 | sh` [Downloads](/release-downloads)
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.9.0-preview.3`
 * We will provide new Helm Charts for Kubernetes deployment when v2.9 is GA.
 
@@ -49,15 +49,15 @@ Component versions:
 Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
 * timeplusd 2.8.26 -> 2.9.9-rc.26
   *   New Features:
-      *   **Parameterized Views:** You can now create [parameterized views](/view#parameterized-views), allowing for more dynamic and reusable view definitions.
+      *   **Parameterized Views:** You can now create [parameterized views](/view#parameterized-view), allowing for more dynamic and reusable view definitions.
       *   **JIT Compilation for Queries:** Introduced [Just-In-Time (JIT) compilation](/jit) for queries, potentially improving execution performance for certain query types.
       *   **New JSON Data Type & SQL Functions:** Added a native JSON data type and SQL functions [json_encode](/functions_for_json#json_encode), [json_cast](/functions_for_json#json_cast), [json_array_length](/functions_for_json#json_array_length), [json_merge_patch](/functions_for_json#json_merge_patch) for powerful JSON manipulation.
       *   **Mutable Stream TTL:** You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
       *   **Materialized View DLQ:** Introduced Dead Letter Queue (DLQ) support for materialized views to handle data processing errors more robustly.
-      *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
-      *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
+      *   **[HTTP External Stream](/http-external-stream):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
+      *   **[MongoDB External Table](/mongo-external-table):** Added a new type of external table to send streaming data to MongoDB.
       * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
-      * Enhanced [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`
+      * Enhanced [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-source) to support write message headers via `_tp_message_headers`
       * Build and manage [Alerts](/alert) with SQL. Monitor your streaming data and automatically trigger actions when specific conditions are met.
       *   **Python UDFs on ARM:** Python User-Defined Functions (UDFs) are now supported on ARM-based architectures (Linux/macOS), expanding platform compatibility.
       *   **Improved JavaScript UDFs:** Enhanced JavaScript UDF execution with support for multiple V8 instances, improving concurrency and isolation (also available in 2.8.1 or above). JavaScript User Defined Aggregation Function supports null value as input.
@@ -72,7 +72,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   **Modifying Comments:** Added `ALTER COMMENT` support for streams, views, materialized views, KVStreams, and RandomStreams.
       *   **Mutable Stream Schema Evolution:** Support for adding new columns and dropping secondary indexes in mutable streams.
       * Support writing to nested array of records Avro schemas
-      * Enhanced [Kafka External Stream](/proton-kafka) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`
+      * Enhanced [Kafka External Stream](/kafka-source) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`
       * New query setting [precise_float_parsing](/query-settings#precise_float_parsing) to precisely handle float numbers.
       * Added emit policy [EMIT TIMEOUT](/streaming-aggregations#emit-timeout) and [EMIT PER EVENT](/streaming-aggregations#emit-per-event).
       * Added new functions `array_partial_sort`, `array_partial_reverse_sort`, and `ulid_string_to_date_time`.
@@ -106,7 +106,7 @@ Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
       *   Improved layout for HTTP source creation and other external stream Guided Data Ingestion (GDI) UIs.
       *   **SQL Query:** side panel is simplified by removing the snippets and functions accordion, long SQL statement is wrapped by default, cursor position is kept when you switch pages or tabs.
   *   Resource Management (Streams, MVs, Views, UDFs):
-      * Replaced the Redpanda-Connect based HTTP sink and Slack sink with the new [HTTP External Stream](/http-external) in the core engine.
+      * Replaced the Redpanda-Connect based HTTP sink and Slack sink with the new [HTTP External Stream](/http-external-stream) in the core engine.
       *   **Materialized Views (MVs):**
           *   Added UI support for **pausing and resuming** materialized views.
           *   Introduced **Dead Letter Queue (DLQ)** support and UI for MVs.
@@ -147,7 +147,7 @@ Upgrade Instructions:
 If you install Timeplus Enterprise 2.7 or earlier, the metadata for the Redpanda Connect sources and sinks are saved in a special key/value service. v2.8 switches to mutable streams for such metadata by default and provides a migration tool. In 2.9, all metadata are saved in mutable streams and the previous key/value service has been removed. Please upgrade to 2.8 first if you are on 2.7 or earlier. Then upgrade to 2.9.
 
 #### Known issues {#known_issue_2_9_0-preview_2}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.9.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.9.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. For existing deployments with any version from 2.3 to 2.7, please upgrade to 2.8 first and migrate the metadata. .
 3. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 4. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.

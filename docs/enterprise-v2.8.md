@@ -11,8 +11,8 @@ Each component maintains its own version numbers. The version number for each Ti
 
 ## Key Highlights
 Key highlights of this release:
-* New Compute Node server role to [run materialized views elastically](/view#autoscaling_mv) with checkpoints on S3 storage.
-* Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg)
+* New Compute Node server role to [run materialized views elastically](/materialized-view#autoscaling_mv) with checkpoints on S3 storage.
+* Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-sink)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
 * Use S3 as the [tiered storage](/tiered-storage) for streams.
 * New SQL command to [rename streams](/sql-rename-stream) or [columns](/sql-alter-stream#rename-column).
@@ -135,11 +135,11 @@ Compared to the [2.8.1](#2_8_1) release:
       * Able to add or drop secondary index for mutable streams.
       * Able to set `version_column` to make sure only rows with higher value of the `version_column` will override the rows with same primary key. This setting can work with or without `coalesced`.
       * Support the `UUID` data type for primary key columns.
-    *   **[HTTP External Stream](/http-external):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
-    *   **[MongoDB External Table](/mongo-external):** Added a new type of external table to send streaming data to MongoDB.
+    *   **[HTTP External Stream](/http-external-stream):** Added a new type of external stream to send streaming data to external HTTP endpoints, such as Splunk, Open Search and Slack.
+    *   **[MongoDB External Table](/mongo-external-table):** Added a new type of external table to send streaming data to MongoDB.
     * Enhanced [MySQL External Table](/mysql-external-table) to support `replace_query` and `on_duplicate_clause` settings.
-    * Enhanced [Kafka External Stream](/proton-kafka) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`.
-    * Enhanced [Kafka External Stream](/proton-kafka) and [Pulsar External Stream](/pulsar-external-stream) to support write message headers via `_tp_message_headers`.
+    * Enhanced [Kafka External Stream](/kafka-source) allows to customize the `partitioner` property, e.g. `settings properties='partitioner=murmur2'`.
+    * Enhanced [Kafka External Stream](/kafka-source) and [Pulsar External Stream](/pulsar-source) to support write message headers via `_tp_message_headers`.
     * Support [map_from_arrays](/functions_for_comp#map_from_arrays) and [map_cast](/functions_for_comp#map_cast) with 4 or more parameters.
     * [SHOW CREATE](/sql-show-create#show_multi_versions) command supports `show_multi_versions=true` to get the history of the object.
     * New query setting [precise_float_parsing](/query-settings#precise_float_parsing) to precisely handle float numbers.
@@ -150,7 +150,7 @@ Compared to the [2.8.1](#2_8_1) release:
     * Improved the support for gRPC protocol.
     * Support [EMIT TIMEOUT](/streaming-aggregations#emit-timeout) for both global aggregations and window aggregations.
     * Able to change log level during runtime via [SYSTEM SET LOG LEVEL](/sql-system-set-log-level) or REST API.
-    * Support new JOIN type [FULL LATEST JOIN](/joins#full-latest-join).
+    * Support new JOIN type [FULL LATEST JOIN](/streaming-joins#full-latest-join).
 * timeplus_web 2.8.8 -> 2.8.12
   * Some new UI features and enhancements in 2.9 are ported to 2.8.2:
       *   **Materialized Views (MVs):**
@@ -205,7 +205,7 @@ Compared to the [2.8.0 (Preview)](#2_8_0) release:
   * Fix Kafka external stream parsing issue.
   * Improve mutable stream creation flow when defined via engine.
   * When using `CREATE OR REPLACE FORMAT SCHEMA` to update an existing schema, and using `DROP FORMAT SCHEMA` to delete a schema, Timeplus will clean up the Protobuf schema cache to avoid misleading errors.
-  * Support writing Kafka message timestamp via [_tp_time](/proton-kafka)
+  * Support writing Kafka message timestamp via [_tp_time](/kafka-source)
   * Enable IPv6 support for KeyValueService
   * Simplified the [EMIT syntax](/streaming-aggregations#emit) to make it easier to read and use.
   * Support [EMIT ON UPDATE WITH DELAY](/streaming-aggregations#emit_on_update_with_delay)
@@ -281,7 +281,7 @@ If you are still not sure, here are the things that would be broken without migr
 For Kubernetes users, please follow [the guide](/k8s-helm#v6-to-v7) to do the migration.
 
 #### Known issues {#known_issue_2_8_0}
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. Pulsar external stream functionality is limited to Linux bare metal builds and Linux-based Docker images, excluding macOS bare metal builds.
 3. The `timeplus_connector` component may experience health issues on Ubuntu Linux with x86_64 chips, affecting Redpanda Connect functionality. This issue is specific to Ubuntu and does not affect other Linux distributions.
 4. Python UDF support is limited to Linux x86_64 bare metal and Linux x86_64 Docker image, excluding macOS or ARM builds.

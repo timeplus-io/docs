@@ -403,7 +403,7 @@ Debezium also read all existing rows and generate messages like this
 
 ### Load data to Timeplus
 
-You can follow this [guide](/proton-kafka) to add 2 external streams to load data from Kafka or Redpanda.  For example:
+You can follow this [guide](/kafka-source) to add 2 external streams to load data from Kafka or Redpanda.  For example:
 
 * Data source name `s1` to load data from topic `doc.public.dim_products` and put in a new stream `rawcdc_dim_products`
 * Data source name `s2` to load data from topic `doc.public.orders` and put in a new stream `rawcdc_orders`

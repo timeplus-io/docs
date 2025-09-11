@@ -1,8 +1,10 @@
-# Log Files
+# Log External Stream
 
-You can use Timeplus as a lightweight and high-performance tool for log analysis. Please check [the blog](https://www.timeplus.com/post/log-stream-analysis) for more details.
+## Overview 
 
-## Syntax
+You can use Timeplus as a lightweight and high-performance tool for application log analysis. Please check [the blog](https://www.timeplus.com/post/log-stream-analysis) for more details.
+
+## Create External Log Stream 
 
 Create an external stream with the log type to monitor log files, e.g.
 

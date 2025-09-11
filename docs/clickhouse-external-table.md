@@ -1,5 +1,7 @@
 # ClickHouse External Table
 
+## Overview
+
 Timeplus can read or write ClickHouse tables directly. This unlocks a set of new use cases, such as
 
 - Use Timeplus to efficiently process real-time data in Kafka/Redpanda, apply flat transformation or stateful aggregation, then write the data to the local or remote ClickHouse for further analysis or visualization.
@@ -41,7 +43,7 @@ The required settings are type and address. For other settings, the default valu
 
 The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the ClickHouse user and password in the file.
 
-Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
+Please follow the example in [Kafka External Stream](/kafka-source#config_file).
 
 You don't need to specify the columns, since the table schema will be fetched from the ClickHouse server.
 

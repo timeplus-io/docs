@@ -11,13 +11,13 @@ Each component tracks their changes with own version numbers. The version number
 
 ## Key Highlights
 Key highlights of this release:
-* Reading or writing data in Apache Pulsar or StreamNative via External Stream. [Learn more](/pulsar-external-stream).
+* Reading or writing data in Apache Pulsar or StreamNative via External Stream. [Learn more](/pulsar-source).
 * Connecting to various input or output systems via Redpanda Connect. [Learn more](/redpanda-connect).
 * Creating and managing users in the Web Console. You can change the password and assign the user either Administrator or Read-only role.
 * New [migrate](/cli-migrate) subcommand in [timeplus CLI](/cli-reference) for data migration and backup/restore.
-* Materialized views auto-rebalancing in the cluster mode. [Learn more](/view#auto-balancing).
+* Materialized views auto-rebalancing in the cluster mode. [Learn more](/materialized-view#auto-balancing).
 * Approximately 30% faster data ingestion and replication in the cluster mode.
-* Performance improvement for [ASOF JOIN](/joins) and [EMIT ON UPDATE](/streaming-aggregations#emit_on_update).
+* Performance improvement for [ASOF JOIN](/streaming-joins) and [EMIT ON UPDATE](/streaming-aggregations#emit_on_update).
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -49,7 +49,7 @@ Compared to the [2.5.13](#2_5_13) release:
   * Handle log corruption more gracefully and fixes log truncation.
 
 #### Known issues {#known_issue_2_5_14}
-1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for migration.
 2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.
 
 ### 2.5.13 (Public GA) {#2_5_13}
@@ -72,7 +72,7 @@ Compared to the [2.5.12](#2_5_12) release:
   * Bug fixes without new features
 
 #### Known issues {#known_issue_2_5_13}
-1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for migration.
 2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.
 
 ### 2.5.12 (Public GA) {#2_5_12}
@@ -95,7 +95,7 @@ Compared to the [2.5.11](#2_5_11) release:
   * Able to drop malformed UDFs with `DROP FUNCTION udf_name SETTINGS force=true`.
 
 #### Known issues {#known_issue_2_5_12}
-1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for migration.
 2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.
 
 ### 2.5.11 (Public GA) {#2_5_11}
@@ -121,7 +121,7 @@ Compared to the [2.5.10](#2_5_10) release:
 You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2.5, by stopping the components and replacing the binary files, or reusing the Docker or Kubernetes volumes and update the image versions.
 
 #### Known issues {#known_issue_2_5_11}
-1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for migration.
 2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.
 
 ### 2.5.10 (Controlled Release) {#2_5_10}
@@ -149,7 +149,7 @@ Compared to the [2.5.9](#2_5_9) release:
 You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2.5, by stopping the components and replacing the binary files, or reusing the Docker or Kubernetes volumes and update the image versions.
 
 #### Known issues {#known_issue_2_5_10}
-1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for migration.
 2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.
 
 ### 2.5.9 (Controlled Release) {#2_5_9}
@@ -168,12 +168,12 @@ Component versions:
 
 Compared to the [2.4.23](/enterprise-v2.4#2_4_23) release:
 * timeplusd 2.3.30 -> 2.4.23
-  * new type of [External Streams for Apache Pulsar](/pulsar-external-stream).
+  * new type of [External Streams for Apache Pulsar](/pulsar-source).
   * for bare metal installation, previously you can login with the username `default` with empty password. To improve the security, this user has been removed.
   * enhancement for nullable data types in streaming and historical queries.
-  * Materialized views auto-rebalancing in the cluster mode.[Learn more](/view#auto-balancing).
+  * Materialized views auto-rebalancing in the cluster mode.[Learn more](/materialized-view#auto-balancing).
   * Approximately 30% faster data ingestion and replication in the cluster mode.
-  * Performance improvement for [ASOF JOIN](/joins) and [EMIT ON UPDATE](/streaming-aggregations#emit_on_update).
+  * Performance improvement for [ASOF JOIN](/streaming-joins) and [EMIT ON UPDATE](/streaming-aggregations#emit_on_update).
 * timeplus_web 1.4.33 -> 2.0.6
   * UI to add/remove user or change role and password. This works for both single node and cluster.
   * UI for inputs/outputs from Redpanda Connect.
@@ -194,5 +194,5 @@ Compared to the [2.4.23](/enterprise-v2.4#2_4_23) release:
 You can upgrade a deployment of Timeplus Enterprise 2.4 to Timeplus Enterprise 2.5, by stopping the components and replacing the binary files, or reusing the Docker or Kubernetes volumes and update the image versions.
 
 #### Known issues {#known_issue_2_5_9}
-1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for migration.
+1. If you have deployed one of the [2.4.x releases](/enterprise-v2.4), you can reuse the data and configuration directly. However, if your current deployment is [2.3](/enterprise-v2.3) or earlier, you cannot upgrade directly. Please have a clean installation of 2.5.x release, then use tools like [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for migration.
 2. Pulsar external streams are only available in Linux bare metal builds and Linux-based Docker images. This type of external stream is not available in macOS bare metal builds.

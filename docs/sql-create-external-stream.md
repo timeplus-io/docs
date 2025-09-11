@@ -1,6 +1,6 @@
 # CREATE EXTERNAL STREAM
 
-External stream for Kafka is official supported. The external stream for local log files is at technical preview. In Timeplus Enterprise, it also supports [another type of External Stream](/timeplus-external-stream) to read/write data for a remote Timeplus Enterprise.
+External stream for Kafka is official supported. The external stream for local log files is at technical preview. In Timeplus Enterprise, it also supports [another type of External Stream](/timeplus-source) to read/write data for a remote Timeplus Enterprise.
 
 ## Kafka External Stream
 ```sql
@@ -24,7 +24,7 @@ SETTINGS type='kafka',
          config_file='..'
 ```
 
-Please check the [Kafka External Stream](/proton-kafka) for more details about the settings, and [this doc](/tutorial-sql-connect-kafka) for examples to connect to various Kafka API compatible message platforms.
+Please check the [Kafka External Stream](/kafka-source) for more details about the settings, and [this doc](/tutorial-sql-connect-kafka) for examples to connect to various Kafka API compatible message platforms.
 
 ## Pulsar External Stream
 ```sql
@@ -49,7 +49,7 @@ SETTINGS
     config_file='..'
 ```
 
-Please check the [Pulsar External Stream](/pulsar-external-stream#ddl-settings) for more details.
+Please check the [Pulsar External Stream](/pulsar-source) for more details.
 
 ## Timeplus External Stream
 ```sql

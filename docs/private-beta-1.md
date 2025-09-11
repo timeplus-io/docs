@@ -38,7 +38,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
 
-  - Refined the behavior of [materialized views](/view#m_view), to keep it consistent with the other Timeplus queries. `SELECT * FROM table(a_materialized_view)` will get all past results, instead of the recent one.
+  - Refined the behavior of [materialized views](/materialized-view), to keep it consistent with the other Timeplus queries. `SELECT * FROM table(a_materialized_view)` will get all past results, instead of the recent one.
   - Added the count_if function and unique_exact_if function to count the number of rows or unique value matching certain conditions.
   - Added json_extract_keys function to get the keys for the JSON map object.
   - Added the to_bool function to convert other types to `bool`
@@ -140,7 +140,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
   - More math functions are exposed. This can help you to run SQL-based simple ML/prediction models.
-  - (Experimental) [stream-to-stream join](/joins) no longer requires a ` date_diff_within(..)`, although it's still recommended to add timestamp constraints to improve performance.
+  - (Experimental) [stream-to-stream join](/streaming-joins) no longer requires a ` date_diff_within(..)`, although it's still recommended to add timestamp constraints to improve performance.
   - (Experimental) able to set a retention policy for each stream, either time-based (say only keep recent 7 days' data), or size based(say only keep recent 1GB data)
 - Source and sink
   - (Experimental) support Personal Access Token (PAT) in the REST API, which is long-living (or set an expiration date) and per-user. Tenant-level access token will be deprecated.
@@ -163,7 +163,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
   - (Experimental) new UI and API to create and query [external streams](/external-stream). You can query real-time data in Confluent Cloud, Apache Kafka or Redpanda immediately, without loading the data into Timeplus.
-  - (Experimental) [stream-to-stream join](/joins) is ready to test for beta customers, e.g. `SELECT .. FROM stream1 INNER JOIN stream2 ON stream1.id=stream2.id AND date_diff_within(10s)`
+  - (Experimental) [stream-to-stream join](/streaming-joins) is ready to test for beta customers, e.g. `SELECT .. FROM stream1 INNER JOIN stream2 ON stream1.id=stream2.id AND date_diff_within(10s)`
   - New function `date_diff_within` to determine whether 2 datetime are within the specified range. This is necessary for stream to stream join. You can also use more flexible expressions like `date_diff('second',left.time,right.time) between -3 and 5`
 - Source and sink
   - Enhanced the [datapm](https://datapm.io/docs/quick-start/) Timeplus sink to support loading JSON data from PostgreSQL.

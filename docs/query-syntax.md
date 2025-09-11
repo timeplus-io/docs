@@ -55,7 +55,7 @@ This will fetch the 3 rows from the 2nd smallest value of `a`.
 
 ## JOINs
 
-Please check [Joins](/joins).
+Please check [Joins](/streaming-joins).
 
 ## WITH cte
 

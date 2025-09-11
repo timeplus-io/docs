@@ -4,7 +4,7 @@ You can send data to HTTP endpoints via the HTTP External Stream. You can use th
 
 Currently, it only supports writing data to HTTP endpoints, but reading data from HTTP endpoints is not supported yet.
 
-## CREATE EXTERNAL STREAM
+## Create HTTP External Stream
 
 To create an external stream for HTTP endpoints, you can run the following DDL SQL:
 
@@ -39,66 +39,6 @@ SETTINGS
 For the full list of settings, see the [DDL Settings](#ddl-settings) section.
 
 ### Examples
-
-#### Write to OpenSearch/ElasticSearch {#example-write-to-es}
-Assuming you have created an index `students` in a deployment of OpenSearch or ElasticSearch, you can create the following external stream to write data to the index.
-
-```sql
-CREATE EXTERNAL STREAM opensearch_t1 (
-  name string,
-  gpa float32,
-  grad_year int16
-) SETTINGS
-type = 'http',
-data_format = 'OpenSearch', --can also use the alias "ElasticSearch"
-url = 'https://opensearch.company.com:9200/students/_bulk',
-username='admin',
-password='..'
-```
-
-Then you can insert data via a materialized view or just
-```sql
-INSERT INTO opensearch_t1(name,gpa,grad_year) VALUES('Jonathan Powers',3.85,2025);
-```
-
-#### Write to Splunk {#example-write-to-splunk}
-Follow [the guide](https://docs.splunk.com/Documentation/Splunk/9.4.1/Data/UsetheHTTPEventCollector) to set up and use HTTP Event Collector(HEC) in Splunk. Make sure you create a HEC token for the desired index and enable it.
-
-Create the HTTP external stream in Timeplus:
-```sql
-CREATE EXTERNAL STREAM http_splunk_t1 (event string)
-SETTINGS
-type = 'http',
-data_format = 'JSONEachRow',
-http_header_Authorization='Splunk the-hec-token',
-url = 'http://host:8088/services/collector/event'
-```
-
-Then you can insert data via a materialized view or just
-```sql
-INSERT INTO http_splunk_t1 VALUES('test1'),('test2');
-```
-
-#### Write to Datadog {#example-write-to-datadog}
-
-Create or use an existing API key with the proper permission for sending data.
-
-Create the HTTP external stream in Timeplus:
-```sql
-CREATE EXTERNAL STREAM datadog_t1 (event string)
-SETTINGS
-type = 'http',
-data_format = 'JSONEachRow',
-output_format_json_array_of_rows = 1,
-http_header_DD_API_KEY = 'THE_API_KEY',
-http_header_Content_Type = 'application/json',
-url = 'https://http-intake.logs.us3.datadoghq.com/api/v2/logs' --make sure you set the right region
-```
-
-Then you can insert data via a materialized view or just
-```sql
-INSERT INTO datadog_t1(message, hostname) VALUES('test message','a.test.com'),('test2','a.test.com');
-```
 
 #### Write to Algolia {#example-write-to-algolia}
 
@@ -138,93 +78,6 @@ INSERT INTO http_algolia_t1(firstname,lastname,zip_code)
 VALUES('firstnameA','lastnameA',123),('firstnameB','lastnameB',987)
 ```
 
-#### Write to BigQuery {#example-write-to-bigquery}
-
-Assume you have created a table in BigQuery with 2 columns:
-```sql
-create table `PROJECT.DATASET.http_sink_t1`(
-    num int,
-    str string);
-```
-
-Follow [the guide](https://cloud.google.com/bigquery/docs/authentication) to choose the proper authentication to Google Cloud, such as via the gcloud CLI `gcloud auth application-default print-access-token`.
-
-Create the HTTP external stream in Timeplus:
-```sql
-CREATE EXTERNAL STREAM http_bigquery_t1 (num int,str string)
-SETTINGS
-type = 'http',
-http_header_Authorization='Bearer $OAUTH_TOKEN',
-url = 'https://bigquery.googleapis.com/bigquery/v2/projects/$PROJECT/datasets/$DATASET/tables/$TABLE/insertAll',
-data_format = 'Template',
-format_template_resultset_format='{"rows":[${data}]}',
-format_template_row_format='{"json":{"num":${num:JSON},"str":${str:JSON}}}',
-format_template_rows_between_delimiter=','
-```
-
-Replace the `OAUTH_TOKEN` with the output of `gcloud auth application-default print-access-token` or other secure way to obtain OAuth token. Replace `PROJECT`, `DATASET` and `TABLE` to match your BigQuery table path. Also change `format_template_row_format` to match the table schema.
-
-Then you can insert data via a materialized view or just via `INSERT` command:
-```sql
-INSERT INTO http_bigquery_t1 VALUES(10,'A'),(11,'B');
-```
-
-#### Write to Databricks {#example-write-to-databricks}
-
-Follow [the guide](https://docs.databricks.com/aws/en/dev-tools/auth/pat) to create an access token for your Databricks workspace.
-
-Assume you have created a table in Databricks SQL warehouse with 2 columns:
-```sql
-CREATE TABLE sales (
-  product STRING,
-  quantity INT
-);
-```
-
-Create the HTTP external stream in Timeplus:
-```sql
-CREATE EXTERNAL STREAM http_databricks_t1 (product string, quantity int)
-SETTINGS
-type = 'http',
-http_header_Authorization='Bearer $TOKEN',
-url = 'https://$HOST.cloud.databricks.com/api/2.0/sql/statements/',
-data_format = 'Template',
-format_template_resultset_format='{"warehouse_id":"$WAREHOUSE_ID","statement": "INSERT INTO sales (product, quantity) VALUES (:product, :quantity)", "parameters": [${data}]}',
-format_template_row_format='{ "name": "product", "value": ${product:JSON}, "type": "STRING" },{ "name": "quantity", "value": ${quantity:JSON}, "type": "INT" }',
-format_template_rows_between_delimiter=''
-```
-
-Replace the `TOKEN`, `HOST`, and `WAREHOUSE_ID` to match your Databricks settings. Also change `format_template_row_format` and `format_template_row_format` to match the table schema.
-
-Then you can insert data via a materialized view or just via `INSERT` command:
-```sql
-INSERT INTO http_databricks_t1(product, quantity) VALUES('test',95);
-```
-
-This will insert one row per request. We plan to support batch insert and Databricks specific format to support different table schemas in the future.
-
-#### Trigger Slack Notifications {#example-trigger-slack}
-
-You can follow [the guide](https://api.slack.com/messaging/webhooks) to configure an "incoming webhook" to send notifications to a Slack channel.
-
-```sql
-CREATE EXTERNAL STREAM http_slack_t1 (text string) SETTINGS
-type = 'http', data_format='Template',
-format_template_resultset_format='{"blocks":[{"type":"section","text":{"type":"mrkdwn","text":"${data}"}}]}',
-format_template_row_format='${text:Raw}',
-url = 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX'
-```
-
-Then you can insert data via a materialized view or just via `INSERT` command:
-```sql
-INSERT INTO http_slack_t1 VALUES('Hello World!');
-INSERT INTO http_slack_t1 VALUES('line1\nline2');
-INSERT INTO http_slack_t1 VALUES('msg1'),('msg2');
-INSERT INTO http_slack_t1 VALUES('This is unquoted text\n>This is quoted text\n>This is still quoted text\nThis is unquoted text again');
-```
-
-Please follow Slack's [text formats](https://api.slack.com/reference/surfaces/formatting) guide to add rich text to your messages.
-
 ### DDL Settings
 
 #### type
@@ -233,7 +86,7 @@ The type of the external stream. The value must be `http` to send data to HTTP e
 #### config_file
 The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the HTTP credentials or Authentication tokens in the file.
 
-Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
+Please follow the example in [Kafka External Stream](/kafka-source#config_file).
 
 #### url
 The endpoint of the HTTP service. Different services and different use cases may have different endpoints. For example, to send data to a specified OpenSearch index, you can use `http://host:port/my_index/_bulk`. To send data to multiple indexes (depending on the column in the streaming SQL), you can use `http://host:port/_bulk` and also specify the `output_format_opensearch_index_column`.
@@ -308,10 +161,4 @@ output_format_json_array_of_rows = 1,
 username='..',
 password='..',
 url = 'https://api.openobserve.ai/api/../default/_json'
-```
-
-## DROP EXTERNAL STREAM
-
-```sql
-DROP STREAM [IF EXISTS] name
 ```

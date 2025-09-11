@@ -11,7 +11,7 @@ Each component maintains its own version numbers. The version number for each Ti
 
 ## Key Highlights
 Key highlights of this release:
-* **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or reading files in S3.
+* **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-sink), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or reading files in S3.
 * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory or a mutable stream, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
 * **PostgreSQL and MySQL CDC via Redpanda Connect:** Timeplus Enterprise now supports CDC (Change Data Capture) for PostgreSQL and MySQL databases via Redpanda Connect. This feature enables real-time data ingestion from these databases into Timeplus.
 * **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.
@@ -29,7 +29,7 @@ Key highlights of this release:
 |Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
 
 ## Upgrade Guide
-1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-external-stream) for data migration.
+1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. For bare metal users, you can upgrade from Timeplus Enterprise 2.6 to 2.7 by stopping components and replacing binary files.
 3. For Kubernetes users, please follow [the guide](/k8s-helm#v5-to-v6) carefully since a few timeplusd built-in users are removed in the new helm chart, and you can configure ingress for Appserver and Timeplusd independently.
 
@@ -304,13 +304,13 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
     * To improve performance, we have optimized the schema for [system.stream_metric_log](/system-stream-metric-log) and [system.stream_state_log](/system-stream-state-log).
   * Security Enhancements:
     * **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.
-    * **Integration with HashiCorp Vault:** You can now use HashiCorp Vault to store sensitive data, such as password for all types of external streams or external tables, and reference them in [config_file](/proton-kafka#config_file) setting.
+    * **Integration with HashiCorp Vault:** You can now use HashiCorp Vault to store sensitive data, such as password for all types of external streams or external tables, and reference them in [config_file](/kafka-source#config_file) setting.
     * Specify the non-root user in the Docker image to improve security.
   * New Features:
-    * **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-external), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
+    * **Stream processing for files in S3 buckets:** With the new [S3 external table](/s3-sink), Timeplus Enterprise now supports writing stream processing results to S3 buckets, or read files in S3.
     * **Join the latest data from MySQL or ClickHouse via dictionary:** You can now create a [dictionary](/sql-create-dictionary) to store key-value pairs in memory or a mutable stream, with data from various sources, such as files, MySQL/ClickHouse databases, or streams in Timeplus.
     * Replay historical data in local streams or Kafka external streams with the [replay_speed](/query-settings#replay_speed) setting.
-    * Read the header key-value pairs in the kafka external stream. [Learn more](/proton-kafka#_tp_message_headers)
+    * Read the header key-value pairs in the kafka external stream. [Learn more](/kafka-source)
     * [Python UDF](/py-udf): You can now create user-defined functions (UDFs) in Python to extend the functionality of Timeplus with rich ecosystem of Python. It's currently in technical preview for Linux x86_64 only.
 * timeplus_web 2.1.7 -> 2.2.10
   * Significant improvements of materialized view monitoring and troubleshooting UI.

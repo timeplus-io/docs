@@ -1,5 +1,7 @@
 # MySQL External Table
 
+## Overview 
+
 Timeplus can read or write MySQL tables directly. This unlocks a set of new use cases, such as
 
 - Use Timeplus to efficiently process real-time data in Kafka/Redpanda, apply flat transformation or stateful aggregation, then write the data to the local or remote MySQL for further analysis or visualization.
@@ -8,9 +10,7 @@ Timeplus can read or write MySQL tables directly. This unlocks a set of new use 
 
 This integration is done by introducing "External Table" in Timeplus. Similar to [External Stream](/external-stream), there is no data persisted in Timeplus. However, since the data in MySQL is in the form of table, not data stream, so we call this as External Table. Currently, we support MySQL and ClickHouse. In the roadmap, we will support more integration by introducing other types of External Table.
 
-## CREATE EXTERNAL TABLE
-
-### Syntax
+## Create MySQL External Table
 
 ```sql
 CREATE EXTERNAL TABLE name
@@ -35,7 +35,7 @@ The required settings are type and address. For other settings, the default valu
 
 The `config_file` setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of `key=value` pairs, one pair per line. You can set the MySQL user and password in the file.
 
-Please follow the example in [Kafka External Stream](/proton-kafka#config_file).
+Please follow the example in [Kafka External Stream](/kafka-source#config_file).
 
 You don't need to specify the columns, since the table schema will be fetched from the MySQL server.
 
@@ -53,7 +53,7 @@ The data types in the output will be Timeplus data types, such as `uint8`, inste
 
 You can define the external table and use it to read data from the MySQL table, or write to it.
 
-### Connect to a local MySQL {#local}
+## Connect to a local MySQL {#local}
 
 Example SQL to connect to a local MySQL server without password:
 
@@ -101,7 +101,9 @@ CREATE MATERIALIZED VIEW mv INTO mysql_table AS
 ```
 
 ### Batching Settings
+
 In Timeplus Enterprise, additional performance tuning settings are available, such as
+
 ```sql
 INSERT INTO mysql_table
 SELECT * FROM some_source_stream

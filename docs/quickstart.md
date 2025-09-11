@@ -24,10 +24,10 @@ After creating the account, login with that username and password.
 
 If your streaming data resides in or a publicly accessible Kafka or Pulsar instance, follow one of following docs to setup data access in Timeplus, then return here to complete the quickstart:
 
-- [Apache Kafka](/proton-kafka)
+- [Apache Kafka](/kafka-source)
 - Confluent Cloud
-- [Apache Pulsar](/pulsar-external-stream)
-- [REST API, SDK, and others](/ingestion)
+- [Apache Pulsar](/pulsar-source)
+- [REST API, SDK, and others](/connect-data-in)
 
 If you don't yet have a streaming data source and would like test out how Timeplus works, Timeplus provides a built-in data source to generate streaming data for some common use cases.
 
@@ -50,10 +50,10 @@ To send data to Kafka, ClickHouse or other systems, you can submit a streaming S
 ![Send data out](/img/sink.png)
 
 Timeplus supports various systems as the downstreams:
-* [Send data to Kafka topics](/destination#kafka)
-* [Send data to Pulsar topics](/pulsar-external-stream#write-data-to-pulsar)
-* [Send data to ClickHouse tables](/proton-clickhouse-external-table#write)
-* [Send data to another Timeplus deployment](/timeplus-external-stream)
-* [Send data to Webhook endpoints](/destination#webhook)
-* [Notify others via Slack](/destination#slack)
-* [Send data to other systems via Redpanda Connect](/destination#rpconnect)
+* [Send data to Kafka topics](/send-data-out#kafka)
+* [Send data to Pulsar topics](/pulsar-sink)
+* [Send data to ClickHouse tables](/clickhouse-external-table#write)
+* [Send data to another Timeplus deployment](/timeplus-source)
+* [Send data to Webhook endpoints](/send-data-out#webhook)
+* [Notify others via Slack](/send-data-out#slack)
+* [Send data to other systems via Redpanda Connect](/send-data-out#rpconnect)

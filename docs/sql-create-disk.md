@@ -1,7 +1,7 @@
 # CREATE DISK
 By default, Timeplus only created a `default` disk for local storage.
 
-Starting from [Timeplus Enterprise 2.8](/enterprise-v2.8), you can create S3 disks for [tiered storage](/tiered-storage) or [autoscaling materialized views](/view#autoscaling_mv).
+Starting from [Timeplus Enterprise 2.8](/enterprise-v2.8), you can create S3 disks for [tiered storage](/tiered-storage) or [autoscaling materialized views](/materialized-view#autoscaling_mv).
 
 ## Syntax
 You can create a S3 disk with the following SQL:
@@ -15,7 +15,7 @@ CREATE DISK name disk(
 )
 ```
 
-Please refer to [S3 External Table](/s3-external) for how to connect to the S3 storage. It's not recommended to hardcode the access key and secret access key in the DDL. Instead, users should use environment variables or IAM role to secure these credentials.
+Please refer to [S3 External Table](/s3-sink) for how to connect to the S3 storage. It's not recommended to hardcode the access key and secret access key in the DDL. Instead, users should use environment variables or IAM role to secure these credentials.
 
 You can use the following SQL to list the disks:
 ```sql

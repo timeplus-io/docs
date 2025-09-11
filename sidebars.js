@@ -95,14 +95,142 @@ const sidebars = {
         {
           type: "doc",
           id: "howtos",
-          label: "How To",
+          label: "How Tos",
         },
       ]
     },
     {
       type: "category",
-      label: "Core Features",
-      // customProps: { tag: "Popular" },
+      label: "Connect Data In",
+      items: [
+        {
+          type: "doc",
+          label: "Overview",
+          id: "connect-data-in",
+        },
+        // {
+        //   type: "category",
+        //   label: "Native Client",
+        //   link: {
+        //     type: "doc",
+        //     id: "native-client",
+        //   },
+        //   items: [
+        //     {
+        //       type: "doc",
+        //       id: "idempotent",
+        //     },
+        //   ],
+        // },
+        {
+          type: "category",
+          label: "Apache Kafka",
+          link: {
+            type: "doc",
+            id: "kafka-source",
+          },
+          items: ["kafka-schema-registry", "timeplus-format-schema"],
+        },
+        {
+          type: "doc",
+          label: "Apache Pulsar",
+          id: "pulsar-source",
+        },
+        {
+          type: "doc",
+          label: "MySQL",
+          id: "mysql-external-table",
+        },
+        {
+          type: "doc",
+          label: "Apache Iceberg",
+          id: "iceberg-source",
+        },
+        {
+          type: "doc",
+          label: "MongoDB",
+          id: "mongo-external-table",
+        },
+        {
+          type: "doc",
+          label: "PostgreSQL",
+          id: "pg-external-table",
+        },
+        {
+          type: "doc",
+          label: "S3",
+          id: "s3-source",
+        },
+        {
+          type: "doc",
+          label: "Log Stream",
+          id: "log-stream",
+        },
+        {
+          type: "doc",
+          label: "Remote Timeplus",
+          id: "timeplus-source",
+        },
+        {
+          type: "link",
+          label: "Timeplus Random Stream",
+          href: "https://docs.timeplus.com/sql-create-random-stream",
+        },
+      ]
+    },
+    {
+      type: "category",
+      label: "Process Data",
+      items: [
+        {
+          type: "doc",
+          id: "view",
+          label: "View",
+        },
+        {
+          type: "category",
+          label: "Materialized View",
+          link: {
+            type: "doc",
+            id: "materialized-view",
+          },
+          items: ["checkpoint-settings"],
+        },
+        {
+          type: "doc",
+          id: "streaming-query",
+          label: "Streaming Query"
+        },
+        {
+          type: "doc",
+          id: "historical-query",
+          label: "Historical Query"
+        },
+        {
+          type: "doc",
+          id: "streaming-joins",
+          label: "Streaming Joins"
+        },
+        {
+          type: "doc",
+          id: "streaming-windows",
+          label: "Streaming Windows"
+        },
+        {
+          type: "doc",
+          id: "streaming-aggregations",
+          label: "Streaming Aggregations"
+        },
+        {
+          type: "doc",
+          id: "jit",
+          label: "Just-In-Time Compilation"
+        },
+      ]
+    },
+    {
+      type: "category",
+      label: "Store & Serve Data",
       items: [
         {
           type: "category",
@@ -112,176 +240,141 @@ const sidebars = {
             id: "working-with-streams",
           },
           items: [
-            "append-stream",
-            "versioned-stream",
-            "changelog-stream",
+            {
+              type: "doc",
+              id: "append-stream",
+            },
+            {
+              type: "doc",
+              id: "versioned-stream",
+            },
+            {
+              type: "doc",
+              id: "changelog-stream",
+            },
             {
               type: "doc",
               id: "mutable-stream",
               customProps: { tag: "Enterprise" },
             },
             {
-              label: "Random Stream",
-              type: "link",
-              href: "https://docs.timeplus.com/sql-create-random-stream",
-            },
-          ],
-        },
-        {
-          type: "category",
-          label: "Materialized Views",
-          link: {
-            type: "doc",
-            id: "view",
-          },
-          items: ["checkpoint-settings"],
-        },
-        {
-          type: "category",
-          label: "Data Ingestion",
-          link: {
-            type: "doc",
-            id: "ingestion",
-          },
-          items: [
-            {
               type: "doc",
-              id: "idempotent",
-              customProps: { tag: "Enterprise" },
+              id: "tiered-storage",
             },
           ],
         },
-        "destination",
-        {
-          type: "category",
-          label: "External Streams & Tables",
-          // link: {
-          //   type: "generated-index",
-          //   title: "SQL Commands",
-          //   description: "Overview of the SQL commands supported by Timeplus.",
-          //   slug: "/category/commands",
-          //   keywords: ["guides"],
-          // },
-          items: [
-            {
-              type: "category",
-              label: "External Streams",
-              link: {
-                type: "doc",
-                id: "external-stream",
-              },
-              items: [
-                {
-                  type: "category",
-                  label: "Apache Kafka",
-                  link: {
-                    type: "doc",
-                    id: "proton-kafka",
-                  },
-                  items: ["proton-schema-registry", "proton-format-schema"],
-                },
-                {
-                  type: "doc",
-                  id: "pulsar-external-stream",
-                  label: "Apache Pulsar",
-                },
-                {
-                  type: "doc",
-                  id: "timeplus-external-stream",
-                  label: "Remote Timeplus",
-                },
-                {
-                  type: "doc",
-                  id: "http-external",
-                  label: "HTTP Write",
-                  customProps: { tag: "Enterprise" },
-                },
-                "log-stream",
-              ],
-            },
-            {
-              type: "category",
-              label: "External Tables",
-              items: [
-                {
-                  type: "doc",
-                  id: "proton-clickhouse-external-table",
-                  label: "ClickHouse",
-                },
-                {
-                  type: "doc",
-                  id: "mysql-external-table",
-                  label: "MySQL",
-                  customProps: { tag: "Enterprise" },
-                },
-                {
-                  type: "doc",
-                  id: "pg-external-table",
-                  label: "PostgreSQL",
-                  customProps: { tag: "Enterprise" },
-                },
-                {
-                  type: "doc",
-                  id: "mongo-external",
-                  label: "MongoDB",
-                  customProps: { tag: "Enterprise" },
-                },
-                {
-                  type: "doc",
-                  label: "Amazon S3",
-                  id: "s3-external",
-                  customProps: { tag: "Enterprise" },
-                },
-                {
-                  type: "doc",
-                  id: "iceberg",
-                  label: "Apache Iceberg",
-                  customProps: { tag: "Enterprise" },
-                },
-              ],
-            },
-          ],
-        },
-        // "stream-query",
-        // "history",
         {
           label: "Dictionary",
           type: "link",
           href: "https://docs.timeplus.com/sql-create-dictionary",
-          customProps: { tag: "Enterprise" },
-        },
-        {
-          type: "category",
-          label: "Stream Processing",
-          items: [
-            "stream-query",
-            "history",
-            "joins",
-            "streaming-windows",
-            "streaming-aggregations",
-            {
-              type: "doc",
-              id: "jit",
-              customProps: { tag: "Enterprise" },
-            },
-          ],
-        },
-        {
-          type: "doc",
-          id: "alert",
-          customProps: { tag: "Enterprise" },
-        },
-        {
-          type: "doc",
-          id: "tiered-storage",
-          customProps: { tag: "Enterprise" },
         },
         {
           type: "doc",
           id: "viz",
           customProps: { tag: "Enterprise" },
         },
-      ],
+      ]
+    },
+    {
+      type: "category",
+      label: "Send Data Out",
+      items: [
+        {
+          type: "doc",
+          label: "Overview",
+          id: "send-data-out",
+        },
+        // {
+        //   type: "doc",
+        //   label: "Native Client",
+        //   id: "native-client",
+        // },
+        {
+          type: "doc",
+          label: "Apache Kafka",
+          id: "kafka-sink",
+        },
+        {
+          type: "doc",
+          label: "Apache Pulsar",
+          id: "pulsar-sink",
+        },
+        {
+          type: "doc",
+          label: "Apache Iceberg",
+          id: "iceberg-sink",
+        },
+        {
+          type: "doc",
+          label: "ClickHouse",
+          id: "clickhouse-external-table",
+        },
+        {
+          type: "doc",
+          label: "S3",
+          id: "s3-sink",
+        },
+        {
+           type: "doc",
+           label: "HTTP",
+           id: "http-external-stream",
+        },
+        {
+           type: "doc",
+           label: "Datadog",
+           id: "datadog-external",
+        },
+        {
+           type: "doc",
+           label: "Splunk",
+           id: "splunk-external",
+        },
+        {
+           type: "doc",
+           label: "Elastic Search",
+           id: "elastic-external",
+        },
+        {
+           type: "doc",
+           label: "Big Query",
+           id: "bigquery-external",
+        },
+        {
+           type: "doc",
+           label: "Databricks",
+           id: "databricks-external",
+        },
+        // {
+        //   type: "doc",
+        //   label: "MySQL",
+        //   id: "mysql-external-table",
+        // },
+        // {
+        //   type: "doc",
+        //   label: "PostgreSQL",
+        //   id: "pg-external-table",
+        // },
+        // {
+        //   type: "doc",
+        //   label: "MongoDB",
+        //   id: "mongo-external-table",
+        // },
+        {
+          type: "doc",
+          label: "Remote Timeplus",
+          id: "timeplus-sink",
+        },
+        {
+           type: "doc",
+           label: "Slack",
+           id: "slack-external",
+        },
+        {
+          type: "doc",
+          id: "alert",
+          customProps: { tag: "Enterprise" },
+        },
+      ]
     },
     {
       type: "category",
@@ -422,8 +515,8 @@ const sidebars = {
       items: [
         {
           type: "doc",
-          label: "vs. Timeplus Enterprise",
-          id: "compare",
+          label: "Proton OSS vs Enterprise",
+          id: "proton-oss-vs-enterprise",
         },
         "proton-faq",
       ],

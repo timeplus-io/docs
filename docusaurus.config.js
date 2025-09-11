@@ -44,11 +44,74 @@ const config = {
             from: '/faq',
             to: '/howtos',
           },
+          {
+            from: '/proton-kafka',
+            to: '/kafka-source',
+          },
+          {
+            from: '/pulsar-external-stream',
+            to: '/pulsar-source',
+          },
+          {
+            from: '/proton-schema-registry',
+            to: '/kafka-schema-registry',
+          },
+          {
+            from: '/proton-format-schema',
+            to: '/timeplus-format-schema',
+          },
+          {
+            from: '/proton-clickhouse-external-table',
+            to: '/clickhouse-external-table',
+          },
+          {
+            from: '/mongo-external',
+            to: '/mongo-external-table',
+          },
+          {
+            from: '/s3-external',
+            to: '/s3-source',
+          },
+          {
+            from: '/iceberg',
+            to: '/iceberg-source',
+          },
+          {
+            from: '/http-external',
+            to: '/http-external-stream',
+          },
+          {
+            from: '/timeplus-external-stream',
+            to: '/timeplus-source',
+          },
+          {
+            from: '/stream-query',
+            to: '/streaming-query',
+          },
+          {
+            from: '/history',
+            to: '/historical-query',
+          },
+          {
+            from: '/joins',
+            to: '/streaming-joins',
+          },
+          {
+            from: '/ingest',
+            to: '/connect-data-in',
+          },
+          {
+            from: '/destination',
+            to: '/send-data-out',
+          },
+          {
+            from: '/compare',
+            to: '/proton-oss-vs-enterprise',
+          },
         ],
       },
     ],
   ],
-
   presets: [
     [
       "classic",
@@ -143,19 +206,19 @@ const config = {
           {
             type: "doc",
             position: "left",
-            docId: "ingestion",
-            label: "Get Data In",
+            docId: "connect-data-in",
+            label: "Connect Data In",
           },
           {
             type: "doc",
             position: "left",
             docId: "query-syntax",
-            label: "Query Data",
+            label: "Process Data",
           },
           {
             type: "doc",
             position: "left",
-            docId: "destination",
+            docId: "send-data-out",
             label: "Send Data Out",
           },
           {

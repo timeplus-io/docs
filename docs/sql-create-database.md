@@ -75,7 +75,7 @@ SETTINGS
           storage_credential='<username:password>';
 ```
 
-[Learn more](/iceberg#syntax)
+[Learn more](/iceberg-source)
 
 
 ## See also

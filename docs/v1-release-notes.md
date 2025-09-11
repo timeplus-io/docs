@@ -5,7 +5,7 @@ This page summarizes changes for each major update in Proton and Timeplus Cloud,
 ## Jun 24, 2024
 
 *Timeplus Core Engine (Proton v1.5.10):*
-  * Avro-Encoded Messages: Previously, Schema Registry must be enabled to read Avro-encoded messages. Now, SQL can be used to define the Avro schema and read these messages. [Learn more](/proton-format-schema)
+  * Avro-Encoded Messages: Previously, Schema Registry must be enabled to read Avro-encoded messages. Now, SQL can be used to define the Avro schema and read these messages. [Learn more](/timeplus-format-schema)
   * Improved Proton Client: `-h 127.0.0.1` is no longer used when launching the proton-client. Proton v1.5.10 listens on both IPv4 and IPv6 ports.
 
 ## May 28, 2024
@@ -40,7 +40,7 @@ _Timeplus Console:_
 
 _Timeplus Core Engine (Proton v1.5.7):_
 
-- You can now join multiple [versioned streams](/versioned-stream) using `LEFT JOIN` and by assigning primary key(s). Results will be emitted whenever there are updates to either side of the JOIN. [Learn more](/joins)
+- You can now join multiple [versioned streams](/versioned-stream) using `LEFT JOIN` and by assigning primary key(s). Results will be emitted whenever there are updates to either side of the JOIN. [Learn more](/streaming-joins)
 - New examples in the Timeplus Proton repo /examples folder:
   - [One Billion Rows Challenge (1BRC)](https://github.com/timeplus-io/proton/tree/develop/examples/onebrc), contributed by Timeplus Community member [Saïd Abiola](https://github.com/ayewo)
   - [Real-time retrieval-augmented generation (RAG)](https://github.com/timeplus-io/proton/tree/develop/examples/real-time-ai)
@@ -79,8 +79,8 @@ _Timeplus Cloud and Timeplus Enterprise:_
 _Timeplus Proton:_
 
 - Streaming processing now supports nullable data type.
-- [External Table](/proton-clickhouse-external-table#create-external-table): ClickHouse external tables with names containing special characters (such as dashes) are now supported. Simply set `table='test-a-b'` in the `CREATE EXTERNAL TABLE` DDL.
-- [External Stream](/proton-kafka#create-external-stream): Error handling and connection pooling/retry for Kafka external streams have been greatly improved.
+- [External Table](/clickhouse-external-table): ClickHouse external tables with names containing special characters (such as dashes) are now supported. Simply set `table='test-a-b'` in the `CREATE EXTERNAL TABLE` DDL.
+- [External Stream](/kafka-source): Error handling and connection pooling/retry for Kafka external streams have been greatly improved.
 - Materialized View: Added option to [skip dirty/unexpected data](/query-syntax#settings). If you set `SETTINGS recovery_policy='best_effort'`, Timeplus will try up to 3 times, then skip dirty data and continue processing the rest of the data.
 
 _Timeplus Cloud and Timeplus Enterprise:_
@@ -109,7 +109,7 @@ _Proton:_
 
 - Proton can now natively integrate with ClickHouse, available for both ClickHouse Cloud or local/self-managed versions of ClickHouse. [Learn more](https://www.timeplus.com/post/proton-clickhouse-integration)
 - Bulk CSV import is enhanced, in Proton 1.5.2. You can load billions of rows in multiple CSV files via a single SQL.
-- Kafka Schema Registry is supported with Protobuf and Avro format (Proton 1.5.2). [Learn more](/proton-schema-registry)
+- Kafka Schema Registry is supported with Protobuf and Avro format (Proton 1.5.2). [Learn more](/kafka-schema-registry)
 - Self-signed HTTPS certification for Schema Registry is supported (Proton 1.5.3).
 - Proton now can be compiled on SUSE Linux.
 
@@ -138,8 +138,8 @@ _Timeplus Cloud:_
 
 _Proton (Current version: v1.4.2):_
 
-- Since Proton v1.4.2, we’ve added support to read or write ClickHouse tables. To do this, we’ve introduced a new concept in Proton: "External Table". Similar to [External Stream](/external-stream), no data is persisted in Proton. In the future, we will support more integration by introducing other types of External Table. [See our docs](/proton-clickhouse-external-table) for use cases and more details.
-- Based on user feedback, we’ve simplified the process of reading key/value pairs in the JSON document in a Kafka topic. You don’t need to define all keys as columns, and no need to set `input_format_skip_unknown_fields` in DDL or SQL. [Learn more](/proton-kafka)
+- Since Proton v1.4.2, we’ve added support to read or write ClickHouse tables. To do this, we’ve introduced a new concept in Proton: "External Table". Similar to [External Stream](/external-stream), no data is persisted in Proton. In the future, we will support more integration by introducing other types of External Table. [See our docs](/clickhouse-external-table) for use cases and more details.
+- Based on user feedback, we’ve simplified the process of reading key/value pairs in the JSON document in a Kafka topic. You don’t need to define all keys as columns, and no need to set `input_format_skip_unknown_fields` in DDL or SQL. [Learn more](/kafka-source)
 - For random streams, you can now define the EPS (event per second) as a number between 0 to 1. For example, eps=0.5 means generating an event every 2 seconds.
 - A new [extract_key_value_pairs](/functions_for_text#extract_key_value_pairs) function is added to extract key value pairs from a string to a map.
 - We’ve refined the anonymous telemetry configuration. Regardless if it’s a single binary or Docker deployment, you can set a `TELEMETRY_ENABLED` environment variable. The reporting interval is adjusted from 2 minutes to 5 minutes.
@@ -156,7 +156,7 @@ _Timeplus Cloud:_
 _Proton:_
 
 - Proton v1.4.1 is now released. Please note: you cannot use an older version of Proton client to connect to the new v1.4 Proton server — be sure to update your Proton client. All existing JDBC, ODBC, Go, and Python drivers will still work as usual.
-- (v1.3.31) Write to Kafka in plain text: you can now [produce raw format data](/proton-kafka) to a Kafka external stream with a single column.
+- (v1.3.31) Write to Kafka in plain text: you can now [produce raw format data](/kafka-source) to a Kafka external stream with a single column.
 - (v1.3.31) By default, we disable sort for historical backfill. [Learn more](/query-settings) in our query guide, including how to enable.
 
 _Timeplus Cloud:_
@@ -173,7 +173,7 @@ _Proton:_
 - We've added a new example in the [proton/examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder for [Coinbase](https://github.com/timeplus-io/proton/tree/develop/examples/coinbase).
 - (v1.3.30) New functions for aggregation: [stochastic_linear_regression_state](/functions_for_agg#stochastic_linear_regression_state) and [stochastic_logistic_regression](/functions_for_agg#stochastic_logistic_regression).
 - (v1.3.30) New functions for processing text: [base64_encode](/functions_for_text#base64_encode), [base64_decode](/functions_for_text#base64_decode), [base58_encode](/functions_for_text#base58_encode), and [base58_decode](/functions_for_text#base58_decode),
-- (v1.3.30) When creating an external stream, you can set sasl_mechanism to SCRAM-SHA-512, SCRAM-SHA-256, or PLAIN (default value). Learn more with [examples](/proton-kafka#create-external-stream) in our docs.
+- (v1.3.30) When creating an external stream, you can set sasl_mechanism to SCRAM-SHA-512, SCRAM-SHA-256, or PLAIN (default value). Learn more with [examples](/kafka-source) in our docs.
 
 _Timeplus Cloud:_
 
@@ -185,7 +185,7 @@ _Timeplus Cloud:_
 _Proton:_
 
 - Check out new examples in the [proton/examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder: [CDC](https://github.com/timeplus-io/proton/tree/develop/examples/cdc), [awesome-sensor-logger](https://github.com/timeplus-io/proton/tree/develop/examples/awesome-sensor-logger), and [fraud detection](https://github.com/timeplus-io/proton/tree/develop/examples/fraud_detection)
-- (v1.3.29) Introduced new SQL commands for [managing format schemas](/proton-format-schema) (for now, only Protobuf schemas are supported).
+- (v1.3.29) Introduced new SQL commands for [managing format schemas](/timeplus-format-schema) (for now, only Protobuf schemas are supported).
 - (v1.3.28) For `create random stream`, the default interval_time is now 5 milliseconds, instead of 100 milliseconds. This new default value will generate random data more evenly.
 - (v1.3.28) Function names are no longer case sensitive. You can use count(), COUNT(), or Count(). This improves the compatibility for Proton with 3rd party tools if they generate SQL statements in uppercase.
 - (v1.3.27) Random stream supports ipv4 and ipv6 data type.
@@ -226,7 +226,7 @@ _Proton:_
 - Proton JDBC driver is now available via [Maven](https://central.sonatype.com/artifact/com.timeplus/proton-jdbc).
 - You can now connect Proton to [Pulse](https://www.timestored.com/pulse/) for OHLC charts.
 - New functions added: [untuple](/functions_for_comp#untuple), [tuple_element](/functions_for_comp#tuple_element), [columns](/functions_for_comp#columns), [apply](/functions_for_comp#apply), [any](/functions_for_agg#any), and [last_value](/functions_for_agg#last_value).
-- You can now create an external stream with multiple columns while reading Kafka. [Learn more](/proton-kafka#multi_col_read)
+- You can now create an external stream with multiple columns while reading Kafka. [Learn more](/kafka-source)
 
 _Timeplus Cloud:_
 

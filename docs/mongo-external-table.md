@@ -1,8 +1,10 @@
 # MongoDB External Table
 
+## Overview 
+
 You can send data to and read data from MongoDB collections via the MongoDB External Table.
 
-## CREATE EXTERNAL TABLE
+## Create MongoDB External Table
 
 To create an external table for MongoDB, you can run the following DDL SQL:
 
@@ -85,10 +87,4 @@ A comma-separated list of columns that should be treated as oid in the `WHERE` c
 By default this setting is `true`. While querying the MongoDB external table with SQL, if the query contains `GROUP BY`, `HAVING` or other aggregations, Timeplus will throw exceptions. Set this to `false` or `0` to disable this behavior, and Timeplus will read full table data from MongoDB and execute the query in Timeplus. For example:
 ```sql
 SELECT name, COUNT(*) AS cnt FROM mongodb_ext_table GROUP BY name HAVING cnt >5 SETTINGS mongodb_throw_on_unsupported_query = false;
-```
-
-## DROP EXTERNAL TABLE
-
-```sql
-DROP STREAM [IF EXISTS] name
 ```

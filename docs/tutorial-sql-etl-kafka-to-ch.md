@@ -34,7 +34,7 @@ In the demo docker compose stack, a Redpanda container is started, together with
 
 The goal of this tutorial is to read these access logs and turn the sensitive IP addresses into md5 and ingest them to ClickHouse for more business analysis.
 
-To read data from Kafka or Redpanda, you just need to create an [Kafka External Stream](/proton-kafka) with the following DDL SQL:
+To read data from Kafka or Redpanda, you just need to create an [Kafka External Stream](/kafka-source) with the following DDL SQL:
 
 ```sql
 CREATE EXTERNAL STREAM frontend_events(raw string)
@@ -63,7 +63,7 @@ CREATE MATERIALIZED VIEW mv INTO ch_local AS
     FROM frontend_events;
 ```
 
-Once the materialized view is created, it will work as a background ETL job in Proton, to continuously read data from Kafka/Redpanda, apply transformations or aggregations, then send results to ClickHouse. To learn more about Materialized View in Proton, please refer to [this documentation](/view#m_view).
+Once the materialized view is created, it will work as a background ETL job in Proton, to continuously read data from Kafka/Redpanda, apply transformations or aggregations, then send results to ClickHouse. To learn more about Materialized View in Proton, please refer to [this documentation](/materialized-view).
 
 Now if you go back to ClickHouse and run `select * from events`, you will see new data coming at sub-second latency.
 

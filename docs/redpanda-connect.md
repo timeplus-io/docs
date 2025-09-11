@@ -62,8 +62,8 @@ Processors can be defined in `inputs` section or at the top level.
 ## Available Connectors
 
 All input/output/processor components from the latest Redpanda Connect are available in Timeplus Enterprise, except the following ones:
-* `kafka` and `kafka_franz`: please create [external streams for Kafka](/proton-kafka) to read or write Kafka data.
-* `pulsar`: please create [external streams for Pulsar](/pulsar-external-stream) to read or write Pulsar data.
+* `kafka` and `kafka_franz`: please create [external streams for Kafka](/kafka-source) to read or write Kafka data.
+* `pulsar`: please create [external streams for Pulsar](/pulsar-source) to read or write Pulsar data.
 * `snowflake_put` and `splunk`: those 2 components require [Enterprise Edition license](https://redpanda.com/compare-platform-editions) from Redpanda. Please contact [Redpanda Sales](https://redpanda.com/try-redpanda) to request a trial license, or to purchase an Enterprise Edition license.
 * `csv`, `file`, `stdin`: those are designed for local development and tests. Please use the "CSV Upload" feature in "Data Collection" page.
 

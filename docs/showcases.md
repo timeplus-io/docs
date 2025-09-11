@@ -99,7 +99,7 @@ At Timeplus, we collect various logs, metrics and usage data and send them to ou
 
 ### Metering for usage-based pricing
 
-By leveraging streaming SQL, [Versioned Stream](/versioned-stream), [HTTP ingestion](/ingest-api), [WebHook sink](/destination#webhook) and many other features, we collect real-time infrastructure usage per tenants, apply lookup and aggregation, and send data to our usage-based pricing vendor, ([Paigo](https://paigo.tech/)).
+By leveraging streaming SQL, [Versioned Stream](/versioned-stream), [HTTP ingestion](/ingest-api), [WebHook sink](/send-data-out#webhook) and many other features, we collect real-time infrastructure usage per tenants, apply lookup and aggregation, and send data to our usage-based pricing vendor, ([Paigo](https://paigo.tech/)).
 
 [Read case study](https://www.timeplus.com/post/usage-based-pricing-with-timeplus-and-paigo).
 
