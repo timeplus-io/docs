@@ -1,10 +1,8 @@
 # Mutable Stream
 
-This type of stream is only available in Timeplus Enterprise, with high performance query and UPSERT (UPDATE or INSERT). Starting from [Timeplus Enterprise 2.7](/enterprise-v2.7), mutable streams are enhanced to support DELETE operation.
+As the name implies, the data in the stream is mutable. Value with the same primary key(s) will be overwritten like a MySQL table.
 
-As the name implies, the data in the stream is mutable. Value with the same primary key(s) will be overwritten.
-
-The primary use case of mutable streams is serving as the lookup/dimensional data in [Streaming JOIN](/streaming-joins), supporting millions or even billions of unique keys. You can also use mutable streams as the "fact table" to efficiently do range queries or filtering for denormalized data model, a.k.a. OBT (One Big Table).
+The primary use case of mutable streams is handling data mutation and data revision via primary key. When combining with Timeplus Materialized View, you can do incremental data revision processing (internally it is changelog processing) - the analogy is like you can do streaming query processing against a MySQL / PostgreSQL table. Mutable stream can also serve as the dynamic lookup/dimensional data in [Streaming JOIN](/streaming-joins). It supports billions of unique keys. You can also use mutable streams as the "fact table" to efficiently do range queries or filtering for denormalized data model.
 
 Learn more about why we introduced Mutable Streams by checking [this blog](https://www.timeplus.com/post/introducing-mutable-streams).
 
