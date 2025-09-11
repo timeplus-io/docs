@@ -64,7 +64,7 @@ Copy the content of `mysql-to-clickhouse.sql`and paste in the Proton Client and 
 
 1. One [Timeplus External Stream](/external-stream) will be created to read the MySQL CDC data from the Kafka/Redpanda topic.
 2. One [External Table](/clickhouse-external-table) will be created to write data from Timeplus to ClickHouse.
-3. One [Materialized View](/view#m_view) will be created to continuously read data from Kafka and write to ClickHouse.
+3. One [Materialized View](/materialized-view#m_view) will be created to continuously read data from Kafka and write to ClickHouse.
 
 The content of the `mysql-to-clickhouse.sql` is:
 

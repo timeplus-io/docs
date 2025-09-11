@@ -38,7 +38,7 @@ Last weekly release in Private Beta 1. Starting from August 8, we are transiting
 
 - Streaming engine
 
-  - Refined the behavior of [materialized views](/view#m_view), to keep it consistent with the other Timeplus queries. `SELECT * FROM table(a_materialized_view)` will get all past results, instead of the recent one.
+  - Refined the behavior of [materialized views](/materialized-view#m_view), to keep it consistent with the other Timeplus queries. `SELECT * FROM table(a_materialized_view)` will get all past results, instead of the recent one.
   - Added the count_if function and unique_exact_if function to count the number of rows or unique value matching certain conditions.
   - Added json_extract_keys function to get the keys for the JSON map object.
   - Added the to_bool function to convert other types to `bool`

@@ -17,7 +17,7 @@ Key highlights of the Timeplus 2.9 release include:
 *   **Improved Data Integrity:** Dead Letter Queue (DLQ) support for Materialized Views ensures robust data processing.
 *   **Expanded Connectivity:** Native [HTTP External Stream](/http-external-stream) for seamless integration with systems like Splunk, Elasticsearch, and more.
 *   **Performance Boost:** [JIT (Just-In-Time) compilation](/jit) for streaming queries delivers significant performance and efficiency improvements. Large cardinality sessionization.
-*   **Parameterized Views:** Create [Parameterized Views](/view#parameterized-views) for more flexible and reusable query patterns.
+*   **Parameterized Views:** Create [Parameterized Views](/materialized-view#parameterized-views) for more flexible and reusable query patterns.
 *   **Scalable Log Processing:** Distributed LogStream enables efficient handling of large volumes of log data.
 *   **Broader UDF Support:** Python UDFs now run on ARM CPUs (Linux/macOS), and JavaScript UDFs benefit from multiple V8 instances.
 *   **Refined Cluster UI:** The web console offers an improved experience for visualizing and managing cluster nodes.
@@ -49,7 +49,7 @@ Component versions:
 Compared to the [2.8.1](/enterprise-v2.8#2_8_1) release:
 * timeplusd 2.8.26 -> 2.9.9-rc.26
   *   New Features:
-      *   **Parameterized Views:** You can now create [parameterized views](/view#parameterized-views), allowing for more dynamic and reusable view definitions.
+      *   **Parameterized Views:** You can now create [parameterized views](/materialized-view#parameterized-views), allowing for more dynamic and reusable view definitions.
       *   **JIT Compilation for Queries:** Introduced [Just-In-Time (JIT) compilation](/jit) for queries, potentially improving execution performance for certain query types.
       *   **New JSON Data Type & SQL Functions:** Added a native JSON data type and SQL functions [json_encode](/functions_for_json#json_encode), [json_cast](/functions_for_json#json_cast), [json_array_length](/functions_for_json#json_array_length), [json_merge_patch](/functions_for_json#json_merge_patch) for powerful JSON manipulation.
       *   **Mutable Stream TTL:** You can now define Time-To-Live (TTL) for data in mutable streams, automatically managing data retention.
