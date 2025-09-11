@@ -180,7 +180,6 @@ const config = {
       },
       navbar: {
         title: "Docs",
-        style: "dark",
         hideOnScroll: true,
         logo: {
           alt: "Timeplus",
@@ -262,7 +261,6 @@ const config = {
         ],
       },
       footer: {
-        style: "dark",
         links: [
           {
             title: " ",
@@ -348,7 +346,8 @@ const config = {
       },
       colorMode: {
         defaultMode: "dark",
-        disableSwitch: true,
+        disableSwitch: false,
+        // respectPrefersColorScheme: true,
       },
     }),
   i18n: {
