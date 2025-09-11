@@ -22,8 +22,6 @@ https://docs.timeplus.com/install
 https://docs.timeplus.com/timeplus-enterprise
 https://docs.timeplus.com/timeplus-cloud
 https://docs.timeplus.com/timeplus-self-host
-https://docs.timeplus.com/singlenode_install
-https://docs.timeplus.com/cluster_install
 https://docs.timeplus.com/k8s-helm
 https://docs.timeplus.com/server_config
 https://docs.timeplus.com/timeplus-query-guide
