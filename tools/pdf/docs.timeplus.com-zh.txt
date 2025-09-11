@@ -22,8 +22,6 @@ https://docs.timeplus.com/zh/install
 https://docs.timeplus.com/zh/timeplus-enterprise
 https://docs.timeplus.com/zh/timeplus-cloud
 https://docs.timeplus.com/zh/timeplus-self-host
-https://docs.timeplus.com/zh/singlenode_install
-https://docs.timeplus.com/zh/cluster_install
 https://docs.timeplus.com/zh/server_config
 https://docs.timeplus.com/zh/timeplus-query-guide
 https://docs.timeplus.com/zh/ingestion
