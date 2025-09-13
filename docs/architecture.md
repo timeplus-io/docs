@@ -61,7 +61,7 @@ The **Historical Store** in Timeplus stores data **derived** from the **NativeLo
 
 Timeplus supports two storage encodings for the Historical Store: **columnar** and **row**.
 
-#### 1. Columnar Encoding (*Append Stream*)
+#### Columnar Encoding (*Append Stream*)
 Optimized for **append-most workloads** with minimal data mutation, such as telemetry or events, logs, metrics etc. Benefits include:
 
 - High data compression ratios
@@ -70,12 +70,13 @@ Optimized for **append-most workloads** with minimal data mutation, such as tele
 
 This format is ideal when the dataset is largely immutable and query speed over large volumes is a priority.
 
-#### 2. Row Encoding (*Mutable Stream*)
+#### Row Encoding (*Mutable Stream*)
 Designed for **frequently updated datasets** where `UPSERT` and `DELETE` operations are common. Features include:
 
 - Per-row **primary indexes**
 - **Secondary indexes** for flexible lookups
 - Faster and more efficient **point queries** compared to columnar storage
+- Backed by **RocksDB** engine
 
 Row encoding is the better choice when low-latency, high-frequency updates are required.
 
