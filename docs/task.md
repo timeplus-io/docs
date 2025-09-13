@@ -16,10 +16,10 @@ AS
   <Historical SELECT query>;
 ```
 
-**SCHEDULE <interval>** : The interval at which the task runs. 
+**SCHEDULE interval** : The interval at which the task runs. 
 Tasks are scheduled via a centralized scheduler to prevent overlap: the next run starts only after the previous run completes.
 
-**TIMEOUT <interval>** : The maximum allowed execution time for the task.
+**TIMEOUT interval** : The maximum allowed execution time for the task.
 If the task exceeds this interval, the scheduler aborts it to prevent indefinite execution
 
 Once created, a task is automatically scheduled in the Timeplus cluster. The scheduler selects the best candidate node in the cluster to execute the task.

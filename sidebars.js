@@ -63,7 +63,7 @@ const sidebars = {
           type: "category",
           label: "Guides & Tutorials",
           items: [
-            "understanding-watermark",
+            // "understanding-watermark",
             "tutorial-sql-kafka",
             "tutorial-github",
             "marimo",
@@ -180,12 +180,12 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Process Data",
+      label: "Transform Data",
       items: [
         {
           type: "doc",
-          id: "view",
-          label: "View",
+          id: "transform-data",
+          label: "Overview",
         },
         {
           type: "category",
@@ -198,13 +198,8 @@ const sidebars = {
         },
         {
           type: "doc",
-          id: "streaming-query",
-          label: "Streaming Query"
-        },
-        {
-          type: "doc",
-          id: "historical-query",
-          label: "Historical Query"
+          id: "task",
+          label: "Scheduled Task",
         },
         {
           type: "doc",
@@ -225,6 +220,11 @@ const sidebars = {
           type: "doc",
           id: "jit",
           label: "Just-In-Time Compilation"
+        },
+        {
+          type: "doc",
+          id: "view",
+          label: "View",
         },
       ]
     },

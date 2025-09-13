@@ -93,7 +93,7 @@ Timeplus natively connects to external storage systems through **External Stream
 - **Keep Data Inside Timeplus**  
   Store **Materialized View outputs** in Timeplus itself to serve client queries with low latency.  
 
-- **Raw Data Pipelines**  
+- **End-to-End Data Pipelines**  
   Ingest and persist raw data in Timeplus, then build end-to-end pipelines for **filtering, transforming, and shaping** the data—serving both **real-time** and **historical** queries from a single platform.
 
 This flexible integration model lets you decide whether Timeplus acts as a **processing engine**, a **serving layer**, or the **primary data hub** in your stack.
