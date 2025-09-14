@@ -69,10 +69,12 @@ a.navbar__link {
 .navbar {
     background-color: white;
 }
-.navbar--dark {
+
+html[data-theme="dark"] .navbar {
     background-color: #19171D;
     --ifm-navbar-link-hover-color: #DEDDDF;
 }
+
 .footer__link-item {
     font-size: 12px;
     --ifm-footer-link-hover-color: #DEDDDF;
@@ -80,8 +82,8 @@ a.navbar__link {
 .footer {
     --ifm-footer-background-color: white;
 }
-.footer--dark {
-    --ifm-footer-background-color: #19171D;
+.footer[data-theme="dark"] {
+    --ifm-footer-background-color: #4d4758;
 }
 .docusaurus-highlight-code-line {
     background-color: #2F2D32;
