@@ -200,8 +200,8 @@ const sidebars = {
             },
             {
               type: "doc",
-              id: "materialized-view-ha-model",
-              label: "High Availability Model",
+              id: "materialized-view-high-availability",
+              label: "High Availability",
             },
             {
               type: "doc",
