@@ -44,6 +44,16 @@ AS
 
 The *node_states* stream will be populated every 5 seconds with the current status of cluster nodes.
 
+## Show Task
+
+```sql
+-- List all tasks
+SHOW TASKS;
+
+-- Show DDL definition of a task
+SHOW CREATE TASK <db.task-name>;
+```
+
 ## Pause Task
 
 To pause a task:
