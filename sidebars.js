@@ -102,12 +102,11 @@ const sidebars = {
     {
       type: "category",
       label: "Connect Data In",
+      link : {
+        type: "doc",
+        id: "connect-data-in",
+      },
       items: [
-        {
-          type: "doc",
-          label: "Overview",
-          id: "connect-data-in",
-        },
         // {
         //   type: "category",
         //   label: "Native Client",
@@ -181,12 +180,11 @@ const sidebars = {
     {
       type: "category",
       label: "Transform Data",
+      link: {
+        type: "doc",
+        id: "transform-data",
+      },
       items: [
-        {
-          type: "doc",
-          id: "transform-data",
-          label: "Overview",
-        },
         {
           type: "category",
           label: "Materialized View",
@@ -231,6 +229,10 @@ const sidebars = {
     {
       type: "category",
       label: "Store & Serve Data",
+      link: {
+        type: "doc",
+        id: "store-and-serve-data",
+      },
       items: [
         {
           type: "category",
@@ -278,12 +280,11 @@ const sidebars = {
     {
       type: "category",
       label: "Send Data Out",
+      link: {
+        type: "doc",
+        id: "send-data-out",
+      },
       items: [
-        {
-          type: "doc",
-          label: "Overview",
-          id: "send-data-out",
-        },
         // {
         //   type: "doc",
         //   label: "Native Client",

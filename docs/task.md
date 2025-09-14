@@ -29,7 +29,6 @@ Once created, a task is automatically scheduled in the Timeplus cluster. The sch
 To periodically collect the Timeplus node statuses and persist the results into a target stream:
 
 ```sql
-
 -- Create a target stream to hold the task results
 CREATE STREAM node_states (cluster_id string, node_id string, node_state string);
 
@@ -50,7 +49,7 @@ The *node_states* stream will be populated every 5 seconds with the current stat
 To pause a task:
 
 ```sql
-SYSTEM PAUSE TASK {db.task-name};
+SYSTEM PAUSE TASK <db.task-name>;
 ```
 
 ## Resume Task
@@ -58,7 +57,7 @@ SYSTEM PAUSE TASK {db.task-name};
 To resume a paused task:
 
 ```sql
-SYSTEM RESUME TASK {db.task-name};  
+SYSTEM RESUME TASK <db.task-name>;  
 ```
 
 ## Delete Task
@@ -66,5 +65,5 @@ SYSTEM RESUME TASK {db.task-name};
 To delete a task:
 
 ```sql
-DELETE TASK {db.task-name};  
+DELETE TASK <db.task-name>;  
 ```

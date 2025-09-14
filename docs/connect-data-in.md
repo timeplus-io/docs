@@ -1,6 +1,4 @@
-# Connect Data In
-
-## Overview
+# Overview
 
 Timeplus supports multiple ways to load data into the system, or access the external data without copying them in Timeplus:
 

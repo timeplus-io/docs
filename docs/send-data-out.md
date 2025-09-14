@@ -1,6 +1,4 @@
-#  Send Data Out
-
-## Overview
+# Overview
 
 With Timeplus Console, you can easily explore and analyze streaming data, with intuitive UI, standard SQL and streaming charts. But you won't stop here. Timeplus enables you to setup real-time data pipelines to send data to other systems, or notify individuals or power up downstream applications.
 
