@@ -211,8 +211,8 @@ const config = {
           {
             type: "doc",
             position: "left",
-            docId: "query-syntax",
-            label: "Process Data",
+            docId: "transform-data",
+            label: "Transform Data",
           },
           {
             type: "doc",
