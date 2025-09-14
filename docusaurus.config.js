@@ -181,6 +181,7 @@ const config = {
       navbar: {
         title: "Docs",
         hideOnScroll: true,
+        // style: "dark",
         logo: {
           alt: "Timeplus",
           src: "img/Option1_B.png",
@@ -261,6 +262,7 @@ const config = {
         ],
       },
       footer: {
+        // style: "dark",
         links: [
           {
             title: " ",
