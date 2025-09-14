@@ -192,7 +192,28 @@ const sidebars = {
             type: "doc",
             id: "materialized-view",
           },
-          items: ["checkpoint-settings"],
+          items: [
+            {
+              type: "doc",
+              id: "materialized-view-checkpoint",
+              label: "Checkpoint",
+            },
+            {
+              type: "doc",
+              id: "materialized-view-ha-model",
+              label: "High Availability Model",
+            },
+            {
+              type: "doc",
+              id: "materialized-perf-tuning",
+              label: "Performance Tuning",
+            },
+            {
+              type: "doc",
+              id: "materialized-view-monitoring",
+              label: "Monitoring",
+            },
+          ]
         },
         {
           type: "doc",
