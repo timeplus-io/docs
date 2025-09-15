@@ -1,8 +1,10 @@
 # Architecture
 
-## Overview 
+## Overview
 
-The diagram below illustrates the high-level components of the Timeplus core engine. The following sections explain how these components work together as a unified system.
+Timeplus is built with **durable storage** and **durable query processing** at its core, enabling a wide range of **incremental query processing pipelines** for real-time and historical workloads.  
+
+The diagram below illustrates the high-level components of the core engine. The following sections describe how these components work together as a unified system.
 
 ![Architecture](/img/proton-high-level-arch.gif)
 
@@ -18,21 +20,21 @@ In the background, dedicated threads continuously tail new entries from the Nati
 
 Timeplus supports three query models: **historical**, **streaming**, and **hybrid (streaming + historical)**.
 
-- **Historical Query (Table Query)**  
-  Works like a traditional database query. Data is read directly from the **Historical Store**, leveraging standard database optimizations for efficient lookups and scans:  
-  - Primary index  
-  - Skipping index  
-  - Secondary index  
-  - Bloom filter  
-  - Partition pruning  
+- **Historical Query (Table Query)**
+  Works like a traditional database query. Data is read directly from the **Historical Store**, leveraging standard database optimizations for efficient lookups and scans:
+  - Primary index
+  - Skipping index
+  - Secondary index
+  - Bloom filter
+  - Partition pruning
 
-- **Streaming Query**  
-  Operates on the **NativeLog**, where records are strictly ordered. Queries run incrementally, enabling real-time workloads such as **incremental ETL**, **joins**, and **aggregations**.  
+- **Streaming Query**
+  Operates on the **NativeLog**, where records are strictly ordered. Queries run incrementally, enabling real-time workloads such as **incremental ETL**, **joins**, and **aggregations**.
 
-- **Hybrid Query**  
-  Combines the best of both worlds. A streaming query can automatically **backfill** from the Historical Store when:  
-  1. Data has expired from the NativeLog (due to retention).  
-  2. Reading from the Historical Store is faster than rewinding and replaying from the NativeLog.  
+- **Hybrid Query**
+  Combines the best of both worlds. A streaming query can automatically **backfill** from the Historical Store when:
+  1. Data has expired from the NativeLog (due to retention).
+  2. Reading from the Historical Store is faster than rewinding and replaying from the NativeLog.
 
   This eliminates the need for an external batch system, avoiding the extra **latency, inconsistency, and cost** usually associated with maintaining separate batch and streaming pipelines.
 
@@ -84,16 +86,16 @@ Row encoding is the better choice when low-latency, high-frequency updates are r
 
 Timeplus natively connects to external storage systems through **External Streams** and **External Tables**, giving you flexibility in how data flows in and out of the platform.
 
-- **Ingest from External Systems**  
+- **Ingest from External Systems**
   Stream data directly from Kafka, Redpanda, or Pulsar into Timeplus. Use **Materialized Views** for incremental processing (e.g., ETL, filtering, joins, aggregations).
 
-- **Send Data to External Systems**  
+- **Send Data to External Systems**
   Push processed results downstream to systems like ClickHouse, S3, Splunk etc for analytics or long-term storage.
 
-- **Keep Data Inside Timeplus**  
-  Store **Materialized View outputs** in Timeplus itself to serve client queries with low latency.  
+- **Keep Data Inside Timeplus**
+  Store **Materialized View outputs** in Timeplus itself to serve client queries with low latency.
 
-- **End-to-End Data Pipelines**  
+- **End-to-End Data Pipelines**
   Ingest and persist raw data in Timeplus, then build end-to-end pipelines for **filtering, transforming, and shaping** the data—serving both **real-time** and **historical** queries from a single platform.
 
 This flexible integration model lets you decide whether Timeplus acts as a **processing engine**, a **serving layer**, or the **primary data hub** in your stack.
