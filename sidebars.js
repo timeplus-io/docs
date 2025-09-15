@@ -186,23 +186,24 @@ const sidebars = {
       },
       items: [
         {
-          type: "doc",
-          id: "materialized-view",
+          type: "category",
           label: "Materialized View",
- 
-          // type: "category",
-          // label: "Materialized View",
-          // link: {
-          //   type: "doc",
-          //   id: "materialized-view",
-          // },
-          // items: [
-          //   {
-          //     type: "doc",
-          //     id: "materialized-view-checkpoint",
-          //     label: "Checkpoint",
-          //   },
-          //   {
+          link: {
+            type: "doc",
+            id: "materialized-view",
+          },
+          items: [
+            {
+              type: "doc",
+              id: "materialized-view-lifecycle",
+              label: "Lifecycle",
+            },
+            // {
+            //   type: "doc",
+            //   id: "materialized-view-checkpoint",
+            //   label: "Checkpoint",
+            // },
+          //  {
           //     type: "doc",
           //     id: "materialized-view-high-availability",
           //     label: "High Availability",
@@ -217,7 +218,7 @@ const sidebars = {
           //     id: "materialized-view-monitoring",
           //     label: "Monitoring",
           //   },
-          // ]
+          ]
         },
         {
           type: "doc",
