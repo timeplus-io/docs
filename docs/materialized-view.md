@@ -1,132 +1,374 @@
-# Materialized View {#m_view} 
-Real-time data pipelines are built via Materialized Views in Timeplus.
+# Materialized View {#m_view}
 
-The difference between a materialized view and a regular view is that the materialized view is running in background after creation and the resulting stream is physically written to internal storage (hence it's called materialized).
+## Overview
 
-Once the materialized view is created, Timeplus will run the query in the background continuously and incrementally emit the calculated results according to the semantics of its underlying streaming select.
+**Materialized View** is a core concept in Timeplus because it brings together nearly all Timeplus features into a single mechanism, enabling users to deliver real-time value from their data.
 
-## Create a Materialized View
+A Materialized View is always bound to a **streaming query** and runs continuously in the background once created.  It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
+
+A Materialized View involves three main components (illustrated in the diagram below):
+
+1. **Streaming Query**
+   - The underlying query that is continuously evaluated.
+
+2. **Target Stream / System**
+   - The destination where the streaming query results are materialized.
+   - Can be a Timeplus native stream or an external system (Kafka, ClickHouse, S3 etc).
+
+3. **Checkpoint of Query State**
+   - Stores intermediate state of the query (e.g., for windowed aggregations or joins).
+   - Enables recovery after failure by resuming from the last checkpoint.
+
+![MatView](/img/mat-view.png)
+
+When a Materialized View checkpoints its query state, it ensures durability and fault tolerance. If the process fails mid-execution, it can **restart from the last checkpoint** without reprocessing the entire stream from beginning.
+
+By combining other Timeplus features / components such as:
+
+- [Streaming Joins](/streaming-joins) / [Streaming Aggregations](/streaming-aggregations)
+- [Scheduled Tasks](/task)
+- [Native Streams](/working-with-streams)
+- [External Streams](/kafka-sink)
+- [External Tables](/clickhouse-external-table)
+
+you can build **complex, end-to-end data processing pipelines** with Materialized Views.
+
+![Pipeline](/img/pipelines.png)
+
+## Create Materialized View
 
 ```sql
-CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name>
-[INTO <target>]
-AS <SELECT ...>
-[SETTINGS ...]
+CREATE MATERIALIZED VIEW [IF NOT EXISTS] <db.mat-view-name>
+[INTO <db.target-stream-or-table>]
+AS
+<SELECT ...>
+[SETTINGS
+    checkpoint_interval=<interval>,
+    checkpoint_settings='<ckpt-settings>',
+    memory_weight=<weight>,
+    mv_preferred_exec_node=<node-id>,
+    default_hash_table=['memory'|'hybrid'],
+    default_hash_join=['memory'|'hybrid'],
+    max_hot_keys=<num-keys>,
+    pause_on_start=[true|false],
+    enable_dlq=[true|false],
+    dlq_max_message_batch_size=<batch-size>,
+    dlq_consecutive_failures_limit=<failure-limit>
+ ...]
+ [COMMENT '<comments>']
 ```
 
-It's required to create a materialized view using a streaming select query.
+Example
 
-### Without Target Stream {#mv_internal_storage}
-By default, when you create a materialized view without `INTO ..`, an internal stream will be created automatically as the data storage. Querying on the materialized view will result in querying the underlying internal stream.
+```sql
+-- Create a source stream
+CREATE RANDOM STREAM random_source(i int, s string);
 
-:::warning
-While this approach is easy to use, it's not recommended for production data processing. The internal stream will be created with default settings, lack of optimization for sharding, retention, etc.
+-- Create a target stream to hold the Materialized View results
+CREATE STREAM aggr_results(win_start datetime64(3), s string, total int64);
+
+-- Create a Materialized View which calculates the sum for each key `s` in a 2 seconds (tumble) window
+-- When the query results are available (when window closes), it materializes the results to
+-- target `aggr_results` stream
+CREATE MATERIALIZED VIEW tumble_aggr_mv
+INTO aggr_results
+AS
+SELECT
+    window_start AS win_start,
+    s,
+    sum(i) AS total
+FROM
+    tumble(random_source, 2s)
+GROUP BY
+    window_start, s;
+
+-- Streaming query to continously monitor the results in target stream `aggr_results`
+SELECT * FROM aggr_results;
+```
+
+:::info
+A **Materialized View** is always bound to a **streaming `SELECT` query**.
+If you want to materialize a **historical query** on a schedule, consider using a [Timeplus scheduled task](/task) instead.
 :::
 
-### With Target Stream {#target-stream}
+### Settings
 
-It's recommended to specify a target stream when creating a materialized view, no matter a stream in Timeplus, an external stream to Apache Kafka, Apache Pulsar, or external tables to ClickHouse, S3, Iceberg, etc.
+#### `checkpoint_interval`
 
-Use cases for specifying a target stream:
+The **Materialized View checkpoint interval**, in seconds.
+- If set to `< 0`, checkpointing is disabled.
+- This setting takes precedence over the `interval` defined in `checkpoint_settings`.
 
-1. In some cases, you may want to build multiple materialized views to write data to the same stream. In this case, each materialized view serves as a real-time data pipeline.
-2. Or you may need to use [Changelog Stream](/sql-create-stream#changelog-stream), [Versioned Stream](/sql-create-stream#versioned-stream) or [Mutable Stream](/mutable-stream) to build lookups.
-3. Or you may want to set the retention policy for the materialized view.
-4. You can also use materialized views to write data to downstream systems, such as ClickHouse, Kafka, or Iceberg.
+#### `checkpoint_settings`
 
-To create a materialized view with the target stream:
+`checkpoint_settings` is a **semicolon-separated key/value string** that controls how query states are checkpointed. It supports the following keys:
+
+- **`type`**
+   - Defines the checkpoint type.
+   - Supported values: `auto` (default), `file`.
+   - In most cases, no explicit configuration is required.
+
+- **`storage_type`**
+   - Defines where checkpoint data is stored.
+   - Supported values: `auto` (default), `nativelog`, `shared`, `local_file_system`.
+   - Users may fine-tune this for better checkpoint efficiency and performance.
+
+- **`interval`**
+   - Checkpoint interval in **seconds**.
+   - If not set, Timeplus dynamically adjusts the interval based on Materialized View metrics:
+     - **Light-weight views** → shorter intervals.
+     - **Heavy queries** → longer intervals (to reduce checkpoint workload).
+   - Manual tuning may be useful for balancing performance and efficiency.
+
+- **`async`**
+   - Determines whether checkpoints are **asynchronous** or **synchronous**.
+   - `true` / `1` (default): Dump state to local disk, then replicate asynchronously across the cluster (minimal pipeline blocking).
+   - `false` / `0`: Replicate state synchronously, which takes longer and blocks the pipeline more.
+   - **Recommendation:** Keep `async` enabled unless you require strict synchronous consistency.
+
+- **`incremental`**
+   - Controls whether checkpoints are **incremental** or **full**.
+   - Incremental checkpoints only persist updated state.
+   - Supported values:
+     - `true` / `1`: Enable incremental checkpointing.
+     - `false` / `0`: Use full checkpoints.
+   - Timeplus automatically selects incremental checkpointing when **hybrid join/aggregation** is enabled.
+   - Users may disable incremental mode if needed.
+
+- **`shared_disk`**
+   - When enabled, checkpoints are written to **shared storage** (e.g., S3).
+   - This avoids replication overhead across the cluster and can improve efficiency in large deployments.
+
+#### `memory_weight`
+
+`memory_weight` is an indicator of **memory consumption** for a Materialized View.
+
+- Timeplus uses this value to identify **heavy Materialized Views** and attempts to schedule them evenly across the cluster to balance workload initially and also by the background workload auto-rebalancer when there is a workload skew across the cluster nodes.
+- A higher value indicates a heavier query.
+- For regular Materialized Views, this setting shall be left unset.
+
+**Example:**
+If you have 3 large Materialized Views and want them distributed evenly across cluster nodes, you can assign each one a `memory_weight` greater than `1`.
+
+#### `mv_preferred_exec_node`
+
+This setting allows you to specify **node affinity** for executing a Materialized View.  Timeplus will attempt to honor the affinity as much as possible.
+
+Benefits of node affinity include:
+- **Manual workload balancing**: You can assign different preferred execution nodes for large Materialized Views to distribute load more effectively.
+- **Improved stability**: By reducing Raft leadership switches, node affinity helps prevent workload skew and increases the stability of long-running Materialized Views.
+
+:::info
+You can retrieve the `node_id` values from the `system.cluster` table.
+:::
+
+#### `default_hash_table`
+
+Specifies the default hash table implementation for streaming aggregations.
+
+Supported values:
+
+- **`memory`**
+  - Pure in-memory hash table.
+  - Typically offers the best performance.
+  - Recommended for **low to medium cardinality** workloads.
+
+- **`hybrid`**
+  - Two-tier hash table:
+    - **Hot keys** are kept in memory.
+    - **Cold keys** are spilled to disk (backed by RocksDB).
+  - Designed for **very high cardinality** workloads.
+  - Works best when hot keys represent only a small fraction of the overall key space.
+
+#### `default_hash_join`
+
+Specifies the default hash table implementation for streaming join. It is similar to `default_hash_table`.
+
+Supported values:
+
+- **`memory`**
+  - Pure in-memory hash table.
+  - Typically offers the best performance.
+  - Recommended for **low to medium cardinality** workloads.
+
+- **`hybrid`**
+  - Two-tier hash table:
+    - **Hot keys** are kept in memory.
+    - **Cold keys** are spilled to disk (backed by RocksDB).
+  - Designed for **very high cardinality** workloads.
+  - Works best when hot keys represent only a small fraction of the overall key space.
+
+#### `max_hot_keys`
+
+Used with `default_hash_table` and `default_hash_join`.
+
+This setting defines the maximum number of keys to keep **in memory**.
+- If the number of in-memory keys exceeds this threshold, **cold keys** are spilled to disk in an **LRU (Least Recently Used)** manner.
+- Helps balance memory usage and performance when handling high-cardinality workloads.
+
+#### `pause_on_start`
+
+Controls whether a Materialized View starts executing immediately after creation or restart.
+
+Supported values:
+
+- `false` or `0` (default): The Materialized View query starts executing as soon as it is created or restarted.
+- `true` or `1`: The Materialized View remains paused after creation or restart and must be resumed manually via `SYSTEM RESUME` command.
+
+#### `enable_dlq`
+
+Controls whether **poison events** (events that cannot be processed) are sent to the system-defined dead letter queue: `system.mat_view_dlq`.
+
+- `false` or `0` (default): Logging to dead letter queue is disabled.
+- `true` or `1`: Logging to dead letter queue is enabled.
+
+:::info
+Logging poison events to the DLQ is **best effort** and may be throttled (see `dlq_consecutive_failures_limit`) if too many events are generated, often due to misconfiguration.
+:::
+
+#### `dlq_max_message_batch_size`
+
+Defines the maximum number of poison events to fetch in a single batch.
+
+- If the offset/sequence range of poison events exceeds this limit, Timeplus does not fetch the raw events.
+- Instead, it logs only the **offset/sequence range**.
+- You can later inspect the raw events separately using Timeplus or other tools.
+
+**Default:** `10`
+
+#### `dlq_consecutive_failures_limit`
+
+Specifies the maximum number of **consecutive event failures** that can be logged to the DLQ.
+
+- If this threshold is exceeded, Timeplus **stops logging failures** to avoid flooding the DLQ.
+- Hitting this limit usually indicates a **configuration error** that must be fixed.
+
+**Default:** `100`
+
+## With or Without Target Stream / Table
+
+When you create a Materialized View **without an explicit target stream or table** (i.e., without the `INTO <db.target-stream-or-table>` clause), Timeplus automatically creates an internal [append stream](/append-stream) to store the query results.
+
+This makes the syntax simpler and convenient for quick experimentation, since you don’t need to create a target stream beforehand.
+
+However, this approach is **not recommended in production**, because:
+
+1. **Limited fine-tuning**
+   - The internal target stream does not allow customization of storage options such as column compression, sorting keys, skipping indexes, shards, etc.
+   - TTL tuning is possible but more difficult.
+
+2. **Stream type flexibility**
+   - You may want to use a different stream type (e.g., a [Mutable stream](/mutable-stream)) as the target, which is not possible in this mode.
+
+3. **Schema evolution challenges**
+   - Tasks such as adding new columns are significantly more difficult to manage.
+
+**Best practice:** Always create an explicit target stream when defining a Materialized View, especially in production environments.
+
+## Querying Materialized View
+
+You can query a Materialized View directly. For example, when you run a query such as:
 
 ```sql
-CREATE MATERIALIZED VIEW [IF NOT EXISTS] <view_name>
-INTO <target_stream> AS <SELECT ...>
+SELECT * FROM mat_view;
 ```
 
-## Use Materialized Views
+the query is proxied to the target stream or table that stores the results of the Materialized View, so the query behavior is tied to the target stream or table.
 
-There are different ways to use the materialized views in Timeplus:
+- If the sink is a native stream (e.g., append or mutable stream), the query behaves like a streaming query.
+- If the sink is an external table or external stream, the query behaves like a historical table query.
 
-1. Streaming mode: `SELECT * FROM materialized_view` Get the result for future data. This works in the same way as views.
-2. Historical mode: `SELECT * FROM table(materialized_view)` Get all past results for the materialized view.
-3. Historical + streaming mode: `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` Get all past results and as well as the future data.
-4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where _tp_time in (SELECT max(_tp_time) as m from table(materialized_view))` This immediately returns the most recent query result. If `_tp_time` is not available in the materialized view, or the latest aggregation can produce events with different `_tp_time`, you can add the `emit_version()` to the materialized view to assign a unique ID for each emit and pick up the events with largest `emit_version()`. For example:
+## Drop Materialized View
 
-```sql
-create materialized view mv as
-select emit_version() as version, window_start as time, count() as n, max(speed_kmh) as h from tumble(car_live_data,10s)
-group by window_start, window_end;
-
-select * from table(mv) where version in (select max(version) from table(mv));
-```
-
-You build data pipelines in Timeplus using materialized views.
-
-
-## Load Balancing
-
-It's common to define many materialized views in Timeplus for various computation and analysis. Some materialized views can be memory-consuming or cpu-consuming.
-
-In Timeplus Enterprise cluster mode, you can schedule the materialized views in a proper way to ensure each node gets similar workload.
-
-### Manual Load Balancing {#memory_weight}
-
-Starting from [Timeplus Enterprise v2.3](/enterprise-v2.3), when you create a materialized view with DDL SQL, you can add an optional `memory_weight` setting for those memory-consuming materialized views, e.g.
-```sql
-CREATE MATERIALIZED VIEW my_mv
-SETTINGS memory_weight = 10
-AS SELECT ..
-```
-
-When `memory_weight` is not set, by default the value is 0. When Timeplus Enterprise server starts, the system will list all materialized views, ordered by the memory weight and view names, and schedule them in the proper node.
-
-For example, in a 3-node cluster, you define 10 materialized views with names: mv1, mv2, .., mv9, mv10. If you create the first 6 materialized views with `SETTINGS memory_weight = 10`, then node1 will run mv1 and mv4; node2 will run mv2 and mv5; node3 will run mv3 and mv6; Other materialized views(mv7 to mv10) will be randomly scheduled on any nodes.
-
-It's recommended that each node in the Timeplus Enterprise cluster shares the same hardware specifications. For those resource-consuming materialized views, it's recommended to set the same `memory_weight`, such as 10, to get the expected behaviors to be dispatched to the proper nodes for load-balancing.
-
-### Auto Load Balancing {#auto-balancing}
-
-Starting from [Timeplus Enterprise v2.5](/enterprise-v2.5), you can also apply auto-load-balancing for memory-consuming materialized views in Timeplus Enterprise cluster. By default, this feature is enabled and there are 3 settings at the cluster level:
-
-```yaml
-workload_rebalance_check_interval: 30s
-workload_rebalance_overloaded_memory_util_threshold: 50%
-workload_rebalance_heavy_mv_memory_util_threshold: 10%
-```
-
-As the administrator, you no longer need to determine which materialized views need to set a `memory_weight` setting. In a cluster, Timeplus will monitor the memory consumption for each materialized view. Every 30 seconds, configurable via `workload_rebalance_check_interval`, the system will check whether there are any node with memory over 50% full. If so, check whether there is any materialized view in such node consuming 10% or more memory. When those conditions are all met, rescheduling those materialized views to less busy nodes. During the rescheduling, the materialized view on the previous node will be paused and its checkpoint will be transferred to the target node, then the materialized view on target node will resume the streaming SQL based on the checkpoint.
-
-## Auto-Scaling Materialized Views {#autoscaling_mv}
-Starting from [Timeplus Enterprise v2.8](/enterprise-v2.8), materialized views can be configured to run on elastic compute nodes. This can reduce TCO (Total Cost of Ownership), by enabling high concurrent materialized views scheduling, auto scale-out and scale-in according to workload.
-
-To enable this feature, you need to
-1. create a S3 disk in the `s3_plain` type.
-2. create a materialized view by setting the checkpoint storage to `s3` and use the s3 disk.
-3. enable compute nodes in the cluster, with optional autoscaling based on your cloud or on-prem infrastructure.
-
-For example:
-```sql
---S3 based checkpoint
-CREATE DISK ckpt_s3_disk disk(
-    type = 's3_plain',
-    endpoint = 'https://mat-view-ckpt.s3.us-west-2.amazonaws.com/matv_ckpt/',
-    access_key_id = '...',
-    secret_access_key = '...');
-
-CREATE MATERIALIZED VIEW mat_v_scale INTO clickhouse_table
-AS SELECT …
-SETTINGS
-checkpoint_settings=’storage_type=s3;disk_name=ckpt_s3_disk;async=true;interval=5’;
-```
-
-## Drop Materialized Views
-
-Run the following SQL to drop a view or a materialized view.
+Run the following SQL to drop a Materialized View.
 
 ```sql
 DROP VIEW [IF EXISTS] db.<view_name>;
 ```
 
-Like [CREATE STREAM](/sql-create-stream), stream deletion is an async process.
+## Alter Materialized View Query Settings
 
-## Best Practices
+You can modify the following Materialized View query settings using:
 
-* It's recommended to specify [a target stream](#target-stream) when creating a materialized view, no matter a stream in Timeplus, an external stream to Apache Kafka, Apache Pulsar, or external tables to ClickHouse, S3, Iceberg, etc.
+```sql
+ALTER VIEW <db.mat-view-name> MODIFY QUERY SETTING <key>=<value>, <key>=<value>, ...;
+```
+
+Supported settings changes include:
+- `checkpoint_interval`
+- `pause_on_start`
+- `enable_dlq`
+- `dlq_max_message_batch_size`
+- `dlq_consecutive_failures_limit`
+
+**Example:**
+```sql
+-- Disable checkpoint, and enable dlq
+ALTER VIEW tumble_aggr_mv MODIFY QUERY SETTING checkpoint_interval=-1, enable_dlq=true;
+```
+
+## Alter Materialized View Comment
+
+You can update the comment associated with a Materialized View:
+
+```sql
+ALTER VIEW <db.mat-view-name> MODIFY COMMENT '<new-comments>';
+```
+
+**Example:**
+```sql
+ALTER VIEW tumble_aggr_mv MODIFY COMMENT 'test new comment';
+```
+
+## Alter Materialized View Query (Schema Changes)
+
+You can alter the underlying streaming query of a Materialized View to add new columns or aggregates, as long as the change is **backward compatible** with the existing query (state). This allows graceful schema evolution.
+
+For example, to add a new aggregate `max(i) AS max_i` to the following Materialized View:
+
+```sql
+CREATE MATERIALIZED VIEW tumble_aggr_mv
+INTO aggr_results
+AS
+SELECT
+    window_start AS win_start,
+    s,
+    sum(i) AS total
+FROM
+    tumble(random_source, 2s)
+GROUP BY
+    window_start, s;
+```
+
+First, add the new column to the target stream:
+
+```sql
+ALTER STREAM aggr_results ADD COLUMN max_i int;
+```
+
+Then update the Materialized View query:
+```sql
+ALTER VIEW tumble_aggr_mv MODIFY QUERY SELECT
+    window_start AS win_start,
+    s,
+    sum(i) AS total,
+    max(i) AS max_i -- new aggregate
+FROM
+    tumble(random_source, 2s)
+GROUP BY
+    window_start, s;
+```
+
+Similarly, you can add new ETL columns to an ETL Materialized View.
+
+When modifying a Materialized View query (e.g., adding new columns), Timeplus performs the following steps internally:
+1. Trigger a final checkpoint
+2. Stop the query pipeline
+3. Apply the new query definition
+4. Rebuild and recover the pipeline from the last checkpoint
+
+This approach minimizes unnecessary data recomputation and ensures graceful recovery.
+
+:::info
+For streaming join Materialized Views, adding new joined columns is not yet supported.
+:::
