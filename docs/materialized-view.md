@@ -4,20 +4,24 @@
 
 **Materialized View** is a core concept in Timeplus because it brings together nearly all Timeplus features into a single mechanism, enabling users to deliver real-time value from their data.
 
-A Materialized View is always bound to a **streaming query** and runs continuously in the background once created.  It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
+A **Materialized View** is always bound to a **streaming query** and runs continuously in the background once created.  It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
 
-A Materialized View involves three main components (illustrated in the diagram below):
+A **Materialized View** consists of four main components (illustrated in the diagram below):
 
-1. **Streaming Query**
-   - The underlying query that is continuously evaluated.
+1. **Streaming / Historical Sources**
+   - **Streaming sources** provide a continuous flow of events.
+   - **Historical sources** are static or incrementally refreshed datasets used to enrich streaming events.
 
-2. **Target Stream / System**
-   - The destination where the streaming query results are materialized.
-   - Can be a Timeplus native stream or an external system (Kafka, ClickHouse, S3 etc).
+2. **Streaming Query**
+   - The query logic that is continuously executed over the input sources.
 
-3. **Checkpoint of Query State**
-   - Stores intermediate state of the query (e.g., for windowed aggregations or joins).
-   - Enables recovery after failure by resuming from the last checkpoint.
+3. **Target Stream / System**
+   - The destination where query results are materialized.
+   - This can be a Timeplus native stream or an external system (e.g., Kafka, ClickHouse, S3).
+
+4. **Checkpoint of Query State**
+   - Persists intermediate query state (e.g., for windowed aggregations or joins).
+   - Ensures fault tolerance by allowing recovery and continuation from the last checkpoint after a failure.
 
 ![MatView](/img/mat-view.png)
 
@@ -245,7 +249,7 @@ Specifies the maximum number of **consecutive event failures** that can be logge
 
 **Default:** `100`
 
-## With or Without Target Stream / Table
+## Sink With or Without Target Stream / Table
 
 When you create a Materialized View **without an explicit target stream or table** (i.e., without the `INTO <db.target-stream-or-table>` clause), Timeplus automatically creates an internal [append stream](/append-stream) to store the query results.
 
@@ -265,7 +269,7 @@ However, this approach is **not recommended in production**, because:
 
 **Best practice:** Always create an explicit target stream when defining a Materialized View, especially in production environments.
 
-## Querying Materialized View
+## Query Materialized View
 
 You can query a Materialized View directly. For example, when you run a query such as:
 
@@ -365,7 +369,7 @@ When modifying a Materialized View query (e.g., adding new columns), Timeplus pe
 1. Trigger a final checkpoint
 2. Stop the query pipeline
 3. Apply the new query definition
-4. Rebuild and recover the pipeline from the last checkpoint
+4. Rebuild and recover the pipeline from the last checkpoint with converting the old checkpointed query state according the new schema
 
 This approach minimizes unnecessary data recomputation and ensures graceful recovery.
 
