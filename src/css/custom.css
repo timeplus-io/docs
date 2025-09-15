@@ -70,7 +70,7 @@ a.navbar__link {
     background-color: white;
 }
 
-html[data-theme="dark"] .navbar {
+[data-theme="dark"] .navbar {
     background-color: #19171D;
     --ifm-navbar-link-hover-color: #DEDDDF;
 }
@@ -82,9 +82,11 @@ html[data-theme="dark"] .navbar {
 .footer {
     --ifm-footer-background-color: white;
 }
-.footer[data-theme="dark"] {
-    --ifm-footer-background-color: #4d4758;
+
+[data-theme="dark"] .footer {
+    --ifm-footer-background-color: #19171D;
 }
+
 .docusaurus-highlight-code-line {
     background-color: #2F2D32;
     display: block;
@@ -162,4 +164,32 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
 
 .header-slack-link svg {
     display: none;
+}
+
+/* Customized components */
+.menu__list__tag {
+    margin-left: 8px;
+    padding: 2px 6px;
+    font-size: 0.8em;
+    border-radius: 4px;
+    background-color: #FF4A71;
+    color: white;
+}
+
+.menu__list__enterprise__tag {
+    margin-left: 8px;
+    padding: 2px 6px;
+    font-size: 0.8em;
+    border-radius: 4px;
+    background-color: #B275FF;
+    color: white;
+}
+
+[data-theme="dark"] .menu__list__enterprise__tag {
+    margin-left: 8px;
+    padding: 2px 6px;
+    font-size: 0.8em;
+    border-radius: 4px;
+    background-color: #42186D;
+    color: #AEACB0;
 }
