@@ -186,34 +186,38 @@ const sidebars = {
       },
       items: [
         {
-          type: "category",
+          type: "doc",
+          id: "materialized-view",
           label: "Materialized View",
-          link: {
-            type: "doc",
-            id: "materialized-view",
-          },
-          items: [
-            {
-              type: "doc",
-              id: "materialized-view-checkpoint",
-              label: "Checkpoint",
-            },
-            {
-              type: "doc",
-              id: "materialized-view-high-availability",
-              label: "High Availability",
-            },
-            {
-              type: "doc",
-              id: "materialized-perf-tuning",
-              label: "Performance Tuning",
-            },
-            {
-              type: "doc",
-              id: "materialized-view-monitoring",
-              label: "Monitoring",
-            },
-          ]
+ 
+          // type: "category",
+          // label: "Materialized View",
+          // link: {
+          //   type: "doc",
+          //   id: "materialized-view",
+          // },
+          // items: [
+          //   {
+          //     type: "doc",
+          //     id: "materialized-view-checkpoint",
+          //     label: "Checkpoint",
+          //   },
+          //   {
+          //     type: "doc",
+          //     id: "materialized-view-high-availability",
+          //     label: "High Availability",
+          //   },
+          //   {
+          //     type: "doc",
+          //     id: "materialized-perf-tuning",
+          //     label: "Performance Tuning",
+          //   },
+          //   {
+          //     type: "doc",
+          //     id: "materialized-view-monitoring",
+          //     label: "Monitoring",
+          //   },
+          // ]
         },
         {
           type: "doc",
