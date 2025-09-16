@@ -42,7 +42,7 @@ Timeplus supports three query models: **historical**, **streaming**, and **hybri
 
 ### NativeLog
 
-The **Timeplus NativeLog** is the system’s write-ahead log (WAL) or journal: an append-only, high-throughput store optimized for low-latency, highly concurrent data ingestion. In a cluster deployment, it is replicated using **Multi-Raft** for fault tolerance. By enforcing a strict ordering of records, NativeLog forms the backbone of streaming processing in **Timeplus Core**, it is also the building block of other internal components like the repliated meta store in Timeplus.
+The **Timeplus NativeLog** is the system’s write-ahead log (WAL) or journal: an append-only, high-throughput store optimized for low-latency, highly concurrent data ingestion. In a cluster deployment, it is replicated using **Multi-Raft** for fault tolerance. By enforcing a strict ordering of records, NativeLog forms the backbone of streaming processing in **Timeplus Core**, it is also the building block of other internal components like the repliated meta store, checkpoint replication etc in Timeplus.
 
 NativeLog uses its own record format, consisting of two high-level types:
 
