@@ -52,7 +52,7 @@ AS
     checkpoint_interval=<interval>,
     checkpoint_settings='<ckpt-settings>',
     memory_weight=<weight>,
-    mv_preferred_exec_node=<node-id>,
+    preferred_exec_node=<node-id>,
     default_hash_table=['memory'|'hybrid'],
     default_hash_join=['memory'|'hybrid'],
     max_hot_keys=<num-keys>,
@@ -156,7 +156,7 @@ The **Materialized View checkpoint interval**, in seconds.
 **Example:**
 If you have 3 large Materialized Views and want them distributed evenly across cluster nodes, you can assign each one a `memory_weight` greater than `1`.
 
-#### `mv_preferred_exec_node`
+#### `preferred_exec_node`
 
 This setting allows you to specify **node affinity** for executing a Materialized View.  Timeplus will attempt to honor the affinity as much as possible.
 

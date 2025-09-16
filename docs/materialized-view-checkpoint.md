@@ -164,3 +164,15 @@ SETTINGS
     default_hash_table = 'hybrid', -- Uses RocksDB for incremental checkpoints
     checkpoint_settings = 'storage_type=nativelog;shared_disk=s3_plain_disk'; -- storage_type=nativelog optional
 ```
+
+## Choosing the Right Replication Strategy
+
+In cluster deployments, there are three options for checkpoint replication:  
+1. **NativeLog-based replication** (pure Raft-based).  
+2. **Shared Storage replication** (zero replication).  
+3. **Hybrid replication** (NativeLog + Shared Storage).  
+
+When to Use Each ?
+- **On-prem deployments without shared storage**: Use **NativeLog-based replication**, as it is the only option.  
+
+- **Deployments with shared (cloud) storage**: You can choose between **Shared Storage** or **Hybrid replication**.  The decision depends on workload characteristics, Materialized View elasticity requirements, and operational trade-offs because these two replications strategies have different high availability models. For more details, see the [Materialized View High Availability](/materialized-view-high-availability) documentation. 

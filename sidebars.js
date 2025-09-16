@@ -203,11 +203,11 @@ const sidebars = {
               id: "materialized-view-checkpoint",
               label: "Checkpoint",
             },
-          //  {
-          //     type: "doc",
-          //     id: "materialized-view-high-availability",
-          //     label: "High Availability",
-          //   },
+            {
+              type: "doc",
+              id: "materialized-view-high-availability",
+              label: "High Availability",
+            },
           //   {
           //     type: "doc",
           //     id: "materialized-perf-tuning",
