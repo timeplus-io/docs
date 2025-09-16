@@ -28,7 +28,7 @@ Failure detection and failover are handled automatically by the Raft consensus m
 2. The new leader rebuilds the pipeline and recovers from the replicated checkpoint.  
 3. Query execution resumes with minimal interruption. 
 
-## Centralized Scheduler Based
+## Scheduler-Based HA
 
 In this model, a **centralized scheduler** monitors Materialized Views and reschedules them on failure. The scheduler itself is Raft-backed, and its leader coordinates placement and recovery.  
 
@@ -74,7 +74,7 @@ Trade-offs:
 - More expensive (requires multiple hot standby replicas).
 - Higher disk space and IOPS usage.
 
-### Centralized Scheduler-Based HA
+### Scheduler-Based HA
 
 Best for:
 - Large-scale or spiky workloads with many Materialized Views.

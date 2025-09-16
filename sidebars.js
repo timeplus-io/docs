@@ -208,11 +208,11 @@ const sidebars = {
               id: "materialized-view-high-availability",
               label: "High Availability",
             },
-          //   {
-          //     type: "doc",
-          //     id: "materialized-perf-tuning",
-          //     label: "Performance Tuning",
-          //   },
+            {
+              type: "doc",
+              id: "materialized-perf-tuning",
+              label: "Performance Tuning",
+            },
           //   {
           //     type: "doc",
           //     id: "materialized-view-monitoring",
