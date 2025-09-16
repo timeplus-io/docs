@@ -198,11 +198,11 @@ const sidebars = {
               id: "materialized-view-lifecycle",
               label: "Lifecycle",
             },
-            // {
-            //   type: "doc",
-            //   id: "materialized-view-checkpoint",
-            //   label: "Checkpoint",
-            // },
+            {
+              type: "doc",
+              id: "materialized-view-checkpoint",
+              label: "Checkpoint",
+            },
           //  {
           //     type: "doc",
           //     id: "materialized-view-high-availability",
