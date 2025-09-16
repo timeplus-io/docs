@@ -27,6 +27,8 @@ A **Materialized View** consists of four main components (illustrated in the dia
 
 When a Materialized View checkpoints its query state, it ensures durability and fault tolerance. If the process fails mid-execution, it can **restart from the last checkpoint** without reprocessing the entire stream from beginning.
 
+For details on the available checkpointing strategies, see the [Checkpoint documentation](/materialized-view-checkpoint).
+
 By combining other Timeplus features / components such as:
 
 - [Streaming Joins](/streaming-joins) / [Streaming Aggregations](/streaming-aggregations)
