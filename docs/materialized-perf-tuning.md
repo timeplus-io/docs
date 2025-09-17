@@ -1,4 +1,3 @@
-
 # Performance Tuning
 
 A **Materialized View** consists of four main components. Performance tuning can involve one or more of these components.  
