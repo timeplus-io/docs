@@ -260,11 +260,6 @@ While reading from an S3 external table, you can use the following virtual colum
 * `_path` — Path to the file. Type: `low_cardinalty(string)`. In case of archive, shows path in a format: `"{path_to_archive}::{path_to_file_inside_archive}"`
 * `_file` — Name of the file. Type: `low_cardinalty(string)`. In case of archive shows name of the file inside the archive.
 
-## Limitations
-
-1. The UI wizard to setup S3 External Table is coming soon. Before it's ready, you need the SQL DDL.
-2. Assume role is not supported yet. You can use the environment credentials or static credentials.
-
 ## Use Cases for AWS Logs
 
 ### CloudTrail
