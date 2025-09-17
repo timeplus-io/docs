@@ -213,11 +213,11 @@ const sidebars = {
               id: "materialized-perf-tuning",
               label: "Performance Tuning",
             },
-          //   {
-          //     type: "doc",
-          //     id: "materialized-view-monitoring",
-          //     label: "Monitoring",
-          //   },
+            {
+              type: "doc",
+              id: "materialized-view-monitoring",
+              label: "Monitoring",
+            },
           ]
         },
         {
