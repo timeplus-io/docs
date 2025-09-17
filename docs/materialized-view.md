@@ -349,9 +349,11 @@ ALTER VIEW <db.mat-view-name> MODIFY COMMENT '<new-comments>';
 ALTER VIEW tumble_aggr_mv MODIFY COMMENT 'test new comment';
 ```
 
-## Alter Materialized View Query (Schema Changes)
+## Alter Materialized View Query
 
 You can alter the underlying streaming query of a Materialized View to add new columns or aggregates, as long as the change is **backward compatible** with the existing query (state). This allows graceful schema evolution.
+
+### Add a New Aggregate
 
 For example, to add a new aggregate `max(i) AS max_i` to the following Materialized View:
 
@@ -401,3 +403,22 @@ This approach minimizes unnecessary data recomputation and ensures graceful reco
 :::info
 For streaming join Materialized Views, adding new joined columns is not yet supported.
 :::
+
+### Change Query Settings
+
+Sometimes, you need to apply new query settings to the underlying streaming query to ignore parsing error, to fine tune performance etc. You can alter the query with new these settings. In this case, there are no schema changes. 
+
+**Example**:
+```sql
+ALTER VIEW tumble_aggr_mv MODIFY QUERY SELECT
+    window_start AS win_start,
+    s,
+    sum(i) AS total
+FROM
+    tumble(random_source, 2s)
+GROUP BY
+    window_start, s
+SETTINGS
+    recovery_policy='BestEffort',            -- Change the recovery policy to 'BestEffort'
+    input_format_ignore_parsing_errors=true; -- Ignore format parsing error to have better resiliency
+```
