@@ -404,9 +404,9 @@ This approach minimizes unnecessary data recomputation and ensures graceful reco
 For streaming join Materialized Views, adding new joined columns is not yet supported.
 :::
 
-### Change Query Settings
+### Change Additional Query Settings
 
-Sometimes, you need to apply new query settings to the underlying streaming query to ignore parsing error, to fine tune performance etc. You can alter the query with new these settings. In this case, there are no schema changes. 
+In some cases, you may want to apply query settings that are not covered by the `MODIFY QUERY SETTING` command — such as ignoring parsing errors or fine-tuning performance. You can update the underlying streaming query with new settings without making any schema changes.  
 
 **Example**:
 ```sql
@@ -419,6 +419,6 @@ FROM
 GROUP BY
     window_start, s
 SETTINGS
-    recovery_policy='BestEffort',            -- Change the recovery policy to 'BestEffort'
-    input_format_ignore_parsing_errors=true; -- Ignore format parsing error to have better resiliency
+    recovery_policy='BestEffort',            -- Use 'BestEffort' recovery policy
+    input_format_ignore_parsing_errors=true; -- Skip parsing errors for better resiliency
 ```
