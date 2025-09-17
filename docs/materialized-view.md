@@ -59,7 +59,10 @@ AS
     pause_on_start=[true|false],
     enable_dlq=[true|false],
     dlq_max_message_batch_size=<batch-size>,
-    dlq_consecutive_failures_limit=<failure-limit>
+    dlq_consecutive_failures_limit=<failure-limit>,
+    recovery_policy='[Strict|BestEffort]',
+    recovery_retry_for_same_error=<retries-limit>,
+    input_format_ignore_parsing_errors=[true|false],
  ...]
  [COMMENT '<comments>']
 ```
@@ -108,11 +111,6 @@ The **Materialized View checkpoint interval**, in seconds.
 #### `checkpoint_settings`
 
 `checkpoint_settings` is a **semicolon-separated key/value string** that controls how query states are checkpointed. It supports the following keys:
-
-- **`type`**
-   - Defines the checkpoint type.
-   - Supported values: `auto` (default), `file`.
-   - In most cases, no explicit configuration is required.
 
 - **`storage_type`**
    - Defines where checkpoint data is stored.
@@ -250,6 +248,31 @@ Specifies the maximum number of **consecutive event failures** that can be logge
 - Hitting this limit usually indicates a **configuration error** that must be fixed.
 
 **Default:** `100`
+
+#### `recovery_policy`
+
+Specifies the recovery behavior when a Materialized View fails. Supported policies:
+
+- **Strict**: Recover from the last checkpoint and continue processing. No source data is skipped.
+- **BestEffort**: Recover from the last checkpoint. If the same error occurs again (e.g., parsing or conversion errors), skip the problematic ("poison") events and continue processing.
+
+**Default:** `Strict`
+
+#### `recovery_retry_for_same_error`
+
+The maximum number of retries for the same error.
+This setting is only effective when `recovery_policy = 'BestEffort'`.
+
+**Default:** 1000000000000
+
+#### `input_format_ignore_parsing_errors`
+
+Controls whether parsing errors should be ignored when reading various formats (e.g., CSV, Avro, Protobuf).
+
+- If set to **true**, parsing errors are suppressed, the problematic data is skipped, and processing continues.
+- If set to **false**, parsing errors will cause the process to fail.
+
+**Default:** `false`
 
 ## Sink With or Without Target Stream / Table
 
