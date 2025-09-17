@@ -263,6 +263,8 @@ Specifies the recovery behavior when a Materialized View fails. Supported polici
 The maximum number of retries for the same error.
 This setting is only effective when `recovery_policy = 'BestEffort'`.
 
+**Default:** 1000000000000
+
 #### `input_format_ignore_parsing_errors`
 
 Controls whether parsing errors should be ignored when reading various formats (e.g., CSV, Avro, Protobuf).
