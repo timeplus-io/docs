@@ -283,7 +283,6 @@ const sidebars = {
             {
               type: "category",
               label: "Mutable Stream",
-              customProps: { tag: "Enterprise" },
               link: {
                 type: "doc",
                 id: "mutable-stream",
@@ -320,7 +319,6 @@ const sidebars = {
         {
           type: "doc",
           id: "viz",
-          customProps: { tag: "Enterprise" },
         },
       ]
     },
@@ -420,7 +418,6 @@ const sidebars = {
         {
           type: "doc",
           id: "alert",
-          customProps: { tag: "Enterprise" },
         },
       ]
     },
@@ -541,7 +538,6 @@ const sidebars = {
                 {
                   type: "doc",
                   id: "py-udf",
-                  customProps: { tag: "Enterprise" },
                 },
                 "js-udf",
                 "sql-udf",
@@ -581,12 +577,10 @@ const sidebars = {
             {
               type: "doc",
               id: "timeplusd-client",
-              customProps: { tag: "Enterprise" },
             },
             {
               type: "category",
               label: "timeplus (CLI)",
-              customProps: { tag: "Enterprise" },
               link: {
                 type: "doc",
                 id: "cli-reference",
@@ -649,19 +643,16 @@ const sidebars = {
             {
               type: "doc",
               id: "ingest-api",
-              customProps: { tag: "Enterprise" },
             },
             {
               type: "doc",
               id: "query-api",
-              customProps: { tag: "Enterprise" },
             },
           ],
         },
         {
           type: "doc",
           id: "redpanda-connect",
-          customProps: { tag: "Enterprise" },
         },
         {
           type: "category",
@@ -721,7 +712,6 @@ const sidebars = {
         {
           type: "doc",
           id: "rbac",
-          customProps: { tag: "Enterprise" },
         },
       ],
     },

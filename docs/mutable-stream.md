@@ -141,84 +141,90 @@ It is used to control the stream shard placement affinity (rack-aware replica pl
 
 #### `late_insert_overrides`
 
-Applicable to [Versioned Mutable Streams](/mutable-stream-versioned).  
+Applicable to [Versioned Mutable Streams](/mutable-stream-versioned).
 
-- If `true`: when there is a version tie for rows with the same primary key, the **later insert** overrides the earlier one.  
-- If `false`: the **first row** is kept, and later rows are discarded.  
+- If `true`: when there is a version tie for rows with the same primary key, the **later insert** overrides the earlier one.
+- If `false`: the **earliest row** is kept, and later rows are discarded.
 
 #### `shared_disk`
 
-Stores WAL data on shared storage specified by `shared_disk`.  
-See [Zero-Replication NativeLog](/cluster#zero-replication-nativelog) for more details.  
+Stores WAL data on shared storage specified by `shared_disk`.
+See [Zero-Replication NativeLog](/cluster#zero-replication-nativelog) for more details.
 
 #### `ingest_mode`
 
-Controls whether ingestion into a stream is synchronous or asynchronous. Works together with [`ack`](#ack).  
+Controls whether ingestion into a stream is synchronous or asynchronous. Works together with [`ack`](#ack).
 
-Supported values:  
-- `sync`: insert is synchronous  
-- `async`: insert is asynchronous  
-- `""`: system decides automatically  
+Supported values:
+- `sync`: insert is synchronous
+- `async`: insert is asynchronous
+- `""`: system decides automatically
 
 #### `ack`
 
-Controls when to acknowledge the client for an insert.  
+Controls when to acknowledge the client for an insert.
 
-Supported values:  
-- `quorum`: acknowledge after quorum commit  
-- `local`: acknowledge after local commit (may risk data loss)  
-- `none`: fire-and-forget, acknowledge immediately  
+Supported values:
+- `quorum`: acknowledge after quorum commit
+- `local`: acknowledge after local commit (may risk data loss)
+- `none`: fire-and-forget, acknowledge immediately
 
-**Examples:**  
-- `ack=quorum` + `ingest_mode=async`: **async quorum insert**  
-  - The client inserts data continuously without waiting for acks.  
-  - Internally, the system tracks outstanding inserts with unique IDs and removes them when acks arrive.  
-  - It improves throughput and reduces overall latency in continuous insert (e.g in Materialized View).  
+**Examples:**
+- `ack=quorum` + `ingest_mode=async`: **async quorum insert**
+  - The client inserts data continuously without waiting for acks.
+  - Internally, the system tracks outstanding inserts with unique IDs and removes them when acks arrive.
+  - It improves throughput and reduces overall latency in continuous insert (e.g in Materialized View).
 
-- `ack=quorum` + `ingest_mode=sync`: **sync quorum insert**  
-  - Waits for an ack for each insert before proceeding to the next one.  
+- `ack=quorum` + `ingest_mode=sync`: **sync quorum insert**
+  - Waits for an ack for each insert before proceeding to the next one.
 
 #### `ingest_batch_max_bytes`
 
-(Works only `shared_disk` is configured)  
-Flushes to shared storage when the batch size threshold is reached, improving throughput.  
+(Works only `shared_disk` is configured)
+Flushes to shared storage when the batch size threshold is reached, improving throughput.
+
+**Default**: `67108864` (64MB)
 
 #### `ingest_batch_timeout_ms`
 
-(Works only `shared_disk` is configured)  
-Flushes to shared storage when the batch timeout threshold is reached, improving throughput.  
+(Works only `shared_disk` is configured)
+Flushes to shared storage when the batch timeout threshold is reached, improving throughput.
+
+**Default**: `500`
 
 #### `fetch_threads`
 
-(Works only `shared_disk` is configured)  
-Controls the parallelism when fetching data from remote shared storage.  
+(Works only `shared_disk` is configured)
+Controls the parallelism when fetching data from remote shared storage.
+
+**Default**: `1`
 
 #### `flush_rows`
 
-Flushes data to the backend key-value store (RocksDB) when this row threshold is reached.  
+Flushes data to the backend key-value store (RocksDB) when this row threshold is reached.
 
 #### `flush_ms`
 
-Flushes data to the backend key-value store (RocksDB) when this time threshold is reached.  
+Flushes data to the backend key-value store (RocksDB) when this time threshold is reached.
 
 #### `log_kvstore`
 
-If `true`, logs internal RocksDB activity for debugging.  
+If `true`, logs internal RocksDB activity for debugging.
 
 #### `kvstore_codec`
 
-Controls data compression in RocksDB for better disk efficiency.  
+Controls data compression in RocksDB for better disk efficiency.
 
-Supported values:  
-- `snappy`  
-- `lz4`  
-- `zstd`  
+Supported values:
+- `snappy`
+- `lz4`
+- `zstd`
 
 #### `kvstore_options`
 
-Specifies RocksDB options as semicolon-separated `key=value` pairs for fine-tuning.  
+Specifies RocksDB options as semicolon-separated `key=value` pairs for fine-tuning.
 
-**Example:**  
+**Example:**
 
 ```sql
 kvstore_options='write_buffer_size=1024;max_write_buffer_number=2;max_background_jobs=4'
@@ -231,3 +237,103 @@ Uses HashIndex instead of BinarySearch in the RocksDB engine.
 #### `enable_statistics`
 
 Enables RocksDB statistics for monitoring and debugging.
+
+## Auto-Increment Column
+
+A **mutable stream** supports at most **one auto-increment column**.  
+
+**Rules and Restrictions**:
+- Must be of type **`uint64`**.  
+- Always starts at **`1`**.  
+- Auto-increment values are **local to each shard** (not globally unique across shards).  
+- The auto-increment column is always **automatically secondary indexed**.  
+
+**Example**:
+
+```sql
+CREATE MUTABLE STREAM auto_incr
+(
+  id uint64 AUTO_INCREMENT,
+  p string
+)
+PRIMARY KEY (p);
+```
+
+## Secondary Index
+
+See the [Secondary Index](/mutable-stream-secondary-index) documentation for details.
+
+## Column Family
+
+A **column family** is a way to group related columns together with these grouping rules.
+- Each column can belong to only one family (no overlaps).
+- Columns not explicitly assigned to a family are placed in a **default column family**.
+- Primary key columns are always stored in a reserved column family and cannot be reassigned.
+
+There are 2 major use cases:
+1. **Improve read performance for wide-column mutable streams**
+   - Example: A mutable stream has 100 columns, but queries usually access only a subset.
+   - By grouping frequently co-accessed columns into families, only the required family is read and deserialized, reducing overhead.
+
+2. **Support collaborative updates**
+   - Multiple clients can update different column families independently.
+   - Together, the families form complete rows.
+   - See [Coalesced Mutable Stream](/mutable-stream-coalesced) for details.
+
+**Example**:
+
+```sql
+CREATE MUTABLE STREAM multi_cf_mu
+(
+  p1 string,
+  p2 int,
+  i uint64,
+  k string,
+  d datetime64(3),
+  m string,
+  FAMILY cf1 (i, d), -- Columns 'i' and 'd' are usually queried together
+  FAMILY cf2 (k, m)  -- Columns 'k' and 'm' are usually queried together
+)
+PRIMARY KEY (p1, p2);
+
+-- Only column family `cf1` is read and deserialized
+SELECT i, d FROM table(multi_cf_mu);
+
+-- Only column family `cf2` is read and deserialized
+SELECT k, m FROM table(multi_cf_mu);
+```
+
+:::info
+Using column families can slow down ingestion speed, since each family is internally grouped and encoded separately as distinct key/value pairs (increasing the number of internal keys in RocksDB).
+:::
+
+## Examples
+
+The following example creates a versioned mutable stream with:
+- Multiple shards
+- Secondary indexes
+- One column family
+- Zero-replication WAL (NativeLog) enabled
+- zstd compression for WAL data
+
+```sql
+CREATE MUTABLE STREAM elastic_serving_mu
+(
+  p string,
+  id uint64 auto_increment,
+  p2 uint32,
+  c1 string,
+  c2 int,
+  v datetime64(3),
+  INDEX sidx1 (c1),
+  INDEX sidx2 (v),
+  FAMILY cf1 (c1, c2)
+)
+PRIMARY KEY (p1, p2)
+SETTINGS
+  shards = 3,
+  versioned_column='v',
+  shared_disk='s3_disk',
+  fetch_threads=2,
+  logstore_codec='zstd';
+```
