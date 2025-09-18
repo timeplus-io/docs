@@ -281,9 +281,30 @@ const sidebars = {
               id: "changelog-stream",
             },
             {
-              type: "doc",
-              id: "mutable-stream",
+              type: "category",
+              label: "Mutable Stream",
               customProps: { tag: "Enterprise" },
+              link: {
+                type: "doc",
+                id: "mutable-stream",
+              },
+              items: [
+                {
+                  type: "doc",
+                  id: "mutable-stream-versioned",
+                  label: "Versioned Mutable Stream",
+                },
+                {
+                  type: "doc",
+                  id: "mutable-stream-coalesced",
+                  label: "Coalesced Mutable Stream",
+                },
+                {
+                  type: "doc",
+                  id: "mutable-stream-rack-aware",
+                  label: "Rack-aware Placements",
+                }
+              ]
             },
             {
               type: "doc",

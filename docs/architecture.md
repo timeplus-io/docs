@@ -2,7 +2,7 @@
 
 ## Overview
 
-Timeplus is built with **durable storage** and **durable query processing** at its core, enabling a wide range of **incremental query processing pipelines** for real-time and historical workloads.  
+Timeplus is built with **dual storage** and **dual query processing** at its core, enabling a wide range of **incremental query processing pipelines** for real-time and historical workloads.  
 
 The diagram below illustrates the high-level components of the core engine. The following sections describe how these components work together as a unified system.
 
@@ -12,9 +12,9 @@ The diagram below illustrates the high-level components of the core engine. The 
 
 ### Ingest
 
-When data is ingested into Timeplus, it first lands in the **NativeLog**. As soon as the log commit completes, the data becomes instantly available for streaming queries.
+When data is ingested into a stream in Timeplus, it first lands in the **NativeLog** (WAL) of the stream. As soon as the log commit completes, the data becomes instantly available for streaming queries.
 
-In the background, dedicated threads continuously tail new entries from the NativeLog and flush them into the **Historical Store** in optimized, larger batches.
+In the background, dedicated threads continuously tail new entries from the NativeLog and flush them into the **Historical Store** of a stream in optimized, larger batches.
 
 ### Query
 
