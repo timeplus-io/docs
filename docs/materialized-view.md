@@ -1,4 +1,4 @@
-# Materialized View {#m_view}
+# Materialized View
 
 ## Overview
 
@@ -60,7 +60,7 @@ AS
     enable_dlq=[true|false],
     dlq_max_message_batch_size=<batch-size>,
     dlq_consecutive_failures_limit=<failure-limit>,
-    recovery_policy='[Strict|BestEffort]',
+    recovery_policy='[strict|best_effort]',
     recovery_retry_for_same_error=<retries-limit>,
     input_format_ignore_parsing_errors=[true|false],
  ...]
@@ -253,15 +253,15 @@ Specifies the maximum number of **consecutive event failures** that can be logge
 
 Specifies the recovery behavior when a Materialized View fails. Supported policies:
 
-- **Strict**: Recover from the last checkpoint and continue processing. No source data is skipped.
-- **BestEffort**: Recover from the last checkpoint. If the same error occurs again (e.g., parsing or conversion errors), skip the problematic ("poison") events and continue processing.
+- **strict**: Recover from the last checkpoint and continue processing. No source data is skipped.
+- **best_effort**: Recover from the last checkpoint. If the same error occurs again (e.g., parsing or conversion errors), skip the problematic ("poison") events and continue processing.
 
-**Default:** `Strict`
+**Default:** `strict`
 
 #### `recovery_retry_for_same_error`
 
 The maximum number of retries for the same error.
-This setting is only effective when `recovery_policy = 'BestEffort'`.
+This setting is only effective when `recovery_policy = 'best_effort'`.
 
 **Default:** 1000000000000
 
@@ -304,8 +304,8 @@ SELECT * FROM mat_view;
 
 the query is proxied to the target stream or table that stores the results of the Materialized View, so the query behavior is tied to the target stream or table.
 
-- If the sink is a native stream (e.g., append or mutable stream), the query behaves like a streaming query.
-- If the sink is an external table or external stream, the query behaves like a historical table query.
+- If the sink is a native stream (e.g., append or mutable stream) or external stream, the query behaves like a streaming query.
+- If the sink is an external table, the query behaves like a historical table query.
 
 ## Drop Materialized View
 
@@ -404,7 +404,7 @@ This approach minimizes unnecessary data recomputation and ensures graceful reco
 For streaming join Materialized Views, adding new joined columns is not yet supported.
 :::
 
-### Change Additional Query Settings
+### ALTER Additional Query Settings
 
 In some cases, you may want to apply query settings that are not covered by the `MODIFY QUERY SETTING` command — such as ignoring parsing errors or fine-tuning performance. You can update the underlying streaming query with new settings without making any schema changes.  
 
@@ -419,6 +419,6 @@ FROM
 GROUP BY
     window_start, s
 SETTINGS
-    recovery_policy='BestEffort',            -- Use 'BestEffort' recovery policy
+    recovery_policy='best_effort',            -- Use 'best_effort' recovery policy
     input_format_ignore_parsing_errors=true; -- Skip parsing errors for better resiliency
 ```

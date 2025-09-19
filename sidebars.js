@@ -281,9 +281,34 @@ const sidebars = {
               id: "changelog-stream",
             },
             {
-              type: "doc",
-              id: "mutable-stream",
-              customProps: { tag: "Enterprise" },
+              type: "category",
+              label: "Mutable Stream",
+              link: {
+                type: "doc",
+                id: "mutable-stream",
+              },
+              items: [
+                {
+                  type: "doc",
+                  id: "mutable-stream-secondary-index",
+                  label: "Secondary Indexes",
+                },
+                {
+                  type: "doc",
+                  id: "mutable-stream-versioned",
+                  label: "Versioned Mutable Stream",
+                },
+                {
+                  type: "doc",
+                  id: "mutable-stream-coalesced",
+                  label: "Coalesced Mutable Stream",
+                },
+                {
+                  type: "doc",
+                  id: "mutable-stream-rack-aware",
+                  label: "Rack-aware Placements",
+                }
+              ]
             },
             {
               type: "doc",
@@ -299,7 +324,6 @@ const sidebars = {
         {
           type: "doc",
           id: "viz",
-          customProps: { tag: "Enterprise" },
         },
       ]
     },
@@ -399,7 +423,6 @@ const sidebars = {
         {
           type: "doc",
           id: "alert",
-          customProps: { tag: "Enterprise" },
         },
       ]
     },
@@ -520,7 +543,6 @@ const sidebars = {
                 {
                   type: "doc",
                   id: "py-udf",
-                  customProps: { tag: "Enterprise" },
                 },
                 "js-udf",
                 "sql-udf",
@@ -560,12 +582,10 @@ const sidebars = {
             {
               type: "doc",
               id: "timeplusd-client",
-              customProps: { tag: "Enterprise" },
             },
             {
               type: "category",
               label: "timeplus (CLI)",
-              customProps: { tag: "Enterprise" },
               link: {
                 type: "doc",
                 id: "cli-reference",
@@ -628,19 +648,16 @@ const sidebars = {
             {
               type: "doc",
               id: "ingest-api",
-              customProps: { tag: "Enterprise" },
             },
             {
               type: "doc",
               id: "query-api",
-              customProps: { tag: "Enterprise" },
             },
           ],
         },
         {
           type: "doc",
           id: "redpanda-connect",
-          customProps: { tag: "Enterprise" },
         },
         {
           type: "category",
@@ -700,7 +717,6 @@ const sidebars = {
         {
           type: "doc",
           id: "rbac",
-          customProps: { tag: "Enterprise" },
         },
       ],
     },

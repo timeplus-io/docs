@@ -1,9 +1,8 @@
 # Overview
 
-A **Timeplus scheduled task** runs a historical query periodically according to its schedule and persists the query results to a target Timeplus native stream or external system (e.g., ClickHouse).  
-When combined with Python UDFs, scheduled tasks can move data between external systems and Timeplus, or between different external systems.
+A **Timeplus scheduled task** runs a historical query periodically according to its schedule and persists the query results to a target Timeplus native stream or external system (e.g., ClickHouse).  When combined with Python UDFs, scheduled tasks can move data between external systems and Timeplus, or between different external systems.
 
-Scheduled tasks complement **Timeplus Materialized Views**, which run streaming queries and continuously materialize results to target streams or external systems.
+Scheduled tasks complement **Timeplus Materialized Views** which run streaming queries and continuously materialize results to target streams or external systems.
 
 ## Create Task
 
@@ -12,11 +11,11 @@ CREATE OR REPLACE TASK <task-name>
 SCHEDULE <interval>
 TIMEOUT <interval>
 INTO <target-stream>
-AS 
+AS
   <Historical SELECT query>;
 ```
 
-**SCHEDULE interval** : The interval at which the task runs. 
+**SCHEDULE interval** : The interval at which the task runs.
 Tasks are scheduled via a centralized scheduler to prevent overlap: the next run starts only after the previous run completes.
 
 **TIMEOUT interval** : The maximum allowed execution time for the task.
@@ -24,7 +23,7 @@ If the task exceeds this interval, the scheduler aborts it to prevent indefinite
 
 Once created, a task is automatically scheduled in the Timeplus cluster. The scheduler selects the best candidate node in the cluster to execute the task.
 
-### Example 
+**Example**:
 
 To periodically collect the Timeplus node statuses and persist the results into a target stream:
 
@@ -33,7 +32,6 @@ To periodically collect the Timeplus node statuses and persist the results into 
 CREATE STREAM node_states (cluster_id string, node_id string, node_state string);
 
 -- Create a task to collect the node statuses
-
 CREATE TASK refresh_node_states
 SCHEDULE 5s
 TIMEOUT 2s
@@ -67,7 +65,7 @@ SYSTEM PAUSE TASK <db.task-name>;
 To resume a paused task:
 
 ```sql
-SYSTEM RESUME TASK <db.task-name>;  
+SYSTEM RESUME TASK <db.task-name>;
 ```
 
 ## Delete Task
@@ -75,5 +73,5 @@ SYSTEM RESUME TASK <db.task-name>;
 To delete a task:
 
 ```sql
-DELETE TASK <db.task-name>;  
+DELETE TASK <db.task-name>;
 ```
