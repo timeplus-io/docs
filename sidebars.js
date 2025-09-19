@@ -303,16 +303,16 @@ const sidebars = {
                   id: "mutable-stream-coalesced",
                   label: "Coalesced Mutable Stream",
                 },
-                {
-                  type: "doc",
-                  id: "mutable-stream-rack-aware",
-                  label: "Rack-aware Placements",
-                }
               ]
             },
             {
               type: "doc",
               id: "tiered-storage",
+            },
+            {
+              type: "doc",
+              id: "rack-aware-placements",
+              label: "Rack-aware Placements",
             },
           ],
         },

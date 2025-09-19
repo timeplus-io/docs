@@ -22,7 +22,7 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 
 ### Timeplus Enterprise v2.8 GA
 * 2.8.1 is the first GA version of [Timeplus Enterprise v2.8](/enterprise-v2.8), with the key features:
-  * New Compute Node server role to [run materialized views elastically](/materialized-view#autoscaling_mv) with checkpoints on S3 storage.
+  * New Compute Node server role to [run materialized views elastically](/materialized-view) with checkpoints on S3 storage.
   * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-source)
   * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
   * Use S3 as the [tiered storage](/tiered-storage) for streams.
@@ -88,7 +88,7 @@ You can add connection to Timeplus Proton or Timeplus Enterprise in [marimo](/ma
 
 ### Timeplus Enterprise v2.8 (Preview)
 [Timeplus Enterprise v2.8.0](/enterprise-v2.8) is now available as a technical preview for the 2.8 release. Not ready for production use but feel free to try the new features and provide feedback.
-* New Compute Node server role to [run materialized views elastically](/materialized-view#autoscaling_mv) with checkpoints on S3 storage.
+* New Compute Node server role to [run materialized views elastically](/materialized-view) with checkpoints on S3 storage.
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-source)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
 * Use S3 as the [tiered storage](/tiered-storage) for streams.
@@ -220,7 +220,7 @@ Merry Christmas 🎄
 
 ### Timeplus Enterprise v2.5
  * [Timeplus Enterprise v2.5](/enterprise-v2.5) is now Generally Available! This milestone marks a significant leap forward for our Timeplus Enterprise v2 which was released earlier this year. In this release, we pushed our unparalleled performance to a new level, natively integrated with Redpanda Connect and Apache Pulsar to access a rich ecosystem of enterprise and AI applications. Key breakthroughs:
-    * [Materialized Views Auto-Rebalancing](/materialized-view#auto-balancing)
+    * [Materialized Views Auto-Rebalancing](/materialized-view)
     * Performance Improvements
     * Enterprise-Grade Real-Time Data Integration with [200+ Connectors from Redpanda Connect](/redpanda-connect)
     * [Pulsar External Stream](pulsar-source) to query or process data in Pulsar with SQL
@@ -398,7 +398,7 @@ We are working on Timeplus Enterprise v2.4.x. The build is not ready to be publi
 ### Timeplus Proton v1.5.14
   * Remote user-defined functions (UDFs) can now be created via SQL.
     * Example: `CREATE REMOTE FUNCTION ip_lookup(ip string) RETURNS string URL 'https://abc.lambda-url.us-west-2.on.aws/'`
-  * Mutable streams performance tuning: added [key_space_full_scan_threads](/mutable-stream#key_space_full_scan_threads) setting.
+  * Mutable streams performance tuning: added [key_space_full_scan_threads](/mutable-stream) setting.
   * Improved asof join performance.
   * Added support for primary key columns in secondary key.
   * (v1.5.13) Bugfix: When the format schema is dropped, the format schema cache is now properly cleared
