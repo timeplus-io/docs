@@ -157,16 +157,6 @@ SETTINGS force_full_scan=true;
 
 This can be useful for debugging, working around index bugs, or ensuring completeness when an index may be outdated.
 
-## Use Secondary Index
-
-When fulfill a query against a Mutable Stream, Timeplus will automatically analyze which index will be the best to speed up the query. The primary index usually have highest preceduence over other secondary indexes.
-
-If there are multiple secondary indexes which can be used to serve a query, Timeplus will sort the secondary indexes according to the matched length of the where predicates. The longer the higher precedence (the rationale behind is the longer the matched predicates, the more concrete of the key space to search, hence potentially faster).
-
-You can also manually specify a secondary index to use via `use_index='<secondary-idx-name>'` query setting to fullfil the query. Internally, Timeplus will still do the index analysis to see the specified secondary index can fit. If it is not, it won't be used and fallback to full scan.
-
-Sometimes you may like to force full scan via `force_full_scan=true` query setting to avoid any secondary index, for e.g. secondary index has bugs or in-complete.
-
 ### Use Secondary Indexes in Historical Queries
 
 **Example**:
