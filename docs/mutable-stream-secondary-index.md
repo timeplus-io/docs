@@ -157,7 +157,7 @@ SETTINGS force_full_scan=true;
 
 This can be useful for debugging, working around index bugs, or ensuring completeness when an index may be outdated.
 
-### Use Secondary Indexes in Historical Queries
+### Use Secondary Index in Historical Queries
 
 **Example**:
 ```sql
