@@ -1,7 +1,6 @@
-# CREATE DISK
-By default, Timeplus only created a `default` disk for local storage.
+# Create Disk
 
-Starting from [Timeplus Enterprise 2.8](/enterprise-v2.8), you can create S3 disks for [tiered storage](/tiered-storage) or [autoscaling materialized views](/materialized-view#autoscaling_mv).
+By default, Timeplus only created a `default` disk for local storage.
 
 ## Syntax
 You can create a S3 disk with the following SQL:

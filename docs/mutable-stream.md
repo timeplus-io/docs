@@ -135,7 +135,7 @@ For example, all fixed-width columns (`int`, `int32`, `int64`, `datetime`, etc.)
 
 #### `placement_policies`
 
-It is used to control the stream shard placement affinity (rack-aware replica placement). See [rack aware placement](/mutable-stream-rack-aware) documentation for details.
+It is used to control the stream shard placement affinity (rack-aware replica placement). See [rack aware placement](/rack-aware-placements) documentation for details.
 
 **Default**: `""`
 

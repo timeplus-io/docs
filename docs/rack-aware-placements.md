@@ -1,3 +1,5 @@
+# Rack-aware Placements
+
 You can use stream storage setting `placement_policies` to control stream shard replica placement affinity (i.e., rack-aware replica placement). They work together with the `locality:` setting in each node’s `config.yaml`, which defines the **physical location** of that node (site, AZ, rack, etc.).
 
 

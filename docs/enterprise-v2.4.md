@@ -1,4 +1,5 @@
 # Timeplus Enterprise 2.4
+
 Each release of Timeplus Enterprise includes the following components:
 
 * timeplusd: The core SQL engine
@@ -270,7 +271,7 @@ Components:
   * feat: [new mutable stream](/mutable-stream) for fast UPSERT and high performance point or range query.
   * perf: better asof join performance
   * feat: [external stream to read data from the remote timeplusd](/timeplus-source)
-  * feat: [parallel key space scan](/mutable-stream#key_space_full_scan_threads)
+  * feat: [parallel key space scan](/mutable-stream)
   * feat: force_full_scan for mutable stream
   * feat: user management on cluster
   * fix: [ALTER STREAM .. MODIFY SETTINGS ..](/sql-alter-stream#ttl)

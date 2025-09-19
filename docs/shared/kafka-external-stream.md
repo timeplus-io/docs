@@ -2,7 +2,7 @@
 
 Timeplus allows users to **read from** and **write to** Apache Kafka (and compatible platforms like **Confluent Cloud** and **Redpanda**) using **Kafka External Streams**.
 
-By combining external streams with [Materialized Views](/materialized-view) and [Target Streams](/materialized-view#target-stream), users can build robust **real-time streaming pipelines**.
+By combining external streams with [Materialized Views](/materialized-view) and target streams, users can build robust **real-time streaming pipelines**.
 
 ## Create Kafka External Stream
 

@@ -1,7 +1,5 @@
 # View
 
-## Overview
-
 Like in regular database, Timeplus View is a logical definition of a virtual table which doesn't store any data by itself nor itself runs. It gets bounded to a SQL statement and serves as a reusable component that other views or queries or Materialized Views can use.
 
 ## Create View
