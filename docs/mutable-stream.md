@@ -240,13 +240,13 @@ Enables RocksDB statistics for monitoring and debugging.
 
 ## Auto-Increment Column
 
-A **mutable stream** supports at most **one auto-increment column**.  
+A **mutable stream** supports at most **one auto-increment column**.
 
 **Rules and Restrictions**:
-- Must be of type **`uint64`**.  
-- Always starts at **`1`**.  
-- Auto-increment values are **local to each shard** (not globally unique across shards).  
-- The auto-increment column is always **automatically secondary indexed**.  
+- Must be of type **`uint64`**.
+- Always starts at **`1`**.
+- Auto-increment values are **local to each shard** (not globally unique across shards).
+- The auto-increment column is always **automatically secondary indexed**.
 
 **Example**:
 

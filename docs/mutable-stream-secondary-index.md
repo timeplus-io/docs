@@ -17,7 +17,7 @@ You can define secondary indexes when creating a Mutable Stream.
 Example:
 
 ```sql
-CREATE MUTABLE STREAM products 
+CREATE MUTABLE STREAM products
 (
     id uint64,
     name string,
@@ -53,15 +53,15 @@ If the `price` column is not stored in the secondary index `sidx_nv`, the query 
 You can optimize the query by storing `price` column in the secondary index using the `STORING (...)` clause:
 
 ```sql
-CREATE MUTABLE STREAM products 
+CREATE MUTABLE STREAM products
 (
     id uint64,
     name string,
     vendor string,
     time datetime64(3),
     price float,
-    INDEX sidx_nv (name, vendor) STORING (price), -- Store `price` in the secondary index  
-    INDEX sidx_t (time) 
+    INDEX sidx_nv (name, vendor) STORING (price), -- Store `price` in the secondary index
+    INDEX sidx_t (time)
 )
 PRIMARY KEY id;
 ```
@@ -77,9 +77,9 @@ If a query can be fully answered by a secondary index, the index is called a **c
 If the query still requires looking up the primary index, the index is called a **forwarding index**.
 :::
 
-## Unique Secondary Index 
+## Unique Secondary Index
 
-If the keys in a secondary index are guaranteed to be unique, you can define a **unique secondary index**.  
+If the keys in a secondary index are guaranteed to be unique, you can define a **unique secondary index**.
 This helps reduce storage overhead and improves ingest performance, since duplicate key checks and index maintenance become more efficient.
 
 **Example**:
@@ -87,14 +87,14 @@ This helps reduce storage overhead and improves ingest performance, since duplic
 If the combination of `name` and `vendor` in the `products` stream is unique, you can create a unique secondary index like this:
 
 ```sql
-CREATE MUTABLE STREAM products 
+CREATE MUTABLE STREAM products
 (
     id uint64,
     name string,
     vendor string,
     time datetime64(3),
     price float,
-    INDEX sidx_nv (name, vendor) UNIQUE, -- Define unique secondary index 
+    INDEX sidx_nv (name, vendor) UNIQUE, -- Define unique secondary index
     INDEX sidx_t (time)
 )
 PRIMARY KEY id;
@@ -102,8 +102,8 @@ PRIMARY KEY id;
 
 ## Add Secondary Indexes
 
-After a Mutable Stream is created and data has been ingested, you can add new secondary indexes.  
-When you do this, the system scans all existing data in the background to build the index.  
+After a Mutable Stream is created and data has been ingested, you can add new secondary indexes.
+When you do this, the system scans all existing data in the background to build the index.
 This process is **asynchronous**, so the index becomes usable only after the build completes.
 
 ```sql
@@ -113,7 +113,7 @@ ALTER STREAM <db.mutable-stream-name> ADD INDEX <index-name> (<columns>);
 **Example**:
 
 ```sql
-ALTER STREAM products ADD INDEX sidx_v (vendor); 
+ALTER STREAM products ADD INDEX sidx_v (vendor);
 ```
 
 :::info
@@ -123,7 +123,7 @@ Until the new secondary index is fully built, using it to accelerate a historica
 ## Drop Secondary Index
 
 ```sql
-ALTER STREAM <db.mutable-stream-name> DROP INDEX <index-name>; 
+ALTER STREAM <db.mutable-stream-name> DROP INDEX <index-name>;
 ```
 
 **Example**:
@@ -134,13 +134,13 @@ ALTER STREAM products DROP INDEX sidx_v;
 
 ## Use Secondary Indexes
 
-When executing a query against a Mutable Stream, **Timeplus automatically selects the best index** to optimize performance.  
+When executing a query against a Mutable Stream, **Timeplus automatically selects the best index** to optimize performance.
 
-- The **primary index** usually has the highest precedence.  
-- If multiple secondary indexes are eligible, Timeplus prioritizes them based on the **longest matched predicate length** in the `WHERE` clause.  
+- The **primary index** usually has the highest precedence.
+- If multiple secondary indexes are eligible, Timeplus prioritizes them based on the **longest matched predicate length** in the `WHERE` clause.
   - The longer the match, the narrower the search space, hence potentially faster.
 
-You can manually hint which secondary index to use with the query setting:  
+You can manually hint which secondary index to use with the query setting:
 
 ```sql
 SETTINGS use_index='<secondary-idx-name>'
@@ -157,7 +157,7 @@ SETTINGS force_full_scan=true;
 
 This can be useful for debugging, working around index bugs, or ensuring completeness when an index may be outdated.
 
-## Use Secondary Index 
+## Use Secondary Index
 
 When fulfill a query against a Mutable Stream, Timeplus will automatically analyze which index will be the best to speed up the query. The primary index usually have highest preceduence over other secondary indexes.
 
@@ -172,8 +172,8 @@ Sometimes you may like to force full scan via `force_full_scan=true` query setti
 **Example**:
 ```sql
 -- This query will use secondary index `sidx_t` to speed up filtering by time
-SELECT id, name, vendor 
-FROM table(products) 
+SELECT id, name, vendor
+FROM table(products)
 WHERE time >= '2025-09-20 00:00:00';
 ```
 
@@ -185,12 +185,12 @@ A direct join means that for each streaming event on the left side, Timeplus per
 
 **Example (using primary index)**:
 ```sql
-SELECT 
-    * 
-FROM 
-    orders 
-LEFT JOIN table(products) AS products 
-ON orders.product_id = products.id 
+SELECT
+    *
+FROM
+    orders
+LEFT JOIN table(products) AS products
+ON orders.product_id = products.id
 SETTINGS
     join_algorithm = 'direct';
 ```
