@@ -1,4 +1,5 @@
 # Coalesced Mutable Stream
+
 **Coalesced Mutable Stream** is designed for the use case where **different clients collectively update (upsert) partial columns** of a wide row. Users always see the **latest merged view** of a row across all columns when performing historical queries.
 
 Coalescing relies on **column families**, where columns are grouped together. Each column family can be upserted independently using the primary key. Internally, every column family is stored as a separate key–value pair, making independent updates both fast and efficient.

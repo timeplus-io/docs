@@ -9,7 +9,7 @@ Mutable Streams are **row-encoded** and are ideal for workloads requiring freque
 Key use cases include:
 - **Incremental data revision processing** (changelog processing) in streaming join and aggregation when combined with [Materialized Views](/materialized-view).
 - Serving as **dynamic lookup or dimensional data** in [Streaming JOINs](/streaming-joins).
-- Acting as a **serving table** for efficient point or range queries using primary and/or secondary indexes.
+- Acting as a **serving table** for efficient point or range queries using primary and/or secondary indexes. For example, storing metadata / checkpoint / Materialized View results etc in Mutable Streams to serve your applications.
 
 For more details on the motivation behind Mutable Streams, see [this blog post](https://www.timeplus.com/post/introducing-mutable-streams).
 
@@ -332,7 +332,7 @@ CREATE MUTABLE STREAM elastic_serving_mu
 PRIMARY KEY (p1, p2)
 SETTINGS
   shards = 3,
-  versioned_column='v',
+  version_column='v',
   shared_disk='s3_disk',
   fetch_threads=2,
   logstore_codec='zstd';

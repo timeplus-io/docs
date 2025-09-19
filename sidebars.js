@@ -290,6 +290,11 @@ const sidebars = {
               items: [
                 {
                   type: "doc",
+                  id: "mutable-stream-secondary-index",
+                  label: "Secondary Indexes",
+                },
+                {
+                  type: "doc",
                   id: "mutable-stream-versioned",
                   label: "Versioned Mutable Stream",
                 },
