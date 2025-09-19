@@ -13,7 +13,7 @@ Key use cases include:
 
 For more details on the motivation behind Mutable Streams, see [this blog post](https://www.timeplus.com/post/introducing-mutable-streams).
 
-## Create a Mutable Stream
+## Create Mutable Stream
 
 ```sql
 CREATE MUTABLE STREAM [IF NOT EXISTS] <db.stream-name>
@@ -244,7 +244,7 @@ A **mutable stream** supports at most **one auto-increment column**.
 
 **Rules and Restrictions**:
 - Must be of type **`uint64`**.
-- Always starts at **`1`**.
+- Always starts at **`1`**. Any user-provided value during `INSERT` will be ignored.
 - Auto-increment values are **local to each shard** (not globally unique across shards).
 - The auto-increment column is always **automatically secondary indexed**.
 
@@ -307,6 +307,23 @@ SELECT k, m FROM table(multi_cf_mu);
 Using column families can slow down ingestion speed, since each family is internally grouped and encoded separately as distinct key/value pairs (increasing the number of internal keys in RocksDB).
 :::
 
+## Delete Rows
+
+You can delete rows from a Mutable Stream using the `DELETE` statement:
+
+```sql
+DELETE FROM <db.mutable-stream-name> WHERE <predicates>;
+```
+
+- If the `WHERE` predicates can leverage the primary index or a secondary index, the delete operation will be fast.
+- If no suitable index is available, the engine must perform a full scan to locate matching rows, which can be slower depending on the dataset size.
+
+**Example**
+```sql
+-- Delete by priamry key is fast
+DELETE FROM multi_cf_mu WHERE p1 = 'p1' AND p2 = 1;
+```
+
 ## Examples
 
 The following example creates a versioned mutable stream with:
@@ -315,6 +332,7 @@ The following example creates a versioned mutable stream with:
 - One column family
 - Zero-replication WAL (NativeLog) enabled
 - zstd compression for WAL data
+- One day key retention
 
 ```sql
 CREATE MUTABLE STREAM elastic_serving_mu
@@ -334,6 +352,20 @@ SETTINGS
   shards = 3,
   version_column='v',
   shared_disk='s3_disk',
+  ingest_batch_timeout_ms=200,
   fetch_threads=2,
-  logstore_codec='zstd';
+  logstore_codec='zstd',
+  ttl_seconds=86400;
+```
+
+```sql
+-- Insert data to mutable stream
+-- value for `id` will be ignored since it is auto-incremental
+INSERT INTO elastic_serving_mu(p, id, p2, c1, c2, v) VALUES ('p', 100, 1, 'c', 2, '2025-09-18 00:00:00');
+
+-- Upsert for the same primary key `p`
+INSERT INTO elastic_serving_mu(p, id, p2, c1, c2, v) VALUES ('p', 1000, 11, 'cc', 22, '2025-09-18 00:00:01');
+
+-- Delete via priamry `p`
+DELETE FROM elastic_serving_mu WHERE p = 'p';
 ```
