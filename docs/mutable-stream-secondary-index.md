@@ -194,3 +194,18 @@ ON orders.product_id = products.id
 SETTINGS
     join_algorithm = 'direct';
 ```
+
+## Clear & Rebuild Secondary Index
+
+If a secondary index becomes out of sync (for example, due to a bug), you can clear and rebuild it.
+The rebuild process runs **asynchronously** in the background.
+
+```sql
+-- Clear the secondary index and then rebuild it
+ALTER STREAM <db.mutable-stream-name> MATERIALIZE INDEX <secondary-index-name> WITH CLEAR;
+```
+
+**Example**:
+```sql
+ALTER STREAM products MATERIALIZE INDEX sidx_t WITH CLEAR;
+```
