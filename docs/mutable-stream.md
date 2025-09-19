@@ -259,11 +259,11 @@ CREATE MUTABLE STREAM auto_incr
 PRIMARY KEY (p);
 ```
 
-## Secondary Index
+## Secondary Indexes
 
-See the [Secondary Index](/mutable-stream-secondary-index) documentation for details.
+See the [Secondary Indexes](/mutable-stream-secondary-index) documentation for details.
 
-## Column Family
+## Column Families
 
 A **column family** is a way to group related columns together with these grouping rules.
 - Each column can belong to only one family (no overlaps).
