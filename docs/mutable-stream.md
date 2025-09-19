@@ -4,7 +4,7 @@ A **Mutable Stream** in Timeplus is best thought of as a **streaming table** (si
 
 Each Mutable Stream must define a **primary key**, which can consist of one or more columns. Each key corresponds to at most one row, and rows are distributed across shards by their primary key value (if the Mutable Stream is sharded). Keys are sorted in each shard enabling fast range query.
 
-Mutable Streams are **row-encoded** and are ideal for workloads requiring frequent mutations with high carinality keys (billions of keys).
+Mutable Streams are **row-encoded** and are ideal for workloads requiring frequent mutations with high carinality keys, even at scale of billions.
 
 Key use cases include:
 - **Incremental data revision processing** (changelog processing) in streaming join and aggregation when combined with [Materialized Views](/materialized-view).
