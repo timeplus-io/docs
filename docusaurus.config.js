@@ -108,6 +108,10 @@ const config = {
             from: '/compare',
             to: '/proton-oss-vs-enterprise',
           },
+          {
+            from: '/tiered-storage',
+            to: '/append-stream-tiered-storage',
+          },
         ],
       },
     ],
