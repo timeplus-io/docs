@@ -277,7 +277,6 @@ For more details on its benefits, see [Cluster](/cluster#zero_replication_log).
 
 The following example creates an append-stream with:
 - Multiple shards
-- Secondary indexes
 - Zero-replication WAL (NativeLog) enabled
 - zstd compression for WAL data
 
