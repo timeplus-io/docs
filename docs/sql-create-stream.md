@@ -146,7 +146,7 @@ TTL time_column + interval
 
 For example, `TTL _tp_time + INTERVAL 1 DAY` will delete rows older than one day, `TTL _tp_time + INTERVAL 7 DAY` will delete rows older than one week.
 
-For [S3 Tried Storage](/tiered-storage#create-a-stream-with-the-policy), you can also specify when the cold data will be moved to S3. For example:
+For [S3 Tried Storage](/append-stream-tiered-storage#create-a-stream-with-the-policy), you can also specify when the cold data will be moved to S3. For example:
 ```sql
 CREATE STREAM my_stream (
     id uint32,

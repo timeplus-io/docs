@@ -286,6 +286,10 @@ const sidebars = {
                   id: "append-stream-codecs",
                   label: "Column Compression Codecs",
                 },
+                {
+                  type: "doc",
+                  id: "append-stream-tiered-storage",
+                },
               ]
             },
             {
@@ -320,10 +324,6 @@ const sidebars = {
                   label: "Coalesced Mutable Stream",
                 },
               ]
-            },
-            {
-              type: "doc",
-              id: "tiered-storage",
             },
             {
               type: "doc",

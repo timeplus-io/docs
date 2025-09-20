@@ -14,7 +14,7 @@ Key highlights of this release:
 * New Compute Node server role to [run materialized views elastically](/materialized-view) with checkpoints on S3 storage.
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-sink)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
-* Use S3 as the [tiered storage](/tiered-storage) for streams.
+* Use S3 as the [tiered storage](/append-stream-tiered-storage) for streams.
 * New SQL command to [rename streams](/sql-rename-stream) or [columns](/sql-alter-stream#rename-column).
 * JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
 * A new page to visualize nodes in a cluster.
@@ -249,7 +249,7 @@ Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
 * timeplusd 2.7.27 -> 2.8.14
   * Timeplus can read or write data in Apache Iceberg tables.
   * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
-  * Use S3 as the [tiered storage](/tiered-storage) for streams.
+  * Use S3 as the [tiered storage](/append-stream-tiered-storage) for streams.
   * New SQL command to [rename streams](/sql-rename-stream).
   * List all tables in a remote MySQL database via [CREATE DATABASE .. SETTINGS type='mysql'](/sql-create-database).
   * Improved the experience of installing Python libraries for [Python UDF](/py-udf#install_pip).

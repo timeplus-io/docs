@@ -25,7 +25,7 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
   * New Compute Node server role to [run materialized views elastically](/materialized-view) with checkpoints on S3 storage.
   * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-source)
   * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
-  * Use S3 as the [tiered storage](/tiered-storage) for streams.
+  * Use S3 as the [tiered storage](/append-stream-tiered-storage) for streams.
   * New SQL command to [rename streams](/sql-rename-stream) or [columns](/sql-alter-stream#rename-column).
   * JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
   * A new page to visualize nodes in a cluster.
@@ -91,7 +91,7 @@ You can add connection to Timeplus Proton or Timeplus Enterprise in [marimo](/ma
 * New Compute Node server role to [run materialized views elastically](/materialized-view) with checkpoints on S3 storage.
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-source)
 * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
-* Use S3 as the [tiered storage](/tiered-storage) for streams.
+* Use S3 as the [tiered storage](/append-stream-tiered-storage) for streams.
 * New SQL command to [rename streams](/sql-rename-stream).
 * A new page to visualize nodes in a cluster.
 * New page to view the details of streams or materialized views.
