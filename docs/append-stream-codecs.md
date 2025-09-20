@@ -1,8 +1,8 @@
 # Column Compression Codecs
 
-Timeplus historical columnar store supports multiple column compression codecs, optimized for different column types. This allows achieving the best balance between compression ratio and decompression speed, depending on the scenario.  
+Timeplus historical columnar store supports multiple column compression codecs, optimized for different column types. This allows achieving the best balance between compression ratio and decompression speed, depending on the scenario.
 
-By default, Timeplus applies `lz4` compression. 
+By default, Timeplus applies `lz4` compression.
 
 You can also define the compression method for each individual column in the `CREATE STREAM` query.
 

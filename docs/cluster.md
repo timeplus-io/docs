@@ -69,7 +69,7 @@ The following diagram depicts the streaming query flow.
 
 ![cluster-distributed-streaming-query](/img/cluster-distributed-streaming-query.png)
 
-## Zero Replication NativeLog {#zero_replication_log}
+## Zero Replication NativeLog {#zero-replication-nativelog}
 
 When you create a stream in Timeplus, you have two main options for storing streaming data:
 

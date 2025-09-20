@@ -19,7 +19,7 @@ ORDER BY (column, ...)
     [WHERE conditions]
 ]
 COMMENT '<stream-comment>'
-SETTINGS 
+SETTINGS
     shards=<num-of-shards>,
     replication_factor=<replication-factor>,
     mode=['append'|'changelog_kv'|'versioned_kv'],
@@ -61,7 +61,7 @@ If both a data type and a default value expression are specified, an implicit ty
 
 A default value expression `expr` may reference arbitrary table columns and constants. Timeplus checks that changes of the stream structure do not introduce loops in the expression calculation. For `INSERT`, it checks that expressions are resolvable – that all columns they can be calculated from have been passed.
 
-#### `DEFAULT expr` 
+#### `DEFAULT expr`
 
  If the value of such a column is not specified in an `INSERT` query, it is computed from `expr`.
 
@@ -82,7 +82,7 @@ SELECT * FROM table(test);
 └────┴─────────────────────┴─────────────────┘
 ```
 
-#### `ALIAS expr` 
+#### `ALIAS expr`
 
 Calculated columns (synonym). Column of this type are not stored in the table and it is not possible to `INSERT` values into them.
 
@@ -138,22 +138,22 @@ Controls the behavior of the historical storage engine during merge operations.
 Supported values:
 - **`'append'`** (default): Data is simply appended to historical storage.
 - **`'versioned_kv'`**: Rows with the same primary key are overridden based on the `version_column`. See [Versioned Key Value Stream](/versioned-stream) for details.
-- **`'chanelog_kv'`**: Rows with the same primary key are compacted based on the `version_column`. See [Changelog Key Value Stream](/changelog-stream) for details.  
+- **`'chanelog_kv'`**: Rows with the same primary key are compacted based on the `version_column`. See [Changelog Key Value Stream](/changelog-stream) for details.
 
 #### `version_column`
 
-Specifies the column used for versioning keys. Required for `versioned_kv` and `changelog_kv` modes.  
+Specifies the column used for versioning keys. Required for `versioned_kv` and `changelog_kv` modes.
 
-**Default**: `_tp_time` 
+**Default**: `_tp_time`
 
 #### `storage_type`
 
-Controls the storage type used by the stream.  
+Controls the storage type used by the stream.
 
-Supported values:  
-- **`'hybrid'`** (default): Both the WAL (NativeLog, a.k.a. streaming store) and the historical store are enabled.  
-- **`'streaming'`**: Only the WAL (NativeLog) is enabled; the historical store is disabled.  
-- **`'inmemory'`**: WAL operates fully in memory; the historical store is disabled. Works only in a single-instance setup.  
+Supported values:
+- **`'hybrid'`** (default): Both the WAL (NativeLog, a.k.a. streaming store) and the historical store are enabled.
+- **`'streaming'`**: Only the WAL (NativeLog) is enabled; the historical store is disabled.
+- **`'inmemory'`**: WAL operates fully in memory; the historical store is disabled. Works only in a single-instance setup.
 
 #### `logstore_codec`
 
@@ -253,7 +253,7 @@ Flushes data to the backend columnar store when this bytes threshold is reached.
 
 ## Enable Zero-Replication WAL
 
-You can store WAL (NativeLog) data in S3-compatible cloud storage. To enable this, configure a disk and then create a mutable stream using that disk.  
+You can store WAL (NativeLog) data in S3-compatible cloud storage. To enable this, configure a disk and then create a mutable stream using that disk.
 
 ```sql
 CREATE DISK s3_plain_disk DISK(
@@ -263,15 +263,15 @@ CREATE DISK s3_plain_disk DISK(
     secret_access_key = 'minioadmin'
 );
 
-CREATE STREAM shared_disk_mutable_stream(i int, s string) 
-SETTINGS 
-    shared_disk = 's3_plain_disk', 
-    ingest_batch_max_bytes = 67108864, 
-    ingest_batch_timeout_ms = 200, 
+CREATE STREAM shared_disk_mutable_stream(i int, s string)
+SETTINGS
+    shared_disk = 's3_plain_disk',
+    ingest_batch_max_bytes = 67108864,
+    ingest_batch_timeout_ms = 200,
     fetch_threads = 1;
 ```
 
-For more details on its benefits, see [Cluster](/cluster#zero_replication_log). 
+For more details on its benefits, see [Cluster](/cluster#zero-replication-nativelog).
 
 ## Examples
 

@@ -330,7 +330,7 @@ DELETE FROM multi_cf_mu WHERE p1 = 'p1' AND p2 = 1;
 
 ## Enable Zero-Replication WAL
 
-You can store WAL (NativeLog) data in S3-compatible cloud storage. To enable this, configure a disk and then create a mutable stream using that disk.  
+You can store WAL (NativeLog) data in S3-compatible cloud storage. To enable this, configure a disk and then create a mutable stream using that disk.
 
 ```sql
 CREATE DISK s3_plain_disk DISK(
@@ -340,16 +340,16 @@ CREATE DISK s3_plain_disk DISK(
     secret_access_key = 'minioadmin'
 );
 
-CREATE MUTABLE STREAM shared_disk_mutable_stream(i int, s string) 
+CREATE MUTABLE STREAM shared_disk_mutable_stream(i int, s string)
 PRIMARY KEY s
-SETTINGS 
-    shared_disk = 's3_plain_disk', 
-    ingest_batch_max_bytes = 67108864, 
-    ingest_batch_timeout_ms = 200, 
+SETTINGS
+    shared_disk = 's3_plain_disk',
+    ingest_batch_max_bytes = 67108864,
+    ingest_batch_timeout_ms = 200,
     fetch_threads = 1;
 ```
 
-For more details on its benefits, see [Cluster](/cluster#zero_replication_log). 
+For more details on its benefits, see [Cluster](/cluster#zero-replication-nativelog).
 
 ## Examples
 
