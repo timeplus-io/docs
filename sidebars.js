@@ -269,8 +269,24 @@ const sidebars = {
           },
           items: [
             {
-              type: "doc",
-              id: "append-stream",
+              type: "category",
+              label: "Append Stream",
+              link: {
+                type: "doc",
+                id: "append-stream",
+              },
+              items: [
+                // {
+                //   type: "doc",
+                //   id: "append-stream-skipping-indexes",
+                //   label: "Skipping Indexes",
+                // },
+                {
+                  type: "doc",
+                  id: "append-stream-codecs",
+                  label: "Column Compression Codecs",
+                },
+              ]
             },
             {
               type: "doc",

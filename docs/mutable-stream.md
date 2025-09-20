@@ -1,6 +1,6 @@
 # Mutable Stream
 
-A **Mutable Stream** in Timeplus is best thought of as a **streaming table** (similar to MySQL/PostgreSQL), but designed and optimized for **streaming workloads** and **high-performance analytics**.
+A **Mutable Stream** in Timeplus is best understood of a **streaming MySQL/PostgreSQL table**, but designed and optimized for **streaming workloads** and **high-performance analytics**.
 
 Each Mutable Stream must define a **primary key**, which can consist of one or more columns. Each key corresponds to at most one row, and rows are distributed across shards by their primary key value (if the Mutable Stream is sharded). Keys are sorted in each shard enabling fast range query.
 
@@ -16,8 +16,11 @@ For more details on the motivation behind Mutable Streams, see [this blog post](
 ## Create Mutable Stream
 
 ```sql
-CREATE MUTABLE STREAM [IF NOT EXISTS] <db.stream-name>
+CREATE MUTABLE STREAM [IF NOT EXISTS] <db.mutable-stream-name>
 (
+    name1 [type1] [DEFAULT | ALIAS expr1] [COMMENT 'column-comment'],
+    name2 [type2] [DEFAULT | ALIAS expr1] [COMMENT 'column-comment'],
+    ...
     <column definitions>,
     INDEX <secondary-index-name1> (column, ...) [UNIQUE] STORING (column, ...),
     INDEX <secondary-index-name2> (column, ...) [UNIQUE] STORING (column, ...),
@@ -27,6 +30,7 @@ CREATE MUTABLE STREAM [IF NOT EXISTS] <db.stream-name>
     ...
 )
 PRIMARY KEY (column, ...)
+COMMENT '<stream-comment>'
 SETTINGS
     shards=<num-of-shards>,
     replication_factor=<replication-factor>,
@@ -51,7 +55,7 @@ SETTINGS
     kvstore_codec=['snappy'|'lz4'|'zstd'],
     kvstore_options='<kvstore-options>',
     enable_hash_index=[true|false],
-    enable_statistics=[true|false]
+    enable_statistics=[true|false];
 ```
 
 ### Storage Architecture
@@ -323,6 +327,29 @@ DELETE FROM <db.mutable-stream-name> WHERE <predicates>;
 -- Delete by priamry key is fast
 DELETE FROM multi_cf_mu WHERE p1 = 'p1' AND p2 = 1;
 ```
+
+## Enable Zero-Replication WAL
+
+You can store WAL (NativeLog) data in S3-compatible cloud storage. To enable this, configure a disk and then create a mutable stream using that disk.
+
+```sql
+CREATE DISK s3_plain_disk DISK(
+    type = 's3_plain',
+    endpoint = 'http://localhost:9000/disk/shards/',
+    access_key_id = 'minioadmin',
+    secret_access_key = 'minioadmin'
+);
+
+CREATE MUTABLE STREAM shared_disk_mutable_stream(i int, s string)
+PRIMARY KEY s
+SETTINGS
+    shared_disk = 's3_plain_disk',
+    ingest_batch_max_bytes = 67108864,
+    ingest_batch_timeout_ms = 200,
+    fetch_threads = 1;
+```
+
+For more details on its benefits, see [Cluster](/cluster#zero-replication-nativelog).
 
 ## Examples
 
