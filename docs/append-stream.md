@@ -220,8 +220,8 @@ ORDER BY x;
 
 #### `shards`
 
-The number of shards in a Mutable Stream.
-Increasing the shard count typically improves performance when the primary key cardinality is high, since each shard holds a distinct subset of keys.
+The number of shards in a Append Stream.
+Increasing the shard count typically improves performance for ingestion and query.
 
 **Default**: `1`
 
@@ -249,11 +249,161 @@ Specifies the column used for versioning keys. Required for `versioned_kv` and `
 
 #### `storage_type`
 
-#### `storage_type`
-
 Controls the storage type used by the stream.  
 
 Supported values:  
 - **`'hybrid'`** (default): Both the WAL (NativeLog, a.k.a. streaming store) and the historical store are enabled.  
 - **`'streaming'`**: Only the WAL (NativeLog) is enabled; the historical store is disabled.  
 - **`'inmemory'`**: WAL operates fully in memory; the historical store is disabled. Works only in a single-instance setup.  
+
+#### `logstore_codec`
+
+Compression codec for the WAL (Write-Ahead Log, a.k.a. NativeLog) to reduce disk usage.
+
+Supported values:
+- `lz4`
+- `zstd`
+- `none`
+
+**Default**: `none`
+
+#### `logstore_retention_bytes`
+
+Retention policy by **size** for the WAL. When accumulated WAL segments exceed this size, older replicated segments are garbage collected.
+Garbage collection runs periodically in the background (default: every 5 minutes).
+
+**Default**: `1` (collect old segments as soon as possible)
+
+#### `logstore_retention_ms`
+
+Retention policy by **time** for the WAL.  Replicated WAL segments older than this threshold are garbage collected.
+Garbage collection runs periodically in the background (default: every 5 minutes).
+
+**Default**: `86400000` (1 day)
+
+#### `placement_policies`
+
+It is used to control the stream shard placement affinity (rack-aware replica placement). See [rack aware placement](/rack-aware-placements) documentation for details.
+
+**Default**: `""`
+
+#### `shared_disk`
+
+Stores WAL data on shared storage specified by `shared_disk`.
+See [Zero-Replication NativeLog](/cluster#zero-replication-nativelog) for more details.
+
+#### `ingest_mode`
+
+Controls whether ingestion into a stream is synchronous or asynchronous. Works together with [`ack`](#ack).
+
+Supported values:
+- `sync`: insert is synchronous
+- `async`: insert is asynchronous
+- `""`: system decides automatically
+
+#### `ack`
+
+Controls when to acknowledge the client for an insert.
+
+Supported values:
+- `quorum`: acknowledge after quorum commit
+- `local`: acknowledge after local commit (may risk data loss)
+- `none`: fire-and-forget, acknowledge immediately
+
+**Examples:**
+- `ack=quorum` + `ingest_mode=async`: **async quorum insert**
+  - The client inserts data continuously without waiting for acks.
+  - Internally, the system tracks outstanding inserts with unique IDs and removes them when acks arrive.
+  - It improves throughput and reduces overall latency in continuous insert (e.g in Materialized View).
+
+- `ack=quorum` + `ingest_mode=sync`: **sync quorum insert**
+  - Waits for an ack for each insert before proceeding to the next one.
+
+#### `ingest_batch_max_bytes`
+
+(Works only `shared_disk` is configured)
+Flushes to shared storage when the batch size threshold is reached, improving throughput.
+
+**Default**: `67108864` (64MB)
+
+#### `ingest_batch_timeout_ms`
+
+(Works only `shared_disk` is configured)
+Flushes to shared storage when the batch timeout threshold is reached, improving throughput.
+
+**Default**: `500`
+
+#### `fetch_threads`
+
+(Works only `shared_disk` is configured)
+Controls the parallelism when fetching data from remote shared storage.
+
+**Default**: `1`
+
+#### `flush_threshold_count`
+
+Flushes data to the backend columnar store when this row threshold is reached.
+
+#### `flush_threshold_ms`
+
+Flushes data to the backend columnar store when this time threshold is reached.
+
+#### `flush_threshold_bytes`
+
+Flushes data to the backend columnar store when this bytes threshold is reached.
+
+## Enable Zero-Replication WAL
+
+You can store WAL (NativeLog) data in S3-compatible cloud storage. To enable this, configure a disk and then create a mutable stream using that disk.  
+
+```sql
+CREATE DISK s3_plain_disk DISK(
+    type = 's3_plain',
+    endpoint = 'http://localhost:9000/disk/shards/',
+    access_key_id = 'minioadmin',
+    secret_access_key = 'minioadmin'
+);
+
+CREATE STREAM shared_disk_mutable_stream(i int, s string) 
+SETTINGS 
+    shared_disk = 's3_plain_disk', 
+    ingest_batch_max_bytes = 67108864, 
+    ingest_batch_timeout_ms = 200, 
+    fetch_threads = 1;
+```
+
+For more details on its benefits, see [Cluster](/cluster#zero_replication_log). 
+
+## Examples
+
+The following example creates an append-stream with:
+- Multiple shards
+- Secondary indexes
+- Zero-replication WAL (NativeLog) enabled
+- zstd compression for WAL data
+
+```sql
+CREATE MUTABLE STREAM elastic_serving_stream
+(
+  p string,
+  id uint64,
+  p2 uint32,
+  c1 string,
+  c2 int,
+  v datetime64(3),
+)
+SETTINGS
+  shards = 3,
+  shared_disk='s3_disk',
+  ingest_batch_timeout_ms=200,
+  fetch_threads=2,
+  logstore_codec='zstd',
+  ttl_seconds=86400;
+```
+
+```sql
+-- Insert data to append-stream
+INSERT INTO elastic_serving_stream(p, id, p2, c1, c2, v) VALUES ('p', 100, 1, 'c', 2, '2025-09-18 00:00:00');
+
+SELECT * FROM table(elastic_serving_stream);
+```
