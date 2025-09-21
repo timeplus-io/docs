@@ -276,11 +276,11 @@ const sidebars = {
                 id: "append-stream",
               },
               items: [
-                // {
-                //   type: "doc",
-                //   id: "append-stream-skipping-indexes",
-                //   label: "Skipping Indexes",
-                // },
+                {
+                  type: "doc",
+                  id: "append-stream-indexes",
+                  label: "Indexes",
+                },
                 {
                   type: "doc",
                   id: "append-stream-codecs",
@@ -310,8 +310,8 @@ const sidebars = {
               items: [
                 {
                   type: "doc",
-                  id: "mutable-stream-secondary-index",
-                  label: "Secondary Indexes",
+                  id: "mutable-stream-indexes",
+                  label: "Indexes",
                 },
                 {
                   type: "doc",

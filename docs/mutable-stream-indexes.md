@@ -1,4 +1,18 @@
-# Secondary Indexes
+# Indexes
+
+Mutable Streams support both **primary** and **secondary** indexes, similar to MySQL or Postgres tables, to accelerate historical queries.
+
+## Primary Index
+
+The primary key of a Mutable Stream determines the physical order of rows in the historical key/value store. The **primary index** is automatically built on top of it.
+
+Choosing an effective primary key can greatly improve query performance, especially when `WHERE` predicates align with the primary index.
+
+:::info
+Once a Mutable Stream is created, its primary key **cannot be changed**.
+:::
+
+## Secondary Indexes
 
 You can create secondary indexes on a Mutable Stream, similar to MySQL tables, to accelerate queries when the primary key index alone is insufficient.
 

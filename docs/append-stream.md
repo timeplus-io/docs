@@ -1,6 +1,6 @@
 # Append Stream
 
-An **Append Stream** in Timeplus is best understood as a **streaming ClickHouse / Snowflake** table that uses a columnar format, designed and optimized for streaming analytics workloads where frequent data mutations are uncommon.
+An **Append Stream** in Timeplus is best understood as a **streaming ClickHouse / Snowflake** table that uses a columnar format, designed for high data ignest rates and huge data volumes, and optimized for streaming analytics workloads where frequent data mutations are uncommon. 
 
 ## Create Append Stream
 
@@ -8,12 +8,15 @@ An **Append Stream** in Timeplus is best understood as a **streaming ClickHouse 
 CREATE STREAM [IF NOT EXISTS] <db.stream-name>
 (
     name1 [type1] [DEFAULT | ALIAS expr1] [COMMENT 'column-comment'] [compression_codec],
-    name2 [type2] [DEFAULT | ALIAS expr1] [COMMENT 'column-comment'] [compression_codec],
+    name2 [type2] [DEFAULT | ALIAS expr2] [COMMENT 'column-comment'] [compression_codec],
+    ...
+    INDEX index-name1 expr1 TYPE type1(...) [GRANULARITY value1],
+    INDEX index-name2 expr2 TYPE type2(...) [GRANULARITY value1],
     ...
 )
-ORDER BY (column, ...)
+ORDER BY <expression>
 [PARTITION BY <expression>]
-[PRIMARY KEY (column, ...)]
+[PRIMARY KEY <expression>]
 [TTL expr
     [DELETE | TO DISK 'xxx' | TO VOLUME 'xxx' [, ...] ]
     [WHERE conditions]
@@ -46,6 +49,8 @@ Each shard in a Append Stream has [dural storage](/architecture#dural-storage), 
 
 - Write-Ahead Log (WAL), powered by NativeLog. Enabling incremental processing.
 - Historical store, powered by high performant columnar data store.
+
+Data is first ingested into the WAL, and then asynchronously committed to the historical columnar store in large batches.  
 
 The Append Stream settings allow fine-tuning of both storage layers to balance performance, durability, and efficiency.
 
@@ -114,6 +119,50 @@ SELECT id, size_bytes, size FROM test;
 ### Column Compression Codecs
 
 See [column compression codecs](/append-stream-codecs) for details.
+
+### `ORDER BY expr`
+
+**ORDER BY** — Defines the sorting key. **Required.**  
+
+You can specify a tuple of column names or arbitrary expressions.  
+
+Example:  
+```sql
+ORDER BY (counter_id + 1, event_date)
+```
+
+The sorting key determines the physical order of rows in the historical store. This not only improves query performance but can also enhance data compression. Internally, data in the historical store is always sorted by this key.
+
+### `PRIMARY KEY expr`
+
+**PRIMARY KEY** — Defines the primary index.
+
+If not explicitly declared, the primary key defaults to the same expression as **ORDER BY**. If specified, the primary key expression must be a prefix of the **ORDER BY** expression.
+
+
+Example:
+```sql
+CREATE STREAM append
+(
+  p string,
+  p1 string,
+  i int
+)
+ORDER BY (p, p1, i)
+PRIMARY KEY (p, p1); -- Primary key expression '(p, p1)' is a prefix of sorting expression '(p, p1, i)'
+```
+
+In Append Streams, the primary key does not need to be unique (multiple rows can have same primary key which is different than [Mutable Stream](/mutable-stream#primary-key)).
+
+Choosing an effective primary key can significantly speed up historical queries when **WHERE** predicates can leverage the primary index.
+
+### `PARTITION BY expr`
+
+**PARTITION BY** — Defines the partitioning key. **Optional.**
+
+In most cases, you don't need a partition key, and if you do need to partition, generally you do not need a partition key more granular than by month. You should never use too granular partitioning. Don't partition your data by client identifiers or names (instead, make client identifier or name the first column in the **ORDER BY** expression).
+
+For partitioning by month, use the `to_YYYYMM(date_column)` expression, where `date_column` is a column with a date of the type `date`. The partition names here have the `YYYYMM` format.
 
 ### Settings
 
@@ -281,7 +330,7 @@ The following example creates an append-stream with:
 - zstd compression for WAL data
 
 ```sql
-CREATE MUTABLE STREAM elastic_serving_stream
+CREATE STREAM elastic_serving_stream
 (
   p string,
   id uint64,
