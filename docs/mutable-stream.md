@@ -65,7 +65,20 @@ Each shard in a Mutable Stream has [dural storage](/architecture#dural-storage),
 - Write-Ahead Log (WAL), powered by NativeLog. Enabling incremental processing.
 - Historical key-value store, powered by RocksDB.
 
+Data is first ingested into the WAL, and then asynchronously committed to the row store in large batches.  
+
 The Mutable Stream settings allow fine-tuning of both storage layers to balance performance, durability, and efficiency.
+
+### Secondary Indexes
+
+See the [Secondary Indexes](/mutable-stream-secondary-index) documentation for details.
+
+### PRIMARY KEY
+
+**PRIMARY KEY** — Defines the uniqueness of a row in a Mutable Stream. **Required.**  
+
+Rows are organized and sorted based on the primary key, and the primary index is built on top of it.  
+See [Mutable Stream Indexes](/mutable-stream-indexes) for more details.  
 
 ### Settings
 
@@ -262,10 +275,6 @@ CREATE MUTABLE STREAM auto_incr
 )
 PRIMARY KEY (p);
 ```
-
-## Secondary Indexes
-
-See the [Secondary Indexes](/mutable-stream-secondary-index) documentation for details.
 
 ## Column Families
 
