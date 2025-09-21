@@ -302,7 +302,7 @@ Flushes data to the backend columnar store when this bytes threshold is reached.
 
 ## Enable Zero-Replication WAL
 
-You can store WAL (NativeLog) data in S3-compatible cloud storage. To enable this, configure a disk and then create a mutable stream using that disk.
+You can store WAL (NativeLog) data in S3-compatible cloud storage. To enable this, configure a disk and then create an append stream using that disk.
 
 ```sql
 CREATE DISK s3_plain_disk DISK(
