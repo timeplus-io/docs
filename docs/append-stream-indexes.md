@@ -4,7 +4,7 @@ Append Streams support both **primary** and **skipping** indexes to accelerate h
 
 ## Primary Index
 
-The sorting key of an Append Stream determines the physical order of rows in the historical columnar store. The **primary index** is automatically built on top of it. Primary index is parse in Append Stream. 
+The primary key of an Append Stream determines the physical order of rows in the historical columnar store. The **primary index** is automatically built on top of it. Primary index is parse in Append Stream. 
 
 Choosing an effective primary key can greatly improve query performance, especially when `WHERE` predicates align with the primary index.
 
