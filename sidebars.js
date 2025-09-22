@@ -288,7 +288,13 @@ const sidebars = {
                 },
                 {
                   type: "doc",
+                  id: "append-stream-ttl",
+                  label: "TTL",
+                },
+                {
+                  type: "doc",
                   id: "append-stream-tiered-storage",
+                  label: "Tier Storage",
                 },
               ]
             },
