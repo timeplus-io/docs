@@ -220,9 +220,13 @@ Controls the parallelism when fetching data from remote shared storage.
 
 Flushes data to the backend key-value store (RocksDB) when this row threshold is reached.
 
+**Default**: `100000`
+
 #### `flush_ms`
 
 Flushes data to the backend key-value store (RocksDB) when this time threshold is reached.
+
+**Default**: `30000`
 
 #### `log_kvstore`
 

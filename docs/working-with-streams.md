@@ -9,28 +9,27 @@ Timeplus `streams` are conceptually similar to `tables` in traditional SQL datab
 
 To support a variety of use cases efficiently, Timeplus offers multiple types of streams:
 
-1. [Append Stream](/append-stream)
+- [Append Stream](/append-stream)
 
    The default stream type in Timeplus. It uses columnar encoding and is optimized for **range scans** via a **sorting key**. It suits workloads with infrequent data mutations (e.g., `UPDATE` or `DELETE`).
 
-2. [Mutable Stream](/mutable-stream)
+- [Mutable Stream](/mutable-stream)
 
    Row-encoded and similar in behavior to a **MySQL table**, where each primary key corresponds to a single row. It is optimized for **frequent data mutations** (`UPDATE`, `UPSERT`, `DELETE`) and supports **point and range queries** via **primary or secondary indexes**.
 
-3. [Versioned Key-Value Stream](/versioned-stream)
+- [Versioned Key-Value Stream](/versioned-stream)
 
    Similar to the mutable stream but uses **columnar encoding**. It offers better **compression** but lower performance for updates and point queries, especially when cardinality is high. Best suited for scenarios where **data mutations are less frequent**.
 
-4. [Changelog Key-Value Stream](/changelog-stream)
+- [Changelog Key-Value Stream](/changelog-stream)
 
    Designed to model **change data capture (CDC) events**, with **columnar encoding** for efficient downstream processing.
 
-5. [External Stream](/external-stream)
+- [External Stream](/external-stream)
 
    As the name implies, the data resides outside of Timeplus. Timeplus can reference external sources (e.g., a **Kafka topic**) and execute **streaming SQL** queries against them in real time.
 
 > Note: Timeplus also supports [External Tables](/sql-create-external-table), which allow **historical queries and inserts** only (e.g., against ClickHouse, MySQL, PostgreSQL, MongoDB, etc.).
-
 
 ## Stream Internals
 
