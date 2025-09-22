@@ -123,55 +123,55 @@ Most queries work well with default settings, but advanced workloads may require
 
 ### Data Read & Processing
 
-- `max_threads`: Maximum threads for query execution (soft limit).
-- `max_block_size`: Maximum rows per read block.
-- `input_format_parallel_parsing`: Enable parallel parsing (for supported formats).
-- `fetch_buffer_size`: Remote fetch buffer size per query.
-- `fetch_threads`: Threads for fetching from shared disk.
-- `record_consume_batch_count`: Maximum number of records to consume in one batch.
-- `record_consume_batch_size`: Maximum batch size in bytes.
-- `record_consume_timeout_ms`: Timeout for batch consumption.
+- `max_threads`: Maximum threads for query execution (soft limit). `0` means the system will automatically pick a value which is usually the number of CPUs. **Default: 0**
+- `max_block_size`: Maximum rows per read block. **Default: 65409**
+- `input_format_parallel_parsing`: Enable parallel parsing (for supported formats). **Default: true** 
+- `fetch_buffer_size`: Remote fetch buffer size per query. **Default: 64 * 1024 * 1024**  
+- `fetch_threads`: Threads for fetching from shared disk. **Default: 1**
+- `record_consume_batch_count`: Maximum number of records to consume in one batch. **Default: 1000** 
+- `record_consume_batch_size`: Maximum batch size in bytes. **Default: 10 * 1024 * 1024**  
+- `record_consume_timeout_ms`: Timeout for batch consumption. **Default: 100**
 
 ### Data Write
 
-- `max_insert_threads`: Maximum threads for concurrent inserts (when possible).
-- `min_insert_block_size_rows`: Minimum block size in rows before flushing to the target.
-- `min_insert_block_size_bytes`: Minimum block size in bytes before flushing to the target.
-- `max_insert_block_size`: Maximum block size in rows before forcing a flush (batch write).
-- `max_insert_block_bytes`: Maximum block size in bytes before forcing a flush (batch write).
-- `insert_block_timeout_ms`: Timeout threshold (in ms) before forcing a flush (batch write).
-- `output_format_parallel_formatting`: Enable parallel formatting for certain output formats.
+- `max_insert_threads`: Maximum threads for concurrent inserts (when possible). `0` means the system will automatically pick a value. **Default: 0**
+- `min_insert_block_size_rows`: Minimum block size in rows before flushing to the target. **Default: 65409**
+- `min_insert_block_size_bytes`: Minimum block size in bytes before flushing to the target. **Default: 65409 * 256**
+- `max_insert_block_size`: Maximum block size in rows before forcing a flush (batch write). **Default: 65409**
+- `max_insert_block_bytes`: Maximum block size in bytes before forcing a flush (batch write). **Default: 1024 * 1024**
+- `insert_block_timeout_ms`: Timeout threshold (in ms) before forcing a flush (batch write). **Default: 500**
+- `output_format_parallel_formatting`: Enable parallel formatting for certain output formats. **Default: true**
 
 ### Data Shuffling
 
-- `num_target_shards`: Used with `SHUFFLE BY`; number of target shards after shuffling.  
-  `0` means the system will automatically pick a number.
+- `num_target_shards`: Used with `SHUFFLE BY`; number of target shards after shuffling. 
+  `0` means the system will automatically pick a number. **Default: 0**
 
 ### Join
 
-- `max_joined_block_size_rows`: Maximum block size (in rows) for JOIN results. `0` means unlimited.
-- `join_algorithm`: Algorithm for join execution (`parallel_hash`, `hash`, `direct`, etc.).
-- `join_max_buffered_bytes`: Maximum buffered bytes for stream-to-stream joins.
-- `join_buffered_data_block_size`: Block size used when buffering data in memory; merges small blocks into larger ones for efficiency. `0` disables merging.
-- `join_quiesce_threshold_ms`: Maximum wait time (ms) when one side of the join is quiesced.
-- `join_latency_threshold`: Controls when to align and start joining left/right streams. `0` lets the system choose automatically.
-- `default_hash_join`: Controls which hash join implementation is used for streaming joins.
+- `max_joined_block_size_rows`: Maximum block size (in rows) for JOIN results. `0` means unlimited. **Default: 65409**
+- `join_algorithm`: Algorithm for join execution (`parallel_hash`, `hash`, `direct`, etc.). **Default: default**
+- `join_max_buffered_bytes`: Maximum buffered bytes for stream-to-stream joins. **Default: 524288000**
+- `join_buffered_data_block_size`: Block size used when buffering data in memory; merges small blocks into larger ones for efficiency. `0` disables merging. **Default: 0**
+- `join_quiesce_threshold_ms`: Maximum wait time (ms) when one side of the join is quiesced. **Default: 1000**
+- `join_latency_threshold`: Controls when to align and start joining left/right streams. `0` lets the system choose the value automatically. **Default: 0**
+- `default_hash_join`: Controls which hash join (`memory or hybrid`) implementation is used for streaming joins:. **Default: memory**
 
 ### Aggregation
 
-- `default_hash_table`: Controls which hash table is used for streaming queries (joins, aggregations).  
+- `default_hash_table`: Controls which hash table (`memory or hybrid`) is used for streaming queries (joins, aggregations). **Default: memory** 
 - Emit strategy is also critical for tuning. See [Streaming Aggregations: Emit Strategy](/streaming-aggregations#emit) for details.
 
 ### Backfill
 
-- `enable_backfill_from_historical_store`: Enable backfill from historical data stores.
-- `emit_during_backfill`: Emit intermediate aggregation results while backfilling historical data.
-- `force_backfill_in_order`: Require backfill data to be processed strictly in sequence order.
+- `enable_backfill_from_historical_store`: Enable backfill from historical data stores. **Default: true**
+- `emit_during_backfill`: Emit intermediate aggregation results while backfilling historical data. **Default: false**
+- `force_backfill_in_order`: Controls if backfilling data to be processed strictly in sequence order which requires sorting according to `_tp_sn` if it is true. **Default: false**
 
 ### Miscellaneous
 
-- `max_memory_usage`: Maximum memory usage per query. `0` means unlimited.
-- `count_distinct_optimization`: Rewrite `COUNT DISTINCT` into a `GROUP BY` subquery for optimization.
-- `javascript_vms`: Number of JavaScript VMs to use in one query (for executing JavaScript UDFs).
-- `use_index`: Apply a specific index when querying mutable streams.
-- `enforce_append_only`: For changelog storage, enforce append-only query mode.
+- `max_memory_usage`: Maximum memory usage per query. `0` means unlimited. **Default: 0**
+- `count_distinct_optimization`: Rewrite `COUNT DISTINCT` into a `GROUP BY` subquery for optimization. **Default: false**
+- `javascript_vms`: Number of JavaScript VMs to use in one query (for executing JavaScript UDFs). **Default: 1**
+- `use_index`: Apply a specific index when querying mutable streams. **Default: ''**
+- `enforce_append_only`: For changelog storage, enforce append-only query mode. **Default: false**
