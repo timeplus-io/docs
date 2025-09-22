@@ -40,7 +40,8 @@ SETTINGS
     fetch_threads=<remote-fetch-threads>,
     flush_threshold_count=<batch-flush-rows>,
     flush_threshold_ms=<batch-flush-timeout>,
-    flush_threshold_bytes=<batch-flush-size>;
+    flush_threshold_bytes=<batch-flush-size>,
+    merge_with_ttl_timeout=<timeout-in-seconds>;
 ```
 
 ### Storage Architecture
@@ -163,6 +164,10 @@ Choosing an effective primary key can significantly speed up historical queries 
 In most cases, you don't need a partition key, and if you do need to partition, generally you do not need a partition key more granular than by month. You should never use too granular partitioning. Don't partition your data by client identifiers or names (instead, make client identifier or name the first column in the **ORDER BY** expression).
 
 For partitioning by month, use the `to_YYYYMM(date_column)` expression, where `date_column` is a column with a date of the type `date`. The partition names here have the `YYYYMM` format.
+
+### `TTL expr`
+
+See [TTL](/append-stream-ttl) for details 
 
 ### Settings
 
@@ -292,13 +297,25 @@ Controls the parallelism when fetching data from remote shared storage.
 
 Flushes data to the backend columnar store when this row threshold is reached.
 
+**Default**: `100000`
+
 #### `flush_threshold_ms`
 
 Flushes data to the backend columnar store when this time threshold is reached.
 
+**Default**: `2000`
+
 #### `flush_threshold_bytes`
 
 Flushes data to the backend columnar store when this bytes threshold is reached.
+
+**Default**: `16777216`
+
+#### `merge_with_ttl_timeout`
+
+Minimum delay in seconds before repeating a merge with delete TTL.
+
+**Default**: `14400`
 
 ## Enable Zero-Replication WAL
 

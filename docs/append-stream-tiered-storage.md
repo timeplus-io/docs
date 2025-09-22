@@ -1,4 +1,4 @@
-# Tiered Storage
+# Tier Storage
 
 Since Timeplus Enterprise 2.8, we have introduced a new feature called Tiered Storage. This feature allows users to store data in a mix of local and remote storage. For example, users can store hot data in a local high-performance storage(e.g. NVMe SSD) for quick access and move the data to object storage(e.g. S3) for long-term retention.
 
