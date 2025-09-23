@@ -19,6 +19,8 @@ Key highlights of this release:
 * JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
 * A new page to visualize nodes in a cluster.
 * New page to view the details of streams or materialized views.
+* Major improvements for Materialized Views
+* Major stability improvements for cluster
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -46,6 +48,13 @@ Component versions:
 #### Changelog {#changelog_2_8_4}
 Compared to the [2.8.3](#2_8_3) release:
 * timeplusd 2.8.28 -> 2.8.29
+  * New features, enhancements
+    *   `EMIT AFTER KEY EXPIRE` is introduced to handle high cardinality trace outlier analysis use case.
+    *   Performance enhancements for `SHUFFLE BY` 
+    *   Mjaor Cluster stability improvements
+  * Bugfixes
+    *   Fixed Mutable stream TTL backward compatibility issue when upgrading from 2.4  
+    *   Fixed system.stream_state_log and system.stream_metric_log upgraded issue from 2.4 to 2.8 
 
 ### 2.8.3 (Public GA) {#2_8_3}
 Released on 09-01-2025. Installation options:
