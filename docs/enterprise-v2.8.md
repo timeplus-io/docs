@@ -33,7 +33,7 @@ We recommend using stable releases for production deployment. Engineering builds
 ### 2.8.4 (Public GA) {#2_8_4}
 Released on 09-23-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_4)
-* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.24 ..
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.25 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.4`
 
 Component versions:
