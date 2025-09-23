@@ -19,6 +19,8 @@ Key highlights of this release:
 * JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
 * A new page to visualize nodes in a cluster.
 * New page to view the details of streams or materialized views.
+* Major improvements for Materialized Views
+* Major stability improvements for cluster
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -29,6 +31,30 @@ Key highlights of this release:
 
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
+
+### 2.8.4 (Public GA) {#2_8_4}
+Released on 09-23-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_4)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.25 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.4`
+
+Component versions:
+* timeplusd 2.8.29
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.12
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+
+#### Changelog {#changelog_2_8_4}
+Compared to the [2.8.3](#2_8_3) release:
+* timeplusd 2.8.28 -> 2.8.29
+  * New features, enhancements
+    *   `EMIT AFTER KEY EXPIRE` is introduced to handle high cardinality trace outlier analysis use case.
+    *   Performance enhancements for `SHUFFLE BY` 
+    *   Mjaor Cluster stability improvements
+  * Bugfixes
+    *   Fixed Mutable stream TTL backward compatibility issue when upgrading from 2.4  
+    *   Fixed system.stream_state_log and system.stream_metric_log upgraded issue from 2.4 to 2.8 
 
 ### 2.8.3 (Public GA) {#2_8_3}
 Released on 09-01-2025. Installation options:
