@@ -45,6 +45,18 @@ Key highlights of the Timeplus 3.0 preview release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 3.0.1 (Preview) {#3_0_1-preview_2}
+Released on 09-25-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_0_1-preview_2)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.0.1-preview.2`
+* We will provide new Helm Charts for Kubernetes deployment when v3.0 is GA.
+
+Component versions:
+* timeplusd 3.0.1-rc.16
+* timeplus_appserver 3.0.3
+* timeplus_connector 3.0.0
+* timeplus cli 3.0.0
+
 ### 3.0.1 (Preview) {#3_0_1-preview_1}
 Released on 09-06-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_0_1-preview_1)
