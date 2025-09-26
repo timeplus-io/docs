@@ -31,7 +31,6 @@ const config = {
       // This script triggers page() on every page change. (URL Encoded)
       src: "data:,let%20prevUrl%20%3D%20undefined%3B%0AsetInterval%28%28%29%20%3D%3E%20%7B%0A%20%20const%20currUrl%20%3D%20window.location.href%3B%0A%20%20if%20%28currUrl%20%21%3D%3D%20prevUrl%29%20%7B%0A%20%20%20%20%2F%2F%20URL%20changed%0A%20%20%20%20prevUrl%20%3D%20currUrl%3B%0A%20%20%20%20if%20%28window.jitsu%29%20%7B%0A%20%20%20%20%20%20window.jitsu.page%28%29%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%2C%201000%29%3B",
     },
-    "googleanalytics.js",
     "factorsai.js",
     "reo.js",
   ],
@@ -124,7 +123,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       {
         gtag: {
-          trackingID: "G-8HHYCJFNRD",
+          trackingID: "G-KELVVD7S82",
           anonymizeIP: false,
         },
         googleTagManager: {
