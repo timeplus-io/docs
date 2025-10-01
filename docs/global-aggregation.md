@@ -94,6 +94,10 @@ SETTINGS
 - Data shuffling is enabled (SHUFFLE BY location) for better **parallelism and memory efficiency**.
     - See [Data Shuffle](/shuffle-data) for more details.
 
+The internal query plan for this hybrid global aggregation looks like:
+
+![HybridAggregationPipeline](/img/hybrid-aggregation-pipeline.svg)
+
 ## Emit Policies
 
 Global aggregation supports different `emit policies` to control when you like to get the intermidiate results pushing out.
