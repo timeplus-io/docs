@@ -1,4 +1,4 @@
-# Create Disk
+# CREATE DISK
 
 By default, Timeplus only created a `default` disk for local storage.
 
