@@ -1,4 +1,4 @@
-# Show Disks
+# SHOW DISKS
 
 ## Syntax
 
