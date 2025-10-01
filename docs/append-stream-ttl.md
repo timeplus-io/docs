@@ -66,7 +66,7 @@ TTL d + INTERVAL 1 MONTH DELETE WHERE to_day_of_week(d) = 1;
 
 Creating a stream, where expired rows are recompressed:
 ```sql
-CREATE TABLE stream_for_recompression
+CREATE STREAM stream_for_recompression
 (
     d datetime,
     key uint64,

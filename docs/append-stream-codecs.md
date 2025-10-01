@@ -70,12 +70,11 @@ These codecs are designed to make compression more effective by exploiting speci
 `DoubleDelta` and `Gorilla` codecs are used in Gorilla TSDB as the components of its compressing algorithm. Gorilla approach is effective in scenarios when there is a sequence of slowly changing values with their timestamps. Timestamps are effectively compressed by the `DoubleDelta` codec, and values are effectively compressed by the `Gorilla` codec. For example, to get an effectively stored table, you can create it in the following configuration:
 
 ```sql
-CREATE TABLE codec_example
+CREATE STREAM codec_example
 (
     timestamp DateTime CODEC(DoubleDelta),
     slow_values Float32 CODEC(Gorilla)
 )
-ENGINE = MergeTree()
 ```
 
 ## Encryption Codecs {#encryption-codecs}
