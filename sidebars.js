@@ -29,7 +29,7 @@ const sidebars = {
   docSidebar: [
     {
       type: "category",
-      label: "Overview",
+      label: "OVERVIEW",
       //collapsed: false,
       link: {
         type: "doc",
@@ -53,7 +53,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Get Started",
+      label: "GET STARTED",
       items: [
         {
           type: "doc",
@@ -101,7 +101,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Connect Data In",
+      label: "CONNECT DATA IN",
       link : {
         type: "doc",
         id: "connect-data-in",
@@ -179,7 +179,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Transform Data",
+      label: "TRANSFORM DATA",
       link: {
         type: "doc",
         id: "transform-data",
@@ -279,7 +279,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Store & Serve Data",
+      label: "STORE & SERVE DATA",
       link: {
         type: "doc",
         id: "store-and-serve-data",
@@ -376,7 +376,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Send Data Out",
+      label: "SEND DATA OUT",
       link: {
         type: "doc",
         id: "send-data-out",
@@ -475,7 +475,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "SQL Reference",
+      label: "SQL REFERENCE",
       // customProps: { tag: "Popular" },
       items: [
         "query-syntax",
@@ -603,7 +603,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Timeplus Proton (OSS)",
+      label: "TIMEPLUS PROTON (OSS)",
       link: {
         type: "doc",
         id: "proton",
@@ -619,7 +619,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Integrations",
+      label: "INTEGRATIONS",
       items: [
         {
           type: "category",
@@ -742,7 +742,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Deployment & Operations",
+      label: "DEPLOYMENT & OPERATIONS",
       items: [
         {
           type: "category",
@@ -769,7 +769,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Monitoring & Troubleshooting",
+      label: "MONITORING & TROUBLESHOOTING",
       items: [
         "troubleshooting",
         "system-stream-state-log",
@@ -780,7 +780,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Releases",
+      label: "RELEASES",
       link: {
         type: "doc",
         id: "release-notes",
