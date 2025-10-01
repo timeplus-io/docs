@@ -1,4 +1,4 @@
-# Just-In-Time (JIT) compilation
+# Just-In-Time (JIT) Compilation
 
 Starting from Timeplus Enterprise 2.9, the JIT compilation is enabled by default. For example, if you need to run the following SQL multiple times:
 ```sql
