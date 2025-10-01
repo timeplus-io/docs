@@ -231,14 +231,34 @@ const sidebars = {
           label: "Streaming Joins"
         },
         {
-          type: "doc",
-          id: "streaming-windows",
-          label: "Streaming Windows"
-        },
-        {
-          type: "doc",
-          id: "streaming-aggregations",
-          label: "Streaming Aggregations"
+          type: "category",
+          label: "Streaming Aggregations",
+          // link : {
+          //   type: "doc",
+          //   id: "streaming-aggregations",
+          // },
+          items : [
+            {
+              type: "doc",
+              id: "global-aggregation",
+              label: "Global",
+            },
+            {
+              type: "doc",
+              id: "tumble-aggregation",
+              label: "Tumble",
+            },
+            {
+              type: "doc",
+              id: "hop-aggregation",
+              label: "Hop",
+            },
+            {
+              type: "doc",
+              id: "session-aggregation",
+              label: "Session",
+            },
+          ]
         },
         {
           type: "doc",
