@@ -361,8 +361,7 @@ SETTINGS
   shared_disk='s3_disk',
   ingest_batch_timeout_ms=200,
   fetch_threads=2,
-  logstore_codec='zstd',
-  ttl_seconds=86400;
+  logstore_codec='zstd';
 ```
 
 ```sql
