@@ -262,6 +262,11 @@ const sidebars = {
         },
         {
           type: "doc",
+          id: "shuffle-data",
+          label: "Shuffle Data"
+        },
+        {
+          type: "doc",
           id: "jit",
           label: "Just-In-Time Compilation"
         },
