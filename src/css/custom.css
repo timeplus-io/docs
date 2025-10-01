@@ -64,7 +64,7 @@ html[data-theme="dark"] {
 }
 a.navbar__link {
     font-size: 14px;
-    color: #AEACB0;
+    color: #120F1A;
 }
 .navbar {
     background-color: white;
@@ -73,6 +73,10 @@ a.navbar__link {
 [data-theme="dark"] .navbar {
     background-color: #19171D;
     --ifm-navbar-link-hover-color: #DEDDDF;
+}
+
+[data-theme="dark"] a.navbar__link {
+    color: #AEACB0;
 }
 
 .footer__link-item {
