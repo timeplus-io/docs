@@ -34,7 +34,7 @@ html {
     --ifm-color-primary-lighter: #e590bd;
     --ifm-color-primary-lightest: #edb0cf;
     --ifm-code-font-size: 95%;
-    /* --ifm-background-color: #110F14; */
+    --ifm-menu-color: #231F2B;
     --ifm-font-family-base: "Inter";
     --ifm-link-color: #ED64A6;
 }
@@ -48,6 +48,7 @@ html[data-theme="dark"] {
     --ifm-color-primary-lighter: #e590bd;
     --ifm-color-primary-lightest: #edb0cf;
     --ifm-code-font-size: 95%;
+    --ifm-menu-color: #ECECED;
     --ifm-background-color: #110F14;
     --ifm-font-family-base: "Inter";
     --ifm-link-color: #ED64A6;
@@ -86,6 +87,15 @@ a.navbar__link {
 .footer {
     --ifm-footer-background-color: white;
 }
+
+.menu {
+    background-color: #F7F6F6;
+}
+
+[data-theme="dark"] .menu {
+    background-color: #120F1A;
+}
+
 
 [data-theme="dark"] .footer {
     --ifm-footer-background-color: #19171D;
