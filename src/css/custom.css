@@ -100,7 +100,6 @@ a.navbar__link {
 
 .footer__link-item {
     font-size: 12px;
-    --ifm-footer-link-hover-color: #DEDDDF;
 }
 .footer {
     --ifm-footer-background-color: #F7F6F6;
