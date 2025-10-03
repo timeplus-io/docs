@@ -742,7 +742,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "DEPLOYMENT & OPERATIONS",
+      label: "DEPLOYMENT",
       items: [
         {
           type: "category",
@@ -769,7 +769,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "MONITORING & TROUBLESHOOTING",
+      label: "TROUBLESHOOTING",
       items: [
         "troubleshooting",
         "system-stream-state-log",
