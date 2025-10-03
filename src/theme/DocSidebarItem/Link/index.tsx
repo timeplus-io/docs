@@ -1,13 +1,13 @@
-import React from "react";
-import clsx from "clsx";
-import { ThemeClassNames } from "@docusaurus/theme-common";
-import { isActiveSidebarItem } from "@docusaurus/plugin-content-docs/client";
-import Link from "@docusaurus/Link";
-import isInternalUrl from "@docusaurus/isInternalUrl";
-import IconExternalLink from "@theme/Icon/ExternalLink";
-import type { Props } from "@theme/DocSidebarItem/Link";
+import React from 'react';
+import clsx from 'clsx';
+import { ThemeClassNames } from '@docusaurus/theme-common';
+import { isActiveSidebarItem } from '@docusaurus/plugin-content-docs/client';
+import Link from '@docusaurus/Link';
+import isInternalUrl from '@docusaurus/isInternalUrl';
+import IconExternalLink from '@theme/Icon/ExternalLink';
+import type { Props } from '@theme/DocSidebarItem/Link';
 
-import styles from "./styles.module.css";
+import styles from './styles.module.css';
 
 export default function DocSidebarItemLink({
   item,
@@ -26,21 +26,21 @@ export default function DocSidebarItemLink({
       className={clsx(
         ThemeClassNames.docs.docSidebarItemLink,
         ThemeClassNames.docs.docSidebarItemLinkLevel(level),
-        "menu__list-item",
-        className,
+        'menu__list-item',
+        className
       )}
       key={label}
     >
       <Link
         className={clsx(
-          "menu__link",
+          'menu__link',
           !isInternalLink && styles.menuExternalLink,
           {
-            "menu__link--active": isActive,
-          },
+            'menu__link--active': isActive,
+          }
         )}
         autoAddBaseUrl={autoAddBaseUrl}
-        aria-current={isActive ? "page" : undefined}
+        aria-current={isActive ? 'page' : undefined}
         to={href}
         {...(isInternalLink && {
           onClick: onItemClick ? () => onItemClick(item) : undefined,
@@ -49,19 +49,18 @@ export default function DocSidebarItemLink({
       >
         {label}
         {!isInternalLink && <IconExternalLink />}
-        {tag && (
+        {tag ? (
           <span
-            style={{
-              marginLeft: "8px",
-              backgroundColor: tag === "Enterprise" ? "#42186D" : "#FF4A71",
-              color: tag === "Enterprise" ? "#AEACB0" : "white",
-              padding: "2px 6px",
-              fontSize: "0.8em",
-              borderRadius: "4px",
-            }}
+            className={
+              tag === 'Enterprise'
+                ? 'menu__list__enterprise__tag'
+                : 'menu__list__tag'
+            }
           >
             {tag}
           </span>
+        ) : (
+          <></>
         )}
       </Link>
     </li>

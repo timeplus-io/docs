@@ -1,79 +1,30 @@
 # Introduction
 
-import Quickstart from '@site/src/components/Quickstart'
-import Grid, { GridItem } from '@site/src/components/Grid'
+import Quickstart from '@site/src/components/Quickstart';
+import Grid, { GridItem } from '@site/src/components/Grid';
 
-**Timeplus** is a simple, powerful, and cost-efficient vectorized stream processing platform built in modern C++. Its core processing engine is a **single binary with no external dependencies**, making it easy to operate in production — a key differentiator compared to other solutions.  
+**Timeplus** is a simple, powerful, and cost-efficient vectorized stream processing platform built in modern C++. Its core processing engine is a **single binary with no external dependencies**, making it easy to operate in production — a key differentiator compared to other solutions.
 
-Timeplus provides end-to-end capabilities that help data teams process **both streaming and historical data** quickly and intuitively. It’s designed to be accessible for organizations of all sizes and industries, enabling data engineers and platform teams to unlock the value of streaming data using **streaming SQL**.  
+Timeplus provides end-to-end capabilities that help data teams process **both streaming and historical data** quickly and intuitively. It’s designed to be accessible for organizations of all sizes and industries, enabling data engineers and platform teams to unlock the value of streaming data using **streaming SQL**.
 
 Timeplus is available in multiple editions:
 
-- **[Timeplus Proton](/proton)** – the open-source core engine, available on [GitHub](https://github.com/timeplus-io/proton) under the Apache 2.0 License. It is a **fast, lightweight streaming SQL engine** ideal for building streaming pipelines.  
-- **[Timeplus Enterprise](https://www.timeplus.com/product)** – the production-ready commercial product, designed to run and scale anywhere, from the edge to your data center, and customizable to your specific configuration needs.  
+- **[Timeplus Proton](/proton)** – the open-source core engine, available on [GitHub](https://github.com/timeplus-io/proton) under the Apache 2.0 License. It is a **fast, lightweight streaming SQL engine** ideal for building streaming pipelines.
+- **[Timeplus Enterprise](https://www.timeplus.com/product)** – the production-ready commercial product, designed to run and scale anywhere, from the edge to your data center, and customizable to your specific configuration needs.
 
-Timeplus makes it easy to connect to diverse data sources—including **Apache Kafka, Confluent Cloud, Redpanda, NATS, WebSocket/SSE, CSV uploads**, and more. Users can explore streaming patterns with SQL queries, send real-time insights and alerts to other systems or individuals, and build dashboards and visualizations to monitor and analyze data in real time.  
+Timeplus makes it easy to connect to diverse data sources—including **Apache Kafka, Confluent Cloud, Redpanda, NATS, WebSocket/SSE, CSV uploads**, and more. Users can explore streaming patterns with SQL queries, send real-time insights and alerts to other systems or individuals, and build dashboards and visualizations to monitor and analyze data in real time.
 
-Still curious about [the benefits of using Timeplus](/why-timeplus)? Explore our [showcases](/showcases) to see how customers leverage our unified streaming and historical processing platform, and dive into the [architecture](/architecture) and  [cluster](/cluster) design to learn more about the technical internals and differentiators.
+Still curious about [the benefits of using Timeplus](/why-timeplus)? Explore our [showcases](/showcases) to see how customers leverage our unified streaming and historical processing platform, and dive into the [architecture](/architecture) and [cluster](/cluster) design to learn more about the technical internals and differentiators.
 
 ## Get started with Timeplus
 
 <Quickstart href="/quickstart">
 
-  <h3>Quickstart</h3>
+<h3>Quickstart</h3>
 
-  <p>Follow along with step-by-step instructions for running Timeplus Enterprise on your laptop and loading sample IoT, user login, or DevOps data.</p>
+<p>
+  Follow along with step-by-step instructions for running Timeplus Enterprise on
+  your laptop and loading sample IoT, user login, or DevOps data.
+</p>
 
 </Quickstart>
-
-## Jump into stream processing and analytics
-
-<Grid>
-
-  <GridItem href="/connect-data-in">
-    <h3>Connect Data In &rarr;</h3>
-    <p>
-    Connect Timeplus to Apache Kafka, Apache Pulsar, Confluent Cloud, or push with a REST API, SDKs, and beyond.
-    </p>
-
-  </GridItem>
-  <GridItem href="/query-syntax">
-    <h3>Write SQL queries &rarr;</h3>
-    <p>
-    Run streaming query by using functions like transformations, joins, aggregation, windowed processing, substreams, and more.
-    </p>
-
-  </GridItem>
-  <GridItem href="/viz">
-    <h3>Visualize data &rarr;</h3>
-    <p>
-    View real-time results for any query, create custom dashboards to tell stories about your data, or integrate with external BI systems.
-    </p>
-  </GridItem>
-</Grid>
-
-## Core concepts and functions
-
-<Grid>
-  <GridItem href="/working-with-streams">
-    <h3>Streams &rarr;</h3>
-    <p>
-    Append-only streams, mutable streams, external streams and external tables to read or write data from other systems.
-    </p>
-
-  </GridItem>
-  <GridItem href="/materialized-view">
-    <h3>Materialized Views &rarr;</h3>
-    <p>
-    Data streaming processing pipeline via streaming SQL. The results can be written to native Timeplus stream or external systems.
-    </p>
-
-  </GridItem>
-  <GridItem href="/functions">
-    <h3>Functions &rarr;</h3>
-    <p>
-    Thousand of built-in SQL functions are available in Timeplus. You can also define own functions (UDF) with JavaScript, Python, SQL.
-    </p>
-
-  </GridItem>
-</Grid>
