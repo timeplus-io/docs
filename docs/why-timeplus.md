@@ -14,7 +14,7 @@ Timeplus isn’t just for streaming. It also supports scheduled batch jobs, so y
 
 ### Architecture: The Best of Both Worlds {#architecture}
 
-![overview](/img/product_diagram_web.png)
+![Overview](/img/timeplus-product-diagram-light.jpg)
 
 ### Unified Streaming and Historical Data Processing {#unified}
 
