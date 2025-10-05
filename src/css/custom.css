@@ -55,7 +55,7 @@ html[data-theme="light"] {
 }
 
 html[data-theme="dark"] {
-    --ifm-color-primary: #d53c97;
+    --ifm-color-primary: #ED64A6;
     --ifm-color-primary-dark: #b52d7f;
     --ifm-color-primary-darker: #961f68;
     --ifm-color-primary-darkest: #761050;
@@ -68,8 +68,8 @@ html[data-theme="dark"] {
     --ifm-font-family-base: "Inter";
     --ifm-link-color: #ED64A6;
 
-    --ifm-color-info-contrast-background: #F0E3FF;
-    --ifm-color-info-dark: #B275FF;
+    --ifm-color-info-contrast-background: #2A1444;
+    --ifm-color-info-dark: #8934D9;
 }
 
 .navbar__link svg {
