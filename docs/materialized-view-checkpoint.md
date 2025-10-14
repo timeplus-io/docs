@@ -108,7 +108,7 @@ SELECT
 FROM tumble(source, 5s)
 GROUP BY window_start, s
 SETTINGS
-    checkpoint_settings='storage_type=shared;shared_disk=s3_plain_disk';
+    checkpoint_settings='replication_type=shared;shared_disk=s3_plain_disk';
 ```
 
 ### NativeLog + Shared Storage
@@ -149,7 +149,7 @@ SELECT
 FROM tumble(source, 5s)
 GROUP BY window_start, s
 SETTINGS
-    checkpoint_settings = 'storage_type=nativelog;shared_disk=s3_plain_disk'; -- storage_type=nativelog optional
+    checkpoint_settings = 'replication_type=nativelog;shared_disk=s3_plain_disk';
 
 -- RocksDB-based incremental checkpoint with shared storage + NativeLog
 CREATE MATERIALIZED VIEW rocks_shared_nlog_ckpt_rep INTO sink
@@ -162,7 +162,7 @@ FROM tumble(source, 5s)
 GROUP BY window_start, s
 SETTINGS
     default_hash_table = 'hybrid', -- Uses RocksDB for incremental checkpoints
-    checkpoint_settings = 'storage_type=nativelog;shared_disk=s3_plain_disk'; -- storage_type=nativelog optional
+    checkpoint_settings = 'replication_type=nativelog;shared_disk=s3_plain_disk';
 ```
 
 ## Choosing the Right Replication Strategy

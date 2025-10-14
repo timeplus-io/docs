@@ -808,7 +808,7 @@ Possible Values:
 - auto  (default) - Automatically determine whether to use file or rocks checkpoint based on the query’s state type.
 - file - Native file format. You can explicitly use the local file system for the checkpoint storage, even for some materialized views, using rocksdb is recommended.
 
-### storage_type​
+### replication_type 
 
 Definition: Specifies where checkpoints will be stored.
 
@@ -817,7 +817,7 @@ Possible Values:
 - auto (default)  - Automatically determine whether to store in local_file_system or nativelog
 - local_file_system  - Stored in local file system for a single instance environment
 - nativelog - Stored in nativelog, and ensure cluster synchronization through raft (Only valid in clusters)
-- s3 - Stored in S3, it must be bound to disk_name
+- shared_disk - Shared storage like S3, it must be bound 
 
 ### async​
 
@@ -847,7 +847,7 @@ Possible Values:
 
 This is also configurable via the global configuration file.
 
-### disk_name​
+### shared_disk 
 
 Definition: Specifies a disk name, which can be created through sqlcreate disk {disk_name} ..., which is used with a shared checkpoint storage (i.e. S3)
 
@@ -865,22 +865,22 @@ For some scenarios with large states and low update frequency:
 
 For some scenarios with S3 checkpoint storage:
 
-- checkpoint_settingstypestorage_typeasyncincrementalintervaldisk_name
+- checkpoint_settingstypereplication_typeasyncincrementalintervalshared_disk
 - type
-- storage_type
+- replication_type
 - async
 - incremental
 - interval
-- disk_name
+- shared_disk 
 - checkpoint_interval
 - Examples
 
 - type
-- storage_type
+- replication_type
 - async
 - incremental
 - interval
-- disk_name
+- shared_disk 
 
 
 
@@ -13180,7 +13180,7 @@ Default: 120,000
 
 Time in milliseconds to trigger a fsync
 
-#### storage_type​
+#### replication_type 
 
 This is an advanced setting. Default value is hybrid to use both a streaming storage and a historical storage for the stream.
 
@@ -13204,7 +13204,7 @@ For S3 Tried Storage, you can also specify when the cold data will be moved to S
 - Mutable Stream
 - Versioned Stream
 - Changelog Stream
-- SETTINGSmodeshardsreplication_factorversion_columnkeep_versionsevent_time_columnlogstore_codeclogstore_retention_byteslogstore_retention_mslogstore_flush_messageslogstore_flush_msstorage_type
+- SETTINGSmodeshardsreplication_factorversion_columnkeep_versionsevent_time_columnlogstore_codeclogstore_retention_byteslogstore_retention_mslogstore_flush_messageslogstore_flush_msreplication_type
 - mode
 - shards
 - replication_factor
@@ -13216,7 +13216,7 @@ For S3 Tried Storage, you can also specify when the cold data will be moved to S
 - logstore_retention_ms
 - logstore_flush_messages
 - logstore_flush_ms
-- storage_type
+- replication_type
 - TTL (Time-To-Live)
 
 - Append Stream
@@ -13235,7 +13235,7 @@ For S3 Tried Storage, you can also specify when the cold data will be moved to S
 - logstore_retention_ms
 - logstore_flush_messages
 - logstore_flush_ms
-- storage_type
+- replication_type
 
 
 

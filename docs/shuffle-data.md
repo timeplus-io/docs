@@ -19,7 +19,7 @@ FROM ...
 SHUFFLE BY col1, ...
 GROUP BY col1, col2, ...
 EMIT ...
-SETTINGS num_target_shards=<num-sub-streams>
+SETTINGS substreams=<num-sub-streams>
 ```
 
 > Note: The columns in the `SHUFFLE BY` clause must be a subset of the `GROUP BY` columns to ensure correct aggregation results.
@@ -62,7 +62,7 @@ The internal query plan for the above example looks like this:
 
 By default, the system automatically determines the number of substreams after a shuffle. This default value may not be optimal, especially on nodes with many CPUs.  
 
-To customize this behavior, you can use the **`num_target_shards`** setting to control the number of target substreams.  
+To customize this behavior, you can use the **`substreams`** setting to control the number of target substreams.  
 - If not specified, the system typically chooses a value equal to the number of CPUs on the node.  
 
 **Example: Many-to-Many Data Shuffle** 
@@ -84,17 +84,17 @@ FROM device_utils
 SHUFFLE BY location 
 GROUP BY location, device 
 EMIT ON UPDATE WITH BATCH 1s
-SETTINGS num_target_shards=8; 
+SETTINGS substreams=8; 
 ```
 
-The default system picked number of substreams after shuffle may be not ideal, especially when there are lots of CPUs in the node.  You can use setting **`num_target_shards`**  to control the number of target substreams. If it is not explicitly specified, the system will pick a value which is usually the number of CPUs of the node. 
+The default system picked number of substreams after shuffle may be not ideal, especially when there are lots of CPUs in the node.  You can use setting **`substreams`**  to control the number of target substreams. If it is not explicitly specified, the system will pick a value which is usually the number of CPUs of the node. 
 
 The internal query plan for the above query looks like this:
 
 ![ShufflePipelineMany](/img/shuffle-pipeline-many-to-many.svg)
 
 :::info
-The `num_target_shards` value is always rounded **up to the nearest power of 2** for better shuffle performance. For example, if specifying `5` will be rounded to `8`. 
+The `substreams` value is always rounded **up to the nearest power of 2** for better shuffle performance. For example, if specifying `5` will be rounded to `8`. 
 :::
 
 ## Data Already Shuffled in Storage  

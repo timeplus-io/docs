@@ -77,7 +77,7 @@ SHUFFLE BY location
 GROUP BY bucket_window_start, location, device 
 EMIT ON UPDATE WITH BATCH 1s
 SETTINGS 
-  num_target_shards=8, 
+  substreams=8, 
   default_hash_table='hybrid', 
   max_hot_keys=100000, 
   aggregate_state_ttl_sec=3600;
