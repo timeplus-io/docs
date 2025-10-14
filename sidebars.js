@@ -354,6 +354,11 @@ const sidebars = {
                   id: "mutable-stream-coalesced",
                   label: "Coalesced Mutable Stream",
                 },
+                {
+                  type: "doc",
+                  id: "mutable-stream-ttl",
+                  label: "TTL",
+                },
               ]
             },
             {
