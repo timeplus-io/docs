@@ -79,7 +79,7 @@ This ensures that upon recovery, **duplicate alerts are not triggered**.
 Alert checkpoints are stored in the `system.alert_ckpt_log` **Mutable Stream**.
 :::
 
-## Example
+### Example
 
 ```sql
 CREATE FUNCTION send_star_events_to_slack(actor string) 

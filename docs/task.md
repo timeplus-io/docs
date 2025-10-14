@@ -19,15 +19,18 @@ AS
   <Historical SELECT query>;
 ```
 
-**`SCHEDULE interval`** : The interval at which the task runs.
+### `SCHEDULE interval`
+
+The interval at which the task runs.
 Tasks are scheduled via a centralized scheduler to prevent overlap: the next run starts only after the previous run completes.
 
-**`TIMEOUT interval`** : The maximum allowed execution time for the task.
-If the task exceeds this interval, the scheduler aborts it to prevent indefinite execution
+### `TIMEOUT interval`
+
+The maximum allowed execution time for the task. If the task exceeds this interval, the scheduler aborts it to prevent indefinite execution
 
 Once created, a task is automatically scheduled in the Timeplus cluster. The scheduler selects the best candidate node in the cluster to execute the task.
 
-**Example**:
+### Example
 
 To periodically collect the Timeplus node statuses and persist the results into a target stream:
 
@@ -44,7 +47,7 @@ AS
   SELECT cluster_id, node_id, node_state FROM system.cluster;
 ```
 
-The *node_states* stream will be populated every 5 seconds with the current status of cluster nodes.
+The `node_states` stream will be populated every 5 seconds with the current status of cluster nodes.
 
 ## List Tasks
 
@@ -62,23 +65,17 @@ SHOW CREATE TASK <db.task-name>;
 
 ## Drop Task
 
-To delete a task:
-
 ```sql
 DROP TASK <db.task-name>;
 ```
 
 ## Pause Task
 
-To pause a task:
-
 ```sql
 SYSTEM PAUSE TASK <db.task-name>;
 ```
 
 ## Resume Task
-
-To resume a paused task:
 
 ```sql
 SYSTEM RESUME TASK <db.task-name>;
