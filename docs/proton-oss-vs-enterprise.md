@@ -14,4 +14,4 @@ Timeplus Proton powers unified streaming and data processing on a single node. I
 
 These details are subject to change, but we'll do our best to make sure they accurately represent the latest roadmaps for Timeplus Proton and Timeplus Enterprise.
 
-[Contact us](mailto:info@timeplus.com) for more details or schedule a demo.
+[Chat with us](https://timeplus.com/slack) for more details or schedule a demo.
