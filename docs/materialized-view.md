@@ -67,7 +67,7 @@ AS
  [COMMENT '<comments>']
 ```
 
-Example
+### Example
 
 ```sql
 -- Create a source stream
@@ -97,7 +97,7 @@ SELECT * FROM aggr_results;
 
 :::info
 A **Materialized View** is always bound to a **streaming `SELECT` query**.
-If you want to materialize a **historical query** on a schedule, consider using a [Timeplus scheduled task](/task) instead.
+If you want to materialize a **historical query** on a schedule, consider using a [**Timeplus scheduled task**](/task) instead.
 :::
 
 ### Settings
