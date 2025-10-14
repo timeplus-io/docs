@@ -9,10 +9,10 @@ SETTINGS default_hash_table='hybrid', default_hash_join='hybrid',
 checkpoint_settings = 'incremental=true;interval=5';
 ```
 
-## checkpoint_settings
+## `checkpoint_settings`
 You can set key-value pairs in `checkpoint_settings`.
 
-### type
+### `type`
 
 **Definition**: Defines which checkpoint type to use.
 
@@ -21,18 +21,18 @@ You can set key-value pairs in `checkpoint_settings`.
 - `auto`  **(default)** - Automatically determine whether to use `file` or `rocks` checkpoint based on the query’s state type.
 - `file` - Native file format. You can explicitly use the local file system for the checkpoint storage, even for some materialized views, using rocksdb is recommended.
 
-### storage_type
+### `replication_type` 
 
-**Definition**: Specifies where checkpoints will be stored.
+**Definition**: Specifies how checkpoints will be replicated.
 
 **Possible Values**:
 
 - `auto` **(default)**  - Automatically determine whether to store in `local_file_system` or `nativelog`
 - `local_file_system`  - Stored in local file system for a single instance environment
-- `nativelog` - Stored in nativelog, and ensure cluster synchronization through raft **(Only valid in clusters)**
-- `s3` - Stored in S3, it must be bound to `disk_name`
+- `nativelog` - Replicated via nativelog, and ensure cluster synchronization through raft **(Only valid in cluster setups)**
+- `shared` - Replicated via shared storage like S3, it must be bound to `shared_disk` **(Valid for both single instance and cluster setups)**
 
-### async
+### `async`
 
 **Definition**: Determines whether checkpoints are created asynchronously.
 
@@ -41,7 +41,7 @@ You can set key-value pairs in `checkpoint_settings`.
 - `true` **(default)** - Asynchronous checkpoint replication
 - `false`
 
-### incremental
+### `incremental`
 
 **Definition**: Indicates whether checkpoints are incremental (saving only changes since the last checkpoint) or full.
 
@@ -50,7 +50,7 @@ You can set key-value pairs in `checkpoint_settings`.
 - `false` **(default)**
 - `true`  - Only enabled when using a hybrid hash table (Recommended for large states with low update frequency)
 
-### interval
+### `interval`
 
 **Definition**: Specifies the time interval in seconds between checkpoint operations.
 
@@ -68,11 +68,11 @@ query_state_checkpoint:
     ...
 ```
 
-### disk_name
+### `shared_disk` 
 
 **Definition**: Specifies a disk name, which can be created through sql`create disk {disk_name} ...`, which is used with a shared checkpoint storage (i.e. `S3`)
 
-## checkpoint_interval
+## `checkpoint_interval`
 
 In some cases, you may want to adjust the checkpoint interval after the materialized view is created. You can do this by modifying the `checkpoint_settings` parameter in the `ALTER VIEW` statement.
 ```sql
@@ -100,8 +100,8 @@ checkpoint_settings = 'incremental=true;interval=5';
 For some scenarios with S3 checkpoint storage:
 
 ```sql
---- create a S3 plain disk `diskS3`
-CREAET DISK diskS3 disk(
+--- create a S3 plain disk `s3_disk`
+CREAET DISK s3_disk disk(
     type='s3_plain',
     endpoint='http://localhost:11111/test/s3/',
     access_key_id='timeplusd',
@@ -112,5 +112,5 @@ CREATE MATERIALIZED VIEW mv AS
 SELECT key, count() FROM test group by key
 SETTINGS
 default_hash_table='hybrid', default_hash_join='hybrid',
-checkpoint_settings = 'storage_type=S3;disk_name=diskS3;incremental=true;interval=5';
+checkpoint_settings = 'replication_type=shared;shared_disk=s3_disk;incremental=true;interval=5';
 ```

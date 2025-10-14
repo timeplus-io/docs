@@ -112,7 +112,7 @@ The **Materialized View checkpoint interval**, in seconds.
 
 `checkpoint_settings` is a **semicolon-separated key/value string** that controls how query states are checkpointed. It supports the following keys:
 
-- **`storage_type`**
+- **`replication_type`**
    - Defines where checkpoint data is stored.
    - Supported values: `auto` (default), `nativelog`, `shared`, `local_file_system`.
    - Users may fine-tune this for better checkpoint efficiency and performance.

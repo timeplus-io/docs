@@ -34,7 +34,7 @@ In this model, a **centralized scheduler** monitors Materialized Views and resch
 
 This model will be selected when creating a Materialized View with these settings:  
 ```sql
-SETTINGS checkpoint_settings='storage_type=shared;shared_disk=...'
+SETTINGS checkpoint_settings='replication_type=shared;shared_disk=...'
 ```
 
 We call this a **Scheduled Materialized View**, since it is governed by the scheduler.

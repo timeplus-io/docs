@@ -144,7 +144,7 @@ Most queries work well with default settings, but advanced workloads may require
 
 ### Data Shuffling
 
-- `num_target_shards`: Used with `SHUFFLE BY`; number of target shards after shuffling. 
+- `substreams`: Used with `SHUFFLE BY`; number of substreams after shuffling. 
   `0` means the system will automatically pick a number. **Default: 0**
 
 ### Join
