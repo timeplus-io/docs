@@ -40,6 +40,7 @@ SETTINGS
     logstore_retention_bytes=<retention-bytes>,
     logstore_retention_ms=<retention-ms>,
     ttl_seconds=<ttl-seconds>,
+    ttl_column=<ttl-column>,
     auto_cf=[true|false],
     placement_policies='<placement-policies>',
     late_insert_overrides=[true|false],
@@ -58,6 +59,18 @@ SETTINGS
     enable_statistics=[true|false];
 ```
 
+### Example
+
+```sql
+CREATE MUTABLE STREAM products(
+  id string,
+  name string,
+  price float32,
+  description string
+)
+PRIAMRY KEY id;
+```
+
 ### Storage Architecture
 
 Each shard in a Mutable Stream has [dural storage](/architecture#dural-storage), consisting of:
@@ -65,16 +78,16 @@ Each shard in a Mutable Stream has [dural storage](/architecture#dural-storage),
 - Write-Ahead Log (WAL), powered by NativeLog. Enabling incremental processing.
 - Historical key-value store, powered by RocksDB.
 
-Data is first ingested into the WAL, and then asynchronously committed to the row store in large batches.  
+Data is first ingested into the WAL, and then asynchronously committed to the row store in large batches.
 
 The Mutable Stream settings allow fine-tuning of both storage layers to balance performance, durability, and efficiency.
 
 ### PRIMARY KEY
 
-**PRIMARY KEY** — Defines the uniqueness of a row in a Mutable Stream. **Required.**  
+**PRIMARY KEY** — Defines the uniqueness of a row in a Mutable Stream. **Required.**
 
-Rows are organized and sorted based on the primary key, and the primary index is built on top of it.  
-See [Mutable Stream Indexes](/mutable-stream-indexes) for more details.  
+Rows are organized and sorted based on the primary key, and the primary index is built on top of it.
+See [Mutable Stream Indexes](/mutable-stream-indexes) for more details.
 
 ### Secondary Indexes
 
@@ -139,9 +152,15 @@ Garbage collection runs periodically in the background (default: every 5 minutes
 
 #### `ttl_seconds`
 
-Retention policy for the **historical key-value store (RocksDB)** based on ingest time (wall clock).  When a row exceeds this threshold, it is eligible for deletion. Garbage collection is background and **non-deterministic**, so do not rely on exact deletion timing.
+Refer [Mutable Stream TTL](/mutable-stream-ttl) for details.
 
 **Default**: `-1` (no retention)
+
+#### `ttl_column`
+
+Refer [Mutable Stream TTL](/mutable-stream-ttl) for details.
+
+**Default**: `""`
 
 #### `auto_cf`
 
