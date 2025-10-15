@@ -1,34 +1,67 @@
 # Just-In-Time (JIT) Compilation
 
-Starting from Timeplus Enterprise 2.9, the JIT compilation is enabled by default. For example, if you need to run the following SQL multiple times:
+## Overview
+
+Timeplus can **compile SQL expressions into native machine code** to significantly improve query performance.  
+This optimization is especially beneficial for **streaming queries**, where the compiled expressions are reused throughout the entire query lifetime, reducing runtime overhead.
+
+**Example:**
+
 ```sql
-select ts, key, value as v, 1+2*v*v+3*v*v*v as calc from stream
+SELECT ts, key, value AS v, (a + (b * c)) + 5 AS calc 
+FROM stream;
 ```
-Timeplus will compile the complex SQL expression to machine code to improve the runtime performance. For more technical details of the implementation, please check the [blog](https://maksimkita.com/blog/jit_in_clickhouse.html).
+
+In the above example, the expression `(a + (b * c)) + 5` can be executed in two ways:
+
+- **Interpreted execution**:
+Each operation `(+, *)` is evaluated separately through an expression tree, adding overhead for each computation step.
+
+- **JIT-compiled execution**:
+The entire expression is **fused into a single machine instruction sequence**, eliminating interpretation overhead and enabling much faster execution.
+
+![JIT](/img/jit.png)
 
 ## Settings
-The following settings can be overridden in the query time using `SET key=value`. You can also query the current value and description via
+
+The following settings control Just-In-Time (JIT) compilation behavior.  
+You can override them at **query time** using:
+
+```sql
+SET <key> = <value>;
+```
+
+You can also query the current setting values and their descriptions from the system tables.
 ```sql
 select * from system.settings where name like '%to_compile%';
 ```
 
-### min_count_to_compile_expression
-Minimum count of executing same expression before it is get compiled.
+### `min_count_to_compile_expression`
 
-`uint64` type. Default to 3.
+Specifies the **minimum number of times** an identical expression must be executed before it becomes eligible for JIT compilation.
 
-### min_count_to_compile_aggregate_expression
-The minimum number of identical aggregate expressions to start JIT-compilation. Works only if the compile_aggregate_expressions setting is enabled.
+- **Type**: uint64
+- **Default**: 3
 
-`uint64` type. Default to 3.
+### `min_count_to_compile_aggregate_expression`
 
-### min_count_to_compile_sort_description
-The number of identical sort descriptions before they are JIT-compiled.
+Specifies the **minimum number of identical aggregate expressions** required to trigger JIT compilation.
+This setting takes effect only if `compile_aggregate_expressions` is enabled.
 
-`uint64` type. Default to 3.
+- **Type**: uint64
+- **Default**: 3
 
-## Monitoring
-You can run the following query to check the counts of JIT events:
+### `min_count_to_compile_sort_description`
+
+Specifies the **number of identical sort descriptions** that must appear before they are JIT-compiled.
+
+- **Type**: uint64
+- **Default**: 3
+
+## Metrics 
+
+You can monitor JIT compilation activity by querying the system counters:
+
 ```sql
 select * from system.events where event like 'Compile%';
 ```
