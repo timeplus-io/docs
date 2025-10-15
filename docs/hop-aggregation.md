@@ -95,7 +95,7 @@ Adds a **delay period** before emitting window results, allowing **late events**
 
 ```sql
 SELECT window_start, device, max(cpu_usage)
-FROM hop(device_utils, 4s, 10s)
+FROM hop(device_metrics, 4s, 10s)
 GROUP BY window_start, device
 EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
