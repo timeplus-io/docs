@@ -8,9 +8,10 @@ SELECT <expr, columns, aggr>
 FROM <table_function>(<stream_name>, [<time_column>], [<window_size>], ...)
 [JOIN clause]
 [WHERE clause]
+[SHUFFLE BY clause]
+[PARTITION BY clause]
 [GROUP BY clause]
 [HAVING expression]
-[PARTITION BY clause]
 [LIMIT n]
 [OFFSET n]
 [EMIT emit_policy]
