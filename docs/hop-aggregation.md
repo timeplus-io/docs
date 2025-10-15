@@ -1,120 +1,176 @@
-# Hop Window Aggregation {#hop_window}
+# Hop Window Aggregation
 
 ## Overview
 
-Like [Tumble](#tumble), Hop also slices the unbounded streaming data into smaller windows, and it has an additional sliding step.
+A **hop window** (also known as a **sliding window**) is a type of time-based window that allows data to be grouped into **overlapping segments**.
+
+Each hop window is defined by two parameters:
+- **Window size** – the total duration of each window.
+- **Hop interval** – how often a new window starts.
+
+Because hop windows can overlap, a single event can belong to multiple windows. This is useful when you want to generate **smoother, more continuous aggregations** (e.g., moving averages or rolling counts).
+
+For example, with a 10-minute window size and a 5-minute hop interval, a new window starts every 5 minutes and spans 10 minutes of data — meaning there are always **two overlapping windows** active at any given time.
+
+
+## Syntax
 
 ```sql
-SELECT <column_name1>, <column_name2>, <aggr_function>
-FROM hop(<stream_name>, [<timestamp_column>], <hop_slide_size>, [hop_windows_size], [<time_zone>])
+SELECT <grouping-keys>, <aggr-functions>
+FROM hop(<stream-name>, [<timestamp-column>], <hop-interval>, <window-size>)
 [WHERE clause]
-GROUP BY [<window_start | window_end>], ...
-EMIT <window_emit_policy>
-SETTINGS <key1>=<value1>, <key2>=<value2>, ...
+GROUP BY [<window_start | window_end>], <other-group-keys> ...
+EMIT <emit-policy>
 ```
 
-Hop window is a more generalized window compared to tumble window. Hop window has an additional
-parameter called `<hop_slide_size>` which means window progresses this slide size every time. There are 3 cases:
+### Parameters
 
-1. `<hop_slide_size>` is less than `<hop_window_size>`. Hop windows have overlaps meaning an event can fall into several hop windows.
-2. `<hop_slide_size>` is equal to `<hop_window_size>`. Degenerated to a tumble window.
-3. `<hop_slide_size>` is greater than `<hop_window_size>`. Windows has a gap in between. Usually not useful, hence not supported so far.
+- `<stream-name>` : the source stream the hop window applies to. **Required**
+- `<timestamp-column>` : the event timestamp column which is used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time hop window. Default is `_tp_time` if absent. **Optional**
+- `<hop-interval>` : how frequently new windows start (must be less than or equal to the window size). Supported interval units are listed below. **Required**
+  - `s` : second
+  - `m` : miniute
+  - `h` : hour 
+  - `d` : day 
+  - `w` : week 
+- `<window-size>` : hop window interval size. Supported interval units are listed below. **Required**
+  - `s` : second
+  - `m` : miniute
+  - `h` : hour 
+  - `d` : day 
+  - `w` : week 
 
-Please note, at this point, you need to use the same time unit in `<hop_slide_size>` and `<hop_window_size>`, for example `hop(device_utils, 1s, 60s)` instead of `hop(device_utils, 1s, 1m)`.
+### Example
 
-Here is one hop window example which has 2 seconds slide and 5 seconds hop window.
-
-```
-["2020-01-01 00:00:00", "2020-01-01 00:00:05]
-["2020-01-01 00:00:02", "2020-01-01 00:00:07]
-["2020-01-01 00:00:04", "2020-01-01 00:00:09]
-["2020-01-01 00:00:06", "2020-01-01 00:00:11]
-...
-```
-
-Except that the hop window can have overlaps, other semantics are identical to the tumble window.
+The following query calculates the average CPU usage of each device in **10-second hop windows** that start every **4 second**.
 
 ```sql
-SELECT device, max(cpu_usage)
-FROM hop(device_utils, 2s, 5s)
-GROUP BY device, window_end
-EMIT AFTER WINDOW CLOSE;
+CREATE STREAM device_metrics (
+    device string,
+    cpu_usage float,
+    event_time datetime64(3) 
+);
+
+SELECT 
+  window_start, 
+  window_end, 
+  device, 
+  max(cpu_usage)
+FROM hop(device_metrics, event_time, 4s, 10s)
+GROUP BY window_start, window_end, device;
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per hop window for stream `device_utils`. Every time a window is closed, Timeplus emits the aggregation results.
- 
+This allows you to track metrics like CPU usage in a rolling fashion, providing near-real-time insight into recent activity rather than discrete, non-overlapping periods.
+
 ## Emit Policies
 
-### EMIT AFTER WINDOW CLOSE {#emit_after}
+Emit policies define **when** Timeplus should output results from **time-windowed** aggregations such as **tumble**, **hop**, **session** and **global-windowed** aggregation.
 
-You can omit `EMIT AFTER WINDOW CLOSE`, since this is the default behavior for time window aggregations. For example:
+These policies control whether results are emitted **only after the window closes**, **after a delay** to honor late events, or **incrementally during the window**.
+
+### `EMIT AFTER WINDOW CLOSE`
+
+This is the **default behavior** for all time window aggregations. Timeplus emits the aggregated results once the window closes.
+
+**Example**:
 
 ```sql
-SELECT device, max(cpu_usage)
-FROM tumble(device_utils, 5s)
-GROUP BY device, window_end
+SELECT window_start, device, max(cpu_usage)
+FROM hop(device_metrics, 4s, 10s)
+GROUP BY window_start, device;
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `devices_utils`. Every time a window is closed, Timeplus Proton emits the aggregation results. How to determine the window should be closed? This is done by [Watermark](/understanding-watermark), which is an internal timestamp. It is guaranteed to be increased monotonically per stream query.
+This query continuously computes the **maximum CPU usage** per device in every 10-second hop window from the stream `device_metrics` and every 4 second, it starts a new hop window.
+Each time a window closes (as determined by the internal watermark), Timeplus emits the results once.
 
-### EMIT AFTER WINDOW CLOSE WITH DELAY {#emit_after_with_delay}
+:::info
+A watermark is an internal timestamp that advances monotonically per stream, determining when a window can be safely closed.
+:::
 
-Example:
+### `EMIT AFTER WINDOW CLOSE WITH DELAY`
+
+Adds a **delay period** before emitting window results, allowing **late events** to be included.
+
+**Example**:
 
 ```sql
-SELECT device, max(cpu_usage)
-FROM tumble(device_utils, 5s)
-GROUP BY device, widnow_end
+SELECT window_start, device, max(cpu_usage)
+FROM hop(device_utils, 4s, 10s)
+GROUP BY window_start, device
 EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `device_utils`. Every time a window is closed, Timeplus Proton waits for another 2 seconds and then emits the aggregation results.
+This query aggregates the **maximum CPU usage** for each device per 10-second hop window, then waits 2 additional seconds after the window closes before emitting results. This helps capture any late-arriving events that fall within the window period.
 
-### EMIT ON UPDATE {#emit_on_update}
+### `EMIT TIMEOUT`
 
-You can apply `EMIT ON UPDATE` in time windows, such as tumble/hop/session, with `GROUP BY` keys. For example:
+In some streaming scenarios, the **last hop windows** might remain open because no new events arrive to advance the watermark (i.e., the event time progress).
+The **`EMIT TIMEOUT`** clause helps forcefully close such idle windows after a specified period of inactivity.
+
+**Example**:
 
 ```sql
-SELECT
-  window_start, cid, count() AS cnt
-FROM
-  tumble(car_live_data, 5s)
-WHERE
-  cid IN ('c00033', 'c00022')
-GROUP BY
-  window_start, cid
-EMIT ON UPDATE
+SELECT window_start, device, max(cpu_usage)
+FROM hop(device_metrics, 4s, 10s)
+GROUP BY window_start, device
+EMIT TIMEOUT 3s;
 ```
 
-During the 5 second tumble window, even the window is not closed, as long as the aggregation value(`cnt`) for the same `cid` is different , the results will be emitted.
+In this example:
 
-### EMIT ON UPDATE WITH DELAY {#emit_on_update_with_delay}
+- The query continuously aggregates the maximum CPU usage per device in **10-second hop windows**.
+- If **no new events** arrive for **3 seconds**, Timeplus will **force-close** the most recent windows and emit the final results.
+- Once the window is closed, the **internal watermark** (event time) advances as well.
+- Any **late events** that belong to this now-closed window will be discarded.
 
-Adding the `WITH DELAY` to `EMIT ON UPDATE` will allow late event for the window aggregation.
+### `EMIT ON UPDATE`
+
+Emits **intermediate aggregation updates** whenever the results change within an open window.
+This is useful for near real-time visibility into evolving metrics.
+
+**Example**:
 
 ```sql
 SELECT
-  window_start, cid, count() AS cnt
+  window_start, device, max(cpu_usage)
 FROM
-  tumble(car_live_data, 5s)
-WHERE
-  cid IN ('c00033', 'c00022')
+  hop(device_devices, 4s, 10s)
 GROUP BY
-  window_start, cid
-EMIT ON UPDATE WITH DELAY 2s
+  window_start, device
+EMIT ON UPDATE;
 ```
 
-### EMIT ON UPDATE WITH BATCH {#emit_on_update_with_batch}
+Here, during each 10-second window, the system emits updates whenever there are new events flowing into the open window, even before the window closes.
 
-You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Timeplus will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
+### `EMIT ON UPDATE WITH BATCH`
+
+Combines **periodic emission** with **update-based** triggers.
+Timeplus checks the intermediate aggregation results at regular intervals and emits them if they have changed which can significally improve the emit efficiency and throughput compared with `EMIT ON UPDATE`. 
+
+**Example**:
+
 ```sql
 SELECT
-  window_start, cid, count() AS cnt
+  window_start, device, max(cpu_usage)
 FROM
-  tumble(car_live_data, 5s)
-WHERE
-  cid IN ('c00033', 'c00022')
+  hop(device_metrics, 4s, 10s)
 GROUP BY
-  window_start, cid
-EMIT ON UPDATE WITH BATCH 2s
+  window_start, device
+EMIT ON UPDATE WITH BATCH 1s;
+```
+
+### `EMIT ON UPDATE WITH DELAY`
+
+Similar to **`EMIT ON UPDATE`**, but includes a delay to allow late events before emitting incremental updates.
+
+**Example**:
+
+```sql
+SELECT
+  window_start, device, max(cpu_usage)
+FROM
+  hop(device_metrics, 4s, 10s)
+GROUP BY
+  window_start, device
+EMIT ON UPDATE WITH DELAY 2s;
 ```
