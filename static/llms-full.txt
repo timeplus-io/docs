@@ -387,7 +387,7 @@ The difference between a materialized view and a regular view is that the materi
 
 ## 📄️ CREATE MUTABLE STREAM
 
-Regular streams in Timeplus are immutable, and stored in columnar format. Mutable streams are stored in row format (implemented via RocksDB), and can be updated or deleted. It is only available in Timeplus Enterprise. Please check this page for details.
+Regular streams in Timeplus are immutable, and stored in columnar format. Mutable streams are stored in row format (implemented via RocksDB), and can be updated or deleted. Please check this page for details.
 
 ## 📄️ CREATE RANDOM STREAM
 
@@ -496,8 +496,6 @@ This is an advanced feature, for debugging purpose.
 SYSTEM RESUME MATERIALIZED VIEW
 
 ## 📄️ SYSTEM SET LOG LEVEL
-
-This feature is available in Timeplus Enterprise v2.8.2 or above. Not available in Timeplus Proton.
 
 ## 📄️ SYSTEM TRANSFER LEADER
 
@@ -1022,8 +1020,6 @@ Migrate data and resources between Timeplus deployments, including:
 - Migrate the data and configuration from a single-node Timeplus Proton to self-hosted Timeplus Enterprise.
 - Migrate the data and configuration among Timeplus Enterprise deployments, even there are breaking changes in the data format. This tool can also be used to apply changes to production deployments after verifying changes in the staging deployments.
 
-This tool is available in Timeplus Enterprise 2.5. It supports Timeplus Enterprise 2.4.19 or above, and Timeplus Proton 1.5.18 or above. Contact us if you need to migrate from an older version.
-
 ## How It Works​
 
 The migration is done via capturing the SQL DDL from the source deployment and rerunning those SQL DDL in the target deployment. Data are read from source Timeplus via Timeplus External Streams and write to the target Timeplus via INSERT INTO .. SELECT .. FROM table(tp_ext_stream). The data files won't be copied among the source and target Timeplus, but you need to ensure the target Timeplus can access to the source Timeplus, so that it can read data via Timeplus External Streams.
@@ -1468,16 +1464,10 @@ For example the SQL file is:
 
 ## Cli-user
 
-- [timeplus user | Timeplus](https://docs.timeplus.com/cli-user): This command is no longer available since Timeplus Enterprise 2.7. Please manage the users and groups via the web console or Helm chart.
-
 - Integrations
 - CLI, APIs & SDKs
 - timeplus (CLI)
 - timeplus user
-
-# timeplus user
-
-This command is no longer available since Timeplus Enterprise 2.7. Please manage the users and groups via the web console or Helm chart.
 
 ## timeplus user​
 
@@ -3071,7 +3061,6 @@ Timeplus supports 4 types of external streams:
 
 - Kafka External Stream
 - Pulsar External Stream
-- Timeplus External Stream, only available in Timeplus Enterprise
 - Log External Stream (experimental)
 
 Besides external streams, Timeplus also provides external tables to query data in ClickHouse, MySQL, Postgres or S3/Iceberg. The difference of external tables and external streams is that external tables are not real-time, and they are not designed for streaming analytics. You can use external tables to query data in the external systems, but you cannot run streaming SQL on them. Learn more about external tables.
@@ -3392,13 +3381,9 @@ group_array_last(<column_name>, max_size) to combine the values of the specific 
 
 group_array_sorted(<column_name>) to combine the values of the specific column as an array, sorted in ascending order. For example, if there are 3 rows and the values for these columns are "c","b","a". This function will generate a single row and single column with value ['a','b','c'].
 
-This function is available in Timeplus Enterprise v2.8 or later.
-
 ### group_array_sample​
 
 group_array_sample(<column_name>, <max_length>) to combine the values of the specific column as an array, sampled randomly. For example, if there are 3 rows and the values for these columns are "a","b","c". This function will generate a single row and single column with value ['a','b'] with group_array_sample(col,2).
-
-This function is available in Timeplus Enterprise v2.8 or later.
 
 ### group_uniq_array​
 
@@ -4194,13 +4179,9 @@ json_query(json, path) allows you to access the nested JSON objects as JSON arra
 
 ### json_encode​
 
-This function is available since Timeplus Enterprise v2.9.
-
 This takes one or more parameters and return a json string. You can also turn all column values in the row as a json string via json_encode(*).
 
 ### json_cast​
-
-This function is available since Timeplus Enterprise v2.9.
 
 This takes one or more parameters and return a json object. You can also turn all column values in the row as a json object via json_cast(*).
 
@@ -5761,7 +5742,7 @@ The type of the external stream. The value must be http to send data to HTTP end
 
 #### config_file​
 
-The config_file setting is available since Timeplus Enterprise 2.7. You can specify the path to a file that contains the configuration settings. The file should be in the format of key=value pairs, one pair per line. You can set the HTTP credentials or Authentication tokens in the file.
+You can specify the path to a file that contains the configuration settings. The file should be in the format of key=value pairs, one pair per line. You can set the HTTP credentials or Authentication tokens in the file.
 
 Please follow the example in Kafka External Stream.
 

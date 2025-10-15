@@ -1,4 +1,5 @@
 # ALTER STREAM
+
 You can modify the retention policy for historical store via [MODIFY TTL](#ttl) and modify the retention policy for streaming storage via [MODIFY SETTING](#modify_setting). For mutable streams, you can also run `MODIFY SETTING` to change the RocksDB settings.
 
 You can also use [ALTER VIEW](/sql-alter-view) to modify the settings of materialized views (only available in Timeplus Enterprise).
@@ -20,8 +21,6 @@ logstore_retention_ms = ...,
 logstore_retention_bytes = ...;
 ```
 
-Starting from Timeplus Enterprise 2.7, you can also modify the RocksDB settings for mutable streams. e.g.
-
 ```sql
 ALTER STREAM test MODIFY SETTING log_kvstore=1, kvstore_options='write_buffer_size=1024;max_write_buffer_number=2;max_background_jobs=4';
 ```
@@ -32,18 +31,7 @@ You can also change the codec for mutable streams. e.g.
 ALTER STREAM test MODIFY SETTING logstore_codec='lz4';
 ```
 
-Starting from Timeplus Enterprise 2.8.2, you can also modify the TTL for mutable stream.
-```sql
-ALTER STREAM test MODIFY SETTING ttl_seconds = 10;
-```
-
 ## MODIFY QUERY SETTING
-
-:::info
-This feature is available in Timeplus Enterprise v2.2.8 or above. Not available in Timeplus Proton.
-
-Please use [ALTER VIEW](/sql-alter-view) for this use cases. Altering views or materialized views will be deprecated and removed from the `ALTER STREAM` SQL command.
-:::
 
 By default, the checkpoint will be updated every 15 minutes for materialized views. You can change the checkpoint interval without recreating the materialized views.
 
@@ -52,12 +40,6 @@ ALTER STREAM mv_with_inner_stream MODIFY QUERY SETTING checkpoint_interval=600
 ```
 
 ## RESET QUERY SETTING
-
-:::info
-This feature is available in Timeplus Enterprise v2.2.8 or above. Not available in Timeplus Proton.
-
-Please use [ALTER VIEW](/sql-alter-view) for this use cases. Altering views or materialized views will be deprecated and removed from the `ALTER STREAM` SQL command.
-:::
 
 By default, the checkpoint will be updated every 15 minutes for materialized views. After you change the interval you can reset it.
 
@@ -74,7 +56,6 @@ Syntax:
 ALTER STREAM stream_name ADD COLUMN column_name data_type
 ```
 
-Since Timeplus Enterprise 2.8.2, you can also add multiple columns at once:
 ```sql
 ALTER STREAM stream_99005 ADD COLUMN e int, ADD COLUMN f int;
 ```
@@ -82,7 +63,6 @@ ALTER STREAM stream_99005 ADD COLUMN e int, ADD COLUMN f int;
 `DELETE COLUMN` is not supported yet. Contact us if you have strong use cases.
 
 ## RENAME COLUMN
-Since Timeplus Enterprise 2.9, you can rename columns in append streams.
 
 ```sql
 ALTER STREAM stream_name RENAME COLUMN column_name TO new_column_name
@@ -90,7 +70,6 @@ ALTER STREAM stream_name RENAME COLUMN column_name TO new_column_name
 
 ## ADD INDEX
 
-Since Timeplus Enterprise v2.6.0, you can add an index to a mutable stream.
 ```sql
 ALTER STREAM mutable_stream ADD INDEX index_name
 ```
@@ -103,7 +82,9 @@ ALTER STREAM mutable_stream DROP INDEX index_name
 ```
 
 ## MATERIALIZE INDEX
-Since Timeplus Enterprise 2.8.2, you can rebuild the secondary index `name` for the specified `partition_name`.
+
+You can rebuild the secondary index `name` for the specified `partition_name`.
+
 ```sql
 ALTER STREAM mutable_stream MATERIALIZE INDEX [IF EXISTS] name [IN PARTITION partition_name] SETTINGS mutations_sync = 2"
 ```
@@ -114,7 +95,8 @@ ALTER STREAM minmax_idx MATERIALIZE INDEX idx IN PARTITION 2 SETTINGS mutations_
 ```
 
 ## CLEAR INDEX
-Since Timeplus Enterprise 2.8.2, you can delete the secondary index `name` from disk.
+
+You can delete the secondary index `name` from disk.
 ```sql
 ALTER STREAM mutable_stream CLEAR INDEX [IF EXISTS] name [IN PARTITION partition_name] SETTINGS mutations_sync = 2"
 ```

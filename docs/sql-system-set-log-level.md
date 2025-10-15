@@ -1,7 +1,5 @@
 # SYSTEM SET LOG LEVEL
 
-This feature is available in Timeplus Enterprise v2.8.2 or above. Not available in Timeplus Proton.
-
 Example:
 ```sql
 -- Setting global log level to information
