@@ -588,7 +588,7 @@
 
 ## Sql-system-set-log-level
 
-- [SYSTEM SET LOG LEVEL | Timeplus](https://docs.timeplus.com/sql-system-set-log-level): This feature is available in Timeplus Enterprise v2.8.2 or above. Not available in Timeplus Proton.
+- [SYSTEM SET LOG LEVEL | Timeplus](https://docs.timeplus.com/sql-system-set-log-level)
 
 ## Sql-system-transfer-leader
 
