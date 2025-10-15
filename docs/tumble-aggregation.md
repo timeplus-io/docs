@@ -12,17 +12,16 @@ This makes them simple, deterministic, and ideal for producing periodic reports 
 ## Syntax
 
 ```sql
-SELECT <grouping-keys>, <aggr_functions>
+SELECT <grouping-keys>, <aggr-functions>
 FROM tumble(<stream-name>, [<timestamp-column>], <window-size>])
 [WHERE clause]
 GROUP BY [window_start | window_end], <other-group-keys> ...
 EMIT <emit-policy>
-SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 ```
 
 ### Parameters
 
-- `<stream-name>` : the source stream the tumble window applied to. **Required**
+- `<stream-name>` : the source stream the tumble window applies to. **Required**
 - `<timestamp-column>` : the event timestamp column which is used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time tumble window. Default is `_tp_time` if absent. **Optional**
 - `<window-size>` : tumble window interval size. Supported interval units are listed below. **Required**
   - `s` : second
@@ -35,7 +34,7 @@ SETTINGS <key1>=<value1>, <key2>=<value2>, ...
 
 ```
 CREATE STREAM device_metrics (
-    device_id string,
+    device string,
     cpu_usage float,
     event_time datetime64(3) 
 );
@@ -43,18 +42,18 @@ CREATE STREAM device_metrics (
 SELECT
     window_start,
     window_end,
-    device_id,
+    device,
     avg(cpu_usage) AS avg_cpu
 FROM tumble(device_metrics, event_time, 5s)
 GROUP BY
     window_start,
-    device_id
+    device
 EMIT AFTER WINDOW CLOSE;
 ```
 
 **Explanation**:
 - Events are grouped into **5-second, non-overlapping windows** based on their `event_time`.
-- Each `device_id`’s events are aggregated independently within each window.
+- Each `device`’s events are aggregated independently within each window.
 - When a window closes, the system emits one aggregated result per device with the computed `avg_cpu`.
 
 **Example timeline**:
@@ -83,11 +82,11 @@ This is the **default behavior** for all time window aggregations. Timeplus emit
 
 ```sql
 SELECT window_start, device, max(cpu_usage)
-FROM tumble(device_utils, 5s)
+FROM tumble(device_metrics, 5s)
 GROUP BY window_start, device;
 ```
 
-This query continuously computes the **maximum CPU usage** per device in every 5-second tumble window from the stream `device_utils`.
+This query continuously computes the **maximum CPU usage** per device in every 5-second tumble window from the stream `device_metrics`.
 Each time a window closes (as determined by the internal watermark), Timeplus emits the results once.
 
 :::info
@@ -102,7 +101,7 @@ Adds a **delay period** before emitting window results, allowing **late events**
 
 ```sql
 SELECT window_start, device, max(cpu_usage)
-FROM tumble(device_utils, 5s)
+FROM tumble(device_metrics, 5s)
 GROUP BY window_start, device
 EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
@@ -118,7 +117,7 @@ The **`EMIT TIMEOUT`** clause helps forcefully close such idle windows after a s
 
 ```sql
 SELECT window_start, device, max(cpu_usage)
-FROM tumble(device_utils, 5s)
+FROM tumble(device_metrics, 5s)
 GROUP BY window_start, device
 EMIT TIMEOUT 3s;
 ```
@@ -141,7 +140,7 @@ This is useful for near real-time visibility into evolving metrics.
 SELECT
   window_start, device, max(cpu_usage)
 FROM
-  tumble(device_utils, 5s)
+  tumble(device_metrics, 5s)
 GROUP BY
   window_start, device
 EMIT ON UPDATE;
@@ -160,7 +159,7 @@ Timeplus checks the intermediate aggregation results at regular intervals and em
 SELECT
   window_start, device, max(cpu_usage)
 FROM
-  tumble(device_utils, 5s)
+  tumble(device_metrics, 5s)
 GROUP BY
   window_start, device
 EMIT ON UPDATE WITH BATCH 1s;
@@ -176,7 +175,7 @@ Similar to **`EMIT ON UPDATE`**, but includes a delay to allow late events befor
 SELECT
   window_start, device, max(cpu_usage)
 FROM
-  tumble(device_utils, 5s)
+  tumble(device_metrics, 5s)
 GROUP BY
   window_start, device
 EMIT ON UPDATE WITH DELAY 2s;
