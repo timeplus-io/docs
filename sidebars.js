@@ -687,7 +687,7 @@ const sidebars = {
               href: "https://crates.io/crates/proton_client",
             },
             {
-              label: "OCamel Client",
+              label: "OCaml Client",
               type: "link",
               href: "https://github.com/mfreeman451/proton-ocaml-driver",
             },
