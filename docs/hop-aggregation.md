@@ -125,7 +125,7 @@ In this example:
 
 ### `EMIT ON UPDATE`
 
-Emits **intermediate aggregation updates** whenever the results change within an open window.
+Emits **intermediate aggregation updates** whenever there are new events flowing in an open window.
 This is useful for near real-time visibility into evolving metrics.
 
 **Example**:
