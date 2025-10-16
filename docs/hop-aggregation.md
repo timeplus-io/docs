@@ -16,29 +16,29 @@ For example, with a 10-minute window size and a 5-minute hop interval, a new win
 ## Syntax
 
 ```sql
-SELECT <grouping-keys>, <aggr-functions>
-FROM hop(<stream-name>, [<timestamp-column>], <hop-interval>, <window-size>)
+SELECT <grouping_keys>, <aggr_functions>
+FROM hop(<stream_name>, [<timestamp_column>], <hop_interval>, <window_size>)
 [WHERE clause]
-GROUP BY [<window_start | window_end>], <other-group-keys> ...
-EMIT <emit-policy>
+GROUP BY [window_start | window_end], <other_grouping_keys> ...
+EMIT <emit_policy>
 ```
 
 ### Parameters
 
-- `<stream-name>` : the source stream the hop window applies to. **Required**
-- `<timestamp-column>` : the event timestamp column which is used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time hop window. Default is `_tp_time` if absent. **Optional**
+- `<stream_name>` : the source stream the hop window applies to. **Required**
+- `<timestamp_column>` : the event timestamp column which is used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time hop window. Default is `_tp_time` if absent. **Optional**
 - `<hop-interval>` : how frequently new windows start (must be less than or equal to the window size). Supported interval units are listed below. **Required**
-  - `s` : second
-  - `m` : miniute
-  - `h` : hour 
-  - `d` : day 
-  - `w` : week 
-- `<window-size>` : hop window interval size. Supported interval units are listed below. **Required**
-  - `s` : second
-  - `m` : miniute
-  - `h` : hour 
-  - `d` : day 
-  - `w` : week 
+  - `s` (second)
+  - `m` (miniute)
+  - `h` (hour) 
+  - `d` (day) 
+  - `w` (week) 
+- `<window_size>` : hop window interval size. Supported interval units are listed below. **Required**
+  - `s` (second)
+  - `m` (miniute)
+  - `h` (hour) 
+  - `d` (day)
+  - `w` (week)
 
 ### Example
 

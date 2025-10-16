@@ -24,10 +24,10 @@ The `EMIT PERIODIC <n><UNIT>` clause tells Timeplus to periodically emit aggrega
 - `<n>` must be an integer greater than 0.
 - `<UNIT>` can be one of:
 
-- ms (milliseconds)
-- s (seconds)
-- m (minutes)
-- h (hours)
+- `ms` (milliseconds)
+- `s` (seconds)
+- `m` (minutes)
+- `h` (hours)
 
 **Examples:**
 ```sql
