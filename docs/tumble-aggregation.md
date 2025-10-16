@@ -12,23 +12,23 @@ This makes them simple, deterministic, and ideal for producing periodic reports 
 ## Syntax
 
 ```sql
-SELECT <grouping-keys>, <aggr-functions>
-FROM tumble(<stream-name>, [<timestamp-column>], <window-size>])
+SELECT <grouping_keys>, <aggr_functions>
+FROM tumble(<stream_name>, [<timestamp_column>], <window_size>])
 [WHERE clause]
-GROUP BY [window_start | window_end], <other-group-keys> ...
-EMIT <emit-policy>
+GROUP BY [window_start | window_end], <other_grouping_keys> ...
+EMIT <emit_policy>
 ```
 
 ### Parameters
 
-- `<stream-name>` : the source stream the tumble window applies to. **Required**
-- `<timestamp-column>` : the event timestamp column which is used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time tumble window. Default is `_tp_time` if absent. **Optional**
-- `<window-size>` : tumble window interval size. Supported interval units are listed below. **Required**
-  - `s` : second
-  - `m` : miniute
-  - `h` : hour 
-  - `d` : day 
-  - `w` : week 
+- `<stream_name>` : the source stream the tumble window applies to. **Required**
+- `<timestamp_column>` : the event timestamp column which is used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time tumble window. Default is `_tp_time` if absent. **Optional**
+- `<window_size>` : tumble window interval size. Supported interval units are listed below. **Required**
+  - `s` (second)
+  - `m` (miniute)
+  - `h` (hour) 
+  - `d` (day) 
+  - `w` (week) 
 
 ### Example
 
