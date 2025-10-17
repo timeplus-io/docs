@@ -481,7 +481,6 @@ const sidebars = {
     {
       type: "category",
       label: "SQL REFERENCE",
-      // customProps: { tag: "Popular" },
       items: [
         "query-syntax",
         "query-settings",
@@ -489,7 +488,6 @@ const sidebars = {
         {
           type: "category",
           label: "Statements",
-          customProps: { tag: "Popular" },
           link: {
             type: "generated-index",
             title: "SQL Statements",
@@ -505,7 +503,7 @@ const sidebars = {
             },
             "sql-alter-stream",
             "sql-alter-view",
-            "sql-create-alert",
+            // "sql-create-alert",
             "sql-create-database",
             "sql-create-dictionary",
             "sql-create-disk",
@@ -513,8 +511,8 @@ const sidebars = {
             "sql-create-external-table",
             "sql-create-format-schema",
             "sql-create-function",
-            "sql-create-materialized-view",
-            "sql-create-mutable-stream",
+            // "sql-create-materialized-view",
+            // "sql-create-mutable-stream",
             "sql-create-random-stream",
             "sql-create-remote-function",
             "sql-create-stream",
@@ -725,7 +723,6 @@ const sidebars = {
             {
               type: "doc",
               id: "integration-grafana",
-              customProps: { tag: "Popular" },
             },
             "sling",
             "kafka-connect",
@@ -757,7 +754,6 @@ const sidebars = {
             {
               type: "doc",
               id: "k8s-helm",
-              customProps: { tag: "Popular" },
             },
           ],
         },
