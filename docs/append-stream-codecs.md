@@ -101,7 +101,7 @@ CREATE STREAM mystream
 ORDER BY x;
 ```
 
-:::note
+:::info
 If compression needs to be applied, it must be explicitly specified. Otherwise, only encryption will be applied to data.
 :::
 

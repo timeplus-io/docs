@@ -64,6 +64,6 @@ GROUP BY
 
 ## Emit Policies
 
-Currently, only **EMIT AFTER WINDOW CLOSE`** is supported.
+Currently, only **EMIT AFTER WINDOW CLOSE** is supported.
 
 The session window will emit results automatically once it is closed — that is, when any of the configured closing conditions are met.

@@ -18,43 +18,43 @@ For more details on the motivation behind Mutable Streams, see [this blog post](
 ```sql
 CREATE MUTABLE STREAM [IF NOT EXISTS] <db.mutable-stream-name>
 (
-    name1 [type1] [DEFAULT | ALIAS expr1] [COMMENT 'column-comment'],
-    name2 [type2] [DEFAULT | ALIAS expr1] [COMMENT 'column-comment'],
+    name1 [type1] [DEFAULT | ALIAS expr1] [COMMENT 'column_comment'],
+    name2 [type2] [DEFAULT | ALIAS expr1] [COMMENT 'column_comment'],
     ...
     <column definitions>,
-    INDEX <secondary-index-name1> (column, ...) [UNIQUE] STORING (column, ...),
-    INDEX <secondary-index-name2> (column, ...) [UNIQUE] STORING (column, ...),
+    INDEX <secondary_index_name1> (column, ...) [UNIQUE] STORING (column, ...),
+    INDEX <secondary_index_name2> (column, ...) [UNIQUE] STORING (column, ...),
     ...
-    FAMILY <column-family-name1> (column, ...),
-    FAMILY <column-family-name2> (column, ...),
+    FAMILY <column_family_name1> (column, ...),
+    FAMILY <column_family_name2> (column, ...),
     ...
 )
 PRIMARY KEY (column, ...)
-COMMENT '<stream-comment>'
+COMMENT '<stream_comment>'
 SETTINGS
-    shards=<num-of-shards>,
-    replication_factor=<replication-factor>,
-    version_column=<version-column>,
+    shards=<num_of_shards>,
+    replication_factor=<replication_factor>,
+    version_column=<version_column>,
     coalesced=[true|false],
     logstore_codec=['lz4'|'zstd'|'none'],
-    logstore_retention_bytes=<retention-bytes>,
-    logstore_retention_ms=<retention-ms>,
-    ttl_seconds=<ttl-seconds>,
-    ttl_column=<ttl-column>,
+    logstore_retention_bytes=<retention_bytes>,
+    logstore_retention_ms=<retention_ms>,
+    ttl_seconds=<ttl_seconds>,
+    ttl_column=<ttl_column>,
     auto_cf=[true|false],
-    placement_policies='<placement-policies>',
+    placement_policies='<placement_policies>',
     late_insert_overrides=[true|false],
-    shared_disk='<shared-disk>',
+    shared_disk='<shared_disk>',
     ingest_mode=['async'|'sync'],
     ack=['quorum'|'local'|'none'],
-    ingest_batch_max_bytes=<batch-bytes>,
-    ingest_batch_timeout_ms=<batch-timeout>,
-    fetch_threads=<remote-fetch-threads>,
-    flush_rows=<batch-flush-rows>,
-    flush_ms=<batch-flush-timeout>,
+    ingest_batch_max_bytes=<batch_bytes>,
+    ingest_batch_timeout_ms=<batch_timeout>,
+    fetch_threads=<remote_fetch_threads>,
+    flush_rows=<batch_flush_rows>,
+    flush_ms=<batch_flush_timeout>,
     log_kvstore=[true|false],
     kvstore_codec=['snappy'|'lz4'|'zstd'],
-    kvstore_options='<kvstore-options>',
+    kvstore_options='<kvstore_options>',
     enable_hash_index=[true|false],
     enable_statistics=[true|false];
 ```
@@ -348,7 +348,7 @@ Using column families can slow down ingestion speed, since each family is intern
 You can delete rows from a Mutable Stream using the `DELETE` statement:
 
 ```sql
-DELETE FROM <db.mutable-stream-name> WHERE <predicates>;
+DELETE FROM <db.mutable_stream_name> WHERE <predicates>;
 ```
 
 - If the `WHERE` predicates can leverage the primary index or a secondary index, the delete operation will be fast.

@@ -20,7 +20,7 @@ If a row has not been updated for longer than `ttl_seconds`, it becomes **eligib
 ```sql
 CREATE MUTABLE STREAM ...
 SETTINGS
-    ttl_seconds=<ttl-seconds>, ...
+    ttl_seconds=<ttl_seconds>, ...
 ```
 
 ### Example
@@ -52,8 +52,8 @@ The specified **TTL column** represents the event timestamp of each row. During 
 ```sql
 CREATE MUTABLE STREAM ...
 SETTINGS
-    ttl_seconds=<ttl-seconds>,
-    ttl_column=<ttl-column>, ...
+    ttl_seconds=<ttl_seconds>,
+    ttl_column=<ttl_column>, ...
 ```
 
 ### Example
@@ -85,8 +85,8 @@ You can control how frequently these compactions run by setting `periodic_compac
 ```
 CREATE MUTABLE STREAM ...
 SETTINGS
-    ttl_seconds = <ttl-seconds>,
-    ttl_column = <ttl-column>,
+    ttl_seconds = <ttl_seconds>,
+    ttl_column = <ttl_column>,
     kvstore_options = 'periodic_compaction_seconds=1800;';
 ```
 

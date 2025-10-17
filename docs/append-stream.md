@@ -5,13 +5,13 @@ An **Append Stream** in Timeplus is best understood as a **streaming ClickHouse 
 ## Create Append Stream
 
 ```sql
-CREATE STREAM [IF NOT EXISTS] <db.stream-name>
+CREATE STREAM [IF NOT EXISTS] <db.stream_name>
 (
-    name1 [type1] [DEFAULT | ALIAS expr1] [COMMENT 'column-comment'] [compression_codec],
-    name2 [type2] [DEFAULT | ALIAS expr2] [COMMENT 'column-comment'] [compression_codec],
+    name1 [type1] [DEFAULT | ALIAS expr1] [COMMENT 'column_comment'] [compression_codec],
+    name2 [type2] [DEFAULT | ALIAS expr2] [COMMENT 'column_comment'] [compression_codec],
     ...
-    INDEX index-name1 expr1 TYPE type1(...) [GRANULARITY value1],
-    INDEX index-name2 expr2 TYPE type2(...) [GRANULARITY value1],
+    INDEX index_name1 expr1 TYPE type1(...) [GRANULARITY value1],
+    INDEX index_name2 expr2 TYPE type2(...) [GRANULARITY value1],
     ...
 )
 ORDER BY <expression>
@@ -23,25 +23,25 @@ ORDER BY <expression>
 ]
 COMMENT '<stream-comment>'
 SETTINGS
-    shards=<num-of-shards>,
-    replication_factor=<replication-factor>,
+    shards=<num_of_shards>,
+    replication_factor=<replication_factor>,
     mode=['append'|'changelog_kv'|'versioned_kv'],
-    version_column=<version-column>,
+    version_column=<version_column>,
     storage_type=['hybrid'|'streaming'|'inmemory'],
     logstore_codec=['lz4'|'zstd'|'none'],
-    logstore_retention_bytes=<retention-bytes>,
-    logstore_retention_ms=<retention-ms>,
-    placement_policies='<placement-policies>',
-    shared_disk='<shared-disk>',
+    logstore_retention_bytes=<retention_bytes>,
+    logstore_retention_ms=<retention_ms>,
+    placement_policies='<placement_policies>',
+    shared_disk='<shared_disk>',
     ingest_mode=['async'|'sync'],
     ack=['quorum'|'local'|'none'],
-    ingest_batch_max_bytes=<batch-bytes>,
-    ingest_batch_timeout_ms=<batch-timeout>,
-    fetch_threads=<remote-fetch-threads>,
-    flush_threshold_count=<batch-flush-rows>,
-    flush_threshold_ms=<batch-flush-timeout>,
-    flush_threshold_bytes=<batch-flush-size>,
-    merge_with_ttl_timeout=<timeout-in-seconds>;
+    ingest_batch_max_bytes=<batch_bytes>,
+    ingest_batch_timeout_ms=<batch_timeout>,
+    fetch_threads=<remote_fetch_threads>,
+    flush_threshold_count=<batch_flush_rows>,
+    flush_threshold_ms=<batch_flush_timeout>,
+    flush_threshold_bytes=<batch_flush_size>,
+    merge_with_ttl_timeout=<timeout_in_seconds>;
 ```
 
 ### Storage Architecture

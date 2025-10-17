@@ -29,13 +29,13 @@ Timeplus provides system commands to manage Materialized Views.
 ### Pause Materialized View
 
 ```sql
-SYSTEM PAUSE MATERIALIZED VIEW <db.mat-view-name> [PERMANENT];
+SYSTEM PAUSE MATERIALIZED VIEW <db.mat_view_name> [PERMANENT];
 ```
 
 When pausing a Materialized View:
 
 1. The leader triggers a checkpoint.
-2. The leader stops the query pipeline and marks the state as Paused.
+2. The leader stops the query pipeline and marks the state as `Paused`.
 3. If `PERMANENT` is specified, the system updates `pause_on_start=true` in the DDL metadata and commits it to the metastore.
    - This ensures the view remains paused even after node restarts.
    - Without `PERMANENT`, the view will resume automatically on restart.
@@ -48,7 +48,7 @@ SYSTEM PAUSE MATERIALIZED VIEW tumble_aggr_mv;
 ### Resume Materialized View
 
 ```sql
-SYSTEM RESUME MATERIALIZED VIEW <db.mat-view-name> [PERMANENT];
+SYSTEM RESUME MATERIALIZED VIEW <db.mat_view_name> [PERMANENT];
 ```
 
 When resuming a view:
@@ -70,7 +70,7 @@ Aborting is similar to pausing, but:
 - The `pause_on_start` setting is not modified in the DDL metadata.
 
 ```sql
-SYSTEM ABORT MATERIALIZED VIEW <db.mat-view-name>;
+SYSTEM ABORT MATERIALIZED VIEW <db.mat_view_name>;
 ```
 
 **Example**:
@@ -87,7 +87,7 @@ Used to recover views in the `Error` state. Recovery involves:
 3. Transitioning to ExecutingPipeline.
 
 ```sql
-SYSTEM RECOVER MATERIALIZED VIEW <db.mat-view-name>;
+SYSTEM RECOVER MATERIALIZED VIEW <db.mat_view_name>;
 ```
 
 **Example**:
@@ -100,7 +100,7 @@ SYSTEM RECOVER MATERIALIZED VIEW tumble_aggr_mv;
 For Materialized Views governed by Raft, you can transfer leadership to another replica. This helps balance workload or mitigate temporary issues.
 
 ```sql
-SYSTEM TRANSFER LEADER <db.mat-view-name> <mat-view-shard-id> FROM <leader-node> TO <follower-node>;
+SYSTEM TRANSFER LEADER <db.mat_view_name> <mat_view_shard_id> FROM <leader_node> TO <follower_node>;
 ```
 
 :::info

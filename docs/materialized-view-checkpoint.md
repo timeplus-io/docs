@@ -61,7 +61,7 @@ AS
 SELECT
     window_start AS win_start,
     s,
-    SUM(i)
+    sum(i)
 FROM tumble(source, 5s)
 GROUP BY window_start, s;
 ```
