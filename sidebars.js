@@ -481,7 +481,6 @@ const sidebars = {
     {
       type: "category",
       label: "SQL REFERENCE",
-      // customProps: { tag: "Popular" },
       items: [
         "query-syntax",
         "query-settings",
@@ -489,7 +488,6 @@ const sidebars = {
         {
           type: "category",
           label: "Statements",
-          customProps: { tag: "Popular" },
           link: {
             type: "generated-index",
             title: "SQL Statements",
@@ -505,7 +503,11 @@ const sidebars = {
             },
             "sql-alter-stream",
             "sql-alter-view",
-            "sql-create-alert",
+            {
+              label: "CREATE ALERT",
+              type: "link",
+              href: "https://docs.timeplus.com/alert",
+            },
             "sql-create-database",
             "sql-create-dictionary",
             "sql-create-disk",
@@ -513,12 +515,28 @@ const sidebars = {
             "sql-create-external-table",
             "sql-create-format-schema",
             "sql-create-function",
-            "sql-create-materialized-view",
-            "sql-create-mutable-stream",
+            {
+              label: "CREATE MATERIALIZED VIEW",
+              type: "link",
+              href: "https://docs.timeplus.com/materialized-view",
+            },
+            {
+              label: "CREATE MUTABLE STREAM",
+              type: "link",
+              href: "https://docs.timeplus.com/mutable-stream",
+            },
             "sql-create-random-stream",
             "sql-create-remote-function",
-            "sql-create-stream",
-            "sql-create-view",
+            {
+              label: "CREATE STREAM",
+              type: "link",
+              href: "https://docs.timeplus.com/append-stream",
+            },
+            {
+              label: "CREATE VIEW",
+              type: "link",
+              href: "https://docs.timeplus.com/view",
+            },
             "sql-delete",
             "sql-drop-alert",
             "sql-drop-database",
@@ -725,7 +743,6 @@ const sidebars = {
             {
               type: "doc",
               id: "integration-grafana",
-              customProps: { tag: "Popular" },
             },
             "sling",
             "kafka-connect",
@@ -757,7 +774,6 @@ const sidebars = {
             {
               type: "doc",
               id: "k8s-helm",
-              customProps: { tag: "Popular" },
             },
           ],
         },
