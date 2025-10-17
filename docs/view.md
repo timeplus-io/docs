@@ -7,7 +7,7 @@ Like in regular database, Timeplus View is a logical definition of a virtual tab
 To create a view:
 
 ```sql
-CREATE VIEW [IF NOT EXISTS] <db_name.view_name> AS <SELECT ...>
+CREATE VIEW [IF NOT EXISTS] <db.view_name> AS <SELECT ...>
 ```
 
 If the underlying SELECT query is a streaming query, then the view is streaming when you query it, otherwise it is one shot historical query running to end.
@@ -17,7 +17,7 @@ If the underlying SELECT query is a streaming query, then the view is streaming 
 To drop a view:
 
 ```sql
-DROP VIEW [IF EXISTS] <db_name.view_name>
+DROP VIEW [IF EXISTS] <db.view_name>
 ```
 
 ## Parameterized View

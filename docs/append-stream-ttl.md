@@ -43,7 +43,7 @@ Expired data is removed only during the merge process, which runs asynchronously
 To accelerate this cleanup, you can manually trigger a merge by running the `OPTIMIZE` command. This attempts to start an unscheduled merge of data parts for a stream:
 
 ```sql
-OPTIMIZE STREAM <db.stream-name>;
+OPTIMIZE STREAM <db.stream_name>;
 ```
 
 ## Examples

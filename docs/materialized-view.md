@@ -44,8 +44,8 @@ you can build **complex, end-to-end data processing pipelines** with Materialize
 ## Create Materialized View
 
 ```sql
-CREATE MATERIALIZED VIEW [IF NOT EXISTS] <db.mat-view-name>
-[INTO <db.target-stream-or-table>]
+CREATE MATERIALIZED VIEW [IF NOT EXISTS] <db.mat_view_name>
+[INTO <db.target_stream_or_table>]
 AS
 <SELECT ...>
 [SETTINGS
@@ -320,7 +320,7 @@ DROP VIEW [IF EXISTS] db.<view_name>;
 You can modify the following Materialized View query settings using:
 
 ```sql
-ALTER VIEW <db.mat-view-name> MODIFY QUERY SETTING <key>=<value>, <key>=<value>, ...;
+ALTER VIEW <db.mat_view_name> MODIFY QUERY SETTING <key>=<value>, <key>=<value>, ...;
 ```
 
 Supported settings changes include:
@@ -341,7 +341,7 @@ ALTER VIEW tumble_aggr_mv MODIFY QUERY SETTING checkpoint_interval=-1, enable_dl
 You can update the comment associated with a Materialized View:
 
 ```sql
-ALTER VIEW <db.mat-view-name> MODIFY COMMENT '<new-comments>';
+ALTER VIEW <db.mat_view_name> MODIFY COMMENT '<new-comments>';
 ```
 
 **Example:**
@@ -420,5 +420,5 @@ GROUP BY
     window_start, s
 SETTINGS
     recovery_policy='best_effort',            -- Use 'best_effort' recovery policy
-    input_format_ignore_parsing_errors=true; -- Skip parsing errors for better resiliency
+    input_format_ignore_parsing_errors=true;  -- Skip parsing errors for better resiliency
 ```

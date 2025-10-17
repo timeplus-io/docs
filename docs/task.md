@@ -11,10 +11,10 @@ Scheduled tasks complement **Timeplus Materialized Views** which run streaming q
 ## Create Task
 
 ```sql
-CREATE OR REPLACE TASK <task-name>
+CREATE OR REPLACE TASK <task_name>
 SCHEDULE <interval>
 TIMEOUT <interval>
-INTO <target-stream>
+INTO <target_stream>
 AS
   <Historical SELECT query>;
 ```
@@ -60,23 +60,23 @@ SHOW TASKS;
 
 ```sql
 -- Show DDL definition of a task
-SHOW CREATE TASK <db.task-name>;
+SHOW CREATE TASK <db.task_name>;
 ```
 
 ## Drop Task
 
 ```sql
-DROP TASK <db.task-name>;
+DROP TASK <db.task_name>;
 ```
 
 ## Pause Task
 
 ```sql
-SYSTEM PAUSE TASK <db.task-name>;
+SYSTEM PAUSE TASK <db.task_name>;
 ```
 
 ## Resume Task
 
 ```sql
-SYSTEM RESUME TASK <db.task-name>;
+SYSTEM RESUME TASK <db.task_name>;
 ```

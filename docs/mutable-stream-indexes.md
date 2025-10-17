@@ -121,7 +121,7 @@ When you do this, the system scans all existing data in the background to build 
 This process is **asynchronous**, so the index becomes usable only after the build completes.
 
 ```sql
-ALTER STREAM <db.mutable-stream-name> ADD INDEX <index-name> (<columns>);
+ALTER STREAM <db.mutable_stream_name> ADD INDEX <index_name> (<columns>);
 ```
 
 **Example**:
@@ -137,7 +137,7 @@ Until the new secondary index is fully built, using it to accelerate a historica
 ## Drop Secondary Index
 
 ```sql
-ALTER STREAM <db.mutable-stream-name> DROP INDEX <index-name>;
+ALTER STREAM <db.mutable_stream_name> DROP INDEX <index_name>;
 ```
 
 **Example**:
@@ -157,7 +157,7 @@ When executing a query against a Mutable Stream, **Timeplus automatically select
 You can manually hint which secondary index to use with the query setting:
 
 ```sql
-SETTINGS use_index='<secondary-idx-name>'
+SETTINGS use_index='<secondary_idx_name>'
 ```
 
 Timeplus will still validate whether the chosen index is applicable.
@@ -206,7 +206,7 @@ The rebuild process runs **asynchronously** in the background.
 
 ```sql
 -- Clear the secondary index and then rebuild it
-ALTER STREAM <db.mutable-stream-name> MATERIALIZE INDEX <secondary-index-name> WITH CLEAR;
+ALTER STREAM <db.mutable_stream_name> MATERIALIZE INDEX <secondary_index_name> WITH CLEAR;
 ```
 
 **Example**:

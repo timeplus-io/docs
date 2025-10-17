@@ -11,11 +11,11 @@ Alerts are often used in combination with [Scheduled Tasks](/task) and [Material
 ## Create Alert
 
 ```sql
-CREATE ALERT [IF NOT EXISTS] <db.alert-name>
+CREATE ALERT [IF NOT EXISTS] <db.alert_name>
 BATCH <N> EVENTS WITH TIMEOUT <interval>
 LIMIT <M> ALERTS PER <interval>
-CALL <python-udf-name>
-AS <streaming-select-query>;
+CALL <python_udf_name>
+AS <streaming_select_query>;
 ```
 
 :::info
@@ -126,11 +126,11 @@ SHOW ALERTS [FROM db] [SETTINGS verbose=true]
 ## Show Alert
 
 ```sql
-SHOW CREATE ALERT <db.alert-name> [SETTINGS show_multi_versions=true]
+SHOW CREATE ALERT <db.alert_name> [SETTINGS show_multi_versions=true]
 ```
 
 ## Drop Alert
 
 ```sql
-DROP ALERT <db.alert-name>
+DROP ALERT <db.alert_name>
 ```
