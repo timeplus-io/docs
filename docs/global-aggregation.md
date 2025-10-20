@@ -172,60 +172,289 @@ EMIT ON UPDATE WITH BATCH 1s;
 
 This query checks for changes every second and emits results only when updates occur.
 
-### `EMIT AFTER KEY EXPIRE` 
+### `EMIT AFTER SESSION CLOSE` 
 
-Designed for **OpenTelemetry trace analysis** and other similar use cases where you need to track **key lifetimes** across high-cardinality datasets (e.g., trace spans).
+Designed for **sessionization**, **OpenTelemetry trace analysis** and other similar use cases where you need to track **session lifetimes** across high-cardinality datasets (e.g., trace spans).
 
-This policy emits aggregation results once a key is considered **expired**.
+This policy emits aggregation results once a session is considered **closed** or **expired**.
 
 **Syntax**:
 
 ```sql
-EMIT AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]
+EMIT AFTER SESSION CLOSE 
+  [IDENTIFIED BY (<ts_col>[, <session_start_col>, <session_end_col>])] 
+  WITH [ONLY] MAXSPAN <interval> 
+  [AND TIMEOUT <interval>]
 ```
 
 **Parameters**:
-* `EMIT AFTER KEY EXPIRE` - enables per-key lifetime tracking.
-* `IDENTIFIED BY <col>` - column used to compute span duration (defaults to **_tp_time** if omitted).
-* `MAXSPAN <interval>` - maximum allowed span before emission.
-* `ONLY` - emit results only if span exceeds MAXSPAN.
-* `TIMEOUT <interval>` - forces emission after inactivity to avoid waiting indefinitely.
+* `EMIT AFTER SESSION CLOSE`. Enables per-session lifetime tracking and emits results when a session ends.
+* `IDENTIFIED BY (<ts_col>[, <session_start_col>, <session_end_col>])`. Defines how session boundaries are identified.
+  * `<ts_col>` — Timestamp column used to calculate session span duration. Default: _tp_time.
+  * `<session_start_col>` — Boolean column indicating when a session starts. Usually it is predicates evaluated in the SELECT. (Optional)
+  * `<session_end_col>` — Boolean column indicating when a session ends. Usually it is predicates evaluated in the SELECT. (Optional)
+* `MAXSPAN <interval>`. The maximum duration allowed for a session before it is emitted, regardless of new activity.
+* `ONLY`. When specified, results are emitted only if the session’s duration exceeds `MAXSPAN`.
+* `TIMEOUT <interval>`. Defines the maximum wall-clock duration a session can remain open. If a session stays active longer than this interval, it is automatically emitted to prevent indefinite waiting.
 
-:::info
-Currently must be used with `SETTINGS default_hash_table='hybrid'` to prevent excessive memory usage.
-:::
+#### Variants of `IDENTIFIED BY`
 
-**Example**:
+Different configurations of `IDENTIFIED BY` allow flexible session control depending on the availability of start/end indicators:
+
+1. `IDENTIFIED BY ts_col`. 
+
+    No explicit session start or end signals.
+    * A session closes when `MAXSPAN` or `TIMEOUT` is reached.
+    * All events for the same session key are included.
+
+2. `IDENTIFIED BY (ts_col, session_start_col, session_end_col)`. 
+
+    Both start and end conditions are explicitly defined.
+    * A session opens when `session_start_col = true`.
+    * Events before an open session are ignored.
+    * The session closes when `session_end_col = true`, or when `MAXSPAN` or `TIMEOUT` is reached.
+
+3. `IDENTIFIED BY (ts_col, session_start_col, false)`. 
+
+    Only a session start condition is defined.
+    * A session opens when `session_start_col = true`.
+    * Events before a session opens are ignored.
+    * The session closes when `MAXSPAN` or `TIMEOUT` is reached.
+
+4. `IDENTIFIED BY (ts_col, true, session_end_col)`. 
+
+    Only a session end condition is defined.
+    * A session opens when the first event is observed.
+    * The session closes when `session_end_col = true`, or when `MAXSPAN` or `TIMEOUT` is reached.
+
+#### Session Fine-Tuning Settings 
+
+Timeplus provides several query settings to fine-tune session behavior:
+
+1. `merge_open_sessions` — (Default: `false`). 
+
+    Controls whether multiple overlapping or consecutive sessions for the same key should be merged into a single extended session. When set to `true`, if a new session starts before the previous one closes, Timeplus merges them into one continuous session.
+
+2. `include_session_end` — (Default: `true`)
+
+    Determines whether the event that triggers the session end should be included in the final session output. When set to `false`, the session end event itself will be excluded from the emitted session data.
+
+#### Examples
+
+Assume you have millions of network devices that go through a series of **state transitions** before establishing a connection. You want to analyze metrics such as **time-to-successful-connect** and **consecutive failures** for each device in real time.
 
 ```sql
-WITH grouped AS 
+CREATE STREAM IF NOT EXISTS devices
 (
-  SELECT
-      trace_id,
-      min(start_time) AS start_ts,
-      max(end_time) AS end_ts,
-      date_diff('ms', start_ts, end_ts) AS span_ms,
-      group_array(json_encode(span_id, parent_span_id, name, start_time, end_time, attributes)) AS trace_events
-  FROM otel_traces
-  SHUFFLE BY trace_id
-  GROUP BY trace_id
-  EMIT AFTER KEY EXPIRE IDENTIFIED BY end_time WITH ONLY MAXSPAN 500ms AND TIMEOUT 2s
+    `device` string,
+    `phase` string, -- 'assoc' -> 'auth' -> 'dhcp' -> 'dns' -> 'connection'
+    `status` string -- 'success', 'failed'
+);
+```
+
+In this schema:
+- `device` uniquely indentifies each device.
+- `phase` represents the current state in the connection workflow. The initial phase of a connection starts with `'assoc'` and ends with `'connection'` when successful. 
+- `status` indicates whether the transition was successful or failed.
+
+##### Example 1: Time-to-Successful-Connect 
+
+```sql
+-- Time to successful connect
+WITH connect_phase_events AS
+(
+    SELECT 
+      *, 
+      phase = 'assoc' AS session_start, -- defines the session start predicates 
+      phase = 'connection' AND status = 'success' AS session_end -- defines the session ends predicates
+    FROM 
+      devices 
+    WHERE phase IN ('assoc', 'auth', 'dhcp', 'dns', 'connection')
 )
-SELECT json_encode(trace_id, start_ts, end_ts, span_ms, trace_events) AS event 
-FROM grouped
-SETTINGS 
-  default_hash_table='hybrid', 
-  max_hot_keys=1000000;
+SELECT device,
+       count()                      AS events,
+       count_if(status = 'failed')  AS fails,
+       min(_tp_time)                AS session_start_ts,
+       max(_tp_time)                AS session_end_ts,
+       date_diff('ms', session_start_ts, session_end_ts) AS time_to_successful_connect_ms
+FROM connect_phase_events
+GROUP BY device
+EMIT AFTER SESSION CLOSE IDENTIFIED BY (_tp_time, session_start, session_end) WITH MAXSPAN 1s AND TIMEOUT 2s;
 ```
 
 **Explanation**:
+- `session_start` marks when a session begins (`phase = 'assoc'`).
+- `session_end` marks when the connection succeeds (`phase = 'connection' AND status = 'success'`) and hence session ends.
+- `IDENTIFIED BY (_tp_time, session_start, session_end)` controls when sessions open and close.
 
-- Tracks `trace_id` events with start/end times.
-- Emits results when:
-  - The span exceeds `MAXSPAN` (500 ms), or
-  - No new events arrive for `TIMEOUT` (2 s).
-- The `ONLY` modifier ensures only traces exceeding the span threshold (500ms) are emitted.
-- Expired keys are garbage-collected after emission.
+**Sample events**:
+```sql
+INSERT INTO devices (device, phase, status, _tp_time) VALUES 
+('dev1', 'assoc', 'success', '2025-01-01 00:00:00.000'),
+('dev1', 'auth', 'success', '2025-01-01 00:00:00.001'), 
+('dev1', 'dhcp', 'success', '2025-01-01 00:00:00.002'),
+('dev1', 'dns', 'success', '2025-01-01 00:00:00.003'),
+('dev1', 'connection', 'success', '2025-01-01 00:00:01.100');
+```
+
+**Output**:
+```
+┌─device─┬─events─┬─fails─┬────────session_start_ts─┬──────────session_end_ts─┬─time_to_successful_connect_ms─┐
+│ dev1   │      5 │     0 │ 2025-01-01 00:00:00.000 │ 2025-01-01 00:00:01.100 │                          1100 │
+└────────┴────────┴───────┴─────────────────────────┴─────────────────────────┴───────────────────────────────┘
+```
+
+##### Example 2: Handling Failures and Retries
+
+If a device retries failed phases, use `merge_open_sessions = true` to merge overlapping sessions.
+
+**Query**:
+```sql
+-- Time to successful connect
+WITH connect_phase_events AS
+(
+    SELECT 
+      *, 
+      phase = 'assoc' AS session_start, -- defines the session start predicates 
+      phase = 'connection' AND status = 'success' AS session_end -- defines the session ends predicates 
+    FROM 
+      devices 
+    WHERE phase IN ('assoc', 'auth', 'dhcp', 'dns', 'connection')
+)
+SELECT device,
+       count()                      AS events,
+       count_if(status = 'failed')  AS fails,
+       min(_tp_time)                AS session_start_ts,
+       max(_tp_time)                AS session_end_ts,
+       date_diff('ms', session_start_ts, session_end_ts) AS time_to_successful_connect_ms
+FROM connect_phase_events
+GROUP BY device
+EMIT AFTER SESSION CLOSE IDENTIFIED BY (_tp_time, session_start, session_end) WITH MAXSPAN 1s AND TIMEOUT 2s
+SETTINGS merge_open_sessions = true; -- Merge open sessions
+```
+
+**Sample Events**:
+```
+INSERT INTO devices (device, phase, status, _tp_time) VALUES 
+('dev1', 'assoc', 'failed', '2025-01-01 00:00:00.000'),
+('dev1', 'assoc', 'failed', '2025-01-01 00:00:00.201'),
+('dev1', 'assoc', 'success', '2025-01-01 00:00:00.302'),
+('dev1', 'auth', 'success', '2025-01-01 00:00:00.403'), 
+('dev1', 'dhcp', 'success', '2025-01-01 00:00:00.504'),
+('dev1', 'dns', 'success', '2025-01-01 00:00:00.805'),
+('dev1', 'connection', 'success', '2025-01-01 00:00:02.100');
+```
+
+**Output**:
+```
+┌─device─┬─events─┬─fails─┬────────session_start_ts─┬──────────session_end_ts─┬─time_to_successful_connect_ms─┐
+│ dev1   │      7 │     2 │ 2025-01-01 00:00:00.000 │ 2025-01-01 00:00:02.100 │                          2100 │
+└────────┴────────┴───────┴─────────────────────────┴─────────────────────────┴───────────────────────────────┘
+```
+
+Without `merge_open_sessions = true`, each `assoc` event will start a new session and the next `assoc` event will force close the previous session, so there will be multiple sessions emitted. 
+
+##### Example 3: Handling Out-of-Order Events
+
+If events arrive slightly out of order, you can use an `IDENTIFIED BY` variant to open sessions for any event from the same device.
+
+**Query**:
+```sql
+WITH connect_phase_events AS
+(
+    SELECT 
+      *, 
+      phase = 'connection' AND status = 'success' AS session_end -- defines the session ends predicates 
+    FROM 
+      devices 
+    WHERE phase IN ('assoc', 'auth', 'dhcp', 'dns', 'connection')
+)
+SELECT device,
+       count()                      AS events,
+       count_if(status = 'failed')  AS fails,
+       min(_tp_time)                AS session_start_ts,
+       max(_tp_time)                AS session_end_ts,
+       date_diff('ms', session_start_ts, session_end_ts) AS time_to_successful_connect_ms
+FROM connect_phase_events
+GROUP BY device
+EMIT AFTER SESSION CLOSE IDENTIFIED BY (_tp_time, true, session_end) WITH MAXSPAN 1s AND TIMEOUT 2s
+SETTINGS merge_open_sessions = true;
+```
+
+**Sample Events**:
+```sql
+-- out of order
+INSERT INTO devices (device, phase, status, _tp_time) VALUES 
+('dev1', 'auth', 'success', '2025-01-01 00:00:00.001'), 
+('dev1', 'dhcp', 'success', '2025-01-01 00:00:00.002'),
+('dev1', 'assoc', 'success', '2025-01-01 00:00:00.000'),
+('dev1', 'dns', 'success', '2025-01-01 00:00:00.003'),
+('dev1', 'connection', 'success', '2025-01-01 00:00:01.100');
+```
+
+**Output**:
+```
+┌─device─┬─events─┬─fails─┬────────session_start_ts─┬──────────session_end_ts─┬─time_to_successful_connect_ms─┐
+│ dev1   │      5 │     0 │ 2025-01-01 00:00:00.000 │ 2025-01-01 00:00:01.100 │                          1100 │
+└────────┴────────┴───────┴─────────────────────────┴─────────────────────────┴───────────────────────────────┘
+```
+
+Here, `IDENTIFIED BY (_tp_time, true, session_end)` means:
+- Any event for the device can open a session since `session_start` is `true`.
+- The session closes when the `session_end` condition is met.
+
+##### Example 4: Consecutive Failure Metrics
+
+To calculate **consecutive failures** per phase:
+1. A failure (`status = 'failed'`) starts a session.
+2. The session ends when a success (`status = 'success'`) occurs.
+3. Use `include_session_end = false` setting to exclude the successful event which ends the session from the count (the session).
+
+**Query**:
+```sql
+WITH connect_phase_events AS
+(
+    SELECT 
+      *,  
+      status = 'failed' AS session_start, -- defines session start predicates 
+      status = 'success' AS session_end -- defines session end predicates 
+    FROM 
+      devices 
+    WHERE phase IN ('assoc', 'auth', 'dhcp', 'dns', 'connection')
+)
+SELECT device,
+       phase,
+       count()                      AS consecutive_fails,
+       min(_tp_time)                AS session_start_ts,
+       max(_tp_time)                AS session_end_ts
+FROM connect_phase_events
+GROUP BY device, phase 
+EMIT AFTER SESSION CLOSE IDENTIFIED BY (_tp_time, session_start, session_end) WITH MAXSPAN 1s AND TIMEOUT 2s
+SETTINGS 
+  include_session_end = false, -- Exclude the session ends events from the session 
+  merge_open_sessions=true;
+```
+
+**Sample Events**:
+```
+INSERT INTO devices (device, phase, status, _tp_time) VALUES 
+('dev1', 'assoc', 'failed', '2025-01-01 00:00:00.000'),
+('dev1', 'assoc', 'failed', '2025-01-01 00:00:00.201'),
+('dev1', 'assoc', 'success', '2025-01-01 00:00:00.302'),
+('dev1', 'auth', 'success', '2025-01-01 00:00:00.403'), 
+('dev1', 'dhcp', 'failed', '2025-01-01 00:00:00.504'),
+('dev1', 'dhcp', 'success', '2025-01-01 00:00:00.604'),
+('dev1', 'dns', 'success', '2025-01-01 00:00:00.805'),
+('dev1', 'connection', 'success', '2025-01-01 00:00:02.100');
+``` 
+
+**Output**:
+```
+┌─device─┬─phase─┬─consecutive_fails─┬────────session_start_ts─┬──────────session_end_ts─┐
+│ dev1   │ assoc │                 2 │ 2025-01-01 00:00:00.000 │ 2025-01-01 00:00:00.201 │
+│ dev1   │ dhcp  │                 1 │ 2025-01-01 00:00:00.504 │ 2025-01-01 00:00:00.504 │
+└────────┴───────┴───────────────────┴─────────────────────────┴─────────────────────────┘
+```
 
 ### `EMIT PER EVENT`
 
