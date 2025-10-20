@@ -67,3 +67,7 @@ GROUP BY
 Currently, only **EMIT AFTER WINDOW CLOSE** is supported.
 
 The session window will emit results automatically once it is closed — that is, when any of the configured closing conditions are met.
+
+## Difference Between `EMIT AFTER SESSION CLOSE`
+
+[EMIT AFTER SESSION CLOSE](/global-aggregation#emit-after-session-close) usually provides significantly better performance and scalability for sessionization workloads.
