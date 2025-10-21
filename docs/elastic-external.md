@@ -1,8 +1,8 @@
-# Elastic Search 
+# Elasticsearch 
 
 Leveraging HTTP external stream, you can write data to Elastic Search or Open Search directly from Timeplus.
 
-## Write to OpenSearch / ElasticSearch {#example-write-to-es}
+## Write to OpenSearch / Elasticsearch {#example-write-to-es}
 
 Assuming you have created an index `students` in a deployment of OpenSearch or ElasticSearch, you can create the following external stream to write data to the index.
 
