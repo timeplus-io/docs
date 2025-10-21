@@ -1,7 +1,8 @@
-# Timeplus Enterprise 3.0 (Preview)
+# Timeplus Enterprise 3.0
 
 ## Key Highlights
-Key highlights of the Timeplus 3.0 preview release include:
+
+Key highlights of the Timeplus 3.0 release include:
 
 - **Zero Replication NativeLog** 
 
@@ -19,13 +20,17 @@ Key highlights of the Timeplus 3.0 preview release include:
 
   Similar to scheduled tasks, alerts can now run on any node, guided by resource utilization metrics, for improved elasticity and performance.
 
+- **Streaming Processing Enhancements** 
+
+  Lots of performance and function upgrades including more performant data shuffling, way better performant sessionization, high cardinality aggregation without worring about late events, hybrid hash table for the right join table etc. 
+
 - **Cluster Elastic and Stability** 
 
   Overall cluster elasticity and stability have been significantly enhanced in this release.
 
 - **Timeplus Console** 
 
-  The Console has been upgraded with better system metrics, state monitoring, and the data lineage, materialized view and cluster detailed status etc enhancements — delivering a much improved operational experience.
+  The Console has been upgraded with better system metrics, state monitoring, and the data lineage, Materialized View, internal execution DAG and cluster detailed status etc enhancements — delivering a much improved operational experience.
 
 - **Deprecate timeplus_web**
 
@@ -34,6 +39,40 @@ Key highlights of the Timeplus 3.0 preview release include:
 - **Deprecate kv_service** 
 
   Metadata management in `timeplus_appserver` now leverages Timeplus Mutable Stream, making the internal `kv_service` obsolete. It has been deprecated and removed in this release.
+
+Details:
+* Materialized View Enhancements
+  * Materialized View now supports checkpointing states in [shared storage](/materialized-view-checkpoint#zero-replication-checkpoint) (e.g S3). 
+  * High performant [sessionization](/global-aggregation#emit-after-session-close) support. 
+  * High performant and high cardinality aggregation with [aggregated state TTL](/global-aggregation#ttl-of-aggregation-keys) support. 
+  * Hybrid hash table implementation for right-hand side table in stream-table enrichment join. Saving memory overhead.
+  * Controlled data shuffle parallelism and efficiency via [`substreams`](/shuffle-data#control-the-fan-out) query settings. 
+
+* Task Enhancements. 
+
+  [Task](/task) can now be scheduled to any node in the cluster, providing significantly better scalability.
+
+* Alert Enhancements. 
+
+  [Alert](/alert) can now be scheduled to any node in the cluster, improving scalability and fault tolerance. 
+
+* Cluster Enhancements. 
+  * [Zero Replication NativeLog](/cluster#zero-replication-nativelog) is now supported, eliminating cross AZ replication cost and greatly improving ingest scalability and efficiency. 
+  * Materialized View, Alert, and Task scheduling and failover mechanisms have been significantly improved. 
+
+* Stream Enhancements
+  * Mutable stream has a more performant TTL implementation. 
+  * Mutable stream TTL now supports [user provided timestamp](/mutable-stream-ttl#retention-based-on-event-timestamp).
+  * [Rack-aware](/rack-aware-placements) data placement is now availabe for all native streams.
+
+* Python UDF Enhancements
+  * User can now manage third-party Python libraries via [`system`](/py-udf#python_libs) command. 
+
+* Timeplus Console Enhancements 
+  * Console now supports both light and dark mode with a simplied, refined UI. 
+  * Data Lineage page includes more metrics and improved usability.
+  * Cluster pages include additional metrics and improved layouts.
+  * Materialized View page shows more metrics like CPU utilization and the internal execution DAG and node metrics in the DAG.
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -44,6 +83,12 @@ Key highlights of the Timeplus 3.0 preview release include:
 
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
+
+### 3.0.2 (GA)
+Released on 10-20-2025. Installation options:
+...
+...
+...
 
 ### 3.0.1 (Preview 2) {#3_0_1-preview_2}
 Released on 09-25-2025. Installation options:
