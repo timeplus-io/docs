@@ -8,31 +8,31 @@ Key highlights of the Timeplus 3.0 release include:
 
   Users can easily start Timeplus BYOC stack now in AWS.
 
-- **Zero Replication NativeLog** 
+- **Zero Replication NativeLog**
 
   The Write-Ahead Log (`NativeLog`, a.k.a. Timeplus Streaming Store) now supports cloud object storage (e.g., S3) as its primary backend. This enables zero replication, multi-master writes, and very high throughput (several GB/s with batching). It also eliminates cross-AZ replication costs and reduces EBS-like IOPS/bandwidth expenses, making the cluster far more elastic and cost-efficient.
 
-- **Zero Replication Query State Checkpoint** 
+- **Zero Replication Query State Checkpoint**
 
   Materialized Views now support checkpointing query states directly to cloud object storage. Just like Zero Replication NativeLog, this dramatically improves elasticity and cost efficiency across the cluster.
 
-- **Scheduled Task Enhancements** 
+- **Scheduled Task Enhancements**
 
   Scheduled tasks can now be distributed across all nodes based on resource utilization metrics, enabling more balanced and elastic scheduling.
 
-- **Alert Enhancements** 
+- **Alert Enhancements**
 
   Similar to scheduled tasks, alerts can now run on any node, guided by resource utilization metrics, for improved elasticity and performance.
 
-- **Streaming Processing Enhancements** 
+- **Streaming Processing Enhancements**
 
-  Lots of performance and function upgrades including more performant data shuffling, way better performant sessionization, high cardinality aggregation without worring about late events, hybrid hash table for the right join table etc. 
+  Lots of performance and function upgrades including more performant data shuffling, way better performant sessionization, high cardinality aggregation without worring about late events, hybrid hash table for the right join table etc.
 
-- **Cluster Elastic and Stability** 
+- **Cluster Elastic and Stability**
 
   Overall cluster elasticity and stability have been significantly enhanced in this release.
 
-- **Timeplus Console** 
+- **Timeplus Console**
 
   The Console has been upgraded with better system metrics, state monitoring, and the data lineage, Materialized View, internal execution DAG and cluster detailed status etc enhancements — delivering a much improved operational experience.
 
@@ -40,7 +40,7 @@ Key highlights of the Timeplus 3.0 release include:
 
   The `timeplus_web` component has been removed, simplifying installation and operations. The new web stack is more compact, efficient, and performant.
 
-- **Deprecate kv_service** 
+- **Deprecate kv_service**
 
   Metadata management in `timeplus_appserver` now leverages Timeplus Mutable Stream, making the internal `kv_service` obsolete. It has been deprecated and removed in this release.
 
@@ -70,37 +70,37 @@ Component versions:
 
 #### Changelog {#changelog_3_0_1}
 
-* [BYOC](/byoc) is now supported. 
+* [BYOC](/byoc) is now supported.
 * Materialized View Enhancements
-  * Materialized View now supports checkpointing states in [shared storage](/materialized-view-checkpoint#zero-replication-checkpoint) (e.g S3). 
-  * High performant [sessionization](/global-aggregation#emit-after-session-close) support. 
-  * High performant and high cardinality aggregation with [aggregated state TTL](/global-aggregation#ttl-of-aggregation-keys) support. 
+  * Materialized View now supports checkpointing states in [shared storage](/materialized-view-checkpoint#zero-replication-checkpoint) (e.g S3).
+  * High performant [sessionization](/global-aggregation#emit-after-session-close) support.
+  * High performant and high cardinality aggregation with [aggregated state TTL](/global-aggregation#ttl-of-aggregation-keys) support.
   * Hybrid hash table implementation for right-hand side table in stream-table enrichment join. Saving memory overhead.
-  * Controlled data shuffle parallelism and efficiency via [`substreams`](/shuffle-data#control-the-fan-out) query settings. 
-  * [JIT](/jit) is now supported which greatly improve streaming query performance and efficiency.
+  * Controlled data shuffle parallelism and efficiency via [`substreams`](/shuffle-data#control-the-fan-out) query settings.
+  * [JIT](/jit) is now supported which greatly improves streaming query performance and efficiency.
 
-* Task Enhancements. 
+* Task Enhancements.
 
   [Task](/task) can now be scheduled to any node in the cluster, providing significantly better scalability.
 
-* Alert Enhancements. 
+* Alert Enhancements.
 
-  [Alert](/alert) can now be scheduled to any node in the cluster, improving scalability and fault tolerance. 
+  [Alert](/alert) can now be scheduled to any node in the cluster, improving scalability and fault tolerance.
 
-* Cluster Enhancements. 
-  * [Zero Replication NativeLog](/cluster#zero-replication-nativelog) is now supported, eliminating cross AZ replication cost and greatly improving ingest scalability and efficiency. 
-  * Materialized View, Alert, and Task scheduling and failover mechanisms have been significantly improved. 
+* Cluster Enhancements.
+  * [Zero Replication NativeLog](/cluster#zero-replication-nativelog) is now supported, eliminating cross AZ replication cost and greatly improving ingest scalability and efficiency.
+  * Materialized View, Alert, and Task scheduling and failover mechanisms have been significantly improved.
 
 * Stream Enhancements
-  * Mutable stream has a more performant TTL implementation. 
+  * Mutable stream has a more performant TTL implementation.
   * Mutable stream TTL now supports [user provided timestamp](/mutable-stream-ttl#retention-based-on-event-timestamp).
   * [Rack-aware](/rack-aware-placements) data placement is now availabe for all native streams.
 
 * Python UDF Enhancements
-  * User can now manage third-party Python libraries via [`system`](/py-udf#python_libs) command. 
+  * User can now manage third-party Python libraries via [`system`](/py-udf#python_libs) command.
 
-* Timeplus Console Enhancements 
-  * Console now supports both light and dark mode with a simplied, refined UI. 
+* Timeplus Console Enhancements
+  * Console now supports both light and dark mode with a simplied, refined UI.
   * Data Lineage page includes more metrics and improved usability.
   * Cluster pages include additional metrics and improved layouts.
   * Materialized View page shows more metrics like CPU utilization and the internal execution DAG and node metrics in the DAG.
