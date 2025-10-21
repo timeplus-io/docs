@@ -167,7 +167,7 @@ const sidebars = {
         },
         {
           type: "doc",
-          label: "Remote Timeplus",
+          label: "Timeplus",
           id: "timeplus-source",
         },
         {
@@ -434,12 +434,12 @@ const sidebars = {
         },
         {
            type: "doc",
-           label: "Elastic Search",
+           label: "Elasticsearch",
            id: "elastic-external",
         },
         {
            type: "doc",
-           label: "Big Query",
+           label: "BigQuery",
            id: "bigquery-external",
         },
         {
@@ -464,7 +464,7 @@ const sidebars = {
         // },
         {
           type: "doc",
-          label: "Remote Timeplus",
+          label: "Timeplus",
           id: "timeplus-sink",
         },
         {
