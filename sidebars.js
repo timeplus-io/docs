@@ -778,11 +778,8 @@ const sidebars = {
           ],
         },
         {
-          type: "category",
-          label: "Timeplus Bring Your Own Cloud (BYOC)",
-          items: [
-            "byoc"
-          ],
+          type: "doc",
+          id: "byoc",
         },
         {
           type: "doc",
