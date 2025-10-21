@@ -779,6 +779,10 @@ const sidebars = {
         },
         {
           type: "doc",
+          id: "byoc",
+        },
+        {
+          type: "doc",
           id: "server_config",
         },
         "proton-ports",
