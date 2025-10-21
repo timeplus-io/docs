@@ -171,7 +171,52 @@ $$;
 ```
 
 ## Manage Python Libraries {#python_libs}
-By default, Timeplus Enterprise ships a clean Python 3.10 environment, plus the following essential libraries:
+
+Starting from Proton/Timeplus Enterprise 3.0, manage Python UDF packages directly via SQL `SYSTEM` commands. This is the only supported flow on 3.0+. The 2.x methods below are not supported on 3.0.
+
+### Install/List/Uninstall via SQL (3.0+) {#install_sql}
+Examples:
+```sql
+-- Install latest
+SYSTEM INSTALL PYTHON PACKAGE 'requests';
+
+-- Install with version specifier (PEP 440)
+SYSTEM INSTALL PYTHON PACKAGE 'requests>2.0';
+SYSTEM INSTALL PYTHON PACKAGE 'requests==2.32.3';
+
+-- Alternative form with separate version literal
+SYSTEM INSTALL PYTHON PACKAGE 'requests' '2.32.3';
+
+-- List installed packages
+SYSTEM LIST PYTHON PACKAGES;
+
+-- Uninstall
+SYSTEM UNINSTALL PYTHON PACKAGE 'requests';
+```
+
+Notes:
+- Applies to Proton/Enterprise 3.0+ with Python UDF enabled (Python 3.10).
+- Cluster-wide operation; requires `SYSTEM RELOAD CONFIG` privilege.
+- `SYSTEM LIST PYTHON PACKAGES` returns columns `package_name`, `version`.
+- Install/uninstall runs asynchronously. Check status via `system.python_package_tasks`:
+  ```sql
+  SELECT status, error_code, error_message
+  FROM system.python_package_tasks
+  WHERE package_name='requests' AND operation='install'
+  ORDER BY created_at DESC LIMIT 1;
+  ```
+
+Permissions:
+- Built-in users in official Docker images (e.g., `default`, `proton`) typically have this privilege.
+- For a new user, grant it explicitly:
+  ```sql
+  GRANT SYSTEM RELOAD CONFIG ON *.* TO gen;
+  ```
+
+See more: /sql-system-python-packages
+
+### Built-in Libraries
+By default, Timeplus ships a clean Python 3.10 environment, plus the following essential libraries:
 
 ```json
 [
@@ -233,11 +278,15 @@ Follow the guide below to install extra Python libraries. The following librarie
 
 Some Python libraries may require additional dependencies or OS specific packages. Contact us if you need help.
 
-### Install Python Libraries {#install_lib}
-To install new Python libraries, you can either call the REST API of timeplusd in Timeplus Enterprise v2.7, or use the new `timeplusd python pip install` command-line tool introduced in Timeplus Enterprise v2.8.
+### Install Python Libraries (Legacy 2.x) {#install_lib}
+For Enterprise 2.x, you can either call the REST API (2.7+) or use `timeplusd python -m pip` (2.8+).
 
-#### Install via `timeplusd python pip` {#install_pip}
-Starting from Timeplus Enterprise v2.8, you can use the `timeplusd python pip install` command-line tool to install Python libraries. For example, to install the `numpy` library, you can use the following command:
+Important: These legacy methods are not supported on Proton/Enterprise 3.0. Use the SQL `SYSTEM` commands instead.
+
+#### Install via `timeplusd python pip` (2.8) {#install_pip}
+Only for Enterprise v2.8. Not available on 3.0+.
+
+In Enterprise v2.8, you can use the `timeplusd python -m pip` command-line tool to install Python libraries. For example, to install the `numpy` library:
 ```bash
 timeplusd python --config-file ../conf/timeplusd.yaml -m pip install --user numpy
 ```
@@ -247,9 +296,11 @@ For example, with the timeplusd docker image, you can use the following command:
 docker exec -it container_name timeplusd python --config-file /etc/timeplusd-server/config.yaml -m pip install --user pandas
 ```
 
-#### Install via REST API {#install_rest}
+#### Install via REST API (2.7+) {#install_rest}
 
-You can also call the REST API of timeplusd in Timeplus Enterprise v2.7 or above.
+Only for Enterprise v2.7–v2.8. Not available on 3.0+.
+
+You can call the REST API of timeplusd in Timeplus Enterprise v2.7+.
 
 :::info
 To access the REST API, you need to create an administrator account and set the HTTP headers `x-timeplus-user` and `x-timeplus-key` with the user and password, such as `curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" ..`.
@@ -265,14 +316,18 @@ If you need to install a specific version of a library, you can specify it in th
 curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" -X POST http://localhost:8123/timeplusd/v1/python_packages -d '{"packages": [{"name": "numpy", "version": "2.2.3"}]}'
 ```
 
-### List Python Libraries {#list_lib}
-To list the extra Python libraries installed in Timeplus Enterprise, you can use the following command:
+### List Python Libraries (2.x) {#list_lib}
+Only for Enterprise v2.7–v2.8. On 3.0+, use `SYSTEM LIST PYTHON PACKAGES`.
+
+To list the extra Python libraries installed in Enterprise 2.x, use the REST API:
 ```bash
 curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" http://localhost:8123/timeplusd/v1/python_packages
 ```
 
-### Delete Python Libraries {#delete_lib}
-To delete Python libraries, you can call the REST API of timeplusd in Timeplus Enterprise.
+### Delete Python Libraries (2.x) {#delete_lib}
+Only for Enterprise v2.7–v2.8. On 3.0+, use `SYSTEM UNINSTALL PYTHON PACKAGE`.
+
+To delete Python libraries in Enterprise 2.x, call the REST API:
 
 For example, if you want to delete the `numpy` library, you can use the following command:
 ```bash
@@ -280,9 +335,10 @@ curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" -X DELETE http://l
 ```
 
 ### Update Python Libraries {#update_lib}
-Currently we don't support updating Python libraries. You can delete the library and reinstall it with the desired version.
+There is no in-place update. Uninstall then install the desired version.
 
 ## Limitations
-- For Linux bare metal deployments, Glibc version 2.35 or higher is required.
-- Only Python 3.10 is supported. Contact us if you need to install a specific version.
-- Not all Python libraries can be installed in Timeplus Enterprise. Contact us if you need to install a specific library.
+- Linux deployments require Glibc 2.35+.
+- Python 3.10 only for the embedded runtime.
+- Some libraries may require OS/system dependencies.
+- On 3.0+, use SQL `SYSTEM` commands; on 2.x, use REST or `timeplusd python -m pip`.
