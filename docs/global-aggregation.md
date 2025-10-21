@@ -1,4 +1,4 @@
-# Global Aggregation 
+# Global Aggregation
 
 ## Overview
 
@@ -18,20 +18,27 @@ SELECT <grouping_keys>, <aggr_functions>
 FROM <stream_name>
 [WHERE <condition>]
 GROUP BY <col1>, <col2>, ...
-EMIT <emit_policies> 
+EMIT <emit_policies>;
 ```
 
 **Example**:
 ```sql
+CREATE STREAM device_metrics
+(
+    device string,
+    cpu_usage float,
+    event_time datetime64(3)
+);
+
 SELECT device, count(*)
-FROM device_utils
+FROM device_metrics
 WHERE cpu_usage > 99
 GROUP BY device
 EMIT PERIODIC 5s
 ```
 
 **Explanation**:
-- The query monitors new events from the stream `device_utils`.
+- The query monitors new events from the stream `device_metrics`.
 - It filters rows where `cpu_usage > 99`.
 - An **incremental count** is maintained per device.
 - Every **5 seconds**, the latest count per device is emitted to clients.
@@ -52,27 +59,27 @@ To handle this, Timeplus supports a **hybrid hash table** that combines in-memor
 **Example**:
 
 ```sql
-CREATE STREAM device_utils(
-    location string, 
-    device string, 
+CREATE STREAM device_metrics(
+    location string,
+    device string,
     cpu float32
 ) SETTINGS shards=3;
 
-SELECT 
+SELECT
     to_start_of_interval(_tp_time, 5m) AS bucket_window_start,
-    location, 
-    device, 
-    min(cpu), 
-    max(cpu), 
-    avg(cpu) 
-FROM device_utils 
-SHUFFLE BY location 
-GROUP BY bucket_window_start, location, device 
+    location,
+    device,
+    min(cpu),
+    max(cpu),
+    avg(cpu)
+FROM device_metrics
+SHUFFLE BY location
+GROUP BY bucket_window_start, location, device
 EMIT ON UPDATE WITH BATCH 1s
-SETTINGS 
-  substreams=8, 
-  default_hash_table='hybrid', 
-  max_hot_keys=100000, 
+SETTINGS
+  substreams=8,
+  default_hash_table='hybrid',
+  max_hot_keys=100000,
   aggregate_state_ttl_sec=3600;
 ```
 
@@ -119,7 +126,7 @@ EMIT PERIODIC <n><UNIT>
 **Example**:
 ```sql
 SELECT device, count(*)
-FROM device_utils
+FROM device_metrics
 WHERE cpu_usage > 99
 GROUP BY device
 EMIT PERIODIC 5s;
@@ -135,7 +142,7 @@ With the `REPEAT` modifier, Timeplus **emits at a fixed interval**, even when no
 **Example**:
 ```sql
 SELECT device, count(*)
-FROM device_utils
+FROM device_metrics
 WHERE cpu_usage > 99
 GROUP BY device
 EMIT PERIODIC 5s REPEAT
@@ -149,10 +156,10 @@ Emits intermediate results **immediately** when new events change any aggregatio
 
 ```sql
 SELECT device, count(*)
-FROM device_utils
+FROM device_metrics
 WHERE cpu_usage > 99
 GROUP BY device
-EMIT ON UPDATE; 
+EMIT ON UPDATE;
 ```
 
 Each time new events with `cpu_usage > 99` arrive, updated counts are emitted.
@@ -160,19 +167,19 @@ Each time new events with `cpu_usage > 99` arrive, updated counts are emitted.
 ### `EMIT ON UPDATE WITH BATCH`
 
 Combines **periodic emission** with **update-based** triggers.
-Timeplus checks the intermediate aggregation results at regular intervals and emits them if they have changed which can significally improve the emit efficiency and throughput compared with `EMIT ON UPDATE`. 
+Timeplus checks the intermediate aggregation results at regular intervals and emits them if they have changed which can significally improve the emit efficiency and throughput compared with `EMIT ON UPDATE`.
 
 ```sql
 SELECT device, count(*)
-FROM device_utils
+FROM device_metrics
 WHERE cpu_usage > 99
 GROUP BY device
-EMIT ON UPDATE WITH BATCH 1s; 
+EMIT ON UPDATE WITH BATCH 1s;
 ```
 
 This query checks for changes every second and emits results only when updates occur.
 
-### `EMIT AFTER SESSION CLOSE` 
+### `EMIT AFTER SESSION CLOSE`
 
 Designed for **sessionization**, **OpenTelemetry trace analysis** and other similar use cases where you need to track **session lifetimes** across high-cardinality datasets (e.g., trace spans).
 
@@ -181,9 +188,9 @@ This policy emits aggregation results once a session is considered **closed** or
 **Syntax**:
 
 ```sql
-EMIT AFTER SESSION CLOSE 
-  [IDENTIFIED BY (<ts_col>[, <session_start_col>, <session_end_col>])] 
-  WITH [ONLY] MAXSPAN <interval> 
+EMIT AFTER SESSION CLOSE
+  [IDENTIFIED BY (<ts_col>[, <session_start_col>, <session_end_col>])]
+  WITH [ONLY] MAXSPAN <interval>
   [AND TIMEOUT <interval>]
 ```
 
@@ -201,37 +208,37 @@ EMIT AFTER SESSION CLOSE
 
 Different configurations of `IDENTIFIED BY` allow flexible session control depending on the availability of start/end indicators:
 
-1. `IDENTIFIED BY ts_col`. 
+1. `IDENTIFIED BY ts_col`.
 
     No explicit session start or end signals.
     * A session closes when `MAXSPAN` or `TIMEOUT` is reached.
     * All events for the same session key are included.
 
-2. `IDENTIFIED BY (ts_col, session_start_col, session_end_col)`. 
+2. `IDENTIFIED BY (ts_col, session_start_col, session_end_col)`.
 
     Both start and end conditions are explicitly defined.
     * A session opens when `session_start_col = true`.
     * Events before an open session are ignored.
     * The session closes when `session_end_col = true`, or when `MAXSPAN` or `TIMEOUT` is reached.
 
-3. `IDENTIFIED BY (ts_col, session_start_col, false)`. 
+3. `IDENTIFIED BY (ts_col, session_start_col, false)`.
 
     Only a session start condition is defined.
     * A session opens when `session_start_col = true`.
     * Events before a session opens are ignored.
     * The session closes when `MAXSPAN` or `TIMEOUT` is reached.
 
-4. `IDENTIFIED BY (ts_col, true, session_end_col)`. 
+4. `IDENTIFIED BY (ts_col, true, session_end_col)`.
 
     Only a session end condition is defined.
     * A session opens when the first event is observed.
     * The session closes when `session_end_col = true`, or when `MAXSPAN` or `TIMEOUT` is reached.
 
-#### Session Fine-Tuning Settings 
+#### Session Fine-Tuning Settings
 
 Timeplus provides several query settings to fine-tune session behavior:
 
-1. `merge_open_sessions` — (Default: `false`). 
+1. `merge_open_sessions` — (Default: `false`).
 
     Controls whether multiple overlapping or consecutive sessions for the same key should be merged into a single extended session. When set to `true`, if a new session starts before the previous one closes, Timeplus merges them into one continuous session.
 
@@ -254,21 +261,21 @@ CREATE STREAM IF NOT EXISTS devices
 
 In this schema:
 - `device` uniquely indentifies each device.
-- `phase` represents the current state in the connection workflow. The initial phase of a connection starts with `'assoc'` and ends with `'connection'` when successful. 
+- `phase` represents the current state in the connection workflow. The initial phase of a connection starts with `'assoc'` and ends with `'connection'` when successful.
 - `status` indicates whether the transition was successful or failed.
 
-##### Example 1: Time-to-Successful-Connect 
+##### Example 1: Time-to-Successful-Connect
 
 ```sql
 -- Time to successful connect
 WITH connect_phase_events AS
 (
-    SELECT 
-      *, 
-      phase = 'assoc' AS session_start, -- defines the session start predicates 
+    SELECT
+      *,
+      phase = 'assoc' AS session_start, -- defines the session start predicates
       phase = 'connection' AND status = 'success' AS session_end -- defines the session ends predicates
-    FROM 
-      devices 
+    FROM
+      devices
     WHERE phase IN ('assoc', 'auth', 'dhcp', 'dns', 'connection')
 )
 SELECT device,
@@ -289,9 +296,9 @@ EMIT AFTER SESSION CLOSE IDENTIFIED BY (_tp_time, session_start, session_end) WI
 
 **Sample events**:
 ```sql
-INSERT INTO devices (device, phase, status, _tp_time) VALUES 
+INSERT INTO devices (device, phase, status, _tp_time) VALUES
 ('dev1', 'assoc', 'success', '2025-01-01 00:00:00.000'),
-('dev1', 'auth', 'success', '2025-01-01 00:00:00.001'), 
+('dev1', 'auth', 'success', '2025-01-01 00:00:00.001'),
 ('dev1', 'dhcp', 'success', '2025-01-01 00:00:00.002'),
 ('dev1', 'dns', 'success', '2025-01-01 00:00:00.003'),
 ('dev1', 'connection', 'success', '2025-01-01 00:00:01.100');
@@ -313,12 +320,12 @@ If a device retries failed phases, use `merge_open_sessions = true` to merge ove
 -- Time to successful connect
 WITH connect_phase_events AS
 (
-    SELECT 
-      *, 
-      phase = 'assoc' AS session_start, -- defines the session start predicates 
-      phase = 'connection' AND status = 'success' AS session_end -- defines the session ends predicates 
-    FROM 
-      devices 
+    SELECT
+      *,
+      phase = 'assoc' AS session_start, -- defines the session start predicates
+      phase = 'connection' AND status = 'success' AS session_end -- defines the session ends predicates
+    FROM
+      devices
     WHERE phase IN ('assoc', 'auth', 'dhcp', 'dns', 'connection')
 )
 SELECT device,
@@ -335,11 +342,11 @@ SETTINGS merge_open_sessions = true; -- Merge open sessions
 
 **Sample Events**:
 ```
-INSERT INTO devices (device, phase, status, _tp_time) VALUES 
+INSERT INTO devices (device, phase, status, _tp_time) VALUES
 ('dev1', 'assoc', 'failed', '2025-01-01 00:00:00.000'),
 ('dev1', 'assoc', 'failed', '2025-01-01 00:00:00.201'),
 ('dev1', 'assoc', 'success', '2025-01-01 00:00:00.302'),
-('dev1', 'auth', 'success', '2025-01-01 00:00:00.403'), 
+('dev1', 'auth', 'success', '2025-01-01 00:00:00.403'),
 ('dev1', 'dhcp', 'success', '2025-01-01 00:00:00.504'),
 ('dev1', 'dns', 'success', '2025-01-01 00:00:00.805'),
 ('dev1', 'connection', 'success', '2025-01-01 00:00:02.100');
@@ -352,7 +359,7 @@ INSERT INTO devices (device, phase, status, _tp_time) VALUES
 └────────┴────────┴───────┴─────────────────────────┴─────────────────────────┴───────────────────────────────┘
 ```
 
-Without `merge_open_sessions = true`, each `assoc` event will start a new session and the next `assoc` event will force close the previous session, so there will be multiple sessions emitted. 
+Without `merge_open_sessions = true`, each `assoc` event will start a new session and the next `assoc` event will force close the previous session, so there will be multiple sessions emitted.
 
 ##### Example 3: Handling Out-of-Order Events
 
@@ -362,11 +369,11 @@ If events arrive slightly out of order, you can use an `IDENTIFIED BY` variant t
 ```sql
 WITH connect_phase_events AS
 (
-    SELECT 
-      *, 
-      phase = 'connection' AND status = 'success' AS session_end -- defines the session ends predicates 
-    FROM 
-      devices 
+    SELECT
+      *,
+      phase = 'connection' AND status = 'success' AS session_end -- defines the session ends predicates
+    FROM
+      devices
     WHERE phase IN ('assoc', 'auth', 'dhcp', 'dns', 'connection')
 )
 SELECT device,
@@ -384,8 +391,8 @@ SETTINGS merge_open_sessions = true;
 **Sample Events**:
 ```sql
 -- out of order
-INSERT INTO devices (device, phase, status, _tp_time) VALUES 
-('dev1', 'auth', 'success', '2025-01-01 00:00:00.001'), 
+INSERT INTO devices (device, phase, status, _tp_time) VALUES
+('dev1', 'auth', 'success', '2025-01-01 00:00:00.001'),
 ('dev1', 'dhcp', 'success', '2025-01-01 00:00:00.002'),
 ('dev1', 'assoc', 'success', '2025-01-01 00:00:00.000'),
 ('dev1', 'dns', 'success', '2025-01-01 00:00:00.003'),
@@ -414,12 +421,12 @@ To calculate **consecutive failures** per phase:
 ```sql
 WITH connect_phase_events AS
 (
-    SELECT 
-      *,  
-      status = 'failed' AS session_start, -- defines session start predicates 
-      status = 'success' AS session_end -- defines session end predicates 
-    FROM 
-      devices 
+    SELECT
+      *,
+      status = 'failed' AS session_start, -- defines session start predicates
+      status = 'success' AS session_end -- defines session end predicates
+    FROM
+      devices
     WHERE phase IN ('assoc', 'auth', 'dhcp', 'dns', 'connection')
 )
 SELECT device,
@@ -428,25 +435,25 @@ SELECT device,
        min(_tp_time)                AS session_start_ts,
        max(_tp_time)                AS session_end_ts
 FROM connect_phase_events
-GROUP BY device, phase 
+GROUP BY device, phase
 EMIT AFTER SESSION CLOSE IDENTIFIED BY (_tp_time, session_start, session_end) WITH MAXSPAN 1s AND TIMEOUT 2s
-SETTINGS 
-  include_session_end = false, -- Exclude the session ends events from the session 
+SETTINGS
+  include_session_end = false, -- Exclude the session ends events from the session
   merge_open_sessions=true;
 ```
 
 **Sample Events**:
 ```
-INSERT INTO devices (device, phase, status, _tp_time) VALUES 
+INSERT INTO devices (device, phase, status, _tp_time) VALUES
 ('dev1', 'assoc', 'failed', '2025-01-01 00:00:00.000'),
 ('dev1', 'assoc', 'failed', '2025-01-01 00:00:00.201'),
 ('dev1', 'assoc', 'success', '2025-01-01 00:00:00.302'),
-('dev1', 'auth', 'success', '2025-01-01 00:00:00.403'), 
+('dev1', 'auth', 'success', '2025-01-01 00:00:00.403'),
 ('dev1', 'dhcp', 'failed', '2025-01-01 00:00:00.504'),
 ('dev1', 'dhcp', 'success', '2025-01-01 00:00:00.604'),
 ('dev1', 'dns', 'success', '2025-01-01 00:00:00.805'),
 ('dev1', 'connection', 'success', '2025-01-01 00:00:02.100');
-``` 
+```
 
 **Output**:
 ```
@@ -463,11 +470,63 @@ This policy is mainly for debugging or low-volume streams, as it can produce ver
 
 **Example**:
 ```sql
-SELECT count() 
+SELECT count()
 FROM market_data
-EMIT PER EVENT; 
+EMIT PER EVENT;
 ```
 Each new event triggers an immediate emission of the updated count:
 `1, 2, 3, 4, 5, …`
 
 Use this mode carefully in high-throughput environments.
+
+### `EMIT CHANGELOG`
+
+The `EMIT CHANGELOG` clause enables Timeplus to emit **cancellation records (deltas)** for previously emitted results when the underlying data changes.
+
+Each changelog event represents either:
+- A **new result**, or
+- A **cancellation** (retraction) of a previous result for the same grouping key or joined output.
+
+This mechanism allows downstream systems — such as **Timeplus Materialized Views** — to maintain an up-to-date and consistent view of dynamic data without reprocessing full result sets or having duplicate counting.
+
+**Example**:
+
+```sql
+SELECT device, count(), max(cpu_usage), _tp_delta
+FROM device_metrics
+GROUP BY device
+EMIT CHANGELOG;
+```
+
+**Sample Events**
+
+```sql
+insert into device_metrics(device, cpu_usage) values ('dev1', 57.8);
+select sleep(1) FORMAT Null;
+insert into device_metrics(device, cpu_usage) values ('dev1', 50.9);
+```
+
+**Output**:
+```
+┌─device─┬─count()─┬─max(cpu_usage)─┬─_tp_delta─┐
+│ dev1   │       1 │           57.8 │         1 │
+└────────┴─────────┴────────────────┴───────────┘
+┌─device─┬─count()─┬─max(cpu_usage)─┬─_tp_delta─┐
+│ dev1   │       1 │           57.8 │        -1 │
+└────────┴─────────┴────────────────┴───────────┘
+┌─device─┬─count()─┬─max(cpu_usage)─┬─_tp_delta─┐
+│ dev1   │       2 │           57.8 │         1 │
+└────────┴─────────┴────────────────┴───────────┘
+```
+
+**Explanation**:
+- The **first record** (`_tp_delta = 1`) represents the initial aggregation result for `dev1`.
+- When a new event for `dev1` arrives, the previously emitted result becomes outdated. Timeplus emits a cancellation record (_tp_delta = -1) to retract the old result.
+- Finally, a **new record** (`_tp_delta = 1`) is emitted with the updated aggregation result.
+
+This ensures that downstream consumers (such as materialized views or connectors) can maintain **accurate and consistent state** by applying deltas .
+
+**Notes**
+- `_tp_delta = 1` → **insert / new result**
+- `_tp_delta = -1` → **delete / cancel previous result**
+- Changelog semantics apply to both **aggregations** and **joins**, ensuring correctness when intermediate results evolve.
