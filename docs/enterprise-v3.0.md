@@ -44,7 +44,32 @@ Key highlights of the Timeplus 3.0 release include:
 
   Metadata management in `timeplus_appserver` now leverages Timeplus Mutable Stream, making the internal `kv_service` obsolete. It has been deprecated and removed in this release.
 
-Details:
+
+## Supported OS {#os}
+|Deployment Type| OS |
+|--|--|
+|Linux bare metal| x64 or ARM chips: Ubuntu 20.04+, RHEL 8+, Fedora 35+, Amazon Linux 2023|
+|Mac bare metal| Intel or Apple chips: macOS 14, macOS 15|
+|Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
+
+## Releases
+We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
+
+### 3.0.1 {#3_0_1}
+Released on 10-20-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_0_1)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.0.1`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v10.0.7`
+
+Component versions:
+* timeplusd 3.0.1
+* timeplus_appserver 3.0.21
+* timeplus_connector 3.0.21
+* timeplus cli 3.0.0
+* timeplus byoc 1.0.0
+
+#### Changelog {#changelog_3_0_1}
+
 * [BYOC](/byoc) is now supported. 
 * Materialized View Enhancements
   * Materialized View now supports checkpointing states in [shared storage](/materialized-view-checkpoint#zero-replication-checkpoint) (e.g S3). 
@@ -52,6 +77,7 @@ Details:
   * High performant and high cardinality aggregation with [aggregated state TTL](/global-aggregation#ttl-of-aggregation-keys) support. 
   * Hybrid hash table implementation for right-hand side table in stream-table enrichment join. Saving memory overhead.
   * Controlled data shuffle parallelism and efficiency via [`substreams`](/shuffle-data#control-the-fan-out) query settings. 
+  * [JIT](/jit) is now supported which greatly improve streaming query performance and efficiency.
 
 * Task Enhancements. 
 
@@ -81,29 +107,6 @@ Details:
 
 * DevEx
   * [dbt](https://github.com/timeplus-io/dbt-timeplus) integration is now updated and refined
-
-## Supported OS {#os}
-|Deployment Type| OS |
-|--|--|
-|Linux bare metal| x64 or ARM chips: Ubuntu 20.04+, RHEL 8+, Fedora 35+, Amazon Linux 2023|
-|Mac bare metal| Intel or Apple chips: macOS 14, macOS 15|
-|Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
-
-## Releases
-We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
-
-### 3.0.1 {#3_0_1}
-Released on 10-20-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_0_1)
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.0.1`
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v10.0.7`
-
-Component versions:
-* timeplusd 3.0.1
-* timeplus_appserver 3.0.21
-* timeplus_connector 3.0.21
-* timeplus cli 3.0.0
-* timeplus byoc 1.0.0
 
 ### 3.0.1 (Preview 2) {#3_0_1-preview_2}
 Released on 09-25-2025. Installation options:
