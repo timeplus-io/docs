@@ -4,6 +4,10 @@
 
 Key highlights of the Timeplus 3.0 release include:
 
+- **BYOC** Offering
+
+  Users can easily start Timeplus BYOC stack now in AWS.
+
 - **Zero Replication NativeLog** 
 
   The Write-Ahead Log (`NativeLog`, a.k.a. Timeplus Streaming Store) now supports cloud object storage (e.g., S3) as its primary backend. This enables zero replication, multi-master writes, and very high throughput (several GB/s with batching). It also eliminates cross-AZ replication costs and reduces EBS-like IOPS/bandwidth expenses, making the cluster far more elastic and cost-efficient.
@@ -41,6 +45,7 @@ Key highlights of the Timeplus 3.0 release include:
   Metadata management in `timeplus_appserver` now leverages Timeplus Mutable Stream, making the internal `kv_service` obsolete. It has been deprecated and removed in this release.
 
 Details:
+* [BYOC](/byoc) is now supported. 
 * Materialized View Enhancements
   * Materialized View now supports checkpointing states in [shared storage](/materialized-view-checkpoint#zero-replication-checkpoint) (e.g S3). 
   * High performant [sessionization](/global-aggregation#emit-after-session-close) support. 
