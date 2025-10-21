@@ -267,6 +267,11 @@ const sidebars = {
         },
         {
           type: "doc",
+          id: "partition-data",
+          label: "Partition Data"
+        },
+        {
+          type: "doc",
           id: "jit",
           label: "Just-In-Time Compilation"
         },
