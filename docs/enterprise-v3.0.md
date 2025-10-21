@@ -74,6 +74,9 @@ Details:
   * Cluster pages include additional metrics and improved layouts.
   * Materialized View page shows more metrics like CPU utilization and the internal execution DAG and node metrics in the DAG.
 
+* DevEx
+  * [dbt](https://github.com/timeplus-io/dbt-timeplus) integration is now updated and refined
+
 ## Supported OS {#os}
 |Deployment Type| OS |
 |--|--|
