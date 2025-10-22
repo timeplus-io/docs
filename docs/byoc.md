@@ -6,6 +6,10 @@ The Timeplus BYOC (Bring Your Own Cloud) CLI tool enables you to deploy and mana
 
 ## Deployment Architecture
 
+The Timeplus BYOC (Bring Your Own Cloud) architecture enables customers to run Timeplus workloads entirely within their own AWS infrastructure for complete data sovereignty and security. The deployment consists of a Timeplus BYOC Cluster containing multiple Timeplus Nodes that operate within the customer's VPC, leveraging AWS services including EC2 for compute, EBS for storage, EKS for Kubernetes orchestration, and IAM for access management. All data processing and storage remain within the customer's cloud environment, ensuring that sensitive data never leaves their infrastructure boundaries. The planned control path connection to Timeplus-managed services for Management, Telemetry, and Troubleshooting capabilities, which is currently on the roadmap and under implementation to provide additional operational support while maintaining the data isolation that the BYOC model provides. 
+
+![BYOC architecture](/img/byoc_architecture_overview.png)
+
 By default, a duo-availability zone EKS cluster will be created as follows: the EKS Nodegroup resides in a single AZ to reduce cross-AZ network costs, while the EKS control plane remains distributed across both AZs.
 
 ![BYOC architecture with single-az nodegroup](/img/byoc_architecture_single_az_white.png)
@@ -79,6 +83,8 @@ Refer to the following document about AWS Service Limits:
 - [https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html)
 
 ## Quick Start
+
+the BYOC cli `timeplus_byoc` can be found in the Timeplus enterprise release packages under `timeplus/bin` directory.
 
 ### Step 1: Initialize Configuration
 
