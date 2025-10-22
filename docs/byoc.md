@@ -84,7 +84,7 @@ Refer to the following document about AWS Service Limits:
 
 ## Quick Start
 
-the BYOC cli `timeplus_byoc` can be found in the Timeplus enterprise release packages under `timeplus/bin` directory.
+the BYOC cli `timeplus_byoc` can be found in the Timeplus enterprise release package (refer to [Deploy on Bare Metal](https://docs.timeplus.com/bare-metal-install) ) under `timeplus/bin` directory.
 
 ### Step 1: Initialize Configuration
 
