@@ -38,7 +38,7 @@ SETTINGS
 - **user** (string, default: `'default'`) - Username for PostgreSQL authentication.
 - **password** (string, default: `''`) - Password for PostgreSQL authentication.
 - **database** (string, default: `'default'`) - PostgreSQL database name.
-- **table** (string, default: <external table name>) - PostgreSQL table name. If you omit the table name, it will use the name of the external table.
+- **table** (string, default: external table name) - PostgreSQL table name. If you omit the table name, it will use the name of the external table.
 - **schema** (string, default: `''`) - Non-default table schema.
 - **on_conflict** (string, default: `''`) - Conflict resolution strategy for INSERT operations. Example: `ON CONFLICT DO NOTHING`, `ON CONFLICT <conflict_target> DO UPDATE SET column = EXCLUDED.column`, etc. ([PostgreSQL INSERT](https://www.postgresql.org/docs/current/sql-insert.html))
 - **pooled_connections** (uint64, default: `16`) - Connection pool size for PostgreSQL.
