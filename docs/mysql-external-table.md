@@ -45,7 +45,7 @@ SETTINGS
 - **on_duplicate_clause** (string, default: `''`) - The `ON DUPLICATE KEY on_duplicate_clause` expression that is added to the `INSERT` query. Can be specified only with `replace_query=false`. Example: `UPDATE c=c+1`. See the [MySQL documentation](https://dev.mysql.com/doc/refman/8.4/en/insert-on-duplicate.html) to find which on_duplicate_clause you can use with the ON DUPLICATE KEY clause.
 - **pooled_connections** (uint64, default: `16`) - Maximum pooled TCP connections.
 
-#### Configuration Management Settings
+### Configuration Management Settings
 
 - **config_file** (string, default: `''`) - Path to configuration file containing `key=value` pairs
 - **named_collection** (string, default: `''`) - Name of pre-defined named collection configuration
