@@ -404,9 +404,9 @@ const sidebars = {
           ],
         },
         {
+          type: "doc",
+          id: "dictionary", 
           label: "Dictionary",
-          type: "link",
-          href: "https://docs.timeplus.com/sql-create-dictionary",
         },
         {
           type: "doc",
@@ -544,7 +544,11 @@ const sidebars = {
               href: "https://docs.timeplus.com/alert",
             },
             "sql-create-database",
-            "sql-create-dictionary",
+            {
+              label: "CREATE DICTIONARY",
+              type: "link",
+              href: "https://docs.timeplus.com/dictionary",
+            },
             "sql-create-disk",
             "sql-create-external-stream",
             "sql-create-external-table",
