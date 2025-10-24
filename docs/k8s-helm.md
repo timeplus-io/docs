@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 # Deploy on Kubernetes with Helm
 
-You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://helm.sh/).
+You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://helm.sh/). The source code of the chart can be find in our [github repo](https://github.com/timeplus-io/helm-charts/tree/main/charts/timeplus-enterprise).
 
 For visual learning, you can watch the following video:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/kFyzYx1JI_8?si=WVszQMuFyW6Xcixm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -36,8 +36,8 @@ A sample output would be:
 
 ```bash
 NAME                        	CHART VERSION	APP VERSION	DESCRIPTION
-timeplus/timeplus-enterprise	v6.0.4       	2.7.1      	Helm chart for deploying a cluster of Timeplus ...
-timeplus/timeplus-enterprise	v6.0.3       	2.7.0      	Helm chart for deploying a cluster of Timeplus ...
+timeplus/timeplus-enterprise	v10.0.7      	3.0.1          	Helm chart for deploying a cluster of Timeplus ...
+timeplus/timeplus-enterprise	v7.0.25      	2.8.4          	Helm chart for deploying a cluster of Timeplus ...
 ```
 
 ### Create Namespace
@@ -111,7 +111,7 @@ In this step, we install the helm chart using release name `timeplus`.
 
 ```bash
 export RELEASE=timeplus
-export VERSION=v7.0.4 # or the latest version you want to install
+export VERSION=v10.0.7 # or the latest version you want to install
 helm -n $NS install -f values.yaml $RELEASE timeplus/timeplus-enterprise --version $VERSION
 ```
 
@@ -135,13 +135,12 @@ NAME                                  READY   STATUS    RESTARTS   AGE
 timeplus-appserver-6f9ddfb5b-4rs98    1/1     Running     0          13m
 timeplus-connector-796ff45cb4-4bj6r   1/1     Running     0          13m
 timeplus-provision-2wnxj              0/1     Completed   0          12m
-timeplus-web-58cf6765d9-glq4l         1/1     Running     0          13m
 timeplusd-0                           1/1     Running     0          13m
 timeplusd-1                           1/1     Running     0          13m
 timeplusd-2                           1/1     Running     0          13m
 ```
 
-If any of the pod is in error status, you can try to use `kubectl describe pod <error pod> -n $NS` to debug. For more details, please refer to [Troubleshooting](#troubleshooting) section. Starting from Timeplus Enterprise 2.9, the `timeplus-web` pod is no longer available.
+If any of the pod is in error status, you can try to use `kubectl describe pod <error pod> -n $NS` to debug. For more details, please refer to [Troubleshooting](#troubleshooting) section.
 
 
 ### Expose the Timeplus Console
@@ -490,6 +489,7 @@ There are a lot of other configurations available to customize the deployment. S
 |-----|------|---------|-------------|
 | global.affinity | object | `{}` | This is the global affinity settings. Once set, it will be applied to every single component. If you'd like to set affinity for each component, you can set `affinity` under component name. For example you can use `timeplusd.affinity` to control the affinity of timeplusd Refer to https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/ |
 | global.imagePullPolicy | string | `"IfNotPresent"` | This setting is available for each component as well. |
+| global.imagePullSecrets | list | `[]` | This applies to all pods |
 | global.imageRegistry | string | `"docker.timeplus.com"` | This setting is available for each component as well. |
 | global.nodeSelector | object | `{}` | See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector |
 | global.pvcDeleteOnStsDelete | bool | `false` | Only valid with k8s >= 1.27.0. Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention |
@@ -503,14 +503,16 @@ There are a lot of other configurations available to customize the deployment. S
 | prometheus_metrics.enabled | bool | `false` |  |
 | prometheus_metrics.remote_write_endpoint | string | `"http://timeplus-prometheus:80"` |  |
 | prometheus_metrics.vector.image | string | `"timberio/vector"` |  |
-| provision.dashboards | bool | `true` | Monitoring dashboards |
-| provision.enabled | bool | `true` | Provision job will ONLY be run once after the first installation if it is enabled. A Job will be created to provision default resources such as users, licenses, and etc. This Job shares the same configurations (e.g. resource limit) as `timeplusCli` below. Disable it during installation and re-enable it later won't work. |
+| provision.enabled | bool | `false` | Provision job will ONLY be run once after the first installation if it is enabled. A Job will be created to provision default resources such as licenses. This Job shares the same configurations (e.g. resource limit) as `timeplusCli` below. Disable it during installation and re-enable it later won't work. |
 | timeplusAppserver.configs | object | `{}` | Configurations for appserver. e.g. `enable-authentication: true`. See https://docs.timeplus.com/server_config#appserver |
-| timeplusAppserver.enabled | bool | `true` | Timeplus web, Timeplus connector will not work properly if Timeplus appserver is not enabled. |
+| timeplusAppserver.enabled | bool | `true` |  |
+| timeplusAppserver.enabledAIService | bool | `false` |  |
 | timeplusAppserver.extraContainers | list | `[]` | Extra containers that to be run together with the main container. |
 | timeplusAppserver.extraVolumes | list | `[]` | Extra volumes that to be mounted |
 | timeplusAppserver.image | string | `"timeplus/timeplus-appserver"` |  |
-| timeplusAppserver.metastoreType | string | `"stream"` |  |
+| timeplusAppserver.service.clusterIP | string | `nil` |  |
+| timeplusAppserver.service.nodePort | string | `nil` |  |
+| timeplusAppserver.service.type | string | `"ClusterIP"` |  |
 | timeplusCli.enabled | bool | `false` |  |
 | timeplusCli.image | string | `"timeplus/timeplus-cli"` |  |
 | timeplusConnector.configMap | object | `{"logger":{"add_timestamp":true,"file":{"path":"/timeplus/connector-server.log","rotate":true,"rotate_max_age_days":1},"level":"INFO"}}` | With this default config map, the logs will be written to local ephemeral volume. You can set configMap to be `null` and the logs will be written to stdout. However, you will not be able to view logs of the source and sink on UI if it is `null`. |
@@ -518,9 +520,8 @@ There are a lot of other configurations available to customize the deployment. S
 | timeplusConnector.extraContainers | list | `[]` | Extra containers that to be run together with the main container. |
 | timeplusConnector.extraVolumes | list | `[]` | Extra volumes that to be mounted |
 | timeplusConnector.image | string | `"timeplus/timeplus-connector"` |  |
-| timeplusWeb.enabled | bool | `true` |  |
-| timeplusWeb.image | string | `"timeplus/timeplus-web"` |  |
 | timeplusd.computeNode | object | `{"config":{},"replicas":0,"resources":{"limits":{"cpu":"32","memory":"60Gi"},"requests":{"cpu":"2","memory":"4Gi"}}}` | Compute node |
+| timeplusd.computeNode.config | object | `{}` | Configurations for timeplusd compute node. See https://docs.timeplus.com/server_config#timeplusd |
 | timeplusd.config | object | `{}` | Configurations for timeplusd. See https://docs.timeplus.com/server_config#timeplusd |
 | timeplusd.defaultAdminPassword | string | `"timeplusd@t+"` | Timeplus appserver will use this username and password to connect to timeplusd to perform some administration operations such as user management. |
 | timeplusd.enableCoreDump | bool | `false` |  |
@@ -533,6 +534,7 @@ There are a lot of other configurations available to customize the deployment. S
 | timeplusd.image | string | `"timeplus/timeplusd"` |  |
 | timeplusd.initJob.image | string | `"timeplus/boson"` |  |
 | timeplusd.livenessProbe | object | `{"failureThreshold":20,"httpGet":{"path":"/timeplusd/ping","port":"http-streaming","scheme":"HTTP"},"initialDelaySeconds":30,"periodSeconds":30,"successThreshold":1,"timeoutSeconds":1}` | K8s liveness probe for timeplusd. Please refer to https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
+| timeplusd.metadataNodeQuorum | string | `nil` |  |
 | timeplusd.replicas | int | `3` | A typical deployment contains 1, 3, or 5 replicas. The max number of Metadata node is 3. If you specify more than 3 replicas, the first 3 will always be Metadata and Data node and the rest of them will be Data node only. |
 | timeplusd.resources | object | `{"limits":{"cpu":"32","memory":"60Gi"},"requests":{"cpu":"2","memory":"4Gi"}}` | Make sure at least 2 cores are assigned to each timeplusd |
 | timeplusd.service.clusterIP | string | `nil` | Set clusterIP to be `None` to create a headless service. |
@@ -546,6 +548,14 @@ There are a lot of other configurations available to customize the deployment. S
 | timeplusd.storage.stream | object | `{"className":"local-storage","metastoreSubPath":"./","nativelogSubPath":"./","selector":{"matchLabels":{"app":"timeplusd-data-stream"}},"size":"100Gi"}` | PV settings for streaming storage. |
 
 ## Upgrade guide
+
+### v7 to v10
+:::info
+[Timeplus Enterprise 2.8](/enterprise-v2.8)'s helm chart versions are v7.0.x.
+[Timeplus Enterprise 3.0](/enterprise-v3.0)'s helm chart versions are v10.0.x.
+:::
+
+`kv_service` is completely removed in Timeplus Enterprise 3.0. Please make sure you have followed the `v6 to v7` guide in the next section to migrate it.
 
 ### v6 to v7
 :::info
