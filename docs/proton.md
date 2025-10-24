@@ -14,6 +14,7 @@ Timeplus Proton is a stream processing engine and database. It is fast and light
 See our [architecture](/architecture) doc for technical details and our [FAQ](/proton-faq) for more information.
 
 ## How is it different from ClickHouse?
+
 ClickHouse is an extremely performant Data Warehouse built for fast analytical queries on large amounts of data. While it does support ingesting data from streaming sources such as Apache Kafka, it is itself not a stream processing engine which can transform and join streaming event data based on time-based semantics to detect patterns that need to be acted upon as soon as it happens. ClickHouse also has incremental materialized view capability but is limited to creating materialized view off of ingestion of blocks to a single table.
 
 Timeplus Proton uses ClickHouse as a table store engine inside of each stream (alongside a Write Ahead Log and other data structures) and uses to unify real-time and historical data together to detect signals in the data. In addition, Timeplus Proton can act as an advanced data pre-processor for ClickHouse (and similar systems) where the bulk of the data preparation and batching is done ahead of ingestion. See [Timeplus and ClickHouse](https://www.timeplus.com/timeplus-and-clickhouse) for more details on this.
@@ -23,6 +24,10 @@ Timeplus Proton uses ClickHouse as a table store engine inside of each stream (a
 <iframe width="560" height="315" src="https://www.youtube.com/embed/vi4Yl6L4_Dw?si=1Ina4LHf9CP6PqO3&amp;start=283" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## ⚡ Deployment
+
+There are multiple ways to install Proton.
+
+### Linux or Mac
 
 Proton can be installed as a single binary on Linux or Mac, via:
 
@@ -43,7 +48,7 @@ brew tap timeplus-io/timeplus
 brew install proton
 ```
 
-You can also install Proton in Docker, Docker Compose or Kubernetes.
+### Docker and Docker Compose
 
 ```bash
 docker run -d --pull always -p 8123:8123 -p 8463:8463 --name proton d.timeplus.com/timeplus-io/proton:latest
@@ -53,11 +58,74 @@ Please check [Server Ports](/proton-ports) to determine which ports to expose, s
 
 The [Docker Compose stack](https://github.com/timeplus-io/proton/tree/develop/examples/ecommerce) demonstrates how to read/write data in Kafka/Redpanda with external streams.
 
-### Timeplus Cloud Demo
+### Kubernetes
 
-Don't want to setup by yourself? Try Timeplus in [Cloud](https://demo.timeplus.cloud/).
+The easiest way to deploy Proton on Kubernetes is via Helm package manager.
 
-### 🔎 Usage
+1. Add the Helm repository
+
+Run the following commands to add the Timeplus Helm repo and list the available charts:
+
+```bash
+helm repo add timeplus https://install.timeplus.com/charts
+helm repo update
+helm search repo timeplus -l
+```
+
+You should see the `timeplus/timeplus-proton` chart in the list:
+
+```bash
+NAME                        	CHART VERSION	APP VERSION
+timeplus/timeplus-enterprise	v10.0.7      	3.0.1
+...
+timeplus/timeplus-proton    	v1.0.0       	3.0.3
+```
+
+2. Prepare your `values.yaml`
+   Below is a minimal configuration example you can use to get started. For a full list of available options, see the [Helm chart repo](https://github.com/timeplus-io/helm-charts/tree/main/charts/timeplus-proton).
+
+```yaml
+resources:
+  limits:
+    cpu: '4'
+    memory: '8Gi'
+  requests:
+    cpu: '2'
+    memory: 4Gi
+
+storage:
+  className: <Your storage class name>
+  size: 100Gi
+  selector: null
+```
+
+3. Install Proton using Helm
+
+```bash
+export NS=timeplus
+export RELEASE=proton
+export VERSION=v1.0.0 # or the latest version you want to install
+
+kubectl create ns $NS
+helm -n $NS install -f values.yaml $RELEASE timeplus/timeplus-proton --version $VERSION
+```
+
+4. Verify the deployment
+
+```bash
+# Wait for the Proton pod to start up (this may take a few minutes depending on your cluster):
+kubectl -n $NS get pods -w
+
+# Once the pod is running, you can port-forward the service to access Proton locally:
+kubectl -n $NS port-forward service/proton-svc 3218
+
+# In another terminal, verify that Proton is responding:
+>curl localhost:3218/proton/info
+```
+
+If the command returns build information, Proton has been successfully deployed 🎉.
+
+## 🔎 Usage
 
 SQL is the main interface. You can start a new terminal window with `proton client` to start the SQL shell.
 
@@ -94,7 +162,7 @@ You should see data like the following:
 └─────────┴─────────┴──────────────────┴──────────────────┘
 ```
 
-### ⏩ What's next?
+## ⏩ What's next?
 
 To see more examples of using Timeplus Proton, check out the [examples](https://github.com/timeplus-io/proton/tree/develop/examples) folder.
 
