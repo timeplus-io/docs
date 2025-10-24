@@ -1,10 +1,12 @@
 # Enrichment Join
 
-**Enrichment Join** enriches a live data stream with reference data from a **static right-hand side dataset**. It is designed for use cases where the right-hand side data is **unchanging** or needs to represent a **point-in-time snapshot**.
+**Enrichment Join** enriches a live data stream with reference data from a **static right-hand side dataset**. It is designed for scenarios where the right-hand side data is **unchanging** or represents a **point-in-time snapshot**.
 
-In this join type, **events from the left stream** trigger the join — each incoming event probes the **static hash table** built from the right-hand side dataset like the following diagram depicts. So it only supports `LEFT` and `INNER` join.
+In this join type, **events from the left-hand stream** trigger the join. Each incoming event probes a **static hash table** that is pre-built from the right-hand side dataset — as illustrated in the diagram below.
 
-![EnrichmentJoinAll](/img/enrichment-join-all.svg)
+Because the right-hand side data remains static, only `LEFT` and `INNER` joins are supported.
+
+![StaticEnrichmentJoinAll](/img/static-enrichment-join.svg)
 
 
 ## Syntax
