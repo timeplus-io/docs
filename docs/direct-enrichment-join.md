@@ -20,6 +20,10 @@ Unlike other enrichment joins, the **right-hand side hash table** is not explici
 You can join directly with a remote transactional system such as MySQL or PostgreSQL without local caching.
 The right-hand side is defined as a dictionary that connects to the external database, and the join uses on-demand lookups via `join_algorithm='direct'`.
 
+The following diagram illustrates this behavior:
+
+![DynamicEnrichmentJoinDirect](/img/direct-enrichment-join-mutable.svg)
+
 **Example**:
 ```sql
 CREATE DICTIONARY mysql_products_dict_direct(
@@ -65,6 +69,10 @@ SETTINGS join_algorithm = 'direct';
 In this mode, the right-hand side is a Timeplus Mutable Stream (with a primary key or secondary indexes).
 The join happens directly without explicitly building an in-memory hash table.
 
+The following diagram illustrates this behavior:
+
+![DynamicEnrichmentJoinDirectMutable](/img/direct-enrichment-join-mutable.svg)
+
 **Example**:
 
 ```sql
@@ -97,6 +105,10 @@ SETTINGS join_algorithm = 'direct';
 
 You can provide a **cache layer** for Dictionary to speed up the direct join. There are several cache strategies, please refer to [Dictionary](/dictionary) for details. 
 
+The following diagram illustrates this behavior:
+
+![DynamicEnrichmentJoinDirectCache](/img/direct-enrichment-join-cache.svg)
+
 Here is one example by using Timeplus Mutable stream as the cache layer for remote MySQL table.
 
 **Example**:
@@ -125,13 +137,13 @@ SOURCE(MYSQL(
     PASSWORD 'my'
     BG_RECONNECT true
 ))
-LAYOUT(mutable_cache(
+LAYOUT(MUTABLE_CACHE(
     db 'default'
     stream 'mysql_mutable_cache'
     update_from_source false
 ));
 
--- Direct join using mutable cache
+-- Direct join using mutable stream as the cache
 SELECT *
 FROM orders
 JOIN mysql_products_dict_mutable AS products
@@ -140,8 +152,31 @@ SETTINGS join_algorithm = 'direct';
 ```
 
 **Explanation**:
-- Timeplus first checks the **local mutable cache** (mysql_mutable_cache).
+- Timeplus first checks the **local mutable cache** (`mysql_mutable_cache`).
 - If all required keys are found locally, the join completes **without querying** the remote MySQL database.
 - For any missing keys, Timeplus **fetches them from MySQL**, merges the results, and **updates the local Mutable Stream** with the newly fetched entries.
 - Each key stored in the Mutable Stream has a **1-hour TTL** — once expired, it becomes eligible for garbage collection.
 - This hybrid model provides an optimal balance between **speed** (through local caching) and **freshness** (via on-demand remote lookups).
+
+Similarly, here’s an example using a **Hybrid Hash Table** as the cache layer for a Dictionary — combining **high performance** and **memory efficiency** in a single solution.
+
+```sql
+CREATE DICTIONARY mysql_products_dict_hybrid(
+    id string,
+    name string,
+    created_at datetime64(3)
+)
+PRIMARY KEY id
+SOURCE(MYSQL(
+    DB 'test'
+    TABLE 'products'
+    HOST '127.0.0.1'
+    PORT 3306
+    USER 'root'
+    PASSWORD 'my'
+    BG_RECONNECT true
+))
+LAYOUT(
+    HYBRID_HASH_CACHE( -- Use Hyrid Hash Table as the cache layer
+        TTL 3600 PATH 'hybrid_hash_dict_cache' max_hot_key_count 10000));
+```
