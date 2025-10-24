@@ -221,9 +221,39 @@ const sidebars = {
           ]
         },
         {
-          type: "doc",
-          id: "streaming-joins",
-          label: "Streaming Joins"
+          type: "category",
+          label: "Streaming Joins",
+          // link: {
+          //   type: "doc",
+          //   id: "streaming-joins",
+          // }
+          items: [
+            {
+              type: "doc",
+              id: "enrichment-join",
+              label: "Enrichment Join",
+            },
+            {
+              type: "doc",
+              id: "dynamic-enrichment-join",
+              label: "Dynamic Enrichment Join",
+            },
+            {
+              type: "doc",
+              id: "direct-enrichment-join",
+              label: "Direct Enrichement Join",
+            },
+            {
+              type: "doc",
+              id: "bidirectional-join",
+              label: "Bidirectional Join",
+            },
+            {
+              type: "doc",
+              id: "bidirectional-range-join",
+              label: "Bidirectional Range Join",
+            },
+          ]
         },
         {
           type: "category",
@@ -232,7 +262,7 @@ const sidebars = {
           //   type: "doc",
           //   id: "streaming-aggregations",
           // },
-          items : [
+          items: [
             {
               type: "doc",
               id: "global-aggregation",
