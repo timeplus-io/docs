@@ -222,11 +222,6 @@ const sidebars = {
         },
         {
           type: "doc",
-          id: "task",
-          label: "Scheduled Task",
-        },
-        {
-          type: "doc",
           id: "streaming-joins",
           label: "Streaming Joins"
         },
@@ -279,6 +274,11 @@ const sidebars = {
           type: "doc",
           id: "view",
           label: "View",
+        },
+        {
+          type: "doc",
+          id: "task",
+          label: "Scheduled Task",
         },
       ]
     },
@@ -826,8 +826,7 @@ const sidebars = {
           label: "Older 2.x Releases",
           items: ["enterprise-v2.4", "enterprise-v2.3"],
         },
-        "v2-release-notes",
-        "release-downloads",
+        // "v2-release-notes",
         {
           type: "category",
           label: "Older Releases",
@@ -839,6 +838,7 @@ const sidebars = {
             "private-beta-1",
           ],
         },
+        "release-downloads",
       ],
     },
   ],
