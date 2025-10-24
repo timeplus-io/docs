@@ -32,6 +32,28 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.5 (Public GA) {#2_8_5}
+Released on 10-24-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_5)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.26 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.5`
+
+Component versions:
+* timeplusd 2.8.30
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.12
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+
+#### Changelog {#changelog_2_8_5}
+Compared to the [2.8.4](#2_8_4) release:
+* timeplusd 2.8.29 -> 2.8.30
+  * New features, enhancements
+    *   Support auto increment column for coalesced mutable stream
+    *   Support PostgreSQL upsert via on_conflict setting
+  * Bugfixes
+    *   Fixed issue of aws credentials crash
+
 ### 2.8.4 (Public GA) {#2_8_4}
 Released on 09-23-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_4)
