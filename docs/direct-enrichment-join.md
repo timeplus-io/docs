@@ -22,7 +22,7 @@ The right-hand side is defined as a dictionary that connects to the external dat
 
 The following diagram illustrates this behavior:
 
-![DynamicEnrichmentJoinDirect](/img/direct-enrichment-join-mutable.svg)
+![DynamicEnrichmentJoinDirect](/img/direct-enrichment-join.svg)
 
 **Example**:
 ```sql
