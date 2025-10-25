@@ -17,7 +17,7 @@
 SELECT
     *
 FROM left_stream [LEFT | RIGHT | INNER | FULL] JOIN right_stream
-ON ...
+ON left_stream.key = right_stream.key
 ```
 
 ## Bidirectional Join with Data Mutation
