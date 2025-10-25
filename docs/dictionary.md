@@ -562,10 +562,6 @@ Then you can query the dictionary with the `dict_get` function:
 
 ```sql
 SELECT dict_get('dict_pg_table','desc','192.168.1.1');
-```
-
-## Limitations
-* Creating a dictionary from PostgreSQL is not supported.
 
 ## See also
 * [SHOW DICTIONARIES](/sql-show-dictionaries) - Show dictionaries
