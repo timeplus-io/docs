@@ -1,1 +1,3 @@
 # Bidirectional Range Join
+
+**Bidirectional Join** allows two streams to be joined bidirectionally — i.e., rows from both the **left** and **right** streams are buffered and joined against each other so that matches produced by either side are emitted. This is different from typical enrichment joins (where only the left stream probes a mostly-static RHS). Bidirectional joins are useful for exploratory queries, historical+real-time consistency checks, and scenarios where both sides evolve and you need to materialize the full cross-match over time.
