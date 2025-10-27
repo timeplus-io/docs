@@ -45,7 +45,7 @@ MPU (micro processing unit) is the Timeplus usage unit for usage based pricing. 
 
 ### Bring your own license (BYOL)
 
-When `pricingModel` is configured as `byol`, use can install Timeplus enterprice license by himself. Refer to this [doc](https://docs.timeplus.com/server_config#license) for how to manage license.
+When `pricingModel` is configured as `byol`, use can install Timeplus Enterprice by own license. Refer to this [doc](https://docs.timeplus.com/server_config#license) for how to manage license.
 
 
 ## Prerequisites
