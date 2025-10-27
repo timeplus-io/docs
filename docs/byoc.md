@@ -30,21 +30,22 @@ User has two options of pricing model:
 
 When `pricingModel` is configured as `aws_usage_based`, Timeplus BYOC deployment will call [AWS Marketplace metering API](https://docs.aws.amazon.com/marketplace/latest/APIReference/API_marketplace-metering_MeterUsage.html) to report usage every hour. The MPU metrics is defined as the total number of cores deployed for Timeplus at the collect time.
 
+Use helm version `10.0.8` or higher is required.
+
 #### MPU Sizing Guide
 
-MPU (micro processing unit) is the Timeplus usage unit for usage based pricing. Related EC2 instance type will be used according to the minial MPU size.
+MPU (micro processing unit) is the Timeplus usage unit for usage based pricing. Related EC2 instance type will be used for EKS nodes according to the minial MPU size.
 
 | MPU Size | CPU Cores | Memory | Recommended For |
 | :---- | :---- | :---- | :---- |
-| 2 MPU | 2 | 8 GB | Development, testing, small workloads |
-| 4 MPU | 4 | 16 GB | Production, moderate workloads |
-| 8 MPU | 8 | 32 GB | Production, high-throughput workloads |
-| 16 MPU | 16 | 64 GB | Production, large workloads |
+| 4 MPU | 4 | 16 GB | Development, testing, small workloads |
+| 8 MPU | 8 | 32 GB | Production, small workloads |
+| 16 MPU | 16 | 64 GB | Production, normal workloads |
+| 32 MPU | 32 | 128 GB | Production, large workloads |
 
 ### Bring your own license (BYOL)
 
 When `pricingModel` is configured as `byol`, use can install Timeplus enterprice license by himself. Refer to this [doc](https://docs.timeplus.com/server_config#license) for how to manage license.
-
 
 
 ## Prerequisites
@@ -402,9 +403,15 @@ As EKS cluster autoscaler is installed, the node will be automatically provision
 
 ### Deploy on existing Subnet
 
-User can manually update the `eks-stack.yaml` to depend on existing subnet to create the EKS on existing subnet. 
+User can manually update the [`eks-stack.yaml`](https://gist.github.com/gangtao/57720fe5d48f7577af042c281ddb6cb5) to depend on existing subnet to create the EKS on existing subnet. 
 
-Contact our [support](mailto:support@timeplus.com) for more information.
+Replace following default values with acutally Subnet information: 
+
+- VpcId
+- PublicSubnet1Id
+- PublicSubnet2Id
+- PrivateSubnet1Id
+
 
 ## Cleanup and Deletion
 
