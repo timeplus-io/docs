@@ -18,6 +18,35 @@ Alternatively, users can enable two AZ for nodegroup.
 
 ![BYOC architecture with multi-az nodegroup](/img/byoc_architecture_white.png)
 
+## Pricing Model and License Management
+
+User has two options of pricing model:
+
+- Bring your own license (BYOL)
+- AWS usage based
+
+
+### AWS Usage Based
+
+When `pricingModel` is configured as `aws_usage_based`, Timeplus BYOC deployment will call [AWS Marketplace metering API](https://docs.aws.amazon.com/marketplace/latest/APIReference/API_marketplace-metering_MeterUsage.html) to report usage every hour. The MPU metrics is defined as the total number of cores deployed for Timeplus at the collect time.
+
+#### MPU Sizing Guide
+
+MPU (micro processing unit) is the Timeplus usage unit for usage based pricing. Related EC2 instance type will be used according to the minial MPU size.
+
+| MPU Size | CPU Cores | Memory | Recommended For |
+| :---- | :---- | :---- | :---- |
+| 2 MPU | 2 | 8 GB | Development, testing, small workloads |
+| 4 MPU | 4 | 16 GB | Production, moderate workloads |
+| 8 MPU | 8 | 32 GB | Production, high-throughput workloads |
+| 16 MPU | 16 | 64 GB | Production, large workloads |
+
+### Bring your own license (BYOL)
+
+When `pricingModel` is configured as `byol`, use can install Timeplus enterprice license by himself. Refer to this [doc](https://docs.timeplus.com/server_config#license) for how to manage license.
+
+
+
 ## Prerequisites
 
 ### Required Tools
@@ -358,6 +387,25 @@ Redeploy:
 timeplus_byoc --config timeplus-stack-{cluster-name}
 ```
 
+### Scale EKS Nodes
+
+By default, a 4 nodes EKS cluster will be created, use can update related configuration in cluster.yaml to change this.
+
+```yaml
+minNodes: 4
+maxNodes: 10
+desiredNodes: 4
+```
+
+As EKS cluster autoscaler is installed, the node will be automatically provisioned when the workloads increases and exceeds the current capability.  User can set the maxNodes to have an upper limits of how many nodes can be automatically provisioned.
+
+
+### Deploy on existing Subnet
+
+User can manually update the `eks-stack.yaml` to depend on existing subnet to create the EKS on existing subnet. 
+
+Contact our [support](mailto:support@timeplus.com) for more information.
+
 ## Cleanup and Deletion
 
 ### Delete Entire Deployment
@@ -417,8 +465,11 @@ clusterName: {cluster-name}
 # AWS region
 region: us-east-1
 
+# Pricing Model
+pricingModel: byol # support aws_usage_based or byol
+
 # Helm chart version
-helmChartVersion: 8.0.8
+helmChartVersion: 10.0.7
 
 # Node configuration
 nodeInstanceType: m5.xlarge
@@ -472,15 +523,6 @@ helmChartPath: ""
 # Optional: Custom Helm values file
 customerHelmValuesFile: ""
 ```
-
-### MPU Sizing Guide
-
-| MPU Size | CPU Cores | Memory | Recommended For |
-| :---- | :---- | :---- | :---- |
-| 2 MPU | 2 | 8 GB | Development, testing, small workloads |
-| 4 MPU | 4 | 16 GB | Production, moderate workloads |
-| 8 MPU | 8 | 32 GB | Production, high-throughput workloads |
-| 16 MPU | 16 | 64 GB | Production, very large workloads |
 
 ## Best Practices
 
@@ -550,8 +592,3 @@ Users can use AWS EBS backup mechanism to backup/restore the persistent vol of E
 - [Use Kubernetes volume snapshots with EBS CSI](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) AWS’s EKS documentation for the EBS CSI driver covers how to enable snapshot capability in EKS using VolumeSnapshotClass / CSI snapshot controller  
 - [AWS Blog: Using EBS snapshots for persistent storage with EKS](https://aws.amazon.com/blogs/containers/using-amazon-ebs-snapshots-for-persistent-storage-with-your-amazon-eks-cluster-by-leveraging-add-ons/) Describes using CSI snapshot features to capture point-in-time copies of EBS volumes.
 
-### Manage admin user credentials
-
-## License Management
-
-Refer this [doc](https://docs.timeplus.com/server_config#license) for how to manage license with BYOL (bring your own license) mode
