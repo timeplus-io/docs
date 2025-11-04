@@ -1,101 +1,136 @@
-## Overview 
+## Overview
 
-[Apache Iceberg](https://iceberg.apache.org/) is an open table format for large-scale analytic datasets, designed for high performance and reliability. It provides an open, vendor-neutral solution that supports multiple engines, making it ideal for various analytics workloads. Initially, the Iceberg ecosystem was primarily built around Java, but with the increasing adoption of the REST catalog specification, Timeplus is among the first vendors to integrate with Iceberg purely in C++. This allows Timeplus users to stream data to Iceberg with a high performance, low memory footprint, and easy installation without relying on Java dependencies.
+Timeplus natively supports the [Apache Iceberg](https://iceberg.apache.org/) open table format — a high-performance, reliable storage format for large-scale analytics. This integration allows Timeplus users to **stream data directly to Iceberg** and **query Iceberg tables efficiently**, all implemented purely in **C++**, without any Java dependencies.
 
-Since Timeplus Proton 1.7(to be released soon) and [Timeplus Enterprise 2.8](/enterprise-v2.8), we provide native support for Apache Iceberg as a new database type. This allows you to read and write data using the Apache Iceberg open table format, with support for the Iceberg REST Catalog (IRC). In the initial release, we focused on writing data to Iceberg, with basic query optimization for reading data from Iceberg. The integration with Amazon S3, [AWS Glue's Iceberg REST endpoint](https://docs.aws.amazon.com/glue/latest/dg/connect-glu-iceberg-rest.html) and [the Apache Gravitino Iceberg REST Server](https://gravitino.apache.org/docs/0.8.0-incubating/iceberg-rest-service) are validated. More REST catalog implementations are planned.
+### Supported Catalogs and Storage
 
-## Key Benefits for Timeplus Iceberg Integration
+The Iceberg REST Catalog integration works with common cloud and open-source backends, including:
 
-- Using Timeplus materialized views, users can continuously process and transform streaming data (from Apache Kafka for example) and write to the cost-effective object storage in Apache Iceberg open table format.
-- Apache Iceberg's open table format ensures you're never locked into a single vendor or query engine
-- Query your Iceberg tables with multiple engines including Timeplus, Apache Spark, Apache Flink, ClickHouse, DuckDB, and AWS Athena
-- Future-proof your data architecture with broad industry support and an active open-source community
+- **Amazon S3** for object storage  
+- **AWS Glue Iceberg REST endpoint**  
+- **[Apache Gravitino REST Server](https://gravitino.apache.org/docs/0.8.0-incubating/iceberg-rest-service)**  
 
-## Create Iceberg Database {#syntax}
+### Key Features
 
-To create an Iceberg database in Timeplus, use the following syntax:
+| Feature | Description |
+|----------|--------------|
+| **Native C++ Integration** | Fully implemented in C++ — no Java runtime required. |
+| **REST Catalog Support** | Works with any Iceberg REST Catalog implementation. |
+| **Stream-to-Iceberg Writes** | Continuously write streaming data into Iceberg tables. |
+| **Direct Reads from Iceberg** | Query Iceberg tables natively using Timeplus SQL. |
+| **Cloud Ready** | Optimized for S3 and compatible object storage systems. |
+
+:::info
+Data compaction is **not yet supported** in the current Timeplus Iceberg integration.
+:::
+
+## Create an Iceberg Database
+
+You can create an **Iceberg database** in Timeplus using the `CREATE DATABASE` statement with the `type='iceberg'` setting.
+
+### Syntax
 
 ```sql
 CREATE DATABASE <database_name>
 SETTINGS
-          type='iceberg',
-          catalog_uri='<catalog_uri>',
-          catalog_type='rest',
-          warehouse='<warehouse_path>',
-          storage_endpoint='<s3_endpoint>',
-          rest_catalog_sigv4_enabled=<true|false>,
-          rest_catalog_signing_region='<region>',
-          rest_catalog_signing_name='<service_name>',
-          use_environment_credentials=<true|false>,
-          credential='<username:password>',
-          catalog_credential='<username:password>',
-          storage_credential='<username:password>';
+    type = 'iceberg',
+    catalog_uri = '<catalog_uri>',
+    catalog_type = 'rest',
+    warehouse = '<warehouse_path>',
+    storage_endpoint = '<s3_endpoint>',
+    rest_catalog_sigv4_enabled = <true|false>,
+    rest_catalog_signing_region = '<region>',
+    rest_catalog_signing_name = '<service_name>',
+    use_environment_credentials = <true|false>,
+    credential = '<username:password>',
+    catalog_credential = '<username:password>',
+    storage_credential = '<username:password>';
 ```
 
-### DDL Settings {#settings}
+### Settings
 
-- `type` – Specifies the type of the database. Be sure to use `iceberg` for Iceberg tables.
-- `catalog_uri` – Specifies the URI of the Iceberg catalog.
-- `catalog_type` – Specifies the catalog type. Currently, only `rest` is supported in Timeplus.
-- `warehouse` – The Iceberg warehouse identifier where the table data is stored.
-- `storage_endpoint` – The S3-compatible endpoint where the data is stored. For AWS S3, use `https://bucketname.s3.region.amazonaws.com`.
-- `rest_catalog_sigv4_enabled` – Enables AWS SigV4 authentication for secure catalog communication.
-- `rest_catalog_signing_region` – AWS region used for signing the catalog requests.
-- `rest_catalog_signing_name` – The service name used in AWS SigV4 signing.
-- `use_environment_credentials` – Default to true, Timeplus will use environment-based credentials, useful for cases where Timeplus runs in an AWS EC2 instance with an assigned IAM role, or AWS credentials in environment variables as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. Setting this to false if you are using local minio or public S3 bucket.
-- `credential` – A unified credential (username:password format) that applies to both catalog and storage if they share the same authentication (e.g. AWS access key and secret key).
-- `catalog_credential` – If the catalog requires a separate credential, specify it here.
-- `storage_credential` – If the storage (e.g. S3) requires a different credential, specify it separately.
+- `type` — Must be set to `'iceberg'` to indicate an Iceberg database.
+- `catalog_uri` — The URI of the Iceberg catalog (e.g., AWS Glue, Gravitino, or another REST catalog endpoint).
+- `catalog_type` — Specifies the catalog type. Currently, only `'rest'` is supported in Timeplus.
+- `warehouse` — The path or identifier of the Iceberg warehouse where table data is stored (e.g., an S3 path).
+- `storage_endpoint` — The S3-compatible endpoint where data files are stored. For AWS S3, use `https://<bucket>.s3.<region>.amazonaws.com`.
+- `rest_catalog_sigv4_enabled` — Enables [AWS SigV4](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) authentication for secure catalog communication.
+- `rest_catalog_signing_region` — The AWS region used for SigV4 signing (e.g., `us-west-2`).
+- `rest_catalog_signing_name` — The service name used in SigV4 signing (typically `glue` or `s3`).
+- `use_environment_credentials` — Defaults to `true`. When enabled, Timeplus uses environment-based credentials such as IAM roles or environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`). Set this to `false` when using local MinIO or a public S3 bucket.
+- `credential` — A unified credential in `username:password` format (for example, AWS access key and secret key). Used for both catalog and storage if they share the same authentication.
+- `catalog_credential` — Optional. Use when the catalog requires credentials different from the storage layer.
+- `storage_credential` — Optional. Use when the storage backend (e.g., S3 or MinIO) requires separate credentials.
 
-### Example: AWS Glue REST Catalog {#example_glue}
+### Example: AWS Glue REST Catalog
 
 ```sql
 CREATE DATABASE demo
-SETTINGS  type='iceberg',
-          catalog_uri='https://glue.us-west-2.amazonaws.com/iceberg',
-          catalog_type='rest',
-          warehouse='(aws-12-id)',
-          storage_endpoint='https://the-bucket.s3.us-west-2.amazonaws.com',
-          rest_catalog_sigv4_enabled=true,
-          rest_catalog_signing_region='us-west-2',
-          rest_catalog_signing_name='glue';
+SETTINGS
+    type='iceberg',
+    catalog_type='rest',
+    catalog_uri='https://glue.us-west-2.amazonaws.com/iceberg',
+    warehouse='aws-12-id',
+    storage_endpoint='https://the-bucket.s3.us-west-2.amazonaws.com',
+    rest_catalog_sigv4_enabled=true,
+    rest_catalog_signing_region='us-west-2',
+    rest_catalog_signing_name='glue';
 ```
 
-### Example: AWS S3 Table REST Catalog {#example_s3table}
+**Explanation**:
+- This example connects Timeplus to an **AWS Glue REST-based Iceberg catalog**.
+- `rest_catalog_sigv4_enabled=true` ensures secure communication using AWS SigV4 signing.
+- The `warehouse` value identifies the Iceberg warehouse managed by Glue.
+- The `storage_endpoint` points to the S3 bucket where the Iceberg table data resides.
+
+### Example: AWS S3 Table REST Catalog
 
 ```sql
 CREATE DATABASE demo
-SETTINGS  type='iceberg',
-          catalog_uri='https://glue.us-west-2.amazonaws.com/iceberg',
-          catalog_type='rest',
-          warehouse='(aws-12-id):s3tablescatalog/(bucket-name)',
-          rest_catalog_sigv4_enabled=true,
-          rest_catalog_signing_region='us-west-2',
-          rest_catalog_signing_name='glue';
+SETTINGS
+    type='iceberg',
+    catalog_type='rest',
+    catalog_uri='https://glue.us-west-2.amazonaws.com/iceberg',
+    warehouse='aws-12-id:s3tablescatalog/bucket-name',
+    rest_catalog_sigv4_enabled=true,
+    rest_catalog_signing_region='us-west-2',
+    rest_catalog_signing_name='glue';
 ```
 
-If you want to create new Iceberg tables from Timeplus, you can also set `storage_credential` to `'https://s3tables.us-west-2.amazonaws.com/(bucket-name)'`.
+**Explanation**:
+- This example configures an **AWS S3 Table REST Catalog** for Iceberg in Timeplus.
+- The warehouse setting specifies the Glue catalog and S3 bucket location.
+- `rest_catalog_sigv4_enabled=true` enables secure communication with AWS using SigV4 signing.
+- To **create new Iceberg tables** directly from Timeplus, you can also set: `storage_credential='https://s3tables.us-west-2.amazonaws.com/bucket-name';`
 
-### Example: Apache Gravitino REST Catalog {#example_gravitino}
+### Example: AWS S3 Table REST Catalog
 
 ```sql
 CREATE DATABASE demo
-SETTINGS  type='iceberg',
-          catalog_uri='http://127.0.0.1:9001/iceberg/',
-          catalog_type='rest',
-          warehouse='s3://mybucket/demo/gravitino1',
-          storage_endpoint='https://the-bucket.s3.us-west-2.amazonaws.com';
+SETTINGS
+    type='iceberg',
+    catalog_type='rest',
+    catalog_uri='http://127.0.0.1:9001/iceberg/',
+    warehouse='s3://mybucket/demo/gravitino1',
+    storage_endpoint='https://the-bucket.s3.us-west-2.amazonaws.com';
 ```
 
-#### Gravitino Configuration
-Here is the sample configuration for Gravitino Iceberg REST Server 0.9.0:
+**Explanation**:
+- This example connects Timeplus to an **Apache Gravitino Iceberg REST Catalog**.
+- The `catalog_uri` points to the running Gravitino REST service.
+- The `warehouse` specifies the S3 path where Iceberg tables are stored.
+- The `storage_endpoint` defines the S3-compatible storage endpoint.
+
+**Sample Gravitino Configuration**
+
+Below is an example configuration file for Gravitino Iceberg REST Server 0.9.0:
 
 ```properties
 # conf/gravitino-iceberg-rest-server.conf
 gravitino.iceberg-rest.catalog-backend = memory
 
 gravitino.iceberg-rest.warehouse = s3://mybucket/demo/gravitino1
-gravitino.iceberg-rest.io-impl= org.apache.iceberg.aws.s3.S3FileIO
+gravitino.iceberg-rest.io-impl = org.apache.iceberg.aws.s3.S3FileIO
 
 gravitino.iceberg-rest.s3-endpoint = https://s3.us-west-2.amazonaws.com
 gravitino.iceberg-rest.s3-region = us-west-2
@@ -104,13 +139,25 @@ gravitino.iceberg-rest.s3-access-key-id = theaccesskeyid
 gravitino.iceberg-rest.s3-secret-access-key = thesecretaccesskey
 ```
 
-## Creating and Writing to an Iceberg Table {#create_table}
+**Explanation**:
+- `catalog-backend=memory` stores catalog metadata in-memory (useful for testing).
+- `warehouse` and `io-impl` specify where and how data is stored in S3.
+- `s3-endpoint` and `s3-region` define the AWS region and endpoint.
+- `credential-provider-type` and the access keys provide authentication for S3 access.
 
-Once the Iceberg database is created in Timeplus, you can list existing tables in the database or create new table via Timeplus SQL:
+## Create Iceberg Stream 
 
 ```sql
--- Make sure to create the table under the iceberg database
-CREATE STREAM demo.transformed(
+-- Create a Iceberg stream under the Iceberg database
+CREATE STREAM <iceberg_database>.<stream_name> (
+  -- column definitions 
+);
+```
+
+**Example**: 
+
+```sql
+CREATE STREAM demo.transformed (
   timestamp datetime64,
   org_id string,
   float_value float,
@@ -120,64 +167,84 @@ CREATE STREAM demo.transformed(
 );
 ```
 
-## Writing to Iceberg via a Materialized View {#write_via_mv}
-You can run `INSERT INTO` statements to write data to Iceberg tables, or set up a materialized view to continuously write data to Iceberg tables.
+After creating an Iceberg database in Timeplus, you can list existing tables or create new ones directly via SQL.
+
+## Writing to Iceberg
+
+You can insert data directly via `INSERT INTO` SQL statement or continuously write to Iceberg streams using materialized views:
+
+**Example**:
 
 ```sql
-CREATE MATERIALIZED VIEW mv_write_iceberg INTO demo.transformed AS
-SELECT now() AS timestamp, org_id, float_value,
-       length(`array_of_records.a_num`) AS array_length,
-       array_max(`array_of_records.a_num`) AS max_num,
-       array_min(`array_of_records.a_num`) AS min_num
+CREATE MATERIALIZED VIEW sink_to_iceberg_mv INTO demo.transformed AS
+SELECT 
+  now() AS timestamp,
+  org_id,
+  float_value,
+  length(array_of_records.a_num) AS array_length,
+  array_max(array_of_records.a_num) AS max_num,
+  array_min(array_of_records.a_num) AS min_num
 FROM msk_stream_read
 SETTINGS s3_min_upload_file_size=1024;
 ```
 
-## Querying Iceberg Data with SparkSQL {#query_iceberg}
+This example continuously writes transformed data from a streaming source (`msk_stream_read`) into an Iceberg table.
 
-### Using SQL in Timeplus {#query_timeplus}
-You can query Iceberg data in Timeplus by:
+## Reading from Iceberg
+
+You can query Iceberg data in Timeplus using standard SQL syntax:
 ```sql
-SELECT * FROM demo.transformed
+SELECT ... FROM <iceberg_database>.<iceberg_stream>;
 ```
-This will return all results and terminate the query. No streaming mode is supported for Iceberg tables yet. It's recommended to set `LIMIT` to a small value to avoid loading too much data from Iceberg to Timeplus.
 
+:::info
+Iceberg streams in Timeplus behave like static tables — queries return the full result set and then terminate.
+
+For large tables, it’s recommended to include a LIMIT clause to avoid excessive data loading.
+
+In future releases, **continuous streaming query support** for Iceberg streams will be added, allowing real-time incremental reads from Iceberg data.
+:::
+
+**Example**:
 ```sql
 SELECT count() FROM iceberg_db.table_name;
 ```
-This query is optimized to return the count of rows in the specified Iceberg table with minimal scanning of metadata and data files.
 
-### Using SparkSQL {#query_sparksql}
+You can also use **SparkSQL** to validate or analyze Iceberg data created by Timeplus.
+Depending on your catalog setup, use one of the following configurations:
 
-Depending on whether you setup the catalog via AWS Glue or Apache Gravitino, you can also start a SparkSQL session to query or insert data into Iceberg tables.
+**For AWS Glue REST Catalog**:
 
 ```bash
 spark-sql --packages org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.7.1,org.apache.iceberg:iceberg-aws-bundle:1.7.1,software.amazon.awssdk:bundle:2.30.2,software.amazon.awssdk:url-connection-client:2.30.2 \
-    --conf spark.sql.defaultCatalog=spark_catalog \
-    --conf spark.sql.catalog.spark_catalog.type=rest \
-    --conf spark.sql.catalog.spark_catalog.uri=https://glue.us-west-2.amazonaws.com/iceberg \
-    --conf spark.sql.catalog.spark_catalog.warehouse=$AWS_12_ID \
-    --conf spark.sql.catalog.spark_catalog.rest.sigv4-enabled=true \
-    --conf spark.sql.catalog.spark_catalog.rest.signing-name=glue \
-    --conf spark.sql.catalog.spark_catalog.rest.signing-region=us-west-2
+  --conf spark.sql.defaultCatalog=spark_catalog \
+  --conf spark.sql.catalog.spark_catalog.type=rest \
+  --conf spark.sql.catalog.spark_catalog.uri=https://glue.us-west-2.amazonaws.com/iceberg \
+  --conf spark.sql.catalog.spark_catalog.warehouse=$AWS_12_ID \
+  --conf spark.sql.catalog.spark_catalog.rest.sigv4-enabled=true \
+  --conf spark.sql.catalog.spark_catalog.rest.signing-name=glue \
+  --conf spark.sql.catalog.spark_catalog.rest.signing-region=us-west-2
 ```
+
+**For Apache Gravitino REST Catalog**:
 
 ```bash
 spark-sql -v --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.8.1,org.apache.iceberg:iceberg-aws-bundle:1.8.1,software.amazon.awssdk:bundle:2.30.2,software.amazon.awssdk:url-connection-client:2.30.2 \
---conf spark.sql.defaultCatalog=spark_catalog \
---conf spark.sql.catalog.spark_catalog.type=rest \
---conf spark.sql.catalog.spark_catalog.uri=http://127.0.0.1:9001/iceberg/ \
---conf spark.sql.catalog.spark_catalog.warehouse=s3://mybucket/demo/gravitino1
+  --conf spark.sql.defaultCatalog=spark_catalog \
+  --conf spark.sql.catalog.spark_catalog.type=rest \
+  --conf spark.sql.catalog.spark_catalog.uri=http://127.0.0.1:9001/iceberg/ \
+  --conf spark.sql.catalog.spark_catalog.warehouse=s3://mybucket/demo/gravitino1
 ```
 
-## Drop Iceberg Database
+
+## Dropping Iceberg Database
+
+To remove an Iceberg database from Timeplus:
 
 ```sql
-DROP DATABASE demo CASCADE;
+DROP DATABASE <iceberg_database> CASCADE;
 ```
 
-Please note this won't delete the data in catalog or S3 storage.
-
-## Limitations
-- As of March 2025, only the REST catalog is supported.
-- Verified to work with AWS S3 for data storage. Other S3-compatible storages may work but are unverified.
+:::info
+This command deletes metadata within Timeplus, **but does not remove data** from the Iceberg catalog or the underlying S3 storage.
+:::
