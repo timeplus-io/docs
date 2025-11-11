@@ -2,53 +2,69 @@
 
 ## Introduction
 
-This document describes how to configure Single Sign-On (SSO) for Timeplus Enterprise, enabling your organization to integrate its Identity Provider (IdP).
+This document describes how to configure Single Sign-On (SSO) for **Timeplus Enterprise**, enabling your organization to integrate its Identity Provider (IdP) for centralized authentication.
 
 ## Capacity and Limitations
 
-- ✅ Single Sign-On (SSO)
-  - ✅ via OpenID Connect (OIDC)
-  - ❌ via SAML
-- ✅ Service Provider Initiated SSO
-- ✅ Identity Provider Initiated SSO
-- ✅ Single Logout (SLO)
-- ❌ Just-In-Time provisioning
+| Feature                               | Supported |
+| ------------------------------------- | --------- |
+| Single Sign-On (SSO)                  | ✅         |
+|   • via OpenID Connect (OIDC)         | ✅         |
+|   • via SAML                          | ❌         |
+| Service Provider (SP)-initiated SSO   | ✅         |
+| Identity Provider (IdP)-initiated SSO | ✅         |
+| Single Logout (SLO)                   | ✅         |
+| Just-In-Time (JIT) provisioning       | ❌         |
 
 ## Prerequisites
 
-- You will need to be the admin of the IdP in order to add a new SSO integration.
-- You will need to have the permission to modify and update Timeplus Enterprise deployment.
-- Even through this is not mandatory, we recommended you to have the Timeplus Enterprise deployed and running already before setting up SSO for it.
+Before you begin, ensure that:
+- You have **administrator access** to your IdP so you can create a new application integration.
+- You have **permission to modify and redeploy** your Timeplus Enterprise environment.
+- (Recommended) You already have a running deployment of Timeplus Enterprise before configuring SSO.
 
 ## Configuration Steps
 
-In this document, we will use [Okta Identity Engine](https://help.okta.com/oie/en-us/content/topics/identity-engine/oie-index.htm) as the example. The high level steps should be very similar if you use other IdP service such as Keycloak or etc.
+This guide uses [Okta Identity Engine](https://help.okta.com/oie/en-us/content/topics/identity-engine/oie-index.htm) as an example IdP.
+If you use other IdPs such as Keycloak or Auth0, the steps will be similar.
 
-### Step 1. Create an OIDC application in IdP for Timeplus Enterprise.
+### Step 1. Create an OIDC application in your IdP
 
-Go to Admin Console -> Applications -> Applications, and then click Create App Integration button. In the creation form, select `OIDC - OpenID Connect` as the **Sign-in method** and `Web Application` as the **Application type**.
+In the Okta Admin Console, navigate to:
+**Applications → Applications → Create App Integration**
 
-In the next detailed form, please fill the form with the following information:
+1. Choose **Sign-in method**: OIDC – OpenID Connect
+2. Choose **Application type**: Web Application
+3. Click **Next**
 
-- **App integration name:** `Timeplus Enterprise`
-- **Sign-in redirect URIs:** `https://{{timeplus_host}}/oidc-callback`
-- **Sign-out redirect URIs:** `https://{{timeplus_host}}/logout`
-- **Assignments - Controlled access:** Please choose an option that fit your need
+Then fill in the following fields:
 
-The other fields that not listed above, please just leave them as-it-is to use the default value.
+| Field                               | Value                                                              |
+| ----------------------------------- | ------------------------------------------------------------------ |
+| **App integration name**            | `Timeplus Enterprise`                                              |
+| **Sign-in redirect URIs**           | `https://{{timeplus_host}}/oidc-callback`                          |
+| **Sign-out redirect URIs**          | `https://{{timeplus_host}}/logout`                                 |
+| **Assignments – Controlled access** | Select the option that best fits your organization’s access policy |
 
-### [Optional] Step 2. Edit the integration to support Identity Provider Initiated SSO
+Leave all other fields as default.
 
-Click Edit on General Settings and edit the following sections:
+### [Optional] Step 2. Enable IdP-initiated login
 
-- **Login initiated by:** `Either Okta or App`
-- **Initiate login URI:** `https://{{timeplus_host}}/oidc-login`
+To allow users to launch Timeplus directly from their Okta dashboard:
 
-With the settings above, the user is able to launch Timeplus Enterprise directly on their Okta dashboard.
+1. Click **Edit** under **General Settings**.
+2. Update the following fields:
+
+| Field                  | Value                                  |
+| ---------------------- | -------------------------------------- |
+| **Login initiated by** | `Either Okta or App`                   |
+| **Initiate login URI** | `https://{{timeplus_host}}/oidc-login` |
 
 ### Step 3. Configure Timeplus Appserver
 
-Add the following configuration to the existing `values.yaml` of your Timeplus Enterprise deployment. You should be able to find these information on the detail page of newly created Timeplus Enterprise application on Okta.
+Add the following configuration to your existing values.yaml file used in your Timeplus Enterprise Helm deployment.
+
+You can find the corresponding values (client ID, secret, and host) on the application details page in Okta.
 
 ```yaml
 timeplusAppserver:
@@ -61,7 +77,12 @@ timeplusAppserver:
 
 ### Step 4. Test the integration
 
-1. Make sure you update the deployment so that Timeplus Appserver so that it can pick up new configurations. 
-2. When it is up and running, go to the root path of Timeplus Web Console again. If the integration is configured properly, you will be redirected to the Okta login page. 
-3. Login with your Okta credential. If everything is setup properly, you will be redirected to back to the login page of Timeplus Enterprise.
-4. Congratulations! You can now login Timeplus Enterprise just like what you did before. SSO has been properly setup at this point.
+1. Redeploy the Timeplus Enterprise so the new configuration takes effect.
+2. Once the service is running, open the **Timeplus Web Console**.
+3. You should be redirected automatically to the Okta login page.
+4. Log in using your Okta credentials.
+5. Upon successful authentication, you’ll be redirected back to Timeplus login page.
+
+✅ **Congratulations!**
+
+Your Timeplus Enterprise instance is now integrated with your IdP via Single Sign-On. You can now login Timeplus Enterprise with the credentials.
