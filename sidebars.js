@@ -822,6 +822,10 @@ const sidebars = {
         },
         {
           type: "doc",
+          id: "sso",
+        },
+        {
+          type: "doc",
           id: "server_config",
         },
         "proton-ports",
