@@ -814,6 +814,10 @@ const sidebars = {
               type: "doc",
               id: "k8s-helm",
             },
+            {
+              type: "doc",
+              id: "upgrade-helm",
+            },
           ],
         },
         {
