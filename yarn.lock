@@ -3045,7 +3045,7 @@
     "@docusaurus/theme-search-algolia" "3.8.1"
     "@docusaurus/types" "3.8.1"
 
-"@docusaurus/react-loadable@^6.0.0", "react-loadable@npm:@docusaurus/react-loadable@6.0.0":
+"@docusaurus/react-loadable@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@docusaurus/react-loadable/-/react-loadable-6.0.0.tgz#de6c7f73c96542bd70786b8e522d535d69069dc4"
   integrity sha512-YMMxTUQV/QFSnbgrP3tjDzLHRg7vsbMn8e9HAa8o/1iXoiomo48b7sk/kkmWEuWNDPJVlKSJRB6Y2fHqdJk+SQ==
@@ -3223,10 +3223,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@iconify-json/logos@1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@iconify-json/logos/-/logos-1.2.5.tgz#e3393741264ff59ee4e3e2805c3a0552d45d1141"
-  integrity sha512-WR8+9kFwx1tIR+hWpKYC+rpVkAuzHyaVxZRfhGGIjqCfgbodK7rS4+OZhktdKtZKKcdmhpLZKvlmRm4IA4dKRg==
+"@iconify-json/logos@1.2.10":
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/@iconify-json/logos/-/logos-1.2.10.tgz#21529b8ca71185824331ce09bb97a1b7eb304502"
+  integrity sha512-qxaXKJ6fu8jzTMPQdHtNxlfx6tBQ0jXRbHZIYy5Ilh8Lx9US9FsAdzZWUR8MXV8PnWTKGDFO4ZZee9VwerCyMA==
   dependencies:
     "@iconify/types" "*"
 
@@ -10604,6 +10604,13 @@ react-loadable-ssr-addon-v5-slorber@^1.0.1:
   integrity sha512-lq3Lyw1lGku8zUEJPDxsNm1AfYHBrO9Y1+olAYwpUJ2IGFBskM0DMKok97A6LWUpHm+o7IvQBOWu9MLenp9Z+A==
   dependencies:
     "@babel/runtime" "^7.10.3"
+
+"react-loadable@npm:@docusaurus/react-loadable@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@docusaurus/react-loadable/-/react-loadable-6.0.0.tgz#de6c7f73c96542bd70786b8e522d535d69069dc4"
+  integrity sha512-YMMxTUQV/QFSnbgrP3tjDzLHRg7vsbMn8e9HAa8o/1iXoiomo48b7sk/kkmWEuWNDPJVlKSJRB6Y2fHqdJk+SQ==
+  dependencies:
+    "@types/react" "*"
 
 react-router-config@^5.1.1:
   version "5.1.1"
