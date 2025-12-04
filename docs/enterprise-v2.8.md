@@ -32,6 +32,28 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.7 (Public GA) {#2_8_7}
+Released on 11-28-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_7)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.28 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.7`
+
+Component versions:
+* timeplusd 2.8.32
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.12
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+
+#### Changelog {#changelog_2_8_6}
+Compared to the [2.8.6](#2_8_6) release:
+* timeplusd 2.8.31 -> 2.8.32
+  * Bugfixes
+    *   Fixed Pulsar message key issue
+    *   Fixed parsing of numbers as strings in JSON input formats
+    *   Fixed coalesced mutable stream issue
+    *   Fixed pending messages in Pulsar's batch buffer issue
+    *   Fixed direct join key issue
 ### 2.8.6 (Public GA) {#2_8_6}
 Released on 11-05-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_6)
