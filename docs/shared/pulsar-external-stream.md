@@ -4,6 +4,26 @@
 
 In [Timeplus Enterprise v2.5](/enterprise-v2.5), we added the first-class integration for Apache Pulsar, as a new type of [External Stream](/external-stream). You can read or write data in Apache Pulsar or StreamNative Cloud. This is also available in Timeplus Proton, since v1.6.8.
 
+:::warning
+**macOS ARM64 support**
+
+Apache Pulsar external streams are currently **not supported by the native macOS ARM64 binaries** of either Timeplus Proton or Timeplus Enterprise. On macOS ARM, creating a Pulsar external stream will fail with:
+
+`Unknown external stream type: pulsar`
+
+This is due to curl / library compatibility issues in the Pulsar client on macOS ARM.
+To use Pulsar external streams from macOS, please run Timeplus in a Linux container instead, for example:
+
+```bash
+docker run -d --pull always \
+  -p 8123:8123 -p 8463:8463 \
+  --name proton \
+  d.timeplus.com/timeplus-io/proton:latest
+````
+
+Pulsar external streams are supported when Timeplus runs on Linux (bare metal, VM, or container).
+:::
+
 ## Create Pulsar External Stream
 
 To create an external stream for Apache Pulsar, you can run the following DDL SQL:
