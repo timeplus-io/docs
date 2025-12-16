@@ -32,6 +32,25 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.9 (Public GA) {#2_8_9}
+Released on 12-15-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_9)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.30 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.9`
+
+Component versions:
+* timeplusd 2.8.33
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_9}
+Compared to the [2.8.8](#2_8_8) release:
+* timeplus_appserver 2.8.12 -> 2.8.13
+  * Bugfixes  
+    *   Fixed comments displaying issue.
+
 ### 2.8.8 (Public GA) {#2_8_8}
 Released on 12-10-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_8)
@@ -44,6 +63,21 @@ Component versions:
 * timeplus_appserver 2.8.12
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_8}
+Compared to the [2.8.7](#2_8_7) release:
+* timeplusd 2.8.32 -> 2.8.33
+  * Bugfixes  
+    *   Fixed schema-change metadata issue.
+    *   Fixed external/stream tables: alter operations blocked.
+    *   Fixed streaming versioning issue.
+    *   Fixed schemaNativeReader cache issue.
+    *   Fixed expandResizeProcessor issue..
+    *   Fixed KVDB issue.
+    *   Fixed checkpoint logic robustness issue.
+    *   Fixed table_function_results racing issue.
+    *   Fixed protobuf schema cache issue.
+    *   Fixed comment-alter logic issue
 
 ### 2.8.7 (Public GA) {#2_8_7}
 Released on 11-28-2025. Installation options:
@@ -58,7 +92,7 @@ Component versions:
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
 
-#### Changelog {#changelog_2_8_6}
+#### Changelog {#changelog_2_8_7}
 Compared to the [2.8.6](#2_8_6) release:
 * timeplusd 2.8.31 -> 2.8.32
   * Bugfixes
