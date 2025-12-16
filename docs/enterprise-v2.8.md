@@ -45,6 +45,21 @@ Component versions:
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
 
+#### Changelog {#changelog_2_8_8}
+Compared to the [2.8.7](#2_8_7) release:
+* timeplusd 2.8.32 -> 2.8.33
+  * Bugfixes  
+    *   Fixed schema-change metadata issue.
+    *   Fixed external/stream tables: alter operations blocked.
+    *   Fixed streaming versioning issue.
+    *   Fixed schemaNativeReader cache issue.
+    *   Fixed expandResizeProcessor issue..
+    *   Fixed KVDB issue.
+    *   Fixed checkpoint logic robustness issue.
+    *   Fixed table_function_results racing issue.
+    *   Fixed protobuf schema cache issue.
+    *   Fixed comment-alter logic issue
+
 ### 2.8.7 (Public GA) {#2_8_7}
 Released on 11-28-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_7)
@@ -58,7 +73,7 @@ Component versions:
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
 
-#### Changelog {#changelog_2_8_6}
+#### Changelog {#changelog_2_8_7}
 Compared to the [2.8.6](#2_8_6) release:
 * timeplusd 2.8.31 -> 2.8.32
   * Bugfixes
