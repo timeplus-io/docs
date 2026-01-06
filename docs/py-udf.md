@@ -99,6 +99,12 @@ The function list:
 * `deserialize` load the state from checkpoint to the internal state, optional.
 * `merge` for multi-shard processing, merge the states from each shard, optional.
 
+**Emit strategy and return shape**
+
+- By default, Proton calls `finalize()` once and expects a *single* value of the declared return type (not a list). Any value returned from `process()` is ignored in this mode.
+- If you need to emit multiple results per group, set `self.has_customized_emit = True` in `__init__`, return either an integer count or `True`/`False` from `process()` to indicate how many results to emit, and return a list from `finalize()` whose length matches that count.
+- Only one UDA with `has_customized_emit = True` is supported per streaming query.
+
 ## Examples
 
 ### A simple UDF without dependency
@@ -166,7 +172,7 @@ class getMax:
             if item > self.max:
                 self.max = item
     def finalize(self):
-        return [self.max]
+        return self.max
 $$;
 ```
 

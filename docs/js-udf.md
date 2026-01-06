@@ -143,6 +143,11 @@ Let's take an example of a function to get the second maximum values from the gr
 | 5     | deserialize(str) | No        | Opposite to serialize(). Read the string and convert back to JS internal state. | function(str)\{<br />let s=JSON.parse(str);<br />this.max=s['max'];<br />this.sec_max=s['sec_max'];<br />} |
 | 6     | merge(str)       | No        | Merges two states into one. Used for multiple shards processing. | function(str)\{<br />let s=JSON.parse(str);<br />if..else..}  |
 
+**Emit strategy and return shape**
+
+- Default (no `has_customized_emit`): `finalize()` must return a single value matching the declared return type. Any value returned from `process()` is ignored.
+- Custom emit (`has_customized_emit: true`): `process()` should return an integer (or `true`/`false`) indicating how many results to emit now, and `finalize()` must return an array whose length equals that emit count.
+
 
 
 ### Example: get second largest number {#udaf-example}
