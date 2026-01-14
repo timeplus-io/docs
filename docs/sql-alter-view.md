@@ -4,7 +4,7 @@ You can use this SQL to change a view or a materialized view. You can adjust que
 
 ## MODIFY QUERY
 
-Update the underlying query definition for a view or materialized view without dropping it. Keep the result schema backward compatible (column order and types) to avoid query breakage. For materialized views, see [Alter Materialized View Query](/materialized-view#alter-materialized-view-query) for more guidance on stateful changes.
+Update the underlying query definition for a view or materialized view without dropping it. Keep the result schema backward compatible (column order and types) to avoid query breakage.
 
 ```sql
 ALTER VIEW <view_name> MODIFY QUERY <new_select_query>
