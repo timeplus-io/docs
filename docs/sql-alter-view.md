@@ -35,7 +35,7 @@ SELECT count() AS res FROM source_stream EMIT ON UPDATE;
 
 --- replace aggregate `sum(a)` with `sum(b)`
 --- TRICK: rename `sum(a) as res2` as unknown name `sum(a) as deleted` since removing state is not supported, then add aggregate `sum(b) as res2`
-ALTER VIEW 99020_mv_with_target MODIFY QUERY
+ALTER VIEW test_mv MODIFY QUERY
 SELECT count() as res, sum(a) as deleted, sum(b) as res2 FROM source_stream emit on update;
 ```
 
