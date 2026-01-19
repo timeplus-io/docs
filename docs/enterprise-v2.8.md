@@ -32,6 +32,37 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.10 (Public GA) {#2_8_10}
+Released on 01-18-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_10)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.31 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.10`
+
+Component versions:
+* timeplusd 2.8.34
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_10}
+Compared to the [2.8.9](#2_8_9) release:
+* timeplusd 2.8.33 -> 2.8.34
+  * Bugfixes  
+    *   Fixed checkpoint write buffer cleanup and shutdown pipeline deadlock.
+    *   Fixed SIGSEGV in QueryProfiler during stack unwinding.
+    *   Fixed race between aggregation and checkpointing.
+    *   Fixed mutable stream secondary index issue.
+    *   Enhanced primary index reads.
+    *   Enhanced deduplication/merging for mutable index searches.
+    *   Fixed binary prefix tree serialization issue.
+    *   Fixed DELETE FROM mutable stream issues with subquery,cleanup and current database.
+    *   Fixed Hybrid Hash Join issue.
+    *   Enhanced for _tp_index_time to record creation time.
+    *   Fixed pipeline behavior during shutdown affecting streams.
+    *   Fixed pulsar topic creation timeout issue.
+    *   Enhanced license expiration metrics.
+
 ### 2.8.9 (Public GA) {#2_8_9}
 Released on 12-15-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_9)
