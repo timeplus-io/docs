@@ -74,6 +74,25 @@ Component versions:
 * Materialized View Enhancements
 * TBD
 
+### 3.0.2 {#3_0_2}
+Released on 10-26-2025. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_0_2)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.0.2`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version v10.0.9`
+
+Component versions:
+* timeplusd 3.0.2
+* timeplus_appserver 3.0.21
+* timeplus_connector 3.0.21
+* timeplus cli 3.0.0
+* timeplus byoc 1.0.1
+
+#### Changelog {#changelog_3_0_2}
+
+* [BYOC](/byoc) Enhancement
+  * Support aws meter usage
+* PostgreSQL upsert support via on_conflict setting
+* Support Auto increment column for coalesced mutable stream
 
 ### 3.0.1 {#3_0_1}
 Released on 10-20-2025. Installation options:
