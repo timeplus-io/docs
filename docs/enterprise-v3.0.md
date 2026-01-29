@@ -55,25 +55,6 @@ Key highlights of the Timeplus 3.0 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 3.1.1 {#3_1_1}
-Released on 01-29-2026. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_1_1)
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.1.1`
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version TBD`
-
-Component versions:
-* timeplusd 3.1.1
-* timeplus_appserver 3.0.47
-* timeplus_connector 3.0.21
-* timeplus cli 3.0.0
-* timeplus byoc 1.0.0
-
-#### Changelog {#changelog_3_1_1}
-
-* Observerbility is now supported.
-* Materialized View Enhancements
-* TBD
-
 ### 3.0.2 {#3_0_2}
 Released on 10-26-2025. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_0_2)
