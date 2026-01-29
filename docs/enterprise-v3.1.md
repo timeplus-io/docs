@@ -6,9 +6,9 @@ Key highlights of the Timeplus 3.1 release include:
 
 - **Timeplus Inputs**
 
-Timeplus input is a new concept which allows users to push / stream data to the inputs by leveraging existing data ecosystem and tools.
+  Timeplus input is a new concept which allows users to push / stream data to the inputs by leveraging existing data ecosystem and tools.
 
-In this release, the following inputs are supported.
+  In this release, the following inputs are supported.
 
     - Splunk S2S 
     - Splunk HEC
@@ -20,7 +20,7 @@ In this release, the following inputs are supported.
 
 - **Microsoft Sentinel External Table (Output)**
 
-User can write security events to Microsoft Sentinel by using this external table now. 
+  User can write security events to Microsoft Sentinel by using this external table now. 
 
 - **Performance Enhancements**
 
@@ -61,7 +61,7 @@ Component versions:
 
 #### Changelog {#changelog_3_1_1}
 
-**Inputs**:
+**Inputs**
 * Splunk S2S 
 * Splunk HEC
 * Datadog
