@@ -175,7 +175,22 @@ const sidebars = {
           label: "Timeplus Random Stream",
           href: "https://docs.timeplus.com/sql-create-random-stream",
         },
-      ]
+        {
+          type: "category",
+          label: "Inputs",
+          link: {
+            type: "doc",
+            id: "inputs",
+          },
+          items: [
+            {
+              type: "doc",
+              id: "splunk-s2s-input",
+              label: "Splunk S2S",
+            },
+          ]
+        },
+      ],
     },
     {
       type: "category",
