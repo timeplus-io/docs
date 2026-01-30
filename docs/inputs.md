@@ -2,7 +2,7 @@
 
 ## Overview 
 
-Compared to **Timeplus external streams and external tables**, **Timeplus Inputs** provide a different way to ingest data into the platform for real-time processing. An input is a long-running TCP, UDP, HTTP, or gRPC server that waits for external clients to connect and continuously push data.
+Compared to **Timeplus external streams and external tables**, **Timeplus Inputs** provide a different way to ingest data into the platform for real-time processing. An input is a long-running TCP, UDP, HTTP, or gRPC server that waits for external clients to connect and continuously push data to it.
 
 Timeplus Inputs are designed to integrate seamlessly with the existing data ecosystem and collection tools. This allows users to reuse what they already have to send data into Timeplus. For example, the Splunk S2S input enables Splunk users to forward events directly to Timeplus by simply configuring their Splunk forwarders to point to the Splunk S2S input endpoint.
 
@@ -15,6 +15,11 @@ The following diagram illustrates the high-level components of a Timeplus Input.
 ## General Input Creation Syntax
 
 ```sql
+
+-- Create a target stream to hold the incoming data
+CREATE STREAM <target_stream_name> (...) SETTINGS ...;
+
+-- Create the input and use the target stream to hold the incoming data 
 CREATE INPUT <input_name>
 SETTINGS
   type=<input_type>,
@@ -22,13 +27,30 @@ SETTINGS
   tcp_port=<bind_tcp_port>,
   listen_host=<listen_host>,
   ...other input-type-specific settings...
+COMMENT '<comments>'
 ```
 
 **Settings**
 - `type`: The input type, which defines the protocol the input server speaks. Supported values include `splunk-s2s`, `splunk-hec`, `datadog`, `elastic`, `otel`, `netflow`, and `syslog`.
 - `target_stream`: The name of the target stream that stores incoming data after protocol parsing.
 - `tcp_port`: The TCP port on which the input server listens for incoming connections.
-- `listen_host`: The network interface or host address on which the input server listens.
+
+:::note
+In some cases, users may want to use the target stream purely as a persistent queue or buffering layer. In this scenario, historical data storage can be disabled for the target stream to reduce storage overhead.
+
+For example:
+
+```sql
+CREATE STREAM <target_stream_name> (...) 
+SETTINGS storage_type = 'streaming';
+```
+:::
+
+:::info
+Timeplus Enterprise users can also provision inputs through Timeplus Console, which provides an intuitive, guided workflow for input configuration.
+:::
+
+Once data is pushed into the input, users can query the target stream in real time using streaming queries, or build Materialized View pipelines on top of it for further processing.
 
 ## Supported Inputs
 
