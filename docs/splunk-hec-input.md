@@ -45,17 +45,6 @@ You probably like to fine tune the column [compression codec](/append-stream-cod
 **Example**:
 
 ```sql
--- Create target stream to hold the incoming data
-CREATE STREAM hec_target_stream
-(
-    _raw string, -- required
-    _index string, -- required
-    host string, -- required
-    source string, -- required
-    sourcetype string, -- required
-    fields map(string, string) -- optional
-);
-
 -- Create HEC input and write the incoming data to target stream
 CREATE INPUT splunk_hec_input
 SETTINGS

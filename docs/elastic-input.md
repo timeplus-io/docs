@@ -42,14 +42,6 @@ You probably like to fine tune the column [compression codec](/append-stream-cod
 **Example**:
 
 ```sql
--- Create target stream to hold the incoming data
-CREATE STREAM elastic_target_stream
-(
-    _raw string, -- required
-    _index string, -- required
-    _id string -- required
-);
-
 -- Create ElasticSearch input and write the incoming data to target stream
 CREATE INPUT splunk_hec_input
 SETTINGS
