@@ -16,7 +16,7 @@ SETTINGS
 ```
 
 **Settings**
-- `type`: Type to indicate the input protocol. `'splunk-s2s'`.
+- `type`: Type to indicate the input protocol. `'splunk-hec'`.
 - `target_stream`: The name of the target stream that stores incoming data after Splunk HEC protocol parsing.
 - `tcp_port`: The TCP port on which the input server listens for incoming connections. Default is **9997**.
 - `listen_host`: The network interface or host address on which the input server listens. Default is **'0.0.0.0'**.
