@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **ElasticSearch HTTP Input** emulates a ElasticSearch `/_bulk` endpoint by listening on a HTTP port and receiving events posted by ElasticSearch clients / Elastic Beats. ElasticSearch users can simply configure their clients / Beats use ElasticSearch HTTP Input IP address and port in Timeplus, and the input will handle the rest.
+The **ElasticSearch HTTP Input** emulates ElasticSearch `/_bulk` endpoint by listening on a HTTP port and receiving events posted by ElasticSearch clients / Elastic Beats. ElasticSearch users can simply configure their clients / Beats use ElasticSearch HTTP Input IP address and port in Timeplus, and the input will handle the rest.
 
 ## Create ElasticSearch HTTP Input
 

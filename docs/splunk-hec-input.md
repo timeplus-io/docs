@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Splunk HEC Input** emulates a Splunk indexer's **HTTP Event Collector** `/services/collector/event` and `/services/collector/raw` endpoints by listening on a HTTP port and receiving events posted by Splunk HEC clients / agents / AddOns. Splunk users can simply configure their clients / agents / AddOns to use Splunk HEC Input IP address and port in Timeplus, and the input will handle the rest.
+The **Splunk HEC Input** emulates Splunk indexer's **HTTP Event Collector** `/services/collector/event` and `/services/collector/raw` endpoints by listening on a HTTP port and receiving events posted by Splunk HEC clients / agents / AddOns. Splunk users can simply configure their clients / agents / AddOns to use Splunk HEC Input IP address and port in Timeplus, and the input will handle the rest.
 
 ## Create Splunk HEC Input
 

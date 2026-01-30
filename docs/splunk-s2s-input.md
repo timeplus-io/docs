@@ -94,7 +94,7 @@ COMMNET 'Splunk S2S Input Test'
 
 ## Splunk Forwarder Configuration
 
-Splunk users can simply update outputs.conf to point to the Splunk S2S input in Timeplus. Note that compression is supported by the Splunk S2S input.
+Splunk users can simply update `outputs.conf` to point to the Splunk S2S input in Timeplus. Note that compression is supported by the Splunk S2S input.
 
 **Example**
 ```
