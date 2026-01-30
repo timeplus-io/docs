@@ -71,7 +71,13 @@ CREATE STREAM s2s_target_stream
 :::
 
 :::info
-You probably like to fine tune the column [compression codec](/append-stream-codecs), [retention policies](/append-stream-ttl) and indexes [indexes](/append-stream-indexes) when provisioning the target stream if the target stream's historical store is enabled and is used to serve applications.
+You may want to fine-tune the target stream when provisioning it, especially if its historical store is enabled and it will serve applications. This includes settings such as:
+
+- [Compression codec](/append-stream-codecs)
+- [Retention policies](/append-stream-ttl)
+- [Indexes](/append-stream-indexes)
+
+Alternatively, you can disable the historical store entirely by using `SETTIGNS storage_type='streaming'` and use the target stream as a persistent, queryable queue. In this scenario, fine-tuning compression, retention, and indexes is not necessary.
 :::
 
 **Example**:
