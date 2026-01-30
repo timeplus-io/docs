@@ -7,14 +7,15 @@ The **Datadog Input** emulates Datadog Intake endpoints for **metrics, logs and 
 ## Create Datadog Input
 
 ```sql
-CREATE INPUT datadog_input
+CREATE INPUT <datadog_input>
 SETTINGS
     type='datadog',
     metrics_target_stream=<metrics_target_stream_name>,
     process_target_stream=<process_target_stream_name>,
     logs_target_stream=<logs_target_stream_name>,
     tcp_port=<bind_tcp_port>,
-    listen_host=<listen_host>;
+    listen_host=<listen_host>
+COMMENT '<comments>';
 ```
 
 **Settings**
@@ -221,6 +222,10 @@ CREATE STREAM datadog_processes_target_stream (
   hint_mask int32
 );
 ```
+:::
+
+:::info
+You probably like to fine tune the column [compression codec](/append-stream-codecs), [retention policies](/append-stream-ttl) and indexes [indexes](/append-stream-indexes) when provisioning the target stream if the target stream's historical store is enabled and is used to serve applications.
 :::
 
 **Example**:

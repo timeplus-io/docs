@@ -7,7 +7,7 @@ The **Splunk S2S Input** emulates a Splunk indexer by listening on a TCP port an
 ## Create Splunk S2S Input
 
 ```sql
-CREATE INPUT splunk_s2s_input
+CREATE INPUT <splunk_s2s_input>
 SETTINGS
     type='splunk-s2s',
     version='v4',
@@ -28,7 +28,8 @@ SETTINGS
     send_timeout=<send_timeout>,
     receive_timeout=<receive_timeout>,
     idle_connection_timeout=<idle_connection_timeout>,
-    receive_buffer_size=<receive_buffer_size>;
+    receive_buffer_size=<receive_buffer_size>
+COMMENT '<comments>';
 ```
 
 **Settings**
@@ -54,7 +55,7 @@ SETTINGS
 - `receive_buffer_size`: Socket data receiving buffer size in bytes. Default is **67108864**. 
 
 :::note
-The target stream for Splunk S2S Input requires a fixed schema (without [retention policies](/append-stream-ttl)), shown below.
+The target stream for Splunk S2S Input requires a fixed schema, shown below. 
 
 ```sql
 CREATE STREAM s2s_target_stream
@@ -67,6 +68,10 @@ CREATE STREAM s2s_target_stream
     fields map(string, string) -- optional
 );
 ```
+:::
+
+:::info
+You probably like to fine tune the column [compression codec](/append-stream-codecs), [retention policies](/append-stream-ttl) and indexes [indexes](/append-stream-indexes) when provisioning the target stream if the target stream's historical store is enabled and is used to serve applications.
 :::
 
 **Example**:

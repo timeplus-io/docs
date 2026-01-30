@@ -7,12 +7,13 @@ The **ElasticSearch HTTP Input** emulates ElasticSearch `/_bulk` endpoint by lis
 ## Create ElasticSearch HTTP Input
 
 ```sql
-CREATE INPUT elastic_input 
+CREATE INPUT <elastic_input> 
 SETTINGS
     type='elastic',
     target_stream=<target_stream_name>,
     tcp_port=<bind_tcp_port>,
-    listen_host=<listen_host>;
+    listen_host=<listen_host>
+COMMENT '<comments>';
 ```
 
 **Settings**
@@ -22,7 +23,7 @@ SETTINGS
 - `listen_host`: The network interface or host address on which the input server listens. Default is **'0.0.0.0'**.
 
 :::note
-The target stream for ElasticSearch HTTP Input requires a fixed schema (without [retention policies](/append-stream-ttl)), shown below.
+The target stream for ElasticSearch HTTP Input requires a fixed schema, shown below.
 
 ```sql
 CREATE STREAM elastic_target_stream
@@ -32,6 +33,10 @@ CREATE STREAM elastic_target_stream
     _id string -- required
 );
 ```
+:::
+
+:::info
+You probably like to fine tune the column [compression codec](/append-stream-codecs), [retention policies](/append-stream-ttl) and indexes [indexes](/append-stream-indexes) when provisioning the target stream if the target stream's historical store is enabled and is used to serve applications.
 :::
 
 **Example**:
