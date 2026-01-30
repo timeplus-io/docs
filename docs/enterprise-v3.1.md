@@ -6,7 +6,7 @@ Key highlights of the Timeplus 3.1 release include:
 
 - **Timeplus Inputs**
 
-  Timeplus input is a new concept which allows users to push / stream data to the inputs by leveraging existing data ecosystem and tools.
+  Timeplus [input](/inputs) is a new concept which allows users to push / stream data to the inputs by leveraging existing data ecosystem and tools.
 
   In this release, the following inputs are supported.
 
@@ -25,7 +25,7 @@ Key highlights of the Timeplus 3.1 release include:
 - **Performance Enhancements**
 
     - Bidirectional direct join for Mutable streams
-    - Historical data backfill concurrency control “backfill_max_threads” query setting
+    - Historical data backfill concurrency control `backfill_max_threads` query setting
     - Big performance improvements on Protobuf Kafka record streaming parsing.
     - Better HTTP Connection Pooling
     - Better Materialized View Workload Rebalance

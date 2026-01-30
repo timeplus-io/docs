@@ -175,7 +175,52 @@ const sidebars = {
           label: "Timeplus Random Stream",
           href: "https://docs.timeplus.com/sql-create-random-stream",
         },
-      ]
+        {
+          type: "category",
+          label: "Inputs",
+          link: {
+            type: "doc",
+            id: "inputs",
+          },
+          items: [
+            {
+              type: "doc",
+              id: "splunk-s2s-input",
+              label: "Splunk S2S Input",
+            },
+            {
+              type: "doc",
+              id: "splunk-hec-input",
+              label: "Splunk HEC Input",
+            },
+            {
+              type: "doc",
+              id: "datadog-input",
+              label: "Datadog Input",
+            },
+            {
+              type: "doc",
+              id: "elastic-input",
+              label: "ElasticSearch Input",
+            },
+            {
+              type: "doc",
+              id: "otel-input",
+              label: "OpenTelemetry Input",
+            },
+            {
+              type: "doc",
+              id: "netflow-input",
+              label: "NetFlow / IPFIX Input",
+            },
+            {
+              type: "doc",
+              id: "syslog-input",
+              label: "Syslog Input",
+            },
+          ]
+        },
+      ],
     },
     {
       type: "category",
