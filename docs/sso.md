@@ -8,17 +8,18 @@ This document describes how to configure Single Sign-On (SSO) for **Timeplus Ent
 
 | Feature                               | Supported |
 | ------------------------------------- | --------- |
-| Single Sign-On (SSO)                  | ✅         |
-|   • via OpenID Connect (OIDC)         | ✅         |
-|   • via SAML                          | ❌         |
-| Service Provider (SP)-initiated SSO   | ✅         |
-| Identity Provider (IdP)-initiated SSO | ✅         |
-| Single Logout (SLO)                   | ✅         |
-| Just-In-Time (JIT) provisioning       | ❌         |
+| Single Sign-On (SSO)                  | ✅        |
+|   • via OpenID Connect (OIDC)         | ✅        |
+|   • via SAML                          | ❌        |
+| Service Provider (SP)-initiated SSO   | ✅        |
+| Identity Provider (IdP)-initiated SSO | ✅        |
+| Single Logout (SLO)                   | ✅        |
+| Just-In-Time (JIT) provisioning       | ❌        |
 
 ## Prerequisites
 
 Before you begin, ensure that:
+
 - You have **administrator access** to your IdP so you can create a new application integration.
 - You have **permission to modify and redeploy** your Timeplus Enterprise environment.
 - (Recommended) You already have a running deployment of Timeplus Enterprise before configuring SSO.
@@ -71,6 +72,7 @@ timeplusAppserver:
   configs:
     enable-oidc: true
     oidc-host: 'https://{{subdomain}}.okta.com'
+    oidc-callback-host: 'https://{{my-timeplus-server-domain}}'
     oidc-client-id: '{{client_id}}'
     oidc-client-secret: '{{client_secret}}'
 ```
