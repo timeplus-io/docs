@@ -63,7 +63,8 @@ Component versions:
 
 **Bugfixes**
 * Bugfixes and for web console.
-* Bugfixes for system stabliztion.
+* Bugfixes for metadata internal applied sequence cross talk.
+* Bugfixes for log record curruption and recovery
 
 ### 3.1.1 {#3_1_1}
 Released on 01-29-2026. Installation options:
