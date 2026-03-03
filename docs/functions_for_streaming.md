@@ -73,7 +73,7 @@ For example, if the car keeps sending data when it's moving and stops sending da
 
 Apply the deduplication at the given data stream with the specified column(s). Rows with same column value will only show once (only the first row is selected and others are omitted.) `liveInSecond` specifies how long the keys will be kept in the memory/state. By default forever. But if you only want to avoid duplicating within a certain time period, say 2 minutes, you can set `120s`, e.g. `dedup(subquery,myId,120s)`
 
-The last parameter `limit` is optional which is `100000` by default. It limits the max unique keys maintained in the query engine. If the limit reaches, the system will recycle the earliest keys to maintain this limit.
+The last parameter `limit` is optional which is `10000` by default. It limits the max unique keys maintained in the query engine. If the limit reaches, the system will recycle the earliest keys to maintain this limit.
 
 You can cascade this table function like `tumble(dedup(table(....` and so far the wrapping order must in this sequence : tumble/hop/session -> dedup -> table.
 
