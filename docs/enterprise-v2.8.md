@@ -32,7 +32,26 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 2.8.13 (Public GA) {#2_8_12}
+### 2.8.14 (Public GA) {#2_8_14}
+Released on 03-06-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_14)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.36 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.14`
+
+Component versions:
+* timeplusd 2.8.39
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_14}
+Compared to the [2.8.13](#2_8_13) release:
+* timeplusd 2.8.37 -> 2.8.39
+  * Bugfixes  
+    *   Fixed mutable stream stability issues.
+
+### 2.8.13 (Public GA) {#2_8_13}
 Released on 02-13-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_13)
 * For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.34 ..
@@ -45,7 +64,7 @@ Component versions:
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
   
-#### Changelog {#changelog_2_8_11}
+#### Changelog {#changelog_2_8_13}
 Compared to the [2.8.11](#2_8_11) release:
 * timeplusd 2.8.35 -> 2.8.37
   * Bugfixes  
