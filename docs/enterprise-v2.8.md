@@ -50,7 +50,7 @@ Compared to the [2.8.13](#2_8_13) release:
 * timeplusd 2.8.37 -> 2.8.39
   * Bugfixes  
     *   Fixed a secondary index cleanup issue on delete for mutable stream.
-    *   Fixed a stablity issue when query using window aggregation inserted a key belonging to a new time bucket
+    *   Fixed a stablity issue when query using window aggregation.
 
 ### 2.8.13 (Public GA) {#2_8_13}
 Released on 02-13-2026. Installation options:
