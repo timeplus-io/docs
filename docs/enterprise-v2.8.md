@@ -32,6 +32,27 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.15 (Public GA) {#2_8_15}
+Released on 03-17-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_15)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.37 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.15`
+
+Component versions:
+* timeplusd 2.8.41
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_15}
+Compared to the [2.8.14](#2_8_14) release:
+* timeplusd 2.8.39 -> 2.8.41
+  * Bugfixes  
+    *   Upgraded Pulsar client to v4.0.1.
+    *   Fixed issue which DELETE is skipped on mutable stream in rare condition.
+    *   Fixed bootstrap race condition where timeplusd could restart in rare condition.
+
 ### 2.8.14 (Public GA) {#2_8_14}
 Released on 03-06-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_14)
