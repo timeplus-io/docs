@@ -42,7 +42,7 @@ The `subject_name_strategy` determines how the stream looks up schemas in the re
 
 | Strategy | Behavior | Derived Subject Name | Typical Use Case |
 | :--- | :--- | :--- | :--- |
-| **TopicNameStrategy** | **Default.** Assumes one schema per topic. | `<topic>-value` | Standard topics where every message follows the same structure. |
+| **TopicNameStrategy** | **Default.** Assumes one schema per topic. | `<topic>-value` | Standard topics where every message follows the same structure. Note `schema_subject_name` will be ignored if configured. |
 | **RecordNameStrategy** | Supports **mixed schemas** in one topic. | `schema_subject_name` | Consuming a specific record type from a stream containing multiple Avro types. `schema_subject_name` is usually full qualified record name like `com.x.y.z.RecordA` |
 | **TopicRecordNameStrategy** | Scopes record names to a specific topic. | `<topic>-<schema_subject_name>` | Mixed topics where you need to distinguish between same-named records in different environments. Consuming a specific record type from a stream containing multiple Avro types. `schema_subject_name` is usually full qualified record name like `com.x.y.z.RecordA`|
 
