@@ -2,43 +2,58 @@
 
 ## Read Messages in Protobuf or Avro Schema {#read}
 
-To read Kafka data in Protobuf or Avro schema with a schema registry, you can create an external stream with `kafka_schema_registry_url` settings, e.g.
+To consume Kafka data using **Avro** or **Protobuf** via a Schema Registry, create an external stream using the `kafka_schema_registry_url` and associated settings.
 
 ```sql
 CREATE EXTERNAL STREAM my_stream (
-  -- columns goes here ...
+    -- Define columns matching your schema (optional)
+    column_name data_type,
+    ...
 ) SETTINGS
     type = 'kafka',
-    brokers = '...',
-    topic = '...',
-    data_format = '..',
+    brokers = 'localhost:9092',
+    topic = 'my_topic',
+    data_format = 'Avro', -- or 'ProtobufSingle'
+    subject_name_strategy = '..',
+    schema_subject_name = '..',
     kafka_schema_registry_url = 'http://url.to/my/schema/registry',
     kafka_schema_registry_credentials = 'API_KEY:API_SECRET',
-    kafka_schema_registry_skip_cert_check = true|false,
-    kafka_schema_registry_private_key_file = '..',
-    kafka_schema_registry_cert_file = '..',
+    kafka_schema_registry_skip_cert_check = [true|false],
     kafka_schema_registry_ca_location = '..';
 ```
 
-Please note:
+### Key Configuration Details
 
-1. `kafka_schema_registry_credentials` is optional. Skip this if the schema registry server doesn't require authentication.
-2. Make sure to add `http://` or `https://` in the `kafka_schema_registry_url`. In Proton 1.5.3 or above, self-signed HTTPS certification is supported.
-   1. One solution is to set `kafka_schema_registry_skip_cert_check` to `true`. This will completely skip the TLS certification verification. In this case, you don't need to specify the certification files.
-   2. A more secure solution is to keep the default value of `kafka_schema_registry_skip_cert_check`, which is false. Omit this setting and specify the following 3 settings:
-      1. `kafka_schema_registry_private_key_file`: the file path to the private key file used for encryption. Please use absolute file path and make sure Proton can access this file. If you are using Kubernetes or Docker, please mount the file systems properly.
-      2. `kafka_schema_registry_cert_file`: the file path to the certificate file (in PEM format). If the private key and the certificate are stored in the same file, this can be empty if `kakfa_schema_registry_private_key_file` is specified.
-      3. `kafka_schema_registry_ca_location`: the path to the file or directory containing the CA/root certificates.
+**1. Authentication & URL**
+`kafka_schema_registry_url`: Must include the protocol (`http://` or `https://`).
+`kafka_schema_registry_credentials`: Optional. Omit if your registry does not require an API key or Basic Auth.
 
-3. Make sure you define the columns matching the fields in the Avro schema. You don't have to define all top level fields in Avro schema as columns in the stream. For example, if there are 4 fields in Avro schema, you can choose only 2 of them as columns in the external stream. But make sure the data types match.
-4. `data_format` can be `Avro`, or `ProtobufSingle`.
-5. Schema reference is not supported yet.
+**2. TLS/SSL Security Options**
+You can configure secure connections in two ways:
+- **Basic (Insecure)**: Set `kafka_schema_registry_skip_cert_check = true`. This bypasses TLS verification and is recommended for local testing only.
+- **Advanced (Secure)**: Set `kafka_schema_registry_skip_cert_check = false` (default) and provide:
+    - `kafka_schema_registry_ca_location`: Path to the CA/root certificates.
+    - `kafka_schema_registry_private_key_file`: Absolute path to your private key. Ensure Proton has read permissions (mount correctly if using Docker/K8s).
+    - `kafka_schema_registry_cert_file`: Path to the PEM certificate. Can be empty if the certificate is bundled with the private key.
+
+**Subject Name Strategies**
+
+The `subject_name_strategy` determines how the stream looks up schemas in the registry.
+
+| Strategy | Behavior | Derived Subject Name | Typical Use Case |
+| :--- | :--- | :--- | :--- |
+| **TopicNameStrategy** | **Default.** Assumes one schema per topic. | `<topic>-value` | Standard topics where every message follows the same structure. |
+| **RecordNameStrategy** | Supports **mixed schemas** in one topic. | `schema_subject_name` | Consuming a specific record type from a stream containing multiple Avro types. `schema_subject_name` is usually full qualified record name like `com.x.y.z.RecordA` |
+| **TopicRecordNameStrategy** | Scopes record names to a specific topic. | `<topic>-<schema_subject_name>` | Mixed topics where you need to distinguish between same-named records in different environments. Consuming a specific record type from a stream containing multiple Avro types. `schema_subject_name` is usually full qualified record name like `com.x.y.z.RecordA`|
 
 :::info
+Note on Selective Consumption: When using `RecordNameStrategy` or `TopicRecordNameStrategy`, the external stream specifically targets the Schema ID associated with your provided `schema_subject_name`.
 
-For examples to read Avro message in various Kafka API compatitable message platforms, please check [this doc](/tutorial-sql-read-avro).
+1. Automatic Filtering: Any records in the topic that use a different Schema ID (i.e., different record types) are automatically discarded during decoding.
+2. Multi-Type Processing: To consume multiple record types from the same topic, you must create a separate external stream for each unique `schema_subject_name`.
 
 :::
+
 ## Write Messages in Avro Schema{#write}
 
 Writing Avro/Protobuf data with schema registry is not supported in Timeplus Proton.
