@@ -34,7 +34,8 @@ SETTINGS
     -- timeout settings
     http_keep_alive_timeout = 10, -- timeout (in seconds) for HTTP keep-alive connection
     send_timeout = 300, -- seconds
-    receive_timeout = 300 -- seconds
+    receive_timeout = 300, -- seconds
+    named_collection = '..';
 ```
 For the full list of settings, see the [DDL Settings](#ddl-settings) section.
 
@@ -162,3 +163,9 @@ username='..',
 password='..',
 url = 'https://api.openobserve.ai/api/../default/_json'
 ```
+
+#### named_collection
+
+The `named_collection` attribute allows you to group shared configuration settings—such as authentication credentials and connection parameters—into a reusable object. This streamlines the external stream DDL and enhances security by masking sensitive information in `SHOW CREATE` outputs.
+
+For detailed syntax and configuration examples, please refer to the [Kafka Named Collection](/kafka-source#named_collection) documentation. The implementation logic follows the same structural pattern.

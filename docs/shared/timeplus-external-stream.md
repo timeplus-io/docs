@@ -20,7 +20,8 @@ SETTINGS
     password = '<password>',
     secure = <bool>,
     config_file = '<path_to_config_file>',
-    stream = '<stream_name>'
+    stream = '<stream_name>',
+    named_collection = '<named_collection>';
 ```
 Settings:
 * **hosts**: the IP or host for the remote timeplusd. You can set `10.1.2.3` or `10.1.2.3:8463`. When you set a set of hosts with ports, e.g. `host1:port1,host2:port2`, this will treat each host as a shard. `hosts` is required and there is no default value.
@@ -30,6 +31,9 @@ Settings:
 * **secure**: a bool for whether to use secure connection to the remote Timeplusd. The default value is false. Use port 9440 when `secure` is set to true, otherwise use port 8463.
 * **stream**: the stream name in the remote Timeplusd. It's required and there is no default value.
 * **config_file**: you can specify a config file to load the settings from. Please follow the example in [Kafka External Stream](/kafka-source#config_file).
+* **named_collection**: the `named_collection` attribute allows you to group shared configuration settings—such as authentication credentials and connection parameters—into a reusable object. This streamlines the external stream DDL and enhances security by masking sensitive information in `SHOW CREATE` outputs.
+
+For detailed syntax and configuration examples, please refer to the [Kafka Named Collection](/kafka-source#named_collection) documentation. The implementation logic for external stream follows the same structural pattern.
 
 ## Examples
 

@@ -2,8 +2,6 @@
 
 Amazon S3 is cloud object storage with industry-leading scalability, data availability, security, and performance.
 
-In [Timeplus Enterprise v2.7](/enterprise-v2.7), we added the first-class integration for S3-compatible object storage systems, as a new type of External Table. You can read or write data in Amazon S3 or S3-compatible cloud or local storage.
-
 ## Create S3 External Table
 
 To create an external table for S3, you can run the following DDL SQL:
@@ -25,6 +23,7 @@ SETTINGS
     compression_method='..', -- optional
     config_file='..', -- optional
     endpoint='..', -- optional
+    named_collection='..' -- optional
     ...
 ```
 For the full list of settings, see the [DDL Settings](#ddl-settings) section.
@@ -34,6 +33,7 @@ For the full list of settings, see the [DDL Settings](#ddl-settings) section.
 #### Read from a public S3 bucket
 
 The following SQL creates an external table to read data in parquet format, from a public S3 bucket.
+
 ```sql
 CREATE EXTERNAL TABLE amazon_reviews_2015
 (
@@ -67,6 +67,7 @@ No AWS credentials are required to read from the public S3 bucket. You can get t
 It's recommended to avoid hardcoding the AWS credentials in the DDL. You can attach a proper IAM role if Timeplus is running inside AWS, or define environment variables to store the AWS credentials.
 
 The following SQL creates an external table to read the CloudTrail logs in a compressed JSON file, from a private S3 bucket.
+
 ```sql
 CREATE EXTERNAL TABLE aws_cloudtrail(Records array(string))
 SETTINGS type='s3',
@@ -77,11 +78,13 @@ SETTINGS type='s3',
 ```
 
 Since all CloudTrail events are put in the `Records` array, you can use [array_join](/functions_for_comp#array_join) to flatten the array and query the data, e.g.:
+
 ```sql
 SELECT array_join(Records) AS r, r:eventVersion, r:userIdentity.type, r:userIdentity.principalId, r:userIdentity.arn, r:userIdentity.accountId, r:userIdentity.accessKeyId, r:userIdentity.userName, r:userIdentity.sessionContext, to_time(r:eventTime) AS eventTime, r:eventSource, r:eventName, r:awsRegion, r:sourceIPAddress, r:userAgent, r:requestParameters, r:responseElements, r:requestID, r:eventID, to_bool(r:readOnly) AS readOnly, r:eventType, to_bool(r:managementEvent) AS managementEvent, r:recipientAccountId, r:eventCategory FROM aws_cloudtrail
 ```
 
 #### Read from a private S3 bucket with static credentials
+
 The following SQL creates an external table to read the S3 access logs in raw format, from a private S3 bucket, with static credentials.
 ```sql
 CREATE EXTERNAL TABLE s3_logs(raw string)
@@ -95,6 +98,7 @@ SETTINGS type='s3',
 ```
 
 #### Read from a GCS bucket
+
 To read data from Google Cloud Storage, please follow [the guide](https://cloud.google.com/storage/docs/authentication/hmackeys) to generate HMAC keys and use them as the access key and secret key. You don't need to set the `region` or `bucket`. Put the bucket name in the `endpoint` setting.
 ```sql
 CREATE EXTERNAL TABLE nyc_fhvhv(
@@ -232,6 +236,11 @@ The maximum number of retries when reading a single object from S3. The default 
 #### s3_max_unexpected_write_error_retries
 The maximum number of retries when an unexpected error occurs during writing to S3. The default value is 4.
 
+#### named_collection
+
+The `named_collection` attribute allows you to group shared configuration settings—such as authentication credentials and connection parameters—into a reusable object. This streamlines the external table DDL and enhances security by masking sensitive information in `SHOW CREATE` outputs.
+
+For detailed syntax and configuration examples, please refer to the [Kafka Named Collection](/kafka-source#named_collection) documentation. The implementation logic for external table follows the same structural pattern.
 
 ### PARTITION BY
 When you write data to S3, you can partition the data by one or more columns. You can define the partition logic in the `PARTITION BY` clause, and use `{_partition_id}` in the `write_to` setting.
@@ -367,6 +376,7 @@ use_environment_credentials=true
 S3 access logs are useful for tracking requests to your S3 bucket. But they are neither CSV nor JSON, they are raw text files.
 
 You can use the following SQL to read the S3 access logs in raw format.
+
 ```sql
 CREATE EXTERNAL TABLE s3_logs(raw string)
 SETTINGS type='s3',
@@ -376,6 +386,7 @@ SETTINGS type='s3',
   read_from = 's3accesslog/123456789012/us-west-1/mybucket/2024/10/17/2024-10-17-00-00-00-016816C0FF1220C0',
   data_format='RawBLOB';
 ```
+
 Then use regular expressions to parse the data:
 ```sql
 select e[1] as bucket_owner, e[2] as bucket, parse_datetime_in_joda_syntax(replace_one(e[3],' +0000',''),'dd/MMM/yyyy:HH:mm:ss') as time,
