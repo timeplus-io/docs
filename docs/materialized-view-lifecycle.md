@@ -20,7 +20,7 @@ Materialized Views can exist in the following states. Some are **transient** (sh
 
 The state transitions are illustrated in the diagram below:  
 
-![MaterializedViewStates](/img/materialized-view-states-transition.png)
+![MaterializedViewStates](/img/mat-view-states-transition.png)
 
 ## System Commands
 

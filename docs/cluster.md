@@ -16,7 +16,7 @@ Underlying both the metadata and data layers is **Timeplus NativeLog**, the dist
 
 The following diagram shows a more advanced cluster design with metadata, data, and compute nodes running on separate tiers.
 
-![cluster-deployment](/img/cluster-deployment.png)
+![cluster-deployment](/img/cluster-deployment.svg)
 
 ## Distributed Ingest
 

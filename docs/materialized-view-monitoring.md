@@ -3,6 +3,18 @@
 Timeplus provides detailed metrics and states to monitor Materialized Views.  
 The **Timeplus Console** offers visualizations for these metrics and states, but you can also query them directly.
 
+## Timeplus Console
+
+Here are screenshots from Timeplus Materialized View monitoring in the Timeplus Console.
+
+**High Level Information**
+
+![HighLevelMatViewList](/img/mat-view-monitor-1.png)
+
+**Detail Metrics**
+
+![DetailMatViewMon](/img/mat-view-monitor-2.png)
+
 ## Metrics
 
 The `system.stream_metric_log` stream records performance metrics such as **events per second (eps)** and **megabytes per second (mbps)** for Materialized Views, streams, external streams, and external tables.

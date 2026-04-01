@@ -10,7 +10,7 @@ The Raft-based HA model is the default option. When you create a Materialized Vi
 
 Internally, this model leverages a **NativeLog checkpoint shard**, which is replicated using Raft for fault tolerance.
 
-![RaftBasedHA](/img/materialized-view-raft-ha.png)
+![RaftBasedHA](/img/mat-view-raft-ha.png)
 
 ### Initial Leader Election
 
@@ -39,7 +39,7 @@ SETTINGS checkpoint_settings='replication_type=shared;shared_disk=...'
 
 We call this a **Scheduled Materialized View**, since it is governed by the scheduler.
 
-![SchedulerBasedHA](/img/materialized-view-scheduler-ha.png)
+![SchedulerBasedHA](/img/mat-view-scheduler-ha.png)
 
 ### Initial Placement
 
