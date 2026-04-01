@@ -162,8 +162,6 @@ Use either:
 
 #### properties
 
-**Named Collections** allow you to group shared configuration settings (such as credentials and connection details) into a single reusable object. This simplifies your DDL statements and enhances security by masking sensitive information when users execute SHOW CREATE STREAM.
-
 Used for advanced configurations. These settings are passed directly to the Kafka client ([librdkafka config options](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md)) to fine tune the Kafka producer, consumer or topic behaviors.
 
 For more, see the `Properties for Kafka client` section.
