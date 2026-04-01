@@ -5,9 +5,6 @@ import TabItem from '@theme/TabItem';
 
 You can deploy Timeplus Enterprise on a Kubernetes cluster with [Helm](https://helm.sh/). The source code of the chart can be find in our [github repo](https://github.com/timeplus-io/helm-charts/tree/main/charts/timeplus-enterprise).
 
-For visual learning, you can watch the following video:
-<iframe width="560" height="315" src="https://www.youtube.com/embed/kFyzYx1JI_8?si=WVszQMuFyW6Xcixm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
 ## Prerequisites
 
 - Ensure you have Helm 3.12 + installed in your environment. For details about how to install Helm, see the [Helm documentation](https://helm.sh/docs/intro/install/)

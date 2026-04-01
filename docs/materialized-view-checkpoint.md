@@ -6,7 +6,7 @@ In general, the **checkpoint coordinator** periodically sends checkpoint markers
 
 The following diagram illustrates this process:
 
-![MaterializedViewCheckpoint](/img/materialized-view-checkpoint.png)
+![MaterializedViewCheckpoint](/img/mat-view-checkpoint.png)
 
 Each checkpoint round is assigned a new checkpoint **epoch**. Once a new checkpoint epoch is committed, older epochs can be garbage collected automatically.
 
@@ -44,7 +44,7 @@ In this mode (applies to both **local file system checkpoints** and **RocksDB-ba
 3. Peer replicas consume these checkpoint records from the log and reconstruct them into checkpoint files for the current epoch.
 4. After replication completes, all Materialized View replicas hold identical checkpoint states.
 
-![NativeLogCkptReplication](/img/materialized-view-nativelog-ckpt.png)
+![NativeLogCkptReplication](/img/mat-view-nativelog-ckpt.png)
 
 By default, **NativeLog-based checkpoint replication** is used in cluster environments.
 
@@ -78,7 +78,7 @@ There are two variants:
 1. The checkpoint coordinator serializes query states to the local file system in a new epoch.
 2. It asynchronously uploads the state files for that epoch to shared storage.
 
-![SharedStorageCkpt](/img/materialized-view-shared-storage-ckpt.png)
+![SharedStorageCkpt](/img/mat-view-shared-storage-ckpt.png)
 
 When using shared storage exclusively, Timeplus adopts a different high availability model for Materialized Views, governed by a centralized scheduler.
 
@@ -121,7 +121,7 @@ This hybrid approach combines NativeLog with shared storage.
 3. It commits the object URIs / paths metadata records to NativeLog.
 4. Peer replicas consume these path metadata records, fetch the checkpoint files from shared storage, and reconstruct the checkpoint locally.
 
-![NativeLogComboReplication](/img/materialized-view-hybrid-ckpt.png)
+![NativeLogComboReplication](/img/mat-view-hybrid-ckpt.png)
 
 **Example**:
 ```sql

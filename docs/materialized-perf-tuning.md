@@ -2,7 +2,7 @@
 
 A **Materialized View** consists of four main components. Performance tuning can involve one or more of these components.  
 
-![MatView](/img/mat-view.png)
+![MatView](/img/mat-view-perf.svg)
 
 ## Tune Sources
 

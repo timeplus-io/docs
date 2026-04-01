@@ -23,7 +23,7 @@ A **Materialized View** consists of 4 main components (illustrated in the diagra
    - Persists intermediate query state (e.g., for windowed aggregations or joins).
    - Ensures fault tolerance by allowing recovery and continuation from the last checkpoint after a failure.
 
-![MatView](/img/mat-view.png)
+![MatView](/img/mat-view.svg)
 
 When a Materialized View checkpoints its query state, it ensures durability and fault tolerance. If the process fails mid-execution, it can **restart from the last checkpoint** without reprocessing the entire stream from beginning.
 
@@ -39,7 +39,7 @@ By combining other Timeplus features / components such as:
 
 you can build **complex, end-to-end data processing pipelines** with Materialized Views.
 
-![Pipeline](/img/pipelines.png)
+![Pipeline](/img/mat-view-pipelines.png)
 
 ## Create Materialized View
 
