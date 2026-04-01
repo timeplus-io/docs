@@ -47,7 +47,8 @@ SETTINGS
     client_key='..',
     connections_per_broker=..,
     memory_limit=..,
-    io_threads=..
+    io_threads=..,
+    named_collection=..;
 ```
 ### Connect to a local Apache Pulsar
 
@@ -120,3 +121,10 @@ For data formats which write multiple rows into one single message (such as `JSO
 
 #### max_insert_block_bytes
 `max_insert_block_bytes` to control the maximum size (in bytes) that one message can be.
+
+
+#### named_collection
+
+The `named_collection` attribute allows you to group shared configuration settings—such as authentication credentials and connection parameters—into a reusable object. This streamlines the external stream DDL and enhances security by masking sensitive information in `SHOW CREATE` outputs.
+
+For detailed syntax and configuration examples, please refer to the [Kafka Named Collection](/kafka-source#named_collection) documentation. The implementation logic follows the same structural pattern.

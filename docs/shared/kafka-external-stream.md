@@ -28,7 +28,8 @@ SETTINGS
     ssl_ca_cert_file='..',
     ssl_ca_pem='..',
     skip_ssl_cert_check=..,
-    properties='..'
+    properties='..',
+    named_collection='..';
 ```
 
 ### Settings
@@ -164,3 +165,45 @@ Use either:
 Used for advanced configurations. These settings are passed directly to the Kafka client ([librdkafka config options](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md)) to fine tune the Kafka producer, consumer or topic behaviors.
 
 For more, see the `Properties for Kafka client` section.
+
+#### named_collection
+
+**Named Collections** allow you to group shared configuration settings (such as credentials and connection details) into a single reusable object. This simplifies your DDL statements and enhances security by masking sensitive information when users execute `SHOW CREATE STREAM`.
+
+**Key Benefits**
+
+- **Reusability**: Define connection parameters once and apply them to multiple streams.
+
+- **Security**: Credentials stored within a Named Collection are hidden from standard `SHOW CREATE` outputs.
+
+- **Maintainability**: Update credentials in one place rather than modifying every individual stream DDL.
+
+**Example Usage**
+
+The following example demonstrates how to define a Named Collection and reference it within an external stream.
+
+**1. Create a Named Collection**
+
+Define the common connection and security settings for your Kafka cluster.
+
+```sql
+CREATE NAMED COLLECTION kafka_nc AS
+    brokers='127.0.0.1:9092',
+    skip_ssl_cert_check='true',
+    security_protocol='SASL_PLAINTEXT',
+    sasl_mechanism='SCRAM-SHA-256',
+    username='admin_user',
+    password='admin';
+```
+
+**2. Create an External Stream**
+
+Reference the collection using the `named_collection` property within the `SETTINGS` clause.
+
+```sql
+CREATE EXTERNAL STREAM test_kafka_es_nc(raw string)
+SETTINGS
+    type='kafka',
+    topic='mytopic',
+    named_collection='kafka_nc';
+```

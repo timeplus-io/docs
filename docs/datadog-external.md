@@ -15,7 +15,7 @@ data_format = 'JSONEachRow',
 output_format_json_array_of_rows = 1,
 http_header_DD_API_KEY = 'THE_API_KEY',
 http_header_Content_Type = 'application/json',
-url = 'https://http-intake.logs.us3.datadoghq.com/api/v2/logs' --make sure you set the right region
+url = 'https://http-intake.logs.us3.datadoghq.com/api/v2/logs'; --make sure you set the right region
 ```
 
 Then you can insert data via a materialized view or just

@@ -10,12 +10,6 @@ Timeplus can read or write ClickHouse tables directly. This unlocks a set of new
 
 This integration is done by introducing "External Table" in Timeplus. Similar to [External Stream](/external-stream), there is no data persisted in Timeplus. However, since the data in ClickHouse is in the form of table, not data stream, so we call this as External Table. In the roadmap, we will support more integration by introducing other types of External Table.
 
-## Demo Video {#demo}
-
-This video demonstrates how to read live data from Redpanda, apply stream processing and send results to ClickHouse.
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ga_DmCujEpw?si=ja2tmlcCbqa6HhwT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
 ## CREATE EXTERNAL TABLE
 
 ### Syntax
@@ -30,7 +24,8 @@ SETTINGS type='clickhouse',
          secure=true|false,
          config_file='..',
          table='..',
-         pooled_connections=3000; -- optional, the maximum pooled connections to the database. Default 3000.
+         pooled_connections=3000, -- optional, the maximum pooled connections to the database. Default 3000.
+         named_collection='..';
 ```
 
 The required settings are type and address. For other settings, the default values are
@@ -60,6 +55,12 @@ The data types in the output will be Timeplus data types, such as `uint8`, inste
 :::
 
 You can define the external table and use it to read data from the ClickHouse table, or write to it.
+
+#### named_collection
+
+The `named_collection` attribute allows you to group shared configuration settings—such as authentication credentials and connection parameters—into a reusable object. This streamlines the external table DDL and enhances security by masking sensitive information in `SHOW CREATE` outputs.
+
+For detailed syntax and configuration examples, please refer to the [Kafka Named Collection](/kafka-source#named_collection) documentation. The implementation logic follows the same structural pattern.
 
 ### Connect to a local ClickHouse {#local}
 
