@@ -62,7 +62,7 @@ Component versions:
 #### Changelog {#changelog_3_1_1}
 
 **Bugfixes**
-* Bugfixes and for web console.
+* Bugfixes for web console.
 * Bugfixes for metadata internal applied sequence cross talk.
 * Bugfixes for log record curruption and recovery
 
