@@ -355,6 +355,24 @@ const sidebars = {
           id: "task",
           label: "Scheduled Task",
         },
+        {
+          type: "category",
+          label: "User Defined Functions",
+          collapsed: true,
+          link: {
+            type: "doc",
+            id: "udf",
+          },
+          items: [
+            {
+              type: "doc",
+              id: "py-udf",
+            },
+            "js-udf",
+            "sql-udf",
+            "remote-udf",
+          ],
+        },
       ]
     },
     {
@@ -686,22 +704,9 @@ const sidebars = {
             "functions_for_streaming",
             "functions_for_table",
             {
-              type: "category",
+              type: "link",
               label: "User Defined Functions",
-              collapsed: false,
-              link: {
-                type: "doc",
-                id: "udf",
-              },
-              items: [
-                {
-                  type: "doc",
-                  id: "py-udf",
-                },
-                "js-udf",
-                "sql-udf",
-                "remote-udf",
-              ],
+              href: "https://docs.timeplus.com/udf",
             },
           ],
         },
