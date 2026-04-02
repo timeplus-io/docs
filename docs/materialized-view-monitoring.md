@@ -36,7 +36,7 @@ WHERE type = 'MaterializedView'
 
 ## States
 
-The `system.stream_state_log` stream contains detailed state information that can be used for monitoring and alerting.
+In Timeplus Enterprise 3.0 and later, the `system.introspection_state_log` stream contains detailed state information for monitoring and alerting. In earlier releases, use `system.stream_state_log` instead.
 
 Supported states include:
 
@@ -57,15 +57,21 @@ Supported states include:
 SELECT
     *
 FROM
-    table(system.stream_state_log)
+    table(system.introspection_state_log)
 WHERE
-    dimension = 'materialized_view'
+    starts_with(dimension, 'materialized_view')
     AND state_name IN ('end_sn', 'processed_sn');
 ```
 
 ## System Built-in Views
 
-Timeplus provides built-in system views to help monitor Materialized Views:
+Timeplus provides built-in system views to help monitor and debug Materialized Views:
 
 - `system.v_failed_mat_views`: Tracks Materialized Views that have failed.
 - `system.v_mat_view_lags`: Shows Materialized Views with processing lag.
+- `system.v_storages`: Shows stream and checkpoint storage usage, which is useful when a Materialized View is accumulating checkpoint data.
+- `system.v_stream_applied_lags`: Shows per-node applied lag for replicated streams when a Materialized View is blocked by upstream replication or storage apply delay.
+
+For the full list of built-in troubleshooting views, see [Views in system namespace](/system-views).
+
+If you are running a 2.x release, replace `system.introspection_state_log` in the examples above with `system.stream_state_log`.
