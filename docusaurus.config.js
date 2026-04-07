@@ -22,7 +22,7 @@ const config = {
   onBrokenLinks: "warn", // SHOULD BE throw
   onBrokenAnchors: "warn",
   // onBrokenMarkdownLinks: "warn", moved to `markdown.hooks.onBrokenMarkdownLinks`
-  favicon: 'img/favicon-timeplus.ico',
+  favicon: 'img/timeplusfavicon.ico',
   organizationName: "timeplus-io", // Usually your GitHub org/user name.
   projectName: "docs", // Usually your repo name.
   scripts: [
