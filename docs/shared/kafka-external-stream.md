@@ -207,3 +207,5 @@ SETTINGS
     topic='mytopic',
     named_collection='kafka_nc';
 ```
+
+For more detailed syntax of named collection, please refer to the [Named Collection](/named-collection) documentation.

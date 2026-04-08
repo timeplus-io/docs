@@ -28,7 +28,8 @@ SETTINGS
     send_timeout=<send_timeout>,
     receive_timeout=<receive_timeout>,
     idle_connection_timeout=<idle_connection_timeout>,
-    receive_buffer_size=<receive_buffer_size>
+    receive_buffer_size=<receive_buffer_size>,
+    named_collection=<named_collection_name>
 COMMENT '<comments>';
 ```
 
@@ -53,6 +54,7 @@ COMMENT '<comments>';
 - `receive_timeout`: Socket receive timeout in seconds when receiving data from Spunk Forwarder. Default is **300**.
 - `idle_connection_timeout`: Idle TCP connection timeout threshold in seconds. When this threshold reaches, the TCP connection between Splunk Forwarder and the input will be closed / garbaged collected. Default is **3600**. 
 - `receive_buffer_size`: Socket data receiving buffer size in bytes. Default is **67108864**. 
+- `named_collection`: The named collection which contains the input settings. Please refer to the [Named Collection](/named-collection) for details. Default is **empty**.
 
 :::note
 The target stream for Splunk S2S Input requires a fixed schema, shown below. 
