@@ -4,12 +4,7 @@
 
 Key highlights of the Timeplus 3.2 release include:
 
-- **Timeplus Inputs**
-
-  Timeplus [input](/inputs) is a new concept which allows users to push / stream data to the inputs by leveraging existing data ecosystem and tools.
-
-  In this release, the following inputs are supported.
-
+- **TBD**
 
 
 ## Supported OS {#os}
