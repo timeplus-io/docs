@@ -220,6 +220,11 @@ const sidebars = {
             },
           ]
         },
+        {
+          type: "doc",
+          label: "Named Collection",
+          id: "named-collection",
+        }
       ],
     },
     {
@@ -599,6 +604,11 @@ const sidebars = {
               type: "link",
               href: "https://docs.timeplus.com/query-syntax",
             },
+            {
+              label: "ALTER NAMED COLLECTION",
+              type: "link",
+              href: "/named-collection#alter-named-collection",
+            },
             "sql-alter-stream",
             "sql-alter-view",
             {
@@ -627,6 +637,11 @@ const sidebars = {
               type: "link",
               href: "https://docs.timeplus.com/mutable-stream",
             },
+            {
+              label: "CREATE NAMED COLLECTION",
+              type: "link",
+              href: "/named-collection#create-named-collection",
+            },
             "sql-create-random-stream",
             "sql-create-remote-function",
             {
@@ -646,6 +661,11 @@ const sidebars = {
             "sql-drop-external-table",
             "sql-drop-format-schema",
             "sql-drop-function",
+            {
+              label: "DROP NAMED COLLECTION",
+              type: "link",
+              href: "/named-collection#drop-named-collection",
+            },
             "sql-drop-stream",
             "sql-drop-view",
             "sql-explain",

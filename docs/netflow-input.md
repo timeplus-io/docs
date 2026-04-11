@@ -30,7 +30,8 @@ SETTINGS
     stats_interval_ms=<stats_interval_ms>,
     target_stream=<target_stream_name>,
     udp_port=<bind_udp_port>,
-    listen_host=<listen_host>
+    listen_host=<listen_host>,
+    named_collection=<named_collection_name>
 COMMENT '<comments>';
 ```
 
@@ -57,6 +58,7 @@ COMMENT '<comments>';
 - `target_stream`: The name of the target stream that stores incoming data after S2S protocol parsing.
 - `udp_port`: The UDP port on which the input server listens for incoming connections. Default is **0**.
 - `listen_host`: The network interface or host address on which the input server listens. Default is **'0.0.0.0'**.
+- `named_collection`: The named collection which contains the input settings. Please refer to the [Named Collection](/named-collection) for details. Default is **empty**.
 
 
 :::note

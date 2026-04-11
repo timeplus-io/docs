@@ -17,7 +17,8 @@ SETTINGS
     metrics_sum_target_stream='otel_metrics_sum', 
     metrics_histogram_target_stream='otel_metrics_histogram', metrics_exponential_histogram_target_stream='otel_metrics_exponential_histogram', metrics_summary_target_stream='otel_metrics_summary', 
     tcp_port = <bind_tcp_port>,
-    listen_host=<listen_host>
+    listen_host=<listen_host>,
+    named_collection=<named_collection_name>
 COMMENT '<comments>';
 ```
 
@@ -33,6 +34,7 @@ COMMENT '<comments>';
 - `metrics_summary_target_stream`: The name of the target stream that stores incoming metric summary.
 - `tcp_port`: The TCP port on which the input server listens for incoming connections. Default is **9997**.
 - `listen_host`: The network interface or host address on which the input server listens. Default is **'0.0.0.0'**.
+- `named_collection`: The named collection which contains the input settings. Please refer to the [Named Collection](/named-collection) for details. Default is **empty**.
 
 :::note
 The target streams OpenTelemetry Input require fixed schemas, shown below.

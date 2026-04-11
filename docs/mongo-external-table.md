@@ -14,7 +14,8 @@ CREATE EXTERNAL TABLE [IF NOT EXISTS] name
 SETTINGS
     type = 'mongodb',
     uri = 'mongodb://user:pwd@host:port/db?options', -- the MongoDB connection URI the external table read/write data from/to
-    collection = '' -- the MongoDB collection name
+    collection = '', -- the MongoDB collection name
+    named_collection = ''
 ```
 For the full list of settings, see the [DDL Settings](#ddl-settings) section.
 
@@ -80,6 +81,11 @@ MongoDB connection string options as a URL formatted string. e.g. 'authSource=ad
 
 #### oid_columns
 A comma-separated list of columns that should be treated as oid in the `WHERE` clause. Default to `_id`.
+
+#### named_collection
+**Named Collection** allow you to group shared configuration settings (such as credentials and connection details) into a single reusable object. This simplifies your DDL statements and enhances security by masking sensitive information when users execute `SHOW CREATE STREAM`.
+
+For detailed syntax and configuration examples, please refer to the [Named Collection](/named-collection) documentation.
 
 ### Query Settings
 

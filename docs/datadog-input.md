@@ -14,7 +14,8 @@ SETTINGS
     process_target_stream=<process_target_stream_name>,
     logs_target_stream=<logs_target_stream_name>,
     tcp_port=<bind_tcp_port>,
-    listen_host=<listen_host>
+    listen_host=<listen_host>,
+    named_collection=<named_collection_name>
 COMMENT '<comments>';
 ```
 
@@ -25,6 +26,7 @@ COMMENT '<comments>';
 - `logs_target_stream`: The name of the target stream that stores incoming log data. Optional. If it is empty, the incoming logs data will be discarded.
 - `tcp_port`: The TCP port on which the input server listens for incoming connections. Default is **9997**.
 - `listen_host`: The network interface or host address on which the input server listens. Default is **'0.0.0.0'**.
+- `named_collection`: The named collection which contains the input settings. Please refer to the [Named Collection](/named-collection) for details. Default is **empty**.
 
 :::note
 The target streams for Datadog Input requires fixed schema (without [retention policies](/append-stream-ttl)), shown below.
