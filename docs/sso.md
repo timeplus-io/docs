@@ -75,6 +75,7 @@ timeplusAppserver:
     oidc-callback-host: 'https://{{my-timeplus-server-domain}}'
     oidc-client-id: '{{client_id}}'
     oidc-client-secret: '{{client_secret}}'
+    oidc-user-role: admin # admin or read_only. By default read_only
 ```
 
 ### Step 4. Test the integration
