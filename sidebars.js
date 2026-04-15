@@ -220,11 +220,6 @@ const sidebars = {
             },
           ]
         },
-        {
-          type: "doc",
-          label: "Named Collection",
-          id: "named-collection",
-        }
       ],
     },
     {
@@ -653,6 +648,11 @@ const sidebars = {
               label: "CREATE VIEW",
               type: "link",
               href: "https://docs.timeplus.com/view",
+            },
+            {
+              type: "doc",
+              label: "CREATE NAMED COLLECTION",
+              id: "named-collection",
             },
             "sql-delete",
             "sql-drop-alert",
