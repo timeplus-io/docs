@@ -4,10 +4,11 @@
 
 Key highlights of the Timeplus 3.2 release include:
 
-1. Major performance improvement in the data replication network layer — up to 30x faster in some scenarios — powered by request pooling, recyclable network buffers, sharded request/response channels, scatter/gather writes, and IPv6 support.
-2. Major performance improvement (up to 40x) for Kafka ingestion of Protobuf, CSV, and similar formats via smart batching and a new parallel Kafka source.
-3. Broad stability and quality hardening across mutable streams, checkpoints, materialized views, streaming joins, memory accounting, and replicated log recovery.
-4. Improved Okta SSO integration with a smoother login flow and support for mapping Okta users to read-only or admin roles.
+1. Major performance improvement in the data replication **network layer** — up to 30x faster in some scenarios — powered by request pooling, recyclable network buffers, sharded request/response channels, scatter/gather writes, and IPv6 support.
+2. Major performance improvement (up to 40x) for Kafka consume / **parsing for Protobuf, CSV, and similar formats** via smart batching and a new parallel parsing strategy for Kafka source.
+3. Major enhancements to **Python UDFs** and **external Python table functions** now enable secure, direct communication with the local timeplusd instance via automatically provisioned an ephemeral user and token. 
+4. Broad stability and quality hardening across **mutable streams, checkpoints, materialized views, streaming joins, memory accounting, and replicated log recovery**.
+5. Improved **Okta SSO** integration with a smoother login flow and support for mapping Okta users to read-only or admin roles.
 
 ## Supported OS {#os}
 |Deployment Type| OS |
