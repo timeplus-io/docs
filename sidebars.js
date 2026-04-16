@@ -873,6 +873,22 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "AGENTGUARD",
+      items: [
+        {
+          type: "doc",
+          id: "agentguard-introduction",
+          label: "Introduction",
+        },
+        {
+          type: "doc",
+          id: "agentguard-installation",
+          label: "Installation",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "DEPLOYMENT",
       items: [
         {
