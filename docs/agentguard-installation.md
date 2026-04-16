@@ -4,8 +4,8 @@ This guide walks through a complete AgentGuard setup from scratch:
 
 1. [Prerequisites](#1-prerequisites)
 2. [Install and run Timeplus](#2-install-and-run-timeplus)
-3. [Create a Timeplus user for AgentGuard](#3-create-a-timeplus-user-for-agentguard)
-4. [Install and run AgentGuard](#4-install-and-run-agentguard)
+3. [Install and run AgentGuard](#3-install-and-run-agentguard)
+4. [First-time setup wizard](#4-first-time-setup-wizard)
 5. [Connect OpenClaw](#5-connect-openclaw)
 6. [Connect Claude Code](#6-connect-claude-code)
 7. [Verify everything is working](#7-verify-everything-is-working)
@@ -51,32 +51,15 @@ done
 echo "Timeplus is ready"
 ```
 
-> **Docker Compose shortcut:** to run Timeplus and AgentGuard together in one step, skip to [section 4C](#option-c--docker-compose-recommended-for-new-installs).
+> **Docker Compose shortcut:** to run Timeplus and AgentGuard together in one step, skip to [Option C](#option-c--docker-compose-recommended-for-new-installs).
 
 ---
 
-## 3. Create a Timeplus user for AgentGuard
-
-AgentGuard connects to Timeplus using dedicated credentials. Skip this section if you are using the default `default` user with no password (acceptable for local dev).
-
-### Via Timeplus web console
-
-1. Open [http://localhost:8000](http://localhost:8000) in your browser.
-2. Log in with the default admin credentials (set during first-run setup).
-3. Navigate to **Settings → Users → Add User**.
-4. Create a user — for example:
-   - **Username:** `User`
-   - **Password:** `Password`
-   - **Role:** Admin (AgentGuard needs DDL permissions to create streams and views on startup)
-5. Click **Save**.
-
----
-
-## 4. Install and run AgentGuard
+## 3. Install and run AgentGuard
 
 ### Option A — Shell script installer (recommended)
 
-The installer downloads the correct binary for your platform from S3, installs it to `/usr/local/bin`, and guides you through Timeplus Enterprise connection configuration interactively.
+The installer downloads the correct binary for your platform, installs it to `/usr/local/bin`, and writes a minimal `~/.agentguard/config.yaml` with the Timeplus host/port.
 
 ```bash
 # Install latest
@@ -88,27 +71,38 @@ curl -fsSL https://agentguard.s3.us-west-1.amazonaws.com/install.sh | sh -s -- -
 
 Supported platforms: macOS (Apple Silicon / Intel), Linux (x86-64 / ARM64).
 
-The script will:
-1. Download the correct binary and install it to `/usr/local/bin/agentguard`
-2. Prompt for your Timeplus Enterprise connection settings and write `~/.agentguard/config.yaml`
-3. Optionally set up AgentGuard as a background service (launchd on macOS, systemd on Linux)
+After installation, start AgentGuard:
 
-After installation, start AgentGuard manually with:
 ```bash
 agentguard
 ```
 
-Or use the service that was configured during installation.
+Open [http://localhost:8080](http://localhost:8080) — the **setup wizard** appears on first launch (see [Section 4](#4-first-time-setup-wizard)).
 
-Open [http://localhost:8080](http://localhost:8080).
+### Option B — Docker image (standalone)
 
-AgentGuard creates all required Timeplus streams and materialized views on first startup. This is non-fatal — the server starts even if Timeplus is temporarily unavailable.
+```bash
+docker run -d \
+  --name agentguard \
+  -p 8080:8080 \
+  -e TIMEPLUS_HOST=<timeplus-host> \
+  -e AGENTGUARD_URL=http://<agentguard-host>:8080 \
+  -v agentguard-data:/app/data \
+  --restart unless-stopped \
+  ghcr.io/timeplus-io/agentguard:latest
+```
 
-> **Non-interactive install:** If you pipe the script through `sh` without a terminal (e.g. in CI), configuration prompts are skipped. Edit `~/.agentguard/config.yaml` manually afterwards.
+Replace `<timeplus-host>` with the hostname or IP where Timeplus is running (use `host.docker.internal` on macOS/Windows when Timeplus runs on the host machine).
 
-### Option B — Docker Compose (recommended for new installs)
+Replace `<agentguard-host>` with the address Timeplus will use to call back AgentGuard for alert webhooks — see [Alert UDF webhook](#alert-udf-webhook) below.
 
-This starts Timeplus and AgentGuard together with the correct networking. Save the following as `docker-compose.yaml` and run it:
+The `-v agentguard-data:/app/data` volume persists the `config.yaml` written by the setup wizard across container restarts and image upgrades. Without it, setup runs again after every restart.
+
+> **Credentials** are entered in the setup wizard — not via environment variables.
+
+### Option C — Docker Compose (recommended for new installs)
+
+This starts Timeplus and AgentGuard together with the correct networking:
 
 ```yaml
 services:
@@ -134,19 +128,20 @@ services:
       start_period: 30s
 
   agentguard:
-    image: timeplus/agentguard:latest
+    image: ghcr.io/timeplus-io/agentguard:latest
     container_name: agentguard
     ports:
       - "8080:8080"
     environment:
       TIMEPLUS_HOST: timeplus
       TIMEPLUS_PORT: 3218
-      TIMEPLUS_NATIVE_PORT: 8463
-      TIMEPLUS_USER: "proton"
-      TIMEPLUS_PASSWORD: "timeplus@t+"
       SERVER_PORT: 8080
       # Timeplus calls this URL for alert webhooks; use the Docker service name.
       AGENTGUARD_URL: "http://agentguard:8080"
+    volumes:
+      # Persists config.yaml and custom catalog rules across restarts and image upgrades.
+      # Mounted at /app/data only — the binary is never shadowed by the volume.
+      - agentguard-data:/app/data
     depends_on:
       timeplus:
         condition: service_healthy
@@ -154,44 +149,27 @@ services:
 
 volumes:
   timeplus-data:
+  agentguard-data:
 ```
 
 ```bash
 docker compose up -d
 ```
 
-Open [http://localhost:8080](http://localhost:8080).
+Open [http://localhost:8080](http://localhost:8080) — the **setup wizard** appears on first launch.
 
 - AgentGuard waits for Timeplus to pass its health check before starting.
-- `AGENTGUARD_URL=http://agentguard:8080` ensures Timeplus Enterprise can call back AgentGuard for alert webhooks using the Docker service name.
-- Change `TIMEPLUS_USER` / `TIMEPLUS_PASSWORD` if you created a different user in step 3.
+- `AGENTGUARD_URL=http://agentguard:8080` ensures Timeplus Enterprise can call back AgentGuard using the Docker service name.
+- Credentials are entered in the setup wizard, not in the compose file.
 
-To stop and remove volumes:
+To stop and remove all data (requires re-setup):
 ```bash
 docker compose down -v
 ```
 
-### Option C — Docker image (standalone)
-
-```bash
-docker run -d \
-  --name agentguard \
-  -p 8080:8080 \
-  -e TIMEPLUS_HOST=<timeplus-host> \
-  -e TIMEPLUS_USER=proton \
-  -e TIMEPLUS_PASSWORD="timeplus@t+" \
-  -e AGENTGUARD_URL=http://<agentguard-host>:8080 \
-  --restart unless-stopped \
-  timeplus/agentguard:latest
-```
-
-Replace `<timeplus-host>` with the hostname or IP where Timeplus is running (use `host.docker.internal` on macOS/Windows when Timeplus runs on the host machine).
-
-Replace `<agentguard-host>` with the address Timeplus will use to call back AgentGuard for alert webhooks — see [Alert UDF webhook](#alert-udf-webhook) below.
-
 ### Alert UDF webhook
 
-AgentGuard creates a Timeplus Python UDF (`notify_agentguard_udf`) at startup. When a security rule fires, Timeplus calls this UDF, which HTTP-POSTs the alert back to AgentGuard at:
+When a security rule fires, Timeplus executes a Python UDF (`notify_agentguard_udf`) that HTTP-POSTs the alert back to AgentGuard at:
 
 ```
 <AGENTGUARD_URL>/api/alerts/webhook
@@ -205,6 +183,22 @@ This is a **Timeplus → AgentGuard** call, so `AGENTGUARD_URL` must be the addr
 | Docker Compose | `http://agentguard:8080` _(pre-configured)_ |
 | AgentGuard in Docker, Timeplus on host | `http://host.docker.internal:8080` |
 | Remote / cloud | `http://<public-ip-or-hostname>:8080` |
+
+---
+
+## 4. First-time setup wizard
+
+On first launch, AgentGuard shows a 3-step setup wizard instead of the dashboard.
+
+**Step 1 — Connection:** Enter your Timeplus host, HTTP port (3218), native TCP port (8463), and the AgentGuard URL (used for alert callbacks). Defaults are pre-filled from environment variables if set.
+
+**Step 2 — Credentials:** Enter your Timeplus username and password. Click **Test Connection** to verify — the Next button is disabled until the test passes. Credentials are never stored on disk or in the config file; they live only in the server's in-memory session.
+
+**Step 3 — Provision:** Click **Provision Resources** to create all required Timeplus streams, materialized views, UDFs, and seed data. Progress is streamed live in a terminal-style log. On success, you are automatically logged in and redirected to the dashboard.
+
+After setup completes, `config.yaml` is written with `setup_complete: true` and the connection details (no credentials). Subsequent server restarts skip directly to the login page.
+
+> **Re-running setup:** Setup runs only once. To reset, delete `config.yaml` (or remove the Docker volume) and restart the server.
 
 ---
 
@@ -233,8 +227,8 @@ Add the plugin to your `openclaw.json`:
           "stream": "agentguard_hook_events",
           "flushMs": 2000,
           "batchSize": 50,
-          "username": "proton",
-          "password": "timeplus@t+"
+          "username": "default",
+          "password": ""
         }
       }
     }
@@ -248,8 +242,8 @@ Or set environment variables before starting OpenClaw:
 export AGENTGUARD_TIMEPLUS_URL=http://localhost:3218
 export AGENTGUARD_DEPLOYMENT_ID=my-team
 export AGENTGUARD_DEPLOYMENT_NAME="My Team"
-export AGENTGUARD_USERNAME=proton
-export AGENTGUARD_PASSWORD="timeplus@t+"
+export AGENTGUARD_USERNAME=default
+export AGENTGUARD_PASSWORD=""
 ```
 
 > **Docker (OpenClaw in container, Timeplus on host):** Use `http://host.docker.internal:3218` instead of `localhost`.
@@ -320,8 +314,8 @@ export AGENTGUARD_AGENT_ID="your-hostname"        # identifies this machine
 export AGENTGUARD_DEPLOYMENT_ID="local"
 export AGENTGUARD_DEPLOYMENT_NAME="Local Dev"
 export AGENTGUARD_TIMEPLUS_URL="http://localhost:3218"
-export AGENTGUARD_USERNAME="proton"
-export AGENTGUARD_PASSWORD="timeplus@t+"
+export AGENTGUARD_USERNAME="default"
+export AGENTGUARD_PASSWORD=""
 ```
 
 Then reload your shell:
@@ -391,7 +385,7 @@ curl -s http://localhost:3218/ping
 
 ```bash
 # Binary / local
-./backend/server 2>&1 | grep -E "timeplus|AgentGuard"
+./agentguard 2>&1 | grep -E "timeplus|AgentGuard"
 
 # Docker Compose
 docker logs agentguard 2>&1 | grep -E "timeplus|AgentGuard"
@@ -400,9 +394,14 @@ docker logs agentguard 2>&1 | grep -E "timeplus|AgentGuard"
 Look for lines like:
 ```
 AgentGuard starting on :8080
-Proton endpoint: localhost:3218 (native: 8463)
+Timeplus endpoint: localhost:3218 (native: 8463)
 AgentGuard webhook URL: http://localhost:8080
-timeplus: UDF notify_agentguard_udf created/updated (webhook: http://localhost:8080)
+Setup complete: false
+```
+
+`Setup complete: false` means the setup wizard will run — navigate to [http://localhost:8080](http://localhost:8080) to complete it. After setup and restart:
+```
+Setup complete: true
 ```
 
 ### Check Claude Code hook events are arriving
@@ -425,4 +424,7 @@ curl -s -X POST http://localhost:3218/proton/v1/query \
 
 ### Open the dashboard
 
-Navigate to [http://localhost:8080/onboarding](http://localhost:8080/onboarding) for the guided setup wizard, or go straight to [http://localhost:8080/dashboard](http://localhost:8080/dashboard) to see live agent activity.
+Navigate to [http://localhost:8080](http://localhost:8080):
+- **First launch:** the setup wizard runs automatically
+- **After setup:** the login page appears; sign in with your Timeplus credentials
+- **After login:** you land on the dashboard; use the **Onboarding** wizard (`/onboarding`) to connect your first agent
