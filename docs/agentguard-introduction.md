@@ -27,13 +27,14 @@ AgentGuard sits alongside your agent fleet and continuously monitors every hook 
 
 | Capability | What you get |
 |---|---|
+| **Setup wizard** | One-time first-launch wizard that connects to Timeplus, provisions all resources, and logs you in |
 | **Live threat feed** | Instant alerts when a detection rule fires, with severity, agent identity, and the raw event payload |
 | **Agent fleet overview** | All active agents with event counts, session counts, token usage, and last-seen timestamps |
 | **Session & run traces** | Per-session waterfall view of every LLM call and tool invocation, with timing |
 | **Cost governance** | Daily spend trends, per-model token breakdown, configurable pricing, MTD forecast |
 | **Rule packs** | Install, enable/disable, and upgrade versioned detection rules without restarting |
 | **SQL console** | Ad-hoc streaming SQL directly against the underlying event streams |
-| **Onboarding wizard** | Step-by-step setup for connecting a new agent in under five minutes |
+| **Agent onboarding** | Step-by-step wizard for connecting a new agent in under five minutes |
 
 ---
 
