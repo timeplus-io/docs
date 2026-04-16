@@ -106,7 +106,7 @@ AgentGuard creates all required Timeplus streams and materialized views on first
 
 > **Non-interactive install:** If you pipe the script through `sh` without a terminal (e.g. in CI), configuration prompts are skipped. Edit `~/.agentguard/config.yaml` manually afterwards.
 
-### Option C — Docker Compose (recommended for new installs)
+### Option B — Docker Compose (recommended for new installs)
 
 This starts Timeplus and AgentGuard together with the correct networking. Save the following as `docker-compose.yaml` and run it:
 
@@ -171,7 +171,7 @@ To stop and remove volumes:
 docker compose down -v
 ```
 
-### Option B — Docker image (standalone)
+### Option C — Docker image (standalone)
 
 ```bash
 docker run -d \
