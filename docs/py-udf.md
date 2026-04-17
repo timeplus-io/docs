@@ -27,7 +27,7 @@ This is the mapping for [Timeplus data type](/datatypes) and Python data type:
 |float32, float64|float|
 |date, date32|datetime.date|
 |datetime, datetime64|datetime.datetime|
-|string, fixed_string|str|
+|string, fixed_string|bytes|
 |array|list|
 |tuple|tuple|
 |map| dict|
