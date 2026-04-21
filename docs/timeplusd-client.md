@@ -1,11 +1,17 @@
 # timeplusd-client
 
-Timeplus Enterprise provides a command-line interface (CLI) to run SQL commands via `timeplusd client`. The `timeplusd` executable is available in the `timeplus/bin` folder of [the bare metal packages](/release-downloads) and in the `PATH` of the `timeplus/timeplusd` Docker image.
+`timeplusd client` is the native CLI for Timeplus Enterprise. It ships in the
+`timeplus/bin` folder of [the bare-metal package](/release-downloads) and is on
+`PATH` in the `timeplus/timeplusd` Docker image.
+
 :::info
-In the Docker/Kubernetes environments, you can also run `timeplusd-client` command, which will call `timeplusd client` command.
+In Docker and Kubernetes environments the alias `timeplusd-client` is also
+available and forwards to `timeplusd client`.
 :::
 
-Different client and server versions are compatible with one another, but some features may not be available in older clients. We recommend using the same version of the client as the server app. When you try to use a client of the older version, then the server, `timeplusd client` displays the message:
+Client and server versions are cross-compatible, but newer server features may
+be unavailable in older clients — keep them in sync when possible. A version
+skew prints:
 
 ```
 Timeplus client version is older than Timeplus server. It may lack support for new features.
@@ -13,131 +19,222 @@ Timeplus client version is older than Timeplus server. It may lack support for n
 
 ## Usage {#cli_usage}
 
-The client can be used in interactive and non-interactive (batch) mode. To use batch mode, specify the ‘query’ parameter, or send data to ‘stdin’ (it verifies that ‘stdin’ is not a terminal), or both. Similar to the HTTP interface, when using the ‘query’ parameter and sending data to ‘stdin’, the request is a concatenation of the ‘query’ parameter, a line feed, and the data in ‘stdin’. This is convenient for large INSERT queries.
+The client runs in two modes:
 
-Example of using the client to insert data:
+- **Interactive** — started when no query is supplied. Enter queries at the
+  prompt, press Enter to submit (terminate with `;` when `--multiline` / `-m`
+  is set). Append `\G` to a query to force Vertical output (MySQL-style).
+  Ctrl+C cancels a running query; Ctrl+D, `exit`, `quit`, or `:q` exits the
+  shell. History is kept in `~/.timeplusd-client-history`.
+- **Batch** — triggered by `--query` / `-q` and/or piping data to `stdin`.
+  The request sent to the server is the query, a newline, then `stdin` —
+  convenient for large `INSERT`s. Default output format is `PrettyCompact`;
+  override with `--format` / `-f`, `--vertical` / `-E`, or a `FORMAT` clause.
 
-``` bash
-$ echo -ne "1, 'some text', '2016-08-14 00:00:00'\n2, 'some more text', '2016-08-14 00:00:01'" | timeplusd client --database=test --query="INSERT INTO test FORMAT CSV";
+By default only a single statement runs per batch invocation. Use
+`--multiquery` / `-n` to send several semicolon-separated statements in one
+request (not supported for `INSERT`).
 
-$ cat <<_EOF | timeplusd client --database=test --query="INSERT INTO test FORMAT CSV";
-3, 'some text', '2016-08-14 00:00:00'
-4, 'some more text', '2016-08-14 00:00:01'
-_EOF
+### Executing SQL {#executing-sql}
 
-$ cat file.csv | timeplusd client --database=test --query="INSERT INTO test FORMAT CSV";
+```bash
+# interactive
+timeplusd client -h 127.0.0.1 --ask-password
+
+# one-shot
+timeplusd client -q "SELECT version()"
+timeplusd client -d mydb -q "SELECT count() FROM events"
+
+# multiple statements (INSERT excluded)
+timeplusd client -n -q "
+  CREATE STREAM IF NOT EXISTS demo(id int);
+  SELECT count() FROM demo;
+"
+
+# run a script file
+timeplusd client --multiquery      < statements.sql
+timeplusd client --queries-file ./statements.sql
+
+# diagnostics
+timeplusd client --time       -q "..."   # elapsed time to stderr
+timeplusd client --progress   -q "..."   # rows/sec progress
+timeplusd client --stacktrace -q "..."   # server stack trace on error
 ```
-
-In batch mode, the default data format is TabSeparated. You can set the format in the FORMAT clause of the query.
-
-By default, you can only process a single query in batch mode. To make multiple queries from a script, use the `--multiquery` parameter. This works for all queries except INSERT. Query results are output consecutively without additional separators. Similarly, to process a large number of queries, you can run ‘timeplusd client’ for each query. Note that it may take tens of milliseconds to launch the ‘timeplusd client’ program.
-
-In interactive mode, you get a command line where you can enter queries.
-
-If ‘multiline’ is not specified (the default): To run the query, press Enter. The semicolon is not necessary at the end of the query. To enter a multiline query, enter a backslash `\` before the line feed. After you press Enter, you will be asked to enter the next line of the query.
-
-If multiline is specified: To run a query, end it with a semicolon and press Enter. If the semicolon was omitted at the end of the entered line, you will be asked to enter the next line of the query.
-
-Only a single query is run, so everything after the semicolon is ignored.
-
-You can specify `\G` instead of or after the semicolon. This indicates Vertical format. In this format, each value is printed on a separate line, which is convenient for wide tables. This unusual feature was added for compatibility with the MySQL CLI.
-
-The command line is based on ‘replxx’ (similar to ‘readline’). In other words, it uses the familiar keyboard shortcuts and keeps a history. The history is written to `~/.timeplusd-client-history`.
-
-By default, the format used is PrettyCompact. You can change the format in the FORMAT clause of the query, or by specifying `\G` at the end of the query, using the `--format` or `--vertical` argument in the command line, or using the client configuration file.
-
-To exit the client, press Ctrl+D, or enter one of the following instead of a query: “exit”, “quit”, “logout”, “exit;”, “quit;”, “logout;”, “q”, “Q”, “:q”.
-
-When processing a query, the client shows:
-
-1.  Progress, which is updated no more than 10 times per second (by default). For quick queries, the progress might not have time to be displayed.
-2.  The formatted query after parsing, for debugging.
-3.  The result in the specified format.
-4.  The number of lines in the result, the time passed, and the average speed of query processing.
-
-You can cancel a long query by pressing Ctrl+C. However, you will still need to wait for a little for the server to abort the request. It is not possible to cancel a query at certain stages. If you do not wait and press Ctrl+C a second time, the client will exit.
-
-The command-line client allows passing external data (external temporary tables) for querying. For more information, see the section “External data for query processing”.
 
 ### Queries with Parameters {#cli-queries-with-parameters}
 
-You can create a query with parameters and pass values to them from client application. This allows to avoid formatting query with specific dynamic values on client side. For example:
+Server-side parameter substitution avoids string formatting on the client.
+Reference a parameter with `{<name>:<type>}` and pass it via
+`--param_<name>=<value>`:
 
-``` bash
-$ timeplusd client --param_parName="[1, 2]"  -q "SELECT * FROM stream WHERE a = {parName:array(uint16)}"
+```bash
+timeplusd client --param_ids="[1, 2, 3]" \
+  -q "SELECT * FROM sensors WHERE id IN {ids:array(uint32)}"
+
+# identifiers (database/table/column names) use the `identifier` type
+timeplusd client --param_db=system --param_tbl=numbers --param_col=number \
+  -q "SELECT {col:identifier} FROM {db:identifier}.{tbl:identifier} LIMIT 10"
+
+# tuples and other structured types work the same way
+timeplusd client --param_t="(10, ('dt', 10))" \
+  -q "SELECT * FROM stream WHERE val = {t:tuple(uint8, tuple(string, uint8))}"
 ```
 
-It is also possible to set parameters from within an interactive session:
-``` bash
-$ timeplusd client -nq "
-  SET param_parName='[1, 2]';
-  SELECT {parName:array(uint16)}"
+Parameters can also be set inside a session:
+
+```bash
+timeplusd client -nq "SET param_ids='[1, 2]'; SELECT {ids:array(uint16)}"
 ```
 
-#### Query Syntax {#cli-queries-with-parameters-syntax}
+See [Data types](/datatypes) for the full list of supported parameter types.
 
-Format a query as usual, then place the values that you want to pass from the app parameters to the query in braces in the following format:
+## Loading Data {#loading-data}
 
-``` sql
-{<name>:<data type>}
+`INSERT ... FORMAT <fmt>` reads rows from `stdin` in the named format. The
+examples below assume:
+
+```sql
+CREATE STREAM events (id uint64, name string, ts datetime64(3));
 ```
 
--   `name` — Placeholder identifier. In the console client it should be used in app parameters as `--param_<name> = value`.
--   `data type` — [Data type](/datatypes) of the app parameter value. For example, a data structure like `(integer, ('string', integer))` can have the `tuple(uint8, tuple(string, uint8))` data type (you can also use another integer types). It's also possible to pass table, database, column names as a parameter, in that case you would need to use `identifier` as a data type.
+### Text formats {#loading-text}
 
-#### Example {#example}
+```bash
+# CSV, no header
+cat <<EOF | timeplusd client -q "INSERT INTO events FORMAT CSV"
+1,alice,2026-04-20 10:00:00.000
+2,bob,2026-04-20 10:00:01.000
+EOF
 
-``` bash
-$ timeplusd client --param_tuple_in_tuple="(10, ('dt', 10))" -q "SELECT * FROM stream WHERE val = {tuple_in_tuple:tuple(uint8, tuple(string, uint8))}"
-$ timeplusd client --param_tbl="numbers" --param_db="system" --param_col="number" --query "SELECT {col:identifier} FROM {db:identifier}.{tbl:identifier} LIMIT 10"
+# CSV with header — column order comes from the file
+timeplusd client -q "INSERT INTO events FORMAT CSVWithNames" < events.csv
+
+# tab-separated variants
+timeplusd client -q "INSERT INTO events FORMAT TabSeparated" < events.tsv
+timeplusd client -q "INSERT INTO events FORMAT TSVWithNames" < events_h.tsv
+
+# NDJSON — inline or from a file
+cat <<EOF | timeplusd client -q "INSERT INTO events FORMAT JSONEachRow"
+{"id":10,"name":"carol","ts":"2026-04-20 10:05:00.000"}
+{"id":11,"name":"dave", "ts":"2026-04-20 10:05:01.000"}
+EOF
+timeplusd client -q "INSERT INTO events FORMAT JSONEachRow" < events.ndjson
+```
+
+### Columnar formats {#loading-columnar}
+
+```bash
+timeplusd client -q "INSERT INTO events FORMAT Parquet" < events.parquet
+timeplusd client -q "INSERT INTO events FORMAT ORC"     < events.orc
+timeplusd client -q "INSERT INTO events FORMAT Arrow"   < events.arrow
+```
+
+### Values and pipelines {#loading-misc}
+
+```bash
+# inline literals
+timeplusd client -q "INSERT INTO events VALUES (100,'eve','2026-04-20 10:10:00.000')"
+
+# remote source
+curl -sS https://example.com/events.csv \
+  | timeplusd client -q "INSERT INTO events FORMAT CSVWithNames"
+
+# server-to-server copy — Native is the fastest binary format
+timeplusd client -h src -q "SELECT * FROM events FORMAT Native" \
+  | timeplusd client -h dst -q "INSERT INTO events FORMAT Native"
+
+# tolerate up to 10 malformed rows (or use --input_format_allow_errors_ratio=R)
+timeplusd client --input_format_allow_errors_num=10 \
+  -q "INSERT INTO events FORMAT JSONEachRow" < events.ndjson
+```
+
+## Dumping Data {#dumping-data}
+
+Pick the output format with `-f` or a trailing `FORMAT` clause and redirect
+`stdout`. Wrap the stream with `table(...)` so the query is bounded — a plain
+`SELECT ... FROM <stream>` is streaming and never returns.
+
+### Text formats {#dumping-text}
+
+```bash
+# the two styles are equivalent — pick either the -f flag or a trailing FORMAT clause
+timeplusd client -f CSVWithNames -q "SELECT * FROM table(events)"     > events.csv
+timeplusd client -q "SELECT * FROM table(events) FORMAT CSVWithNames" > events.csv
+
+timeplusd client -q "SELECT * FROM table(events) FORMAT TSVWithNames" > events.tsv
+timeplusd client -q "SELECT * FROM table(events) FORMAT JSON"         > events.json    # meta + data
+timeplusd client -q "SELECT * FROM table(events) FORMAT JSONEachRow"  > events.ndjson
+timeplusd client -q "SELECT * FROM table(events) FORMAT SQLInsert"    > events.sql     # replayable INSERTs
+```
+
+### Columnar formats {#dumping-columnar}
+
+```bash
+timeplusd client -q "SELECT * FROM table(events) FORMAT Parquet" > events.parquet
+timeplusd client -q "SELECT * FROM table(events) FORMAT ORC"     > events.orc
+timeplusd client -q "SELECT * FROM table(events) FORMAT Arrow"   > events.arrow
+```
+
+For large exports, prefer `Native` or `Parquet` over CSV/JSON — faster and
+schema-preserving.
+
+### Terminal output {#dumping-pretty}
+
+```bash
+timeplusd client -q "SELECT * FROM table(events) LIMIT 5 FORMAT PrettyCompact"
+timeplusd client -q "SELECT * FROM table(events) LIMIT 1 FORMAT Vertical"   # one column per line
+```
+
+### Compress and split {#dumping-pipeline}
+
+```bash
+timeplusd client -q "SELECT * FROM table(events) FORMAT CSVWithNames" | gzip > events.csv.gz
+timeplusd client -q "SELECT * FROM table(events) FORMAT JSONEachRow"  | zstd > events.ndjson.zst
+
+# 1M-row chunks
+timeplusd client -q "SELECT * FROM table(events) FORMAT CSVWithNames" \
+  | split -l 1000000 - events_part_
 ```
 
 ## Configuration {#interfaces_cli_configuration}
 
-You can pass parameters to `timeplusd client` (all parameters have a default value) using:
+Options may be passed on the command line or set in a config file;
+command-line values win.
 
--   From the Command Line
+### Command-line options {#command-line-options}
 
-    Command-line options override the default values and settings in configuration files.
+| Flag | Description |
+| --- | --- |
+| `-h, --host` | Server hostname or IP. Default `localhost`. |
+| `--port` | Native TCP port. Default `8463` (HTTP uses a different port). |
+| `-u, --user` | User. Default `default`. |
+| `--password` | Password (empty by default). |
+| `--ask-password` | Prompt for the password. |
+| `-d, --database` | Default database. |
+| `-q, --query` | Query string for batch mode. |
+| `--queries-file` | Path to a file with queries to run. |
+| `-m, --multiline` | Allow multi-line queries in interactive mode. |
+| `-n, --multiquery` | Allow multiple semicolon-separated queries in one batch. |
+| `-f, --format` | Default output format (`PrettyCompact` otherwise). |
+| `-E, --vertical` | Alias for `--format=Vertical`. |
+| `-t, --time` | Print query time to `stderr` in batch mode. |
+| `--stacktrace` | Print the server stack trace on exceptions. |
+| `--secure` | Connect over TLS. |
+| `--config-file` | Path to a config file. |
+| `--history_file` | Path to the history file. |
+| `--param_<name>` | Value for a [parameterized query](#cli-queries-with-parameters). |
+| `--hardware-utilization` | Include hardware stats in the progress bar. |
+| `--print-profile-events` | Emit `ProfileEvents` packets. |
+| `--profile-events-delay-ms` | Delay between `ProfileEvents` packets (`-1` = totals only, `0` = every packet). |
 
--   Configuration files.
+### Configuration files {#configuration_files}
 
-    Settings in the configuration files override the default values.
+`timeplusd client` loads the first file that exists, in order:
 
-### Command Line Options {#command-line-options}
-
--   `--host, -h` – The server name, ‘localhost’ by default. You can use either the name or the IPv4 or IPv6 address.
--   `--port` – The port to connect to. Default value: 8463. Note that the HTTP interface and the native interface use different ports.
--   `--user, -u` – The username. Default value: default.
--   `--password` – The password. Default value: empty string.
--   `--ask-password` - Prompt the user to enter a password.
--   `--query, -q` – The query to process when using non-interactive mode. You must specify either `query` or `queries-file` option.
--   `--queries-file` – file path with queries to execute. You must specify either `query` or `queries-file` option.
--   `--database, -d` – Select the current default database. Default value: the current database from the server settings (‘default’ by default).
--   `--multiline, -m` – If specified, allow multiline queries (do not send the query on Enter).
--   `--multiquery, -n` – If specified, allow processing multiple queries separated by semicolons.
--   `--format, -f` – Use the specified default format to output the result.
--   `--vertical, -E` – If specified, use the Vertical format by default to output the result. This is the same as `–format=Vertical`. In this format, each value is printed on a separate line, which is helpful when displaying wide tables.
--   `--time, -t` – If specified, print the query execution time to ‘stderr’ in non-interactive mode.
--   `--stacktrace` – If specified, also print the stack trace if an exception occurs.
--   `--config-file` – The name of the configuration file.
--   `--secure` – If specified, will connect to server over secure connection (TLS). You might need to configure your CA certificates in the [configuration file](#configuration_files). (../operations/server-configuration-parameters/settings.md#server_configuration_parameters-openssl).
--   `--history_file` — Path to a file containing command history.
--   `--param_<name>` — Value for a [query with parameters](#cli-queries-with-parameters).
--   `--hardware-utilization` — Print hardware utilization information in progress bar.
--   `--print-profile-events` – Print `ProfileEvents` packets.
--   `--profile-events-delay-ms` – Delay between printing `ProfileEvents` packets (-1 - print only totals, 0 - print every single packet).
-
-### Configuration Files {#configuration_files}
-
-`timeplusd client` uses the first existing file of the following:
-
--   Defined in the `--config-file` parameter.
--   `./timeplusd-client.xml`
--   `~/.timeplusd-client/config.xml`
--   `/etc/timeplusd-client/config.xml`
-
-Example of a config file:
+1. the path passed to `--config-file`
+2. `./timeplusd-client.xml`
+3. `~/.timeplusd-client/config.xml`
+4. `/etc/timeplusd-client/config.xml`
 
 ```xml
 <config>
@@ -152,10 +249,10 @@ Example of a config file:
 </config>
 ```
 
-### Query ID Format {#query-id-format}
+### Query ID {#query-id-format}
 
-In interactive mode `timeplusd client` shows query ID for every query. By default, the ID is formatted like this:
+Interactive mode prints a query ID for every statement:
 
-```sql
+```
 Query id: 927f137d-00f1-4175-8914-0dd066365e96
 ```
