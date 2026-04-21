@@ -55,7 +55,7 @@ Released on 02-25-2026. Installation options:
 Component versions:
 * timeplusd 3.1.2
 * timeplus_appserver 3.1.2
-* timeplus_connector 3.1.2
+* timeplus_connector 3.1.0
 * timeplus cli 3.0.0
 * timeplus byoc 1.0.0
 
@@ -75,7 +75,7 @@ Released on 01-29-2026. Installation options:
 Component versions:
 * timeplusd 3.1.1
 * timeplus_appserver 3.0.47
-* timeplus_connector 3.0.21
+* timeplus_connector 3.0.0
 * timeplus cli 3.0.0
 * timeplus byoc 1.0.0
 
