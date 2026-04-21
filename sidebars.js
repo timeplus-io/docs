@@ -122,6 +122,11 @@ const sidebars = {
         //   ],
         // },
         {
+          type: "doc",
+          label: "Apache Iceberg",
+          id: "iceberg-source",
+        },
+        {
           type: "category",
           label: "Apache Kafka",
           link: {
@@ -137,18 +142,23 @@ const sidebars = {
         },
         {
           type: "doc",
-          label: "MySQL",
-          id: "mysql-external-table",
-        },
-        {
-          type: "doc",
-          label: "Apache Iceberg",
-          id: "iceberg-source",
+          label: "Log Stream",
+          id: "log-stream",
         },
         {
           type: "doc",
           label: "MongoDB",
           id: "mongo-external-table",
+        },
+        {
+          type: "doc",
+          label: "MySQL",
+          id: "mysql-external-table",
+        },
+        {
+          type: "doc",
+          label: "NATS JetStream",
+          id: "nats-jetstream-source",
         },
         {
           type: "doc",
@@ -159,11 +169,6 @@ const sidebars = {
           type: "doc",
           label: "S3",
           id: "s3-source",
-        },
-        {
-          type: "doc",
-          label: "Log Stream",
-          id: "log-stream",
         },
         {
           type: "doc",
@@ -506,19 +511,19 @@ const sidebars = {
           id: "iceberg-sink",
         },
         {
+           type: "doc",
+           label: "BigQuery",
+           id: "bigquery-external",
+        },
+        {
           type: "doc",
           label: "ClickHouse",
           id: "clickhouse-external-table",
         },
         {
-          type: "doc",
-          label: "S3",
-          id: "s3-sink",
-        },
-        {
            type: "doc",
-           label: "HTTP",
-           id: "http-external-stream",
+           label: "Databricks",
+           id: "databricks-external",
         },
         {
            type: "doc",
@@ -527,23 +532,28 @@ const sidebars = {
         },
         {
            type: "doc",
-           label: "Splunk",
-           id: "splunk-external",
-        },
-        {
-           type: "doc",
            label: "Elasticsearch",
            id: "elastic-external",
         },
         {
            type: "doc",
-           label: "BigQuery",
-           id: "bigquery-external",
+           label: "HTTP",
+           id: "http-external-stream",
+        },
+        {
+          type: "doc",
+          label: "NATS JetStream",
+          id: "nats-jetstream-sink",
+        },
+        {
+          type: "doc",
+          label: "S3",
+          id: "s3-sink",
         },
         {
            type: "doc",
-           label: "Databricks",
-           id: "databricks-external",
+           label: "Splunk",
+           id: "splunk-external",
         },
         // {
         //   type: "doc",
@@ -561,14 +571,14 @@ const sidebars = {
         //   id: "mongo-external-table",
         // },
         {
-          type: "doc",
-          label: "Timeplus",
-          id: "timeplus-sink",
-        },
-        {
            type: "doc",
            label: "Slack",
            id: "slack-external",
+        },
+        {
+          type: "doc",
+          label: "Timeplus",
+          id: "timeplus-sink",
         },
         {
           type: "doc",

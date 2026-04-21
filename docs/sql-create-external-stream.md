@@ -51,6 +51,10 @@ SETTINGS
 
 Please check the [Pulsar External Stream](/pulsar-source) for more details.
 
+## NATS JetStream External Stream
+
+Please check the [NATS JetStream External Stream](/nats-jetstream-source) for more details.
+
 ## Timeplus External Stream
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
