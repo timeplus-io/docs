@@ -208,9 +208,6 @@ SELECT raw FROM ext_stream SETTINGS seek_to='2025-01-01T00:00:00.000'
 
 Timeplus converts the timestamp to the appropriate starting point in the stream.
 
-:::info
-:::
-
 #### record_consume_timeout_ms
 
 Use `record_consume_timeout_ms` to determine how long the external stream waits for new messages before returning results. Smaller values reduce latency but may impact performance.
