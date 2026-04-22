@@ -5,6 +5,7 @@ With Timeplus Console, you can easily explore and analyze streaming data, with i
 Timeplus supports various systems as the downstreams:
 * [Send data to Kafka topics](#kafka)
 * [Send data to Pulsar topics](/pulsar-sink)
+* [Send data to NATS JetStream](/nats-jetstream-sink)
 * [Send data to ClickHouse tables](/clickhouse-external-table#write)
 * [Send data to another Timeplus deployment](/timeplus-source)
 * [Send data to Webhook endpoints](#webhook)

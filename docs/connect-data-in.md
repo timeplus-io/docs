@@ -4,6 +4,7 @@ Timeplus supports multiple ways to load data into the system, or access the exte
 
 - [External Stream for Apache Kafka](/external-stream), Confluent, Redpanda, and other Kafka API compatible data streaming platform. This feature is also available in Timeplus Proton.
 - [External Stream for Apache Pulsar](/pulsar-source) is available in Timeplus Enterprise 2.5 and above.
+- [External Stream for NATS JetStream](/nats-jetstream-source) is available for NATS messaging system with JetStream enabled.
 - Source for extra wide range of data sources. This is only available in Timeplus Enterprise. This integrates with [Redpanda Connect](https://redpanda.com/connect), supporting 200+ connectors.
 - On Timeplus web console, you can also [upload CSV files](#csv) and import them into streams.
 - For Timeplus Enterprise, [REST API](/ingest-api) and SDKs are provided to push data to Timeplus programmatically.
@@ -40,6 +41,12 @@ As of today, Kafka is the primary data integration for Timeplus. With our strong
 Apache® Pulsar™ is a cloud-native, distributed, open source messaging and streaming platform for real-time workloads. Since Timeplus Enterprise 2.5, Pulsar External Streams can be created to read or write data for Pulsar.
 
 [Learn more.](/pulsar-source)
+
+### Load streaming data from NATS JetStream {#nats}
+
+[NATS](https://nats.io/) is a high-performance, lightweight messaging system. NATS JetStream provides durable, replayable message streams. With NATS JetStream External Streams, you can read or write data from/to NATS JetStream without moving data.
+
+[Learn more.](/nats-jetstream-source)
 
 ### Upload local files {#csv}
 
