@@ -20,6 +20,37 @@ Key highlights of the Timeplus 3.2 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 3.2.5 {#3_2_5}
+Released on 04-22-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_2_5)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.2.5`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 11.0.11`
+
+Component versions:
+* timeplusd 3.2.5
+* timeplus_appserver 3.2.1
+* timeplus_connector 3.2.0
+* timeplus cli 3.0.0
+* timeplus byoc 1.0.0
+
+#### Changelog {#changelog_3_2_5}
+
+**Bug Fixes**
+* Fixed inconsistent read state issue.
+* Fixed duplicate or skipped events issue during failure recovery.
+* Fixed inability issue to halt processing cleanly.
+* Fixed stuck or corrupted read sessions issue. 
+* Fixed incorrect query resolution issue.
+* Fixed runtime overflow affecting execution control issue.
+* Fixed window function correctness issue.
+* Fixed wrong results for IS NULL / OR predicates issue.
+* Fixed incorrect data inclusion during backfill issue.
+* Fixed incorrect seek positioning issue.
+* Fixed incorrect schema exposure issue.
+* Fixed connection leakage / resource exhaustion issue.
+* Fixed multiple data correctness bugs (NULL handling, window functions, predicate seeks, backfill pruning).
+* Fixed resource leakage issue due to TCP connections.
+
 ### 3.2.3 {#3_2_3}
 Released on 04-12-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_2_3)
