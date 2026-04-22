@@ -7,8 +7,9 @@ Key highlights of the Timeplus 3.2 release include:
 1. Major performance improvement in the data replication **network layer** — up to 30x faster in some scenarios — powered by request pooling, recyclable network buffers, sharded request/response channels, scatter/gather writes, and IPv6 support.
 2. Major performance improvement (up to 40x) for Kafka consume / **parsing for Protobuf, CSV, and similar formats** via smart batching and a new parallel parsing strategy for Kafka source.
 3. Major enhancements to **Python UDFs** and **external Python table functions** now enable secure, direct communication with the local timeplusd instance via automatically provisioned an ephemeral user and token. 
-4. Broad stability and quality hardening across **mutable streams, checkpoints, materialized views, streaming joins, memory accounting, and replicated log recovery**.
-5. Improved **Okta SSO** integration with a smoother login flow and support for mapping Okta users to read-only or admin roles.
+4. NATS JetStream read / write support.
+5. Broad stability and quality hardening across **mutable streams, checkpoints, materialized views, streaming joins, memory accounting, and replicated log recovery**.
+6. Improved **Okta SSO** integration with a smoother login flow and support for mapping Okta users to read-only or admin roles.
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -20,9 +21,45 @@ Key highlights of the Timeplus 3.2 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 3.2.5 {#3_2_5}
+Released on 04-22-2026. Installation options:
+* For Linux or Mac users: [Downloads](/release-downloads#3_2_5)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.2.5`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 11.0.11`
+
+Component versions:
+* timeplusd 3.2.5
+* timeplus_appserver 3.2.1
+* timeplus_connector 3.2.0
+* timeplus cli 3.0.0
+* timeplus byoc 1.0.0
+
+#### Changelog {#changelog_3_2_5}
+
+**Features and Enhancements**
+* NATS JetStream external stream support (#11900)
+* Enhance NATS I/O (#11957)
+* Refine NATS settings (#11976)
+* Close all idle TCP connections in one pass (#11930)
+
+**Performance**
+* Cache `StorageView::isStreamingQuery` per query (#11902)
+
+**Bug Fixes**
+* Fix NATS JetStream source (#11968)
+* Reset `ReadBuffer` canceled flag on rewind (#11953)
+* Fix CH_CASE issues: WITH-alias missing column, throttle overflow, `nth_value` (#11920)
+* Rewind `idempotent_keys` on commit retry and recovery (#11922)
+* Keep NULL-valued granules in skip index for `IS NULL` / `OR` predicates (#11937)
+* Fix `_tp_sn` / `_tp_time` event predicate seeks (#11840)
+* Honor stop signal inside mutable-stream commit (#11918)
+* Strip `_tp_delta` from virtuals of bounded table (mutable_stream) reads (#11905)
+* Reset fetch session when block reader `read()` fails (#11891)
+* Preserve backfill from historical store filter pruning (seek_to) (#11859)
+
 ### 3.2.3 {#3_2_3}
 Released on 04-12-2026. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_2_3)
+* For Linux or Mac users: [Downloads](/release-downloads#3_2_3)
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.2.3`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 11.0.7`
 
