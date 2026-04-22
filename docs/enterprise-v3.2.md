@@ -23,7 +23,7 @@ We recommend using stable releases for production deployment. Engineering builds
 
 ### 3.2.5 {#3_2_5}
 Released on 04-22-2026. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_2_5)
+* For Linux or Mac users: [Downloads](/release-downloads#3_2_5)
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.2.5`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 11.0.11`
 
@@ -59,7 +59,7 @@ Component versions:
 
 ### 3.2.3 {#3_2_3}
 Released on 04-12-2026. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_2_3)
+* For Linux or Mac users: [Downloads](/release-downloads#3_2_3)
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.2.3`
 * For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 11.0.7`
 
