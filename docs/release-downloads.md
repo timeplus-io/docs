@@ -2,7 +2,7 @@
 
 ## 3.x {#3_x}
 
-### v3.2.3 {#3_2_3}
+### v3.2.5 {#3_2_5}
 Released on 04-22-2026 ([Change logs](/enterprise-v3.0#3_2_5)).
 
 * Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v3.2.5-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v3.2.5-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v3.2.5-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v3.2.5-darwin-arm64.tar.gz)
