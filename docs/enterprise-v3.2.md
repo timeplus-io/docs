@@ -21,6 +21,24 @@ Key highlights of the Timeplus 3.2 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 3.2.6 {#3_2_6}
+Released on 04-23-2026. Installation options:
+* For Linux or Mac users: [Downloads](/release-downloads#3_2_6)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.2.6`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 11.0.12`
+
+Component versions:
+* timeplusd 3.2.6
+* timeplus_appserver 3.2.1
+* timeplus_connector 3.2.0
+* timeplus cli 3.0.0
+* timeplus byoc 1.0.0
+
+#### Changelog {#changelog_3_2_6}
+**Bug Fixes**
+* Fix system log streams replica setting.
+* Enhance performance and error handling related to NATS.
+
 ### 3.2.5 {#3_2_5}
 Released on 04-22-2026. Installation options:
 * For Linux or Mac users: [Downloads](/release-downloads#3_2_5)
