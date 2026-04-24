@@ -35,28 +35,11 @@ Component versions:
 * timeplus byoc 1.0.0
 
 #### Changelog {#changelog_3_2_6}
-**Bug Fixes**
-* Fix system log streams replica setting.
-* Enhance performance and error handling related to NATS.
-
-### 3.2.5 {#3_2_5}
-Released on 04-22-2026. Installation options:
-* For Linux or Mac users: [Downloads](/release-downloads#3_2_5)
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.2.5`
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 11.0.11`
-
-Component versions:
-* timeplusd 3.2.5
-* timeplus_appserver 3.2.1
-* timeplus_connector 3.2.0
-* timeplus cli 3.0.0
-* timeplus byoc 1.0.0
-
-#### Changelog {#changelog_3_2_5}
 
 **Features and Enhancements**
 * NATS JetStream external stream support (#11900)
 * Enhance NATS I/O (#11957)
+* Enhance performance and error handling related to NATS(#11996).
 * Refine NATS settings (#11976)
 * Close all idle TCP connections in one pass (#11930)
 
@@ -64,6 +47,7 @@ Component versions:
 * Cache `StorageView::isStreamingQuery` per query (#11902)
 
 **Bug Fixes**
+* Fix replication factor for internal system streams in cluster setup (#12009)
 * Fix NATS JetStream source (#11968)
 * Reset `ReadBuffer` canceled flag on rewind (#11953)
 * Fix CH_CASE issues: WITH-alias missing column, throttle overflow, `nth_value` (#11920)
