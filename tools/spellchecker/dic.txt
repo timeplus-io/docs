@@ -886,6 +886,8 @@ DefaultTableEngine
 defaultValue
 defaultValueOfArgumentType
 defaultValueOfTypeName
+deinit
+deinit_function_name
 DelayedInserts
 DELETEs
 delim
@@ -1316,6 +1318,7 @@ globalNotIn
 GlobalThread
 GlobalThreadActive
 globalVariable
+globals
 globbing
 glushkovds
 gofakeit
@@ -1526,6 +1529,8 @@ infty
 Ingestions
 ingressClassName
 init
+init_function_name
+init_function_parameters
 init_sql
 initcap
 initcapUTF
