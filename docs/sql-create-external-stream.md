@@ -55,6 +55,28 @@ Please check the [Pulsar External Stream](/pulsar-source) for more details.
 
 Please check the [NATS JetStream External Stream](/nats-jetstream-source) for more details.
 
+## Python External Stream
+
+```sql
+CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
+AS $$
+def read_fn():
+    ...
+$$
+SETTINGS
+    type = 'python',                          -- required
+    read_function_name = '..',
+    write_function_name = '..',
+    init_function_name = '..',                -- 3.2.1+
+    init_function_parameters = '..',          -- 3.2.1+
+    deinit_function_name = '..',              -- 3.2.1+
+    mode = 'auto'                             -- 'auto' (default), 'streaming', or 'batch'
+```
+
+Available in **Timeplus Enterprise 3.1.1+**. Lifecycle hooks (`init_function_name`, `deinit_function_name`, `init_function_parameters`) require **3.2.1+**, and injected local-API credentials require **3.2.2+**.
+
+Please check the [Python External Stream](/python-external-stream) for more details about settings, lifecycle hooks, and examples.
+
 ## Timeplus External Stream
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)

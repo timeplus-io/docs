@@ -167,6 +167,11 @@ const sidebars = {
         },
         {
           type: "doc",
+          label: "Python",
+          id: "python-external-stream",
+        },
+        {
+          type: "doc",
           label: "S3",
           id: "s3-source",
         },
@@ -544,6 +549,11 @@ const sidebars = {
           type: "doc",
           label: "NATS JetStream",
           id: "nats-jetstream-sink",
+        },
+        {
+          type: "doc",
+          label: "Python",
+          id: "python-external-stream",
         },
         {
           type: "doc",
