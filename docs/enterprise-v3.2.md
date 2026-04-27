@@ -37,8 +37,8 @@ Component versions:
 #### Changelog {#changelog_3_2_6}
 
 **Bug Fixes**
-* Fix intermittent crashes under parallel workloads(#12019)
-* Fix data race in getting watermark (#12022)
+* Fix race condition in Kafka source (#12019)
+* Fix Kafka source deadlock when getting watermark (#12022)
 
 ### 3.2.6 {#3_2_6}
 Released on 04-23-2026. Installation options:
