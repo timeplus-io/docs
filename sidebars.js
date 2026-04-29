@@ -746,6 +746,11 @@ const sidebars = {
           ],
         },
         "grok",
+        {
+          type: "doc",
+          label: "Protobuf / Avro Schema",
+          id: "timeplus-format-schema",
+        },
       ],
     },
     {
