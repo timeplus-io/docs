@@ -115,6 +115,8 @@ Common formats include:
 | `Protobuf` | Multiple Protobuf messages per NATS message |
 | `Avro` | Avro-encoded messages |
 
+For detailed information on each format, including type mappings, examples, and usage with Protobuf and Avro, see the [Data Formats](/data-formats) page.
+
 #### format_schema
 
 Required for `ProtobufSingle`, `Protobuf`, and `Avro` formats. Defines the schema for message serialization.
