@@ -1,5 +1,7 @@
 # Kafka Schema Registry
 
+This page covers using Kafka Schema Registry with Timeplus. For general information about Protobuf and Avro data formats (including custom schemas without Schema Registry), see the [Data Formats](/data-formats) page.
+
 ## Read Messages in Protobuf or Avro Schema {#read}
 
 To consume Kafka data using **Avro** or **Protobuf** via a Schema Registry, create an external stream using the `kafka_schema_registry_url` and associated settings.
@@ -85,4 +87,4 @@ INSERT INTO my_ex_stream SETTINGS force_refresh_schema=true ...
 ```
 :::
 
-For the data type mappings between Avro and Timeplus data type, please check [this doc](/timeplus-format-schema#avro_types).
+For the data type mappings between Avro and Timeplus data type, please check the [Data Formats page](/data-formats#avro_types).

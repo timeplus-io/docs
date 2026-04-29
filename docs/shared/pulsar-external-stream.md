@@ -106,13 +106,15 @@ Like [Kafka External Stream](/kafka-source), Pulsar External Stream also support
 #### data_format
 The supported values for `data_format` are:
 
-- JSONEachRow: parse each row of the message as a single JSON document. The top level JSON key/value pairs will be parsed as the columns. 
+- JSONEachRow: parse each row of the message as a single JSON document. The top level JSON key/value pairs will be parsed as the columns.
 - CSV: less commonly used.
 - TSV: similar to CSV but tab as the separator
 - ProtobufSingle: for single Protobuf message per message
 - Protobuf: there could be multiple Protobuf messages in a single message.
 - Avro
 - RawBLOB: the default value. Read/write message as plain text.
+
+For detailed information on each format, including type mappings, examples, and usage with Protobuf and Avro, see the [Data Formats](/data-formats) page.
 
 For data formats which write multiple rows into one single message (such as `JSONEachRow` or `CSV`), two more advanced settings are available:
 

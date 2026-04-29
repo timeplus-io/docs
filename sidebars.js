@@ -97,12 +97,12 @@ const sidebars = {
           id: "howtos",
           label: "How Tos",
         },
-      ]
+      ],
     },
     {
       type: "category",
       label: "CONNECT DATA IN",
-      link : {
+      link: {
         type: "doc",
         id: "connect-data-in",
       },
@@ -133,7 +133,7 @@ const sidebars = {
             type: "doc",
             id: "kafka-source",
           },
-          items: ["kafka-schema-registry", "timeplus-format-schema"],
+          items: ["kafka-schema-registry"],
         },
         {
           type: "doc",
@@ -223,7 +223,7 @@ const sidebars = {
               id: "syslog-input",
               label: "Syslog Input",
             },
-          ]
+          ],
         },
       ],
     },
@@ -268,7 +268,7 @@ const sidebars = {
               id: "materialized-view-monitoring",
               label: "Monitoring",
             },
-          ]
+          ],
         },
         {
           type: "category",
@@ -303,7 +303,7 @@ const sidebars = {
               id: "bidirectional-range-join",
               label: "Bidirectional Range Join",
             },
-          ]
+          ],
         },
         {
           type: "category",
@@ -333,22 +333,22 @@ const sidebars = {
               id: "session-aggregation",
               label: "Session",
             },
-          ]
+          ],
         },
         {
           type: "doc",
           id: "shuffle-data",
-          label: "Shuffle Data"
+          label: "Shuffle Data",
         },
         {
           type: "doc",
           id: "partition-data",
-          label: "Partition Data"
+          label: "Partition Data",
         },
         {
           type: "doc",
           id: "jit",
-          label: "Just-In-Time Compilation"
+          label: "Just-In-Time Compilation",
         },
         {
           type: "doc",
@@ -378,7 +378,7 @@ const sidebars = {
             "remote-udf",
           ],
         },
-      ]
+      ],
     },
     {
       type: "category",
@@ -424,7 +424,7 @@ const sidebars = {
                   id: "append-stream-tiered-storage",
                   label: "Tier Storage",
                 },
-              ]
+              ],
             },
             {
               type: "doc",
@@ -462,7 +462,7 @@ const sidebars = {
                   id: "mutable-stream-ttl",
                   label: "TTL",
                 },
-              ]
+              ],
             },
             {
               type: "doc",
@@ -473,14 +473,14 @@ const sidebars = {
         },
         {
           type: "doc",
-          id: "dictionary", 
+          id: "dictionary",
           label: "Dictionary",
         },
         {
           type: "doc",
           id: "viz",
         },
-      ]
+      ],
     },
     {
       type: "category",
@@ -511,9 +511,9 @@ const sidebars = {
           id: "iceberg-sink",
         },
         {
-           type: "doc",
-           label: "BigQuery",
-           id: "bigquery-external",
+          type: "doc",
+          label: "BigQuery",
+          id: "bigquery-external",
         },
         {
           type: "doc",
@@ -521,24 +521,24 @@ const sidebars = {
           id: "clickhouse-external-table",
         },
         {
-           type: "doc",
-           label: "Databricks",
-           id: "databricks-external",
+          type: "doc",
+          label: "Databricks",
+          id: "databricks-external",
         },
         {
-           type: "doc",
-           label: "Datadog",
-           id: "datadog-external",
+          type: "doc",
+          label: "Datadog",
+          id: "datadog-external",
         },
         {
-           type: "doc",
-           label: "Elasticsearch",
-           id: "elastic-external",
+          type: "doc",
+          label: "Elasticsearch",
+          id: "elastic-external",
         },
         {
-           type: "doc",
-           label: "HTTP",
-           id: "http-external-stream",
+          type: "doc",
+          label: "HTTP",
+          id: "http-external-stream",
         },
         {
           type: "doc",
@@ -551,9 +551,9 @@ const sidebars = {
           id: "s3-sink",
         },
         {
-           type: "doc",
-           label: "Splunk",
-           id: "splunk-external",
+          type: "doc",
+          label: "Splunk",
+          id: "splunk-external",
         },
         // {
         //   type: "doc",
@@ -571,9 +571,9 @@ const sidebars = {
         //   id: "mongo-external-table",
         // },
         {
-           type: "doc",
-           label: "Slack",
-           id: "slack-external",
+          type: "doc",
+          label: "Slack",
+          id: "slack-external",
         },
         {
           type: "doc",
@@ -584,7 +584,7 @@ const sidebars = {
           type: "doc",
           id: "alert",
         },
-      ]
+      ],
     },
     {
       type: "category",
@@ -592,6 +592,11 @@ const sidebars = {
       items: [
         "query-syntax",
         "query-settings",
+        {
+          type: "doc",
+          label: "Data Formats",
+          id: "data-formats",
+        },
         "datatypes",
         {
           type: "category",
@@ -960,7 +965,14 @@ const sidebars = {
         {
           type: "category",
           label: "Older 2.x Releases",
-          items: ["enterprise-v2.8", "enterprise-v2.7", "enterprise-v2.6", "enterprise-v2.5", "enterprise-v2.4", "enterprise-v2.3"],
+          items: [
+            "enterprise-v2.8",
+            "enterprise-v2.7",
+            "enterprise-v2.6",
+            "enterprise-v2.5",
+            "enterprise-v2.4",
+            "enterprise-v2.3",
+          ],
         },
         // "v2-release-notes",
         {

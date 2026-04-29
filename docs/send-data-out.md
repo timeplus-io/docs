@@ -12,6 +12,8 @@ Timeplus supports various systems as the downstreams:
 * [Notify others via Slack](#slack)
 * [Send data to other systems via Redpanda Connect](#rpconnect)
 
+When sending data to external systems, you can use various [data formats](/data-formats) including JSON, CSV, Protobuf, and Avro. See the [Data Formats](/data-formats) page for comprehensive information.
+
 ## Send data to Kafka{#kafka}
 
 You can leverage Timeplus for various streaming analysis, such as

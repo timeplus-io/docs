@@ -65,7 +65,7 @@ Each row is encoded as one CSV/TSV line.
 
 ### Write as Protobuf / Avro
 
-To write Protobuf-encoded or Avro-encoded messages, please refer to [Schema](/timeplus-format-schema) documentation.
+To write Protobuf-encoded or Avro-encoded messages, please refer to [Protobuf Schema](/data-formats#protobuf) and [Avro Schema](/data-formats#avro) documentation.
 
 ### Specify Subject with `_nats_subject`
 

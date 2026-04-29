@@ -164,6 +164,8 @@ The supported values for `data_format` are:
 - Avro
 - RawBLOB: the default value. Read/write message as plain text.
 
+For detailed information on each format, including type mappings, examples, and usage with Protobuf and Avro, see the [Data Formats](/data-formats) page.
+
 For data formats which write multiple rows into one single message (such as `JSONEachRow` or `CSV`), two more advanced settings are available:
 
 #### read_from

@@ -1,6 +1,6 @@
 ## Read Data from Kafka
 
-Timeplus allows reading Kafka messages in multiple data formats, including:
+Timeplus allows reading Kafka messages in multiple [Data Formats](/data-formats), including:
 
 * Plain string (raw)
 * CSV / TSV
@@ -136,7 +136,7 @@ SETTINGS data_format='TSV';
 
 ### Read Avro or Protobuf Messages
 
-To read Avro-encoded / Protobuf-encoded Kafka message, please refer to [Schema](/timeplus-format-schema) and [Schema Registry](/kafka-schema-registry) for details.
+To read Avro-encoded / Protobuf-encoded Kafka message, please refer to [Avro Schema](/data-formats#avro), [Protobuf Schema](/data-formats#protobuf) and [Schema Registry](/kafka-schema-registry) for details.
 
 ### Access Kafka Message Metadata
 

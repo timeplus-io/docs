@@ -11,6 +11,9 @@ Timeplus supports multiple ways to load data into the system, or access the exte
 - On top of the REST API and SDKs, Timeplus Enterprise adds integrations with [Kafka Connect](/kafka-connect), [AirByte](https://airbyte.com/connectors/timeplus), [Sling](/sling), and seatunnel.
 - Last but not the least, if you are not ready to load your real data into Timeplus, or just want to play with the system, you can use the web console to [create sample streaming data](#streamgen), or use SQL to create random streams.
 
+When working with external data sources, you can use various [data formats](/data-formats) including JSON, CSV, Protobuf, and Avro. See the [Data Formats](/data-formats) page for comprehensive information.
+
+
 ## Add new data via web console
 
 Choose "Data Collection" from the navigation menu to setup data access to other systems. There are two categories:
