@@ -99,7 +99,7 @@ SETTINGS type='kafka',
 
 Timeplus supports reading and writing [Protobuf](https://protobuf.dev/) formatted messages. You can use Protobuf with or without a [Schema Registry](/kafka-schema-registry).
 
-There are two data formats for Protobuf: `ProtobufSingle` and `Protobuf`. They are encoded differently and can not be used interchangably.
+There are two data formats for Protobuf: `ProtobufSingle` and `Protobuf`. They are encoded differently and can not be used interchangeably.
 
 **ProtobufSingle** Each message has only one protobuf message. This is mostly used.
 
@@ -318,7 +318,7 @@ Make sure to add `.proto` as the suffix.
 
 ## Avro {#avro}
 
-Timeplus supports reading and writing [Avro](https://avro.apache.org) formatted messages. Available since Timeplus Proton 1.5.10. You can use Avro with or without a [Schema Registry](#schema-registry).
+Timeplus supports reading and writing [Avro](https://avro.apache.org) formatted messages. Available since Timeplus Proton 1.5.10. You can use Avro with or without a [Schema Registry](/kafka-schema-registry).
 
 ### Create
 
