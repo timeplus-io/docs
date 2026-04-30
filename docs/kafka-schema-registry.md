@@ -47,11 +47,11 @@ The `subject_name_strategy` determines how the stream looks up schemas in the re
 | **TopicRecordNameStrategy** | Scopes record names to a specific topic. | `<topic>-<schema_subject_name>` | Mixed topics where you need to distinguish between same-named records in different environments. Consuming a specific record type from a stream containing multiple Avro types. `schema_subject_name` is usually full qualified record name like `com.x.y.z.RecordA`|
 
 :::info
-Note on Selective Consumption: When using `RecordNameStrategy` or `TopicRecordNameStrategy`, the external stream specifically targets the Schema ID associated with your provided `schema_subject_name`.
+The schema subject specified in external stream is used in the following cases:
+1. Auto inference columns name and type from schema when no column definition in create DDL.
+2. Encode Timeplus data and write to Kafka.
 
-1. Automatic Filtering: Any records in the topic that use a different Schema ID (i.e., different record types) are automatically discarded during decoding.
-2. Multi-Type Processing: To consume multiple record types from the same topic, you must create a separate external stream for each unique `schema_subject_name`.
-
+In reading from Kafka, the schema subject settings are ignored. The schema ID is get directly from each Kafka record and decoded with corresponding schema. The decoded messages are then converted to external stream rows. If the column name is not found in the decoded message keys, the default value of column type is filled.
 :::
 
 ## Write Messages in Avro Schema{#write}
