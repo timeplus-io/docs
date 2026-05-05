@@ -89,7 +89,7 @@ docker run -d \
   -e AGENTGUARD_URL=http://<agentguard-host>:8080 \
   -v agentguard-data:/app/data \
   --restart unless-stopped \
-  ghcr.io/timeplus-io/agentguard:latest
+  timeplus/agentguard:latest
 ```
 
 Replace `<timeplus-host>` with the hostname or IP where Timeplus is running (use `host.docker.internal` on macOS/Windows when Timeplus runs on the host machine).
@@ -128,7 +128,7 @@ services:
       start_period: 30s
 
   agentguard:
-    image: ghcr.io/timeplus-io/agentguard:latest
+    image: timeplus/agentguard:latest
     container_name: agentguard
     ports:
       - "8080:8080"
