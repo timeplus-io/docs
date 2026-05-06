@@ -2,6 +2,8 @@
 
 The write function is invoked once per chunk, not once per row. Its arguments are **column-oriented**: one Python list per output column, in declared order, all of equal length. Iterate with `zip` to recover row tuples.
 
+Column values follow the same Python type mapping as [Python UDF](/py-udf#data-type-mapping). One detail worth highlighting for sinks: a `string` (or `fixed_string`) column arrives as Python `bytes`, not `str`. Decode with `.decode()` (UTF-8) before passing values into APIs that require text.
+
 ### Sink basics
 
 ```sql
@@ -9,7 +11,7 @@ CREATE EXTERNAL STREAM py_metric_sink (host string, value float32)
 AS $$
 def py_metric_sink(host, value):
     for h, v in zip(host, value):
-        print(f"{h}={v}")
+        print(f"{h.decode()}={v}")
 $$
 SETTINGS type = 'python';
 ```
@@ -20,7 +22,7 @@ Insert a few rows:
 INSERT INTO py_metric_sink (host, value) VALUES ('a', 1.0), ('b', 2.0);
 ```
 
-Behind the scenes Timeplus calls `py_metric_sink(['a', 'b'], [1.0, 2.0])` — one call carrying both rows. A larger INSERT or a downstream query that delivers many chunks results in one call per chunk.
+Behind the scenes Timeplus calls `py_metric_sink([b'a', b'b'], [1.0, 2.0])` — one call carrying both rows, with the `string` column delivered as `bytes`. A larger INSERT or a downstream query that delivers many chunks results in one call per chunk.
 
 If `write_function_name` is omitted Timeplus uses `read_function_name` (which itself defaults to the stream name), so the Python function above only needs to be named once.
 
@@ -33,7 +35,7 @@ CREATE EXTERNAL STREAM py_alert_sink (host string, value float32)
 AS $$
 def py_alert_sink(host, value):
     for h, v in zip(host, value):
-        notify(h, v)   # your notifier
+        notify(h.decode(), v)   # your notifier
 $$
 SETTINGS type = 'python';
 
@@ -61,9 +63,10 @@ def close_client():
 
 def post_event(event_id, body):
     for eid, b in zip(event_id, body):
+        payload = {"id": eid.decode(), "body": b.decode()}
         req = urllib.request.Request(
             builtins._tp_webhook,
-            data=json.dumps({"id": eid, "body": b}).encode(),
+            data=json.dumps(payload).encode(),
             headers={"Content-Type": "application/json"},
             method="POST",
         )

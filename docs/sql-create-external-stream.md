@@ -73,7 +73,7 @@ SETTINGS
     mode = 'auto'                             -- 'auto' (default), 'streaming', or 'batch'
 ```
 
-Available in **Timeplus Enterprise 3.2+**.
+Available in **Timeplus Enterprise 3.2.2+**.
 
 Please check the [Python External Stream Source](/python-external-stream-source) for read-side settings, generator/batch sources, and lifecycle hooks, and the [Python External Stream Sink](/python-external-stream-sink) for write-side semantics, materialized-view sinks, and custom-protocol examples.
 
