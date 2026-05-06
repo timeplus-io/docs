@@ -8,7 +8,7 @@ Timeplus supports 6 types of external streams:
 * [Kafka External Stream](/kafka-source)
 * [Pulsar External Stream](/pulsar-source)
 * [NATS JetStream External Stream](/nats-jetstream-source)
-* [Python External Stream](/python-external-stream), only available in Timeplus Enterprise
+* [Python External Stream Source](/python-external-stream-source) and [Sink](/python-external-stream-sink), only available in Timeplus Enterprise
 * [Timeplus External Stream](/timeplus-source), only available in Timeplus Enterprise
 * [Log External Stream](/log-stream) (experimental)
 

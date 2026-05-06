@@ -67,15 +67,15 @@ SETTINGS
     type = 'python',                          -- required
     read_function_name = '..',
     write_function_name = '..',
-    init_function_name = '..',                -- 3.2.1+
-    init_function_parameters = '..',          -- 3.2.1+
-    deinit_function_name = '..',              -- 3.2.1+
+    init_function_name = '..',
+    init_function_parameters = '..',
+    deinit_function_name = '..',
     mode = 'auto'                             -- 'auto' (default), 'streaming', or 'batch'
 ```
 
-Available in **Timeplus Enterprise 3.1.1+**. Lifecycle hooks (`init_function_name`, `deinit_function_name`, `init_function_parameters`) require **3.2.1+**, and injected local-API credentials require **3.2.2+**.
+Available in **Timeplus Enterprise 3.2+**.
 
-Please check the [Python External Stream](/python-external-stream) for more details about settings, lifecycle hooks, and examples.
+Please check the [Python External Stream Source](/python-external-stream-source) for read-side settings, generator/batch sources, and lifecycle hooks, and the [Python External Stream Sink](/python-external-stream-sink) for write-side semantics, materialized-view sinks, and custom-protocol examples.
 
 ## Timeplus External Stream
 ```sql

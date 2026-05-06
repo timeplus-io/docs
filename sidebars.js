@@ -168,7 +168,7 @@ const sidebars = {
         {
           type: "doc",
           label: "Python",
-          id: "python-external-stream",
+          id: "python-external-stream-source",
         },
         {
           type: "doc",
@@ -553,7 +553,7 @@ const sidebars = {
         {
           type: "doc",
           label: "Python",
-          id: "python-external-stream",
+          id: "python-external-stream-sink",
         },
         {
           type: "doc",
