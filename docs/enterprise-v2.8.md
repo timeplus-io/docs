@@ -32,6 +32,39 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.16 (Public GA) {#2_8_16}
+Released on 05-12-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_16)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.38 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.16`
+
+Component versions:
+* timeplusd 2.8.42
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_16}
+Compared to the [2.8.15](#2_8_15) release:
+* timeplusd 2.8.41 -> 2.8.42
+  * Bugfixes  
+    *   Fixed deadlock may occur when consumer rdkafka is being destroyed  — #12103
+    *   Fixed issue that caused phantom memory growth and MV recovery loops — #12096
+    *   Fixed cache of last streaming sources metrics — #9980
+    *   Fixed issue to prevent file descriptor exhaustion — #12094
+    *   Fixed CF corruption issue for mutable stream after ALTER STREAM ADD INDEX and reboot — #12071
+    *   Fixed "...Too many parts" in timeplusd-server.err.log. #12059
+    *   Fixed multi-JOIN CTE leaking inner table alias into output column names — #12006
+    *   Fixed double-finalize issue in PrometheusRequestHandler —  #11989
+    *   Fixed skip index handling for NULL-valued granules with IS NULL / OR predicates —  #11947
+    *   Improveed KV full-scan performance by setting fill_cache=false — #11851
+    *   Supported timeout for reclaiming window buckets for range joins —  #11850
+    *   Fixed hybrid update state after batch emission — #11766
+    *   Added index to explain pipeline for mutable stream — #11740
+    *   Fixed expired context issue in MV table subquery — #11738, #11739
+    *   Fixed server recovery issue caused by HW issue — #11707
+     
 ### 2.8.15 (Public GA) {#2_8_15}
 Released on 03-17-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_15)
