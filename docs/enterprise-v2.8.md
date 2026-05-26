@@ -32,10 +32,30 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.17 (Public GA) {#2_8_17}
+Released on 05-26-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_17)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.40 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.17`
+
+Component versions:
+* timeplusd 2.8.43
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_17}
+Compared to the [2.8.16](#2_8_16) release:
+* timeplusd 2.8.42 -> 2.8.43
+  * Bugfixes  
+    *   Fixed early meta-log compaction issue — #12136
+    *   Fixed  min_size_to_keep floor for metadata and checkpoint logs — #12142
+
 ### 2.8.16 (Public GA) {#2_8_16}
 Released on 05-12-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_16)
-* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.38 ..
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.39 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.16`
 
 Component versions:
