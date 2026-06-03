@@ -25,6 +25,11 @@ SETTINGS
     skip_ssl_cert_check=<true|false>,
     ssl_cert_file='..',
     ssl_key_file='..',
+    nats_nkey='..',
+    nats_nkey_seed='..',
+    nats_nkey_seed_file='..',
+    nats_creds_file='..',
+    nats_jwt='..',
     data_format='..',
     format_schema='..',
     one_message_per_row=..,
@@ -63,15 +68,103 @@ Default: 60000
 
 Timeplus supports multiple authentication mechanisms for NATS. Only one method can be used at a time.
 
-#### username / password
-
-Username and password authentication.
+Refer to NATS document for the detail explanation about [NATS Authentication](https://docs.nats.io/running-a-nats-service/configuration/securing_nats/auth_intro)
 
 #### token
 
 Token-based authentication.
 
-### TLS Settings
+#### username / password
+
+Plain text username and password authentication.
+
+#### nats_nkeys / nats_nkey_seed / nats_nkey_seed_file
+
+NKey authentication with challenge.
+
+`nats_nkeys` is the public key of the user to authenticate. One of `nats_nkey_seed` and `nats_nkey_seed_file` must be set to specify the seed (private key) or the file containing the seed.
+
+Example:
+
+* Seed text
+```sql
+settings
+  ...
+  nats_nkey='UARHTANQIPCXFXYR3QZWHF4JWGRHPSOI4ZUEWWAHZ6CHZQVPC74J5CBU',
+  nats_nkey_seed='SUAKUHMJTCRVKGUFUVIPE4MJA7WX64QEPS427GEGAZ477L4EDLZAOL66LQ',
+  ...
+```
+
+* Seed file
+```sql
+settings
+  ...
+  nats_nkey='UARHTANQIPCXFXYR3QZWHF4JWGRHPSOI4ZUEWWAHZ6CHZQVPC74J5CBU',
+  nats_nkey_seed_file='/var/user.nk',
+  ...
+```
+
+(The keys above are only for example purpose.)
+
+#### nats_creds_file / nats_nkey_seed_file
+
+JWT authenticating with a credentials file. The `nats_creds_file` file contains both the private key and the JWT and can be generated with the nsc tool.
+
+The credentials file look like the following example. JWT is between header lines `BEGIN NATS USER JWT` and `END NATS USER JWT`. NKey seed / private key is between `BEGIN USER NKEY SEED` and `END USER NKEY SEED`.
+
+```
+-----BEGIN NATS USER JWT-----
+eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJUVlNNTEtTWkJBN01VWDNYQUxNUVQzTjRISUw1UkZGQU9YNUtaUFhEU0oyWlAzNkVMNVJBIiwiaWF0IjoxNTU4MDQ1NTYyLCJpc3MiOiJBQlZTQk0zVTQ1REdZRVVFQ0tYUVM3QkVOSFdHN0tGUVVEUlRFSEFKQVNPUlBWV0JaNEhPSUtDSCIsIm5hbWUiOiJvbWVnYSIsInN1YiI6IlVEWEIyVk1MWFBBU0FKN1pEVEtZTlE3UU9DRldTR0I0Rk9NWVFRMjVIUVdTQUY3WlFKRUJTUVNXIiwidHlwZSI6InVzZXIiLCJuYXRzIjp7InB1YiI6e30sInN1YiI6e319fQ.6TQ2ilCDb6m2ZDiJuj_D_OePGXFyN3Ap2DEm3ipcU5AhrWrNvneJryWrpgi_yuVWKo1UoD5s8bxlmwypWVGFAA
+------END NATS USER JWT------
+
+************************* IMPORTANT *************************
+NKEY Seed printed below can be used to sign and prove identity.
+NKEYs are sensitive and should be treated as secrets.
+
+-----BEGIN USER NKEY SEED-----
+SUAOY5JZ2WJKVR4UO2KJ2P3SW6FZFNWEOIMAXF4WZEUNVQXXUOKGM55CYE
+------END USER NKEY SEED------
+
+*************************************************************
+```
+
+If the `nats_creds_file` file does not contain the user NKey seed, then the `nats_nkey_seed_file` must be specified to the file which must contain the user NKey seed.
+
+Example:
+```sql
+settings
+  ...
+  nats_creds_file='/var/user.creds',
+  ...
+```
+
+#### nats_jwt / nats_nkey_seed
+
+JWT authentication similar as above via credentials file; while specify JWT and private key directly.
+
+Example:
+```sql
+settings
+  ...
+  nats_jwt='eyJ0...',
+  nats_nkey_seed='SUAO...',
+  ...
+```
+
+Using [named collection](#named_collection) to manage the secrets is recommended. Such as
+```sql
+CREATE NAMED COLLECTION nats_cred AS
+    nats_jwt='eyJ0...',
+    nats_nkey_seed='SUAO...';
+
+CREATE EXTERNAL STREAM nats1 (...)
+SETTINGS
+    type='nats_jetstream',
+    named_collection='nats_cred',
+    ...
+```
+
+### TLS Authentication
 
 #### secure
 
