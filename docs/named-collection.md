@@ -52,10 +52,10 @@ There is also no setting validation as performed in stream creation. Setting inv
 
 ### Show Named Collections
 
-Users with SELECT permission on `system.named_collection` can query all the named collections with their name, key/values and creation query.
+Users with SELECT permission on `system.named_collections` can query all the named collections with their name, key/values and creation query.
 
 ```sql
-SELECT * FROM system.named_collection
+SELECT * FROM system.named_collections
 ```
 
 ### Drop Named Collection

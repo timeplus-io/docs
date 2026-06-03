@@ -24,6 +24,7 @@ ORDER BY <expression>
 COMMENT '<stream-comment>'
 SETTINGS
     shards=<num_of_shards>,
+    sharding_expr='<expr>',
     replication_factor=<replication_factor>,
     mode=['append'|'changelog_kv'|'versioned_kv'],
     version_column=<version_column>,
@@ -177,6 +178,14 @@ The number of shards in a Append Stream.
 Increasing the shard count typically improves performance for ingestion and query.
 
 **Default**: `1`
+
+#### `sharding_expr`
+
+An arbitrary SQL expression that evaluates to an integer.
+
+When a stream has more than one shard (`shards > 1`), `sharding_expr` determines how each ingested batch of rows is partitioned across the target shards. If no `PRIMARY KEY` is specified, it defaults to `rand()`; otherwise it defaults to `weak_hash32((primary key columns))`. You can override the sharding expression by setting it explicitly, for example `sharding_expr='city_hash64(session_id)'`.
+
+**Default**: `rand()`
 
 #### `replication_factor`
 
