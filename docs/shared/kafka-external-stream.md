@@ -128,6 +128,8 @@ Defines how Kafka messages are parsed and written. Supported formats are
 | `Avro`           | Avro-encoded messages                    |
 | `RawBLOB`        | Raw text, no parsing (default)           |
 
+For detailed information on each format, including type mappings, examples, and usage with Protobuf and Avro, see the [Data Formats](/data-formats) page.
+
 #### format_schema
 
 Required for these data formats:

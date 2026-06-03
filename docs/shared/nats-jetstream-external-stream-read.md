@@ -138,7 +138,7 @@ SETTINGS data_format='TSV';
 
 ### Read Avro or Protobuf Messages
 
-To read Avro-encoded or Protobuf-encoded NATS messages, please refer to [Schema](/timeplus-format-schema) documentation.
+To read Avro-encoded or Protobuf-encoded NATS messages, please refer to [Avro Schema](/data-formats#avro) and [Protobuf Schema](/data-formats#protobuf) documentation.
 
 ### Access NATS Message Metadata
 

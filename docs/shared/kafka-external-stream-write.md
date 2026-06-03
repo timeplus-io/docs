@@ -99,11 +99,11 @@ Same as CSV,  but uses **tab characters** as delimiters instead of commas.
 
 ### Write as ProtobufSingle
 
-To write Protobuf-encoded messages from Kafka topics, please refer to [Protobuf Schema](/timeplus-format-schema), and [Kafka Schema Registry](/kafka-schema-registry) pages for details.
+To write Protobuf-encoded messages from Kafka topics, please refer to [Protobuf Schema](/data-formats#protobuf), and [Kafka Schema Registry](/kafka-schema-registry) pages for details.
 
 ### Write as Avro
 
-To write Avro-encoded messages from Kafka topics, please refer to [Avro Schema](/timeplus-format-schema), and [Kafka Schema Registry](/kafka-schema-registry) pages for details.
+To write Avro-encoded messages from Kafka topics, please refer to [Avro Schema](/data-formats#avro), and [Kafka Schema Registry](/kafka-schema-registry) pages for details.
 
 ### Write Kafka Message Metadata 
 
