@@ -55,6 +55,28 @@ Please check the [Pulsar External Stream](/pulsar-source) for more details.
 
 Please check the [NATS JetStream External Stream](/nats-jetstream-source) for more details.
 
+## Python External Stream
+
+```sql
+CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)
+AS $$
+def read_fn():
+    ...
+$$
+SETTINGS
+    type = 'python',                          -- required
+    read_function_name = '..',
+    write_function_name = '..',
+    init_function_name = '..',
+    init_function_parameters = '..',
+    deinit_function_name = '..',
+    mode = 'auto'                             -- 'auto' (default), 'streaming', or 'batch'
+```
+
+Available in **Timeplus Enterprise 3.2.2+**.
+
+Please check the [Python External Stream Source](/python-external-stream-source) for read-side settings, generator/batch sources, and lifecycle hooks, and the [Python External Stream Sink](/python-external-stream-sink) for write-side semantics, materialized-view sinks, and custom-protocol examples.
+
 ## Timeplus External Stream
 ```sql
 CREATE EXTERNAL STREAM [IF NOT EXISTS] stream_name (<col_name1> <col_type>)

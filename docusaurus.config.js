@@ -113,6 +113,10 @@ const config = {
             from: '/tiered-storage',
             to: '/append-stream-tiered-storage',
           },
+          {
+            from: '/python-external-stream',
+            to: '/python-external-stream-source',
+          },
         ],
       },
     ],
