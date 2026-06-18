@@ -17,5 +17,5 @@ SHOW DICTIONARIES WHERE name='taxi_zone_dictionary';
 ```
 
 ## See also
-* [CREATE DICTIONARY](/sql-create-dictionary) - Create dictionaries
+* [CREATE DICTIONARY](/dictionary) - Create dictionaries
 * [DROP DICTIONARY](/sql-drop-dictionary) - Drop dictionaries

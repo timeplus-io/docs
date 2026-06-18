@@ -24,7 +24,7 @@ This page summarizes changes for Timeplus Enterprise and Timeplus Proton, on a b
 * 2.8.1 is the first GA version of [Timeplus Enterprise v2.8](/enterprise-v2.8), with the key features:
   * New Compute Node server role to [run materialized views elastically](/materialized-view) with checkpoints on S3 storage.
   * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-source)
-  * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
+  * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/dictionary#source_pg).
   * Use S3 as the [tiered storage](/append-stream-tiered-storage) for streams.
   * New SQL command to [rename streams](/sql-rename-stream) or [columns](/sql-alter-stream#rename-column).
   * JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
@@ -90,7 +90,7 @@ You can add connection to Timeplus Proton or Timeplus Enterprise in [marimo](/ma
 [Timeplus Enterprise v2.8.0](/enterprise-v2.8) is now available as a technical preview for the 2.8 release. Not ready for production use but feel free to try the new features and provide feedback.
 * New Compute Node server role to [run materialized views elastically](/materialized-view) with checkpoints on S3 storage.
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-source)
-* Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
+* Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/dictionary#source_pg).
 * Use S3 as the [tiered storage](/append-stream-tiered-storage) for streams.
 * New SQL command to [rename streams](/sql-rename-stream).
 * A new page to visualize nodes in a cluster.
