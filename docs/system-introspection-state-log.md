@@ -1,18 +1,22 @@
-# system.stream_state_log
-You can query the `system.stream_state_log` stream to check the state changes of database resources in Timeplus. This stream gives you full visibility of the state of the streams, materialized views, and other resources in Timeplus.
+# system.introspection_state_log
+You can query the `system.introspection_state_log` stream to check the state changes of database resources in Timeplus. This stream gives you full visibility of the state of the streams, materialized views, and other resources in Timeplus.
+
+:::info
+This stream was named `system.stream_state_log` prior to Timeplus Enterprise 3.0. If you are running a 2.x release, use `system.stream_state_log` in place of `system.introspection_state_log` throughout this page.
+:::
 
 ## Schema
 
 This system stream is provisioned by Timeplus and cannot be modified.
 
 :::info
-We first introduced this stream in Timeplus Enterprise 2.6. Based on user feedback and performance optimization, we have updated the schema in Timeplus Enterprise 2.7. If you upgrade from 2.6 to 2.7, the system will automatically recreate the stream with the new schema. The previous state log data will be dropped.
+We first introduced this stream (as `system.stream_state_log`) in Timeplus Enterprise 2.6. Based on user feedback and performance optimization, we have updated the schema in Timeplus Enterprise 2.7. If you upgrade from 2.6 to 2.7, the system will automatically recreate the stream with the new schema. The previous state log data will be dropped. In Timeplus Enterprise 3.0, the stream was renamed to `system.introspection_state_log`.
 :::
 
 Here is the schema definition with comments:
 
 ```sql
-CREATE STREAM system.stream_state_log
+CREATE STREAM system.introspection_state_log
 (
   `node_id` uint64,
   `database` low_cardinality(string),
@@ -51,7 +55,7 @@ SELECT
     dimension,
     format_readable_size(latest(state_value)) AS size,
     latest(_tp_time) AS last_update
-FROM table(system.stream_state_log)
+FROM table(system.introspection_state_log)
 WHERE state_name = 'disk_size'
   AND _tp_time > now() - 5m
 GROUP BY database, name, node_id, state_name, dimension
@@ -78,7 +82,7 @@ SELECT
     dimension AS shard,
     latest(state_value) AS sequence_number,
     latest(_tp_time) AS last_update
-FROM table(system.stream_state_log)
+FROM table(system.introspection_state_log)
 WHERE state_name IN ('applied_sn', 'committed_sn')
   AND _tp_time > now() - 5m
 GROUP BY database, name, node_id, state_name, dimension
@@ -148,7 +152,7 @@ SELECT
     dimension AS latency_range,
     latest(state_value) AS message_count,
     latest(_tp_time) AS last_update
-FROM table(system.stream_state_log)
+FROM table(system.introspection_state_log)
 WHERE state_name = 'ingest_latency'
   AND _tp_time > now() - 5m
 GROUP BY database, name, node_id, state_name, dimension
@@ -212,7 +216,7 @@ SELECT
     latest(state_value) AS value,
     latest(state_string_value) AS string_value,
     latest(_tp_time) AS last_update
-FROM table(system.stream_state_log)
+FROM table(system.introspection_state_log)
 WHERE dimension = 'dict'
   AND _tp_time > now() - 5m
 GROUP BY database, name, node_id, state_name
@@ -238,7 +242,7 @@ SELECT
   latest(state_string_value) AS quorum_status,
   latest(_tp_time) AS last_update
 FROM
-  table(system.stream_state_log)
+  table(system.introspection_state_log)
 WHERE
   state_name = 'quorum_replication_status'
   AND _tp_time > (now() - INTERVAL 5 MINUTE)
@@ -278,7 +282,7 @@ WITH
             dimension AS shard,
             arg_max(state_string_value, _tp_time) AS status_json,
             max(_tp_time) AS last_update
-        FROM table(system.stream_state_log)
+        FROM table(system.introspection_state_log)
         WHERE state_name = 'quorum_replication_status'
           AND _tp_time > (now() - INTERVAL 5 MINUTE)
         GROUP BY database, name, node_id, dimension

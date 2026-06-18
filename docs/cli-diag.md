@@ -151,5 +151,5 @@ The diag file, such as "timeplus/logs/timeplus_20240712100051.diag", is a JSON d
 }
 ```
 
-## system.stream_state_log
-Starting from Timeplus Enterprise 2.6, the `system.stream_state_log` table is exported as a CSV file in the logs folder. This file contains the state changes of streams, views, and external tables. The file is named as "timeplus/logs/timeplus_system_stream_state_log_timestamp.csv".
+## system.introspection_state_log
+Starting from Timeplus Enterprise 2.6, the state log table is exported as a CSV file in the logs folder. This file contains the state changes of streams, views, and external tables. In Timeplus Enterprise 3.0 and later, the stream is named `system.introspection_state_log` and the file is named "timeplus/logs/timeplus_system_introspection_state_log_timestamp.csv". In earlier 2.x releases, the stream is named `system.stream_state_log` and the file is named "timeplus/logs/timeplus_system_stream_state_log_timestamp.csv".

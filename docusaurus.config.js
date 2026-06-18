@@ -42,6 +42,10 @@ const config = {
       {
         redirects: [
           {
+            from: '/system-stream-state-log',
+            to: '/system-introspection-state-log',
+          },
+          {
             from: '/faq',
             to: '/howtos',
           },
