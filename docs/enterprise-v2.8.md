@@ -13,7 +13,7 @@ Each component maintains its own version numbers. The version number for each Ti
 Key highlights of this release:
 * New Compute Node server role to [run materialized views elastically](/materialized-view) with checkpoints on S3 storage.
 * Timeplus can read or write data in Apache Iceberg tables. [Learn more](/iceberg-sink)
-* Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
+* Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/dictionary#source_pg).
 * Use S3 as the [tiered storage](/append-stream-tiered-storage) for streams.
 * New SQL command to [rename streams](/sql-rename-stream) or [columns](/sql-alter-stream#rename-column).
 * JavaScript UDFs benefit from multiple V8 instances, improving concurrency and isolation.
@@ -533,7 +533,7 @@ Compared to the [2.8.0 (Preview)](#2_8_0) release:
 * timeplus_web 2.8.7 -> 2.8.8
   * For data lineage, listing pages for streams, materialized views and other SQL resources, show a drop-down list for database namespaces from A to Z.
 * timeplus_appserver 2.8.5 -> 2.8.6
-  * Enhanced [REST API](/rest) to support database namespaces.
+  * Enhanced [REST API](/rest.html) to support database namespaces.
 * timeplus_connector 2.2.8. No changes.
 * timeplus cli 1.2.12 -> 2.8.0
   * Added a new [timeplus migrate kv](/cli-migrate#kv) command to migrate metadata from kv system to mutable streams.
@@ -557,7 +557,7 @@ Component versions:
 Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
 * timeplusd 2.7.27 -> 2.8.14
   * Timeplus can read or write data in Apache Iceberg tables.
-  * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/sql-create-dictionary#source_pg).
+  * Timeplus can read or write PostgreSQL tables directly via [PostgreSQL External Table](/pg-external-table) or look up data via [dictionaries](/dictionary#source_pg).
   * Use S3 as the [tiered storage](/append-stream-tiered-storage) for streams.
   * New SQL command to [rename streams](/sql-rename-stream).
   * List all tables in a remote MySQL database via [CREATE DATABASE .. SETTINGS type='mysql'](/sql-create-database).
@@ -568,7 +568,7 @@ Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
   * New page to view the details of streams or materialized views.
   * Able to select a database while viewing the data lineage page.
 * timeplus_appserver 2.2.13 -> 2.8.5
-  * Enhanced [REST API](/rest) to update column comments, get Python UDF status and cluster information.
+  * Enhanced [REST API](/rest.html) to update column comments, get Python UDF status and cluster information.
 * timeplus_connector 2.2.8. No changes.
 * timeplus cli 1.2.12. No changes.
 

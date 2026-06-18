@@ -8,5 +8,5 @@ DROP DICTIONARY IF EXISTS my_dictionary;
 ```
 
 ## See also
-* [CREATE DICTIONARY](/sql-create-dictionary) - Create dictionaries
+* [CREATE DICTIONARY](/dictionary) - Create dictionaries
 * [SHOW DICTIONARIES](/sql-show-dictionaries) - Show dictionaries
