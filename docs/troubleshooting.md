@@ -1,7 +1,7 @@
 # Troubleshooting Guide
 This guide provides solutions to common issues you may encounter when using Timeplus.
 
-Please also query [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log) to check the state changes, metrics and errors of database resources in Timeplus.
+Please also query [system.introspection_state_log](/system-introspection-state-log) and [system.stream_metric_log](/system-stream-metric-log) to check the state changes, metrics and errors of database resources in Timeplus. (In Timeplus Enterprise 2.x, `system.introspection_state_log` is named `system.stream_state_log`.)
 
 ## Memory Issues
 

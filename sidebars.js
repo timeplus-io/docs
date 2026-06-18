@@ -960,7 +960,7 @@ const sidebars = {
       label: "TROUBLESHOOTING",
       items: [
         "troubleshooting",
-        "system-stream-state-log",
+        "system-introspection-state-log",
         "system-stream-metric-log",
         "system-views",
         "prometheus",

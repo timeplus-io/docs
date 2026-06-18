@@ -23,7 +23,7 @@ AS SELECT value FROM default.foo;
 * The alerts only run on the metadata leader node.
 * The return value of the Python UDF is ignored.
 * The select query cannot include any aggregation or JOIN.
-* Check `system.stream_state_log` for the alert states or logs.
+* Check `system.introspection_state_log` for the alert states or logs. (In Timeplus Enterprise 2.x, this stream is named `system.stream_state_log`.)
 * The checkpoints of the alerts are available in `system.alert_ckpt_log` stream with the `_tp_sn` column.
 
 ## Python UDF
