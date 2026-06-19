@@ -150,7 +150,7 @@ Compared to the [2.8.11](#2_8_11) release:
 
 ### 2.8.11 (Public GA) {#2_8_11}
 Released on 01-29-2026. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_11)
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8)
 * For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.32 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.11`
 
@@ -533,7 +533,7 @@ Compared to the [2.8.0 (Preview)](#2_8_0) release:
 * timeplus_web 2.8.7 -> 2.8.8
   * For data lineage, listing pages for streams, materialized views and other SQL resources, show a drop-down list for database namespaces from A to Z.
 * timeplus_appserver 2.8.5 -> 2.8.6
-  * Enhanced [REST API](/rest.html) to support database namespaces.
+  * Enhanced [REST API](pathname:///rest.html) to support database namespaces.
 * timeplus_connector 2.2.8. No changes.
 * timeplus cli 1.2.12 -> 2.8.0
   * Added a new [timeplus migrate kv](/cli-migrate#kv) command to migrate metadata from kv system to mutable streams.
@@ -568,7 +568,7 @@ Compared to the [2.7.2](/enterprise-v2.7#2_7_2) release:
   * New page to view the details of streams or materialized views.
   * Able to select a database while viewing the data lineage page.
 * timeplus_appserver 2.2.13 -> 2.8.5
-  * Enhanced [REST API](/rest.html) to update column comments, get Python UDF status and cluster information.
+  * Enhanced [REST API](pathname:///rest.html) to update column comments, get Python UDF status and cluster information.
 * timeplus_connector 2.2.8. No changes.
 * timeplus cli 1.2.12. No changes.
 
@@ -587,7 +587,7 @@ If you are still not sure, here are the things that would be broken without migr
 3. Workspace setting will be lost.
 4. Query history will be lost.
 
-For Kubernetes users, please follow [the guide](/k8s-helm#v6-to-v7) to do the migration.
+For Kubernetes users, please follow [the guide](/upgrade-helm#upgrade-from-v6-to-v7) to do the migration.
 
 #### Known issues {#known_issue_2_8_0}
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
