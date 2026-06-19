@@ -12,7 +12,7 @@ Each component maintains its own version numbers. The version number for each Ti
 ## Key Highlights
 Key highlights of this release:
 * **Revolutionary hybrid hash table technology.** For streaming SQL with JOINs or aggregations, by default a memory based hash table is used. This is helpful for preventing the memory limits from being exceeded for large data streams with hundreds of GB of data. You can adjust the query setting to apply the new hybrid hash table, which uses both the memory and the local disk to store the internal state as a hash table.
-* **Enhanced operational visibility.** Gain complete transparency into your system's performance through comprehensive monitoring of materialized views and streams. Track state changes, errors, and throughput metrics via [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log).
+* **Enhanced operational visibility.** Gain complete transparency into your system's performance through comprehensive monitoring of materialized views and streams. Track state changes, errors, and throughput metrics via [system.stream_state_log](/system-introspection-state-log) and [system.stream_metric_log](/system-stream-metric-log).
 * **Advanced cross-deployment integration.** Seamlessly write data to remote Timeplus deployments by configuring [Timeplus external stream](/timeplus-source) as targets in materialized views.
 * **Improved data management capabilities.** Add new columns to an existing stream. Truncate historical data for streams. Create new databases to organize your streams and materialized views.
 * **Optimized ClickHouse integration.** Significant performance improvements for read/write operations with ClickHouse external tables.
@@ -248,8 +248,8 @@ Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
     * Improved performance for [EMIT ON UPDATE](/streaming-aggregations#emit_on_update) queries. Memory optimization available through `SETTINGS optimize_aggregation_emit_on_updates=false`.
     * Enhanced read/write performance for ClickHouse external tables with configurable `pooled_connections` setting (default: 3000).
   * Monitoring and Management:
-    * Added [system.stream_state_log](/system-stream-state-log) and [system.stream_metric_log](/system-stream-metric-log) system streams for comprehensive resource monitoring.
-    * Implemented Kafka offset tracking in [system.stream_state_log](/system-stream-state-log), exportable via [timeplus diag](/cli-diag) command.
+    * Added [system.stream_state_log](/system-introspection-state-log) and [system.stream_metric_log](/system-stream-metric-log) system streams for comprehensive resource monitoring.
+    * Implemented Kafka offset tracking in [system.stream_state_log](/system-introspection-state-log), exportable via [timeplus diag](/cli-diag) command.
     * A `_tp_sn` column is added to each stream (except external streams or random streams), as the sequence number in the unified streaming and historical storage. This column is used for data replication among the cluster. By default, it is hidden in the query results. You can show it by setting `SETTINGS asterisk_include_tp_sn_column=true`. This setting is required when you use `INSERT..SELECT` SQL to copy data between streams: `INSERT INTO stream2 SELECT * FROM stream1 SETTINGS asterisk_include_tp_sn_column=true`.
   * New Features:
     * Support for continuous data writing to remote Timeplus deployments via setting a [Timeplus external stream](/timeplus-source) as the target in a materialized view.
@@ -281,7 +281,7 @@ Compared to the [2.5.12](/enterprise-v2.5#2_5_12) release:
   * Upgraded to Redpanda Connect v4.44, Benthos framework 4.44 and Golang 1.23.
 * timeplus cli 1.2.8 -> 1.2.11
   * Added an option to disable telemetry in the [timeplus start](/cli-start) command.
-  * The [timeplus diag](/cli-diag) command now exports the [system.stream_state_log](/system-stream-state-log) as a CSV file in the log directory.
+  * The [timeplus diag](/cli-diag) command now exports the [system.stream_state_log](/system-introspection-state-log) as a CSV file in the log directory.
 
 Upgrade Instructions:
 

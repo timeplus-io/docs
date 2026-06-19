@@ -31,7 +31,7 @@ Key highlights of this release:
 ## Upgrade Guide
 1. Direct upgrades from version 2.3 or earlier are not supported. Please perform a clean installation of 2.7.x and utilize [timeplus sync](/cli-sync) CLI or [Timeplus External Stream](/timeplus-source) for data migration.
 2. For bare metal users, you can upgrade from Timeplus Enterprise 2.6 to 2.7 by stopping components and replacing binary files.
-3. For Kubernetes users, please follow [the guide](/k8s-helm#v5-to-v6) carefully since a few timeplusd built-in users are removed in the new helm chart, and you can configure ingress for Appserver and Timeplusd independently.
+3. For Kubernetes users, please follow [the guide](/upgrade-helm#upgrade-from-v5-to-v6) carefully since a few timeplusd built-in users are removed in the new helm chart, and you can configure ingress for Appserver and Timeplusd independently.
 
 ## Releases
 ### 2.7.9 {#2_7_9}
@@ -301,7 +301,7 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
     * `SYSTEM UNPAUSE MATERIALIZED VIEW` command is renamed to [SYSTEM RESUME MATERIALIZED VIEW](/sql-system-resume).
     * Able to configure `license_key_path` and `license_file_path` in the `server/config.yaml` file to specify the license key without web console interaction.
     * Introduced a simple way to setup multiple timeplusd processes on the same host by running the `timeplusd server --node-index=1` command. [Learn more](/bare-metal-install#single-host-cluster)
-    * To improve performance, we have optimized the schema for [system.stream_metric_log](/system-stream-metric-log) and [system.stream_state_log](/system-stream-state-log).
+    * To improve performance, we have optimized the schema for [system.stream_metric_log](/system-stream-metric-log) and [system.stream_state_log](/system-introspection-state-log).
   * Security Enhancements:
     * **Support IAM authentication for accessing Amazon MSK:** Avoid storing static credentials in Kafka external streams by setting `sasl_mechanism` to `AWS_MSK_IAM`.
     * **Integration with HashiCorp Vault:** You can now use HashiCorp Vault to store sensitive data, such as password for all types of external streams or external tables, and reference them in [config_file](/kafka-source#config_file) setting.
@@ -318,7 +318,7 @@ Compared to the [2.6.0](/enterprise-v2.6#2_6_0) release:
   * Added a dropdown menu to switch to different database namespaces in the web console.
   * Added UI to manage dictionaries and S3 external tables.
 * timeplus_appserver 2.1.6 -> 2.2.10
-  * [REST API](/rest.html) support for non-default database namespaces.
+  * [REST API](pathname:///rest.html) support for non-default database namespaces.
   * When you define a source or sink powered by Redpanda Connect, you can now specify the optional `buffer` and `pipeline` components in the YAML configuration.
   * Added endpoints to list/get/delete [dictionaries](/dictionary).
 * timeplus_connector 2.1.1 -> 2.2.6

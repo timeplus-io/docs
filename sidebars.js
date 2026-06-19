@@ -125,6 +125,7 @@ const sidebars = {
           type: "doc",
           label: "Apache Iceberg",
           id: "iceberg-source",
+          key: "iceberg-source",
         },
         {
           type: "category",
@@ -139,6 +140,7 @@ const sidebars = {
           type: "doc",
           label: "Apache Pulsar",
           id: "pulsar-source",
+          key: "pulsar-source",
         },
         {
           type: "doc",
@@ -159,6 +161,7 @@ const sidebars = {
           type: "doc",
           label: "NATS JetStream",
           id: "nats-jetstream-source",
+          key: "nats-jetstream-source",
         },
         {
           type: "doc",
@@ -169,16 +172,19 @@ const sidebars = {
           type: "doc",
           label: "Python",
           id: "python-external-stream-source",
+          key: "python-external-stream-source",
         },
         {
           type: "doc",
           label: "S3",
           id: "s3-source",
+          key: "s3-source",
         },
         {
           type: "doc",
           label: "Timeplus",
           id: "timeplus-source",
+          key: "timeplus-source",
         },
         {
           type: "link",
@@ -412,6 +418,7 @@ const sidebars = {
                 {
                   type: "doc",
                   id: "append-stream-indexes",
+                  key: "append-stream-indexes",
                   label: "Indexes",
                 },
                 {
@@ -422,6 +429,7 @@ const sidebars = {
                 {
                   type: "doc",
                   id: "append-stream-ttl",
+                  key: "append-stream-ttl",
                   label: "TTL",
                 },
                 {
@@ -450,6 +458,7 @@ const sidebars = {
                 {
                   type: "doc",
                   id: "mutable-stream-indexes",
+                  key: "mutable-stream-indexes",
                   label: "Indexes",
                 },
                 {
@@ -465,6 +474,7 @@ const sidebars = {
                 {
                   type: "doc",
                   id: "mutable-stream-ttl",
+                  key: "mutable-stream-ttl",
                   label: "TTL",
                 },
               ],
@@ -509,11 +519,13 @@ const sidebars = {
           type: "doc",
           label: "Apache Pulsar",
           id: "pulsar-sink",
+          key: "pulsar-sink",
         },
         {
           type: "doc",
           label: "Apache Iceberg",
           id: "iceberg-sink",
+          key: "iceberg-sink",
         },
         {
           type: "doc",
@@ -549,16 +561,19 @@ const sidebars = {
           type: "doc",
           label: "NATS JetStream",
           id: "nats-jetstream-sink",
+          key: "nats-jetstream-sink",
         },
         {
           type: "doc",
           label: "Python",
           id: "python-external-stream-sink",
+          key: "python-external-stream-sink",
         },
         {
           type: "doc",
           label: "S3",
           id: "s3-sink",
+          key: "s3-sink",
         },
         {
           type: "doc",
@@ -589,6 +604,7 @@ const sidebars = {
           type: "doc",
           label: "Timeplus",
           id: "timeplus-sink",
+          key: "timeplus-sink",
         },
         {
           type: "doc",

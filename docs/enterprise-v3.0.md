@@ -142,7 +142,7 @@ Component versions:
 
 ### 3.0.1 (Preview) {#3_0_1-preview_1}
 Released on 09-06-2025. Installation options:
-* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_0_1-preview_1)
+* For Linux or Mac users: `curl https://install.timeplus.com/3.0 | sh` [Downloads](/release-downloads#3_0_1)
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.0.1-preview.1`
 * For Kubernetes users: helm install timeplus/timeplus-enterprise --version v8.0.8 .
 

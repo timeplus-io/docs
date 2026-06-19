@@ -11,6 +11,15 @@ const config = {
     v4: true,
   },
   markdown: {
+    mermaid: true,
+    // `future.v4: true` disables MDX v1 compatibility by default, which would
+    // break the `## Heading {#id}` anchor syntax (and `<!-- -->` comments) used
+    // throughout these docs. Keep the compat behaviors on explicitly.
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
+    },
     hooks: {
       onBrokenMarkdownLinks: "warn",
     },
@@ -155,9 +164,6 @@ const config = {
     ],
   ],
 
-  markdown: {
-    mermaid: true,
-  },
   themes: ["@docusaurus/theme-mermaid"],
   clientModules: [require.resolve("./src/scripts/mermaid_icons.js")],
 
