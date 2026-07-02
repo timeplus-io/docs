@@ -49,8 +49,11 @@ Component versions:
 Compared to the [2.8.17](#2_8_17) release:
 * timeplusd 2.8.43 -> 2.8.44
   * Bugfixes  
-    *   Fixed early meta-log compaction issue — #12136
-    *   Fixed  min_size_to_keep floor for metadata and checkpoint logs — #12142
+    *   Fixed NativeLog retention logic inaccurate log cleanup issue to use the actual applied sequence number instead of quorum fallback values.
+    *   Fixed prefix-range slice rebinding after mutable stream merge operations to ensure correct data access and stream consistency.
+    *   Fixed excessive system log growth issue by reducing the default retention period for high-frequency metric logs.
+    *   Fixed external table materialized view build timing issue by ensuring builds start only after schemas are fully ready.
+    *   Fixed memory allocation failure handling issue by throwing bad_alloc exceptions instead of triggering null-pointer dereference crashes.
       
 ### 2.8.17 (Public GA) {#2_8_17}
 Released on 05-26-2026. Installation options:
