@@ -32,6 +32,25 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.19 (Public GA) {#2_8_19}
+Released on 07-22-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_19)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.45 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.19`
+
+Component versions:
+* timeplusd 2.8.45
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_18}
+Compared to the [2.8.18](#2_8_18) release:
+* timeplusd 2.8.44 -> 2.8.45
+  * Bugfixes  
+    *   Fixed issue of JS UDF dictionary getValue/batchGetValues missing-key handling. 
+
 ### 2.8.18 (Public GA) {#2_8_18}
 Released on 07-01-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_18)
