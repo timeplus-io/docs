@@ -105,6 +105,58 @@ The function list:
 - If you need to emit multiple results per group, set `self.has_customized_emit = True` in `__init__`, return either an integer count or `True`/`False` from `process()` to indicate how many results to emit, and return a list from `finalize()` whose length matches that count.
 - Only one UDA with `has_customized_emit = True` is supported per streaming query.
 
+#### Changelog input: the extra `_tp_delta` argument {#uda-changelog}
+
+When the UDA reads from a [changelog](/changelog-stream) input, Timeplus appends one **extra trailing argument** to `process(..)`, in the same container type as the other arguments (a Python list, or a NumPy array if the UDA runs with the NumPy optimization). It carries the [`_tp_delta`](/changelog-stream) value of each row: `1` for an insert and `-1` for a retraction. Your `process(..)` must subtract from its state on `-1`, otherwise retracted rows keep counting and the aggregate is silently wrong.
+
+The input is a changelog when the UDA reads from:
+
+- a stream created with `mode='changelog'`, `mode='changelog_kv'` or `mode='versioned_kv'` (including CDC streams),
+- the [`changelog(stream, key)`](/functions_for_streaming#changelog) table function,
+- a subquery or view that emits changelog (`EMIT CHANGELOG`, or a global aggregation).
+
+You do **not** declare the extra column in `CREATE AGGREGATE FUNCTION` — Timeplus adds it for you. Give the extra parameter a default value in your Python `process(..)`, so the same UDA also works on append-only input, where the argument is not passed at all:
+
+```sql
+CREATE OR REPLACE AGGREGATE FUNCTION count_with_retract(value float64) RETURNS int LANGUAGE PYTHON AS $$
+class count_with_retract:
+    def __init__(self):
+        self.count = 0
+
+    # `delta` is only passed when the input is a changelog
+    def process(self, values, delta=[]):
+        is_changelog = len(delta) > 0
+        for i in range(len(values)):
+            if not is_changelog:
+                self.count += 1
+            elif delta[i] == 1:
+                self.count += 1
+            elif delta[i] == -1 and self.count > 0:
+                self.count -= 1
+
+    def finalize(self):
+        return self.count
+$$;
+```
+
+Running it over a `changelog_kv` stream, the retraction of a key is netted out instead of double-counted:
+
+```sql
+CREATE STREAM kv (id int, value float64) PRIMARY KEY id SETTINGS mode = 'changelog_kv';
+
+SELECT count_with_retract(value) FROM kv;
+
+INSERT INTO kv (id, value, _tp_delta) VALUES (1, 2, 1), (2, 3, 1), (3, 4, 1); -- 3
+INSERT INTO kv (id, value, _tp_delta) VALUES (1, 2, -1);                      -- 2
+```
+
+Notes:
+
+- The delta list always has the same length as the other argument lists, and `delta[i]` belongs to row `i`.
+- It is appended **after** all declared arguments, so a UDA declared with two arguments receives `process(self, a, b, delta=[])`.
+- Without a default value, a `process(self, values)` raises a `TypeError` as soon as it is used on a changelog input.
+- This is independent of `has_customized_emit`: with custom emit, `process(..)` still returns the emit count and receives the extra list on changelog input.
+
 ## Examples
 
 ### A simple UDF without dependency
