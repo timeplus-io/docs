@@ -21,6 +21,44 @@ Key highlights of the Timeplus 3.2 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 3.2.11 {#3_2_11}
+Released on 05-15-2026. Installation options:
+* For Linux or Mac users: [Downloads](/release-downloads#3_2_11)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.2.11`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 11.0.15`
+
+Component versions:
+* timeplusd 3.2.11
+* timeplus_appserver 3.2.1
+* timeplus_connector 3.1.0
+* timeplus cli 3.0.0
+* timeplus byoc 1.0.0
+
+#### Changelog {#changelog_3_2_1}
+
+**Bug Fixes**
+* Added support for NATS NKey authentication for secure public-key based access to NATS clusters. (#12120)
+* Added support for configuring JWT and seed content directly in settings. (#12116)
+* Added safeguards to cap delayed write streams for parallel-write disks, improving MergeTree write stability under heavy concurrency. (#12123)
+* Fixed background NativeLog commits failing with TOO_MANY_PARTS during heavy ingestion workloads. (#12112)
+* Fixed mutable stream file descriptor leak. (#12093)
+* Fixed mutable stream corruption issue after adding indexes and rebooting. (#12070)
+* Blocked invalid mutable stream secondary index creation for unsupported key expressions. (#12113)
+* Fixed Kafka client shutdown/read race condition causing intermittent crashes and invalid client access. (#12078)
+* Fixed hanging issue during Kafka consumer recreation. (#12038)
+* Improved Pulsar health checks and fixed smoke test issues affecting ddl_index and named_collection. (#12088)
+* Integrated upstream librdkafka fix proposal for improved Kafka stability and compatibility. (#12103)
+* Added retry handling for Poco::Exception during S3 reads to improve resilience against transient S3/network failures. (#12036)
+* Aligned DNSResolver exception behavior with upstream implementation for more consistent S3 error handling. (#12087)
+* Improved metrics pipeline performance by removing S3 LIST and TTL cache contention from metric ticking. (#12052)
+* Fixed phantom memory tracker accumulation by refreshing QueryScope per build. (#12096)
+* Fixed double-finalization issue in PrometheusRequestHandler. (#11972)
+* Fixed multi-JOIN CTE alias leakage into output column names. (#11993)
+* Improved error messages when dropping streams with size limits. (#12025)
+* Improved Python UDF interpreter detection by recursively resolving symlinks. (#12081)
+* Improved logging consistency and diagnostic clarity across subsystems. (#12079)
+* Fixed incorrect alert dependency tracking behavior in alert subsystem. (#12080)
+  
 ### 3.2.7 {#3_2_7}
 Released on 04-26-2026. Installation options:
 * For Linux or Mac users: [Downloads](/release-downloads#3_2_7)
@@ -34,7 +72,7 @@ Component versions:
 * timeplus cli 3.0.0
 * timeplus byoc 1.0.0
 
-#### Changelog {#changelog_3_2_6}
+#### Changelog {#changelog_3_2_7}
 
 **Bug Fixes**
 * Fix race condition in Kafka source (#12019)
