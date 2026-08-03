@@ -3,7 +3,7 @@
 ## 3.x {#3_x}
 
 ### v3.3.1 {#3_3_1}
-Released on 08-01-2026 ([Change logs](/enterprise-v3.2#3_3_1)).
+Released on 08-01-2026 ([Change logs](/enterprise-v3.3#3_3_1)).
 
 * Bare metal installation: [Linux x86_64](https://d.timeplus.com/timeplus-enterprise-v3.3.1-linux-amd64.tar.gz) | [Linux ARM64](https://d.timeplus.com/timeplus-enterprise-v3.3.1-linux-arm64.tar.gz) | [macOS x86_64](https://d.timeplus.com/timeplus-enterprise-v3.3.1-darwin-amd64.tar.gz) | [macOS ARM64](https://d.timeplus.com/timeplus-enterprise-v3.3.1-darwin-arm64.tar.gz)
 * All-in-one Docker image (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.3.1`

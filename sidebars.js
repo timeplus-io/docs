@@ -990,6 +990,7 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
+        "enterprise-v3.3",
         "enterprise-v3.2",
         "enterprise-v3.1",
         "enterprise-v3.0",
