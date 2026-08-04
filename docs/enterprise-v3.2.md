@@ -34,11 +34,13 @@ Component versions:
 * timeplus cli 3.0.0
 * timeplus byoc 1.0.0
 
-#### Changelog {#changelog_3_2_1}
+#### Changelog {#changelog_3_2_11}
 
-**Bug Fixes**
+**Features and Enhancements**
 * Added support for NATS NKey authentication for secure public-key based access to NATS clusters. (#12120)
 * Added support for configuring JWT and seed content directly in settings. (#12116)
+
+**Bug Fixes**
 * Added safeguards to cap delayed write streams for parallel-write disks, improving MergeTree write stability under heavy concurrency. (#12123)
 * Fixed background NativeLog commits failing with TOO_MANY_PARTS during heavy ingestion workloads. (#12112)
 * Fixed mutable stream file descriptor leak. (#12093)
@@ -58,7 +60,7 @@ Component versions:
 * Improved Python UDF interpreter detection by recursively resolving symlinks. (#12081)
 * Improved logging consistency and diagnostic clarity across subsystems. (#12079)
 * Fixed incorrect alert dependency tracking behavior in alert subsystem. (#12080)
-  
+
 ### 3.2.7 {#3_2_7}
 Released on 04-26-2026. Installation options:
 * For Linux or Mac users: [Downloads](/release-downloads#3_2_7)
