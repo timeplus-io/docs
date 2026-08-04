@@ -29,7 +29,10 @@ SETTINGS
     ssl_ca_pem='..',
     skip_ssl_cert_check=..,
     properties='..',
-    named_collection='..';
+    named_collection='..',
+    subject_name_strategy='..',
+    schema_subject_name='..',
+    consume_schema_strategy='..';
 ```
 
 ### Settings
@@ -211,3 +214,104 @@ SETTINGS
 ```
 
 For more detailed syntax of named collection, please refer to the [Named Collection](/named-collection) documentation.
+
+#### subject_name_strategy
+
+Determines how the stream looks up schemas in the Kafka Schema Registry. Supported values:
+
+| Strategy | Behavior | Derived Subject Name |
+| :--- | :--- | :--- |
+| `TopicNameStrategy` | **Default.** Assumes one schema per topic. `schema_subject_name` is ignored. | `<topic>-value` |
+| `RecordNameStrategy` | Supports mixed schemas in one topic. `schema_subject_name` is required. | `schema_subject_name` (fully qualified record name) |
+| `TopicRecordNameStrategy` | Scopes record names to a specific topic. `schema_subject_name` is required. | `<topic>-<schema_subject_name>` |
+
+For more details, see [Kafka Schema Registry](/kafka-schema-registry).
+
+#### schema_subject_name
+
+Specifies the subject name for schema lookups in the Schema Registry. Required when `subject_name_strategy` is set to `RecordNameStrategy` or `TopicRecordNameStrategy`. Typically the fully qualified record name, e.g. `com.example.avro.UserRecord`.
+
+#### consume_schema_strategy
+
+Controls how Kafka messages with different Confluent Schema Registry schema IDs are processed. This setting is useful when a Kafka topic contains messages encoded with multiple Avro or Protobuf schemas (e.g., via `RecordNameStrategy` or `TopicRecordNameStrategy`).
+
+Supported values:
+
+| Value | Default | Behavior |
+| :--- | :--- | :--- |
+| `single` | **Yes** | Only consume messages matching the schema identified by `schema_subject_name` and `subject_name_strategy`. Non-matching messages are silently skipped. `schema_subject_name` must be set. |
+| `all` | No | Decode **all** messages by their schema ID, mapping fields to stream columns by name. Missing fields get default/null values. This preserves the pre-v3.4 behavior. |
+| `raw` | No | Strip the 5-byte Confluent header (magic byte + schema ID) and store the remaining payload bytes in a single `String` column. No schema registry lookup or deserialization occurs. The external stream must have exactly one physical column of type `String`. |
+
+##### `single` mode (Default)
+
+When a topic contains multiple unrelated record types and you only care about one, use `single` mode. This is the safest default — each stream consumes exactly one schema.
+
+```sql
+CREATE EXTERNAL STREAM user_events (
+    user_id string,
+    event_type string,
+    created_at datetime64(3)
+) SETTINGS
+    type='kafka',
+    brokers='localhost:9092',
+    topic='multi_schema_topic',
+    data_format='Avro',
+    kafka_schema_registry_url='http://localhost:8081',
+    consume_schema_strategy='single',
+    subject_name_strategy='RecordNameStrategy',
+    schema_subject_name='com.example.avro.UserEvent';
+```
+
+Streaming queries against this external stream will only return rows where the message schema matches `com.example.avro.UserEvent`. Messages with other schema IDs are silently skipped.
+
+##### `all` mode
+
+When a topic has multiple related schemas that share field names, and you want all records in a single stream:
+
+```sql
+CREATE EXTERNAL STREAM all_events (
+    user_id string,
+    event_type string,
+    created_at datetime64(3)
+) SETTINGS
+    type='kafka',
+    brokers='localhost:9092',
+    topic='multi_schema_topic',
+    data_format='Avro',
+    kafka_schema_registry_url='http://localhost:8081',
+    consume_schema_strategy='all';
+```
+
+Each message is decoded by its schema ID, and fields are mapped to stream columns by name. Fields not present in a message get default/null values.
+
+##### `raw` mode
+
+When you want to preserve the raw bytes for later processing, route to different streams via materialized views, or handle decoding in application logic:
+
+```sql
+CREATE EXTERNAL STREAM raw_events (raw string) SETTINGS
+    type='kafka',
+    brokers='localhost:9092',
+    topic='multi_schema_topic',
+    data_format='Avro',
+    kafka_schema_registry_url='http://localhost:8081',
+    consume_schema_strategy='raw';
+
+-- Route to typed streams via materialized views
+CREATE STREAM user_events (user_id string, event_type string, created_at datetime64(3));
+
+CREATE MATERIALIZED VIEW route_user_events INTO user_events AS
+SELECT
+    json_extract_string(raw, 'user_id') AS user_id,
+    json_extract_string(raw, 'event_type') AS event_type,
+    json_extract_string(raw, 'created_at') AS created_at
+FROM raw_events
+WHERE json_extract_string(raw, 'type') = 'user_event';
+```
+
+In `raw` mode, the virtual columns (`_tp_message_key`, `_tp_message_headers`, `_tp_time`, `_tp_sn`, `_tp_shard`) are still populated as transport-level metadata.
+
+:::info Migration Note
+Users who previously relied on `TopicNameStrategy` to consume all messages (including those from mixed-schema topics) must now explicitly set `consume_schema_strategy='all'` to preserve the old behavior. The default `single` mode only consumes messages matching the specified schema subject.
+:::
