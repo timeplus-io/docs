@@ -180,6 +180,87 @@ class getMax:
 $$;
 ```
 
+## Initialization hook {#init_hook}
+
+Available since Timeplus Enterprise 3.3.1.
+
+Some UDFs need one-time setup before the first row is processed — loading a model, compiling a regex, opening a connection, or reading a credential. A Python UDF can declare an **init hook**: a function in the same code block that Timeplus calls once, when the module is loaded, before any UDF invocation (and, for a UDAF, before the class is instantiated).
+
+Declare it with `SETTINGS init_function_name`:
+
+```sql
+CREATE OR REPLACE FUNCTION tag_value(x string) RETURNS string LANGUAGE PYTHON AS $$
+TAG = ''
+
+def _tp_init():
+    global TAG
+    TAG = 'ready'
+
+def tag_value(xs):
+    return [TAG + ':' + x.decode('utf-8') for x in xs]
+$$ SETTINGS init_function_name = '_tp_init';
+```
+
+The hook name is validated at `CREATE` time: if the function is not defined in the UDF source, the statement is rejected with `is not defined in the UDF source`. These settings are Python-only — using them on a JavaScript UDF fails with `only supported for Python UDFs`.
+
+### Passing parameters to the hook {#init_params}
+
+`init_function_parameters` passes a **single string** as the hook's only argument. Encode structured configuration as JSON and parse it in the hook:
+
+```sql
+CREATE OR REPLACE FUNCTION greet(x string) RETURNS string LANGUAGE PYTHON AS $$
+import json
+PREFIX = ''
+
+def _tp_init(params):
+    global PREFIX
+    PREFIX = json.loads(params).get('prefix', '')
+
+def greet(xs):
+    return [PREFIX + ':' + x.decode('utf-8') for x in xs]
+$$ SETTINGS init_function_name = '_tp_init',
+            init_function_parameters = '{"prefix":"hello"}';
+```
+
+When no parameter source is configured, the hook is called **with no arguments** — so write `def _tp_init():` in that case and `def _tp_init(params):` when you pass parameters.
+
+### Reading parameters from a named collection {#init_named_collection}
+
+`init_function_parameters` is stored verbatim in the UDF definition and is echoed back by `SHOW CREATE FUNCTION`, which makes it a poor place for a secret. Use a [named collection](/named-collection) instead: point the UDF at a collection and Timeplus reads the collection's `init_function_parameters` key at module-load time.
+
+```sql
+CREATE NAMED COLLECTION nc_udf_init AS
+  init_function_parameters = '{"api_key":"s3cr3t"}' NOT OVERRIDABLE;
+
+CREATE OR REPLACE FUNCTION call_api(x string) RETURNS string LANGUAGE PYTHON AS $$
+import json
+API_KEY = ''
+
+def _tp_init(params):
+    global API_KEY
+    API_KEY = json.loads(params)['api_key']
+
+def call_api(xs):
+    return [API_KEY + ':' + x.decode('utf-8') for x in xs]
+$$ SETTINGS init_function_name = '_tp_init',
+            named_collection = 'nc_udf_init';
+```
+
+`SHOW CREATE FUNCTION call_api` shows the `init_function_name` and `named_collection` settings but **not** the secret — only the collection name is stored in the UDF.
+
+The same settings work on `CREATE AGGREGATE FUNCTION`, where the hook runs before the aggregation class is constructed, so `__init__` can rely on whatever the hook set up.
+
+Rules and behavior:
+
+* `init_function_parameters` and `named_collection` both require `init_function_name`; without it the statement is rejected.
+* They are **mutually exclusive** — configure only one parameter source.
+* Creating the UDF requires the `NAMED COLLECTION` privilege on the referenced collection. An ungranted user gets `ACCESS_DENIED`, and gets it whether or not the collection exists, so the error does not leak which collections are defined.
+* The collection must exist at `CREATE` time.
+* If the collection has no `init_function_parameters` key, that is not an error — the hook is simply called with no arguments.
+* Values are resolved when the module loads, **not** on every call. Editing or rotating a named collection does not propagate to already-running queries or materialized views; drop and recreate the materialized view to pick up a new value.
+* If the collection is dropped after the UDF is created, the next module load fails cleanly with `Named collection '…' required by UDF '…' does not exist`.
+* If the hook itself raises, the query fails with the Python exception and the partially initialized module is discarded, so a later call re-runs the hook from scratch.
+
 ## Manage Python Libraries {#python_libs}
 
 Starting from Proton/Timeplus Enterprise 3.0, manage Python UDF packages directly via SQL `SYSTEM` commands. This is the only supported flow on 3.0+. The 2.x methods below are not supported on 3.0.
