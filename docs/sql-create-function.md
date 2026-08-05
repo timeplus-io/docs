@@ -131,7 +131,7 @@ $$;
 [Learn More](/js-udf)
 
 ## Python UDF
-starting from v2.7, Timeplus Enterprise also supports Python-based UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embedded Python 3.10 runtime in Timeplus core engine. No need to deploy extra server/service for the UDF.
+starting from v2.7, Timeplus Enterprise also supports Python-based UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embedded Python runtime in Timeplus core engine — Python 3.14 free-threaded since Timeplus Enterprise 3.3.1, Python 3.10 in earlier versions. No need to deploy extra server/service for the UDF.
 
 [Learn more](/py-udf) why Python UDF, and how to map the data types in Timeplus and Python, as well as how to manage dependencies.
 
