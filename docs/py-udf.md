@@ -261,6 +261,25 @@ Rules and behavior:
 * If the collection is dropped after the UDF is created, the next module load fails cleanly with `Named collection '…' required by UDF '…' does not exist`.
 * If the hook itself raises, the query fails with the Python exception and the partially initialized module is discarded, so a later call re-runs the hook from scratch.
 
+## Turning the runtime off {#enable_flag}
+
+Available since **Timeplus Enterprise 3.2.1**. Environments that do not want operators shipping arbitrary Python into the engine can refuse new Python UDFs with a server config flag in `timeplusd.yaml`:
+
+```yaml
+enable_python_udf: false        # default: true
+enable_javascript_udf: false    # default: true, gates JavaScript UDF the same way
+```
+
+The flag is picked up by `SYSTEM RELOAD CONFIG` — no restart needed. While it is `false`, both `CREATE FUNCTION ... LANGUAGE PYTHON` and `CREATE AGGREGATE FUNCTION ... LANGUAGE PYTHON` fail with:
+
+```
+Python UDF creation is disabled by server config `enable_python_udf`
+```
+
+The same check runs on the REST UDF endpoint, so registering the function from the web console fails in the same way.
+
+This gates **creation only**. Python UDFs that already exist keep running, and package management commands are unaffected. To take an existing function out of service, drop it. Setting the flag on all nodes is what makes it meaningful — it is read from each node's own config, not replicated cluster-wide.
+
 ## Manage Python Libraries {#python_libs}
 
 Starting from Proton/Timeplus Enterprise 3.0, manage Python UDF packages directly via SQL `SYSTEM` commands. This is the only supported flow on 3.0+. The 2.x methods below are not supported on 3.0.
@@ -278,6 +297,15 @@ SYSTEM INSTALL PYTHON PACKAGE 'requests==2.32.3';
 -- Alternative form with separate version literal
 SYSTEM INSTALL PYTHON PACKAGE 'requests' '2.32.3';
 
+-- Install several packages in one task from inline requirements text (3.1.2+)
+SYSTEM INSTALL PYTHON PACKAGE REQUIREMENTS 'requests==2.32.3
+pydantic>=2.0';
+
+-- Install from a private mirror, falling back to PyPI (3.1.2+)
+SYSTEM INSTALL PYTHON PACKAGE 'internal-lib==1.4.0'
+    INDEX_URL 'https://mirror.example.com/simple'
+    EXTRA_INDEX_URL 'https://pypi.org/simple';
+
 -- List installed packages
 SYSTEM LIST PYTHON PACKAGES;
 
@@ -288,6 +316,7 @@ SYSTEM UNINSTALL PYTHON PACKAGE 'requests';
 Notes:
 - Applies to Proton/Enterprise 3.0+ with Python UDF enabled (Python 3.14 since 3.3.1, Python 3.10 before that).
 - Cluster-wide operation; requires `SYSTEM RELOAD CONFIG` privilege.
+- `REQUIREMENTS`, `INDEX_URL` and `EXTRA_INDEX_URL` require 3.1.2+ on every node. Requirements text takes one package per line — pip options such as `-r` or `--index-url` inside the text are rejected, pass them as clauses instead. See [SYSTEM PYTHON PACKAGES](/sql-system-python-packages#requirements) for the full rules.
 - `SYSTEM LIST PYTHON PACKAGES` returns columns `package_name`, `version`.
 - Install/uninstall runs asynchronously. Check status via `system.python_package_tasks`:
   ```sql
