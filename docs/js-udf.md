@@ -206,12 +206,16 @@ $$;
 Running it over a `versioned_kv` stream, the retraction of a key is netted out instead of double-counted:
 
 ```sql
-CREATE STREAM kv (i32 int32, f32 float) PRIMARY KEY i32 SETTINGS mode = 'versioned_kv';
+CREATE STREAM kv (i32 int32, f32 float32) PRIMARY KEY i32 SETTINGS mode = 'versioned_kv';
 
 SELECT count_with_retract(f32) FROM kv;
+```
 
-INSERT INTO kv (i32, f32) SELECT number, number * 10 FROM numbers(10); -- 10
-INSERT INTO kv (i32, f32) VALUES (1, 0.1);                            -- still 10
+With that streaming query running, the following inserts make it emit `10`, then `10` again — the update to key `1` retracts the old row before adding the new one, so the count does not grow:
+
+```sql
+INSERT INTO kv (i32, f32) SELECT number, number * 10 FROM numbers(10);
+INSERT INTO kv (i32, f32) VALUES (1, 0.1);
 ```
 
 Notes:

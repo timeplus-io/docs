@@ -124,14 +124,14 @@ class count_with_retract:
         self.count = 0
 
     # `delta` is only passed when the input is a changelog
-    def process(self, values, delta=[]):
-        is_changelog = len(delta) > 0
+    def process(self, values, delta=None):
+        is_changelog = delta is not None and len(delta) > 0
         for i in range(len(values)):
             if not is_changelog:
                 self.count += 1
             elif delta[i] == 1:
                 self.count += 1
-            elif delta[i] == -1 and self.count > 0:
+            elif delta[i] == -1:
                 self.count -= 1
 
     def finalize(self):
@@ -145,15 +145,19 @@ Running it over a `changelog_kv` stream, the retraction of a key is netted out i
 CREATE STREAM kv (id int, value float64) PRIMARY KEY id SETTINGS mode = 'changelog_kv';
 
 SELECT count_with_retract(value) FROM kv;
+```
 
-INSERT INTO kv (id, value, _tp_delta) VALUES (1, 2, 1), (2, 3, 1), (3, 4, 1); -- 3
-INSERT INTO kv (id, value, _tp_delta) VALUES (1, 2, -1);                      -- 2
+With that streaming query running, the following inserts make it emit `3`, then `2` — the retraction of key `1` is subtracted instead of counted again:
+
+```sql
+INSERT INTO kv (id, value, _tp_delta) VALUES (1, 2, 1), (2, 3, 1), (3, 4, 1);
+INSERT INTO kv (id, value, _tp_delta) VALUES (1, 2, -1);
 ```
 
 Notes:
 
 - The delta list always has the same length as the other argument lists, and `delta[i]` belongs to row `i`.
-- It is appended **after** all declared arguments, so a UDA declared with two arguments receives `process(self, a, b, delta=[])`.
+- It is appended **after** all declared arguments, so a UDA declared with two arguments receives `process(self, a, b, delta=None)`.
 - Without a default value, a `process(self, values)` raises a `TypeError` as soon as it is used on a changelog input.
 - This is independent of `has_customized_emit`: with custom emit, `process(..)` still returns the emit count and receives the extra list on changelog input.
 

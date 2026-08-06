@@ -262,7 +262,7 @@ This requires the key columns to be part of the result, so either omit the `colu
 
 ### Older builds {#earlier-builds}
 
-The `javascript_udf_getvalue_null_on_missing_key` setting, the positional alignment guarantee of `batchGetValues`, and by-name column projection all landed in **Timeplus Enterprise 3.3.1**. On earlier builds:
+The `javascript_udf_getvalue_null_on_missing_key` setting, the positional alignment guarantee of `batchGetValues`, and by-name column projection all landed in **Timeplus Enterprise 3.3.1**. The missing-key handling of `getValue` / `batchGetValues` was also backported to the 2.8 line in [2.8.19](/enterprise-v2.8#2_8_19) (timeplusd 2.8.45), so 2.8.19 and later behave as described above. On earlier builds:
 
 * `getValue` always returns the default-filled object for a missing key; there is no way to get `null`.
 * `batchGetValues` returns `null` for the missing key itself, but entries **after** it in the result array can be shifted and carry another row's values.
