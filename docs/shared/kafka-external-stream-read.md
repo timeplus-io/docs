@@ -196,11 +196,11 @@ CREATE STREAM user_events (
 
 CREATE MATERIALIZED VIEW route_user_events INTO user_events AS
 SELECT
-    json_extract_string(raw, 'user_id') AS user_id,
-    json_extract_string(raw, 'event_type') AS event_type,
-    json_extract_string(raw, 'created_at') AS created_at
+    raw:user_id AS user_id,
+    raw:event_type AS event_type,
+    raw:created_at AS created_at
 FROM raw_events
-WHERE json_extract_string(raw, '_schema_type') = 'user_event';
+WHERE raw:type = 'user_event';
 ```
 
 For more details on `consume_schema_strategy`, see the [Kafka External Stream settings](/kafka-source#consume_schema_strategy).
