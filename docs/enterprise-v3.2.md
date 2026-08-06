@@ -21,6 +21,68 @@ Key highlights of the Timeplus 3.2 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 3.2.15 {#3_2_15}
+Released on 08-06-2026. Installation options:
+* For Linux or Mac users: [Downloads](/release-downloads#3_2_15)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.2.15`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 11.0.16`
+
+Component versions:
+* timeplusd 3.2.15
+* timeplus_appserver 3.2.1
+* timeplus_connector 3.1.0
+* timeplus cli 3.0.0
+* timeplus byoc 1.0.0
+
+#### Changelog {#changelog_3_2_15}
+
+
+**Bug Fixes**
+* Improved S3 mock retry strategy.
+* Fixed incorrect ordering of consecutive changelog events during shard merge.
+* Improved MergeTree merge scheduling after memory pressure.
+* Fixed negative sequence number logging.
+* Fixed crash when stopping merges on streams without local historical storage.
+* Reduced shared storage memory usage during NativeLog fetch.
+* Improved recovery from corrupted checkpoint leases.
+* Fixed potential data loss during Raft leader transitions.
+* Improved startup resilience and broken-part recovery.
+* Fixed missing-key handling in JavaScript UDF dictionary functions.
+* Improved NativeLog recovery with incremental replay.
+* Fixed NativeLog torn-tail recovery corruption.
+* Eliminated OOM crash loops during streaming historical recovery.
+* Corrected NativeLog retention logic based on applied sequence numbers.
+* Fixed mutable stream prefix-range handling after merges.
+* Reduced excessive system metric log retention.
+* Improved recovery stability under memory pressure for materialized views.
+* Delayed materialized view creation until external table schema is ready.
+* Added validation before JSON attribute extraction.
+* Improved compatibility with Protobuf map entries from Confluent Schema Registry.
+* Fixed intermittent MergeTree race condition.
+* Reduced repeated Kafka broker outage warnings.
+* Fixed incorrect active part listing in system.parts.
+* Fixed WAL corruption caused by partial writes when disk space is exhausted.
+* Fixed null pointer crash on memory allocation failure.
+* Refined merge configuration.
+* Added support for S3 server-side encryption headers.
+* Fixed phantom changelog rows in multi-shard memory aggregation.
+* Fixed data_version restoration during cluster metadata deserialization.
+* Removed unnecessary MergeTree profile counter warnings.
+* Improved merge settings behavior.
+* Fixed lazy initialization and serialization of views.
+* Fixed lost updates with EMIT ON UPDATE.
+* Fixed nullable key handling in mutable stream joins.
+* Added offsets-only checkpoint mode.
+* Enforced access control for named collections.
+* Fixed DROP DATABASE CASCADE failures with alerts enabled.
+* Added automatic self-healing for NativeLog torn-WAL inconsistencies.
+* Improved TimeWheel timer stability.
+* Enhanced stall detection.
+* Added shard pruning optimization for IN subqueries and tuple IN.
+* Fixed interaction between mutable stream version columns and TTL.
+* Fixed mutable file descriptor leak.
+* Restored minimum retention threshold for metadata and checkpoint logs.
+  
 ### 3.2.11 {#3_2_11}
 Released on 05-15-2026. Installation options:
 * For Linux or Mac users: [Downloads](/release-downloads#3_2_11)
