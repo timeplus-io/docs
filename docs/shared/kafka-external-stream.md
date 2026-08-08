@@ -29,7 +29,10 @@ SETTINGS
     ssl_ca_pem='..',
     skip_ssl_cert_check=..,
     properties='..',
-    named_collection='..';
+    named_collection='..',
+    subject_name_strategy='..',
+    schema_subject_name='..',
+    consume_schema_strategy='..';
 ```
 
 ### Settings
@@ -211,3 +214,31 @@ SETTINGS
 ```
 
 For more detailed syntax of named collection, please refer to the [Named Collection](/named-collection) documentation.
+
+#### subject_name_strategy
+
+Determines how the stream looks up schemas in the Kafka Schema Registry. Supported values:
+
+| Strategy | Behavior | Derived Subject Name |
+| :--- | :--- | :--- |
+| `TopicNameStrategy` | **Default.** Assumes one schema per topic. `schema_subject_name` is ignored. | `<topic>-value` |
+| `RecordNameStrategy` | Supports mixed schemas in one topic. `schema_subject_name` is required. | `schema_subject_name` (fully qualified record name) |
+| `TopicRecordNameStrategy` | Scopes record names to a specific topic. `schema_subject_name` is required. | `<topic>-<schema_subject_name>` |
+
+For more details, see [Kafka Schema Registry](/kafka-schema-registry).
+
+#### schema_subject_name
+
+Specifies the subject name for schema lookups in the Schema Registry. Required when `subject_name_strategy` is set to `RecordNameStrategy` or `TopicRecordNameStrategy`. Typically the fully qualified record name, e.g. `com.example.avro.UserRecord`.
+
+#### consume_schema_strategy
+
+Controls how Kafka messages with different Confluent Schema Registry schema IDs are processed. This setting is useful when a Kafka topic contains messages encoded with multiple Avro or Protobuf schemas (e.g., via `RecordNameStrategy` or `TopicRecordNameStrategy`).
+
+Supported values:
+
+| Value | Default | Behavior |
+| :--- | :--- | :--- |
+| `single` | **Yes** | Only consume messages matching the schema identified by `schema_subject_name` and `subject_name_strategy`. Non-matching messages are silently skipped. |
+| `all` | No | Decode **all** messages by their schema ID, mapping fields to stream columns by name. Missing fields get default/null values. |
+| `raw` | No | Decode messages by their schema ID and stringy the result into JSON format text. No schema registry lookup or deserialization occurs. The external stream must have exactly one physical column of type `String`. |
