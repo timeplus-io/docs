@@ -1,6 +1,6 @@
 # Append Stream
 
-An **Append Stream** in Timeplus is best understood as a **streaming ClickHouse / Snowflake** table that uses a columnar format, designed for high data ignest rates and huge data volumes, and optimized for streaming analytics workloads where frequent data mutations are uncommon. 
+An **Append Stream** in Timeplus is best understood as a **streaming ClickHouse / Snowflake** table that uses a columnar format, designed for high data ingest rates and huge data volumes, and optimized for streaming analytics workloads where frequent data mutations are uncommon.
 
 ## Create Append Stream
 
@@ -42,12 +42,13 @@ SETTINGS
     flush_threshold_count=<batch_flush_rows>,
     flush_threshold_ms=<batch_flush_timeout>,
     flush_threshold_bytes=<batch_flush_size>,
-    merge_with_ttl_timeout=<timeout_in_seconds>;
+    merge_with_ttl_timeout=<timeout_in_seconds>,
+    inline_historical_commit=<true|false>;
 ```
 
 ### Storage Architecture
 
-Each shard in a Append Stream has [dural storage](/architecture#dural-storage), consisting of:
+Each shard in an Append Stream has [dural storage](/architecture#dural-storage), consisting of:
 
 - Write-Ahead Log (WAL), powered by NativeLog. Enabling incremental processing.
 - Historical store, powered by high performant columnar data store.
@@ -73,7 +74,7 @@ A default value expression `expr` may reference arbitrary table columns and cons
  If the value of such a column is not specified in an `INSERT` query, it is computed from `expr`.
 
  ```sql
- CREATE STRAM test
+ CREATE STREAM test
 (
     id uint64,
     updated_at datetime DEFAULT now(),
@@ -201,7 +202,7 @@ Controls the behavior of the historical storage engine during merge operations.
 Supported values:
 - **`'append'`** (default): Data is simply appended to historical storage.
 - **`'versioned_kv'`**: Rows with the same primary key are overridden based on the `version_column`. See [Versioned Key Value Stream](/versioned-stream) for details.
-- **`'chanelog_kv'`**: Rows with the same primary key are compacted based on the `version_column`. See [Changelog Key Value Stream](/changelog-stream) for details.
+- **`'changelog_kv'`**: Rows with the same primary key are compacted based on the `version_column`. See [Changelog Key Value Stream](/changelog-stream) for details.
 
 #### `version_column`
 
@@ -216,7 +217,7 @@ Controls the storage type used by the stream.
 Supported values:
 - **`'hybrid'`** (default): Both the WAL (NativeLog, a.k.a. streaming store) and the historical store are enabled.
 - **`'streaming'`**: Only the WAL (NativeLog) is enabled; the historical store is disabled.
-- **`'inmemory'`**: WAL operates fully in memory; the historical store is disabled. Works only in a single-instance setup.
+- **`'memory'`**: WAL operates fully in memory; the historical store is disabled. Works only in a single-instance setup (`replication_factor` = 1).
 
 #### `logstore_codec`
 
@@ -231,17 +232,27 @@ Supported values:
 
 #### `logstore_retention_bytes`
 
-Retention policy by **size** for the WAL. When accumulated WAL segments exceed this size, older replicated segments are garbage collected.
+Retention policy by **size** for the WAL. When accumulated WAL segments exceed this size, older replicated segments are garbage collected. Set a positive value to specify a limit; `-1` disables size-based retention.
+
+**Default**: `0` (use the system retention policy)
+
+:::info
 Garbage collection runs periodically in the background (default: every 5 minutes).
 
-**Default**: `1` (collect old segments as soon as possible)
+By default, system retention policy is 1 byte (collect old segments as soon as possible) and 86400000 ms (1 day).
+:::
 
 #### `logstore_retention_ms`
 
-Retention policy by **time** for the WAL.  Replicated WAL segments older than this threshold are garbage collected.
+Retention policy by **time** for the WAL. Replicated WAL segments older than this threshold are garbage collected. Set a positive value to specify a limit; `-1` disables time-based retention.
+
+**Default**: `0` (use the system retention policy)
+
+:::info
 Garbage collection runs periodically in the background (default: every 5 minutes).
 
-**Default**: `86400000` (1 day)
+By default, system retention policy is 1 byte (collect old segments as soon as possible) and 86400000 ms (1 day).
+:::
 
 #### `placement_policies`
 
@@ -301,6 +312,12 @@ Flushes to shared storage when the batch timeout threshold is reached, improving
 Controls the parallelism when fetching data from remote shared storage.
 
 **Default**: `1`
+
+#### `inline_historical_commit`
+
+Controls whether the background WAL-consumer thread commits data to the historical store directly (`true`) or delegates the commit to a background thread pool (`false`).
+
+**Default**: `true`
 
 #### `flush_threshold_count`
 
