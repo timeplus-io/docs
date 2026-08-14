@@ -313,12 +313,6 @@ Controls the parallelism when fetching data from remote shared storage.
 
 **Default**: `1`
 
-#### `inline_historical_commit`
-
-Controls whether the background WAL-consumer thread commits data to the historical store directly (`true`) or delegates the commit to a background thread pool (`false`).
-
-**Default**: `true`
-
 #### `flush_threshold_count`
 
 Flushes data to the backend columnar store when this row threshold is reached.
@@ -342,6 +336,12 @@ Flushes data to the backend columnar store when this bytes threshold is reached.
 Minimum delay in seconds before repeating a merge with delete TTL.
 
 **Default**: `14400`
+
+#### `inline_historical_commit`
+
+Controls whether the background WAL-consumer thread commits data to the historical store directly (`true`) or delegates the commit to a background thread pool (`false`).
+
+**Default**: `true`
 
 ## Enable Zero-Replication WAL
 
