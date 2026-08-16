@@ -233,7 +233,7 @@ You may want to fine-tune the target stream when provisioning it, especially if 
 - [Retention policies](/append-stream-ttl)
 - [Indexes](/append-stream-indexes)
 
-Alternatively, you can disable the historical store entirely by using `SETTIGNS storage_type='streaming'` and use the target stream as a persistent, queryable queue. In this scenario, fine-tuning compression, retention, and indexes is not necessary.
+Alternatively, you can disable the historical store entirely by using `SETTINGS storage_type='streaming'` and use the target stream as a persistent, queryable queue. In this scenario, fine-tuning compression, retention, and indexes is not necessary.
 :::
 
 **Example**:
