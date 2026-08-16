@@ -66,8 +66,6 @@ Note:
 * Line 8: return an array of new values
 * Line 10: close the code block.
 
-You can also add `EXECUTION_TIMEOUT <num>` to the end of the `CREATE FUNCTION` to customize the timeout for calling remote endpoints. By default the timeout is 10000 milliseconds (i.e. 10 seconds).
-
 :::info
 You can add debug information via `console.log(..)` in the JavaScript UDF. The logs will be available in the server log files.
 :::
@@ -155,7 +153,7 @@ UDAF or User Defined Aggregation Function is stateful. It takes one or more colu
 
 Syntax:
 ```sql
-CREATE OR REPLACE AGGREGATION FUNCTION uda_name(param1 type1,...)
+CREATE OR REPLACE AGGREGATE FUNCTION uda_name(param1 type1,...)
 RETURNS type2 language PYTHON AS
 $$
 import ...

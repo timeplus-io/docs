@@ -42,7 +42,7 @@ For [global aggregations](/streaming-query#global-aggregation), the syntax is:
 EMIT [STREAM|CHANGELOG]
  [PERIODIC <interval> [REPEAT]]
  [ON UPDATE [WITH BATCH <interval>] ]
- [AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <internal> [AND TIMEOUT <internal>]]
+ [AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]]
 ```
 
 By default `EMIT STREAM` and `PERIODIC 2s` are applied. Advanced settings:
@@ -116,7 +116,7 @@ Example:
 ```sql
 SELECT device, max(cpu_usage)
 FROM tumble(device_utils, 5s)
-GROUP BY device, widnow_end
+GROUP BY device, window_end
 EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
@@ -213,7 +213,7 @@ This emit policy is introduced in Timeplus Enterprise 2.9. Please watch the pres
 
 The syntax is:
 ```sql
-EMIT AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <internal> [AND TIMEOUT <internal>]
+EMIT AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]
 ```
 
 Note:
@@ -223,7 +223,7 @@ Note:
 * `ONLY`: if you add this keyword, then only those events over the `MAXSPAN` will be emitted, other events less than the `MAXSPAN` will be omitted, so that you can focus on those events over the SLA.
 * `AND TIMEOUT interval` to avoid waiting for late events for too long. If there is no more events with the same key (e.g. tracing ID) after this interval, Timeplus will close the session for the key and emit results.
 
-It's required to use `SETTINGS default_hash_table='hybrid'` with this emit policy to avoid putting too many data in memory.
+Timeplus automatically switches to `default_hash_table='hybrid'` with this emit policy to avoid putting too many data in memory. Do not override `default_hash_table` to `memory` for such queries.
 
 Here is an example to get the log streams and only show the events with over 0.5 second as the end-to-end latency.
 ```sql
@@ -243,15 +243,12 @@ SETTINGS default_hash_table='hybrid', max_hot_keys=1000000, allow_independent_sh
 ```
 
 ### EMIT TIMEOUT
-You can apply `EMIT TIMEOUT` on global aggregation, e.g.
-```sql
-SELECT count() FROM t EMIT TIMEOUT 1s;
-```
-
-It also can be applied to window aggregations and `EMIT AFTER WINDOW CLOSE` is automatically appended, e.g.
+`EMIT TIMEOUT` applies to window aggregations, where `EMIT AFTER WINDOW CLOSE` is automatically appended, e.g.
 ```sql
 SELECT count() FROM tumble(t,5s) GROUP BY window_start EMIT TIMEOUT 1s;
 ```
+
+It also applies as `AND TIMEOUT interval` in `EMIT AFTER SESSION CLOSE` or `EMIT AFTER KEY EXPIRE`. Note it is silently ignored for plain global aggregations without a window.
 
 ### EMIT PER EVENT
 This new emit policy is introduced in Timeplus Enterprise 2.9 Preview 2. It allows you to emit results for every event in the stream, which can be useful for debugging or monitoring purposes.

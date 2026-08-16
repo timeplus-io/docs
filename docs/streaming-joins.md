@@ -135,7 +135,7 @@ ON left_vk.k = right_vk.kk
 ```
 
 #### Append/VersionedKV/Mutable FULL LATEST JOIN Append/VersionedKV/Mutable {#full-latest-join}
-Starting from Timeplus Enterprise v2.8.2, you can use `FULL LATEST JOIN` to join an append stream with a mutable stream, versioned stream or changelog stream. Compared to `FULL ALL JOIN`, the This will keep the latest version of the both sides for each join key.
+Starting from Timeplus Enterprise v2.8.2, you can use `FULL LATEST JOIN` to join an append stream with a mutable stream, versioned stream or changelog stream. Compared to `FULL ALL JOIN` (which is only supported when the left side is a mutable, versioned or changelog stream), this will keep the latest version of the both sides for each join key.
 
 Example:
 
@@ -188,10 +188,10 @@ ON left_stream.key = right_stream.key AND date_diff_within(2m)
 ```sql
 SELECT * FROM left_stream JOIN right_stream
 ON left_stream.key = right_stream.key
-AND date_diff_within(left_stream.col1, right_stream.col2, 2m)
+AND date_diff_within(2m, left_stream.col1, right_stream.col2)
 ```
 
-Actually we don’t even require a timestamp for the range, any integral columns are supposed to work. For instance, `AND left_stream.sequence_number < rightstream.sequence_number + 10`.
+Note the range columns must be in `datetime` or `datetime64` type, and the time interval only supports seconds or minutes.
 
 ### Dynamic Enrichment JOIN
 
@@ -326,7 +326,7 @@ The right side of the `LATEST JOIN` can be an append stream or mutable stream(in
 CREATE STREAM append(i int, k string);
 CREATE STREAM versioned_kv(j int, k string, kk string) PRIMARY KEY (k, kk) SETTINGS mode='versioned_kv';
 
-SELECT * FROM append ASOF LATEST JOIN versioned_kv
+SELECT * FROM append LATEST JOIN versioned_kv
 ON append.k = versioned_kv.k
 
 INSERT INTO versioned_kv(j, k, kk) VALUES (100, 'a', 'bb'), (101, 'a', 'cc'), (102, 'a', 'dd'), (103, 'a', 'ee');

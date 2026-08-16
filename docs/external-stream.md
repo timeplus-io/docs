@@ -4,10 +4,12 @@ You can create **External Streams** in Timeplus to query data in the external sy
 
 You can run streaming analytics with the external streams in the similar way as other streams.
 
-Timeplus supports 6 types of external streams:
+Timeplus supports the following types of external streams:
 * [Kafka External Stream](/kafka-source)
 * [Pulsar External Stream](/pulsar-source)
 * [NATS JetStream External Stream](/nats-jetstream-source)
+* [HTTP External Stream](/http-external-stream)
+* [Apache Iceberg External Stream Source](/iceberg-source) and [Sink](/iceberg-sink)
 * [Python External Stream Source](/python-external-stream-source) and [Sink](/python-external-stream-sink), only available in Timeplus Enterprise
 * [Timeplus External Stream](/timeplus-source), only available in Timeplus Enterprise
 * [Log External Stream](/log-stream) (experimental)

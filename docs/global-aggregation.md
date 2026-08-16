@@ -121,6 +121,7 @@ EMIT PERIODIC <n><UNIT>
   - `s` (seconds)
   - `m` (minutes)
   - `h` (hours)
+  - `d` (days)
 
 
 **Example**:

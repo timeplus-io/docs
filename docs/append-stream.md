@@ -21,14 +21,13 @@ ORDER BY <expression>
     [DELETE | TO DISK 'xxx' | TO VOLUME 'xxx' [, ...] ]
     [WHERE conditions]
 ]
-COMMENT '<stream-comment>'
 SETTINGS
     shards=<num_of_shards>,
     sharding_expr='<expr>',
     replication_factor=<replication_factor>,
     mode=['append'|'changelog_kv'|'versioned_kv'],
     version_column=<version_column>,
-    storage_type=['hybrid'|'streaming'|'inmemory'],
+    storage_type=['hybrid'|'streaming'|'memory'],
     logstore_codec=['lz4'|'zstd'|'none'],
     logstore_retention_bytes=<retention_bytes>,
     logstore_retention_ms=<retention_ms>,
@@ -42,7 +41,8 @@ SETTINGS
     flush_threshold_count=<batch_flush_rows>,
     flush_threshold_ms=<batch_flush_timeout>,
     flush_threshold_bytes=<batch_flush_size>,
-    merge_with_ttl_timeout=<timeout_in_seconds>;
+    merge_with_ttl_timeout=<timeout_in_seconds>
+COMMENT '<stream-comment>';
 ```
 
 ### Storage Architecture
@@ -73,7 +73,7 @@ A default value expression `expr` may reference arbitrary table columns and cons
  If the value of such a column is not specified in an `INSERT` query, it is computed from `expr`.
 
  ```sql
- CREATE STRAM test
+ CREATE STREAM test
 (
     id uint64,
     updated_at datetime DEFAULT now(),
@@ -124,7 +124,7 @@ See [column compression codecs](/append-stream-codecs) for details.
 
 ### `ORDER BY expr`
 
-**ORDER BY** — Defines the sorting key. **Required.**  
+**ORDER BY** — Defines the sorting key. **Optional.** If neither `ORDER BY` nor `PRIMARY KEY` is specified, it defaults to `to_start_of_hour(_tp_time)`.
 
 You can specify a tuple of column names or arbitrary expressions.  
 
@@ -201,7 +201,7 @@ Controls the behavior of the historical storage engine during merge operations.
 Supported values:
 - **`'append'`** (default): Data is simply appended to historical storage.
 - **`'versioned_kv'`**: Rows with the same primary key are overridden based on the `version_column`. See [Versioned Key Value Stream](/versioned-stream) for details.
-- **`'chanelog_kv'`**: Rows with the same primary key are compacted based on the `version_column`. See [Changelog Key Value Stream](/changelog-stream) for details.
+- **`'changelog_kv'`**: Rows with the same primary key are compacted based on the `version_column`. See [Changelog Key Value Stream](/changelog-stream) for details.
 
 #### `version_column`
 
@@ -216,7 +216,7 @@ Controls the storage type used by the stream.
 Supported values:
 - **`'hybrid'`** (default): Both the WAL (NativeLog, a.k.a. streaming store) and the historical store are enabled.
 - **`'streaming'`**: Only the WAL (NativeLog) is enabled; the historical store is disabled.
-- **`'inmemory'`**: WAL operates fully in memory; the historical store is disabled. Works only in a single-instance setup.
+- **`'memory'`**: WAL operates fully in memory; the historical store is disabled. Works only in a single-instance setup.
 
 #### `logstore_codec`
 
@@ -363,7 +363,7 @@ CREATE STREAM elastic_serving_stream
   p2 uint32,
   c1 string,
   c2 int,
-  v datetime64(3),
+  v datetime64(3)
 )
 SETTINGS
   shards = 3,

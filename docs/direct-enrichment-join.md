@@ -91,7 +91,7 @@ CREATE STREAM orders (
 
 SELECT *
 FROM orders
-JOIN table(products)
+JOIN products
 ON orders.product_id = products.id
 SETTINGS join_algorithm = 'direct';
 ```

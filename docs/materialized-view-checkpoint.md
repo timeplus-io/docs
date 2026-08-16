@@ -98,8 +98,10 @@ CREATE DISK s3_plain_disk disk(
     skip_access_check=0
 );
 
--- Use shared storage for checkpoint replication
-CREATE [SCHEDULED] MATERIALIZED VIEW shared_ckpt_rep INTO sink
+-- Use shared storage for checkpoint replication.
+-- The optional SCHEDULED keyword can be added after CREATE, but a shared
+-- checkpoint already makes the materialized view scheduled.
+CREATE MATERIALIZED VIEW shared_ckpt_rep INTO sink
 AS
 SELECT
     window_start as win_start,

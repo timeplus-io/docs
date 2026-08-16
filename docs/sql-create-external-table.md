@@ -1,6 +1,6 @@
 # CREATE EXTERNAL TABLE
 
-Timeplus supports 3 types of external tables: ClickHouse, MySQL, and S3. Reading data from external tables are bounded, which means the query will end when all the data is read. Writing data to external tables are unbounded, which means the query will keep running until you cancel it.
+Timeplus supports 5 types of external tables: ClickHouse, MySQL, PostgreSQL, MongoDB, and S3. Reading data from external tables are bounded, which means the query will end when all the data is read. Writing data to external tables are unbounded, which means the query will keep running until you cancel it.
 
 ## ClickHouse/MySQL External Table
 
@@ -36,10 +36,11 @@ SETTINGS
     use_environment_credentials=true|false, -- optional, default false
     access_key_id='..', -- optional
     secret_access_key='..', -- optional
-    region='..', -- required
-    bucket='..', -- required
-    read_from='..', -- optional
-    write_to='..', -- optional
+    endpoint='..', -- optional, custom S3-compatible endpoint
+    region='..', -- required, unless endpoint is set
+    bucket='..', -- required, unless endpoint is set
+    read_from='..', -- optional, but at least one of read_from/write_to is required
+    write_to='..', -- optional, but at least one of read_from/write_to is required
     data_format='..', -- optional
     ...
 ```

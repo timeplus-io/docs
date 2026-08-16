@@ -103,16 +103,16 @@ Codec for the logstore. It can be `none`, `zstd`, `lz4`.
 #### logstore_retention_bytes
 Type: int64
 
-Default: -1
+Default: 0
 
-Maximum size of the logstore in bytes. -1 means no limit.
+Maximum size of the logstore in bytes. 0 means the system default retention policy (keeping around as little data as possible). -1 means no limit.
 
 #### logstore_retention_ms
 Type: int64
 
-Default: -1
+Default: 0
 
-Maximum time to keep the logstore in milliseconds. -1 means no limit.
+Maximum time to keep the logstore in milliseconds. 0 means the system default retention policy (24 hours). -1 means no limit.
 
 #### logstore_flush_messages
 Type: int64

@@ -52,6 +52,8 @@ Supported states include:
 - `ckpt_sn`: Last checkpointed offset/sequence.
 - `processed_record_ts`: Timestamp of the last processed record.
 
+Note: for the sequence states (`start_sn`, `end_sn`, `processed_sn`, `ckpt_sn` and `processed_record_ts`), the `dimension` column carries the source stream name instead of `materialized_view`, so filter by `database` and `name` for those.
+
 **Example**:
 ```sql
 SELECT
@@ -59,7 +61,7 @@ SELECT
 FROM
     table(system.introspection_state_log)
 WHERE
-    starts_with(dimension, 'materialized_view')
+    database = 'default' AND name = 'my_mv'
     AND state_name IN ('end_sn', 'processed_sn');
 ```
 
@@ -70,7 +72,6 @@ Timeplus provides built-in system views to help monitor and debug Materialized V
 - `system.v_failed_mat_views`: Tracks Materialized Views that have failed.
 - `system.v_mat_view_lags`: Shows Materialized Views with processing lag.
 - `system.v_storages`: Shows stream and checkpoint storage usage, which is useful when a Materialized View is accumulating checkpoint data.
-- `system.v_stream_applied_lags`: Shows per-node applied lag for replicated streams when a Materialized View is blocked by upstream replication or storage apply delay.
 
 For the full list of built-in troubleshooting views, see [Views in system namespace](/system-views).
 

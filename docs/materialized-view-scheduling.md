@@ -67,8 +67,8 @@ Tag a view through its comment so that related views are spread apart instead of
 ```sql
 CREATE MATERIALIZED VIEW mv_orders
 INTO target AS SELECT ...
-COMMENT 'tag=orders'
-SETTINGS checkpoint_settings='replication_type=shared;shared_disk=...';
+SETTINGS checkpoint_settings='replication_type=shared;shared_disk=...'
+COMMENT 'tag=orders';
 ```
 
 The tag is a `tag=<word>` token extracted from the comment with the pattern `tag=([a-zA-Z0-9]+)`:
@@ -111,7 +111,7 @@ When a view needs a home, the scheduler:
 3. Otherwise **sorts** the candidates and picks the minimum, comparing this tuple lexicographically:
 
    ```
-   (class_load_on_node, total_streams, memory_utilization, cpu_utilization, node_id)
+   (class_load_on_node, total_streams, memory_utilization, cpu_utilization, tie_break, node_id)
    ```
 
    | Key | Why |
@@ -120,13 +120,14 @@ When a view needs a home, the scheduler:
    | `total_streams` | overall even spread — guarantees per-class balancing never worsens the total |
    | `memory_utilization` | tie-break toward the node with more free memory — **memory before CPU because OOM is fatal while CPU saturation is only slowness** |
    | `cpu_utilization` | next tie-break (a 0–1 fraction, normalized across cores) |
+   | `tie_break` | a per-stream seeded hash of the node id, so equally-loaded nodes are spread deterministically per view instead of always favoring the lowest node id |
    | `node_id` | final, deterministic tie-break so equal nodes resolve reproducibly |
 
 Because `total_streams` is the second key, per-class balancing can never degrade overall balance: every class stays even to within ±1 view per node, and so does the total.
 
 ## Examples
 
-All examples below are **Scheduled** Materialized Views — each carries `checkpoint_settings='replication_type=shared;...'`, which is what puts them under the scheduler. The placement traits (`tag` via `COMMENT`, `cpu_weight`, `memory_weight`, `preferred_exec_node`) go in the `SETTINGS` clause; `COMMENT` comes before `SETTINGS`.
+All examples below are **Scheduled** Materialized Views — each carries `checkpoint_settings='replication_type=shared;...'`, which is what puts them under the scheduler. The placement traits (`tag` via `COMMENT`, `cpu_weight`, `memory_weight`, `preferred_exec_node`) go in the `SETTINGS` clause; `COMMENT` comes after `SETTINGS`.
 
 ### Tag: keep a pipeline's views spread apart
 
@@ -136,21 +137,21 @@ Give related views the same `tag=<word>` token in their comment. The scheduler t
 CREATE MATERIALIZED VIEW orders_by_region
 INTO orders_region_target
 AS SELECT region, count() AS n FROM orders GROUP BY region
-COMMENT 'tag=orders'
-SETTINGS checkpoint_settings='replication_type=shared;shared_disk=s3_disk';
+SETTINGS checkpoint_settings='replication_type=shared;shared_disk=s3_disk'
+COMMENT 'tag=orders';
 
 CREATE MATERIALIZED VIEW orders_by_status
 INTO orders_status_target
 AS SELECT status, count() AS n FROM orders GROUP BY status
-COMMENT 'orders pipeline, tag=orders, owner=payments'
-SETTINGS checkpoint_settings='replication_type=shared;shared_disk=s3_disk';
+SETTINGS checkpoint_settings='replication_type=shared;shared_disk=s3_disk'
+COMMENT 'orders pipeline, tag=orders, owner=payments';
 
 CREATE MATERIALIZED VIEW orders_revenue
 INTO orders_revenue_target
 AS SELECT tumble_start AS w, sum(amount) AS revenue
 FROM tumble(orders, 1m) GROUP BY w
-COMMENT 'tag=orders'
-SETTINGS checkpoint_settings='replication_type=shared;shared_disk=s3_disk';
+SETTINGS checkpoint_settings='replication_type=shared;shared_disk=s3_disk'
+COMMENT 'tag=orders';
 ```
 
 Notes:
@@ -271,13 +272,13 @@ scheduler:
   # after event-driven (failover / revive) rebalancing.
   # Set to 0 to disable the periodic nudge entirely (a kill switch against rebalance churn);
   # placement and event-driven failover rebalancing still work. Minimum effective value is 1000.
-  periodic_rebalance_interval_ms: 5000
+  periodic_rebalance_interval_ms: 30000
 ```
 
 | Setting | Default | Meaning |
 |---------|---------|---------|
-| `execute_stream_policy` | `class_aware` | `class_aware` enables tag / weight / query-shape balancing. `round_robin` reproduces the legacy count-based behavior (every view treated as one group; selection degenerates to `total_streams, memory_utilization, node_id`). The `preferred_exec_node` pin and deterministic tie-break apply under both. Unknown values warn and fall back to `class_aware`. |
-| `periodic_rebalance_interval_ms` | `5000` | Period of the periodic nudge. `0` disables it. Positive values are clamped to a 1000ms floor. |
+| `execute_stream_policy` | `class_aware` | `class_aware` enables tag / weight / query-shape balancing. `round_robin` reproduces the legacy count-based behavior (every view treated as one group; selection degenerates to `plain_count, total_streams, memory_utilization, cpu_utilization, tie_break, node_id`). The `preferred_exec_node` pin and deterministic tie-break apply under both. Unknown values warn and fall back to `class_aware`. |
+| `periodic_rebalance_interval_ms` | `30000` | Period of the periodic nudge. `0` disables it. Positive values are clamped to a 1000ms floor. |
 
 ## Observability
 

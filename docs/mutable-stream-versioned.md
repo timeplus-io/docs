@@ -20,6 +20,7 @@ CREATE MUTABLE STREAM versioned
     i int,
     v uint64
 )
+PRIMARY KEY p
 SETTINGS
     version_column='v',
     late_insert_overrides=false;

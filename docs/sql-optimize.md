@@ -3,11 +3,11 @@ Run the following SQL to initiate an unscheduled merge of a mutable stream or a 
 
 Syntax:
 ```sql
-OPTIMIZE STREAM db.<stream_name> [PARTITION partition | PARTITION ID 'partition_id'] [FINAL | FORCE] [DEDUPLICATE [BY expression]];
+OPTIMIZE STREAM db.<stream_name> [PARTITION partition | PARTITION ID 'partition_id'] [FINAL] [DEDUPLICATE [BY expression]];
 ```
 
 Note:
-* If you specify `FINAL` or `FORCE`, optimization is performed even when all the data is already optimized. The operation is resource intensive, consuming significant CPU and disk I/O.
+* If you specify `FINAL`, optimization is performed even when all the data is already optimized. The operation is resource intensive, consuming significant CPU and disk I/O.
 * If you specify `DEDUPLICATE`, then completely identical rows (unless by-clause is specified) will be deduplicated (all columns are compared), it makes sense only for the MergeTree engine.
 * If you specify `DEDUPLICATE BY ..`, then only rows in the specified columns will be deduplicated.
 

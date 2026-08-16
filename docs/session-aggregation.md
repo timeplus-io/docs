@@ -20,8 +20,8 @@ EMIT <emit_policy>;
 
 ### Parameters
 
-- `<stream_name>` : (**Required**) The source stream the hop window applies to. 
-- `<timestamp_column>` : (**Required**) The event timestamp column which is used to calculate window starts / ends and timeout. Using wall clock `now()` or `now64(3)` usually doesn't make sense in hop window. Default is `_tp_time` if absent. 
+- `<stream_name>` : (**Required**) The source stream the session window applies to. 
+- `<timestamp_column>` : (**Optional**) The event timestamp column which is used to calculate window starts / ends and timeout. Using wall clock `now()` or `now64(3)` usually doesn't make sense in session window. Default is `_tp_time` if absent. 
 - `<idle_gap>` : (**Required**) Defines the inactivity timeout to close the session window (e.g., 5s, 1m).
 - `<max_duration>` : (**Optional**) Maximum allowed session duration. Once exceeded, the session closes automatically. Default is 5 times of `<idle_gap>` if absent. 
 - `[<start_condition>, <end_condition>]` — **(Optional)** A pair of custom boolean expressions used to define the session’s start and end boundaries. These conditions are useful for domain-specific triggers that go beyond time-based sessioning. The **inclusion or exclusion** of events relative to the boundary conditions depends on the bracket type:

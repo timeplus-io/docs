@@ -31,8 +31,7 @@ When the `<timestamp_column>` parameter is omitted from the query, the stream's 
 
 When the `<time_zone>` parameter is omitted the system's default timezone will be used. `<time_zone>` is a string type parameter, for example `UTC`.
 
-`<tumble_window_size>` is an interval parameter: `<n><UNIT>` where `<UNIT>` supports `s`, `m`, `h`, `d`, `w`.
-It doesn't yet support `M`, `q`, `y`. For example, `tumble(my_stream, 5s)`.
+`<tumble_window_size>` is an interval parameter: `<n><UNIT>` where `<UNIT>` supports `ms`, `s`, `m`, `h`, `d`, `w`, `M`, `q`, `y`. For example, `tumble(my_stream, 5s)`.
 
 More concrete examples:
 
@@ -70,7 +69,7 @@ Like [Tumble](#tumble), Hop also slices the unbounded streaming data into smalle
 
 ```sql
 SELECT <column_name1>, <column_name2>, <aggr_function>
-FROM hop(<stream_name>, [<timestamp_column>], <hop_slide_size>, [hop_windows_size], [<time_zone>])
+FROM hop(<stream_name>, [<timestamp_column>], <hop_slide_size>, <hop_window_size>, [<time_zone>])
 [WHERE clause]
 GROUP BY [<window_start | window_end>], ...
 EMIT <window_emit_policy>

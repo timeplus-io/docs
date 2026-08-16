@@ -1,10 +1,10 @@
 # ALTER VIEW
 
-You can use this SQL to change a view or a materialized view. You can adjust query settings or update the underlying query without dropping and recreating the object, as long as the output schema stays compatible.
+You can use this SQL to change a materialized view. You can adjust query settings or update the underlying query without dropping and recreating the object, as long as the output schema stays compatible. Note `MODIFY QUERY`, `MODIFY QUERY SETTING` and `RESET QUERY SETTING` only apply to materialized views; plain views only support comment changes.
 
 ## MODIFY QUERY
 
-Update the underlying query definition for a view or materialized view without dropping it. Keep the result schema backward compatible (column order and types) to avoid query breakage.
+Update the underlying query definition for a materialized view without dropping it. Keep the result schema backward compatible (column order and types) to avoid query breakage.
 
 ```sql
 ALTER VIEW <view_name> MODIFY QUERY <new_select_query>
@@ -41,7 +41,7 @@ SELECT count() AS res, sum(a) AS deleted, sum(b) AS res2 FROM source_stream EMIT
 
 ## MODIFY QUERY SETTING
 
-By default, the checkpoint will be updated every 15 minutes for materialized views. You can change the checkpoint interval without recreating the materialized views.
+By default, the checkpoint interval for materialized views is chosen dynamically: every 5 seconds for lightweight state, every 60 seconds for normal state, and up to every 15 minutes for heavy state (over 500 MB). You can change the checkpoint interval without recreating the materialized views.
 
 ```sql
 ALTER VIEW mv_with_inner_stream MODIFY QUERY SETTING checkpoint_interval=600
@@ -49,7 +49,7 @@ ALTER VIEW mv_with_inner_stream MODIFY QUERY SETTING checkpoint_interval=600
 
 ## RESET QUERY SETTING
 
-By default, the checkpoint will be updated every 15 minutes for materialized views. After you change the interval you can reset it.
+After you change the checkpoint interval, you can reset it to the default behavior.
 
 ```sql
 ALTER VIEW mv_with_inner_stream RESET QUERY SETTING checkpoint_interval

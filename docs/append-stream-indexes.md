@@ -121,7 +121,7 @@ INDEX idx2 u64 TYPE minmax GRANULARITY 3
 For each index granule at most **max_rows** many unique values of the specified expression are stored. **max_rows = 0** means "store all unique values".
 
 ```sql
-TYPE minmax(max_rows)
+TYPE set(max_rows)
 ```
 
 **Example:**

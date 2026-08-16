@@ -134,7 +134,7 @@ This is useful for near real-time visibility into evolving metrics.
 SELECT
   window_start, device, max(cpu_usage)
 FROM
-  hop(device_devices, 4s, 10s)
+  hop(device_metrics, 4s, 10s)
 GROUP BY
   window_start, device
 EMIT ON UPDATE;

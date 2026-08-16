@@ -30,7 +30,6 @@ CREATE MUTABLE STREAM [IF NOT EXISTS] <db.mutable-stream-name>
     ...
 )
 PRIMARY KEY (column, ...)
-COMMENT '<stream_comment>'
 SETTINGS
     shards=<num_of_shards>,
     replication_factor=<replication_factor>,
@@ -56,7 +55,8 @@ SETTINGS
     kvstore_codec=['snappy'|'lz4'|'zstd'],
     kvstore_options='<kvstore_options>',
     enable_hash_index=[true|false],
-    enable_statistics=[true|false];
+    enable_statistics=[true|false]
+COMMENT '<stream_comment>';
 ```
 
 ### Example
@@ -68,7 +68,7 @@ CREATE MUTABLE STREAM products(
   price float32,
   description string
 )
-PRIAMRY KEY id;
+PRIMARY KEY id;
 ```
 
 ### Storage Architecture
@@ -406,7 +406,7 @@ CREATE MUTABLE STREAM elastic_serving_mu
   INDEX sidx2 (v),
   FAMILY cf1 (c1, c2)
 )
-PRIMARY KEY (p1, p2)
+PRIMARY KEY (p, p2)
 SETTINGS
   shards = 3,
   version_column='v',

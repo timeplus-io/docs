@@ -64,12 +64,12 @@ The schema of the policy is defined by the following YAML schema:
 volumes:
     volume_name:
         disk: string
-        max_data_part_size: uint64
+        max_data_part_size_bytes: uint64
+        perform_ttl_move_on_insert: uint8
 move_factor: float64
-perform_ttl_move_on_insert: uint8
 ```
 
-### max_data_part_size
+### max_data_part_size_bytes
 The value is in uint64.
 
 The maximum size of a part that can be stored on any of the volume's disks. If the a size of a merged part estimated to be bigger than `max_data_part_size_bytes` then this part will be written to a next volume. Basically this feature allows to keep new/small parts on a hot (SSD) volume and move them to a cold (HDD) volume when they reach large size. Do not use this setting if your policy has only one volume.
@@ -80,7 +80,7 @@ The value is in float64.
 When the amount of available space gets lower than this factor, data automatically starts to move on the next volume if any (by default, 0.1). Timeplus sorts existing parts by size from largest to smallest (in descending order) and selects parts with the total size that is sufficient to meet the `move_factor` condition. If the total size of all parts is insufficient, all parts will be moved.
 
 ### perform_ttl_move_on_insert
-The value is in uint8. Default is 1 (enabled).
+The value is in uint8. Default is 1 (enabled). This option is set per volume, under `volumes.<volume_name>`.
 
 Set to 0 to disable TTL move on data part INSERT. By default if we insert a data part that already expired by the TTL move rule it immediately goes to a volume/disk declared in move rule. Set this to 0 can improve the performance of INSERT operations, but newly inserted data won't be available in S3 immediately.
 

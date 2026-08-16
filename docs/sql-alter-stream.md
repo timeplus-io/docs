@@ -60,7 +60,7 @@ ALTER STREAM stream_name ADD COLUMN column_name data_type
 ALTER STREAM stream_99005 ADD COLUMN e int, ADD COLUMN f int;
 ```
 
-`DELETE COLUMN` is not supported yet. Contact us if you have strong use cases.
+`DROP COLUMN` is not supported yet. Contact us if you have strong use cases.
 
 ## RENAME COLUMN
 
@@ -71,7 +71,7 @@ ALTER STREAM stream_name RENAME COLUMN column_name TO new_column_name
 ## ADD INDEX
 
 ```sql
-ALTER STREAM mutable_stream ADD INDEX index_name
+ALTER STREAM mutable_stream ADD INDEX index_name (column1, column2, ...) [UNIQUE] [STORING (column_a, column_b, ...)]
 ```
 
 ## DROP INDEX
@@ -86,7 +86,7 @@ ALTER STREAM mutable_stream DROP INDEX index_name
 You can rebuild the secondary index `name` for the specified `partition_name`.
 
 ```sql
-ALTER STREAM mutable_stream MATERIALIZE INDEX [IF EXISTS] name [IN PARTITION partition_name] SETTINGS mutations_sync = 2"
+ALTER STREAM mutable_stream MATERIALIZE INDEX [IF EXISTS] name [IN PARTITION partition_name] SETTINGS mutations_sync = 2
 ```
 
 For example:
@@ -98,7 +98,7 @@ ALTER STREAM minmax_idx MATERIALIZE INDEX idx IN PARTITION 2 SETTINGS mutations_
 
 You can delete the secondary index `name` from disk.
 ```sql
-ALTER STREAM mutable_stream CLEAR INDEX [IF EXISTS] name [IN PARTITION partition_name] SETTINGS mutations_sync = 2"
+ALTER STREAM mutable_stream CLEAR INDEX [IF EXISTS] name [IN PARTITION partition_name] SETTINGS mutations_sync = 2
 ```
 
 For example:

@@ -31,12 +31,11 @@ SETTINGS
     ssl_ca_pem = '..', -- the content of the CA certificate file (in PEM format), conflicts with ssl_ca_cert_file
     skip_ssl_cert_check = true|false, -- optional, default to false. Set it to true for self-signed certificate
     client_key = '..', -- the private key for client
-    -- timeout settings
-    http_keep_alive_timeout = 10, -- timeout (in seconds) for HTTP keep-alive connection
-    send_timeout = 300, -- seconds
-    receive_timeout = 300, -- seconds
     named_collection = '..';
 ```
+
+To tune the HTTP timeouts, use the query-level settings `http_send_timeout`, `http_receive_timeout` and `http_keep_alive_timeout` (in seconds) when running the `INSERT` or the materialized view that writes to this external stream, e.g. `SETTINGS http_send_timeout=300`.
+
 For the full list of settings, see the [DDL Settings](#ddl-settings) section.
 
 ### Examples
@@ -103,7 +102,7 @@ Other supported values for `data_format` are:
 - ProtobufSingle: for single Protobuf message per message
 - Protobuf: there could be multiple Protobuf messages in a single message.
 - Avro
-- RawBLOB: the default value. Read/write message as plain text.
+- RawBLOB: read/write message as plain text. This is the default value when the external stream has a single column in `string` type, otherwise the default is `JSONEachRow`.
 - Template: create the payload with customized templates
 
 #### format_template_resultset_format

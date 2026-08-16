@@ -4,7 +4,7 @@ Similar to [Enrichement Join](/enrichment-join), **Dynamic Enrichment Join** enr
 
 In this join type, events from the left-hand stream trigger the join. Each incoming event probes a dynamic hash table that is continuously updated from the right-hand side dataset (which typically changes at a slower rate).
 
-Because of this behavior, only `LEFT` and `INNER` joins are supported.
+Because of this behavior, only `LEFT` and `INNER` joins are supported (plus `FULL` for `LATEST JOIN`).
 
 There are several types of **Dynamic Enrichment Joins**.
 1. `LATEST JOIN` - Joins **only the latest version** of the matching key on the right-hand side.  
@@ -85,7 +85,7 @@ SELECT
     *
 FROM 
     lhs_stream [LEFT | INNER] ASOF JOIN rhs_stream
-ON lhs_stream.key = rhs_stream.key AND lhs_stream.<ts_col> >= rhs_stream.<ts_col>;
+ON lhs_stream.key = rhs_stream.key AND lhs_stream.<ts_col> >= rhs_stream.<ts_col>
 SETTINGS keep_versions = <versions>;
 ```
 
@@ -126,7 +126,7 @@ FROM
     orders AS o
 ASOF JOIN 
     fx_rates AS r
-ON o.currency = o.currency AND o._tp_time >= r._tp_time;
+ON o.currency = r.currency AND o._tp_time >= r._tp_time
 SETTINGS keep_versions = 10;
 ```
 
