@@ -9,8 +9,8 @@ Timeplus supports the following types of external streams:
 * [Pulsar External Stream](/pulsar-source)
 * [NATS JetStream External Stream](/nats-jetstream-source)
 * [HTTP External Stream](/http-external-stream)
-* [Apache Iceberg External Stream Source](/iceberg-source) and [Sink](/iceberg-sink)
-* [Python External Stream Source](/python-external-stream-source) and [Sink](/python-external-stream-sink), only available in Timeplus Enterprise
+* [Apache Iceberg External Stream](/iceberg-source) and [Sink](/iceberg-sink)
+* [Python External Stream](/python-external-stream-source) and [Sink](/python-external-stream-sink), only available in Timeplus Enterprise
 * [Timeplus External Stream](/timeplus-source), only available in Timeplus Enterprise
 * [Log External Stream](/log-stream) (experimental)
 

@@ -41,7 +41,7 @@ SELECT count() AS res, sum(a) AS deleted, sum(b) AS res2 FROM source_stream EMIT
 
 ## MODIFY QUERY SETTING
 
-By default, the checkpoint interval for materialized views is chosen dynamically: every 5 seconds for lightweight state, every 60 seconds for normal state, and up to every 15 minutes for heavy state (over 500 MB). You can change the checkpoint interval without recreating the materialized views.
+By default, the checkpoint interval for materialized views is chosen dynamically: every 5 seconds for lightweight state, every 60 seconds for normal state, and at least 15 minutes between checkpoints for heavy state (over 500 MB). You can change the checkpoint interval without recreating the materialized views.
 
 ```sql
 ALTER VIEW mv_with_inner_stream MODIFY QUERY SETTING checkpoint_interval=600
