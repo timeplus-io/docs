@@ -11,7 +11,7 @@ In this example, you create a stream `dim_products` in `changelog_kv` mode with 
 | Column Name | Date Type           | Description                                                  |
 | ----------- | ------------------- | ------------------------------------------------------------ |
 | _tp_time    | datetime64(3,'UTC') | this is automatically created for all streams in Timeplus, with the event time at millisecond precision and UTC timezone |
-| _tp_delta   | int                 | a special column, 1 means new data, -1 means deleted data    |
+| _tp_delta   | int8                | a special column, 1 means new data, -1 means deleted data    |
 | product_id  | string              | unique id for the product, as the primary key                |
 | price       | float               | current price                                                |
 

@@ -53,7 +53,7 @@ You can use `settings verbose=true` to show extra information for materialized v
 
 For example:
 ```sql
-show create github_events settings show_multi_versions=true
+show create github_events settings verbose=true
 ```
 Besides the `statement` column, there is also a `placements` column with content like
 ```json

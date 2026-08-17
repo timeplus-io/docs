@@ -8,14 +8,14 @@ Understanding these transitions is important for operating and troubleshooting M
 Materialized Views can exist in the following states. Some are **transient** (short-lived during transitions):
 
 - **`Initializing`** *(transient)*: The view is being initialized.  
-- **`CheckingDependencies`** *(transient)*: The system is verifying source dependencies.  
-- **`BuildingPipeline`** *(transient)*: The query execution pipeline is being constructed.  
-- **`ExecutingPipeline`**: The view is running and executing its streaming query pipeline. This is the normal operating state.  
+- **`Checking`** *(transient)*: The system is verifying source dependencies.  
+- **`Building`** *(transient)*: The query execution pipeline is being constructed.  
+- **`Executing`**: The view is running and executing its streaming query pipeline. This is the normal operating state.  
 - **`Error`**: The view encountered an error.  
 - **`Suspended`**: The view is inactive because it is not the Raft leader. Only the leader executes the pipeline. Suspended views act as standby replicas for failover.  
 - **`Paused`**: The view is paused, either due to the `pause_on_start` setting or a `SYSTEM PAUSE` command.  
 - **`AutoRecovering`** *(transient)*: The view is automatically recovering from transient errors.  
-- **`Resuming`** *(transient)*: The view is transitioning from `Paused` to `ExecutingPipeline`.  
+- **`Resuming`** *(transient)*: The view is transitioning from `Paused` to `Executing`.  
 - **`Recovering`** *(transient)*: The view is being manually recovered from `Error` state using `SYSTEM RECOVER`.  
 
 The state transitions are illustrated in the diagram below:  
@@ -54,7 +54,7 @@ SYSTEM RESUME MATERIALIZED VIEW <db.mat_view_name> [PERMANENT];
 When resuming a view:
 1. The leader rebuilds the query pipeline.
 2. The pipeline recovers from the last checkpoint.
-3. If successful, the state transitions to `ExecutingPipeline` state.
+3. If successful, the state transitions to `Executing` state.
 
 Only paused Materialized Views can be resumed. 
 
@@ -84,7 +84,7 @@ Used to recover views in the `Error` state. Recovery involves:
 
 1. Re-initializing the query pipeline.
 2. Restoring state from the last checkpoint.
-3. Transitioning to ExecutingPipeline.
+3. Transitioning to Executing.
 
 ```sql
 SYSTEM RECOVER MATERIALIZED VIEW <db.mat_view_name>;

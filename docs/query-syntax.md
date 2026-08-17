@@ -8,8 +8,7 @@ SELECT <expr, columns, aggr>
 FROM <table_function>(<stream_name>, [<time_column>], [<window_size>], ...)
 [JOIN clause]
 [WHERE clause]
-[SHUFFLE BY clause]
-[PARTITION BY clause]
+[PARTITION BY clause | SHUFFLE BY clause]
 [GROUP BY clause]
 [HAVING expression]
 [LIMIT n]
@@ -18,7 +17,7 @@ FROM <table_function>(<stream_name>, [<time_column>], [<window_size>], ...)
 [SETTINGS <key1>=<value1>, <key2>=<value2>, ...]
 ```
 
-Only `SELECT` and `FROM` clauses are required (you can even omit `FORM`, such as `SELECT now()`, but it's less practical). Other clauses in `[..]` are optional. We will talk about them one by one in the reverse order, i.e. [SETTINGS](/query-syntax#settings), then [EMIT](/streaming-aggregations#emit), [LIMIT](/query-syntax#limit), etc.
+Only `SELECT` and `FROM` clauses are required (you can even omit `FROM`, such as `SELECT now()`, but it's less practical). Note `PARTITION BY` and `SHUFFLE BY` cannot be used together in one query. Other clauses in `[..]` are optional. We will talk about them one by one in the reverse order, i.e. [SETTINGS](/query-syntax#settings), then [EMIT](/streaming-aggregations#emit), [LIMIT](/query-syntax#limit), etc.
 
 SQL keywords and function names are case-insensitive, while the column names and stream names are case-sensitive.
 

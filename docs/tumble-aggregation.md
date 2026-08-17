@@ -13,7 +13,7 @@ This makes them simple, deterministic, and ideal for producing periodic reports 
 
 ```sql
 SELECT <grouping_keys>, <aggr_functions>
-FROM tumble(<stream_name>, [<timestamp_column>], <window_size>])
+FROM tumble(<stream_name>, [<timestamp_column>], <window_size>)
 [WHERE clause]
 GROUP BY [window_start | window_end], <other_grouping_keys> ...
 EMIT <emit_policy>

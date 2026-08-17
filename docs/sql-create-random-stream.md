@@ -20,7 +20,7 @@ The following functions are available to use:
 
 The data of random stream is kept in memory during the query time. If you are not querying the random stream, there is no data generated or kept in memory.
 
-By default, Timeplus tries to generate as many data as possible. If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. For example, the following SQL generates 10 events every second:
+By default, Timeplus generates about 1,000 rows per second per thread (`eps=1000`). If you want to (roughly) control how frequent the data is generated, you can use the `eps` setting. Set `eps=0` to generate as many rows as possible without limit. For example, the following SQL generates 10 events every second:
 
 ```sql
 CREATE RANDOM STREAM rand_stream(i int default rand()%5) SETTINGS eps=10

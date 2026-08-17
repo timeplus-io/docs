@@ -74,7 +74,7 @@ Under the `rebalancer:` section of the server config (`config.yaml`):
 ```yaml
 rebalancer:
   enabled: true                 # false disables the periodic loop; manual trigger still works
-  type: reliable                # reliable (recommended) | greedy | memory (legacy)
+  type: reliable                # reliable (recommended) | greedy (default) | memory (legacy)
   interval: 30                  # seconds between rebalance cycles; < 0 disables
   max_apply_rebalance: 1        # leadership moves applied per cycle
   node_overloaded_mem_util_threshold: 0.5   # 0.0-1.0; overloaded if mem util reaches this ...

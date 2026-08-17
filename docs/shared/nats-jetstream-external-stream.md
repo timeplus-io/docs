@@ -78,11 +78,11 @@ Token-based authentication.
 
 Plain text username and password authentication.
 
-#### nats_nkeys / nats_nkey_seed / nats_nkey_seed_file
+#### nats_nkey / nats_nkey_seed / nats_nkey_seed_file
 
 NKey authentication with challenge.
 
-`nats_nkeys` is the public key of the user to authenticate. One of `nats_nkey_seed` and `nats_nkey_seed_file` must be set to specify the seed (private key) or the file containing the seed.
+`nats_nkey` is the public key of the user to authenticate. One of `nats_nkey_seed` and `nats_nkey_seed_file` must be set to specify the seed (private key) or the file containing the seed.
 
 Example:
 

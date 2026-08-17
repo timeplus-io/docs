@@ -3,7 +3,7 @@ You can create alerts to monitor your streaming data and automatically trigger a
 
 ## Syntax
 ```sql
-CREATE [OR REPLACE] ALERT [IF NOT EXISTS] [database.]alert_name
+CREATE ALERT [IF NOT EXISTS] [database.]alert_name
 BATCH <N> EVENTS WITH TIMEOUT <nUnit>
 LIMIT <N> ALERTS PER <nUnit>
 CALL <python_udf_name>

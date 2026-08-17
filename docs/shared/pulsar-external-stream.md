@@ -112,7 +112,7 @@ The supported values for `data_format` are:
 - ProtobufSingle: for single Protobuf message per message
 - Protobuf: there could be multiple Protobuf messages in a single message.
 - Avro
-- RawBLOB: the default value. Read/write message as plain text.
+- RawBLOB: read/write message as plain text. This is the default value when the external stream has a single column in `string` type, otherwise the default is `JSONEachRow`.
 
 For detailed information on each format, including type mappings, examples, and usage with Protobuf and Avro, see the [Data Formats](/data-formats) page.
 

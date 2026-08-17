@@ -60,6 +60,8 @@ Kafka topic name to connect to.
 The supported values for `security_protocol` are:
 
 - PLAINTEXT: when this option is omitted, this is the default value.
+- SSL: SSL/TLS encrypted connection without SASL authentication.
+- SASL_PLAINTEXT: SASL authentication (username and password) over a plain connection.
 - SASL_SSL: when this value is set, username and password should be specified.
   - If users need to specify own SSL certification file, add another setting `ssl_ca_cert_file='/ssl/ca.pem'`. Users can also put the full content of the pem file as a string in the `ssl_ca_pem` setting.
   - To skip the SSL certification verification: `skip_ssl_cert_check=true`.
@@ -126,7 +128,9 @@ Defines how Kafka messages are parsed and written. Supported formats are
 | `ProtobufSingle` | One Protobuf message per Kafka message   |
 | `Protobuf`       | Multiple Protobuf messages per Kafka msg |
 | `Avro`           | Avro-encoded messages                    |
-| `RawBLOB`        | Raw text, no parsing (default)           |
+| `RawBLOB`        | Raw text, no parsing                     |
+
+If `data_format` is omitted, it defaults to `RawBLOB` when the external stream has a single column in `string` type, otherwise it defaults to `JSONEachRow`.
 
 For detailed information on each format, including type mappings, examples, and usage with Protobuf and Avro, see the [Data Formats](/data-formats) page.
 

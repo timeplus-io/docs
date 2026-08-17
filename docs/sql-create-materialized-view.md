@@ -62,8 +62,8 @@ By default, once the materialized view is created, the streaming query will star
 Starting from [Timeplus Enterprise v2.3](/enterprise-v2.3), when you create a materialized view with DDL SQL, you can add an optional `memory_weight` setting for those memory-consuming materialized views, e.g.
 ```sql
 CREATE MATERIALIZED VIEW my_mv
-SETTINGS memory_weight = 10
 AS SELECT ..
+SETTINGS memory_weight = 10
 ```
 
 When `memory_weight` is not set, by default the value is 0. When Timeplus Enterprise server starts, the system will list all materialized views, ordered by the memory weight and view names, and schedule them in the proper node.
@@ -72,14 +72,14 @@ For example, in a 3-node cluster, you define 10 materialized views with names: m
 
 It's recommended that each node in the Timeplus Enterprise cluster shares the same hardware specifications. For those resource-consuming materialized views, it's recommended to set the same `memory_weight`, such as 10, to get the expected behaviors to be dispatched to the proper nodes for load-balancing.
 
-### mv_preferred_exec_node
+### preferred_exec_node
 
-Starting from [Timeplus Enterprise v2.7.6](/enterprise-v2.7#2_7_6), when you create a materialized view with DDL SQL, you can add an optional `mv_preferred_exec_node` setting to explicitly assign a node to run the materialized view.
+Starting from [Timeplus Enterprise v2.7.6](/enterprise-v2.7#2_7_6), when you create a materialized view with DDL SQL, you can add an optional `preferred_exec_node` setting to explicitly assign a node to run the materialized view. (`mv_preferred_exec_node` is a deprecated alias of this setting.)
 
 ```sql
 CREATE MATERIALIZED VIEW my_mv
-SETTINGS mv_preferred_exec_node=3
 AS SELECT ..
+SETTINGS preferred_exec_node=3
 ```
 
 In most cases, you don't need to specify this setting. Timeplus will automatically select an available node to run the materialized view. It's also recommended to set [memory_weight](#memory_weight) to have the system to automatically choose the appropriate node for load balancing. If you need to fine-tune the load balancing or resource utilization, you can specify this setting. As a result, load balancing or failover won't be available when this is set. You cannot change the value after the materialized view is created, even the node is having issue. In this case, please drop and re-create the materialized view with new node ID.

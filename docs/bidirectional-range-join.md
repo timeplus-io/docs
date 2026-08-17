@@ -10,14 +10,13 @@ For append stream, while a standard bidirectional join buffers **all** records f
 SELECT *
 FROM left_append_stream
 [LEFT | INNER] JOIN right_append_stream
-ON left_append_stream.key = right_append_stream.key AND date_diff_within([<left_timestamp_col>, <right_timestamp_col>], <time_range>);
+ON left_append_stream.key = right_append_stream.key AND date_diff_within(<time_range>[, <left_timestamp_col>, <right_timestamp_col>]);
 ```
 
 The `date_diff_within(...)` clause defines the time range condition for joining records across streams.
-- `left_timestamp_col / right_timestamp_col` — Timestamp or numeric columns used to compute the range difference.
+- `time_range` — The maximum time difference allowed between the two sides for them to be considered a match. Only second or minute intervals are supported (e.g., `2m`, `5s`).
+- `left_timestamp_col / right_timestamp_col` — Columns in `datetime` or `datetime64` type used to compute the range difference.
 If omitted, the system uses _tp_time for both streams by default.
-- `time_range` — The maximum time difference allowed between the two sides for them to be considered a match.
-(e.g., `2m`, `5s`, `1h`).
 
 **Example Variants**:
 ```sql
@@ -26,11 +25,7 @@ ON left_append_stream.key = right_append_stream.key AND date_diff_within(2m);
 
 -- Specify explicit timestamp columns
 ON left_append_stream.key = right_append_stream.key 
-   AND date_diff_within(left_append_stream.event_time, right_append_stream.event_time, 10s);
-
--- Use non-time-based numeric ranges
-ON left_append_stream.key = right_append_stream.key 
-   AND left_append_stream.seq < right_append_stream.seq + 100;
+   AND date_diff_within(10s, left_append_stream.event_time, right_append_stream.event_time);
 ```
 
 ## Example

@@ -30,7 +30,6 @@ CREATE MUTABLE STREAM [IF NOT EXISTS] <db.mutable-stream-name>
     ...
 )
 PRIMARY KEY (column, ...)
-COMMENT '<stream_comment>'
 SETTINGS
     shards=<num_of_shards>,
     replication_factor=<replication_factor>,
@@ -56,7 +55,8 @@ SETTINGS
     kvstore_codec=['snappy'|'lz4'|'zstd'],
     kvstore_options='<kvstore_options>',
     enable_hash_index=[true|false],
-    enable_statistics=[true|false];
+    enable_statistics=[true|false]
+COMMENT '<stream_comment>';
 ```
 
 ### Example
@@ -68,7 +68,7 @@ CREATE MUTABLE STREAM products(
   price float32,
   description string
 )
-PRIAMRY KEY id;
+PRIMARY KEY id;
 ```
 
 ### Storage Architecture
@@ -396,7 +396,7 @@ The following example creates a versioned mutable stream with:
 ```sql
 CREATE MUTABLE STREAM elastic_serving_mu
 (
-  p string,
+  p1 string,
   id uint64 auto_increment,
   p2 uint32,
   c1 string,
@@ -420,11 +420,11 @@ SETTINGS
 ```sql
 -- Insert data to mutable stream
 -- value for `id` will be ignored since it is auto-incremental
-INSERT INTO elastic_serving_mu(p, id, p2, c1, c2, v) VALUES ('p', 100, 1, 'c', 2, '2025-09-18 00:00:00');
+INSERT INTO elastic_serving_mu(p1, id, p2, c1, c2, v) VALUES ('p', 100, 1, 'c', 2, '2025-09-18 00:00:00');
 
--- Upsert for the same primary key `p`
-INSERT INTO elastic_serving_mu(p, id, p2, c1, c2, v) VALUES ('p', 1000, 11, 'cc', 22, '2025-09-18 00:00:01');
+-- Upsert for the same primary key `p1`
+INSERT INTO elastic_serving_mu(p1, id, p2, c1, c2, v) VALUES ('p', 1000, 11, 'cc', 22, '2025-09-18 00:00:01');
 
--- Delete via priamry `p`
-DELETE FROM elastic_serving_mu WHERE p = 'p';
+-- Delete via primary key `p1`
+DELETE FROM elastic_serving_mu WHERE p1 = 'p';
 ```

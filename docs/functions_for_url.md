@@ -26,9 +26,9 @@ For example `port('https://docs.timeplus.com/functions')` will return the intege
 
 For example `path('https://docs.timeplus.com/functions')` will return the string `/functions`
 
-### path_all
+### path_full
 
-`path_all(url)` Extracts the path from a URL, including the query string or fragment.
+`path_full(url)` Extracts the path from a URL, including the query string or fragment.
 
 For example `path_full('https://docs.timeplus.com/functions_for_logic#if')` will return the string `/functions_for_logic#if`
 

@@ -562,7 +562,7 @@ Compared to the [2.8.0 (Preview)](#2_8_0) release:
   * Support [EMIT ON UPDATE WITH DELAY](/streaming-aggregations#emit_on_update_with_delay)
   * Support [EMIT ON UPDATE](/streaming-aggregations#emit_on_update) for multiple shards
   * Transfer leadership to preferred node after election
-  * Pin materialized view execution node [Learn more](/sql-create-materialized-view#mv_preferred_exec_node)
+  * Pin materialized view execution node [Learn more](/sql-create-materialized-view#preferred_exec_node)
   * Improve async checkpointing
   * Avoid loading Python scripts during analysis
   * Incremental checkpoint for hybrid hash join

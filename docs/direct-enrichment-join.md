@@ -91,7 +91,7 @@ CREATE STREAM orders (
 
 SELECT *
 FROM orders
-JOIN table(products)
+JOIN table(products) AS products
 ON orders.product_id = products.id
 SETTINGS join_algorithm = 'direct';
 ```
@@ -99,6 +99,7 @@ SETTINGS join_algorithm = 'direct';
 **Explanation**:
 - `products` is a Mutable Stream keyed by `id`.
 - Each new `orders` event looks up the current record in `products` directly.
+- Both `table(products)` and the plain stream name `products` are supported as the right-hand side. Note when using the `table()` function, an alias (e.g. `AS products`) is needed to reference its columns in the `ON` clause.
 - Timeplus avoids building and maintaining a large hash table, improving memory efficiency.
 
 ## Direct Join with Local Dictionary and Cache 

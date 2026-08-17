@@ -4,7 +4,7 @@ Timeplus supports some advanced `SETTINGS` to fine tune the streaming query proc
 
 ## query_mode
 
-`query_mode=<table|streaming>`. By default, if it's omitted, it's `streaming`. A general setting which decides if the overall query is streaming data processing or historical data processing. This can be overwritten in the port. If you use 3128, default is streaming. If you use 8123, default is historical.
+`query_mode=<table|streaming>`. By default, if it's omitted, it's `streaming`. A general setting which decides if the overall query is streaming data processing or historical data processing. This can be overwritten in the port. If you use 3218, default is streaming. If you use 8123, default is historical.
 
 ## seek_to
 
@@ -102,12 +102,12 @@ SETTINGS join_max_buffered_bytes=8589934592;
 ## join_algorithm
 Type: string
 
-Default: `default`
+Default: `hash,direct`
 
 Specifies which [JOIN](/streaming-joins) algorithm is used.
 
 Possible values:
-* `default`: Same as `direct`,`parallel_hash`,`hash`, i.e. try to use direct join, parallel hash join, and hash join (in this order).
+* `default`: Deprecated. Same as `direct,hash`, i.e. try to use direct join and hash join.
 * `hash`: Use hash join. The most generic implementation that supports all combinations of kind and strictness and multiple join keys that are combined with OR in the JOIN ON section. When using the hash algorithm, the right part of JOIN is uploaded into RAM.
 * `direct`: This algorithm can be applied when the storage for the right table supports key-value requests, such as a [dictionary](/dictionary). The direct algorithm performs a lookup in the right table using rows from the left table as keys. It only supports INNER JOIN and LEFT JOIN.
 * `auto`: When set to auto, hash join is tried first, and the algorithm is switched on the fly to another algorithm if the memory limit is violated.

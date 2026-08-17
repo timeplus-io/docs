@@ -16,7 +16,7 @@
 ```sql
 SELECT
     *
-FROM left_stream [LEFT | RIGHT | INNER | FULL] JOIN right_stream
+FROM left_stream [LEFT | INNER | FULL] JOIN right_stream
 ON left_stream.key = right_stream.key
 ```
 
