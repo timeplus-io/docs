@@ -18,7 +18,7 @@ Timeplus Enterprise 3.3 focuses on **operational resilience and cluster-scale op
 | Python runtime upgraded to CPython 3.14 (free-threaded on Linux x86\_64) | Reinstall UDF packages (`SYSTEM INSTALL PYTHON PACKAGE`); verify your packages have Python 3.14 wheels; review UDF thread safety |
 | Mutable streams now reject secondary indexes that duplicate a prefix of the primary key | `CREATE MUTABLE STREAM` scripts containing such indexes will fail — remove the redundant index |
 | NATS setting `nats_nkey_seed` now strictly means the seed content; NKey auth requires the new `nats_nkey` setting | Update NATS external stream DDL if you used NKey auth before |
-| "Too many parts" defaults raised (delay at 1000 parts, reject at 3000\) | Existing streams keep old values; update with `ALTER STREAM … MODIFY SETTING` if desired |
+| "Too many parts" defaults raised (delay at 1000 parts, reject at 3000\) | Existing streams adopt the new defaults on upgrade unless their `CREATE` named these settings explicitly. These settings are not alterable after creation — to keep the old behavior, set `settings.stream.parts_to_delay_insert` / `parts_to_throw_insert` in `config.yaml` (restart required) before upgrading |
 | Primary key indexes are now loaded lazily (default on) | Lower startup memory; first query on a cold part pays a small one-time index read |
 | Checkpoint lease expiration default raised 15s → 30s | Failover detection for scheduled materialized views is up to 15s slower unless tuned explicitly |
 | `timeplusd stream` backups now use a `.size` sidecar instead of `.sum` | Backups taken with the initial 3.3 tool release should be recreated for the newest tool version |
@@ -244,7 +244,16 @@ The "too many parts" thresholds were retuned for continuous streaming ingestion.
 | `parts_to_throw_insert` (reject inserts) | 300 | **3000** |
 | `max_avg_part_size_for_too_many_parts` (disable the check once parts are large) | 10 GiB | **1 GiB** |
 
-New defaults apply to newly created streams. Existing streams keep their stored values — raise them with `ALTER STREAM … MODIFY SETTING` if you were hitting spurious `Too many parts` errors. If you alert on `Too many parts` as a merge-health signal, switch to monitoring active part counts directly, since the error now fires much later.
+The new defaults also apply to existing streams on upgrade, unless a stream's `CREATE` statement named these settings explicitly. They cannot be changed with `ALTER STREAM … MODIFY SETTING` after creation — to keep the old thresholds, set them server-wide in `config.yaml` before upgrading (restart required):
+
+```yaml
+settings:
+    stream:
+        parts_to_delay_insert: 150
+        parts_to_throw_insert: 300
+```
+
+If you alert on `Too many parts` as a merge-health signal, switch to monitoring active part counts directly, since the error now fires much later.
 
 ### 3.4 Tiered storage policies: `prefer_not_to_merge`, volume priorities, and fresher disk balancing (\#12161)
 
