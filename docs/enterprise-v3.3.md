@@ -6,11 +6,11 @@ For a detailed tour of the new features in this release, see [What's New in Time
 
 Key highlights of the Timeplus 3.3 release include:
 
-1. New **backup and recovery** capabilities: a stream tool for stream data recovery and backup/restore, sequence-aware backup and recovery controls, plus more resilient recovery paths with incremental commit replay and self-healing from torn WAL tails.
-2. Smarter **cluster workload balancing**: stream-shard leader rebalancing and a reliable workload rebalancer for materialized views, with new `SYSTEM TRANSFER SCHED MATERIALIZED VIEW` / `SYSTEM REBALANCE SCHED MATERIALIZED VIEWS` commands and configurable scheduling policies.
-3. Major **Python UDF** upgrades: embedded CPython migrated to **3.14 free-threaded** with improved observability, UDF init hooks via SETTINGS, and automatic package reconciliation from S3-hosted requirements.txt.
-4. Faster and leaner **startup and recovery**: lazy-loaded primary key index to bound startup memory, memory-pressure interventions to prevent materialized-view reboot recovery storms, and containment of single-table startup failures.
-5. Streaming SQL enhancements: **streaming LEFT ANTI JOIN**, `SHUFFLE BY` propagation through CTE/subquery boundaries, shard pruning for IN-subqueries, and a new offsets-only checkpoint mode.
+1. New [**backup and recovery**](/enterprise-v3.3-whats-new#backup-recovery) capabilities: a stream tool for stream data recovery and backup/restore, sequence-aware backup and recovery controls, plus more resilient recovery paths with incremental commit replay and self-healing from torn WAL tails.
+2. Smarter [**cluster workload balancing**](/enterprise-v3.3-whats-new#cluster-rebalancing): stream-shard leader rebalancing and a reliable workload rebalancer for materialized views, with new `SYSTEM TRANSFER SCHED MATERIALIZED VIEW` / `SYSTEM REBALANCE SCHED MATERIALIZED VIEWS` commands and configurable scheduling policies.
+3. Major [**Python UDF**](/enterprise-v3.3-whats-new#python-udfs) upgrades: embedded CPython migrated to **3.14 free-threaded** with improved observability, UDF init hooks via SETTINGS, and automatic package reconciliation from S3-hosted requirements.txt.
+4. Faster and leaner [**startup and recovery**](/enterprise-v3.3-whats-new#startup-resilience): lazy-loaded primary key index to bound startup memory, memory-pressure interventions to prevent materialized-view reboot recovery storms, and containment of single-table startup failures.
+5. [**Streaming SQL enhancements**](/enterprise-v3.3-whats-new#streaming-sql): **streaming LEFT ANTI JOIN**, `SHUFFLE BY` propagation through CTE/subquery boundaries, shard pruning for IN-subqueries, and a new offsets-only checkpoint mode.
 6. Broad stability and correctness hardening across **Raft replication, checkpoints, mutable streams, Kafka sources, and memory accounting**.
 
 

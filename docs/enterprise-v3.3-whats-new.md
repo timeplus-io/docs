@@ -24,7 +24,7 @@ Timeplus Enterprise 3.3 focuses on **operational resilience and cluster-scale op
 
 ---
 
-## 1\. Backup, Recovery & Checkpointing
+## 1\. Backup, Recovery & Checkpointing {#backup-recovery}
 
 ### 1.1 New `timeplusd stream` tool: backup, restore, and repair stream data (\#12267, \#12274)
 
@@ -109,7 +109,7 @@ CREATE MATERIALIZED VIEW my_mv AS
 
 ---
 
-## 2\. Cluster Scheduling & Workload Rebalancing
+## 2\. Cluster Scheduling & Workload Rebalancing {#cluster-rebalancing}
 
 3.3 delivers a major upgrade to how work is placed and balanced across cluster nodes — both for **scheduled materialized views** (placed by the scheduler on one node) and for **replicated materialized views and stream shards** (where Raft leadership determines which node does the work).
 
@@ -207,7 +207,7 @@ WHERE database = 'default' AND shard < 1000 GROUP BY leader_node;
 
 ---
 
-## 3\. Storage Engine: Merges, Moves & Tiered Storage
+## 3\. Storage Engine: Merges, Moves & Tiered Storage {#storage-engine}
 
 ### 3.1 Pause and resume background data movement (\#12270)
 
@@ -287,7 +287,7 @@ The vertical (column-by-column) merge algorithm had been unintentionally disable
 
 ---
 
-## 4\. Startup Resilience & Memory Management
+## 4\. Startup Resilience & Memory Management {#startup-resilience}
 
 3.3 hardens the path that matters most in an incident: **restarting a node under pressure**.
 
@@ -343,7 +343,7 @@ Sizes for remote-backed storage are now eventually consistent (up to the TTL); l
 
 ---
 
-## 5\. Python UDFs & Python External Streams
+## 5\. Python UDFs & Python External Streams {#python-udfs}
 
 ### 5.1 Python 3.14 with free-threaded execution — parallel Python UDFs (\#11852)
 
@@ -440,7 +440,7 @@ With a materialized view writing into the sink, the flush cadence follows the vi
 
 ---
 
-## 6\. Streaming SQL & Query Processing
+## 6\. Streaming SQL & Query Processing {#streaming-sql}
 
 ### 6.1 Streaming LEFT ANTI JOIN (\#12119)
 
@@ -502,7 +502,7 @@ Creating a mutable stream with a secondary index whose columns duplicate a leadi
 
 ---
 
-## 7\. Connectivity & External Streams
+## 7\. Connectivity & External Streams {#connectivity}
 
 ### 7.1 NATS JetStream: NKey authentication and inline credentials (\#12116, \#12120)
 
