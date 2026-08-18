@@ -105,7 +105,7 @@ CREATE MATERIALIZED VIEW my_mv AS
 - Dramatically cheaper and faster checkpoints; less checkpoint storage.  
 - Default is off (`offsets_only=false`) — existing queries are unaffected.  
 - Delivery guarantees to external sinks (Kafka, Pulsar, NATS, HTTP, ClickHouse) are unchanged — sinks still flush and acknowledge on every checkpoint.  
-- Use it when the source retains enough history to replay from the last checkpoint.
+- Use it when the source retains enough history to replay from the last checkpoint. Window aggregations (tumble, hop, session) are a natural fit: closed windows have already been emitted and their state no longer matters, so only the current windows need rebuilding on restart.
 
 ---
 
