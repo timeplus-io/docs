@@ -243,7 +243,7 @@ The "too many parts" thresholds were retuned for continuous streaming ingestion.
 | `parts_to_throw_insert` (reject inserts) | 300 | **3000** |
 | `max_avg_part_size_for_too_many_parts` (disable the check once parts are large) | 10 GiB | **1 GiB** |
 
-The new defaults also apply to existing streams on upgrade, unless a stream's `CREATE` statement named these settings explicitly. They cannot be changed with `ALTER STREAM … MODIFY SETTING` after creation — to keep the old thresholds, set them server-wide in `config.yaml` before upgrading (restart required):
+The new defaults also apply to existing streams on upgrade, unless a stream's `CREATE` statement named these settings explicitly. `ALTER STREAM … MODIFY SETTING` does not support these settings. For streams that did not specify them at creation, the effective values can be changed server-wide via `config.yaml` (restart required) — for example, to keep the old thresholds:
 
 ```yaml
 settings:
