@@ -494,6 +494,8 @@ SELECT count() FROM table(s) WHERE id IN (SELECT id FROM allowlist);
 
 Pruning is conservative: `NOT IN`, NULL values, result sets larger than `optimize_skip_unused_shards_limit` (default 1000), and streaming subqueries all safely fall back to scanning all shards. Streaming queries are never pruned to zero shards, so continuous queries keep waiting for future events.
 
+This feature was contributed by the community — thanks to [Sofiane Soufi](https://github.com/sofiane-soufi) for [proton PR #1175](https://github.com/timeplus-io/proton/pull/1175).
+
 ### 6.4 Guardrail: redundant mutable stream indexes rejected (\#12113)
 
 Creating a mutable stream with a secondary index whose columns duplicate a leading prefix of the primary key (e.g. `INDEX idx id` with `PRIMARY KEY id`) is now rejected at DDL time with a clear error. Such an index adds write amplification and storage cost with zero query benefit — the primary key already provides that access path. Existing DDL scripts containing such an index need the redundant index removed.
