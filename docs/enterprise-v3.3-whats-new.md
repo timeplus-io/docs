@@ -21,7 +21,6 @@ Timeplus Enterprise 3.3 focuses on **operational resilience and cluster-scale op
 | "Too many parts" defaults raised (delay at 1000 parts, reject at 3000\) | Existing streams adopt the new defaults on upgrade unless their `CREATE` named these settings explicitly. These settings are not alterable after creation — to keep the old behavior, set `settings.stream.parts_to_delay_insert` / `parts_to_throw_insert` in `config.yaml` (restart required) before upgrading |
 | Primary key indexes are now loaded lazily (default on) | Lower startup memory; first query on a cold part pays a small one-time index read |
 | Checkpoint lease expiration default raised 15s → 30s | Failover detection for scheduled materialized views is up to 15s slower unless tuned explicitly |
-| `timeplusd stream` backups now use a `.size` sidecar instead of `.sum` | Backups taken with the initial 3.3 tool release should be recreated for the newest tool version |
 
 ---
 
