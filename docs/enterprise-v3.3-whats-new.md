@@ -451,7 +451,7 @@ Streaming joins now support `LEFT ANTI JOIN`: emit each left-side event whose jo
 CREATE MATERIALIZED VIEW unknown_devices AS
 SELECT e.device_id, e.payload
 FROM events e
-LEFT ANTI JOIN table(device_registry) r ON e.device_id = r.device_id;
+LEFT ANTI JOIN device_registry r ON e.device_id = r.device_id;
 ```
 
 - Supported for all combinations of append streams, `versioned_kv` streams, and mutable streams on either side, in streaming and historical (`table()`) modes.  
