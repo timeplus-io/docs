@@ -990,6 +990,11 @@ const sidebars = {
         id: "release-notes",
       },
       items: [
+        {
+          type: "doc",
+          id: "enterprise-v3.3-whats-new",
+          label: "What's New in 3.3",
+        },
         "enterprise-v3.3",
         "enterprise-v3.2",
         "enterprise-v3.1",

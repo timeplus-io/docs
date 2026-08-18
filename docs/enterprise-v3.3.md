@@ -2,6 +2,8 @@
 
 ## Key Highlights
 
+For a detailed tour of the new features in this release, see [What's New in Timeplus Enterprise 3.3](/enterprise-v3.3-whats-new).
+
 Key highlights of the Timeplus 3.3 release include:
 
 1. New **backup and recovery** capabilities: a stream tool for stream data recovery and backup/restore, sequence-aware backup and recovery controls, plus more resilient recovery paths with incremental commit replay and self-healing from torn WAL tails.
