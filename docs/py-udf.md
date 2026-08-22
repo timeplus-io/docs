@@ -1,6 +1,10 @@
 # Python UDF
 
-In addition to [Remote UDF](/remote-udf) and [JavaScript UDF](/js-udf), starting from [v2.7](/enterprise-v2.7), Timeplus Enterprise also supports Python-based UDF, as a feature in technical preview. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embedded Python 3.10 runtime in Timeplus core engine. No need to deploy extra server/service for the UDF.
+In addition to [Remote UDF](/remote-udf) and [JavaScript UDF](/js-udf), starting from [v2.7](/enterprise-v2.7), Timeplus Enterprise also supports Python-based UDF, as a feature in technical preview. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embedded Python runtime in Timeplus core engine. No need to deploy extra server/service for the UDF.
+
+:::info Python 3.14 since Timeplus Enterprise 3.3.1
+Timeplus Enterprise 3.3.1 upgrades the embedded interpreter from **Python 3.10 to Python 3.14 (free-threaded, a.k.a. `cp314t`)**, and stops bundling any third-party Python packages. If you are upgrading from 3.2.x or earlier, read [Upgrading to the Python 3.14 runtime](#upgrade_314) before you upgrade — packages you relied on must be reinstalled, and code that mutates module-level state now needs explicit locking.
+:::
 
 For visual learners, please watch the following video:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dizrvby2j_A?si=gZfJvv3IxRcYeMgp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -176,6 +180,106 @@ class getMax:
 $$;
 ```
 
+## Initialization hook {#init_hook}
+
+Available since Timeplus Enterprise 3.3.1.
+
+Some UDFs need one-time setup before the first row is processed — loading a model, compiling a regex, opening a connection, or reading a credential. A Python UDF can declare an **init hook**: a function in the same code block that Timeplus calls once, when the module is loaded, before any UDF invocation (and, for a UDAF, before the class is instantiated).
+
+Declare it with `SETTINGS init_function_name`:
+
+```sql
+CREATE OR REPLACE FUNCTION tag_value(x string) RETURNS string LANGUAGE PYTHON AS $$
+TAG = ''
+
+def _tp_init():
+    global TAG
+    TAG = 'ready'
+
+def tag_value(xs):
+    return [TAG + ':' + x.decode('utf-8') for x in xs]
+$$ SETTINGS init_function_name = '_tp_init';
+```
+
+The hook name is validated at `CREATE` time: if the function is not defined in the UDF source, the statement is rejected with `is not defined in the UDF source`. These settings are Python-only — using them on a JavaScript UDF fails with `only supported for Python UDFs`.
+
+### Passing parameters to the hook {#init_params}
+
+`init_function_parameters` passes a **single string** as the hook's only argument. Encode structured configuration as JSON and parse it in the hook:
+
+```sql
+CREATE OR REPLACE FUNCTION greet(x string) RETURNS string LANGUAGE PYTHON AS $$
+import json
+PREFIX = ''
+
+def _tp_init(params):
+    global PREFIX
+    PREFIX = json.loads(params).get('prefix', '')
+
+def greet(xs):
+    return [PREFIX + ':' + x.decode('utf-8') for x in xs]
+$$ SETTINGS init_function_name = '_tp_init',
+            init_function_parameters = '{"prefix":"hello"}';
+```
+
+When no parameter source is configured, the hook is called **with no arguments** — so write `def _tp_init():` in that case and `def _tp_init(params):` when you pass parameters.
+
+### Reading parameters from a named collection {#init_named_collection}
+
+`init_function_parameters` is stored verbatim in the UDF definition and is echoed back by `SHOW CREATE FUNCTION`, which makes it a poor place for a secret. Use a [named collection](/named-collection) instead: point the UDF at a collection and Timeplus reads the collection's `init_function_parameters` key at module-load time.
+
+```sql
+CREATE NAMED COLLECTION nc_udf_init AS
+  init_function_parameters = '{"api_key":"s3cr3t"}' NOT OVERRIDABLE;
+
+CREATE OR REPLACE FUNCTION call_api(x string) RETURNS string LANGUAGE PYTHON AS $$
+import json
+API_KEY = ''
+
+def _tp_init(params):
+    global API_KEY
+    API_KEY = json.loads(params)['api_key']
+
+def call_api(xs):
+    return [API_KEY + ':' + x.decode('utf-8') for x in xs]
+$$ SETTINGS init_function_name = '_tp_init',
+            named_collection = 'nc_udf_init';
+```
+
+`SHOW CREATE FUNCTION call_api` shows the `init_function_name` and `named_collection` settings but **not** the secret — only the collection name is stored in the UDF.
+
+The same settings work on `CREATE AGGREGATE FUNCTION`, where the hook runs before the aggregation class is constructed, so `__init__` can rely on whatever the hook set up.
+
+Rules and behavior:
+
+* `init_function_parameters` and `named_collection` both require `init_function_name`; without it the statement is rejected.
+* They are **mutually exclusive** — configure only one parameter source.
+* Creating the UDF requires the `NAMED COLLECTION` privilege on the referenced collection. An ungranted user gets `ACCESS_DENIED`, and gets it whether or not the collection exists, so the error does not leak which collections are defined.
+* The collection must exist at `CREATE` time.
+* If the collection has no `init_function_parameters` key, that is not an error — the hook is simply called with no arguments.
+* Values are resolved when the module loads, **not** on every call. Editing or rotating a named collection does not propagate to already-running queries or materialized views; drop and recreate the materialized view to pick up a new value.
+* If the collection is dropped after the UDF is created, the next module load fails cleanly with `Named collection '…' required by UDF '…' does not exist`.
+* If the hook itself raises, the query fails with the Python exception and the partially initialized module is discarded, so a later call re-runs the hook from scratch.
+
+## Turning the runtime off {#enable_flag}
+
+Available since **Timeplus Enterprise 3.2.1**. Environments that do not want operators shipping arbitrary Python into the engine can refuse new Python UDFs with a server config flag in `timeplusd.yaml`:
+
+```yaml
+enable_python_udf: false        # default: true
+enable_javascript_udf: false    # default: true, gates JavaScript UDF the same way
+```
+
+The flag is picked up by `SYSTEM RELOAD CONFIG` — no restart needed. While it is `false`, both `CREATE FUNCTION ... LANGUAGE PYTHON` and `CREATE AGGREGATE FUNCTION ... LANGUAGE PYTHON` fail with:
+
+```
+Python UDF creation is disabled by server config `enable_python_udf`
+```
+
+The same check runs on the REST UDF endpoint, so registering the function from the web console fails in the same way.
+
+This gates **creation only**. Python UDFs that already exist keep running, and package management commands are unaffected. To take an existing function out of service, drop it. Setting the flag on all nodes is what makes it meaningful — it is read from each node's own config, not replicated cluster-wide.
+
 ## Manage Python Libraries {#python_libs}
 
 Starting from Proton/Timeplus Enterprise 3.0, manage Python UDF packages directly via SQL `SYSTEM` commands. This is the only supported flow on 3.0+. The 2.x methods below are not supported on 3.0.
@@ -193,6 +297,15 @@ SYSTEM INSTALL PYTHON PACKAGE 'requests==2.32.3';
 -- Alternative form with separate version literal
 SYSTEM INSTALL PYTHON PACKAGE 'requests' '2.32.3';
 
+-- Install several packages in one task from inline requirements text (3.1.2+)
+SYSTEM INSTALL PYTHON PACKAGE REQUIREMENTS 'requests==2.32.3
+pydantic>=2.0';
+
+-- Install from a private mirror, falling back to PyPI (3.1.2+)
+SYSTEM INSTALL PYTHON PACKAGE 'internal-lib==1.4.0'
+    INDEX_URL 'https://mirror.example.com/simple'
+    EXTRA_INDEX_URL 'https://pypi.org/simple';
+
 -- List installed packages
 SYSTEM LIST PYTHON PACKAGES;
 
@@ -201,8 +314,9 @@ SYSTEM UNINSTALL PYTHON PACKAGE 'requests';
 ```
 
 Notes:
-- Applies to Proton/Enterprise 3.0+ with Python UDF enabled (Python 3.10).
+- Applies to Proton/Enterprise 3.0+ with Python UDF enabled (Python 3.14 since 3.3.1, Python 3.10 before that).
 - Cluster-wide operation; requires `SYSTEM RELOAD CONFIG` privilege.
+- `REQUIREMENTS`, `INDEX_URL` and `EXTRA_INDEX_URL` require 3.1.2+ on every node. Requirements text takes one package per line — pip options such as `-r` or `--index-url` inside the text are rejected, pass them as clauses instead. See [SYSTEM PYTHON PACKAGES](/sql-system-python-packages#requirements) for the full rules.
 - `SYSTEM LIST PYTHON PACKAGES` returns columns `package_name`, `version`.
 - Install/uninstall runs asynchronously. Check status via `system.python_package_tasks`:
   ```sql
@@ -221,55 +335,48 @@ Permissions:
 
 See more: /sql-system-python-packages
 
-### Built-in Libraries
-By default, Timeplus ships a clean Python 3.10 environment, plus the following essential libraries:
+### Declarative package management with `python_requirements` {#python_requirements}
 
-```json
-[
-  { "name": "annotated-types", "version": "0.7.0" },
-  { "name": "anyio", "version": "4.9.0" },
-  { "name": "asyncer", "version": "0.0.8" },
-  { "name": "autogen", "version": "0.7.3" },
-  { "name": "certifi", "version": "2025.1.31" },
-  { "name": "charset-normalizer", "version": "3.4.1" },
-  { "name": "diskcache", "version": "5.6.3" },
-  { "name": "distro", "version": "1.9.0" },
-  { "name": "docker", "version": "7.1.0" },
-  { "name": "exceptiongroup", "version": "1.2.2" },
-  { "name": "fast-depends", "version": "2.4.12" },
-  { "name": "h11", "version": "0.14.0" },
-  { "name": "httpcore", "version": "1.0.7" },
-  { "name": "httpx", "version": "0.28.1" },
-  { "name": "idna", "version": "3.10" },
-  { "name": "jiter", "version": "0.9.0" },
-  { "name": "numpy", "version": "2.2.4" },
-  { "name": "openai", "version": "1.68.2" },
-  { "name": "packaging", "version": "24.2" },
-  { "name": "pip", "version": "22.0.2" },
-  { "name": "proton-driver", "version": "0.2.13" },
-  { "name": "pyautogen", "version": "0.7.3" },
-  { "name": "pydantic", "version": "2.10.6" },
-  { "name": "pydantic_core", "version": "2.27.2" },
-  { "name": "python-dotenv", "version": "1.0.1" },
-  { "name": "pytz", "version": "2025.1" },
-  { "name": "regex", "version": "2024.11.6" },
-  { "name": "requests", "version": "2.32.3" },
-  { "name": "setuptools", "version": "78.0.2" },
-  { "name": "setuptools-scm", "version": "8.2.0" },
-  { "name": "six", "version": "1.17.0" },
-  { "name": "sniffio", "version": "1.3.1" },
-  { "name": "sseclient-py", "version": "1.8.0" },
-  { "name": "termcolor", "version": "2.5.0" },
-  { "name": "tiktoken", "version": "0.9.0" },
-  { "name": "timeplus-neutrino", "version": "0.0.6" },
-  { "name": "tomli", "version": "2.2.1" },
-  { "name": "tqdm", "version": "4.67.1" },
-  { "name": "typing_extensions", "version": "4.12.2" },
-  { "name": "tzlocal", "version": "5.3.1" },
-  { "name": "urllib3", "version": "2.3.0" },
-  { "name": "websockets", "version": "14.2" },
-  { "name": "wheel", "version": "0.37.1" }
-]
+Available since Timeplus Enterprise 3.3.1. `SYSTEM INSTALL PYTHON PACKAGE` installs into the local user site-packages of each node, which does not survive a reschedule on a node without a persistent volume. For clusters — and especially for ephemeral compute nodes — declare your packages in a `requirements.txt` on S3 instead and let every node reconcile against it.
+
+Add a `python_requirements` section to `timeplusd.yaml`:
+
+```yaml
+python_requirements:
+    url: https://my-bucket.s3.us-west-2.amazonaws.com/proton/requirements.txt
+    # How often (seconds) to re-check the file for changes after a successful reconcile.
+    # 0 disables polling (reconcile on startup only). Default: 300.
+    poll_interval_sec: 300
+    # Credentials are optional; without them the environment chain
+    # (IRSA / instance profile, AWS_* environment variables) is used.
+    # access_key_id: ACCESS_KEY_ID
+    # secret_access_key: SECRET_ACCESS_KEY
+    # region: us-west-2
+    # Optional pip index overrides, e.g. an internal mirror.
+    # index_url: https://pypi.org/simple
+    # extra_index_url: https://my-mirror.example.com/simple
+```
+
+How it behaves:
+* Every node fetches the file on startup, and again every `poll_interval_sec`, so edits to the file roll out without a restart.
+* The file is the durable source of truth: it restores packages on ephemeral compute nodes after a reschedule, and keeps data nodes with persistent volumes in sync.
+* **Reconcile only installs.** Packages removed from the file are *not* uninstalled — do that manually with `SYSTEM UNINSTALL PYTHON PACKAGE`.
+* `SYSTEM INSTALL`/`UNINSTALL PYTHON PACKAGE` still works as a manual escape hatch, but packages installed that way are not recorded in the file and do not survive a reschedule on nodes without persistent volumes.
+* Pin exact versions (`package==x.y.z`) so all nodes converge on identical environments.
+
+### Built-in Libraries
+Timeplus ships a **clean Python 3.14 environment**: the Python standard library, plus `pip` and `truststore` so that package installation works out of the box. **No third-party libraries are bundled.**
+
+:::warning Changed in 3.3.1
+Timeplus Enterprise 3.2.x and earlier bundled ~40 packages, including `numpy`, `requests`, `openai`, `pydantic`, `proton-driver` and `timeplus-neutrino`. **None of them ship in 3.3.1 or later.** Any UDF that imports one of them fails with `ModuleNotFoundError` until you install it explicitly — see [Upgrading to the Python 3.14 runtime](#upgrade_314).
+
+Bundling was dropped so that the runtime no longer pins you to versions Timeplus happened to choose, and so that the shipped artifact carries no third-party CVE surface you did not ask for. Install exactly what your UDFs need with [`SYSTEM INSTALL PYTHON PACKAGE`](#install_sql) or [`python_requirements`](#python_requirements).
+:::
+
+To see what is currently installed on a node:
+
+```sql
+SYSTEM LIST PYTHON PACKAGES;
 ```
 
 ### Verified Libraries {#verified_libs}
@@ -343,8 +450,64 @@ curl -H "x-timeplus-user: theUser" -H "x-timeplus-key:thePwd" -X DELETE http://l
 ### Update Python Libraries {#update_lib}
 There is no in-place update. Uninstall then install the desired version.
 
+## Concurrency and the free-threaded runtime {#free_threading}
+
+Since Timeplus Enterprise 3.3.1 the embedded interpreter is a **free-threaded** build of Python 3.14 ([PEP 703](https://peps.python.org/pep-0703/)): it is compiled with `Py_GIL_DISABLED`, so the Global Interpreter Lock is gone and UDFs from concurrent queries genuinely run in parallel on multiple threads. This is what removes the single-interpreter bottleneck that Python UDFs had on 3.10 — but it also means **the GIL no longer accidentally protects your Python state**.
+
+At startup the server logs which build is in use, for example:
+
+```
+Embedded Python 3.14.6 interpreter is initializing: embedded_free_threaded=true, ...
+```
+
+What is safe and what is not:
+
+* **Module-level state inside the UDF body is per query.** Each query gets its own module object for the `$$ ... $$` code, so a global defined there is not shared with other queries. This is safe.
+* **Module-level state inside an *imported* helper module is shared.** Imports go through `sys.modules`, which is interpreter-global, so every concurrent query on every thread sees the *same* module object and the same globals. Read-modify-write on such a global is a data race, and updates are silently lost.
+
+The failure is silent — no exception, just wrong numbers. In a measured run of 8 concurrent queries each doing 5000 increments of a counter in an imported module, an unprotected counter finished at roughly 18,000 instead of 40,000; the same code with a `threading.Lock` finished at exactly 40,000.
+
+So if a helper module holds mutable state, guard it:
+
+```python
+# my_helpers.py, installed as a package or placed on the interpreter path
+import threading
+
+_lock = threading.Lock()
+_counter = 0
+
+def bump():
+    global _counter
+    with _lock:          # required on the free-threaded runtime
+        _counter += 1
+        return _counter
+```
+
+Read-only module state (lookup tables, compiled regexes, loaded models) needs no lock. The place to audit is any shared, *mutated* global — counters, caches, accumulators, and connection pools that are not themselves thread-safe.
+
+## Upgrading to the Python 3.14 runtime {#upgrade_314}
+
+When upgrading from Timeplus Enterprise 3.2.x or earlier to 3.3.1+:
+
+1. **Replace the whole runtime, not just `timeplusd`.** The embedded interpreter loads `libpython3.14t` from the Python bundle that ships with the release, and the server refuses to start if the runtime is a GIL-enabled build. Follow the standard [bare metal upgrade](/bare-metal-install) procedure — stop the service, replace both `bin/` and `lib/`, then start it again. The data folder needs no migration; UDF definitions, streams and checkpoints all survive.
+2. **Reinstall the packages your UDFs import.** Nothing third-party is bundled anymore. Inventory your UDF `import` statements first, then install them, ideally by declaring them in [`python_requirements`](#python_requirements) so all nodes converge:
+   ```sql
+   SYSTEM INSTALL PYTHON PACKAGE 'proton-driver==0.3.0';
+   SYSTEM INSTALL PYTHON PACKAGE 'numpy';
+   ```
+   No server restart is needed after installing.
+3. **Check that the packages have free-threaded wheels.** The interpreter is `cp314t`, so a package needs a `cp314t` (or pure-Python) wheel; otherwise pip has to build it from source, which requires a toolchain on the node. `proton-driver` 0.3.0 publishes a `cp314t` wheel and works on the free-threaded runtime.
+4. **Audit shared mutable state in imported helper modules** and add locking — see [Concurrency and the free-threaded runtime](#free_threading).
+5. **Rolling back** is a data-folder copy: with the service stopped, copy the data folder aside before you upgrade. Restoring that copy and reinstalling the old release brings 3.2.x back up intact.
+
+:::tip
+Right after `SYSTEM INSTALL PYTHON PACKAGE`, the very first UDF call can still fail with `ModuleNotFoundError` because the interpreter cached the (previously missing) site-packages directory at startup. Simply retry the query — no restart is needed.
+:::
+
 ## Limitations
 - Linux deployments require Glibc 2.35+.
-- Python 3.10 only for the embedded runtime.
+- The embedded runtime is Python 3.14 free-threaded (`cp314t`) since Timeplus Enterprise 3.3.1, and Python 3.10 in earlier versions. The version is not configurable, and packages must be compatible with it.
+- No third-party packages are bundled since 3.3.1; install what you need via SQL or `python_requirements`.
+- Shared state in imported modules is not protected by a GIL — see [Concurrency and the free-threaded runtime](#free_threading).
 - Some libraries may require OS/system dependencies.
 - On 3.0+, use SQL `SYSTEM` commands; on 2.x, use REST or `timeplusd python -m pip`.

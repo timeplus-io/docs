@@ -5,6 +5,8 @@ Timeplus supports JavaScript-based UDF running in the SQL engine. You can develo
 ## Register a JS UDF via SQL {#ddl}
 Please check [CREATE FUNCTION](/sql-create-function#javascript-udf) page for the SQL syntax.
 
+Since Timeplus Enterprise 3.2.1, a server can refuse new JavaScript UDFs entirely by setting [`enable_javascript_udf: false`](/server_config#enable_javascript_udf) in `timeplusd.yaml`. Creation then fails with *JavaScript UDF creation is disabled by server config `enable_javascript_udf`*; UDFs already registered keep working.
+
 ## Register a JS UDF via Web Console {#register}
 
 1. Open "UDFs" from the navigation menu on the left, and click the 'New UDF' button.
