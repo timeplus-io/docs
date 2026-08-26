@@ -12,6 +12,10 @@
 
 `month(date)` returns the month, for example `month(today())` will be `2` if it's currently Feb.
 
+### week
+
+`week(date)` returns the week, for example `week(today())` will be `3` if it's currently Jan 17.
+
 ### day
 
 `day(date)` returns the day in the month.
