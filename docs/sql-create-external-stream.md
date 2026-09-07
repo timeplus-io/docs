@@ -21,7 +21,10 @@ SETTINGS type='kafka',
          ssl_ca_pem='..',
          skip_ssl_cert_check=..,
          properties='..',
-         config_file='..'
+         config_file='..',
+         subject_name_strategy='..',
+         schema_subject_name='..',
+         consume_schema_strategy='..'
 ```
 
 Please check the [Kafka External Stream](/kafka-source) for more details about the settings, and [this doc](/tutorial-sql-connect-kafka) for examples to connect to various Kafka API compatible message platforms.
