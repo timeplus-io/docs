@@ -32,6 +32,29 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.20 (Public GA) {#2_8_19}
+Released on Sep-21-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_20)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.46 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.20`
+
+Component versions:
+* timeplusd 2.8.47
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_18}
+Compared to the [2.8.19](#2_8_19) release:
+* timeplusd 2.8.45 -> 2.8.47
+  * Bugfixes  
+    *   Fixed replica restart failures after an abrupt host-level interruption (e.g. forced reboot, power loss, hard VM/host reset) on clustered/replicated streams; affected nodes now self-heal at startup instead of repeatedly failing to start 
+    *   Fixed recovery from partially-written log entries following unclean shutdowns, reducing the chance a node gets stuck in a restart loop after a crash
+    *   Fixed secondary indexes added to a mutable stream (`ALTER STREAM ... ADD INDEX`) not covering rows that existed before the index was created; `MATERIALIZE INDEX ... WITH CLEAR` did not previously fix this either
+    *   Fixed `_if` aggregate combinators (e.g. `sum_if`, `count_if`) on nullable columns throwing an unsupported-operation error in streaming/changelog retract queries
+    *   Fixed an internal sequence-number diagnostic that could report a negative value in certain edge cases (logging only, no data-correctness impact) 
+
 ### 2.8.19 (Public GA) {#2_8_19}
 Released on 07-22-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_19)
