@@ -45,7 +45,7 @@ Component versions:
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
   
-#### Changelog {#changelog_2_8_18}
+#### Changelog {#changelog_2_8_20}
 Compared to the [2.8.19](#2_8_19) release:
 * timeplusd 2.8.45 -> 2.8.47
   * Bugfixes  
