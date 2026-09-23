@@ -49,11 +49,16 @@ Component versions:
 Compared to the [2.8.19](#2_8_19) release:
 * timeplusd 2.8.45 -> 2.8.47
   * Bugfixes  
-    *   Fixed replica restart failures after an abrupt host-level interruption (e.g. forced reboot, power loss, hard VM/host reset) on clustered/replicated streams; affected nodes now self-heal at startup instead of repeatedly failing to start 
-    *   Fixed recovery from partially-written log entries following unclean shutdowns, reducing the chance a node gets stuck in a restart loop after a crash
-    *   Fixed secondary indexes added to a mutable stream (`ALTER STREAM ... ADD INDEX`) not covering rows that existed before the index was created; `MATERIALIZE INDEX ... WITH CLEAR` did not previously fix this either
-    *   Fixed `_if` aggregate combinators (e.g. `sum_if`, `count_if`) on nullable columns throwing an unsupported-operation error in streaming/changelog retract queries
-    *   Fixed an internal sequence-number diagnostic that could report a negative value in certain edge cases (logging only, no data-correctness impact) 
+    *   Fixed replica restart failures after abrupt host-level interruptions on clustered/replicated streams.
+        Impact: After a forced reboot, power loss, or hard VM/host reset, a replica could enter a permanent crash loop during startup. Multiple replicas on the same shard could be affected simultaneously. Automatic recovery was not possible and manual repair was required.
+    *   Fixed recovery from partially written log entries after an unclean shutdown.
+        Impact: If a disk-full (ENOSPC) error occurred while appending to the log, the node could terminate with SIGABRT and enter a permanent crash loop. Simply freeing disk space was not sufficient to recover the node.
+    *   Fixed secondary indexes on mutable streams not covering existing rows.
+        Impact: When ALTER STREAM ... ADD INDEX was used on a mutable stream and the index key was a subset of the PRIMARY KEY, rows that existed before the index was created could be missing from index-accelerated queries. Running MATERIALIZE INDEX ... WITH CLEAR did not resolve the issue.
+    *   Fixed _if aggregate combinators on nullable columns in streaming/changelog-retract queries.
+        Impact: Functions such as sum_if and count_if on nullable columns could raise a NOT_IMPLEMENTED error when an existing key was updated in a changelog/retract query, causing the query or materialized view to stop. This could occur, for example, in a materialized view over versioned_kv.
+    *   Fixed an internal sequence-number diagnostic that could report an incorrect negative value.
+        Impact: In certain edge cases, introspection logs could report processed_sn as UINT64_MAX for a materialized-view source that had not consumed any data. This was a diagnostic-only issue and had no impact on data integrity or query correctness.
 
 ### 2.8.19 (Public GA) {#2_8_19}
 Released on 07-22-2026. Installation options:
