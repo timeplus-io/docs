@@ -32,6 +32,34 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.20 (Public GA) {#2_8_20}
+Released on Sep-21-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_20)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.46 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.20`
+
+Component versions:
+* timeplusd 2.8.47
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_20}
+Compared to the [2.8.19](#2_8_19) release:
+* timeplusd 2.8.45 -> 2.8.47
+  * Bugfixes  
+    *   Fixed replica restart failures after abrupt host-level interruptions on clustered/replicated streams.
+        Impact: After a forced reboot, power loss, or hard VM/host reset, a replica could enter a permanent crash loop during startup. Multiple replicas on the same shard could be affected simultaneously. Automatic recovery was not possible and manual repair was required.
+    *   Fixed recovery from partially written log entries after an unclean shutdown.
+        Impact: If a disk-full (ENOSPC) error occurred while appending to the log, the node could terminate with SIGABRT and enter a permanent crash loop. Simply freeing disk space was not sufficient to recover the node.
+    *   Fixed secondary indexes on mutable streams not covering existing rows.
+        Impact: When ALTER STREAM ... ADD INDEX was used on a mutable stream and the index key was a subset of the PRIMARY KEY, rows that existed before the index was created could be missing from index-accelerated queries. Running MATERIALIZE INDEX ... WITH CLEAR did not resolve the issue.
+    *   Fixed _if aggregate combinators on nullable columns in streaming/changelog-retract queries.
+        Impact: Functions such as sum_if and count_if on nullable columns could raise a NOT_IMPLEMENTED error when an existing key was updated in a changelog/retract query, causing the query or materialized view to stop. This could occur, for example, in a materialized view over versioned_kv.
+    *   Fixed an internal sequence-number diagnostic that could report an incorrect negative value.
+        Impact: In certain edge cases, introspection logs could report processed_sn as UINT64_MAX for a materialized-view source that had not consumed any data. This was a diagnostic-only issue and had no impact on data integrity or query correctness.
+
 ### 2.8.19 (Public GA) {#2_8_19}
 Released on 07-22-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_19)
@@ -45,7 +73,7 @@ Component versions:
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
   
-#### Changelog {#changelog_2_8_18}
+#### Changelog {#changelog_2_8_19}
 Compared to the [2.8.18](#2_8_18) release:
 * timeplusd 2.8.44 -> 2.8.45
   * Bugfixes  
