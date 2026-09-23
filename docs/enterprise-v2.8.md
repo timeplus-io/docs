@@ -32,7 +32,7 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 2.8.20 (Public GA) {#2_8_19}
+### 2.8.20 (Public GA) {#2_8_20}
 Released on Sep-21-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_20)
 * For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.46 ..
