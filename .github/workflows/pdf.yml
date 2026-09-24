@@ -29,7 +29,7 @@ jobs:
       - name: Regeneate PDF
         run: yarn run en-pdf-gen
       - name: Share PDF
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: en.pdf
           path: pdf/docs.timeplus.com.pdf
