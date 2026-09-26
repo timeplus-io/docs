@@ -276,6 +276,20 @@ LEFT JOIN tableB ON tableA.id=tableB.id
 SETTINGS join_max_buffered_bytes=8589934592;
 ```
 
+#### enable_python_udf
+Type: bool
+
+Default: true
+
+Available since Timeplus Enterprise 3.2.1. When set to false, this node rejects `CREATE FUNCTION`/`CREATE AGGREGATE FUNCTION` with `LANGUAGE PYTHON` — via SQL or the REST endpoint — with the error *Python UDF creation is disabled by server config `enable_python_udf`*. Existing Python UDFs continue to run; the flag gates creation only. It is applied by `SYSTEM RELOAD CONFIG` and is per-node, so set it on every node. See [Python UDF](/py-udf#enable_flag).
+
+#### enable_javascript_udf
+Type: bool
+
+Default: true
+
+Available since Timeplus Enterprise 3.2.1. The JavaScript counterpart of `enable_python_udf`, rejecting creation of `LANGUAGE JAVASCRIPT` UDFs and UDAFs with the error *JavaScript UDF creation is disabled by server config `enable_javascript_udf`*.
+
 #### logger
 ```yaml
 logger:

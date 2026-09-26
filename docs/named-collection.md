@@ -77,6 +77,7 @@ Named collections can be used in:
 2. External table DDL settings
 3. Input DDL settings
 4. Disk creation arguments.
+5. [Python UDF](/py-udf) initialization parameters, since Timeplus Enterprise 3.3.1.
 
 For external stream / external table / input, named collection can specify any setting value other than `type`.
 
@@ -165,3 +166,31 @@ Create a S3 disk.
 ```sql
 CREATE DISK s3_disk1 disk(named_collection=s3_config);
 ```
+
+### Python UDF Initialization
+
+Keep a credential used by a [Python UDF](/py-udf) out of the UDF definition. The collection supplies the `init_function_parameters` key, which is passed to the UDF's init hook when the module loads:
+
+```sql
+CREATE NAMED COLLECTION nc_udf_init AS
+    init_function_parameters = '{"api_key":"s3cr3t"}' NOT OVERRIDABLE;
+```
+
+Reference it from the UDF:
+
+```sql
+CREATE OR REPLACE FUNCTION call_api(x string) RETURNS string LANGUAGE PYTHON AS $$
+import json
+API_KEY = ''
+
+def _tp_init(params):
+    global API_KEY
+    API_KEY = json.loads(params)['api_key']
+
+def call_api(xs):
+    return [API_KEY + ':' + x.decode('utf-8') for x in xs]
+$$ SETTINGS init_function_name = '_tp_init',
+            named_collection = 'nc_udf_init';
+```
+
+`SHOW CREATE FUNCTION call_api` reveals only the collection name, never the value. Creating such a UDF requires the `NAMED COLLECTION` privilege. See [Initialization hook](/py-udf#init_hook) for details.
