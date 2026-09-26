@@ -326,6 +326,8 @@ base64_decode
 base64_encode
 basename
 baseURL
+batchGetValues
+batchSetValues
 bcrypt
 behaviour
 benchmarked
@@ -1296,6 +1298,7 @@ getTypeSerializationStreams
 GetUnidirectionalEdge
 GetUnidirectionalEdgeBoundary
 GetUnidirectionalEdgesFromHexagon
+getValue
 GHCN
 ghcnd
 ghcr
@@ -2596,6 +2599,7 @@ polygonsWithinSpherical
 popcnt
 porthttps
 portRFC
+positionally
 positionCaseInsensitive
 positionCaseInsensitiveUTF
 positionUTF
@@ -3107,6 +3111,7 @@ sessionization
 sessionTimeout
 set_ssl_cert
 SetOperationMode
+setValue
 seva
 SFTP
 SGD
@@ -3772,10 +3777,14 @@ TZ
 Uber
 UBSan
 ubuntu
+UDA
+uda-changelog
 udaf
 UDAF
+udaf-changelog
 udaf-example
 udaf-lifecycle
+UDAFs
 udf
 UDF
 UDFDynamic

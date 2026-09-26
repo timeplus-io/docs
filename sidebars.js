@@ -385,6 +385,7 @@ const sidebars = {
               id: "py-udf",
             },
             "js-udf",
+            "js-udf-dictionary",
             "sql-udf",
             "remote-udf",
           ],
