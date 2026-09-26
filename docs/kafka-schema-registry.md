@@ -18,6 +18,7 @@ CREATE EXTERNAL STREAM my_stream (
     data_format = 'Avro', -- or 'ProtobufSingle'
     subject_name_strategy = '..',
     schema_subject_name = '..',
+    consume_schema_strategy = '..',
     kafka_schema_registry_url = 'http://url.to/my/schema/registry',
     kafka_schema_registry_credentials = 'API_KEY:API_SECRET',
     kafka_schema_registry_skip_cert_check = [true|false],
@@ -52,8 +53,9 @@ The `subject_name_strategy` determines how the stream looks up schemas in the re
 The schema subject specified in external stream is used in the following cases:
 1. Auto inference columns name and type from schema when no column definition in create DDL.
 2. Encode Timeplus data and write to Kafka.
+3. **Filter messages by schema during reads** — when `consume_schema_strategy='single'` (default), only messages matching the schema identified by `schema_subject_name` and `subject_name_strategy` are consumed. Non-matching messages are silently skipped. For details, see [consume_schema_strategy](/kafka-source#consume_schema_strategy).
 
-In reading from Kafka, the schema subject settings are ignored. The schema ID is get directly from each Kafka record and decoded with corresponding schema. The decoded messages are then converted to external stream rows. If the column name is not found in the decoded message keys, the default value of column type is filled.
+For `consume_schema_strategy='all'`, the schema subject is not used for filtering; the schema ID is read directly from each Kafka record's Confluent header, the corresponding schema is fetched from the registry (cached), and all messages are decoded and mapped to stream columns by name.
 :::
 
 ## Write Messages in Avro Schema{#write}

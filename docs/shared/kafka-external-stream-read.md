@@ -136,7 +136,74 @@ SETTINGS data_format='TSV';
 
 ### Read Avro or Protobuf Messages
 
-To read Avro-encoded / Protobuf-encoded Kafka message, please refer to [Avro Schema](/data-formats#avro), [Protobuf Schema](/data-formats#protobuf) and [Schema Registry](/kafka-schema-registry) for details.
+To read Avro-encoded or Protobuf-encoded Kafka messages, please refer to [Avro Schema](/data-formats#avro), [Protobuf Schema](/data-formats#protobuf) and [Schema Registry](/kafka-schema-registry) for details.
+
+#### Handling Multi-Schema Topics
+
+Kafka topics may contain messages encoded with different Avro or Protobuf schemas (multiple schema IDs) via Confluent Schema Registry's `RecordNameStrategy` or `TopicRecordNameStrategy`. The `consume_schema_strategy` setting controls how these messages are processed.
+
+**`single` mode (default):** Only consume messages matching a specific schema. Non-matching messages are silently skipped.
+
+```sql
+CREATE EXTERNAL STREAM user_events (
+    user_id string,
+    event_type string,
+    created_at datetime64(3)
+) SETTINGS
+    type='kafka',
+    brokers='localhost:9092',
+    topic='multi_schema_topic',
+    data_format='Avro',
+    kafka_schema_registry_url='http://localhost:8081',
+    consume_schema_strategy='single',
+    subject_name_strategy='RecordNameStrategy',
+    schema_subject_name='com.example.avro.UserEvent';
+```
+
+**`all` mode:** Decode all messages regardless of schema ID. Fields are mapped to stream columns by name. Missing fields get default/null values.
+
+```sql
+CREATE EXTERNAL STREAM all_events (
+    user_id string,
+    event_type string,
+    created_at datetime64(3)
+) SETTINGS
+    type='kafka',
+    brokers='localhost:9092',
+    topic='multi_schema_topic',
+    data_format='Avro',
+    kafka_schema_registry_url='http://localhost:8081',
+    consume_schema_strategy='all';
+```
+
+**`raw` mode:** Strip the 5-byte Confluent header and store the raw payload as a single String column. No schema registry lookup or deserialization occurs. Useful for routing messages to different streams via materialized views.
+
+```sql
+CREATE EXTERNAL STREAM raw_events (raw string) SETTINGS
+    type='kafka',
+    brokers='localhost:9092',
+    topic='multi_schema_topic',
+    data_format='Avro',
+    kafka_schema_registry_url='http://localhost:8081',
+    consume_schema_strategy='raw';
+
+-- Route to typed streams via MVs
+CREATE STREAM user_events (
+    user_id string,
+    event_type string,
+    created_at datetime64(3)
+);
+
+CREATE MATERIALIZED VIEW route_user_events INTO user_events AS
+SELECT
+    raw:user_id AS user_id,
+    raw:event_type AS event_type,
+    raw:created_at AS created_at
+FROM raw_events
+WHERE raw:type = 'user_event';
+```
+
+For more details on `consume_schema_strategy`, see the [Kafka External Stream settings](/kafka-source#consume_schema_strategy).
 
 ### Access Kafka Message Metadata
 
