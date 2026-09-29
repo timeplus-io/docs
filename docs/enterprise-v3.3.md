@@ -61,7 +61,7 @@ This release consolidates timeplusd changes introduced since 3.3.1 (i.e., in 3.3
 * Fix null idempotent keys after a schema switch inside a historical commit batch (#12406). Impact: could crash the whole server (no data loss).
 * Fix NULL handling in nullable arg_min/arg_max: checkpoint recovery CORRUPTED_DATA and NULL vals in the state (#12407). Impact: affected MVs could never recover from checkpoint.
 * Parse creation query AST every time on provisioner retry, so a retried CREATE no longer carries a stale UUID (#12325). Impact: a stale orphan directory could block cluster-wide schema creation.
-* Fix Kafka PEM file writer finalize (#12335). Impact: TLS cert/key files could be written empty, breaking secure connections.
+* Fix PEM files not being flushed to disk for Kafka, HTTP and Splunk HEC external streams (#12335). Impact: the CA or private key file could be written empty, breaking TLS connections.
 
 ### 3.3.1 {#3_3_1}
 Released on 08-01-2026. Installation options:
