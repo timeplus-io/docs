@@ -59,7 +59,7 @@ This release consolidates timeplusd changes introduced since 3.3.1 (i.e., in 3.3
 * `CREATE STORAGE POLICY` now rejects read-only and write-once (e.g. `s3_plain`) disks (#12377). Impact: TTL moves to such disks retried forever, causing massive redundant S3 writes. Existing storage policies are not re-validated on upgrade; if one uses a write-once disk, move it to a disk type that supports renames, such as `s3`.
 * Rewind idempotent keys when an inline historical commit fails (#12392). Impact: could cause permanent, silent data loss on commit failure.
 * Fix null idempotent keys after a schema switch inside a historical commit batch (#12406). Impact: could crash the whole server (no data loss).
-* Fix NULL handling in nullable arg_min/arg_max: checkpoint recovery CORRUPTED_DATA and NULL vals in the state (#12407). Impact: affected MVs could never recover from checkpoint.
+* Fix NULL handling in `arg_min`/`arg_max` over nullable columns (#12407). Impact: a NULL value could overwrite the aggregate result, and affected materialized views could fail checkpoint recovery with `CORRUPTED_DATA`.
 * Parse creation query AST every time on provisioner retry, so a retried CREATE no longer carries a stale UUID (#12325). Impact: a stale orphan directory could block cluster-wide schema creation.
 * Fix PEM files not being flushed to disk for Kafka, HTTP and Splunk HEC external streams (#12335). Impact: the CA or private key file could be written empty, breaking TLS connections.
 
