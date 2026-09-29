@@ -54,7 +54,7 @@ This release consolidates timeplusd changes introduced since 3.3.1 (i.e., in 3.3
 * Reset exec_mode for parallel-replica remote legs so materialized views over log external streams can start (#12373). Impact: such MVs could never start on a multi-node cluster.
 * Fix checkpoint barrier loss in RemoteSource async-read path (#12326). Impact: an MV could silently get stuck at its first checkpoint epoch forever.
 * Make NativeLog fetch honor the caller's byte budget (#12350). Impact: background polling could fetch up to 8192x more data than intended, risking OOM.
-* Rebuild secondary index for PK-subset index key columns (#12351). Impact: index backfill silently corrupted, hiding rows and returning bogus matches.
+* Fix secondary index rebuild on mutable streams when the index key columns are a subset of the primary key (#12351). Impact: `ALTER STREAM ... ADD INDEX` backfilled existing rows under empty index keys, so index queries missed old rows and empty-string lookups returned bogus matches.
 * Make SYSTEM STOP MERGES/MOVES cover every shard of a multi-shard stream (#12304). Impact: the command silently affected only the first shard.
 * `CREATE STORAGE POLICY` now rejects read-only and write-once (e.g. `s3_plain`) disks (#12377). Impact: TTL moves to such disks retried forever, causing massive redundant S3 writes. Existing storage policies are not re-validated on upgrade; if one uses a write-once disk, move it to a disk type that supports renames, such as `s3`.
 * Rewind idempotent keys when an inline historical commit fails (#12392). Impact: could cause permanent, silent data loss on commit failure.
