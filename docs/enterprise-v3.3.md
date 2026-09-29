@@ -56,7 +56,7 @@ This release consolidates timeplusd changes introduced since 3.3.1 (i.e., in 3.3
 * Make NativeLog fetch honor the caller's byte budget (#12350). Impact: background polling could fetch up to 8192x more data than intended, risking OOM.
 * Rebuild secondary index for PK-subset index key columns (#12351). Impact: index backfill silently corrupted, hiding rows and returning bogus matches.
 * Make SYSTEM STOP MERGES/MOVES cover every shard of a multi-shard stream (#12304). Impact: the command silently affected only the first shard.
-* Reject read-only and write-once disks in CREATE STORAGE POLICY (#12377). Impact: could retry TTL moves forever, causing massive redundant S3 writes.
+* `CREATE STORAGE POLICY` now rejects read-only and write-once (e.g. `s3_plain`) disks (#12377). Impact: TTL moves to such disks retried forever, causing massive redundant S3 writes. Existing storage policies are not re-validated on upgrade; if one uses a write-once disk, move it to a disk type that supports renames, such as `s3`.
 * Rewind idempotent keys when an inline historical commit fails (#12392). Impact: could cause permanent, silent data loss on commit failure.
 * Fix null idempotent keys after a schema switch inside a historical commit batch (#12406). Impact: could crash the whole server (no data loss).
 * Fix NULL handling in nullable arg_min/arg_max: checkpoint recovery CORRUPTED_DATA and NULL vals in the state (#12407). Impact: affected MVs could never recover from checkpoint.
