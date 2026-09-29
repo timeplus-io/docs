@@ -39,21 +39,13 @@ Component versions:
 
 #### Changelog {#changelog_3_3_3}
 
-This release consolidates all timeplusd changes from 3.3.1 through 3.3.3.
+This release consolidates timeplusd changes introduced since 3.3.1 (i.e., in 3.3.2 and 3.3.3). For changes already published in 3.3.1, see the [3.3.1 changelog](#changelog_3_3_1) below.
 
 **Features and Enhancements**
-* Add sequence-aware backup and recovery controls (#12274)
-* Enable SYSTEM STOP and START MOVES (#12270)
-* Add stream tool for stream data recovery and backup/restore (#12267)
-* Tolerate corrupted checkpoint lease and keep it renewed during recovery (#12266)
-* Contain single-table startup failure, raise broken-parts bytes threshold, shard-attributed load logs (#12264)
-* Lazy-load primary key index to bound startup memory (#12250)
-* Migrate embedded CPython to 3.14 free-threaded + FT observability (#11852)
 * Harden timeplusd meta CLI and add offline database drop for outage remediation (#12300)
 * Add partition-scoped backup and additive fill restore to the stream tool (#12331)
 
 **Bug Fixes**
-* Decode pip output as UTF-8 instead of the locale encoding (#12293)
 * Fix Raft scheduler self-deadlock on rmu.mu when an outbound send hits QUEUE_IS_FULL (#12418) — a single slow or just-restarted peer could cause a healthy node's Raft workers to deadlock on their own lock, silently halting replication and leader election for every shard that node led until it was manually restarted.
 * Reject pausing a materialized view before its first pipeline build (#12328) — issuing SYSTEM PAUSE MATERIALIZED VIEW immediately after CREATE MATERIALIZED VIEW (as the app installer does) could permanently wedge a follower's metadata-apply thread, silently blocking all later replicated DDL on that node.
 * Recover trimmed Raft hard state from the durable checkpoint record (#12400)
