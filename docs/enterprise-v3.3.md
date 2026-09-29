@@ -49,9 +49,27 @@ This release consolidates all timeplusd changes from 3.3.1 through 3.3.3.
 * Contain single-table startup failure, raise broken-parts bytes threshold, shard-attributed load logs (#12264)
 * Lazy-load primary key index to bound startup memory (#12250)
 * Migrate embedded CPython to 3.14 free-threaded + FT observability (#11852)
+* Harden timeplusd meta CLI and add offline database drop for outage remediation (#12300)
+* Add partition-scoped backup and additive fill restore to the stream tool (#12331)
 
 **Bug Fixes**
 * Decode pip output as UTF-8 instead of the locale encoding (#12293)
+* Fix Raft scheduler self-deadlock on rmu.mu when an outbound send hits QUEUE_IS_FULL (#12418) — a single slow or just-restarted peer could cause a healthy node's Raft workers to deadlock on their own lock, silently halting replication and leader election for every shard that node led until it was manually restarted.
+* Reject pausing a materialized view before its first pipeline build (#12328) — issuing SYSTEM PAUSE MATERIALIZED VIEW immediately after CREATE MATERIALIZED VIEW (as the app installer does) could permanently wedge a follower's metadata-apply thread, silently blocking all later replicated DDL on that node.
+* Recover trimmed Raft hard state from the durable checkpoint record (#12400)
+* Release historical parts once a streaming query has read them (#12375)
+* Retry a failed historical commit instead of wedging the committed sn (#12404)
+* Reset exec_mode for parallel-replica remote legs so materialized views over log external streams can start (#12373)
+* Fix checkpoint barrier loss in RemoteSource async-read path (#12326)
+* Make NativeLog fetch honor the caller's byte budget (#12350)
+* Rebuild secondary index for PK-subset index key columns (#12351)
+* Make SYSTEM STOP MERGES/MOVES cover every shard of a multi-shard stream (#12304)
+* Reject read-only and write-once disks in CREATE STORAGE POLICY (#12377)
+* Rewind idempotent keys when an inline historical commit fails (#12392)
+* Fix null idempotent keys after a schema switch inside a historical commit batch (#12406)
+* Fix NULL handling in nullable arg_min/arg_max: checkpoint recovery CORRUPTED_DATA and NULL vals in the state (#12407)
+* Parse creation query AST every time on provisioner retry, so a retried CREATE no longer carries a stale UUID (#12325)
+* Fix Kafka PEM file writer finalize (#12335)
 
 ### 3.3.1 {#3_3_1}
 Released on 08-01-2026. Installation options:
