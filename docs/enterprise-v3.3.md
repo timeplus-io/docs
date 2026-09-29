@@ -39,7 +39,7 @@ Component versions:
 
 #### Changelog {#changelog_3_3_3}
 
-This release consolidates timeplusd changes introduced since 3.3.1 (i.e., in 3.3.2 and 3.3.3). For changes already published in 3.3.1, see the [3.3.1 changelog](#changelog_3_3_1) below.
+This release consolidates timeplusd changes introduced since 3.3.1. For changes already published in 3.3.1, see the [3.3.1 changelog](#changelog_3_3_1) below.
 
 **Features and Enhancements**
 * Harden timeplusd meta CLI and add offline database drop for outage remediation (#12300)
