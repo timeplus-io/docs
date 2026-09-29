@@ -47,7 +47,7 @@ This release consolidates timeplusd changes introduced since 3.3.1 (i.e., in 3.3
 
 **Bug Fixes**
 * Fix Raft scheduler self-deadlock on rmu.mu when an outbound send hits QUEUE_IS_FULL (#12418). Impact: could halt replication and leader election cluster-wide until restarted.
-* Reject pausing a materialized view before its first pipeline build (#12328). Impact: could permanently wedge a node's DDL processing.
+* Reject pausing a materialized view before its first pipeline build (#12328). Impact: a `SYSTEM PAUSE MATERIALIZED VIEW` issued right after `CREATE MATERIALIZED VIEW` could block DDL processing on a node until it was restarted. Such a pause now fails with `RESOURCE_NOT_INITED` and can be retried.
 * Recover trimmed Raft hard state from the durable checkpoint record (#12400). Impact: a replica could fatal-abort on every startup after a hard reset.
 * Release historical parts once a streaming query has read them (#12375). Impact: obsolete parts were never cleaned up, growing disk usage.
 * Retry a failed historical commit instead of wedging the committed sn (#12404). Impact: one failed commit could freeze a shard and grow disk usage indefinitely.
