@@ -24,6 +24,45 @@ Key highlights of the Timeplus 3.3 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 3.3.3 {#3_3_3}
+Released on 09-29-2026. Installation options:
+* For Linux or Mac users: [Downloads](/release-downloads#3_3_3)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.3.3`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 13.0.7`
+
+Component versions:
+* timeplusd 3.3.3
+* timeplus_appserver 3.3.1
+* timeplus_connector 3.1.0
+* timeplus cli 3.0.0
+* timeplus byoc 1.0.1-rc.2
+
+#### Changelog {#changelog_3_3_3}
+
+This release consolidates timeplusd changes introduced since 3.3.1. For changes already published in 3.3.1, see the [3.3.1 changelog](#changelog_3_3_1) below.
+
+**Features and Enhancements**
+* Harden timeplusd meta CLI and add offline database drop for outage remediation (#12300)
+* Add partition-scoped backup and additive fill restore to the stream tool (#12331)
+
+**Bug Fixes**
+* Fix a Raft scheduler deadlock that occurred when an outbound send queue was full (#12418). Impact: could halt replication and leader election cluster-wide until restarted.
+* Reject pausing a materialized view before its first pipeline build (#12328). Impact: a `SYSTEM PAUSE MATERIALIZED VIEW` issued right after `CREATE MATERIALIZED VIEW` could block DDL processing on a node until it was restarted. Such a pause now fails with `RESOURCE_NOT_INITED` and can be retried.
+* Recover trimmed Raft hard state from the durable checkpoint record (#12400). Impact: a replica could fatal-abort on every startup after a hard reset.
+* Release historical parts once a streaming query has read them (#12375). Impact: outdated parts could not be deleted while the streaming query or materialized view that read them was running, growing disk usage.
+* Retry a failed historical commit instead of wedging the committed sn (#12404). Impact: one failed commit could freeze a shard and grow disk usage indefinitely.
+* Reset exec_mode for parallel-replica remote legs so materialized views over log external streams can start (#12373). Impact: such MVs could never start on a multi-node cluster.
+* Fix checkpoint barrier loss in RemoteSource async-read path (#12326). Impact: an MV could silently get stuck at its first checkpoint epoch forever.
+* Make NativeLog fetch honor the caller's byte budget (#12350). Impact: background polling could fetch up to 8192x more data than intended, risking OOM.
+* Fix secondary index rebuild on mutable streams when the index key columns are a subset of the primary key (#12351). Impact: `ALTER STREAM ... ADD INDEX` backfilled existing rows under empty index keys, so index queries missed old rows and empty-string lookups returned bogus matches.
+* Make SYSTEM STOP MERGES/MOVES cover every shard of a multi-shard stream (#12304). Impact: the command silently affected only the first shard.
+* `CREATE STORAGE POLICY` now rejects read-only and write-once (e.g. `s3_plain`) disks (#12377). Impact: TTL moves to such disks retried forever, causing massive redundant S3 writes. Existing storage policies are not re-validated on upgrade; if one uses a write-once disk, move it to a disk type that supports renames, such as `s3`.
+* Rewind idempotent keys when an inline historical commit fails (#12392). Impact: could cause permanent, silent data loss on commit failure.
+* Fix null idempotent keys after a schema switch inside a historical commit batch (#12406). Impact: could crash the whole server (no data loss).
+* Fix NULL handling in `arg_min`/`arg_max` over nullable columns (#12407). Impact: a NULL value could overwrite the aggregate result, and affected materialized views could fail checkpoint recovery with `CORRUPTED_DATA`.
+* Parse creation query AST every time on provisioner retry, so a retried CREATE no longer carries a stale UUID (#12325). Impact: a stale orphan directory could block cluster-wide schema creation.
+* Fix PEM files not being flushed to disk for Kafka, HTTP and Splunk HEC external streams (#12335). Impact: the CA or private key file could be written empty, breaking TLS connections.
+
 ### 3.3.1 {#3_3_1}
 Released on 08-01-2026. Installation options:
 * For Linux or Mac users: [Downloads](/release-downloads#3_3_1)
