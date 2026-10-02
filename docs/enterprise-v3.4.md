@@ -1,18 +1,18 @@
-# Timeplus Enterprise 3.3
+# Timeplus Enterprise 3.4
 
 ## Key Highlights
 
-For a detailed tour of the new features in this release, see [What's New in Timeplus Enterprise 3.3](/enterprise-v3.3-whats-new).
+For a detailed tour of the new features in this release, see [What's New in Timeplus Enterprise 3.4](/enterprise-v3.4-whats-new).
 
-Key highlights of the Timeplus 3.3 release include:
+Key highlights of the Timeplus 3.4 release include:
 
-1. New [**backup and recovery**](/enterprise-v3.3-whats-new#backup-recovery) capabilities: a stream tool for stream data recovery and backup/restore, sequence-aware backup and recovery controls, plus more resilient recovery paths with incremental commit replay and self-healing from torn WAL tails.
-2. Smarter [**cluster workload balancing**](/enterprise-v3.3-whats-new#cluster-rebalancing): stream-shard leader rebalancing and a reliable workload rebalancer for materialized views, with new `SYSTEM TRANSFER SCHED MATERIALIZED VIEW` / `SYSTEM REBALANCE SCHED MATERIALIZED VIEWS` commands and configurable scheduling policies.
-3. Major [**Python UDF**](/enterprise-v3.3-whats-new#python-udfs) upgrades: embedded CPython migrated to **3.14 free-threaded** with improved observability, UDF init hooks via SETTINGS, and automatic package reconciliation from S3-hosted requirements.txt.
-4. Faster and leaner [**startup and recovery**](/enterprise-v3.3-whats-new#startup-resilience): lazy-loaded primary key index to bound startup memory, memory-pressure interventions to prevent materialized-view reboot recovery storms, and containment of single-table startup failures.
-5. [**Streaming SQL enhancements**](/enterprise-v3.3-whats-new#streaming-sql): **streaming LEFT ANTI JOIN**, `SHUFFLE BY` propagation through CTE/subquery boundaries, shard pruning for IN-subqueries, and a new offsets-only checkpoint mode.
-6. Broad stability and correctness hardening across **Raft replication, checkpoints, mutable streams, Kafka sources, and memory accounting**.
-
+1. [**Tabby, the Timeplus Data Agent**](/enterprise-v3.4-whats-new#tabby-agent): a conversational data agent built into every workspace that explores your data, triages pipeline health, proposes and (with approval) runs DDL, writes its own Python/JavaScript UDFs, remembers facts across conversations, learns reusable "skills", runs standing instructions on a schedule, and connects to external tools via MCP. Works with OpenAI, Anthropic, and any compatible endpoint (including Amazon Bedrock).
+2. [**App Framework and App Marketplace**](/enterprise-v3.4-whats-new#app-framework): install, upgrade and manage ready-made real-time solutions — pipelines and dashboards bundled together — as self-contained `.tpapp` packages, browsable from a built-in catalog or built and published yourself.
+3. [**Core engine: new experimental index types**](/enterprise-v3.4-whats-new#core-engine): vector-similarity and full-text (inverted) indexes land in timeplusd for the first time, enabling semantic search and fast token search directly in the engine.
+4. [**Smarter tiered storage**](/enterprise-v3.4-whats-new#core-engine): merge-before-move and move-grace holding substantially reduce the number of small objects written to a cold/S3 storage tier under continuous streaming ingestion.
+5. [**Bounded primary-key index memory**](/enterprise-v3.4-whats-new#core-engine): a new per-stream cache limit evicts least-recently-used primary-key indexes, closing a memory growth path left open by 3.3's lazy index loading.
+6. [**Distributed query correctness fixes**](/enterprise-v3.4-whats-new#core-engine): `SETTINGS target_nodes` now works for ordinary historical queries, `count()` is no longer overcounted on co-located shards, and `SYSTEM STOP MERGES`/`MOVES` now covers every shard of a multi-shard stream.
+7. A long list of **replication, checkpoint and commit-path reliability fixes** closed out under sustained production load — Raft deadlock and recovery fixes, checkpoint barrier loss, failed-commit recovery and data-loss fixes, mutable stream fixes, and more.
 
 ## Supported OS {#os}
 |Deployment Type| OS |
@@ -24,106 +24,82 @@ Key highlights of the Timeplus 3.3 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 3.3.1 {#3_3_1}
-Released on 08-01-2026. Installation options:
-* For Linux or Mac users: [Downloads](/release-downloads#3_3_1)
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.3.1`
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 13.0.6`
+### 3.4.1 {#3_4_1}
+Released on 09-30-2026. Installation options:
+* For Linux or Mac users: [Downloads](/release-downloads) (the 3.4.1 entry is being added to the downloads page)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.4.1`
+* For Kubernetes users: see the [Timeplus Helm chart repository](https://github.com/timeplus-io/helm-charts) for the chart version tracking 3.4.1 (the chart's `enableAgent` toggle for Tabby is rolling out — check the chart's release notes before upgrading)
 
 Component versions:
-* timeplusd 3.3.1
-* timeplus_appserver 3.3.1
+* timeplusd 3.4.1
+* timeplus_appserver 3.4.1
 * timeplus_connector 3.1.0
-* timeplus cli 3.0.0
-* timeplus byoc 1.0.1-rc.2
+* timeplus cli 3.1.1
+* timeplus byoc 1.1.0-rc.0
 
-#### Changelog {#changelog_3_3_1}
+#### Changelog {#changelog_3_4_1}
 
-This release consolidates all timeplusd changes from 3.2.11 through 3.3.1.
+This release consolidates all timeplusd changes from 3.3.1 through 3.4.1, plus the first appserver release of Tabby, the Timeplus Data Agent, and the App Framework.
 
-**Features and Enhancements**
-* Add sequence-aware backup and recovery controls (#12274)
-* Enable SYSTEM STOP and START MOVES (#12270)
-* Add stream tool for stream data recovery and backup/restore (#12267)
-* Tolerate corrupted checkpoint lease and keep it renewed during recovery (#12266)
-* Contain single-table startup failure, raise broken-parts bytes threshold, shard-attributed load logs (#12264)
-* Lazy-load primary key index to bound startup memory (#12250)
-* Migrate embedded CPython to 3.14 free-threaded + FT observability (#11852)
-* Memory-pressure interventions for materialized-view reboot recovery storm (#12219)
-* MergeTree global merge settings (#12224)
-* Propagate SHUFFLE BY through CTE/subquery boundaries (#12129)
-* Stream-shard leader rebalancing — config + balancing core (#12204/#12215)
-* Reliable workload rebalancer for Raft materialized views + manual trigger (#12204/#12205)
-* Support Python UDF init hooks via SETTINGS (#12198)
-* SYSTEM TRANSFER SCHED MATERIALIZED VIEW (#12189/#12201)
-* SYSTEM REBALANCE SCHED MATERIALIZED VIEWS - manual rebalance trigger (#12200)
-* Schedule policy (#12196)
-* Reconcile Python UDF packages from S3-hosted requirements.txt (#12186/#12187)
-* Throttle repeated Kafka broker outage warnings (#12191/#12194)
-* Support flush hook in Python external stream sink (#12183/#12184)
-* Refine merge settings (#12178)
-* Prefer not to merge settings (#12161)
-* Add offsets-only checkpoint mode (#11753)
-* Enhance stall detection (#12074)
-* Enable shard pruning for IN-subquery and literal tuple-IN (#12139)
-* Support NATS NKey authentication (#12120)
-* Support streaming LEFT ANTI JOIN (#12119)
-* Support setting JWT and seed content in settings (#12116)
-* Block mutable stream secondary index creation for unsupported key expressions (#12113)
-* Refresh QueryScope per build to clear phantom memory_tracker amount (#12096)
-* Unblock metric tick from S3 LIST + TTL cache historical-store size (#12052)
-* Enable vertical merge for wide part (#12057)
+**Timeplus Appserver**
 
-**Bug Fixes**
-* Decode pip output as UTF-8 instead of the locale encoding (#12293)
-* Keep -1/+1 consecutive pair contiguous through the shard merge (#12234)
-* Stage pip into the Python asset so package install works (#12285)
-* Sync executor with upstream and back off merge selection after memory-limited failures (#12247)
-* Clamp negative low_sn to 0 when logging processed_sn fallback (#12277)
-* Fix SYSTEM STOP MERGES segfault on streams without local historical storage (#12268)
-* Bound hydrated bytes parked in shared storage fetch batches (#12262)
-* Fix silent data loss when Raft proposals are dropped during no-leader windows (#12260)
-* Fix JS UDF dictionary getValue/batchGetValues missing-key handling (#12253)
-* Fix stream recovery replay with incremental commits (#12251)
-* Stop torn-tail recovery from inverting a loglet (#12238)
-* Stop the historical-recovery OOM crash-loop at write, load, and recover (#12237)
-* Gate retention on a real applied-SN (#12228)
-* Rebind prefix-range slices after merge (#12230)
-* Reduce default TTL of high-frequency metric logs (#12226)
-* Override isReady() to gate materialized view builds on schema readiness (#12222)
-* Check attributes existence before JSON extraction (#12216)
-* Mitigate Protobuf map-entry issue for Confluent schema registry (#12211)
-* Manual rebalance trigger: immediate task is not a scheduling failure (#12208)
-* Deterministic per-stream tie-break to remove low-node-ID placement bias (#12207)
-* Use the shard's storage when listing active parts in system.parts (#12192, #12193)
-* Roll back torn WAL tail on partial write under ENOSPC (#12185)
-* Throw bad_alloc on failed ByteVector allocation instead of NULL dereference (#12181)
-* Suppress phantom changelog rows in multishard memory aggregation (#12162)
-* Restore data_version on StoragePolicyDescriptor deserialize (#12170)
-* Drop spurious "Profile counters are not set" warning (#12166)
-* Clone inner_query and serialize lazy semantic init (#12152)
-* EMIT ON UPDATE no longer drops updates when +1 partner is filtered to empty (#12126)
-* Direct join honors nullable left keys (#12143)
-* Enforce NAMED_COLLECTION access in settings merge (#12151)
-* Fix DROP DATABASE CASCADE failure when alerts exist (#12130, #12158)
-* Self-heal NativeLog replica from torn-WAL inconsistency instead of crash-looping (#12156)
-* Restore min_size_to_keep floor for metadata and checkpoint logs (#12137)
-* Make version_column + TTL safe (#11991)
-* Cap delayed write streams for parallel-write disks (#12123)
-* Background NativeLog commit no longer throws TOO_MANY_PARTS (#12112)
-* Skip filter and expression fusion when child carries substream-aware stateful functions (#12111)
-* Bump V8 and cherry-pick ARM64 64K-page fixes (#12105)
-* Apply proposed librdkafka fix for improved Kafka stability (#12103)
-* Fix Pulsar health check and ddl_index/named_collection issues (#12088)
-* Fix mutable stream file descriptor leak (#12093)
-* Align DNSResolver throw type with upstream (#12087)
-* Fix incorrect alert dependency tracking behavior (#12080)
-* Resolve Python interpreter symlinks recursively (#12081)
-* Fix Kafka client race between shutdown() and read() (#12078)
-* Fix mutable stream corruption after adding an index and rebooting (#12070)
-* Probe builtin views via system.stream_shards (#12047)
-* Retry on Poco::Exception in ReadBufferFromS3::nextImpl (#12041)
-* Fix hanging issue when recreating Kafka consumer (#12038)
-* Gate OTel external stream on USE_GRPC (#12032)
-* Fix data race in getting watermark (#12031)
+See [What's New in Timeplus Enterprise 3.4](/enterprise-v3.4-whats-new) for the full tour. Highlights:
+* Tabby, the Timeplus Data Agent — chat, SQL permission modes with human-in-the-loop approval, skills, cross-conversation memory, background tasks, MCP external tool connections, downloadable artifacts, and support for OpenAI/Anthropic-compatible models including Amazon Bedrock
+* App Framework — app marketplace/catalog, install/upgrade/uninstall lifecycle, per-app resource and dashboard management, and tooling to build and publish your own apps
 
+**timeplusd — Features and Enhancements**
+* Vector-similarity and full-text (inverted) index experiments (#12292)
+* Merge expired parts before no-merge TTL moves (#12269)
+* Hold fresh lone parts before no-merge TTL moves — `ttl_move_grace_seconds` (#12360)
+* Bound lazy-loaded primary key index memory — `primary_key_cache_max_bytes` (#12284)
+* Support historical table query on a specified node via `SETTINGS target_nodes` (#12344)
+* Restrict trivial `count()` to the shards requested by the query (#12357)
+* Make `SYSTEM STOP MERGES`/`MOVES` cover every shard of a multi-shard stream (#12304)
+* Apply merge selector limits to `OPTIMIZE STREAM PARTITION` without `FINAL` (#12367)
+* Reject read-only and write-once disks in `CREATE STORAGE POLICY` (#12377)
+* Stream tool: partition-scoped backup and additive fill restore (#12331)
+* Harden `timeplusd meta` CLI and add offline database drop (#12300)
+* Add consume schema strategy (single/all/raw) to decode Confluent messages with schema (#12294)
+* Upgrade `pulsar-client-cpp` to v4.2.0 (#12281)
+* Upgrade `contrib/avro` to decode negative array block counts (#12364)
+* Support historical table query on a specified node via `target_nodes` for log external streams and `system.timeplusd_log` (carried from 3.3)
+* Allow large operator-new allocations to throw `MEMORY_LIMIT_EXCEEDED` (ported from upstream) (#12355)
+* Use Iceberg database `storage_endpoint` for S3 URL (#12356)
+* Port New Analyzer/Planner from ClickHouse, part 1 (#12358)
+* Port proton OSS Iceberg S3 table support, part 1 (#12383)
+
+**timeplusd — Bug Fixes**
+* Reject pausing a materialized view before its first pipeline build (#12328)
+* Fix streaming `arg_min`/`arg_max` compile error for bfloat16 (#12334)
+* Fix file writer finalize (Kafka PEM file write) (#12335)
+* Fix checkpoint barrier loss in `RemoteSource` async-read path (#12326)
+* Fix container-overflow in `MergeTreeDataPartWriterOnDisk::cancel()` after skip indices are finalized (#12369)
+* Reset `exec_mode` for parallel-replica remote legs so materialized views over log external streams can start (#12373)
+* Rebuild secondary index for primary-key-subset index key columns (#12348, #12351)
+* Make NativeLog fetch honor the caller's byte budget (#12350)
+* Recover trimmed Raft hard state from the durable checkpoint record (#12382)
+* Fix Raft scheduler self-deadlock on outbound send backpressure (#12417)
+* Add negate method to `AggregateFunctionIf` for streaming retract semantics (#12243)
+* Keep storage policy tracked as in-use until deferred stream drop completes (#12390)
+* Fill absent `_tp_sn` so coalesced mutable inserts commit `_tp_time` correctly (#12391)
+* Treat `remote()` hosts that resolve to this server as local again (#12395)
+* Rewind idempotent keys when an inline historical commit fails (#12392)
+* Fix `CREATE STREAM ... AS SELECT` with an explicit column list, including a mutable-stream segfault (#12394)
+* Retry a failed historical commit instead of wedging the committed sequence number (#12404)
+* Refresh node memory total per heartbeat so runtime cgroup limit changes propagate (#12410)
+* Fix null idempotent keys after a schema switch inside a historical commit batch (#12406)
+* Fix NULL handling in nullable `arg_min`/`arg_max`: checkpoint recovery `CORRUPTED_DATA` and NULL values in the state (#12407)
+* Release historical parts once a streaming query has read them (#12375)
+* Parse creation query AST every time on provisioner retry (#12325)
+* Decode pip output as UTF-8 instead of the locale encoding (#12321)
+* Hide stray Parquet symbol (#12421)
+
+#### Upgrade notes {#upgrade_notes_3_4_1}
+
+See the full [Upgrade Notes table](/enterprise-v3.4-whats-new#upgrade-notes) in What's New for details. In short:
+* Tabby is enabled by default but inert until an admin configures an LLM endpoint; set `enable-agent: false` to hide it entirely.
+* If you configured Tabby before 3.4.11, check the "Max tokens" setting — it may still be at the old default of 1024.
+* Set `NEUTRON_ENCRYPTION_KEY` before saving Tabby's LLM credentials in production; re-enter the key once if you set this variable after already saving it.
+* Changelog materialized views using a nullable argument with `sum_if`/`count_if`/other `_if` aggregates need to be recreated after upgrading (checkpoint layout changed, #12243).
+* If you ever ran `MATERIALIZE INDEX ... WITH CLEAR` on a mutable stream whose secondary index key is a subset of the primary key, re-run it once after upgrading to purge bad entries written by the old bug (#12351).
+* Pulsar external streams must use a `pulsar+ssl://` URL to request TLS; a plain `pulsar://` URL with TLS settings no longer silently enables TLS.

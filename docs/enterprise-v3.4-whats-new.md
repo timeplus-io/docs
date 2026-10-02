@@ -12,7 +12,7 @@ Timeplus Enterprise 3.4 is Timeplus's first **agentic** release. It introduces *
 - **Build and share your own apps** — package streams, materialized views, UDFs and dashboards into a single `.tpapp` file with a declarative manifest; publish privately or to the community catalog.
 - **Core engine hardening** — experimental vector-similarity and full-text search indexes, smarter tiered-storage merge-before-move behavior, bounded primary-key index memory, distributed-query correctness fixes, and a long list of replication/checkpoint reliability fixes under sustained production load.
 
-## Upgrade Notes (read before upgrading)
+## Upgrade Notes (read before upgrading) {#upgrade-notes}
 
 | Change | Impact |
 | :---- | :---- |
