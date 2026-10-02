@@ -1,4 +1,4 @@
-# Timeplus Enterprise 3.3
+# Timeplus Enterprise 3.4
 
 ## Key Highlights
 
@@ -24,14 +24,14 @@ Key highlights of the Timeplus 3.3 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
-### 3.3.1 {#3_3_1}
-Released on 08-01-2026. Installation options:
-* For Linux or Mac users: [Downloads](/release-downloads#3_3_1)
-* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.3.1`
-* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 13.0.6`
+### 3.4.1 {#3_4_1}
+Released on 10-02-2026. Installation options:
+* For Linux or Mac users: [Downloads](/release-downloads#3_4_1)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.4.1`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 13.0.7`
 
 Component versions:
-* timeplusd 3.3.1
+* timeplusd 3.4.1
 * timeplus_appserver 3.3.1
 * timeplus_connector 3.1.0
 * timeplus cli 3.0.0
