@@ -10,6 +10,7 @@ Timeplus Enterprise 3.4 is Timeplus's first **agentic** release. It introduces *
 - **Bring your own LLM** — Tabby works with OpenAI, Anthropic, and any OpenAI- or Anthropic-compatible endpoint (self-hosted gateways, Ollama, vLLM, Amazon Bedrock), validated against two dozen+ frontier and open models.
 - **Extend the agent with external tools** — connect Tabby to your own HTTP-based tool servers (MCP) so it can act outside the workspace, with per-server approval policies.
 - **Build and share your own apps** — package streams, materialized views, UDFs and dashboards into a single `.tpapp` file with a declarative manifest; publish privately or to the community catalog.
+- **Core engine hardening** — experimental vector-similarity and full-text search indexes, smarter tiered-storage merge-before-move behavior, bounded primary-key index memory, distributed-query correctness fixes, and a long list of replication/checkpoint reliability fixes under sustained production load.
 
 ## Upgrade Notes (read before upgrading)
 
@@ -20,6 +21,9 @@ Timeplus Enterprise 3.4 is Timeplus's first **agentic** release. It introduces *
 | Tabby's LLM API key and any connected external-tool secrets are **encrypted at rest** | If you set the `NEUTRON_ENCRYPTION_KEY` environment variable for the first time after already saving an LLM key, the previously saved key cannot be recovered under the new encryption — re-enter it once after upgrading. Without this variable set, a built-in default key is used (fine for evaluation, not recommended for production credentials). |
 | The App Marketplace now points at Timeplus's **public catalog** by default | `GET /apps/available` fetches a public, Timeplus-hosted app index out of the box. Air-gapped or private deployments should point `--app-registry-url` at an internal catalog, or expect that endpoint to need outbound internet access. Installing an app directly from a local `.tpapp` file or a URL always works with no registry configured. |
 | Installed apps no longer get a `_tp_app_` database prefix | New installs create a database named exactly after the app's own `db_name`. No action needed for existing installs; this only affects naming going forward. |
+| Changelog materialized views using a nullable argument with `sum_if` / `count_if` / other `_if` aggregates | The internal checkpoint layout for these changed to fix an incorrect result (#12243). Existing checkpoints are not compatible — recreate any affected materialized view after upgrading. |
+| Streams written with idempotent insert ids and `MATERIALIZE INDEX ... WITH CLEAR` run on a mutable stream whose secondary index key is a subset of the primary key | A rebuild bug that wrote bad empty-key entries is fixed (#12351); if you ever ran that rebuild before upgrading, re-run `MATERIALIZE INDEX ... WITH CLEAR` once after upgrading to purge the bad entries. |
+| Pulsar external streams using inline TLS settings on a plain `pulsar://` URL | The vendored Pulsar client was upgraded; TLS must now be requested via a `pulsar+ssl://` service URL — a `pulsar://` URL with TLS settings now only logs a warning instead of silently enabling TLS. |
 
 ---
 
@@ -193,3 +197,63 @@ This makes it straightforward for a partner, a consulting team, or your own plat
 | App registry URL (`--app-registry-url`) | Timeplus's public catalog | Where the Console's catalog view fetches its list of installable apps from. Point this at a private, internally hosted index for air-gapped or security-sensitive deployments. |
 
 ---
+
+## 3\. Core Engine: Reliability, Storage and New Index Types {#core-engine}
+
+Alongside the two new appserver-level features, Timeplus Enterprise 3.4 carries forward a full release cycle of improvements to **timeplusd**, the core streaming SQL engine — spanning new experimental index types, smarter tiered-storage behavior, and a substantial list of correctness and reliability fixes found and closed out under real production load.
+
+### 3.1 Experimental vector-similarity and full-text search indexes (#12292)
+
+timeplusd gains two new index types, ported from upstream ClickHouse and adapted to Timeplus's streaming engine:
+
+- **Vector-similarity index** — speeds up nearest-neighbor search over vector/embedding columns, the building block for semantic search and RAG-style retrieval directly inside Timeplus.
+- **Full-text (inverted) index** — speeds up `has_token()`-style text search over string columns, without a full table scan.
+
+Both are **experimental** in 3.4: available to try, but not yet recommended as the primary access path for a production-critical query. A follow-up hardening fix (#12369) closed a crash found while validating the port, where dropping a table mid-merge while a text index was still finalizing on-disk could abort the server.
+
+### 3.2 Smarter tiered storage: merge-before-move and move-grace holding (#12269, #12360)
+
+Two related improvements make `TTL ... TO VOLUME/DISK` on a `prefer_not_to_merge` cold tier (typically S3) behave the way most operators already expect:
+
+- **Merge before move (#12269)**: when a batch of small parts becomes TTL-eligible to move to a cold volume, timeplusd now checks whether those parts can still be merged with a neighbor first. If they can, the merge runs through the normal merge scheduler and the (now larger, fewer) resulting parts move to the cold tier afterward — instead of each small part being uploaded to S3 individually. Parts that genuinely have no merge partner move immediately as before, and disk-pressure evacuation always takes priority over waiting for a merge.
+- **Move-grace holding (#12360)**: a new stream setting, `ttl_move_grace_seconds` (default 300), additionally holds a *lone* part — one with no current merge partner — for a short grace window before moving it, in case a merge partner shows up moments later from continued ingestion. This specifically helps steady, small-batch streaming ingestion into an already-expired TTL window, which previously moved every single small part to the cold tier as soon as it landed.
+
+Net effect: fewer, larger objects land in cold/object storage, which means fewer PUT requests and better compression — without changing how `prefer_not_to_merge` or TTL moves are configured.
+
+### 3.3 Primary-key index memory is now boundable (#12284)
+
+Building on 3.3's lazy-loaded primary key indexes, 3.4 adds a new per-stream setting, `primary_key_cache_max_bytes`, that caps how much memory loaded primary-key indexes are allowed to hold at once. Once the cap is exceeded, the least-recently-used indexes are evicted in batches and transparently reloaded the next time they're needed — closing the gap where a stream with many parts and a high-cardinality primary key could otherwise grow its resident index memory unbounded after 3.3's lazy loading. The default (`0`) preserves the previous unlimited behavior; set it explicitly at `CREATE STREAM` time to bound it (it cannot be changed later via `ALTER STREAM`).
+
+### 3.4 Distributed query correctness fixes (#12344, #12357, #12304)
+
+Three fixes tighten up how queries behave on multi-shard and multi-node deployments:
+
+- **Query a specific node's data directly** — `SELECT ... FROM table(my_stream) SETTINGS target_nodes='<node_id>'` now works for ordinary historical queries (previously this setting only applied to log level changes and log introspection), making it straightforward to inspect exactly what one node currently holds.
+- **Fixed: `count()` could be badly overcounted on multi-shard streams.** When several shards of the same stream were co-located on one node, a plain `SELECT count()` could return the total across all co-located shards multiple times over — now `count()` is correctly restricted to just the shards the query actually asked for.
+- **Fixed: `SYSTEM STOP MERGES` / `SYSTEM STOP MOVES` on a multi-shard stream only stopped the first shard.** Both commands now apply to every shard of the stream on that node, matching what most operators already assumed.
+
+### 3.5 Operational and tooling improvements
+
+- **`timeplusd stream` tool gains partition-scoped repair** (#12331): beyond the full stream backup/restore introduced in 3.3, the offline stream tool can now back up and restore **individual partitions** of a replica (`backup --partition`), additively filling just the missing partitions on a damaged replica without touching the rest of its data — with the same safety guarantees (pre-fill data is stashed, a sequence-number guard prevents corrupting committed state, and `revert` undoes a fill cleanly).
+- **Hardened offline recovery CLI** (`timeplusd meta`) (#12300): the last-resort tool for inspecting and repairing the metadata store when the server won't start no longer crashes on malformed input, now supports deleting an entire broken database offline (previously impossible once a database's files were already gone from disk), and every destructive action requires explicit confirmation with a clear exit-code contract.
+- **Confluent Schema Registry: configurable multi-schema consumption** (#12294): a new external stream setting, `consume_schema_strategy` (`single` / `all` / `raw`), controls how messages are decoded when a Kafka topic carries more than one Avro schema via Confluent's registry.
+- **Pulsar client upgraded to 4.2.0** (#12281): fixes a bug where a failed seek (for example to a checkpoint position already trimmed by topic retention) was silently reported as successful, which could mask a consumer that stopped making progress. TLS must now be requested with a `pulsar+ssl://` URL (see Upgrade Notes).
+- **Avro decoding hardened** (#12364): long Avro arrays/maps split into multiple blocks (as produced by some Java encoders) now decode correctly instead of failing with a negative-length error; a related crash decoding Avro data submitted directly over HTTP (outside of Kafka) is also fixed.
+
+### 3.6 Reliability fixes under production load
+
+The majority of this release's engine effort went into closing out correctness and availability issues found operating multi-node clusters under real workloads — the kind of fix that doesn't change a single SQL statement's behavior but materially improves uptime:
+
+- **Replication and consensus (Raft)**: fixed a self-deadlock where a slow or unresponsive peer could freeze replication and leader elections for every shard a node led, recoverable only by a restart (#12417); fixed a crash-on-start after an unclean shutdown where the persisted Raft state and the durable log disagreed on what had been committed (#12382).
+- **Checkpointing**: fixed a bug where a materialized view's checkpoint "barrier" could be silently dropped on Linux's async read path, leaving the view's checkpoint permanently stuck in-progress with no error ever surfaced (#12326).
+- **Commit path durability**: fixed a case where a failed commit to historical storage (for example during a transient memory or disk pressure spike) could permanently freeze a shard's committed position, causing unbounded log retention until a restart — the engine now retries automatically instead (#12404); fixed a related server crash after a schema change (`ALTER STREAM`) landed in the same flush window as idempotent writes (#12406); fixed permanent data loss where records from a failed commit were later re-fetched and incorrectly discarded as duplicates (#12392).
+- **Mutable streams**: fixed incorrect timestamps and silently dropped columns on certain inserts into "coalesced" mutable streams (#12391).
+- **Resource cleanup**: fixed a storage-policy / stream-drop race that could leave a dropped stream's data directory behind on disk forever (#12390); fixed streaming queries and materialized views pinning historical data parts indefinitely, preventing their cleanup even after the data expired or was merged away (#12375).
+- **`CREATE STREAM ... AS SELECT`**: fixed a class of failures and a silent-default bug when creating a stream directly from a `SELECT`, including a server crash on the mutable-stream variant (#12394).
+- **Materialized views over log streams**: fixed materialized views over internal log streams (e.g. `system.timeplusd_err_log`) failing to ever start on multi-node clusters (#12373).
+- **`remote()` table function**: fixed queries using `remote()` to point at the server's own address incorrectly running as a remote connection instead of locally, which could cause spurious access-denied errors and incorrect `GLOBAL IN` results (#12395).
+- **Storage policy safety**: `CREATE STORAGE POLICY` now rejects read-only or write-once disk types (e.g. `s3_plain`) that cannot support TTL/tiering moves, closing off a misconfiguration that could otherwise cause runaway, repeated re-uploads of the same data (#12377).
+- **`OPTIMIZE STREAM ... PARTITION`**: now respects the same merge-size and merge-count limits as a regular merge when `FINAL` is not specified, instead of unconditionally merging an entire partition in one pass (#12367).
+
+---
+
