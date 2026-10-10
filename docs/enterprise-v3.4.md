@@ -26,7 +26,7 @@ We recommend using stable releases for production deployment. Engineering builds
 
 ### 3.4.1 {#3_4_1}
 Released on 09-30-2026. Installation options:
-* For Linux or Mac users: [Downloads](/release-downloads) (the 3.4.1 entry is being added to the downloads page)
+* For Linux or Mac users: [Downloads](/release-downloads#3_4_1)
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.4.1`
 * For Kubernetes users: see the [Timeplus Helm chart repository](https://github.com/timeplus-io/helm-charts) for the chart version tracking 3.4.1 (the chart's `enableAgent` toggle for Tabby is rolling out — check the chart's release notes before upgrading)
 
