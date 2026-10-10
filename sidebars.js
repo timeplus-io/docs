@@ -992,6 +992,21 @@ const sidebars = {
       items: [
         {
           type: "category",
+          label: "Timeplus Enterprise 3.4",
+          link: {
+            type: "doc",
+            id: "enterprise-v3.4",
+          },
+          items: [
+            {
+              type: "doc",
+              id: "enterprise-v3.4-whats-new",
+              label: "What's New in 3.4",
+            },
+          ],
+        },
+        {
+          type: "category",
           label: "Timeplus Enterprise 3.3",
           link: {
             type: "doc",

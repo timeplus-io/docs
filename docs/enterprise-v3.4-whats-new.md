@@ -16,10 +16,10 @@ Timeplus Enterprise 3.4 is Timeplus's first **agentic** release. It introduces *
 
 | Change | Impact |
 | :---- | :---- |
-| Tabby is **enabled by default** after upgrading | The agent's chat routes, floating panel, and the "Tabby Agent" settings tab appear automatically. Nothing is created inside your workspace and no LLM calls are made until an admin saves an LLM endpoint under Settings → Tabby Agent. Set `enable-agent: false` to hide the feature entirely if you are not ready to adopt it. |
-| Tenants that configured Tabby on an **engineering build before 3.4.11** may have a saved response-length limit (`max_tokens`) of 1024 | That low limit now causes longer answers to cut off sooner than most admins expect. If you configured Tabby before upgrading, open Settings → Tabby Agent and raise "Max tokens" — the stored value is kept as-is across the upgrade for safety, it is not auto-raised. |
-| Tabby's LLM API key and any connected external-tool secrets are **encrypted at rest** | If you set the `NEUTRON_ENCRYPTION_KEY` environment variable for the first time after already saving an LLM key, the previously saved key cannot be recovered under the new encryption — re-enter it once after upgrading. Without this variable set, a built-in default key is used (fine for evaluation, not recommended for production credentials). |
-| The App Marketplace now points at Timeplus's **public catalog** by default | `GET /apps/available` fetches a public, Timeplus-hosted app index out of the box. Air-gapped or private deployments should point `--app-registry-url` at an internal catalog, or expect that endpoint to need outbound internet access. Installing an app directly from a local `.tpapp` file or a URL always works with no registry configured. |
+| Tabby is **enabled by default** after upgrading | The agent's chat routes, floating panel, and the "Tabby Agent" settings tab appear automatically. Nothing is created inside your workspace and no LLM calls are made until an admin saves an LLM endpoint under Settings → Tabby Agent. Set `enable-agent: false` in the appserver's `config.yaml` (see [server configuration](/server_config#appserver)) to hide the feature entirely if you are not ready to adopt it. |
+| Tenants that configured Tabby on an **engineering build before 3.4.11** may have a saved response-length limit (`max_tokens`) of 1024 | That low limit now causes longer answers to cut off sooner than most admins expect (the default was raised to 8192 in build 3.4.11). If you configured Tabby before upgrading, open Settings → Tabby Agent and raise "Max tokens" — the stored value is kept as-is across the upgrade for safety, it is not auto-raised. |
+| Tabby's LLM API key and any connected external-tool secrets are **encrypted at rest** | If you set the `NEUTRON_ENCRYPTION_KEY` environment variable for the appserver process for the first time after already saving an LLM key, the previously saved key cannot be recovered under the new encryption — re-enter it once after upgrading. Without this variable set, a built-in default key is used (fine for evaluation, not recommended for production credentials). On the Helm chart, set this via `timeplusAppserver.encryptionKey` or `timeplusAppserver.existingEncryptionKeySecret`. |
+| The App Marketplace now points at Timeplus's **public catalog** by default | `GET /apps/available` fetches a public, Timeplus-hosted app index out of the box. Air-gapped or private deployments should point the appserver's `app-registry-url` config.yaml setting (or `--app-registry-url` flag) at an internal catalog, or expect that endpoint to need outbound internet access. Installing an app directly from a local `.tpapp` file or a URL always works with no registry configured. |
 | Installed apps no longer get a `_tp_app_` database prefix | New installs create a database named exactly after the app's own `db_name`. No action needed for existing installs; this only affects naming going forward. |
 | Changelog materialized views using a nullable argument with `sum_if` / `count_if` / other `_if` aggregates | The internal checkpoint layout for these changed to fix an incorrect result (#12243). Existing checkpoints are not compatible — recreate any affected materialized view after upgrading. |
 | Streams written with idempotent insert ids and `MATERIALIZE INDEX ... WITH CLEAR` run on a mutable stream whose secondary index key is a subset of the primary key | A rebuild bug that wrote bad empty-key entries is fixed (#12351); if you ever ran that rebuild before upgrading, re-run `MATERIALIZE INDEX ... WITH CLEAR` once after upgrading to purge the bad entries. |
@@ -124,7 +124,7 @@ Timeplus validated Tabby against a broad sweep of current models on Amazon Bedro
 
 ### 1.12 Security and governance, at a glance
 
-- Off switch: `enable-agent: false` removes Tabby's routes, background processing and UI entirely.
+- Off switch: `enable-agent: false` in the appserver's `config.yaml` removes Tabby's routes, background processing and UI entirely.
 - Every tool runs as the authenticated user — Tabby can never see or do more than that person already could in Timeplus.
 - Writes are gated by the admin-chosen permission level; in approval mode, nothing runs without a click, and a declined action is never retried silently.
 - Your LLM API key and any external-tool secrets are encrypted at rest.
@@ -202,7 +202,7 @@ This makes it straightforward for a partner, a consulting team, or your own plat
 
 Alongside the two new appserver-level features, Timeplus Enterprise 3.4 carries forward a full release cycle of improvements to **timeplusd**, the core streaming SQL engine — spanning new experimental index types, smarter tiered-storage behavior, and a substantial list of correctness and reliability fixes found and closed out under real production load.
 
-### 3.1 Experimental vector-similarity and full-text search indexes (#12292)
+### 3.1 Experimental vector-similarity and full-text search indexes (#12292) {#vector-fulltext-indexes}
 
 timeplusd gains two new index types, ported from upstream ClickHouse and adapted to Timeplus's streaming engine:
 
@@ -211,7 +211,7 @@ timeplusd gains two new index types, ported from upstream ClickHouse and adapted
 
 Both are **experimental** in 3.4: available to try, but not yet recommended as the primary access path for a production-critical query. A follow-up hardening fix (#12369) closed a crash found while validating the port, where dropping a table mid-merge while a text index was still finalizing on-disk could abort the server.
 
-### 3.2 Smarter tiered storage: merge-before-move and move-grace holding (#12269, #12360)
+### 3.2 Smarter tiered storage: merge-before-move and move-grace holding (#12269, #12360) {#tiered-storage}
 
 Two related improvements make `TTL ... TO VOLUME/DISK` on a `prefer_not_to_merge` cold tier (typically S3) behave the way most operators already expect:
 
@@ -220,11 +220,11 @@ Two related improvements make `TTL ... TO VOLUME/DISK` on a `prefer_not_to_merge
 
 Net effect: fewer, larger objects land in cold/object storage, which means fewer PUT requests and better compression — without changing how `prefer_not_to_merge` or TTL moves are configured.
 
-### 3.3 Primary-key index memory is now boundable (#12284)
+### 3.3 Primary-key index memory is now boundable (#12284) {#primary-key-index-memory}
 
 Building on 3.3's lazy-loaded primary key indexes, 3.4 adds a new per-stream setting, `primary_key_cache_max_bytes`, that caps how much memory loaded primary-key indexes are allowed to hold at once. Once the cap is exceeded, the least-recently-used indexes are evicted in batches and transparently reloaded the next time they're needed — closing the gap where a stream with many parts and a high-cardinality primary key could otherwise grow its resident index memory unbounded after 3.3's lazy loading. The default (`0`) preserves the previous unlimited behavior; set it explicitly at `CREATE STREAM` time to bound it (it cannot be changed later via `ALTER STREAM`).
 
-### 3.4 Distributed query correctness fixes (#12344, #12357, #12304)
+### 3.4 Distributed query correctness fixes (#12344, #12357, #12304) {#distributed-query-fixes}
 
 Three fixes tighten up how queries behave on multi-shard and multi-node deployments:
 
@@ -254,6 +254,3 @@ The majority of this release's engine effort went into closing out correctness a
 - **`remote()` table function**: fixed queries using `remote()` to point at the server's own address incorrectly running as a remote connection instead of locally, which could cause spurious access-denied errors and incorrect `GLOBAL IN` results (#12395).
 - **Storage policy safety**: `CREATE STORAGE POLICY` now rejects read-only or write-once disk types (e.g. `s3_plain`) that cannot support TTL/tiering moves, closing off a misconfiguration that could otherwise cause runaway, repeated re-uploads of the same data (#12377).
 - **`OPTIMIZE STREAM ... PARTITION`**: now respects the same merge-size and merge-count limits as a regular merge when `FINAL` is not specified, instead of unconditionally merging an entire partition in one pass (#12367).
-
----
-

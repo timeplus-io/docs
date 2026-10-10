@@ -8,10 +8,10 @@ Key highlights of the Timeplus 3.4 release include:
 
 1. [**Tabby, the Timeplus Data Agent**](/enterprise-v3.4-whats-new#tabby-agent): a conversational data agent built into every workspace that explores your data, triages pipeline health, proposes and (with approval) runs DDL, writes its own Python/JavaScript UDFs, remembers facts across conversations, learns reusable "skills", runs standing instructions on a schedule, and connects to external tools via MCP. Works with OpenAI, Anthropic, and any compatible endpoint (including Amazon Bedrock).
 2. [**App Framework and App Marketplace**](/enterprise-v3.4-whats-new#app-framework): install, upgrade and manage ready-made real-time solutions — pipelines and dashboards bundled together — as self-contained `.tpapp` packages, browsable from a built-in catalog or built and published yourself.
-3. [**Core engine: new experimental index types**](/enterprise-v3.4-whats-new#core-engine): vector-similarity and full-text (inverted) indexes land in timeplusd for the first time, enabling semantic search and fast token search directly in the engine.
-4. [**Smarter tiered storage**](/enterprise-v3.4-whats-new#core-engine): merge-before-move and move-grace holding substantially reduce the number of small objects written to a cold/S3 storage tier under continuous streaming ingestion.
-5. [**Bounded primary-key index memory**](/enterprise-v3.4-whats-new#core-engine): a new per-stream cache limit evicts least-recently-used primary-key indexes, closing a memory growth path left open by 3.3's lazy index loading.
-6. [**Distributed query correctness fixes**](/enterprise-v3.4-whats-new#core-engine): `SETTINGS target_nodes` now works for ordinary historical queries, `count()` is no longer overcounted on co-located shards, and `SYSTEM STOP MERGES`/`MOVES` now covers every shard of a multi-shard stream.
+3. [**Core engine: new experimental index types**](/enterprise-v3.4-whats-new#vector-fulltext-indexes): vector-similarity and full-text (inverted) indexes land in timeplusd for the first time, enabling semantic search and fast token search directly in the engine.
+4. [**Smarter tiered storage**](/enterprise-v3.4-whats-new#tiered-storage): merge-before-move and move-grace holding substantially reduce the number of small objects written to a cold/S3 storage tier under continuous streaming ingestion.
+5. [**Bounded primary-key index memory**](/enterprise-v3.4-whats-new#primary-key-index-memory): a new per-stream cache limit evicts least-recently-used primary-key indexes, closing a memory growth path left open by 3.3's lazy index loading.
+6. [**Distributed query correctness fixes**](/enterprise-v3.4-whats-new#distributed-query-fixes): `SETTINGS target_nodes` now works for ordinary historical queries, `count()` is no longer overcounted on co-located shards, and `SYSTEM STOP MERGES`/`MOVES` now covers every shard of a multi-shard stream.
 7. A long list of **replication, checkpoint and commit-path reliability fixes** closed out under sustained production load — Raft deadlock and recovery fixes, checkpoint barrier loss, failed-commit recovery and data-loss fixes, mutable stream fixes, and more.
 
 ## Supported OS {#os}
@@ -25,10 +25,10 @@ Key highlights of the Timeplus 3.4 release include:
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
 ### 3.4.1 {#3_4_1}
-Released on 09-30-2026. Installation options:
+Released on 10-02-2026. Installation options:
 * For Linux or Mac users: [Downloads](/release-downloads#3_4_1)
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.4.1`
-* For Kubernetes users: see the [Timeplus Helm chart repository](https://github.com/timeplus-io/helm-charts) for the chart version tracking 3.4.1 (the chart's `enableAgent` toggle for Tabby is rolling out — check the chart's release notes before upgrading)
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 14.0.0`. This chart version does not yet expose a dedicated `enableAgent` toggle for Tabby — Tabby ships enabled by default at the appserver level, matching bare-metal/Docker installs; a chart-level toggle is tracked in [helm-charts#32](https://github.com/timeplus-io/helm-charts/pull/32) and not yet merged.
 
 Component versions:
 * timeplusd 3.4.1
@@ -52,7 +52,7 @@ See [What's New in Timeplus Enterprise 3.4](/enterprise-v3.4-whats-new) for the 
 * Merge expired parts before no-merge TTL moves (#12269)
 * Hold fresh lone parts before no-merge TTL moves — `ttl_move_grace_seconds` (#12360)
 * Bound lazy-loaded primary key index memory — `primary_key_cache_max_bytes` (#12284)
-* Support historical table query on a specified node via `SETTINGS target_nodes` (#12344)
+* Support historical table query on a specified node via `SETTINGS target_nodes` for ordinary queries, as well as for log external streams and `system.timeplusd_log` (#12344)
 * Restrict trivial `count()` to the shards requested by the query (#12357)
 * Make `SYSTEM STOP MERGES`/`MOVES` cover every shard of a multi-shard stream (#12304)
 * Apply merge selector limits to `OPTIMIZE STREAM PARTITION` without `FINAL` (#12367)
@@ -62,7 +62,6 @@ See [What's New in Timeplus Enterprise 3.4](/enterprise-v3.4-whats-new) for the 
 * Add consume schema strategy (single/all/raw) to decode Confluent messages with schema (#12294)
 * Upgrade `pulsar-client-cpp` to v4.2.0 (#12281)
 * Upgrade `contrib/avro` to decode negative array block counts (#12364)
-* Support historical table query on a specified node via `target_nodes` for log external streams and `system.timeplusd_log` (carried from 3.3)
 * Allow large operator-new allocations to throw `MEMORY_LIMIT_EXCEEDED` (ported from upstream) (#12355)
 * Use Iceberg database `storage_endpoint` for S3 URL (#12356)
 * Port New Analyzer/Planner from ClickHouse, part 1 (#12358)
@@ -97,8 +96,8 @@ See [What's New in Timeplus Enterprise 3.4](/enterprise-v3.4-whats-new) for the 
 #### Upgrade notes {#upgrade_notes_3_4_1}
 
 See the full [Upgrade Notes table](/enterprise-v3.4-whats-new#upgrade-notes) in What's New for details. In short:
-* Tabby is enabled by default but inert until an admin configures an LLM endpoint; set `enable-agent: false` to hide it entirely.
-* If you configured Tabby before 3.4.11, check the "Max tokens" setting — it may still be at the old default of 1024.
+* Tabby is enabled by default but inert until an admin configures an LLM endpoint; set `enable-agent: false` in the appserver's `config.yaml` to hide it entirely.
+* If you configured Tabby before engineering build 3.4.11, check the "Max tokens" setting — it may still be at the old default of 1024.
 * Set `NEUTRON_ENCRYPTION_KEY` before saving Tabby's LLM credentials in production; re-enter the key once if you set this variable after already saving it.
 * Changelog materialized views using a nullable argument with `sum_if`/`count_if`/other `_if` aggregates need to be recreated after upgrading (checkpoint layout changed, #12243).
 * If you ever ran `MATERIALIZE INDEX ... WITH CLEAR` on a mutable stream whose secondary index key is a subset of the primary key, re-run it once after upgrading to purge bad entries written by the old bug (#12351).
