@@ -46,7 +46,7 @@ EMIT [STREAM|CHANGELOG|DELTA]
  [AFTER SESSION CLOSE [IDENTIFIED BY <col> | (<ts_col>, <start_col>, <end_col>)] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]]
 ```
 
-You can only choose one of the emit policies: `PERIODIC`, `ON UPDATE`, `PER EVENT`, or `AFTER SESSION CLOSE`. `AFTER KEY EXPIRE` is an alias of `AFTER SESSION CLOSE`.
+You can only choose one of the emit policies: `PERIODIC`, `ON UPDATE`, `PER EVENT`, or `AFTER SESSION CLOSE`.
 
 By default `EMIT STREAM` and `PERIODIC 2s` are applied. Advanced settings:
 * `EMIT CHANGELOG` works for [global aggregations](/streaming-query#global-aggregation) and [non-aggregation tail/filter](/streaming-query#non-aggregation). It will output `+1` or `-1` for `_tp_delta` column. For non-aggregation queries, the source needs to be a [mutable stream](/mutable-stream) or a [changelog stream](/changelog-stream).
@@ -214,18 +214,19 @@ GROUP BY
 EMIT ON UPDATE WITH BATCH 2s
 ```
 
-### EMIT AFTER KEY EXPIRE IDENTIFIED BY .. WITH MAXSPAN .. AND TIMEOUT .. {#emit_after_key_expire}
-This emit policy is introduced in Timeplus Enterprise 2.8.4. Please watch the presentation from 2.9 launch webinar:
+### EMIT AFTER SESSION CLOSE IDENTIFIED BY .. WITH MAXSPAN .. AND TIMEOUT .. {#emit_after_session_close}
+This emit policy is introduced in Timeplus Enterprise 2.8.4 as `EMIT AFTER KEY EXPIRE`, and renamed to `EMIT AFTER SESSION CLOSE` in Timeplus Enterprise 3.0. `EMIT AFTER KEY EXPIRE` is still supported as an alias. Please watch the presentation from 2.9 launch webinar:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qDauSMTf0vU?si=V-menfV1qY-aU4ab&amp;start=1150" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 The syntax is:
 ```sql
-EMIT AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]
+EMIT AFTER SESSION CLOSE [IDENTIFIED BY <col> | (<ts_col>, <start_col>, <end_col>)] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]
 ```
 
 Note:
-* `EMIT AFTER KEY EXPIRE` will emit results when the keys are expired. This EMIT policy ought to be applied to a global aggregation with a primary key as `GROUP BY`, usually using an ID for multiple tracing events.
+* `EMIT AFTER SESSION CLOSE` will emit results when the session of the key is closed. This EMIT policy ought to be applied to a global aggregation with a primary key as `GROUP BY`, usually using an ID for multiple tracing events.
 * `IDENTIFIED BY col` will calculate the span of the trace, usually you can set `IDENTIFIED BY _tp_time`.
+* `IDENTIFIED BY (ts_col, start_col, end_col)` uses boolean columns to mark the start and end of a session. [Learn more](/global-aggregation#emit-after-session-close)
 * `MAXSPAN interval` to identify whether the span of the related events over a certain interval, for example `MAXSPAN 500ms` to flag those events with same tracing ID but over 0.5 second span.
 * `ONLY`: if you add this keyword, then only those events over the `MAXSPAN` will be emitted, other events less than the `MAXSPAN` will be omitted, so that you can focus on those events over the SLA.
 * `AND TIMEOUT interval` to avoid waiting for late events for too long. After this interval (wall clock time) since the first event of the key (e.g. tracing ID), Timeplus will close the session for the key and emit results.
@@ -243,7 +244,7 @@ WITH grouped AS(
         group_array(json_encode(span_id, parent_span_id, name, start_time, end_time, attributes)) AS trace_events
     FROM otel_traces
     GROUP BY trace_id
-    EMIT AFTER KEY EXPIRE IDENTIFIED BY end_time WITH MAXSPAN 500ms AND TIMEOUT 2s
+    EMIT AFTER SESSION CLOSE IDENTIFIED BY end_time WITH MAXSPAN 500ms AND TIMEOUT 2s
 )
 SELECT json_encode(trace_id, start_ts, end_ts, span_ms, trace_events) AS event FROM grouped
 SETTINGS default_hash_table='hybrid', max_hot_keys=1000000, allow_independent_shard_processing=true;
