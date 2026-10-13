@@ -540,7 +540,7 @@ After each periodic emit, Timeplus **clears the aggregation states**, so the nex
 **Syntax**:
 
 ```sql
-EMIT DELTA [PERIODIC <n><UNIT>]
+EMIT DELTA [PERIODIC <interval>]
 ```
 
 The default periodic interval is **2 seconds**.
