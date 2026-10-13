@@ -182,6 +182,8 @@ This query checks for changes every second and emits results only when updates o
 
 ### `EMIT AFTER SESSION CLOSE`
 
+This emit policy is available in Timeplus Enterprise 3.0 or later, and Timeplus Proton 3.0.12 or later.
+
 Designed for **sessionization**, **OpenTelemetry trace analysis** and other similar use cases where you need to track **session lifetimes** across high-cardinality datasets (e.g., trace spans).
 
 This policy emits aggregation results once a session is considered **closed** or **expired**.
@@ -192,7 +194,7 @@ This policy emits aggregation results once a session is considered **closed** or
 EMIT AFTER SESSION CLOSE
   [IDENTIFIED BY (<ts_col>[, <session_start_col>, <session_end_col>])]
   WITH [ONLY] MAXSPAN <interval>
-  AND TIMEOUT <interval>
+  [AND TIMEOUT <interval>]
 ```
 
 **Parameters**:
@@ -535,6 +537,8 @@ This ensures that downstream consumers (such as materialized views or connectors
 
 ### `EMIT DELTA`
 
+This emit policy is available in Timeplus Enterprise 2.6.5 or later, and Timeplus Proton 3.0.1 or later.
+
 By default, global aggregation emits the **accumulated** results of all events since the query started. The `EMIT DELTA` clause instead emits the results of only the events received **since the last emit**: after each periodic emit, Timeplus clears the aggregation states, and the next emit only contains the keys which receive new events in the interval.
 
 This is useful when the downstream only needs the per-interval increments, for example, sending per-interval counts to an external system which accumulates them by itself. Since the aggregation states are cleared after each emit, the memory usage is bounded by the number of keys in one interval instead of all keys in the stream's history.
@@ -580,7 +584,7 @@ INSERT INTO device_metrics(device, cpu_usage) VALUES ('dev1', 50.9);
 - The second emit only contains `dev1`, and its `cnt` and `max_cpu` are calculated only from the event received in the second interval. With `EMIT PERIODIC 5s`, the second emit would be `dev2, 1, 30.5` and `dev1, 2, 57.8`.
 
 **Notes**
-- `EMIT DELTA` only works for global aggregations. It is not supported for [tumble](/tumble-aggregation), [hop](/hop-aggregation) or [session](/session-aggregation) window aggregations, and takes no effect for non-aggregation queries.
+- `EMIT DELTA` only works for global aggregations. It is not supported for [tumble](/tumble-aggregation), [hop](/hop-aggregation) or [session](/session-aggregation) window aggregations, or non-aggregation queries.
 - `EMIT DELTA` takes no effect with `ON UPDATE`, `ON UPDATE WITH BATCH`, `PER EVENT` or `AFTER SESSION CLOSE`.
 - Since the aggregation states are cleared after each emit, `REPEAT` doesn't re-emit previous results.
 - `EMIT DELTA` and `EMIT CHANGELOG` can't be used together.

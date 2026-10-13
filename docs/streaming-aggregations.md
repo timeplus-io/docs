@@ -43,7 +43,7 @@ EMIT [STREAM|CHANGELOG|DELTA]
  [PERIODIC <interval> [REPEAT]]
  [ON UPDATE [WITH BATCH <interval>] ]
  [PER EVENT]
- [AFTER SESSION CLOSE [IDENTIFIED BY <col> | (<ts_col>, <start_col>, <end_col>)] WITH [ONLY] MAXSPAN <interval> AND TIMEOUT <interval>]
+ [AFTER SESSION CLOSE [IDENTIFIED BY <col> | (<ts_col>, <start_col>, <end_col>)] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]]
 ```
 
 You can only choose one of the emit policies: `PERIODIC`, `ON UPDATE`, `PER EVENT`, or `AFTER SESSION CLOSE`. `AFTER KEY EXPIRE` is an alias of `AFTER SESSION CLOSE`.
@@ -157,7 +157,7 @@ EMIT PERIODIC 1s
 ```
 
 ### EMIT PERIODIC REPEAT {#emit_periodic_repeat}
-Starting from Timeplus Proton 1.6.2, you can optionally add `REPEAT` to the end of `EMIT PERIODIC <n><UNIT>`. For global aggregations, by default every 2 seconds, the aggregation result will be emitted. But if there is no new event since last emit, no result will be emitted. With the `REPEAT` at the end of the emit policy, Timeplus will emit results at the fixed interval, even there is no new events since last emit. For example:
+Starting from Timeplus Proton 1.6.2 and Timeplus Enterprise 2.6.0, you can optionally add `REPEAT` to the end of `EMIT PERIODIC <n><UNIT>`. For global aggregations, by default every 2 seconds, the aggregation result will be emitted. But if there is no new event since last emit, no result will be emitted. With the `REPEAT` at the end of the emit policy, Timeplus will emit results at the fixed interval, even there is no new events since last emit. For example:
 ```sql
 SELECT count() FROM t
 EMIT PERIODIC 3s REPEAT
@@ -215,12 +215,12 @@ EMIT ON UPDATE WITH BATCH 2s
 ```
 
 ### EMIT AFTER KEY EXPIRE IDENTIFIED BY .. WITH MAXSPAN .. AND TIMEOUT .. {#emit_after_key_expire}
-This emit policy is introduced in Timeplus Enterprise 2.9. Please watch the presentation from 2.9 launch webinar:
+This emit policy is introduced in Timeplus Enterprise 2.8.4. Please watch the presentation from 2.9 launch webinar:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qDauSMTf0vU?si=V-menfV1qY-aU4ab&amp;start=1150" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 The syntax is:
 ```sql
-EMIT AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <interval> AND TIMEOUT <interval>
+EMIT AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]
 ```
 
 Note:
@@ -259,7 +259,7 @@ SELECT count() FROM tumble(t,5s) GROUP BY window_start EMIT TIMEOUT 1s;
 It also applies as `AND TIMEOUT interval` in `EMIT AFTER SESSION CLOSE` or `EMIT AFTER KEY EXPIRE`. Note it is silently ignored for plain global aggregations without a window.
 
 ### EMIT PER EVENT
-This new emit policy is introduced in Timeplus Enterprise 2.9 Preview 2. It allows you to emit results for every event in the stream, which can be useful for debugging or monitoring purposes.
+This new emit policy is introduced in Timeplus Enterprise 2.9 and Timeplus Proton 3.0.1. It allows you to emit results for every event in the stream, which can be useful for debugging or monitoring purposes.
 
 For example, if you create a random stream `market_data` and run:
 ```sql
@@ -303,6 +303,8 @@ SELECT id, count() FROM single_shard_stream partition by id EMIT PER EVENT
 ```
 
 ### EMIT DELTA {#emit_delta}
+This emit policy is available in Timeplus Enterprise 2.6.5 or later, and Timeplus Proton 3.0.1 or later.
+
 `EMIT DELTA` applies to [global aggregations](#global) with `PERIODIC` emit. After each emit, Timeplus clears the aggregation states, so the next emit only contains the keys and aggregation results of the events received since the last emit, instead of the accumulated results since the query started.
 
 The syntax is:
@@ -319,7 +321,7 @@ EMIT DELTA PERIODIC 5s
 ```
 
 Note:
-* `EMIT DELTA` is not supported for time-window aggregations, and takes no effect for non-aggregation queries.
+* `EMIT DELTA` is not supported for time-window aggregations or non-aggregation queries.
 * `EMIT DELTA` takes no effect with `ON UPDATE`, `PER EVENT` or `AFTER SESSION CLOSE`.
 * Since the aggregation states are cleared after each emit, `REPEAT` doesn't re-emit previous results.
 
