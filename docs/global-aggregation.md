@@ -182,8 +182,6 @@ This query checks for changes every second and emits results only when updates o
 
 ### `EMIT AFTER SESSION CLOSE`
 
-This emit policy is available in Timeplus Enterprise 3.0 or later, and Timeplus Proton 3.0.12 or later.
-
 Designed for **sessionization**, **OpenTelemetry trace analysis** and other similar use cases where you need to track **session lifetimes** across high-cardinality datasets (e.g., trace spans).
 
 This policy emits aggregation results once a session is considered **closed** or **expired**.
@@ -205,7 +203,7 @@ EMIT AFTER SESSION CLOSE
   * `<session_end_col>` — Boolean column indicating when a session ends. Usually it is predicates evaluated in the SELECT. (Optional)
 * `MAXSPAN <interval>`. The maximum duration allowed for a session before it is emitted, regardless of new activity.
 * `ONLY`. When specified, results are emitted only if the session’s duration exceeds `MAXSPAN`.
-* `TIMEOUT <interval>`. Defines the maximum wall-clock duration a session can remain open. If a session stays active longer than this interval, it is automatically emitted to prevent indefinite waiting. It must be greater than or equal to `MAXSPAN`.
+* `TIMEOUT <interval>`. Defines the maximum wall-clock duration a session can remain open. If a session stays active longer than this interval, it is automatically emitted to prevent indefinite waiting.
 
 #### Variants of `IDENTIFIED BY`
 
@@ -536,54 +534,49 @@ This ensures that downstream consumers (such as materialized views or connectors
 
 ### `EMIT DELTA`
 
-This emit policy is available in Timeplus Enterprise 2.6.5 or later, and Timeplus Proton 3.0.1 or later.
-
-By default, global aggregation emits the **accumulated** results of all events since the query started. The `EMIT DELTA` clause instead emits the results of only the events received **since the last emit**: after each periodic emit, Timeplus clears the aggregation states, and the next emit only contains the keys which receive new events in the interval.
-
-This is useful when the downstream only needs the per-interval increments, for example, sending per-interval counts to an external system which accumulates them by itself. Since the aggregation states are cleared after each emit, the memory usage is bounded by the number of keys in one interval instead of all keys in the stream's history.
+Emits aggregation results of **only the new events since the last emit**, instead of all events since the query starts.
+After each periodic emit, Timeplus **clears the aggregation states**, so the next emit only contains the keys which have new events.
 
 **Syntax**:
 
 ```sql
-EMIT DELTA [PERIODIC <interval>]
+EMIT DELTA [PERIODIC <n><UNIT>]
 ```
 
-If `PERIODIC <interval>` is omitted, the default interval `2s` is applied.
+The default periodic interval is **2 seconds**.
 
 **Example**:
 
 ```sql
-SELECT device, count() AS cnt, max(cpu_usage) AS max_cpu
+SELECT device, count(), max(cpu_usage)
 FROM device_metrics
 GROUP BY device
-EMIT DELTA PERIODIC 5s;
+EMIT DELTA PERIODIC 2s;
 ```
 
 **Sample Events**
 
 ```sql
-INSERT INTO device_metrics(device, cpu_usage) VALUES ('dev1', 57.8), ('dev2', 30.5);
--- wait for more than 5 seconds
-INSERT INTO device_metrics(device, cpu_usage) VALUES ('dev1', 50.9);
+insert into device_metrics(device, cpu_usage) values ('dev1', 57.8), ('dev2', 30.5);
+select sleep(3) FORMAT Null;
+insert into device_metrics(device, cpu_usage) values ('dev1', 50.9);
 ```
 
 **Output**:
 ```
-┌─device─┬─cnt─┬─max_cpu─┐
-│ dev2   │   1 │    30.5 │
-│ dev1   │   1 │    57.8 │
-└────────┴─────┴─────────┘
-┌─device─┬─cnt─┬─max_cpu─┐
-│ dev1   │   1 │    50.9 │
-└────────┴─────┴─────────┘
+┌─device─┬─count()─┬─max(cpu_usage)─┐
+│ dev2   │       1 │           30.5 │
+│ dev1   │       1 │           57.8 │
+└────────┴─────────┴────────────────┘
+┌─device─┬─count()─┬─max(cpu_usage)─┐
+│ dev1   │       1 │           50.9 │
+└────────┴─────────┴────────────────┘
 ```
 
 **Explanation**:
-- The first emit contains the results of the first two events.
-- The second emit only contains `dev1`, and its `cnt` and `max_cpu` are calculated only from the event received in the second interval. With `EMIT PERIODIC 5s`, the second emit would be `dev2, 1, 30.5` and `dev1, 2, 57.8`.
+- The **first emit** contains the aggregation results of `dev1` and `dev2`.
+- The **second emit** only contains `dev1`, and the results are calculated from the new event only. With `EMIT PERIODIC 2s`, the second emit would be `dev1` with `count() = 2` and `dev2` with `count() = 1`.
 
 **Notes**
-- `EMIT DELTA` only works for global aggregations. It is not supported for [tumble](/tumble-aggregation), [hop](/hop-aggregation) or [session](/session-aggregation) window aggregations, or non-aggregation queries.
-- `EMIT DELTA` takes no effect with `ON UPDATE`, `ON UPDATE WITH BATCH`, `PER EVENT` or `AFTER SESSION CLOSE`.
-- Since the aggregation states are cleared after each emit, `REPEAT` doesn't re-emit previous results.
-- `EMIT DELTA` and `EMIT CHANGELOG` can't be used together.
+- `EMIT DELTA` only takes effect with `EMIT PERIODIC`.
+- `REPEAT` doesn't re-emit the previous results, since the aggregation states have been cleared.

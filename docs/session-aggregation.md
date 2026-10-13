@@ -64,9 +64,11 @@ GROUP BY
 
 ## Emit Policies
 
-By default, the session window will emit results automatically once it is closed — that is, when any of the configured closing conditions are met.
+By default, **EMIT AFTER WINDOW CLOSE** is applied.
 
-Session window aggregations also support `EMIT PERIODIC` and `EMIT ON UPDATE` to emit intermediate results before the session closes. `EMIT PER EVENT`, `WITH DELAY`, `EMIT CHANGELOG` and `EMIT DELTA` are not supported.
+The session window will emit results automatically once it is closed — that is, when any of the configured closing conditions are met.
+
+**EMIT PERIODIC** and **EMIT ON UPDATE** are also supported to emit intermediate results before the session window is closed.
 
 ## Difference Between `EMIT AFTER SESSION CLOSE`
 
