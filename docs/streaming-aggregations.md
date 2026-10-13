@@ -315,4 +315,4 @@ GROUP BY device
 EMIT DELTA PERIODIC 5s
 ```
 
-`EMIT DELTA` takes no effect with `ON UPDATE`, `PER EVENT` or `AFTER SESSION CLOSE`. Please check [the example](/global-aggregation#emit-delta) in global aggregation.
+`EMIT DELTA` has no effect with `ON UPDATE`, `PER EVENT` or `AFTER SESSION CLOSE`. Please check [the example](/global-aggregation#emit-delta) in global aggregation.
