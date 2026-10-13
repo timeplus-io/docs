@@ -531,3 +531,52 @@ This ensures that downstream consumers (such as materialized views or connectors
 - `_tp_delta = 1` → **insert / new result**
 - `_tp_delta = -1` → **delete / cancel previous result**
 - Changelog semantics apply to both **aggregations** and **joins**, ensuring correctness when intermediate results evolve.
+
+### `EMIT DELTA`
+
+Emits aggregation results of **only the new events since the last emit**, instead of all events since the query starts.
+After each periodic emit, Timeplus **clears the aggregation states**, so the next emit only contains the keys which have new events.
+
+**Syntax**:
+
+```sql
+EMIT DELTA [PERIODIC <interval>]
+```
+
+The default periodic interval is **2 seconds**.
+
+**Example**:
+
+```sql
+SELECT device, count(), max(cpu_usage)
+FROM device_metrics
+GROUP BY device
+EMIT DELTA PERIODIC 2s;
+```
+
+**Sample Events**
+
+```sql
+insert into device_metrics(device, cpu_usage) values ('dev1', 57.8), ('dev2', 30.5);
+select sleep(3) FORMAT Null;
+insert into device_metrics(device, cpu_usage) values ('dev1', 50.9);
+```
+
+**Output**:
+```
+┌─device─┬─count()─┬─max(cpu_usage)─┐
+│ dev2   │       1 │           30.5 │
+│ dev1   │       1 │           57.8 │
+└────────┴─────────┴────────────────┘
+┌─device─┬─count()─┬─max(cpu_usage)─┐
+│ dev1   │       1 │           50.9 │
+└────────┴─────────┴────────────────┘
+```
+
+**Explanation**:
+- The **first emit** contains the aggregation results of `dev1` and `dev2`.
+- The **second emit** only contains `dev1`, and the results are calculated from the new event only. With `EMIT PERIODIC 2s`, the second emit would be `dev1` with `count() = 2` and `dev2` with `count() = 1`.
+
+**Notes**
+- `EMIT DELTA` only takes effect with `EMIT PERIODIC`.
+- `REPEAT` doesn't re-emit the previous results, since the aggregation states have been cleared.

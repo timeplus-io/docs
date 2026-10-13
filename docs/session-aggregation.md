@@ -64,9 +64,11 @@ GROUP BY
 
 ## Emit Policies
 
-Currently, only **EMIT AFTER WINDOW CLOSE** is supported.
+By default, **EMIT AFTER WINDOW CLOSE** is applied.
 
 The session window will emit results automatically once it is closed — that is, when any of the configured closing conditions are met.
+
+**EMIT PERIODIC** and **EMIT ON UPDATE** are also supported to emit intermediate results before the session window is closed.
 
 ## Difference Between `EMIT AFTER SESSION CLOSE`
 
