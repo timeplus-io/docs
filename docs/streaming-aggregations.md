@@ -229,7 +229,6 @@ Note:
 * `MAXSPAN interval` to identify whether the span of the related events over a certain interval, for example `MAXSPAN 500ms` to flag those events with same tracing ID but over 0.5 second span.
 * `ONLY`: if you add this keyword, then only those events over the `MAXSPAN` will be emitted, other events less than the `MAXSPAN` will be omitted, so that you can focus on those events over the SLA.
 * `AND TIMEOUT interval` to avoid waiting for late events for too long. When this interval of wall-clock time has passed since the first event of a key (e.g. tracing ID) was seen, Timeplus will close the session for the key and emit results. It must be greater than or equal to `MAXSPAN`.
-* `MAXSPAN` and `TIMEOUT` only support `ms`, `s` and `m` units.
 
 Timeplus automatically switches to `default_hash_table='hybrid'` with this emit policy to avoid putting too many data in memory. Do not override `default_hash_table` to `memory` for such queries.
 

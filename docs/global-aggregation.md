@@ -206,7 +206,6 @@ EMIT AFTER SESSION CLOSE
 * `MAXSPAN <interval>`. The maximum duration allowed for a session before it is emitted, regardless of new activity.
 * `ONLY`. When specified, results are emitted only if the session’s duration exceeds `MAXSPAN`.
 * `TIMEOUT <interval>`. Defines the maximum wall-clock duration a session can remain open. If a session stays active longer than this interval, it is automatically emitted to prevent indefinite waiting. It must be greater than or equal to `MAXSPAN`.
-* `MAXSPAN` and `TIMEOUT` only support `ms`, `s` and `m` units.
 
 #### Variants of `IDENTIFIED BY`
 
