@@ -39,14 +39,18 @@ Please note, we updated the EMIT syntax in [Timeplus Enterprise 2.7.6](/enterpri
 For [global aggregations](/streaming-query#global-aggregation), the syntax is:
 
 ```sql
-EMIT [STREAM|CHANGELOG]
+EMIT [STREAM|CHANGELOG|DELTA]
  [PERIODIC <interval> [REPEAT]]
  [ON UPDATE [WITH BATCH <interval>] ]
- [AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]]
+ [PER EVENT]
+ [AFTER SESSION CLOSE [IDENTIFIED BY <col> | (<ts_col>, <start_col>, <end_col>)] WITH [ONLY] MAXSPAN <interval> AND TIMEOUT <interval>]
 ```
 
+You can only choose one of the emit policies: `PERIODIC`, `ON UPDATE`, `PER EVENT`, or `AFTER SESSION CLOSE`. `AFTER KEY EXPIRE` is an alias of `AFTER SESSION CLOSE`.
+
 By default `EMIT STREAM` and `PERIODIC 2s` are applied. Advanced settings:
-* `EMIT CHANGELOG` works for [global aggregations](/streaming-query#global-aggregation) and [non-aggregation tail/filter](/streaming-query#non-aggregation). It will output `+1` or `-1` for `_tp_delta` column.
+* `EMIT CHANGELOG` works for [global aggregations](/streaming-query#global-aggregation) and [non-aggregation tail/filter](/streaming-query#non-aggregation). It will output `+1` or `-1` for `_tp_delta` column. For non-aggregation queries, the source must be a changelog source, such as a [mutable stream](/mutable-stream), a [versioned_kv or changelog_kv stream](/changelog-stream), or the `changelog(..)` function. It can't be combined with `PER EVENT` or `AFTER SESSION CLOSE`.
+* `EMIT DELTA` works for [global aggregations](/streaming-query#global-aggregation) with `PERIODIC` only. It clears the aggregation states after each emit, so each emit only contains the keys and aggregation results of the events received since the last emit. See [EMIT DELTA](#emit_delta) for details.
 
 For [time-window aggregations](/streaming-query#window-aggregation), the syntax is:
 
@@ -55,8 +59,9 @@ EMIT
  [AFTER WINDOW CLOSE [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
  [PERIODIC <interval> [REPEAT] [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
  [ON UPDATE [WITH BATCH <interval>] [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
+ [PER EVENT]
 ```
-You can only choose one of the emit policies: `AFTER WINDOW CLOSE`, `PERIODIC`, or `ON UPDATE`. If you omit any of them, the default policy is `AFTER WINDOW CLOSE`.
+You can only choose one of the emit policies: `AFTER WINDOW CLOSE`, `PERIODIC`, `ON UPDATE`, or `PER EVENT`. If you omit any of them, the default policy is `AFTER WINDOW CLOSE`. `EMIT CHANGELOG` and `EMIT DELTA` are not supported for time-window aggregations. Session windows don't support `WITH DELAY` or `PER EVENT`.
 
 Examples:
 ```sql
@@ -68,7 +73,7 @@ EMIT ON UPDATE WITH BATCH 1s WITH DELAY 1s AND TIMEOUT 5s
 
 ### EMIT .. WITH DELAY {#emit_delay}
 
-`WITH DELAY` and `AND TIMEOUT` only can be applied to time-window based aggregations.
+`WITH DELAY` only can be applied to tumble and hop window aggregations. `AND TIMEOUT` only can be applied to time-window based aggregations and `EMIT AFTER SESSION CLOSE`.
 
 By default, the query engine will emit the results immediately when the window is closed or other conditions are met. This behavior can be customized using the `WITH DELAY` clause. It allows you to specify extra time to progress the watermark, which can be useful for handling late data.
 
@@ -158,6 +163,8 @@ SELECT count() FROM t
 EMIT PERIODIC 3s REPEAT
 ```
 
+`REPEAT` is ignored with `EMIT CHANGELOG` or `PARTITION BY`.
+
 ### EMIT ON UPDATE {#emit_on_update}
 
 You can apply `EMIT ON UPDATE` in time windows, such as tumble/hop/session, with `GROUP BY` keys. For example:
@@ -213,7 +220,7 @@ This emit policy is introduced in Timeplus Enterprise 2.9. Please watch the pres
 
 The syntax is:
 ```sql
-EMIT AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]
+EMIT AFTER KEY EXPIRE [IDENTIFIED BY <col>] WITH [ONLY] MAXSPAN <interval> AND TIMEOUT <interval>
 ```
 
 Note:
@@ -221,7 +228,8 @@ Note:
 * `IDENTIFIED BY col` will calculate the span of the trace, usually you can set `IDENTIFIED BY _tp_time`.
 * `MAXSPAN interval` to identify whether the span of the related events over a certain interval, for example `MAXSPAN 500ms` to flag those events with same tracing ID but over 0.5 second span.
 * `ONLY`: if you add this keyword, then only those events over the `MAXSPAN` will be emitted, other events less than the `MAXSPAN` will be omitted, so that you can focus on those events over the SLA.
-* `AND TIMEOUT interval` to avoid waiting for late events for too long. If there is no more events with the same key (e.g. tracing ID) after this interval, Timeplus will close the session for the key and emit results.
+* `AND TIMEOUT interval` to avoid waiting for late events for too long. When this interval of wall-clock time has passed since the first event of a key (e.g. tracing ID) was seen, Timeplus will close the session for the key and emit results. It must be greater than or equal to `MAXSPAN`.
+* `MAXSPAN` and `TIMEOUT` only support `ms`, `s` and `m` units.
 
 Timeplus automatically switches to `default_hash_table='hybrid'` with this emit policy to avoid putting too many data in memory. Do not override `default_hash_table` to `memory` for such queries.
 
@@ -293,3 +301,26 @@ The other limitation is that it does not support substream processing. For examp
 ```sql
 SELECT id, count() FROM single_shard_stream partition by id EMIT PER EVENT
 ```
+
+### EMIT DELTA {#emit_delta}
+`EMIT DELTA` applies to [global aggregations](#global) with `PERIODIC` emit. After each emit, Timeplus clears the aggregation states, so the next emit only contains the keys and aggregation results of the events received since the last emit, instead of the accumulated results since the query started.
+
+The syntax is:
+```sql
+EMIT DELTA [PERIODIC <interval>]
+```
+
+If `PERIODIC <interval>` is omitted, the default interval `2s` is applied. For example, the following query emits the event count per device received in each 5-second interval:
+```sql
+SELECT device, count() AS cnt
+FROM device_utils
+GROUP BY device
+EMIT DELTA PERIODIC 5s
+```
+
+Note:
+* `EMIT DELTA` is not supported for time-window aggregations, and takes no effect for non-aggregation queries.
+* `EMIT DELTA` takes no effect with `ON UPDATE`, `PER EVENT` or `AFTER SESSION CLOSE`.
+* Since the aggregation states are cleared after each emit, `REPEAT` doesn't re-emit previous results.
+
+Please check [EMIT DELTA in global aggregation](/global-aggregation#emit-delta) for more examples.
