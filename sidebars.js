@@ -919,6 +919,17 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "TABBY AGENT",
+      items: [
+        {
+          type: "doc",
+          id: "tabby",
+          label: "Introducing Tabby",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "AGENTGUARD",
       items: [
         {
