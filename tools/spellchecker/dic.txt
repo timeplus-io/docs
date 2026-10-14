@@ -4132,3 +4132,15 @@ Templating
 Air-gapped
 JSON-body
 Timeplus-published
+OpenClaw
+OpenClaw's
+OpenInference
+CIM
+DLP
+normalizer
+normalizers
+Normalizer
+exfiltrate
+detections
+deduplicates
+timeplusd's
