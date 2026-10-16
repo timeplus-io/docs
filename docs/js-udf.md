@@ -2,6 +2,8 @@
 
 Timeplus supports JavaScript-based UDF running in the SQL engine. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with modern JavaScript (powered by [V8](https://v8.dev/)). No need to deploy extra server/service for the UDF. More languages will be supported in the future.
 
+JavaScript UDFs can also read and write [dictionaries](/dictionary) to keep durable state across invocations — see [Dictionary Access in JavaScript UDF](/js-udf-dictionary).
+
 ## Register a JS UDF via SQL {#ddl}
 Please check [CREATE FUNCTION](/sql-create-function#javascript-udf) page for the SQL syntax.
 
@@ -148,7 +150,80 @@ Let's take an example of a function to get the second maximum values from the gr
 - Default (no `has_customized_emit`): `finalize()` must return a single value matching the declared return type. Any value returned from `process()` is ignored.
 - Custom emit (`has_customized_emit: true`): `process()` should return an integer (or `true`/`false`) indicating how many results to emit now, and `finalize()` must return an array whose length equals that emit count.
 
+### Changelog input: the extra `_tp_delta` argument {#udaf-changelog}
 
+When the UDAF reads from a [changelog](/changelog-stream) input, Timeplus appends one **extra trailing array** to the arguments of `process(..)`. It carries the [`_tp_delta`](/changelog-stream) value of each row: `1` for an insert and `-1` for a retraction. Your `process(..)` must subtract from its state on `-1`, otherwise retracted rows keep counting and the aggregate is silently wrong.
+
+The input is a changelog when the UDAF reads from:
+
+- a stream created with `mode='changelog'`, `mode='changelog_kv'` or `mode='versioned_kv'` (including CDC streams),
+- the [`changelog(stream, key)`](/functions_for_streaming#changelog) table function,
+- a subquery or view that emits changelog (`EMIT CHANGELOG`, or a global aggregation).
+
+You do **not** declare the extra column in `CREATE AGGREGATE FUNCTION` — Timeplus adds it for you. Declare the extra parameter in your JavaScript `process(..)`; it is `undefined` when the input is append-only, so a single UDAF can serve both cases:
+
+```sql
+CREATE OR REPLACE AGGREGATE FUNCTION count_with_retract(value float32)
+RETURNS float32 LANGUAGE JAVASCRIPT AS $$
+{
+  initialize: function() {
+    this.count = 0;
+  },
+
+  // `deltas` is only passed when the input is a changelog
+  process: function(values, deltas) {
+    let is_changelog = (deltas !== undefined);
+    for (let i = 0; i < values.length; i++) {
+      if (!is_changelog) {
+        this.count += 1;
+      } else if (deltas[i] === 1) {
+        this.count += 1;
+      } else if (deltas[i] === -1) {
+        this.count -= 1;
+      }
+    }
+  },
+
+  finalize: function() {
+    return this.count;
+  },
+
+  serialize: function() {
+    return JSON.stringify({'count': this.count});
+  },
+
+  deserialize: function(state_str) {
+    this.count = JSON.parse(state_str)['count'];
+  },
+
+  merge: function(state_str) {
+    this.count += JSON.parse(state_str)['count'];
+  }
+}
+$$;
+```
+
+Running it over a `versioned_kv` stream, the retraction of a key is netted out instead of double-counted:
+
+```sql
+CREATE STREAM kv (i32 int32, f32 float32) PRIMARY KEY i32 SETTINGS mode = 'versioned_kv';
+
+SELECT count_with_retract(f32) FROM kv;
+```
+
+With that streaming query running, the following inserts make it emit `10`, then `10` again — the update to key `1` retracts the old row before adding the new one, so the count does not grow:
+
+```sql
+INSERT INTO kv (i32, f32) SELECT number, number * 10 FROM numbers(10);
+INSERT INTO kv (i32, f32) VALUES (1, 0.1);
+```
+
+Notes:
+
+- The deltas array always has the same length as the other argument arrays, and `deltas[i]` belongs to row `i`.
+- It is appended **after** all declared arguments, so a UDAF declared with two arguments receives `process(a, b, deltas)`.
+- This is independent of `has_customized_emit`: with custom emit, `process(..)` still returns the emit count and receives the extra array on changelog input.
+- If your `process(..)` declares fewer parameters than it is given, JavaScript silently drops the extra array and your aggregate will not handle retractions.
 
 ### Example: get second largest number {#udaf-example}
 
