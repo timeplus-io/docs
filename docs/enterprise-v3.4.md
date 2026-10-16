@@ -62,10 +62,7 @@ See [What's New in Timeplus Enterprise 3.4](/enterprise-v3.4-whats-new) for the 
 * Add consume schema strategy (single/all/raw) to decode Confluent messages with schema (#12294)
 * Upgrade `pulsar-client-cpp` to v4.2.0 (#12281)
 * Upgrade `contrib/avro` to decode negative array block counts (#12364)
-* Allow large operator-new allocations to throw `MEMORY_LIMIT_EXCEEDED` (ported from upstream) (#12355)
 * Use Iceberg database `storage_endpoint` for S3 URL (#12356)
-* Port New Analyzer/Planner from ClickHouse, part 1 (#12358)
-* Port proton OSS Iceberg S3 table support, part 1 (#12383)
 
 **timeplusd — Bug Fixes**
 * Reject pausing a materialized view before its first pipeline build (#12328)
@@ -90,8 +87,12 @@ See [What's New in Timeplus Enterprise 3.4](/enterprise-v3.4-whats-new) for the 
 * Fix NULL handling in nullable `arg_min`/`arg_max`: checkpoint recovery `CORRUPTED_DATA` and NULL values in the state (#12407)
 * Release historical parts once a streaming query has read them (#12375)
 * Parse creation query AST every time on provisioner retry (#12325)
-* Decode pip output as UTF-8 instead of the locale encoding (#12321)
 * Hide stray Parquet symbol (#12421)
+* Allow large operator-new allocations to throw `MEMORY_LIMIT_EXCEEDED` instead of exhausting server memory unchecked (ported from upstream) (#12355)
+
+**Not included: #12358 (New Analyzer/Planner, part 1) and #12383 (Iceberg S3 table support, part 1)** — both are internal ports, not user-visible or enabled in 3.4.1. `use_analyzer` defaults to `false`; the new analyzer is opt-in only (`SETTINGS use_analyzer=true`) and not exercised by default. #12383 is a small HTTP-header fix inside the existing (pre-3.4) Iceberg database/external-stream feature, part of an in-progress S3 Tables write-support backport (#12379, still open) — it doesn't add a new capability on its own. Dropped from the customer-facing changelog; tracked internally instead.
+
+**Not included: #12321 (Decode pip output as UTF-8)** — this is a forward-port of a fix (#12293) already released in 3.3.1; the `3.3` branch received the fix directly and it never made it back to `develop` until now. There is no new 3.4 behavior here — 3.3.1 and 3.4.1 behave identically. Omitted as a customer-facing "fixed in 3.4" line to avoid implying a regression that doesn't exist.
 
 #### Upgrade notes {#upgrade_notes_3_4_1}
 
