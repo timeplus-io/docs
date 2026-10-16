@@ -919,6 +919,22 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "TABBY & APP FRAMEWORK",
+      items: [
+        {
+          type: "doc",
+          id: "tabby",
+          label: "Tabby, the Timeplus Data Agent",
+        },
+        {
+          type: "doc",
+          id: "app-framework",
+          label: "App Framework",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "AGENTGUARD",
       items: [
         {
