@@ -930,6 +930,22 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "APP FRAMEWORK",
+      items: [
+        {
+          type: "doc",
+          id: "app-framework",
+          label: "Timeplus Apps",
+        },
+        {
+          type: "doc",
+          id: "app-framework-build",
+          label: "Building Apps",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "AGENTGUARD",
       items: [
         {
