@@ -1,6 +1,7 @@
 # Release
 
 Release by version:
+- [Timeplus Enterprise 3.4](/enterprise-v3.4)
 - [Timeplus Enterprise 3.3](/enterprise-v3.3)
 - [Timeplus Enterprise 3.2](/enterprise-v3.2)
 - [Timeplus Enterprise 3.1](/enterprise-v3.1)
