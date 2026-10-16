@@ -2088,10 +2088,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@iconify-json/logos@1.2.12":
-  version "1.2.12"
-  resolved "https://registry.yarnpkg.com/@iconify-json/logos/-/logos-1.2.12.tgz#25c02864a5b99b5b91bdba048821e0cd3a06c3e3"
-  integrity sha512-zUi/AoezU2F3L65nPVd2smiU6Y+ZI7RjdVPlGfeAeYbPbZ9kWn7Ucxj+KshmyQRBYwLtKoqAlUyoGgMqWG1T8g==
+"@iconify-json/logos@1.2.16":
+  version "1.2.16"
+  resolved "https://registry.yarnpkg.com/@iconify-json/logos/-/logos-1.2.16.tgz#82ad3bb646c88205ad23ec6e16401b7682211784"
+  integrity sha512-J7uewTzmJchaWkc8f/SW3aS14Y6H1bnLihMZaVccDao3TRsWFJvGfAhbkTzErKjSSbRJG8uzjY4yzMbGMELPIw==
   dependencies:
     "@iconify/types" "*"
 
