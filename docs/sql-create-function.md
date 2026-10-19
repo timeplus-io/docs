@@ -129,7 +129,7 @@ $$;
 [Learn More](/js-udf)
 
 ## Python UDF
-starting from v2.7, Timeplus Enterprise also supports Python-based UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embedded Python 3.10 runtime in Timeplus core engine. No need to deploy extra server/service for the UDF.
+starting from v2.7, Timeplus Enterprise also supports Python-based UDF. You can develop User-defined scalar functions (UDFs) or User-defined aggregate functions (UDAFs) with the embedded Python runtime in Timeplus core engine — Python 3.14 free-threaded since Timeplus Enterprise 3.3.1, Python 3.10 in earlier versions. No need to deploy extra server/service for the UDF.
 
 [Learn more](/py-udf) why Python UDF, and how to map the data types in Timeplus and Python, as well as how to manage dependencies.
 
@@ -178,4 +178,31 @@ $$
 SETTINGS ...
 ```
 
-[Learn More](/py-udf)
+### Settings {#py-udf-settings}
+
+Python UDFs and UDAFs accept the following settings, all available since Timeplus Enterprise 3.3.1. Any other setting name is rejected at creation time, and all three are Python-only — using them with `LANGUAGE JAVASCRIPT` fails.
+
+| Setting | Description |
+| -- | -- |
+| `init_function_name` | Name of a function defined in the same code block that Timeplus calls once when the module is loaded, before the first UDF call and before a UDAF class is constructed. Must exist in the source, or the `CREATE` is rejected. |
+| `init_function_parameters` | A single string passed as the only argument to the init function. Encode structured configuration as JSON. Requires `init_function_name`. Stored in the UDF definition and visible in `SHOW CREATE FUNCTION` — do not put secrets here. |
+| `named_collection` | Name of a [named collection](/named-collection) whose `init_function_parameters` key is passed to the init function instead. Requires `init_function_name`, requires the `NAMED COLLECTION` privilege, and is mutually exclusive with `init_function_parameters`. Only the collection name is stored, so the value stays out of `SHOW CREATE FUNCTION`. |
+
+If neither parameter source is set, the init function is called with no arguments.
+
+```sql
+CREATE OR REPLACE FUNCTION call_api(x string) RETURNS string LANGUAGE PYTHON AS $$
+import json
+API_KEY = ''
+
+def _tp_init(params):
+    global API_KEY
+    API_KEY = json.loads(params)['api_key']
+
+def call_api(xs):
+    return [API_KEY + ':' + x.decode('utf-8') for x in xs]
+$$ SETTINGS init_function_name = '_tp_init',
+            named_collection = 'nc_udf_init';
+```
+
+[Learn More](/py-udf) — see [Initialization hook](/py-udf#init_hook) for the full behavior.

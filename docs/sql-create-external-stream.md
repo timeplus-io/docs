@@ -21,7 +21,10 @@ SETTINGS type='kafka',
          ssl_ca_pem='..',
          skip_ssl_cert_check=..,
          properties='..',
-         config_file='..'
+         config_file='..',
+         subject_name_strategy='..',
+         schema_subject_name='..',
+         consume_schema_strategy='..'
 ```
 
 Please check the [Kafka External Stream](/kafka-source) for more details about the settings, and [this doc](/tutorial-sql-connect-kafka) for examples to connect to various Kafka API compatible message platforms.
@@ -70,10 +73,11 @@ SETTINGS
     init_function_name = '..',
     init_function_parameters = '..',
     deinit_function_name = '..',
+    flush_function_name = '..',               -- sink only, 3.3.1+
     mode = 'auto'                             -- 'auto' (default), 'streaming', or 'batch'
 ```
 
-Available in **Timeplus Enterprise 3.2.2+**.
+Available in **Timeplus Enterprise 3.2.2+**. `flush_function_name` requires **3.3.1+**.
 
 Please check the [Python External Stream Source](/python-external-stream-source) for read-side settings, generator/batch sources, and lifecycle hooks, and the [Python External Stream Sink](/python-external-stream-sink) for write-side semantics, materialized-view sinks, and custom-protocol examples.
 

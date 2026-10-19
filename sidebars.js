@@ -385,6 +385,7 @@ const sidebars = {
               id: "py-udf",
             },
             "js-udf",
+            "js-udf-dictionary",
             "sql-udf",
             "remote-udf",
           ],
@@ -914,6 +915,33 @@ const sidebars = {
             "flyway",
             // "terraform",
           ],
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "TABBY AGENT",
+      items: [
+        {
+          type: "doc",
+          id: "tabby",
+          label: "Introducing Tabby",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "APP FRAMEWORK",
+      items: [
+        {
+          type: "doc",
+          id: "app-framework",
+          label: "Timeplus Apps",
+        },
+        {
+          type: "doc",
+          id: "app-framework-build",
+          label: "Building Apps",
         },
       ],
     },

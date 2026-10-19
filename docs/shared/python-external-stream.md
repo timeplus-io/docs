@@ -20,6 +20,9 @@ def init_fn(config):   # optional
 
 def deinit_fn():       # optional
     ...
+
+def flush_fn():        # optional, sink only
+    ...
 $$
 SETTINGS
     type = 'python',                          -- required
@@ -28,6 +31,7 @@ SETTINGS
     init_function_name = '..',
     init_function_parameters = '..',          -- requires init_function_name
     deinit_function_name = '..',
+    flush_function_name = '..',               -- sink only, 3.3.1+
     mode = 'auto'                             -- 'auto' (default), 'streaming', or 'batch'
 ```
 
@@ -39,6 +43,7 @@ SETTINGS
 * **init_function_name**: name of a Python function called once before read/write processing begins. Use it to open connections, warm caches, or prepare state for the entry function to consume.
 * **init_function_parameters**: a single string passed as the only argument to the init function. Any format works (JSON, `key=value`, or a plain string) — parsing is up to your Python code. Requires `init_function_name`; otherwise the stream fails to create with `Setting 'init_function_parameters' requires 'init_function_name' to be configured`.
 * **deinit_function_name**: name of a Python function called once after read/write processing completes, for cleanup.
+* **flush_function_name**: name of a Python function called on every checkpoint and once before deinit, so buffered writes are not lost. Takes no arguments. **Write path only** — it is never called when the stream is read from. Available since **Timeplus Enterprise 3.3.1**. See [Flushing buffered writes](/python-external-stream-sink#flush).
 * **mode**: Python execution mode — `'auto'` (default), `'streaming'`, or `'batch'`. See [Modes](#modes).
 
 ## Modes
@@ -59,7 +64,8 @@ Each query that reads from or writes to a Python External Stream creates its own
 2. Local API credential globals are injected into the module (see [Local API credentials](#local-api-credentials)).
 3. If `init_function_name` is set, the init function is called once. When `init_function_parameters` is non-empty, it is passed as the only argument; otherwise init receives no arguments.
 4. The read or write entry function is called as data flows.
-5. When the query ends — normally or via cancellation — `deinit_function_name`, if set, is called.
+5. On the write path only, if `flush_function_name` is set it is called at every checkpoint, and once more when the query closes — before deinit.
+6. When the query ends — normally or via cancellation — `deinit_function_name`, if set, is called.
 
 Each query gets its own module, so ordinary module globals created by the DDL body are not reused across queries. If you stash state on Python's `builtins` module, use a stream-specific attribute name and remove it in deinit; `builtins` is shared by the embedded interpreter, so leftover attributes can be visible to later Python sessions in the same server process. Treat clients or caches opened in init as per-query resources and close them in deinit.
 
