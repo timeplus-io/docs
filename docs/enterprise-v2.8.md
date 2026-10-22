@@ -32,6 +32,36 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.21 (Public GA) {#2_8_21}
+Released on Oct-21-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_21)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.44 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.21`
+
+Component versions:
+* timeplusd 2.8.49
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_21}
+Compared to the [2.8.20](#2_8_20) release:
+* timeplusd 2.8.47 -> 2.8.49
+  * Bugfixes  
+    *   Fixed long-running streaming queries and their materialized views pinning outdated parts so they were never deleted.
+        Impact: A streaming query or materialized view kept its finished backfill sources and a copy of the stream's parts list alive for its entire runtime, preventing merged or TTL-expired parts from being cleaned up. Disk usage grew continuously until the query or materialized view was restarted. — #12374
+    *   Fixed a Raft scheduler self-deadlock that could stop replication and elections cluster-wide.
+        Impact: When a node was processing a Raft Ready for a shard replicated to an unresponsive or memory-pinned peer, a backpressure-handling bug could cause the worker thread to deadlock on itself. Once every worker hit this, no replicated log on that node could be stepped again -- all incoming Raft messages were dropped, replication and elections stopped for every shard that node led, and only a restart recovered it. — #12416
+    *   Reduced default retention for high-volume system log tables and disabled timeplusd's logging of query thread lifecycle events by default.
+        Impact: With the previous defaults, system log tables (especially query_thread_log, driven by routine background merge activity rather than user queries) could grow to consume most of a node's local disk over time. — #12440
+    *   Fixed an append-only stream JOIN with versioned_kv silently dropping left-side rows while the joined key was being updated.
+        Impact: An enrichment join (INNER or LEFT JOIN against a versioned_kv, default ALL strictness) could lose an entire left-side chunk, or emit it with default right-side values, whenever the right-side key it joined on was updated at the same time. — #12437
+    *   Fixed TTL-expired mutable stream entries remaining partially visible, and their column/index metadata being dropped, instead of being hidden cleanly on read.
+        Impact: On mutable streams with ttl_seconds set, expired rows could stay fully or partially visible until the next compaction, causing full scans to fail with a LOGICAL_ERROR or point lookups to disagree with count(). Separately, column family and secondary index metadata written at CREATE or ALTER time could expire like regular row data, so after a restart following an ALTER, point lookups could fail with ATTEMPT_TO_READ_AFTER_EOF or a re-added index could return no results. — #12470, #12471
+    *   Fixed system.parts queries filtering on the active column returning zero rows for stream tables.
+        Impact: Any WHERE clause filtering system.parts on active (e.g. WHERE active, WHERE active = 1) returned no rows for stream tables even though the parts existed and were active, because the active-only lookup path queried the wrong underlying storage reference for a multi-shard stream. — #12192
+
 ### 2.8.20 (Public GA) {#2_8_20}
 Released on Sep-21-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_20)
