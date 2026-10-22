@@ -32,6 +32,36 @@ Key highlights of this release:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 2.8.21 (Public GA) {#2_8_21}
+Released on Oct-21-2026. Installation options:
+* For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_21)
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.44 ..
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.21`
+
+Component versions:
+* timeplusd 2.8.49
+* timeplus_web 2.8.18
+* timeplus_appserver 2.8.13
+* timeplus_connector 2.8.1
+* timeplus cli 2.8.0
+  
+#### Changelog {#changelog_2_8_21}
+Compared to the [2.8.20](#2_8_20) release:
+* timeplusd 2.8.47 -> 2.8.49
+  * Bugfixes  
+    *   Fixed streaming queries and materialized views pinning outdated parts, preventing cleanup.
+        Impact: Disk usage grew continuously because old parts were never deleted until the query or view restarted. — #12374
+    *   Fixed a Raft scheduler self-deadlock that could stop replication and elections cluster-wide.
+        Impact: A backpressure bug could deadlock Raft workers, stopping replication and elections cluster-wide until a restart. — #12416
+    *   Reduced default retention for high-volume system log tables and disabled timeplusd's logging of query thread lifecycle events by default.
+        Impact: System log tables, especially query_thread_log, could grow large and consume most of a node's disk. — #12440
+    *   Fixed an append-only stream JOIN with versioned_kv silently dropping left-side rows while the joined key was being updated.
+        Impact: An enrichment join could lose or misrepresent left-side rows whenever the joined right-side key was updated. — #12437
+    *   Fixed TTL-expired mutable stream entries staying partially visible and losing column/index metadata instead of being hidden cleanly.
+        Impact: Expired rows stayed partially visible, causing scan/lookup errors; metadata loss after ALTER broke lookups and indexes. — #12470, #12471
+    *   Fixed system.parts queries filtering on the active column returning zero rows for stream tables.
+        Impact: Queries filtering system.parts on active returned no rows for stream tables, even though matching parts existed. — #12192
+
 ### 2.8.20 (Public GA) {#2_8_20}
 Released on Sep-21-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_20)
