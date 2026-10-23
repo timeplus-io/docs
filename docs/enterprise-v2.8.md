@@ -112,7 +112,7 @@ Compared to the [2.8.18](#2_8_18) release:
 ### 2.8.18 (Public GA) {#2_8_18}
 Released on 07-01-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_18)
-* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.42 ..
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.41 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.18`
 
 Component versions:
