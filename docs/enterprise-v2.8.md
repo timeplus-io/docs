@@ -33,14 +33,14 @@ Key highlights of this release:
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
 ### 2.8.21 (Public GA) {#2_8_21}
-Released on Oct-21-2026. Installation options:
+Released on 10-21-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_21)
 * For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.44 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.21`
 
 Component versions:
 * timeplusd 2.8.49
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -49,28 +49,28 @@ Component versions:
 Compared to the [2.8.20](#2_8_20) release:
 * timeplusd 2.8.47 -> 2.8.49
   * Bugfixes  
-    *   Fixed streaming queries and materialized views pinning outdated parts, preventing cleanup.
+    *   Fixed streaming queries and materialized views pinning outdated parts, which prevented cleanup.
         Impact: Disk usage grew continuously because old parts were never deleted until the query or view restarted. — #12374
     *   Fixed a Raft scheduler self-deadlock that could stop replication and elections cluster-wide.
-        Impact: A backpressure bug could deadlock Raft workers, stopping replication and elections cluster-wide until a restart. — #12416
-    *   Reduced default retention for high-volume system log tables and disabled timeplusd's logging of query thread lifecycle events by default.
-        Impact: System log tables, especially query_thread_log, could grow large and consume most of a node's disk. — #12440
+        Impact: A backpressure bug in the Raft scheduler could deadlock its worker threads, halting log replication and leader election across the cluster until the affected node was restarted. — #12416
+    *   Reduced default retention for high-volume system log tables and disabled timeplusd's logging of query thread lifecycle events by default. This is a default-configuration change with upgrade side effects: `log_query_threads` now defaults to `false`, and retention drops to 7 days for `query_thread_log`, 14 days for `part_log`, 3 days for `trace_log`, and 7 days for `stream_metric_log`. On first start after upgrade, the existing log tables are renamed to `<name>_N` and kept rather than dropped.
+        Impact: System log tables, especially query_thread_log, could grow large and consume most of a node's disk; upgrading nodes will see their old log tables renamed and preserved rather than removed. — #12440
     *   Fixed an append-only stream JOIN with versioned_kv silently dropping left-side rows while the joined key was being updated.
         Impact: An enrichment join could lose or misrepresent left-side rows whenever the joined right-side key was updated. — #12437
-    *   Fixed TTL-expired mutable stream entries staying partially visible and losing column/index metadata instead of being hidden cleanly.
-        Impact: Expired rows stayed partially visible, causing scan/lookup errors; metadata loss after ALTER broke lookups and indexes. — #12470, #12471
+    *   Fixed TTL-expired entries on a mutable stream being only partially hidden instead of cleanly removed.
+        Impact: Point/predicate lookups on a `ttl_seconds` mutable stream could silently return 0 rows for a key that still existed according to `count()` (#12471); full scans could instead raise a `LOGICAL_ERROR 'Invalid number of rows in Chunk'` (#12470). — #12470, #12471
     *   Fixed system.parts queries filtering on the active column returning zero rows for stream tables.
         Impact: Queries filtering system.parts on active returned no rows for stream tables, even though matching parts existed. — #12192
 
 ### 2.8.20 (Public GA) {#2_8_20}
-Released on Sep-21-2026. Installation options:
+Released on 09-21-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_20)
-* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.46 ..
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.43 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.20`
 
 Component versions:
 * timeplusd 2.8.47
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -93,12 +93,12 @@ Compared to the [2.8.19](#2_8_19) release:
 ### 2.8.19 (Public GA) {#2_8_19}
 Released on 07-22-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_19)
-* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.45 ..
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.42 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.19`
 
 Component versions:
 * timeplusd 2.8.45
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -112,12 +112,12 @@ Compared to the [2.8.18](#2_8_18) release:
 ### 2.8.18 (Public GA) {#2_8_18}
 Released on 07-01-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_18)
-* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.44 ..
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.41 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.18`
 
 Component versions:
 * timeplusd 2.8.44
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -140,7 +140,7 @@ Released on 05-26-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.43
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -160,7 +160,7 @@ Released on 05-12-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.42
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -193,7 +193,7 @@ Released on 03-17-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.41
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -214,7 +214,7 @@ Released on 03-06-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.39
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -234,7 +234,7 @@ Released on 02-13-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.37
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -256,7 +256,7 @@ Released on 01-29-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.35
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -277,7 +277,7 @@ Released on 01-18-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.34
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -308,7 +308,7 @@ Released on 12-15-2025. Installation options:
 
 Component versions:
 * timeplusd 2.8.33
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -327,7 +327,7 @@ Released on 12-10-2025. Installation options:
 
 Component versions:
 * timeplusd 2.8.33
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.12
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -355,7 +355,7 @@ Released on 11-28-2025. Installation options:
 
 Component versions:
 * timeplusd 2.8.32
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.12
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -377,7 +377,7 @@ Released on 11-05-2025. Installation options:
 
 Component versions:
 * timeplusd 2.8.31
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.12
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -401,7 +401,7 @@ Released on 10-24-2025. Installation options:
 
 Component versions:
 * timeplusd 2.8.30
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.12
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
