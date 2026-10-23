@@ -40,7 +40,7 @@ Released on Oct-21-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.49
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -70,7 +70,7 @@ Released on Sep-21-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.47
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -98,7 +98,7 @@ Released on 07-22-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.45
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -117,7 +117,7 @@ Released on 07-01-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.44
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -140,7 +140,7 @@ Released on 05-26-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.43
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -160,7 +160,7 @@ Released on 05-12-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.42
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -193,7 +193,7 @@ Released on 03-17-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.41
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
@@ -214,7 +214,7 @@ Released on 03-06-2026. Installation options:
 
 Component versions:
 * timeplusd 2.8.39
-* timeplus_web 2.8.18
+* timeplus_web 2.8.19
 * timeplus_appserver 2.8.13
 * timeplus_connector 2.8.1
 * timeplus cli 2.8.0
