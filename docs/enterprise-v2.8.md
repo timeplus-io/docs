@@ -65,7 +65,7 @@ Compared to the [2.8.20](#2_8_20) release:
 ### 2.8.20 (Public GA) {#2_8_20}
 Released on Sep-21-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_20)
-* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.46 ..
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.43 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.20`
 
 Component versions:
@@ -93,7 +93,7 @@ Compared to the [2.8.19](#2_8_19) release:
 ### 2.8.19 (Public GA) {#2_8_19}
 Released on 07-22-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_19)
-* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.45 ..
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.42 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.19`
 
 Component versions:
@@ -112,7 +112,7 @@ Compared to the [2.8.18](#2_8_18) release:
 ### 2.8.18 (Public GA) {#2_8_18}
 Released on 07-01-2026. Installation options:
 * For Linux or Mac users: `curl https://install.timeplus.com/2.8 | sh` [Downloads](/release-downloads#2_8_18)
-* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.44 ..
+* For Kubernetes users: helm install timeplus/timeplus-enterprise --version v7.0.42 ..
 * For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:2.8.18`
 
 Component versions:
