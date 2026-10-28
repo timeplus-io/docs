@@ -57,7 +57,6 @@ This release consolidates timeplusd changes introduced since 3.3.3. For changes 
 * Keep a re-created stream's execution assignment when the old stream of the same name is removed (#12465). Impact: after dropping and re-creating a scheduled materialized view under the same name, a node could silently reject later assignments, leaving the MV running nowhere (status `Unknown`) or running twice.
 * Hide TTL-expired mutable stream entries on read and keep internal metadata out of TTL (#12473). Impact: on mutable streams with `ttl_seconds`, half-expired rows could fail scans with `LOGICAL_ERROR` or return contradictory point-lookup results; TTL compaction could also drop internal metadata, so columns added by `ALTER` read back empty after a restart, and re-added indexes returned nothing. Expired rows now disappear from reads as soon as they expire instead of at the next compaction.
 * Fill `CREATE STREAM AS SELECT` with an explicit column list (#12481). Impact: the fill insert could fail because the auto-added `_tp_time`/`_tp_sn` columns made the target wider than the SELECT header; also fixed a crash path when `CREATE MUTABLE STREAM AS SELECT` reads from `table(x)`.
-* Kafka schema registry fixes under `consume_schema_strategy='single'` (#12491): skip sibling top-level messages of the same schema ID instead of failing the whole read, and make `count()` honor the strategy filter instead of returning the raw topic message count.
 
 ### 3.3.3 {#3_3_3}
 Released on 09-29-2026. Installation options:
