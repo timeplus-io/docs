@@ -32,6 +32,7 @@ SETTINGS
     named_collection='..',
     subject_name_strategy='..',
     schema_subject_name='..',
+    schema_message_name='..',
     consume_schema_strategy='..';
 ```
 
@@ -234,6 +235,30 @@ For more details, see [Kafka Schema Registry](/kafka-schema-registry).
 #### schema_subject_name
 
 Specifies the subject name for schema lookups in the Schema Registry. Required when `subject_name_strategy` is set to `RecordNameStrategy` or `TopicRecordNameStrategy`. Typically the fully qualified record name, e.g. `com.example.avro.UserRecord`.
+
+#### schema_message_name
+
+Protobuf only. Selects which top-level message of the registry schema the stream uses when that schema defines more than one message. Available in Timeplus Enterprise 3.3.4 and later 3.3.x releases (not in 3.4.1).
+
+- Accepts the short message name (e.g. `Refund`) or its fully qualified name (e.g. `com.example.Refund`). The default is empty, which selects the **first** message defined in the schema.
+- If the stream is created without a column list, the columns are inferred from the selected message.
+- With [`consume_schema_strategy`](#consume_schema_strategy) `single`, only messages of the selected type are consumed. Frames that carry the same schema ID but belong to a sibling message type are skipped instead of failing the read.
+- With `all`, every message is decoded by its own schema and mapped to the stream's columns by name, so `schema_message_name` only affects column inference.
+- A name that does not exist in the schema is rejected with an error that lists the available messages.
+
+For example, if the schema registered under `orders-value` defines both `Order` and `Refund`:
+
+```sql
+CREATE EXTERNAL STREAM refunds
+SETTINGS type='kafka',
+         brokers='localhost:9092',
+         topic='orders',
+         data_format='ProtobufSingle',
+         kafka_schema_registry_url='http://localhost:8081',
+         schema_message_name='Refund';
+```
+
+The columns are inferred from `Refund` and only `Refund` messages are returned.
 
 #### consume_schema_strategy
 

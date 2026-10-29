@@ -24,6 +24,7 @@ SETTINGS type='kafka',
          config_file='..',
          subject_name_strategy='..',
          schema_subject_name='..',
+         schema_message_name='..',
          consume_schema_strategy='..'
 ```
 

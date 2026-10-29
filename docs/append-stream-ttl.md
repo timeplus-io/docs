@@ -94,3 +94,37 @@ TTL d + INTERVAL 1 MONTH DELETE,
     d + INTERVAL 1 WEEK TO VOLUME 'aaa',
     d + INTERVAL 2 WEEK TO DISK 'bbb';
 ```
+
+### Hold Lone Parts Before a Move {#ttl_move_grace_seconds}
+
+When a `TO VOLUME` / `TO DISK` rule targets a volume that is excluded from merges (`prefer_not_to_merge: true`, typically a cold S3 tier, see [Tier Storage](/append-stream-tiered-storage)), Timeplus first tries to merge the expired parts so that fewer, larger parts are uploaded. A freshly written part that has no merge partner yet would still be moved right away, which for steady small-batch ingestion into an already-expired time range produces many small parts on the cold volume.
+
+The stream setting **`ttl_move_grace_seconds`** makes such a lone part wait on the current volume for a merge partner before the TTL move takes it.
+
+| | |
+| :--- | :--- |
+| Type | `uint64`, seconds |
+| Default | `3600` in Timeplus Enterprise 3.3.4 (`300` in 3.4.1). Not available in 3.3.3 and earlier |
+| `0` | Disables the hold: lone parts move as soon as they are eligible |
+
+- A part is held only while its age (since it was written or last merged) is below the grace time. Older lone parts move as before.
+- Parts that do have a merge partner keep waiting for the merge, without this time limit.
+- The hold does not apply when merges are disabled (`SYSTEM STOP MERGES`, `max_parts_to_merge_at_once` below 2, or `max_bytes_to_merge_at_max_space_in_pool = 0`) or when the policy has no volume that is excluded from merges. In those cases parts move immediately.
+- If the source volume runs low on space (see `move_factor` in [Tier Storage](/append-stream-tiered-storage)), held parts are still moved.
+- `perform_ttl_move_on_insert` (enabled by default) moves an inserted part that is already expired to its destination at insert time, before the hold can apply. Set it to `0` on the cold volume if you want freshly inserted expired parts to be held.
+
+The setting can be given when the stream is created and changed later:
+
+```sql
+CREATE STREAM stream_for_move
+(
+    d datetime,
+    a int
+)
+PARTITION BY to_YYYYMM(d)
+ORDER BY d
+TTL d + INTERVAL 1 DAY TO VOLUME 'cold'
+SETTINGS storage_policy = 'hcs', ttl_move_grace_seconds = 600;
+
+ALTER STREAM stream_for_move MODIFY SETTING ttl_move_grace_seconds = 0;
+```
