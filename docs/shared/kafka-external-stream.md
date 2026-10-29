@@ -238,7 +238,7 @@ Specifies the subject name for schema lookups in the Schema Registry. Required w
 
 #### schema_message_name
 
-Protobuf only. Selects which top-level message of the registry schema the stream uses when that schema defines more than one message. Available in Timeplus Enterprise 3.3.4 and later 3.3.x releases (not in 3.4.1).
+Protobuf only. Selects which top-level message of the registry schema the stream uses when that schema defines more than one message. Available in Timeplus Enterprise 3.3.4 and later 3.3.x releases, and in 3.4.2 and later (not in 3.4.1).
 
 - Accepts the short message name (e.g. `Refund`) or its fully qualified name (e.g. `com.example.Refund`). The default is empty, which selects the **first** message defined in the schema.
 - If the stream is created without a column list, the columns are inferred from the selected message.
@@ -272,7 +272,7 @@ Supported values:
 | `all` | Default for `TopicNameStrategy` (or when `subject_name_strategy` is not set) | Decode **all** messages by their schema ID, mapping fields to stream columns by name. Missing fields get default/null values. |
 | `raw` | No | Decode messages by their schema ID and stringy the result into JSON format text. No schema registry lookup or deserialization occurs. The external stream must have exactly one physical column of type `String`. |
 
-**Default value.** In Timeplus Enterprise 3.3.4 and later 3.3.x releases, when `consume_schema_strategy` is not set, the effective strategy is derived from `subject_name_strategy`:
+**Default value.** In Timeplus Enterprise 3.3.4 and later 3.3.x releases, and in 3.4.2 and later, when `consume_schema_strategy` is not set, the effective strategy is derived from `subject_name_strategy`:
 
 | `subject_name_strategy` | Effective `consume_schema_strategy` when not set |
 | :--- | :--- |
@@ -282,8 +282,9 @@ Supported values:
 An explicitly configured value always takes precedence. The derived default is not stored in the stream definition, so it is not shown by `SHOW CREATE STREAM`.
 
 :::info
-- With `single`, `SELECT count()` on the stream decodes and filters the messages, so it returns the number of rows the stream yields rather than the raw number of Kafka messages.
+- With `single`, `SELECT count()` on the stream decodes and filters the messages, so it returns the number of rows the stream yields rather than the raw number of Kafka messages. In Timeplus Enterprise 3.4.1, `count()` returns the raw number of Kafka messages.
 - Changing `consume_schema_strategy` with `ALTER STREAM ... MODIFY SETTING` updates the stream definition immediately, but the running stream applies it only when it is reloaded (for example after a server restart).
 - Versions before 3.3.4 do not have this setting. A stream that sets it explicitly cannot be loaded after a downgrade to such a version.
+- Timeplus Enterprise 3.4.1 has no derived default: when `consume_schema_strategy` is not set it is always `single`, including for `TopicNameStrategy` (or when `subject_name_strategy` is not set). Messages that carry a schema ID outside the stream's subject are skipped. Upgrading from 3.4.1 to 3.4.2 or later, such streams decode all messages by their schema ID (`all`); set `consume_schema_strategy='single'` to keep the previous behavior. Streams that use `RecordNameStrategy`, `TopicRecordNameStrategy` or a custom strategy keep `single`.
 - Upgrading from 3.3.3: Avro streams keep their previous behavior. Protobuf streams that use `RecordNameStrategy` or `TopicRecordNameStrategy` consumed every message in 3.3.3 and now filter by default; set `consume_schema_strategy='all'` to keep consuming every message.
 :::
