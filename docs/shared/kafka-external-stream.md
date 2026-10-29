@@ -243,6 +243,22 @@ Supported values:
 
 | Value | Default | Behavior |
 | :--- | :--- | :--- |
-| `single` | **Yes** | Only consume messages matching the schema identified by `schema_subject_name` and `subject_name_strategy`. Non-matching messages are silently skipped. |
-| `all` | No | Decode **all** messages by their schema ID, mapping fields to stream columns by name. Missing fields get default/null values. |
+| `single` | Default for `RecordNameStrategy`, `TopicRecordNameStrategy` and custom strategies | Only consume messages matching the schema identified by `schema_subject_name` and `subject_name_strategy`. Non-matching messages are silently skipped. |
+| `all` | Default for `TopicNameStrategy` (or when `subject_name_strategy` is not set) | Decode **all** messages by their schema ID, mapping fields to stream columns by name. Missing fields get default/null values. |
 | `raw` | No | Decode messages by their schema ID and stringy the result into JSON format text. No schema registry lookup or deserialization occurs. The external stream must have exactly one physical column of type `String`. |
+
+**Default value.** In Timeplus Enterprise 3.3.4 and later 3.3.x releases, when `consume_schema_strategy` is not set, the effective strategy is derived from `subject_name_strategy`:
+
+| `subject_name_strategy` | Effective `consume_schema_strategy` when not set |
+| :--- | :--- |
+| not set, or `TopicNameStrategy` | `all` |
+| `RecordNameStrategy`, `TopicRecordNameStrategy`, or a custom strategy | `single` |
+
+An explicitly configured value always takes precedence. The derived default is not stored in the stream definition, so it is not shown by `SHOW CREATE STREAM`.
+
+:::info
+- With `single`, `SELECT count()` on the stream decodes and filters the messages, so it returns the number of rows the stream yields rather than the raw number of Kafka messages.
+- Changing `consume_schema_strategy` with `ALTER STREAM ... MODIFY SETTING` updates the stream definition immediately, but the running stream applies it only when it is reloaded (for example after a server restart).
+- Versions before 3.3.4 do not have this setting. A stream that sets it explicitly cannot be loaded after a downgrade to such a version.
+- Upgrading from 3.3.3: Avro streams keep their previous behavior. Protobuf streams that use `RecordNameStrategy` or `TopicRecordNameStrategy` consumed every message in 3.3.3 and now filter by default; set `consume_schema_strategy='all'` to keep consuming every message.
+:::
