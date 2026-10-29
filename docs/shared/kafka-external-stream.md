@@ -242,7 +242,7 @@ Protobuf only. Selects which top-level message of the registry schema the stream
 
 - Accepts the short message name (e.g. `Refund`) or its fully qualified name (e.g. `com.example.Refund`). The default is empty, which selects the **first** message defined in the schema.
 - If the stream is created without a column list, the columns are inferred from the selected message.
-- With [`consume_schema_strategy`](#consume_schema_strategy) `single`, only messages of the selected type are consumed. Frames that carry the same schema ID but belong to a sibling message type are skipped instead of failing the read.
+- With [`consume_schema_strategy`](#consume_schema_strategy) `single`, only messages of the selected type are consumed. Frames that carry the same schema ID but belong to a sibling message type are skipped instead of failing the read. This applies to the releases that have `schema_message_name` (see [availability by release](#consume_schema_strategy_versions)). In 3.4.1, `single` does not skip sibling messages of the same schema ID.
 - With `all`, every message is decoded by its own schema and mapped to the stream's columns by name, so `schema_message_name` only affects column inference.
 - A name that does not exist in the schema is rejected with an error that lists the available messages.
 
@@ -280,8 +280,15 @@ The default differs between release lines. Check the row for the version you run
 | :--- | :--- | :--- | :--- |
 | 3.3.3 and earlier (including 2.8.x and 3.2.x) | Not available | – | Not available |
 | 3.3.4 and later 3.3.x | Available | Derived from `subject_name_strategy` (see below) | Available |
-| 3.4.1 | Available | Always `single`, even for `TopicNameStrategy` | Not available |
+| 3.4.1 | Available | Always `single`, even for `TopicNameStrategy` (see the note below the table) | Not available |
 | 3.4.2 and later | Available | Derived from `subject_name_strategy` (see below) | Available |
+
+In 3.4.1, `single` is also less selective than in the other releases:
+
+- A Protobuf message of a sibling type that shares the stream's schema ID is **not** skipped. It is decoded and returned with the stream's columns, so a stream bound to one message type can return rows of its siblings.
+- `single` accepts only the latest registered version of the subject. For an Avro subject that has been evolved, messages written with an earlier version are skipped, so they disappear from the results without an error.
+
+Both are fixed in 3.4.2 and later: there `single` accepts every registered version of the subject, and skips sibling messages of the same schema ID.
 
 Where the default is derived, the effective strategy depends on `subject_name_strategy`:
 
@@ -296,6 +303,6 @@ An explicitly configured value always takes precedence. The derived default is n
 - With `single`, `SELECT count()` on the stream decodes and filters the messages, so it returns the number of rows the stream yields rather than the raw number of Kafka messages. In 3.4.1, `count()` returns the raw number of Kafka messages.
 - Changing `consume_schema_strategy` with `ALTER STREAM ... MODIFY SETTING` updates the stream definition immediately, but the running stream applies it only when it is reloaded (for example after a server restart).
 - A stream that sets `consume_schema_strategy` explicitly cannot be loaded after a downgrade to a release that does not have the setting (see the table above). Streams that rely on the default can.
-- Upgrading from 3.4.1 to 3.4.2 or later: streams that use `TopicNameStrategy` (or no `subject_name_strategy`) and do not set `consume_schema_strategy` change from `single` to `all`. Messages with a schema ID outside the stream's subject, which 3.4.1 skipped, are now decoded. Set `consume_schema_strategy='single'` to keep the 3.4.1 behavior. Streams that use `RecordNameStrategy`, `TopicRecordNameStrategy` or a custom strategy stay on `single`.
+- Upgrading from 3.4.1 to 3.4.2 or later: streams that use `TopicNameStrategy` (or no `subject_name_strategy`) and do not set `consume_schema_strategy` change from `single` to `all`. Messages with a schema ID outside the stream's subject, which 3.4.1 skipped, are now decoded. Set `consume_schema_strategy='single'` to keep the 3.4.1 behavior. Streams that use `RecordNameStrategy`, `TopicRecordNameStrategy` or a custom strategy stay on `single`, but after the upgrade they skip sibling messages and read frames written with earlier schema versions, which 3.4.1 did not.
 - Upgrading from 3.3.3: Avro streams keep their previous behavior. Protobuf streams that use `RecordNameStrategy` or `TopicRecordNameStrategy` consumed every message in 3.3.3 and now filter by default; set `consume_schema_strategy='all'` to keep consuming every message.
 :::
