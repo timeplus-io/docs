@@ -106,7 +106,7 @@ The stream setting **`ttl_move_grace_seconds`** makes such a lone part wait on t
 | | |
 | :--- | :--- |
 | Type | `uint64`, seconds |
-| Default | The default depends on the release: `3600` in 3.3.4, `300` in 3.4.1 and 3.4.2-rc.2, `3600` in 3.5.1-rc.0. Not available in 3.3.3 and earlier |
+| Default | The default depends on the release: `3600` in 3.3.4, `300` in 3.4.1. Not available in 3.3.3 and earlier. The value can change in later releases, so check the release notes of the version you run |
 | `0` | Disables the hold: lone parts move as soon as they are eligible |
 
 - A part is held only while its age (since it was written or last merged) is below the grace time. Older lone parts move as before.
