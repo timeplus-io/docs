@@ -24,6 +24,72 @@ Key highlights of the Timeplus 3.3 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 3.3.4 {#3_3_4}
+Released on 10-28-2026. Installation options:
+* For Linux or Mac users: [Downloads](/release-downloads#3_3_4)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.3.4`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 13.0.8`
+
+Component versions:
+* timeplusd 3.3.4
+* timeplus_appserver 3.3.1
+* timeplus_connector 3.1.0
+* timeplus cli 3.0.0
+* timeplus byoc 1.0.1-rc.2
+
+#### Changelog {#changelog_3_3_4}
+
+This release consolidates timeplusd changes introduced since 3.3.3. For changes already published in 3.3.3, see the [3.3.3 changelog](#changelog_3_3_3) below.
+
+The 3.4.1 release predates several of the changes listed below, for example the Raft snapshot epoch fix (#12432) and Protobuf schema references with `schema_message_name` (#12479), so moving from 3.3.4 to 3.4.1 loses those changes. Before moving from 3.3.4 to a 3.4.x release, check that the changelog of that release lists the entries you rely on.
+
+**Features and Enhancements**
+* Kafka external streams with schema registry: support Protobuf schemas that import other schemas (references), and add two new settings — `schema_message_name` to pick which top-level message the stream's columns are inferred from, and `consume_schema_strategy` (`single` / `all` / `raw`) to control how messages with different schema IDs are handled (#12479).
+* `consume_schema_strategy='single'` now accepts every registered version of the stream's subject, so frames written before a compatible schema evolution stay readable (#12497).
+* With `consume_schema_strategy='single'`, a Protobuf message of a different top-level message type that shares the stream's schema ID is skipped instead of failing the read with `NO_COLUMNS_SERIALIZED_TO_PROTOBUF_FIELDS`; the stream's message is chosen by `schema_message_name` and defaults to the first message of the schema (#12487, #12489, ported in #12491). `SELECT count()` on a schema-registry Kafka stream that resolves to `single` also applies this filter instead of returning the raw number of Kafka messages (#12488, #12490, ported in #12491).
+* When `consume_schema_strategy` is not set, its default now follows `subject_name_strategy`: `'all'` for `TopicNameStrategy` (or when `subject_name_strategy` is not set), and `'single'` for `RecordNameStrategy`, `TopicRecordNameStrategy` and custom strategies (#12502, #12500). An explicit value always wins, and the resolved default is not stored in the stream DDL. Upgrade notes from 3.3.3:
+  * Avro streams: no change. Streams using `RecordNameStrategy` / `TopicRecordNameStrategy` still consume only the record type of `schema_subject_name`, and streams using `TopicNameStrategy` still consume every message.
+  * Protobuf streams using `RecordNameStrategy` / `TopicRecordNameStrategy`: 3.3.3 consumed every message of the topic regardless of its schema; 3.3.4 consumes only the messages of the selected subject (and of the message chosen by `schema_message_name`) and silently skips the rest. To keep the 3.3.3 behavior, set `consume_schema_strategy = 'all'`.
+  * A changed `consume_schema_strategy` (including after `ALTER STREAM ... MODIFY SETTING`) is applied when the stream reloads, e.g. after a server restart.
+  * Downgrade: streams that set `consume_schema_strategy` explicitly cannot be loaded by 3.3.3 (unknown setting). Streams that rely on the default can.
+* Merge TTL-expired parts before moving them to a no-merge volume (e.g. S3 cold tier), so they land as fewer, larger parts (#12269). A new stream setting `ttl_move_grace_seconds` additionally holds freshly written lone parts on the local volume so late batches can still merge before the move (#12360); its default is 1 hour (#12493).
+* Apply merge selector limits (`max_bytes_to_merge_at_max_space_in_pool`, `max_parts_to_merge_at_once`) to `OPTIMIZE STREAM ... PARTITION p` without `FINAL`; it now triggers one bounded merge per call instead of merging the whole partition, and compacts `prefer_not_to_merge` volumes (#12367).
+* Reduce default system log retention and disable `log_query_threads` by default (#12441). The new retention is 3 days for `trace_log`, 7 days for `query_thread_log`, 14 days for `part_log` and 7 days for `stream_metric_log`, and `log_query_threads` now defaults to `false`. On the first start after the upgrade, the existing `trace_log`, `query_thread_log` and `part_log` tables (whose definition changed) are renamed to `<name>_N` and kept rather than dropped, so their disk space is not reclaimed until you drop the renamed tables; `stream_metric_log` is dropped and re-created with the new TTL. Impact: with the old defaults, system log tables could consume most of a node's local disk. The same change shipped in 2.8.49 as #12440, see the [2.8.21 release notes](/enterprise-v2.8#2_8_21) (timeplusd 2.8.49).
+
+**Bug Fixes**
+* Stamp Raft snapshots with the committed entry's epoch instead of the election epoch (#12432). Impact: a replica that installed a snapshot right after a leader election could get permanently stuck, with the leader resending the same batches to it forever (up to hundreds of MB/s of node-to-node traffic); restarting did not help.
+* Wait for the shard leader before proposing a write instead of letting Raft drop it (#12431). Impact: `CREATE STREAM ... AS SELECT` on a multi-node cluster could lose its fill with `INGEST_TIMEOUT` and leave the new stream empty; any write landing during a Raft election blocked for the full `insert_timeout_ms` and then failed.
+* Rewind the snapshot to sn 0 when the recipient's historical store is empty (#12456). Impact: a replica that lost both its NativeLog and historical store (e.g. a fresh disk or wiped PVC) rejected the catch-up snapshot and stayed at 0 rows forever.
+* Fix `Unstable::trim` erasing a single Raft log entry instead of the tail (#12429). Impact: `SYSTEM RECOVER STREAM` could leave a hole in the unstable Raft log.
+* Fix append stream JOIN `versioned_kv` dropping left rows while the joined right key is being updated (#12439). Impact: `INNER JOIN` silently lost whole left chunks; `LEFT JOIN` emitted them with default right values.
+* Keep a re-created stream's execution assignment when the old stream of the same name is removed (#12465). Impact: after dropping and re-creating a scheduled materialized view under the same name, a node could silently reject later assignments, leaving the MV running nowhere (status `Unknown`) or running twice.
+* Hide TTL-expired mutable stream entries on read and keep internal metadata out of TTL (#12473). Impact: on mutable streams with `ttl_seconds`, half-expired rows could fail scans with `LOGICAL_ERROR` or return contradictory point-lookup results; TTL compaction could also drop internal metadata, so columns added by `ALTER` read back empty after a restart, and re-added indexes returned nothing. Expired rows now disappear from reads as soon as they expire instead of at the next compaction.
+* Fill `CREATE STREAM AS SELECT` with an explicit column list (#12481). Impact: the fill insert could fail because the auto-added `_tp_time`/`_tp_sn` columns made the target wider than the SELECT header; also fixed a crash path when `CREATE MUTABLE STREAM AS SELECT` reads from `table(x)`.
+
+#### Known issues {#known_issue_3_3_4}
+
+1. `CREATE EXTERNAL STREAM` without a column list crashes `timeplusd` when the Protobuf schema has a recursive message type, including `google/protobuf/struct.proto`, so declare the columns explicitly (#12501).
+2. A materialized view that groups a mutable stream and filters it with `WHERE` overwrites a group's aggregate (`sum`, `avg`, `min`, `max`) with `NULL` when an update makes the last row of the group stop matching, so move the condition into the aggregate, for example `sum(if(st = 1, v, 0))` (#12132).
+3. A streaming join of an append-only stream with a changing right side (`versioned_kv`, `changelog_kv` or an `EMIT CHANGELOG` subquery) can silently lose left rows while a right key is updated, so use `join_algorithm='hash'` instead of `parallel_hash` (the other cases have no workaround yet) (#12443, #12444, #12445, #12447, #12450).
+4. A follower replica can stay in the `Snapshot` state after a node restart or a failed Raft snapshot transfer, and restarting the node or changing the leader may clear it, otherwise contact Timeplus support (#12504, #12163, #12164).
+5. A JavaScript aggregate function with a throwing property getter stops `timeplusd` on `CREATE`, and every Python UDF `CREATE` keeps a module in memory until restart, so avoid untrusted source and repeated Python UDF creation on a production node (#12329, #12330).
+6. The Iceberg sink cannot write to Amazon S3 Tables, and time travel, partition transforms, row-level deletes, ORC or Avro data files, and `UPDATE`, `DELETE` and `MERGE` are not supported (#12379, #12362).
+7. Merges and mutations on very wide streams on S3 disks can run out of memory, so set tier-move TTLs to hours or days instead of minutes and leave memory headroom in `max_server_memory_usage` (#12246, #12401, #12044).
+8. A materialized view with `high_availability_model='scheduled'` can run on two nodes after a failover and write duplicated output, and there is no workaround yet (#12458).
+9. On mutable streams with `coalesced = true`, a point lookup of only never-written column families returns no row, a partial update does not refresh the `ttl_seconds` of the other column families, and a partial column-family insert is skipped, so write all columns of a column family together and do not combine `coalesced = true` with `ttl_seconds` (#12475, #10514).
+10. A query over changelog input with `EMIT ON UPDATE`, periodic emit or `EMIT CHANGELOG` can emit extra intermediate rows, such as `count() = 0`, between the `-1` and `+1` of an update, so ignore them and use the final values (#12446, #12448, #12449).
+11. A changelog `LEFT JOIN` where both sides track changes fails with `Method getInt is not supported for nullable(int8)` when `join_use_nulls = 1`, so keep the default `join_use_nulls = 0` (#12506).
+12. A `direct` join loads the right side into memory and can use tens of GB, and the `memory_usage` of such a materialized view can be over-reported, so size nodes for the right side and use process memory (RSS) as the source of truth (#11113, #12408).
+13. Some queries on large mutable streams are slow, such as `ORDER BY` on indexed columns, large `IN` lists, and secondary-index predicates that skip the leading index columns, so keep `IN` lists short and filter on the leading index columns (#11724, #10059, #11845, #11846, #11934, #11825).
+14. DDL in a cluster takes effect asynchronously, so a statement right after `CREATE` can fail with a "does not exist" or `RESOURCE_NOT_INITED` error, and retrying after a short delay works (#8147, #9712, #12424).
+15. `SELECT count()` on a Kafka external stream returns too many rows for a compacted topic, so read the messages and count them instead (#4939).
+16. `DROP STREAM` is not blocked when a `TASK` reads the stream and leaves the task broken, so drop or change the task first (#11015).
+17. `SHOW CREATE users` returns the DDL of the users instead of a stream named `users`, so use `SHOW CREATE STREAM users` (#10194).
+18. Correlated subqueries are not supported and fail with `Missing columns`, so rewrite them as a `JOIN` (#205).
+19. `changelog(tumble(...))` is not supported, so apply `changelog`, then the window function, then dedup, then `table` (#3062).
+20. Row policies apply to historical queries only, not to streaming queries.
+21. A function in a view or subquery, such as `substring`, `json_extract_*` or a UDF, can run more than once per row, so compute it once in the inner query and refer to the column (#1083).
+
 ### 3.3.3 {#3_3_3}
 Released on 09-29-2026. Installation options:
 * For Linux or Mac users: [Downloads](/release-downloads#3_3_3)
