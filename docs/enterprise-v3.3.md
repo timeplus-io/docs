@@ -21,106 +21,6 @@ Key highlights of the Timeplus 3.3 release include:
 |Mac bare metal| Intel or Apple chips: macOS 14, macOS 15|
 |Kubernetes|Kubernetes 1.25+, with Helm 3.12+|
 
-## Known issues {#known_issues}
-
-The issues below affect Timeplus Enterprise 3.3.x, including 3.3.4, and are not fixed in any 3.3 release yet. Each entry describes what you may see and, where one exists, a workaround. When a fix ships, the entry is removed and the fix is listed in the changelog of that release. If you run into one of these issues and need help, contact Timeplus support.
-
-### Query results and streaming SQL
-
-#### Materialized view writes NULL when the last row of a group no longer matches {#ki_mv_null_upsert}
-* **Symptom:** A materialized view with `GROUP BY` reads from a mutable stream and has a `WHERE` filter. An update to the source makes the last row of a group stop matching the filter. If the view writes to a mutable stream, the previous aggregate value of that group is overwritten with `NULL`. This happens for aggregates that can return `NULL`, such as `sum`, `avg`, `min` and `max` on nullable columns. `count()` is not affected, and neither are append-only sources. (#12132)
-* **Workaround:** Remove the `WHERE` filter and move the condition into the aggregate, for example `sum(if(st = 1, v, 0))` instead of `sum(v) ... WHERE st = 1`. The group then shows `0` instead of disappearing, so check that this suits your logic.
-
-#### Streaming JOIN against a changelog can lose left rows {#ki_join_drops_rows}
-* **Symptom:** An append-only stream joined (`INNER` or `LEFT`) with a right side that keeps changing (a `versioned_kv` or `changelog_kv` stream, or a subquery with `EMIT CHANGELOG`) can lose left rows while the matching right key is being updated. No error is returned in most cases. An `INNER JOIN` produces no row, and a `LEFT JOIN` produces default values for the right columns. The cases known today are:
-  * `join_algorithm='parallel_hash'`. (#12444, #12445)
-  * A `changelog_kv` right stream that is written by a materialized view with `EMIT CHANGELOG`. (#12443)
-  * An `EMIT CHANGELOG` aggregation as the right side that runs on a multi-shard source, especially when the source is not sharded by the group key. The server log can contain `Existing value is not found in joined hash table`. (#12447, #12450)
-* **Workaround:** Use `SETTINGS join_algorithm='hash'` instead of `parallel_hash`. For the other cases there is no workaround yet. If you need exact results, compare the join output with the left input.
-
-#### Intermediate results over changelog input {#ki_changelog_intermediate}
-* **Symptom:** With `EMIT ON UPDATE`, periodic emit or `EMIT CHANGELOG`, a query over a changelog input can emit rows computed between the retraction (`-1`) and the new value (`+1`) of an update. For example, `PARTITION BY ... EMIT ON UPDATE` can emit an extra row such as `count() = 0` when an update touches several partitions. A global aggregation over a multi-shard changelog input, and a JavaScript UDA with `has_customized_emit: true`, can also emit wrong intermediate values. Final values are correct. (#12446, #12448, #12449)
-* **Workaround:** Treat these rows as intermediate. Ignore them downstream or read only the final value.
-
-#### Changelog `LEFT JOIN` fails with `join_use_nulls = 1` {#ki_join_use_nulls}
-* **Symptom:** A streaming query or materialized view that does a `LEFT JOIN` where both sides track changes (for example a mutable stream joined with a mutable stream) fails with `Method getInt is not supported for nullable(int8)` if `join_use_nulls = 1` and the first left row arrives before any right row. The materialized view keeps failing and restarting. (#12506)
-* **Workaround:** Do not set `join_use_nulls = 1` for these joins. The default (`0`) works.
-
-#### Coalesced mutable streams {#ki_coalesced}
-* **Symptom:** For mutable streams created with `coalesced = true`:
-  * A point lookup (`WHERE <primary key> = ...`) that selects only columns of column families that have never been written for that key returns no row, while `SELECT *` and `count()` return it. (#12475)
-  * With `ttl_seconds`, a partial update refreshes the TTL only of the column families it fully covers. The other columns, and lookups through secondary indexes, can expire earlier than the rest of the row. (#12475)
-  * Inserting only some columns of a column family is skipped. An insert must contain all columns of each column family it writes. (#10514)
-* **Workaround:** Always write all columns of a column family together. Do not combine `coalesced = true` with `ttl_seconds`.
-
-### Stability and cluster operation
-
-#### Server crash when creating a Kafka external stream from a recursive Protobuf schema {#ki_protobuf_recursion}
-* **Symptom:** `CREATE EXTERNAL STREAM` without a column list crashes the `timeplusd` process (segmentation fault) when the column types are inferred from a Protobuf schema that contains a message type referring to itself, directly or through other messages. All queries on that node stop until it restarts. The schema can come from a schema registry or from `CREATE FORMAT SCHEMA`. Schemas that import `google/protobuf/struct.proto` (`Struct`, `Value`, `ListValue`) are affected too. (#12501)
-* **Workaround:** Declare the columns explicitly in `CREATE EXTERNAL STREAM` instead of inferring them, and do not point column inference at schemas with recursive message types.
-
-#### A replica can stay in the `Snapshot` state {#ki_replica_snapshot}
-* **Symptom:** After a node restart or a failed Raft snapshot transfer, a follower replica of a stream can stay in the `Snapshot` replication state (see `system.v_under_replication_replicas`). Its data stops advancing, and the server log repeats `SEQUENCE_COMPACTED_AWAY` about every 2 seconds. (#12504, #12163, #12164)
-* **Workaround:** A restart of the affected node or a leader change can clear the state in some cases. If the replica stays in `Snapshot`, contact Timeplus support.
-
-#### A scheduled materialized view can run on two nodes after a failover {#ki_scheduled_mv_twice}
-* **Symptom:** For a materialized view with `high_availability_model='scheduled'`, if a worker node goes offline while the scheduler is busy, the view can be assigned to two nodes at once. The target stream then receives duplicated output. (#12458)
-* **Workaround:** None. If you see duplicated output after a node failure, contact Timeplus support.
-
-#### Memory use of merges and mutations on S3 storage {#ki_s3_merge_memory}
-* **Symptom:** With S3 disks and very wide streams (hundreds of columns), a background merge keeps the whole output part in memory until it is uploaded. Under memory pressure, merges fail with `MEMORY_LIMIT_EXCEEDED`, and in the worst case the node is killed for running out of memory and keeps restarting. Mutations (`ALTER ... UPDATE` and `DELETE`) retry immediately after such a failure instead of backing off. A `TTL ... TO VOLUME` expression with a timestamp that is already in the past (for example `to_start_of_hour(_tp_time) + INTERVAL 1 MINUTE TO VOLUME 'cold'`) makes every small part eligible for the cold tier at once and creates many small S3 objects. (#12246, #12401, #12044)
-* **Workaround:** Move data to the cold tier hours or days after ingestion, not minutes. Avoid extremely wide streams on S3 disks. Leave headroom in `max_server_memory_usage` and `merges_mutations_memory_usage_soft_limit`.
-
-#### JavaScript and Python UDFs {#ki_udf}
-* **Symptom:**
-  * `CREATE AGGREGATE FUNCTION` with JavaScript source that has an object property getter that throws an error (or a `Proxy` with a throwing trap) stops the `timeplusd` process. (#12329)
-  * Each `CREATE [OR REPLACE] FUNCTION ... LANGUAGE PYTHON`, including failed ones, leaves the validated module loaded until the process restarts, so memory grows slowly with the number of statements. (#12330)
-* **Workaround:** Do not run these statements with untrusted source code. Avoid creating Python UDFs repeatedly (for example in CI loops) on a production node, and restart the node after heavy UDF changes.
-
-### Performance and memory
-
-#### Direct join against a mutable stream uses a lot of memory {#ki_direct_join_memory}
-* **Symptom:**
-  * The right side of a `direct` join is loaded into memory. With tens of millions of keys it can reach tens of GB, and `max_bytes_in_direct_join` does not bound every case. (#11113)
-  * The `memory_usage` shown in `system.processes` and in the cluster monitoring page for a materialized view with a direct join against a heavily written mutable stream can keep growing and exceed the real memory. This is an accounting error. Use the RSS of the process or host as the source of truth. (#12408)
-* **Workaround:** None for the first item. Size nodes for the right-side table.
-
-#### Slow queries on mutable streams {#ki_mutable_stream_perf}
-* **Symptom:** Some query shapes on large mutable streams are slow: `ORDER BY` on indexed columns does not use the index order, large `IN` lists on indexed columns, `count()` and paged queries on tables with tens of thousands of rows, and secondary-index lookups where the predicate does not cover the leading index columns. (#11724, #10059, #11845, #11846, #11934, #11825)
-* **Workaround:** Keep `IN` lists short, make predicates cover the leading columns of the index, avoid `ORDER BY` on index columns for very large results, and use TTL to limit the number of rows.
-
-### Connectors
-
-#### Apache Iceberg: writing to Amazon S3 Tables, and feature coverage {#ki_iceberg}
-* **Symptom:**
-  * Writing to Amazon S3 Tables with the Iceberg sink fails in 3.3.x. (#12379)
-  * Iceberg support is partial. Time travel, partition specs and transforms, row-level deletes, ORC and Avro data files, partitioned writes, and `UPDATE`, `DELETE` and `MERGE` are not available yet. (#12362)
-* **Workaround:** None.
-
-#### Kafka external stream: `count()` on a compacted topic {#ki_kafka_count}
-* **Symptom:** `SELECT count() FROM table(<kafka stream>)` computes the result from offsets. On a compacted topic, where compaction removed offsets, the result is higher than the number of messages. (#4939)
-* **Workaround:** Do not rely on `count()` over a compacted topic. Read the messages and count them instead.
-
-### SQL and DDL
-
-#### DDL in a cluster takes effect asynchronously {#ki_async_ddl}
-* **Symptom:** After `CREATE STREAM` or `CREATE VIEW` returns on one node, an immediate query or insert through another node, especially a data-only node, can fail for a short time with a "does not exist" error. `SYSTEM PAUSE MATERIALIZED VIEW` right after `CREATE MATERIALIZED VIEW` fails with `RESOURCE_NOT_INITED` because the pipeline is not built on every replica yet, and the view can end up paused on some replicas only. (#8147, #9712, #12424)
-* **Workaround:** Retry after a short delay, and check the state with `SHOW` or system tables before running the next statement.
-
-#### `DROP STREAM` is not blocked when a task reads the stream {#ki_drop_stream_task}
-* **Symptom:** `DROP STREAM` succeeds even if a `TASK` selects from the stream, also when `enable_dependency_check = 1`. The task is left broken. Views, materialized views and alerts are protected. (#11015)
-* **Workaround:** Drop or change the dependent tasks before dropping the stream.
-
-#### `SHOW CREATE users` shows the user, not a stream named `users` {#ki_show_create_users}
-* **Symptom:** If a stream is named `users`, `SHOW CREATE users` returns the DDL of the users, not of the stream. (#10194)
-* **Workaround:** Use `SHOW CREATE STREAM users`.
-
-#### SQL limitations {#ki_sql_limitations}
-* Correlated subqueries are not supported and fail with `Missing columns`. Rewrite them as a `JOIN`. (#205)
-* `changelog(tumble(...))` is not supported. Use the order `changelog` → `tumble`/`hop`/`session` → dedup → `table`. (#3062)
-* Row policies apply to historical queries only, not to streaming queries.
-* A function in a view or subquery can be executed more than once per row, for example `substring`, `json_extract_*` and UDFs. Compute the value once in the inner query and refer to the column. (#1083)
-
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
@@ -165,6 +65,31 @@ The 3.4.1 release predates several of the changes listed below, for example the 
 * Keep a re-created stream's execution assignment when the old stream of the same name is removed (#12465). Impact: after dropping and re-creating a scheduled materialized view under the same name, a node could silently reject later assignments, leaving the MV running nowhere (status `Unknown`) or running twice.
 * Hide TTL-expired mutable stream entries on read and keep internal metadata out of TTL (#12473). Impact: on mutable streams with `ttl_seconds`, half-expired rows could fail scans with `LOGICAL_ERROR` or return contradictory point-lookup results; TTL compaction could also drop internal metadata, so columns added by `ALTER` read back empty after a restart, and re-added indexes returned nothing. Expired rows now disappear from reads as soon as they expire instead of at the next compaction.
 * Fill `CREATE STREAM AS SELECT` with an explicit column list (#12481). Impact: the fill insert could fail because the auto-added `_tp_time`/`_tp_sn` columns made the target wider than the SELECT header; also fixed a crash path when `CREATE MUTABLE STREAM AS SELECT` reads from `table(x)`.
+
+#### Known issues {#known_issue_3_3_4}
+The following issues are not fixed in 3.3.4. Workarounds are given where they exist.
+
+1. A materialized view that groups a mutable stream and filters it with `WHERE` overwrites a group's aggregate (`sum`, `avg`, `min`, `max`) with `NULL` when an update makes the last row of the group stop matching, so move the condition into the aggregate, for example `sum(if(st = 1, v, 0))` (#12132).
+2. A streaming join of an append-only stream with a changing right side (`versioned_kv`, `changelog_kv` or an `EMIT CHANGELOG` subquery) can silently lose left rows while a right key is updated, so use `join_algorithm='hash'` instead of `parallel_hash` (the other cases have no workaround yet) (#12443, #12444, #12445, #12447, #12450).
+3. A query over changelog input with `EMIT ON UPDATE`, periodic emit or `EMIT CHANGELOG` can emit extra intermediate rows, such as `count() = 0`, between the `-1` and `+1` of an update, so ignore them and use the final values (#12446, #12448, #12449).
+4. A changelog `LEFT JOIN` where both sides track changes fails with `Method getInt is not supported for nullable(int8)` when `join_use_nulls = 1`, so keep the default `join_use_nulls = 0` (#12506).
+5. On mutable streams with `coalesced = true`, a point lookup of only never-written column families returns no row, a partial update does not refresh the `ttl_seconds` of the other column families, and a partial column-family insert is skipped, so write all columns of a column family together and do not combine `coalesced = true` with `ttl_seconds` (#12475, #10514).
+6. `CREATE EXTERNAL STREAM` without a column list crashes `timeplusd` when the Protobuf schema has a recursive message type, including `google/protobuf/struct.proto`, so declare the columns explicitly (#12501).
+7. A follower replica can stay in the `Snapshot` state after a node restart or a failed Raft snapshot transfer, and restarting the node or changing the leader may clear it, otherwise contact Timeplus support (#12504, #12163, #12164).
+8. A materialized view with `high_availability_model='scheduled'` can run on two nodes after a failover and write duplicated output, and there is no workaround yet (#12458).
+9. Merges and mutations on very wide streams on S3 disks can run out of memory, so set tier-move TTLs to hours or days instead of minutes and leave memory headroom in `max_server_memory_usage` (#12246, #12401, #12044).
+10. A JavaScript aggregate function with a throwing property getter stops `timeplusd` on `CREATE`, and every Python UDF `CREATE` keeps a module in memory until restart, so avoid untrusted source and repeated Python UDF creation on a production node (#12329, #12330).
+11. A `direct` join loads the right side into memory and can use tens of GB, and the `memory_usage` of such a materialized view can be over-reported, so size nodes for the right side and use process memory (RSS) as the source of truth (#11113, #12408).
+12. Some queries on large mutable streams are slow, such as `ORDER BY` on indexed columns, large `IN` lists, and secondary-index predicates that skip the leading index columns, so keep `IN` lists short and filter on the leading index columns (#11724, #10059, #11845, #11846, #11934, #11825).
+13. The Iceberg sink cannot write to Amazon S3 Tables, and time travel, partition transforms, row-level deletes, ORC or Avro data files, and `UPDATE`, `DELETE` and `MERGE` are not supported (#12379, #12362).
+14. `SELECT count()` on a Kafka external stream returns too many rows for a compacted topic, so read the messages and count them instead (#4939).
+15. DDL in a cluster takes effect asynchronously, so a statement right after `CREATE` can fail with a "does not exist" or `RESOURCE_NOT_INITED` error, and retrying after a short delay works (#8147, #9712, #12424).
+16. `DROP STREAM` is not blocked when a `TASK` reads the stream and leaves the task broken, so drop or change the task first (#11015).
+17. `SHOW CREATE users` returns the DDL of the users instead of a stream named `users`, so use `SHOW CREATE STREAM users` (#10194).
+18. Correlated subqueries are not supported and fail with `Missing columns`, so rewrite them as a `JOIN` (#205).
+19. `changelog(tumble(...))` is not supported, so apply `changelog`, then the window function, then dedup, then `table` (#3062).
+20. Row policies apply to historical queries only, not to streaming queries.
+21. A function in a view or subquery, such as `substring`, `json_extract_*` or a UDF, can run more than once per row, so compute it once in the inner query and refer to the column (#1083).
 
 ### 3.3.3 {#3_3_3}
 Released on 09-29-2026. Installation options:
