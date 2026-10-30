@@ -67,7 +67,6 @@ The 3.4.1 release predates several of the changes listed below, for example the 
 * Fill `CREATE STREAM AS SELECT` with an explicit column list (#12481). Impact: the fill insert could fail because the auto-added `_tp_time`/`_tp_sn` columns made the target wider than the SELECT header; also fixed a crash path when `CREATE MUTABLE STREAM AS SELECT` reads from `table(x)`.
 
 #### Known issues {#known_issue_3_3_4}
-The following issues are not fixed in 3.3.4, listed from the highest to the lowest severity. Workarounds are given where they exist.
 
 1. `CREATE EXTERNAL STREAM` without a column list crashes `timeplusd` when the Protobuf schema has a recursive message type, including `google/protobuf/struct.proto`, so declare the columns explicitly (#12501).
 2. A materialized view that groups a mutable stream and filters it with `WHERE` overwrites a group's aggregate (`sum`, `avg`, `min`, `max`) with `NULL` when an update makes the last row of the group stop matching, so move the condition into the aggregate, for example `sum(if(st = 1, v, 0))` (#12132).
