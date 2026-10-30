@@ -142,7 +142,7 @@ To read Avro-encoded or Protobuf-encoded Kafka messages, please refer to [Avro S
 
 Kafka topics may contain messages encoded with different Avro or Protobuf schemas (multiple schema IDs) via Confluent Schema Registry's `RecordNameStrategy` or `TopicRecordNameStrategy`. The `consume_schema_strategy` setting controls how these messages are processed.
 
-**`single` mode (default):** Only consume messages matching a specific schema. Non-matching messages are silently skipped.
+**`single` mode (default for `RecordNameStrategy`, `TopicRecordNameStrategy` and custom strategies):** Only consume messages matching a specific schema. Non-matching messages are silently skipped. For `TopicNameStrategy` (or when `subject_name_strategy` is not set) the default is `all`. The default depends on the release, see [availability by release](/kafka-source#consume_schema_strategy_versions).
 
 ```sql
 CREATE EXTERNAL STREAM user_events (

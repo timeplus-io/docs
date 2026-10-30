@@ -235,6 +235,31 @@ For more details, see [Kafka Schema Registry](/kafka-schema-registry).
 
 Specifies the subject name for schema lookups in the Schema Registry. Required when `subject_name_strategy` is set to `RecordNameStrategy` or `TopicRecordNameStrategy`. Typically the fully qualified record name, e.g. `com.example.avro.UserRecord`.
 
+#### schema_message_name
+
+Protobuf only. Selects which top-level message of the registry schema the stream uses when that schema defines more than one message. Not available in 3.3.3 and earlier, or in 3.4.1; see [availability by release](#consume_schema_strategy_versions).
+
+- Accepts the short message name (e.g. `Refund`) or its fully qualified name (e.g. `com.example.Refund`). The default is empty, which selects the **first** message defined in the schema.
+- If the stream is created without a column list, the columns are inferred from the selected message.
+- With [`consume_schema_strategy`](#consume_schema_strategy) `single`, only messages of the selected type are consumed. Frames that carry the same schema ID but belong to a sibling message type are skipped instead of failing the read. This applies to the releases that have `schema_message_name` (see [availability by release](#consume_schema_strategy_versions)). In 3.4.1, `single` does not skip sibling messages of the same schema ID.
+- With `all`, every message is decoded by its own schema and mapped to the stream's columns by name, so `schema_message_name` only affects column inference.
+- A name that does not exist in the schema is rejected with an error that lists the available messages.
+
+For example, if the schema registered under `orders-value` defines both `Order` and `Refund`:
+
+```sql
+CREATE EXTERNAL STREAM refunds
+SETTINGS type='kafka',
+         brokers='localhost:9092',
+         topic='orders',
+         data_format='ProtobufSingle',
+         kafka_schema_registry_url='http://localhost:8081',
+         schema_message_name='Refund',
+         consume_schema_strategy='single';
+```
+
+The columns are inferred from `Refund`, and `consume_schema_strategy='single'` limits the stream to `Refund` messages. Without that setting (and without a `subject_name_strategy`), the effective strategy is `all`: the columns are still inferred from `Refund`, but every message of the topic is returned, and the `Order` rows get the default value (0) for `amount`.
+
 #### consume_schema_strategy
 
 Controls how Kafka messages with different Confluent Schema Registry schema IDs are processed. This setting is useful when a Kafka topic contains messages encoded with multiple Avro or Protobuf schemas (e.g., via `RecordNameStrategy` or `TopicRecordNameStrategy`).
@@ -243,6 +268,41 @@ Supported values:
 
 | Value | Default | Behavior |
 | :--- | :--- | :--- |
-| `single` | **Yes** | Only consume messages matching the schema identified by `schema_subject_name` and `subject_name_strategy`. Non-matching messages are silently skipped. |
-| `all` | No | Decode **all** messages by their schema ID, mapping fields to stream columns by name. Missing fields get default/null values. |
+| `single` | Default for `RecordNameStrategy`, `TopicRecordNameStrategy` and custom strategies in the releases that derive the default; in 3.4.1 it is the default for every strategy (see [availability by release](#consume_schema_strategy_versions)) | Only consume messages matching the schema identified by `schema_subject_name` and `subject_name_strategy`. Non-matching messages are silently skipped. |
+| `all` | Default for `TopicNameStrategy` (or when `subject_name_strategy` is not set) in the releases that derive the default; not the default in 3.4.1 (see [availability by release](#consume_schema_strategy_versions)) | Decode **all** messages by their schema ID, mapping fields to stream columns by name. Missing fields get default/null values. |
 | `raw` | No | Decode messages by their schema ID and stringy the result into JSON format text. No schema registry lookup or deserialization occurs. The external stream must have exactly one physical column of type `String`. |
+
+##### Availability and default by release {#consume_schema_strategy_versions}
+
+The default differs between release lines. Check the row for the version you run:
+
+| Timeplus Enterprise | `consume_schema_strategy` | Default when not set | `schema_message_name` |
+| :--- | :--- | :--- | :--- |
+| 3.3.3 and earlier (including 2.8.x and 3.2.x) | Not available | – | Not available |
+| 3.3.4 and later 3.3.x | Available | Derived from `subject_name_strategy` (see below) | Available |
+| 3.4.1 | Available | Always `single`, even for `TopicNameStrategy` (see the note below the table) | Not available |
+| 3.4.2 and later | Available | Derived from `subject_name_strategy` (see below) | Available |
+
+In 3.4.1, `single` is also less selective than in the other releases:
+
+- A Protobuf message of a sibling type that shares the stream's schema ID is **not** skipped. It is decoded and returned with the stream's columns, so a stream bound to one message type can return rows of its siblings.
+- `single` accepts only the latest registered version of the subject. For an Avro subject that has been evolved, messages written with an earlier version are skipped, so they disappear from the results without an error.
+
+Both are fixed in 3.4.2 and later: there `single` accepts every registered version of the subject, and skips sibling messages of the same schema ID.
+
+Where the default is derived, the effective strategy depends on `subject_name_strategy`:
+
+| `subject_name_strategy` | Effective `consume_schema_strategy` when not set |
+| :--- | :--- |
+| not set, or `TopicNameStrategy` | `all` |
+| `RecordNameStrategy`, `TopicRecordNameStrategy`, or a custom strategy | `single` |
+
+An explicitly configured value always takes precedence. The derived default is not stored in the stream definition, so it is not shown by `SHOW CREATE STREAM`.
+
+:::info
+- With `single`, `SELECT count()` on the stream decodes and filters the messages, so it returns the number of rows the stream yields rather than the raw number of Kafka messages. In 3.4.1, `count()` returns the raw number of Kafka messages.
+- Changing `consume_schema_strategy` with `ALTER STREAM ... MODIFY SETTING` updates the stream definition immediately, but the running stream applies it only when it is reloaded (for example after a server restart).
+- A stream that sets `consume_schema_strategy` or `schema_message_name` explicitly is rejected by a release that does not have the setting (see the table above): `CREATE` fails with an unknown-setting error (checked on 3.3.3 for both settings, and on 3.4.1 for `schema_message_name`), and after a downgrade the stream is not loaded (checked from 3.3.4 to 3.3.3 for a stream with an explicit `consume_schema_strategy`). In particular, 3.4.1 has `consume_schema_strategy` but not `schema_message_name`, so a Protobuf stream created on 3.3.4 or 3.4.2 with `schema_message_name` cannot be used on 3.4.1. Streams that rely on the default `consume_schema_strategy` can be loaded.
+- Upgrading from 3.4.1 to 3.4.2 or later: streams that use `TopicNameStrategy` (or no `subject_name_strategy`) and do not set `consume_schema_strategy` change from `single` to `all`. Messages with a schema ID outside the stream's subject, which 3.4.1 skipped, are now decoded. Set `consume_schema_strategy='single'` to keep the 3.4.1 behavior. Streams that use `RecordNameStrategy`, `TopicRecordNameStrategy` or a custom strategy stay on `single`, but after the upgrade they skip sibling messages and read frames written with earlier schema versions, which 3.4.1 did not.
+- Upgrading from 3.3.3: Avro streams keep their previous behavior. Protobuf streams that use `RecordNameStrategy` or `TopicRecordNameStrategy` consumed every message in 3.3.3 and now filter by default; set `consume_schema_strategy='all'` to keep consuming every message.
+:::
