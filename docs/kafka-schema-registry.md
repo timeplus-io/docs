@@ -31,6 +31,8 @@ CREATE EXTERNAL STREAM my_stream (
 `kafka_schema_registry_url`: Must include the protocol (`http://` or `https://`).
 `kafka_schema_registry_credentials`: Optional. Omit if your registry does not require an API key or Basic Auth.
 
+Pass the credentials in `kafka_schema_registry_credentials`, in `username:password` format. The value is split at the first `:`, so the password may contain further colons. Credentials written into the URL (`https://user:password@host/...`) are **not** used: no `Authorization` header is sent, and a registry that requires authentication answers `401 Unauthorized`.
+
 **2. TLS/SSL Security Options**
 You can configure secure connections in two ways:
 - **Basic (Insecure)**: Set `kafka_schema_registry_skip_cert_check = true`. This bypasses TLS verification and is recommended for local testing only.
@@ -57,6 +59,21 @@ The schema subject specified in external stream is used in the following cases:
 
 For `consume_schema_strategy='all'`, the schema subject is not used for filtering; the schema ID is read directly from each Kafka record's Confluent header, the corresponding schema is fetched from the registry (cached), and all messages are decoded and mapped to stream columns by name.
 :::
+
+### Schema IDs and registry changes {#schema_ids}
+
+A Kafka message carries the **ID** of the schema it was written with in its Confluent header, and a stream matches messages by this ID, not by the schema text. If the subject is deleted and the same schema is registered again, or the stream is pointed at another registry (for example one restored from a backup), the same schema text can receive a new ID, while the messages that are already in the topic keep the old ID.
+
+What a stream does with such messages depends on `consume_schema_strategy`:
+
+| `consume_schema_strategy` | Messages whose schema ID is not a registered version of the stream's subject |
+| :--- | :--- |
+| `single` | Skipped silently: the stream returns no rows for them and raises no error. |
+| `all` | The ID is looked up in the registry. A schema that is already cached keeps decoding; an ID that is not cached fails the query with `404 Schema <id> not found`. |
+
+While the subject itself does not exist in the registry (deleted and not registered again), a `single` stream fails with `404` on `/subjects/<subject>/versions` instead.
+
+If a `single` stream suddenly returns nothing after a registry rebuild or restore, compare the schema IDs in the topic with the IDs registered under the subject.
 
 ## Write Messages in Avro Schema{#write}
 
