@@ -280,11 +280,12 @@ Controls whether parsing errors should be ignored when reading various formats (
 
 When the node that runs a materialized view is stopped, restarted or crashes, the view is recovered from its last checkpoint, on another node of a multi-node cluster. Events that were not processed yet are not skipped.
 
-For a materialized view that only selects columns from a [Kafka external stream](/kafka-source) (no aggregation and no join) and writes into a stream:
+For a materialized view that reads a [Kafka external stream](/kafka-source) and writes into a stream, that selects columns, or that computes a `GROUP BY` aggregation or a `tumble` window aggregation:
 
 - **Where it continues.** The view continues from its own checkpoint, not from the `seek_to` of its query. `seek_to` only decides where the view starts when it is created, so a view created with `seek_to='latest'` does not skip the messages that arrive while its node is down, and a view created with `seek_to='earliest'` does not read the topic again from the beginning.
-- **Graceful stop or restart.** When the node is shut down normally (for example `docker stop` or a service restart), the view continues without writing events twice.
-- **Crash.** When the node process is killed (SIGKILL), the events that the view had processed after its last checkpoint can be processed again, so the target stream can contain some events twice. Treat the delivery as at-least-once and let downstream queries tolerate duplicates, for example by deduplicating on a unique event id. How often checkpoints are taken is controlled by [`checkpoint_interval`](#checkpoint_interval) and `checkpoint_settings`.
+- **Graceful stop or restart.** When the node is shut down normally (for example `docker stop` or a service restart), the view continues without writing events or window results twice.
+- **Aggregation state.** The state of the aggregation is part of the checkpoint. After the view has moved to another node, its counts and sums continue from the checkpointed state; they do not restart from zero.
+- **Crash.** When the node process is killed (SIGKILL), the events that the view had processed after its last checkpoint can be processed again, so the target stream can contain some events twice. For a view with a window aggregation, a result row that was already written, for example a closed window, can also be written a second time with the same values. Treat the delivery as at-least-once and let downstream queries tolerate duplicates, for example by deduplicating on a unique event id, or, for window results, on the window start and the grouping keys. How often checkpoints are taken is controlled by [`checkpoint_interval`](#checkpoint_interval) and `checkpoint_settings`.
 
 ## Sink With or Without Target Stream / Table
 
