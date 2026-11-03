@@ -4,6 +4,8 @@ In advanced use cases, you may want to fine-tune the behavior of the Kafka consu
 
 These settings can control aspects like message size limits, retry behavior, timeouts, and more. For a full list of available configuration options, refer to the [librdkafka configuration documentation](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md).
 
+Some properties are managed by Timeplus and are rejected in `properties` with the error `Unsupported property <name>` when the stream is created. These include the consumer-group and offset properties `group.id`, `group.instance.id`, `enable.auto.commit`, `enable.auto.offset.store`, `auto.offset.reset` and `auto.commit.interval.ms`. Timeplus does not use Kafka consumer groups for external streams, see [No consumer group, no committed offsets](/kafka-source#no_consumer_group).
+
 ### Kafka Client Properties Example
 
 ```sql
