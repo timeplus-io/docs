@@ -69,9 +69,11 @@ What a stream does with such messages depends on `consume_schema_strategy`:
 | `consume_schema_strategy` | Messages whose schema ID is not a registered version of the stream's subject |
 | :--- | :--- |
 | `single` | Skipped silently: the stream returns no rows for them and raises no error. |
-| `all` | The ID is looked up in the registry. A schema that is already cached keeps decoding; an ID that is not cached fails the query with `404 Schema <id> not found`. |
+| `all` | The ID is looked up in the registry. A schema that is already cached keeps decoding. An ID that is not cached is fetched from the registry: if the registry still knows the ID, the messages decode; if the registry no longer knows it (for example after the subject was deleted permanently), the query fails with `404 Schema <id> not found`. |
 
 While the subject itself does not exist in the registry (deleted and not registered again), a `single` stream fails with `404` on `/subjects/<subject>/versions` instead.
+
+A subject that is only soft-deleted does not change this for `all`: the registry still answers for the ID, so an `all` stream keeps decoding even with a cold cache. Only a permanent delete makes the ID unknown.
 
 If a `single` stream suddenly returns nothing after a registry rebuild or restore, compare the schema IDs in the topic with the IDs registered under the subject.
 
