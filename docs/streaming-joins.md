@@ -193,6 +193,8 @@ AND date_diff_within(2m, left_stream.col1, right_stream.col2)
 
 Note the range columns must be in `datetime` or `datetime64` type, and the time interval only supports seconds or minutes.
 
+`date_diff_within(<interval>)` creates the range `[-interval, +interval]`, whose width `2 × interval` must not exceed the `max_join_range` setting (default 300 seconds). See [Time Ranges in Windows and Joins](/streaming-time-range-guide#limits) for all limits and sizing guidance.
+
 ### Dynamic Enrichment JOIN
 
 There are typical cases that an unbounded data stream needs enrichment by connecting to a relatively static dimension table. Timeplus can do this in one single engine by storing streaming data and dimension tables in it, as well as accessing to external database or file systems.

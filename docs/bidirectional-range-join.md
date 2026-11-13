@@ -64,3 +64,11 @@ At runtime, the engine performs the following:
 The following diagram depicits this join behavior.
 
 ![BidirectionalRangeJoin](/img/bidirectional-range-join.svg)
+
+## Limits
+
+- `date_diff_within(<interval>)` creates the range `[-interval, +interval]`. Its width `2 × interval` must not exceed `max_join_range` (default 300 seconds), so `date_diff_within(150s)` is the largest range accepted by default. For `date_diff_within(60m)` set `max_join_range = 7200`.
+- For one-sided ranges, shift one side instead of doubling the range, e.g. `date_diff_within(30m, date_add(left.ts, 30m), right.ts)` matches `right.ts` in `[left.ts, left.ts + 60m]` with width 3600.
+- Rows older than the join's combined watermark are dropped. If one side is idle, the other side's buffer keeps growing until `join_max_buffered_bytes` fails the query, unless `keep_range_join_max_buckets` is set.
+
+See [Time Ranges in Windows and Joins](/streaming-time-range-guide) for all limits, settings and sizing guidance.

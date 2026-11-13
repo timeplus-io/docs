@@ -216,10 +216,12 @@ Result:
 Timeplus provides a special syntax to get such result easily
 
 ```sql
-SELECT sum(amount) FROM trips EMIT LAST 1h
+SELECT sum(amount) FROM trips EMIT LAST 1h SETTINGS max_windows=1800
 ```
 
 Once the query is submitted, it will show quite a few rows based on the past day, then show new results in a streaming fashion.
+
+`EMIT LAST <range>` keeps `range / 2s` sub-windows, limited by the `max_windows` setting (default 1000), hence `max_windows=1800` for a 1 hour range. See [Time Ranges in Windows and Joins](/streaming-time-range-guide#emit-policies).
 
 Result:
 

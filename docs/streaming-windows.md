@@ -83,7 +83,7 @@ parameter called `<hop_slide_size>` which means window progresses this slide siz
 2. `<hop_slide_size>` is equal to `<hop_window_size>`. Degenerated to a tumble window.
 3. `<hop_slide_size>` is greater than `<hop_window_size>`. Windows has a gap in between. Usually not useful, hence not supported so far.
 
-Please note, at this point, you need to use the same time unit in `<hop_slide_size>` and `<hop_window_size>`, for example `hop(device_utils, 1s, 60s)` instead of `hop(device_utils, 1s, 1m)`.
+`<hop_slide_size>` and `<hop_window_size>` can use different units as long as one converts to the other, for example `hop(device_utils, 1s, 1m)`. Units that cannot be converted, such as `d` and `M`, are rejected. See [Time Ranges in Windows and Joins](/streaming-time-range-guide) for all limits.
 
 Here is one hop window example which has 2 seconds slide and 5 seconds hop window.
 

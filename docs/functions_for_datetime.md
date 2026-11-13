@@ -222,6 +222,8 @@ Supported unit:
 
 `date_diff_within(timegap,time1, time2)` returns true or false. This function only works in [stream-to-stream join](/streaming-joins). Check whether the gap between `time1` and `time2` are within the specific range. For example `date_diff_within(10s,payment.time,notification.time)` to check whether the payment time and notification time are within 10 seconds or less.
 
+The function is only valid in the `ON` clause of a stream-to-stream join. It matches rows where `|time1 - time2| <= timegap`, so the join range width is `2 × timegap`, which must not exceed the `max_join_range` setting (default 300 seconds, so `date_diff_within(150s)` by default). `timegap` only supports seconds and minutes. See [Time Ranges in Windows and Joins](/streaming-time-range-guide#limits).
+
 ### date_trunc
 
 `date_trunc(unit, value[, timezone])` truncates date and time data to the specified part of date. For example, `date_trunc('month',now())` returns the datetime at the beginning of the current month. Possible unit values are:
