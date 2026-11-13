@@ -99,6 +99,33 @@ LEFT JOIN tableB ON tableA.id=tableB.id
 SETTINGS join_max_buffered_bytes=8589934592;
 ```
 
+## max_join_range
+Type: int64
+
+Default: 300
+
+Maximum width, in seconds, of a [range join](/bidirectional-range-join). The width is `upper - lower`, so `date_diff_within(60m)` (range `-3600` to `3600`) needs `max_join_range >= 7200`. See [Time Ranges in Windows and Joins](/streaming-time-range-guide#limits).
+
+```sql
+SELECT * FROM left_stream AS l JOIN right_stream AS r
+ON l.key = r.key AND date_diff_within(60m, l.ts, r.ts)
+SETTINGS max_join_range = 7200;
+```
+
+## keep_range_join_max_buckets
+Type: uint64
+
+Default: 0 (no limit)
+
+Maximum number of range buckets kept per side in a range join. When exceeded, the oldest buckets are evicted even if the watermark has not advanced, for example because one side is idle. Evicted rows can no longer be matched.
+
+## max_windows
+Type: uint64
+
+Default: 1000
+
+Maximum number of sub-windows for `EMIT LAST <range>` in a global aggregation, which is `range / 2s`. With the default, the largest range is about 33 minutes; set `max_windows = 1800` for `EMIT LAST 1h`.
+
 ## join_algorithm
 Type: string
 

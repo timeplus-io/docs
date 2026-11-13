@@ -348,6 +348,11 @@ const sidebars = {
         },
         {
           type: "doc",
+          id: "streaming-time-range-guide",
+          label: "Time Range Limits & Sizing",
+        },
+        {
+          type: "doc",
           id: "shuffle-data",
           label: "Shuffle Data",
         },

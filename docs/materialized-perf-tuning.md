@@ -152,6 +152,8 @@ Most queries work well with default settings, but advanced workloads may require
 - `max_joined_block_size_rows`: Maximum block size (in rows) for JOIN results. `0` means unlimited. **Default: 65409**
 - `join_algorithm`: Algorithm for join execution (`parallel_hash`, `hash`, `direct`, etc.). **Default: default**
 - `join_max_buffered_bytes`: Maximum buffered bytes for stream-to-stream joins. **Default: 524288000**
+- `max_join_range`: Maximum width (in seconds) of a range join, e.g. `date_diff_within(2m)` has width 240. **Default: 300**
+- `keep_range_join_max_buckets`: Maximum range buckets kept per side in a range join; the oldest buckets are evicted when exceeded, even if the watermark has not advanced. `0` means no limit. **Default: 0**
 - `join_buffered_data_block_size`: Block size used when buffering data in memory; merges small blocks into larger ones for efficiency. `0` disables merging. **Default: 0**
 - `join_quiesce_threshold_ms`: Maximum wait time (ms) when one side of the join is quiesced. **Default: 1000**
 - `join_latency_threshold`: Controls when to align and start joining left/right streams. `0` lets the system choose the value automatically. **Default: 0**
@@ -160,6 +162,8 @@ Most queries work well with default settings, but advanced workloads may require
 ### Aggregation
 
 - `default_hash_table`: Controls which hash table (`memory or hybrid`) is used for streaming queries (joins, aggregations). **Default: memory** 
+- `max_windows`: Maximum `range / 2s` for `EMIT LAST <range>` in global aggregations. **Default: 1000**
+- See [Time Ranges in Windows and Joins](/streaming-time-range-guide#best-practices) for how window size, hop slide and join range drive memory usage.
 - Emit strategy is also critical for tuning. See [Streaming Aggregations: Emit Strategy](/streaming-aggregations#emit) for details.
 
 ### Backfill
