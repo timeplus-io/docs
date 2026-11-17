@@ -82,6 +82,7 @@ const sidebars = {
             "tutorial-sql-join",
             "tutorial-python-udf",
             "sql-pattern-topn",
+            "backtesting-replay",
             "usecases",
             "tutorial-kv",
             "tutorial-sql-read-avro",
