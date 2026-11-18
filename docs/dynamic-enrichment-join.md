@@ -1,6 +1,6 @@
 # Dynamic Enrichment Join
 
-Similar to [Enrichment Join](/enrichment-join), **Dynamic Enrichment Join** enriches a live data stream with reference data from a changing right-hand side dataset. How each event from the left stream matches that data depends on the join strictness.
+Similar to [Enrichment Join](/enrichment-join), **Dynamic Enrichment Join** enriches a live data stream with reference data from a changing right-hand side dataset. It is designed for scenarios where the right-hand side data evolves over time. Each event from the left stream probes the current join state, and the join strictness determines which rows match.
 
 In this join type, events from the left-hand stream trigger the join. Each incoming event probes a dynamic hash table that is continuously updated from the right-hand side dataset (which typically changes at a slower rate).
 
@@ -76,7 +76,7 @@ ON orders.product_id = products.id;
 
 **ASOF JOIN** enriches a live data stream with reference data based on **the closest** match in time on the right-hand side dataset. It is designed for time-aware enrichment use cases where the right-hand side dataset **(e.g., exchange rates, inventory prices, metrics**) evolves over time, and each incoming event from the left stream should use the **most recent valid version** from the right-hand side.
 
-An `ASOF JOIN` uses equality keys and one inequality. For `left.ts >= right.ts`, it selects the largest buffered right timestamp less than or equal to the left timestamp. Reversing the inequality changes the search direction.
+Unlike `LATEST JOIN` (which only keeps the latest version per key), `ASOF JOIN` maintains a time-sorted list for each key on the right-hand side. With `left.ts >= right.ts`, it finds the record with the **largest buffered timestamp less than or equal to** the left event’s timestamp. Reversing the inequality changes the search direction.
 
 ### Syntax
 
@@ -170,9 +170,9 @@ INSERT INTO orders(id, currency, price, amount, _tp_time) VALUES
 
 ## ALL JOIN
 
-**ALL JOIN** enriches a live data stream by joining it with **all matching rows** in the right-hand side state. With a keyed right stream, the state keeps the current row per primary key. A join key can match several distinct primary keys.
+**ALL JOIN** enriches a live data stream by joining it with **all matching rows** from a **dynamic right-hand side dataset**. Unlike `LATEST JOIN`, which only uses the most recent value for the join key, `ALL JOIN` can match multiple rows. With a keyed right stream, the state keeps the current row per primary key, so a join key can match several distinct primary keys.
 
-This join type is useful for use cases such as **audit trails, change history analysis**, or **multi-version correlation**, where you need visibility into how reference data evolved — not just its current state.
+This join type is useful for use cases such as **audit trails, change history analysis**, or **multi-version correlation**, when you store each reference-data version under a distinct primary key.
 
 ### Syntax
 ```sql
@@ -195,9 +195,9 @@ The buffered state grows with the number of retained right-side primary keys. A 
 
 ### Example
 
-**Use Case: Customer Tier History Tracking**
+**Use Case: Customer Tier Tracking**
 
-Suppose you want to analyze how customer orders relate to **historical membership tiers** — for example, when a customer’s discount level changed over time.
+Suppose you want to analyze how customer orders relate to **membership tiers** that a customer has held over time.
 
 You have two streams:
 
@@ -222,7 +222,7 @@ PRIMARY KEY (customer_id, tier);
 
 The `customer_tiers` stream stores one row per `(customer_id, tier)`. Over time, the same customer ID may have multiple entries. Writing the same pair again replaces its previous value.
 
-Now, to enrich every order with **all versions** of the customer tier data:
+Now, to enrich every order with **all retained tiers** for that customer:
 
 ```sql
 SELECT
@@ -239,8 +239,8 @@ ON o.customer_id = c.customer_id;
 **Explanation**:
 - Timeplus builds a dynamic hash table of `customer_tiers` with one row per primary key.
 - Each incoming order joins with all rows matching its `customer_id`.
-- This means one order may produce **multiple join results** — one for each historical tier.
-- It’s ideal for analyzing **how business metrics relate to reference data changes** (e.g., how sales patterns differ across historical tier transitions).
+- This means one order may produce **multiple join results** — one for each distinct tier currently stored for that customer.
+- To keep every tier transition, include a distinct value such as `effective_from` in the primary key.
 
 :::note
 Use [hybrid hash join](/query-settings#default_hash_join) to spill cold state to disk when retaining many keys.

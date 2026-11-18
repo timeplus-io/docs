@@ -1,6 +1,6 @@
 # Changelog Key Value Stream
 
-When you create a stream with the mode `changelog_kv`, data can be updated or deleted by primary key. You can use Changelog Stream in JOIN either on the left or on the right, depending on the join type.
+When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. Data can be updated or deleted by primary key. You can use Changelog Stream in JOIN either on the left or on the right, depending on the join type.
 
 `SELECT ... FROM table(stream)` reads a historical snapshot of the current values. A streaming query reads changes as they arrive. When a downstream consumer needs the change signs, select `_tp_delta` and use `EMIT CHANGELOG`.
 
@@ -18,6 +18,12 @@ In this example, you create a stream `dim_products` in `changelog_kv` mode with 
 | _tp_delta   | int8                | a special column, 1 means new data, -1 means deleted data    |
 | product_id  | string              | unique id for the product, as the primary key                |
 | price       | float               | current price                                                |
+
+:::info
+
+The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL.
+
+:::
 
 ```sql
 CREATE STREAM dim_products (
@@ -61,7 +67,7 @@ After the delete is available in historical storage, run `SELECT * FROM table(di
 
 ### Update data
 
-To change the price of iPhone14, a write with the same primary key and `_tp_delta=1` updates the value. If an upstream CDC source supplies a before and an after image, it can send the retraction and insertion in that order:
+Now if you want to change the price of iPhone14, you need to add two rows. Retract the old value first and then insert the new value:
 
 | _tp_delta | product_id | price |
 | --------- | ---------- | ----- |
@@ -74,7 +80,7 @@ Run `SELECT * FROM table(dim_products)` and you will get only 1 row in the produ
 | --------- | ---------- | ----- |
 | 1         | iPhone14   | 800   |
 
-As you can imagine, you can keep adding new rows. If _tp_delta is 1 and the primary key is new, then you will get a new row in the query result. If _tp_delta is -1 and the primary key exists already, then the previous row is deleted. You can update the value by adding a new row with the primary key.
+As you can imagine, you can keep adding new rows. If _tp_delta is 1 and the primary key is new, then you will get a new row in the query result. If _tp_delta is -1 and the primary key exists already, then the previous row is deleted. Adding another row with `_tp_delta=1` for the same primary key leaves both values in the historical result unless you retract the previous row.
 
 :::info
 
@@ -417,7 +423,7 @@ You can follow this [guide](/kafka-source) to add 2 external streams to load dat
 * Data source name `s1` to load data from topic `doc.public.dim_products` and put in a new stream `rawcdc_dim_products`
 * Data source name `s2` to load data from topic `doc.public.orders` and put in a new stream `rawcdc_orders`
 
-For a raw JSON string column named `raw`, run the following query. It uses the top-level fields shown above because the connector configuration disables the schema envelope.
+If the raw JSON string column is named `raw`, run the following SQL in the query page. It uses the top-level fields shown above because the connector configuration disables the schema envelope.
 
 ```sql
 WITH events AS (
@@ -442,6 +448,9 @@ ARRAY JOIN multi_if(
 WHERE operation IN ('c', 'r', 'd', 'u');
 ```
 
-The query emits `+1` for inserts and snapshot reads, and `-1` for deletes. For an update, the array lists the before image with `-1` followed by the after image with `+1`. `ARRAY JOIN` expands both entries from the same source event.
+The query handles each operation as follows:
+* If `op` is `c` or `r`, it emits the after image with `_tp_delta=1`.
+* If `op` is `d`, it emits the before image with `_tp_delta=-1`.
+* If `op` is `u`, it creates an array with the before image first (`-1`) and the after image second (`1`). `ARRAY JOIN` expands both entries from the same source event.
 
 Click the **Send as Sink** button and choose Timeplus type, to send the results to an existing stream `dim_products` .

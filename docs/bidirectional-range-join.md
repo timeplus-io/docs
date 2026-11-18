@@ -32,6 +32,8 @@ ON left_append_stream.key = right_append_stream.key
    AND date_diff('second', left_append_stream.event_time, right_append_stream.event_time) BETWEEN 0 AND 30;
 ```
 
+For an asymmetric range, the lower bound must be less than the upper bound, and the range must include zero.
+
 ## Example
 
 ```sql
@@ -54,7 +56,7 @@ At runtime, the engine performs the following:
 
 1. **Buckets Source Data**
     - Each side’s records are grouped into **range buckets** based on the timestamp in the join condition.
-    - For example, if the range is `30s`, records are partitioned into 30-second intervals.
+    - For example, with `date_diff_within(30s)`, records are partitioned into 30-second intervals.
 2. **Builds Range-Specific Hash Tables**
     - Each side maintains its own hash indexes for active time buckets.
 3. **Performs Range-Aware Joins**

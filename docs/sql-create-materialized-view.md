@@ -11,6 +11,8 @@ AS <SELECT ...>
 [TTL <ttl_expression>];
 ```
 
+`STORAGE_SETTINGS` and `TTL` configure the internal target stream created when `INTO` is omitted.
+
 Once the materialized view starts, Timeplus runs the query in the background continuously and incrementally emits the calculated results according to the semantics of its underlying streaming select. The view starts automatically when assigned to an execution node, unless `pause_on_start=true`.
 
 Different ways to use the materialized views:
@@ -18,7 +20,7 @@ Different ways to use the materialized views:
 1. Streaming mode: `SELECT * FROM materialized_view` Get the result for future data. This works in the same way as views.
 2. Historical mode: `SELECT * FROM table(materialized_view)` reads retained rows from a native target.
 3. Historical + streaming mode: `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` Get retained results matching the filter and continue with future output. To backfill the view's source instead, set the starting position on the defining query.
-4. To inspect the latest emitted batch, include `emit_version()` in the view and select rows with the highest version. This returns the rows in that emission. For example:
+4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) WHERE _tp_time IN (SELECT max(_tp_time) FROM table(materialized_view))` returns the rows with the most recent `_tp_time`. If `_tp_time` is not available in the materialized view, or one emission can produce rows with different `_tp_time` values, you can add `emit_version()` to identify the rows in each emission. For a query with a single emission sequence, select the rows with the highest version. For example:
 
    ```sql
    create materialized view mv as
@@ -28,7 +30,7 @@ Different ways to use the materialized views:
    select * from table(mv) where version in (select max(version) from table(mv));
    ```
 
-   For policies that emit only updated groups, the latest batch contains those groups. A keyed destination can maintain the current values of all groups across batches.
+   With `PARTITION BY`, compare emit versions within each partition. For policies that emit only updated groups, the latest batch contains those groups. A keyed destination can maintain the current values of all groups across batches.
 
 ## Target Stream
 
@@ -77,7 +79,7 @@ It's recommended that each node in the Timeplus Enterprise cluster shares the sa
 
 ### preferred_exec_node
 
-Starting from [Timeplus Enterprise v2.7.6](/enterprise-v2.7#2_7_6), when you create a materialized view with DDL SQL, you can add an optional `preferred_exec_node` setting to explicitly assign a node to run the materialized view. (`mv_preferred_exec_node` is a deprecated alias of this setting.)
+Starting from [Timeplus Enterprise v2.7.6](/enterprise-v2.7#2_7_6), when you create a materialized view with DDL SQL, you can add an optional `preferred_exec_node` setting to specify which eligible node Timeplus should prefer. (`mv_preferred_exec_node` is a deprecated alias of this setting.)
 
 ```sql
 CREATE MATERIALIZED VIEW my_mv
@@ -85,4 +87,4 @@ AS SELECT ..
 SETTINGS preferred_exec_node=3
 ```
 
-In most cases, you don't need to specify this setting. Timeplus will automatically select an available node to run the materialized view. You can use [memory_weight](#memory_weight) for load balancing. `preferred_exec_node` lets Timeplus prefer an available, eligible node. A Raft-based view can fail over to another eligible replica if the preferred node becomes unavailable. See [Materialized View High Availability](/materialized-view-high-availability).
+In most cases, you don't need to specify this setting. Timeplus will automatically select an available node to run the materialized view. Use [memory_weight](#memory_weight) for load balancing when `preferred_exec_node` is unset. A Raft-based view can fail over to another eligible replica if the preferred node becomes unavailable. You cannot change this setting after the materialized view is created. See [Materialized View High Availability](/materialized-view-high-availability).

@@ -13,6 +13,8 @@ There are several types of Direct Enrichment Joins for different use cases:
 
 3. **Direct Join with Local Dictionary and Cache** — joins using a [Timeplus dictionary](/dictionary) as a lightweight key-value lookup source with necessary caching.
 
+Unlike other enrichment joins, the **right-hand side hash table** is not explicitly built or cached in memory. Timeplus instead performs on-demand lookups, relying on the external or local system’s indexing and access efficiency.
+
 ## Syntax
 
 ```sql

@@ -35,12 +35,12 @@ Use `WHERE _tp_time>='2023-01-01'` or similar to filter by [event time](/glossar
 
 `emit_during_backfill=0|1`. By default, if it's omitted, it's `0`.
 
-1. When it's 0, the query engine suppresses intermediate watermark-driven results during historical backfill.
+1. When it's 0, the query engine holds back normal event-time watermark emissions during historical backfill.
 2. When it's 1, the query engine can emit intermediate results according to the query's `EMIT` policy. For window aggregations such as tumble, hop, and session, Timeplus automatically requests ordered backfill.
 
 ## recovery_policy
 
-`recovery_policy=<strict|best_effort>` controls materialized view recovery. The default, `strict`, retries recovery without skipping failed source data. With `best_effort`, Timeplus can skip ranges of source offsets for recognized permanent data errors. See [materialized view recovery settings](/materialized-view#recovery_policy).
+`recovery_policy=<strict|best_effort>`. By default, if it's omitted, it's `strict`. If new events fail to process, Timeplus retries recovery without skipping them. With `SETTINGS recovery_policy=best_effort`, Timeplus can skip problematic events for recognized parsing errors when it knows the affected source offsets. See [materialized view recovery settings](/materialized-view#recovery_policy).
 
 ## replay_speed
 
@@ -98,7 +98,7 @@ Type: uint64
 
 Default: 524288000 (500MB)
 
-Maximum buffered input data accounted for by the in-memory stream-to-stream hash join. The query fails when it reaches this limit. Hybrid joins use spill settings instead.
+Maximum buffered input data per in-memory stream-to-stream hash join instance. The query fails when an instance reaches this limit. Hybrid joins use spill settings instead.
 
 Example:
 

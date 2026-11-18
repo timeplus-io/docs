@@ -30,7 +30,7 @@ SETTINGS seek_to = 'earliest';
 
 For an eligible native stream, Timeplus can read from historical storage first and continue with the streaming log from the corresponding sequence position. The query keeps running after the backfill. Data retention determines how far back it can read.
 
-For window aggregations, Timeplus normally holds back intermediate historical-store emissions. Set `emit_during_backfill=1` to enable them. This requests sorting by the source's `_tp_time` before backfilled rows reach window processing. If the query uses a different timestamp expression, its order can differ from `_tp_time`. See [backfill settings](/query-settings#enable_backfill_from_historical_store).
+For window aggregations, Timeplus normally holds back event-time watermark emissions during historical backfill. Set `emit_during_backfill=1` to enable them. This requests sorting by the source's `_tp_time` before backfilled rows reach window processing. If the query uses a different timestamp expression, its order can differ from `_tp_time`. See [backfill settings](/query-settings#enable_backfill_from_historical_store).
 
 ## How streaming queries are triggered
 
@@ -40,7 +40,7 @@ There are three categories of Timeplus streaming queries, based on how the data 
 | ------------------ | ------------------------------------------------------------ | ---------------------------------------- |
 | Non-aggregation    | per event processing, e.g. tail, filter, transformation/normalization | When events arrive                       |
 | Window aggregation | group events in the same window                              | Window end and watermark                 |
-| Global aggregation | from now on till forever                                     | A fixed interval, default every 2 second |
+| Global aggregation | aggregate across all rows read by the query                  | A fixed interval, default every 2 seconds |
 
 If you see some new terms, no worries. Let's explore them more.
 

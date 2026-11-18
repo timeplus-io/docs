@@ -95,11 +95,11 @@ SETTINGS
 
 **Explanation**:
 - `join_algorithm='parallel_hash'` enables **parallel hash join**. 
-- `max_threads=4` controls the requested concurrency. Use `EXPLAIN PIPELINE` to see the actual pipeline.
+- `max_threads=4` controls the number of concurrent threads.
 - Internally:
-    - Timeplus **shuffles** the left stream `orders` by join key.
-    - The right table (`products`) is **partitioned** by the same keys, with a **separate hash table** per partition.
-    - Each substream joins its corresponding subtable **in parallel**.
+    - Timeplus **shuffles** the left stream `orders` into four **non-overlapping substreams** by join key.
+    - The right table (`products`) is **partitioned** into four **subtables**, each building a **separate hash table**.
+    - Each substream joins its corresponding subtable **in parallel**, significantly improving join throughput.
 
 ## Optimize Memory Consumption
 
@@ -115,9 +115,10 @@ FROM orders INNER JOIN table(products) AS products
 ON orders.product_id = products.id
 SETTINGS
     default_hash_join = 'hybrid',   -- Enable hybrid hash table
-    max_hot_keys = 100000;          -- Maximum number of hot keys in memory
+    max_hot_keys = 100000;          -- Hot-key spill threshold
 ```
 
 **Explanation**:
 - `default_hash_join='hybrid'` enables a **hybrid in-memory + disk-based hash table**.
 - `max_hot_keys=100000` sets the hot-key spill threshold per hash table. When this threshold is exceeded, older keys are **spilled to disk** using an **LRU** (Least Recently Used) policy.
+- This approach balances **memory efficiency and performance** — frequently accessed keys can still be looked up in memory.

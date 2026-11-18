@@ -1,7 +1,7 @@
 # Aggregations & Emit Policies
 ### Global Streaming Aggregation {#global}
 
-In Timeplus, we define global aggregation as an aggregation query without using streaming windows like tumble, hop. Global streaming aggregation doesn't slice the input data into windows according to timestamp. See [Global Aggregation](/global-aggregation) for state cleanup and emission options.
+In Timeplus, we define global aggregation as an aggregation query without using streaming windows like tumble, hop. Unlike streaming window aggregation, global streaming aggregation doesn't slice the input data into windows according to timestamp. See [Global Aggregation](/global-aggregation) for state cleanup and emission options.
 
 ```sql
 SELECT [<grouping_keys>,] <aggr_function>
@@ -55,7 +55,7 @@ By default `EMIT STREAM` and `PERIODIC 2s` are applied. Advanced settings:
 For [time-window aggregations](/streaming-query#window-aggregation), the syntax is:
 
 ```sql
-EMIT
+EMIT [STREAM]
  [AFTER WINDOW CLOSE [WITH DELAY <interval>] [AND TIMEOUT <interval>]]
  [PERIODIC <interval> [REPEAT] [WITH DELAY <interval>] [AND TIMEOUT <interval>]]
  [ON UPDATE [WITH BATCH <interval>] [WITH DELAY <interval>] [AND TIMEOUT <interval>]]
@@ -125,7 +125,7 @@ GROUP BY device, window_end
 EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
-For a window ending at `00:00:05`, event time must reach `00:00:07` for the watermark to close it. Wall-clock time alone does not advance this watermark.
+The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `device_utils`. For a window ending at `00:00:05`, event time must reach `00:00:07` for the watermark to close it.
 
 ### EMIT PERIODIC {#emit_periodic}
 

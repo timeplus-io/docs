@@ -26,10 +26,10 @@ GROUP BY <window_grouping_keys> [, <other_grouping_keys>]
 - `<idle_gap>` : (**Required**) Defines the event-time gap used to split sessions (e.g., 5s, 1m).
 - `<max_duration>` : (**Optional**) Maximum allowed session duration. Default is 5 times of `<idle_gap>` if absent. It must be at least as large as the idle gap and use compatible interval units.
 - `<session_boundaries>` : (**Optional**) A pair of custom boolean expressions used to define the session’s start and end boundaries. The bare pair `<start_condition>, <end_condition>` includes both boundary rows. The **inclusion or exclusion** of each boundary row depends on the bracket type:
-    - `[<start_condition>, <end_condition>]` includes the opening and closing rows.
-    - `[<start_condition>, <end_condition>)` includes the opening row and excludes the closing row.
-    - `(<start_condition>, <end_condition>]` excludes the opening row and includes the closing row.
-    - `(<start_condition>, <end_condition>)` excludes both boundary rows.
+    1. `[<start_condition>, <end_condition>]` — Include the opening and closing rows.
+    2. `[<start_condition>, <end_condition>)` — Include the opening row and exclude the closing row.
+    3. `(<start_condition>, <end_condition>]` — Exclude the opening row and include the closing row.
+    4. `(<start_condition>, <end_condition>)` — Exclude both boundary rows.
 - `<window_grouping_keys>` must include `window_start`, `window_end`, or both. If you select both boundary columns directly, include both in `GROUP BY`.
 
 ### Example
@@ -47,7 +47,7 @@ SELECT
   window_start,
   window_end
 FROM
-  session(click_stream, timestamp, 15s, 30m, action = 'login', action = 'logout')
+  session(click_stream, timestamp, 15s, 30m, position(action, 'login') > 0, position(action, 'logout') > 0)
 PARTITION BY
   user_id
 GROUP BY
@@ -55,9 +55,9 @@ GROUP BY
 ```
 
 **Explanation**:
-- The query defines a **session window** over the stream `click_stream`. The session window starts for each user when action is `login`. The query counts only `click` actions.
+- The query defines a **session window** over the stream `click_stream`. The session window starts for each user when the action matches the `login` condition. The query counts only `click` actions.
 - The session window ends when:
-  1. A `logout` action happens, or
+  1. An action matches the `logout` condition, or
   2. A later event reaches the 15-second idle deadline, or
   3. A later event reaches the 30-minute maximum duration.
 

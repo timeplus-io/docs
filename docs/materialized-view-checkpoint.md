@@ -147,7 +147,7 @@ AS
 SELECT
     window_start AS win_start,
     s,
-    sum(i) AS total
+    SUM(i) AS total
 FROM tumble(source, 5s)
 GROUP BY window_start, s
 SETTINGS
@@ -159,7 +159,7 @@ AS
 SELECT
     window_start AS win_start,
     s,
-    sum(i) AS total
+    SUM(i) AS total
 FROM tumble(source, 5s)
 GROUP BY window_start, s
 SETTINGS

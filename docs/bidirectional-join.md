@@ -24,9 +24,9 @@ Supported join kinds depend on the input stream types. For example, an append-on
 
 ## Bidirectional Join with Data Mutation
 
-In this mode, **both the left and right streams** can mutate over time. Timeplus buffers data from both sides and continuously updates the join state as new events arrive. Only the **latest version** of each source primary key is retained. A join key that covers only part of the primary key can match several current rows on either side.
+In this mode, **both the left and right streams** can mutate over time. Timeplus buffers data from both sides and continuously updates the join state as new events arrive. For each source primary key, only the **latest version** of the data is retained — effectively maintaining a **real-time snapshot** of the key/value tables on both sides. A join key that covers only part of the primary key can match several current rows on either side.
 
-As new updates arrive, outdated (overridden) records are **garbage collected**. The buffered state depends on the number and size of current source rows.
+As new updates arrive, outdated (overridden) records are **garbage collected**. When the primary key space is finite, the number of current rows in the join state is bounded.
 
 Internally, the join process follows the principle of **“baseline + incremental updates”**:
 - The system can load a **baseline snapshot** from historical storage, depending on the source.
@@ -58,7 +58,7 @@ FROM left_mu JOIN right_mu ON left_mu.k = right_mu.kk
 EMIT CHANGELOG;
 ```
 
-The following diagram illustrates how the above **Mutable Stream ⨝ Mutable Stream** join works when the join uses a **partial primary key**. The primary keys are `(k, k1)` on the left and `(kk, kk1)` on the right. The join uses only `left_mu.k` and `right_mu.kk`.
+The following diagram illustrates how the above **Mutable Stream ⨝ Mutable Stream** join works when the join uses a **partial primary key** — the primary keys are `(k, k1)` and `(kk, kk1)`, but the join only uses `left_mu.k` and `right_mu.kk`.
 
 ![BidirectionalJoinMutableStream](/img/bidirectional-join-mutable-stream.svg)
 
@@ -69,33 +69,38 @@ In the diagram above, the join key value `'k1'` appears multiple times in both s
 - In the **right hash table**, `k1` maps to two unique primary keys:  
   `(k1, kk4)` and `(k1, kk5)`
 
-To reproduce the example, keep the join query running and insert the initial rows in another console. The numeric values below represent `v1` through `v5` in the diagram.
+When joined, they produce **2 × 3 = 6 joined rows**. To reproduce this example, keep the join query running and insert the initial rows in another console. The numeric values below represent `v1` through `v5` in the diagram.
 
 ```sql
 INSERT INTO left_mu (i, k, k1) VALUES (1, 'k1', 'kk1'), (2, 'k1', 'kk2'), (3, 'k1', 'kk3');
 INSERT INTO right_mu (ii, kk, kk1) VALUES (4, 'k1', 'kk4'), (5, 'k1', 'kk5');
 ```
 
-After the join emits **2 × 3 = 6 joined rows**, insert another record with the existing right-side primary key `('k1', 'kk5')`:
+Now, suppose the user inserts a new record into the right stream which updates primary key `('k1', 'kk5')`. Run this insert after the initial join results appear.
 
 ```sql
 INSERT INTO right_mu (ii, kk, kk1) VALUES (55, 'k1', 'kk5');
 ```
 
-The right-side row for `('k1', 'kk5')` changes from `ii = 5` to `ii = 55` (`v5` to `v55` in the diagrams). The join matches the old row against all three left-side rows and emits three retractions with `_tp_delta = -1`. It then matches the replacement row against the same left-side rows and emits three additions with `_tp_delta = 1`.
+The right-side row for `('k1', 'kk5')` changes from `ii = 5` to `ii = 55` (`v5` to `v55` in the diagram). The join uses both versions to emit the following changes with `EMIT CHANGELOG`.
 
-| `left_mu.k1` | `right_mu.kk1` | `right_mu.ii` | `_tp_delta` |
-| --- | --- | --- | --- |
-| kk1 | kk5 | 5 | -1 |
-| kk2 | kk5 | 5 | -1 |
-| kk3 | kk5 | 5 | -1 |
-| kk1 | kk5 | 55 | 1 |
-| kk2 | kk5 | 55 | 1 |
-| kk3 | kk5 | 55 | 1 |
+**Retraction phase**:
+The previous right-side row joins with all three left-side records, retracting their joined results with `_tp_delta = -1`.
+```text
+(kk1, kk5, 5, -1)
+(kk2, kk5, 5, -1)
+(kk3, kk5, 5, -1)
+```
 
-The right-side row for `('k1', 'kk4')` still matches the same three left-side rows, so the join still has six current matches.
+**Update phase**:
+The replacement row joins with the same three left-side records, emitting new results with `_tp_delta = 1`.
+```text
+(kk1, kk5, 55, 1)
+(kk2, kk5, 55, 1)
+(kk3, kk5, 55, 1)
+```
 
-The diagram shows the retraction and replacement produced by the update.
+The right-side row for `('k1', 'kk4')` still matches the same three left-side rows, so the join still has six current matches. The following diagram illustrates the retraction and update process.
 
 ![BidirectionalJoinMutableStreamRetract](/img/bidirectional-join-mutable-stream-retract.svg)
 

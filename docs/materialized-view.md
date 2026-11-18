@@ -69,6 +69,8 @@ AS
 [COMMENT '<comments>'];
 ```
 
+`STORAGE_SETTINGS` and `TTL` configure the internal target stream. If you use `INTO`, configure that stream directly.
+
 ### Example
 
 ```sql
@@ -255,7 +257,7 @@ Specifies the maximum number of **consecutive event failures** that can be logge
 Specifies the recovery behavior when a Materialized View fails. Supported policies:
 
 - **strict**: Recover from the last checkpoint and continue processing. No source data is skipped.
-- **best_effort**: Attempt checkpoint recovery and allow skipping source offset ranges for recognized permanent data errors.
+- **best_effort**: Recover from the last checkpoint. For recognized parsing errors, Timeplus can skip the problematic ("poison") events when it knows the affected source offsets and continue processing.
 
 **Default:** `strict`
 
@@ -281,11 +283,17 @@ When you create a Materialized View **without an explicit target stream or table
 
 This makes the syntax simpler and convenient for quick experimentation, since you don’t need to create a target stream beforehand.
 
-Consider an explicit target stream in production if you need:
+Consider an explicit target stream in production for:
 
-1. **Storage customization** beyond the internal stream options. For an internal stream, `STORAGE_SETTINGS` can set options such as shard count and replication factor. Use `TTL` with a `date` or `datetime` expression, for example `TTL to_datetime(_tp_time) + 1d`.
-2. **Stream type flexibility**, for example, a [Mutable stream](/mutable-stream) as the target.
-3. **Schema evolution**, for example, adding new columns to a separately managed stream.
+1. **Storage customization**
+   - The internal target stream supports storage options such as shard count and replication factor through `STORAGE_SETTINGS`. Use `TTL` with a `date` or `datetime` expression, for example `TTL to_datetime(_tp_time) + 1d`.
+   - An explicit target lets you define the stream schema and storage layout separately.
+
+2. **Stream type flexibility**
+   - You may want to use a different stream type (e.g., a [Mutable stream](/mutable-stream)) as the target, which is not possible in this mode.
+
+3. **Schema evolution**
+   - Tasks such as adding new columns are significantly more difficult to manage with the internal stream.
 
 A scheduler-managed view using shared checkpoint storage requires an explicit target.
 

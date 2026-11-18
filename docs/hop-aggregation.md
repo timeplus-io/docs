@@ -10,7 +10,7 @@ Each hop window is defined by two parameters:
 
 Because hop windows can overlap, a single event can belong to multiple windows. This is useful when you want to generate **smoother, more continuous aggregations** (e.g., moving averages or rolling counts).
 
-For example, with a 10-minute window size and a 5-minute hop interval, a new window starts every 5 minutes and spans 10 minutes of data, so each timestamp belongs to **two overlapping windows**.
+For example, with a 10-minute window size and a 5-minute hop interval, a new window starts every 5 minutes and spans 10 minutes of data — meaning each event timestamp belongs to **two overlapping windows**.
 
 
 ## Syntax
@@ -118,7 +118,8 @@ In this example:
 
 - The query continuously aggregates the maximum CPU usage per device in **10-second hop windows**.
 - If **no new events** arrive for at least **3 seconds**, Timeplus can **force-close** pending windows and emit their final results.
-- Later events cannot revise those finalized results. Empty windows produce no result.
+- Once the windows are closed, the **internal watermark** advances as well.
+- Any **late events** that belong to those closed windows cannot revise the final results. Empty windows produce no result.
 
 ### `EMIT ON UPDATE`
 

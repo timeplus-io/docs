@@ -59,7 +59,7 @@ Fault tolerance are two layers in this model.
 3. The scheduler reschedules all Materialized Views from the failed node to healthy ones.
 4. Rescheduled views recover state from shared storage and resume execution.
 
-The executing node maintains the live query state. Shared storage holds the durable checkpoint, so another eligible compute node can restore the view without the previous node's local files.
+This model supports elastic workloads running on Timeplus **Compute** Nodes, including deployments that use **Kubernetes HPA** or **AWS Auto Scaling Groups**. The executing node maintains the live query state, and shared storage holds the durable checkpoint so another eligible compute node can restore the view.
 
 ## Choosing the Right HA Model
 

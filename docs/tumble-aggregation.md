@@ -133,7 +133,8 @@ In this example:
 
 - The query continuously aggregates the maximum CPU usage per device in **5-second tumble windows**.
 - If **no new events** arrive for at least **3 seconds**, Timeplus can **force-close** pending windows and emit their final results.
-- Later events cannot revise those finalized results. Empty windows produce no result.
+- Once the windows are closed, the **internal watermark** advances as well.
+- Any **late events** that belong to those closed windows cannot revise the final results. Empty windows produce no result.
 
 ### `EMIT ON UPDATE`
 
