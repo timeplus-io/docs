@@ -71,7 +71,6 @@ The following diagram depicts this join behavior.
 
 ## Limits
 
-- Use the default analyzer (`use_analyzer=0`) for `date_diff_within()` range joins. The experimental analyzer does not recognize this join predicate in the current implementation.
 - `max_join_range` limits the total interval width in seconds. The default is `300`. A symmetric `date_diff_within(2m)` has a width of 240 seconds.
 - An idle or slow input can hold back watermark-based eviction. Set `keep_range_join_max_buckets` to cap the retained bucket count on each side. The default, `0`, leaves the cap disabled. A positive cap can evict a bucket before the watermark and miss a later match.
 - The bucket count does not limit the number of rows in a bucket. For a large join state, see [hybrid hash joins](/query-settings#default_hash_join).

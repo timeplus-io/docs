@@ -53,66 +53,47 @@ CREATE MUTABLE STREAM right_mu (
 ) 
 PRIMARY KEY (kk, kk1); 
 
-SELECT * FROM left_mu JOIN right_mu ON left_mu.k = right_mu.kk; 
+SELECT left_mu.k1, right_mu.kk1, right_mu.ii, _tp_delta
+FROM left_mu JOIN right_mu ON left_mu.k = right_mu.kk
+EMIT CHANGELOG;
 ```
 
-The following diagram illustrates how the above **Mutable Stream ⨝ Mutable Stream** join works when the join uses a **partial primary key** — for example, the primary key is `(k, kk)` but the join key is only `k`.  
+The following diagram illustrates how the above **Mutable Stream ⨝ Mutable Stream** join works when the join uses a **partial primary key**. The primary keys are `(k, k1)` on the left and `(kk, kk1)` on the right. The join uses only `left_mu.k` and `right_mu.kk`.
 
 ![BidirectionalJoinMutableStream](/img/bidirectional-join-mutable-stream.svg)
 
-In the diagram above, the join key `k1` appears multiple times in both streams:
+In the diagram above, the join key value `'k1'` appears multiple times in both streams:
 
 - In the **left hash table**, `k1` maps to three unique primary keys:  
   `(k1, kk1)`, `(k1, kk2)`, `(k1, kk3)`
 - In the **right hash table**, `k1` maps to two unique primary keys:  
   `(k1, kk4)` and `(k1, kk5)`
 
-When joined, they produce **2 × 3 = 6 joined rows**.
+To reproduce the example, keep the join query running and insert the initial rows in another console. The numeric values below represent `v1` through `v5` in the diagram.
 
-Now, suppose the user inserts a new record into the right stream which updates primary key `(k1, kk5)`:
+```sql
+INSERT INTO left_mu (i, k, k1) VALUES (1, 'k1', 'kk1'), (2, 'k1', 'kk2'), (3, 'k1', 'kk3');
+INSERT INTO right_mu (ii, kk, kk1) VALUES (4, 'k1', 'kk4'), (5, 'k1', 'kk5');
+```
+
+After the join emits **2 × 3 = 6 joined rows**, insert another record with the existing right-side primary key `('k1', 'kk5')`:
 
 ```sql
 INSERT INTO right_mu (ii, kk, kk1) VALUES (55, 'k1', 'kk5');
 ```
 
-Here’s how the **internal retraction and update process** unfolds:
-1. Change processing looks up the previous row for primary key `(k1, kk5)`, yielding `(k1, kk5, v5)` in the diagram.
-2. The old row is **retracted** as:
-    ```scss
-    (k1, kk5, v5, -1)
-    ```
-    and emitted downstream.
-3. The state for that primary key changes to the new value:
-    ```scss
-    (k1, kk5, v5) → (k1, kk5, v55)
-    ```
-4. A new **update event** is emitted:
-    ```scss
-    (k1, kk5, v55, +1)
-    ```
+The right-side row for `('k1', 'kk5')` changes from `ii = 5` to `ii = 55` (`v5` to `v55` in the diagrams). The join matches the old row against all three left-side rows and emits three retractions with `_tp_delta = -1`. It then matches the replacement row against the same left-side rows and emits three additions with `_tp_delta = 1`.
 
-Next, both the retraction and update rows are joined with the **left hash table**:
+| `left_mu.k1` | `right_mu.kk1` | `right_mu.ii` | `_tp_delta` |
+| --- | --- | --- | --- |
+| kk1 | kk5 | 5 | -1 |
+| kk2 | kk5 | 5 | -1 |
+| kk3 | kk5 | 5 | -1 |
+| kk1 | kk5 | 55 | 1 |
+| kk2 | kk5 | 55 | 1 |
+| kk3 | kk5 | 55 | 1 |
 
-**Retraction phase**:
-The retraction `(k1, kk5, v5, -1)` joins with all three left-side records:
-```scss
-(k1, kk1, v1, right.k1, right.kk5, right.v5, -1)
-(k1, kk2, v2, right.k1, right.kk5, right.v5, -1)
-(k1, kk3, v3, right.k1, right.kk5, right.v5, -1)
-```
-
-**Update phase**:
-The update `(k1, kk5, v55, +1)` joins with the same three left-side records:
-```scss
-(k1, kk1, v1, right.k1, right.kk5, right.v55, +1)
-(k1, kk2, v2, right.k1, right.kk5, right.v55, +1)
-(k1, kk3, v3, right.k1, right.kk5, right.v55, +1)
-```
-
-Finally, the right-side hash table updates its internal mapping:
-```scss
-k1 → (kk5, v55)
-```
+The right-side row for `('k1', 'kk4')` still matches the same three left-side rows, so the join still has six current matches.
 
 The diagram shows the retraction and replacement produced by the update.
 
