@@ -53,7 +53,7 @@ By default, **NativeLog-based checkpoint replication** is used in cluster enviro
 -- Create the source stream
 CREATE STREAM source(i int, s string);
 -- Create the sink stream
-CREATE STREAM sink(win_start datetime64(3), total int, s string);
+CREATE STREAM sink(win_start datetime64(3), total int64, s string);
 
 -- Use NativeLog for checkpoint replication
 CREATE MATERIALIZED VIEW nlog_ckpt_rep INTO sink
@@ -61,7 +61,7 @@ AS
 SELECT
     window_start AS win_start,
     s,
-    sum(i)
+    sum(i) AS total
 FROM tumble(source, 5s)
 GROUP BY window_start, s;
 ```
@@ -87,7 +87,7 @@ When using shared storage exclusively, Timeplus adopts a different high availabi
 -- Create the source stream
 CREATE STREAM source(i int, s string);
 -- Create the sink stream
-CREATE STREAM sink(win_start datetime64(3), total int, s string);
+CREATE STREAM sink(win_start datetime64(3), total int64, s string);
 -- Create s3 shared disk
 CREATE DISK s3_plain_disk disk(
     type = 's3_plain',
@@ -106,7 +106,7 @@ AS
 SELECT
     window_start as win_start,
     s,
-    sum(i)
+    sum(i) AS total
 FROM tumble(source, 5s)
 GROUP BY window_start, s
 SETTINGS
@@ -130,7 +130,7 @@ This hybrid approach combines NativeLog with shared storage.
 -- Create the source stream
 CREATE STREAM source(i int, s string);
 -- Create the sink stream
-CREATE STREAM sink(win_start datetime64(3), total int, s string);
+CREATE STREAM sink(win_start datetime64(3), total int64, s string);
 
 -- Create S3-backed shared disk
 CREATE DISK s3_plain_disk DISK(
@@ -147,7 +147,7 @@ AS
 SELECT
     window_start AS win_start,
     s,
-    SUM(i)
+    sum(i) AS total
 FROM tumble(source, 5s)
 GROUP BY window_start, s
 SETTINGS
@@ -159,7 +159,7 @@ AS
 SELECT
     window_start AS win_start,
     s,
-    SUM(i)
+    sum(i) AS total
 FROM tumble(source, 5s)
 GROUP BY window_start, s
 SETTINGS

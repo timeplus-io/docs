@@ -1,4 +1,4 @@
-# Bidirctional Join
+# Bidirectional Join
 
 **Bidirectional Join** allows two streams to be joined bidirectionally — i.e., rows from both the **left** and **right** streams are buffered and joined against each other so that matches produced by either side are emitted. This is different from typical enrichment joins (where only the left stream probes a static or changing RHS). Bidirectional joins are useful for exploratory queries, historical+real-time consistency checks, and scenarios where both sides evolve and you need to materialize the full cross-match over time.
 
@@ -20,21 +20,21 @@ FROM left_stream [LEFT | INNER | FULL] JOIN right_stream
 ON left_stream.key = right_stream.key
 ```
 
+Supported join kinds depend on the input stream types. For example, an append-only `ALL JOIN` supports `INNER` and `LEFT`. See [streaming join combinations](/streaming-joins) for details.
+
 ## Bidirectional Join with Data Mutation
 
-In this mode, **both the left and right streams** can mutate over time. Timeplus buffers data from both sides and continuously updates the join state as new events arrive. For each join key, only the **latest version** of the data is retained — effectively maintaining a **real-time snapshot** of the key/value tables on both sides, similar to an OLTP system.
+In this mode, **both the left and right streams** can mutate over time. Timeplus buffers data from both sides and continuously updates the join state as new events arrive. Only the **latest version** of each source primary key is retained. A join key that covers only part of the primary key can match several current rows on either side.
 
-As new updates arrive, outdated (overridden) records are **garbage collected** to keep memory usage bounded. When the set of joined keys is finite, the buffered state remains stable and bounded over time.
+As new updates arrive, outdated (overridden) records are **garbage collected**. The buffered state depends on the number and size of current source rows.
 
 Internally, the join process follows the principle of **“baseline + incremental updates”**:
-- The system first loads a **baseline snapshot** (latest compacted data) from historical storage.
-- Then it connects to real-time stream events to **apply incremental changes** and keep the in-memory state up to date.
+- The system can load a **baseline snapshot** from historical storage, depending on the source.
+- It then connects to real-time stream events to **apply incremental changes** and keep the state up to date.
 - Both left and right streams maintain their own hash tables that evolve as new records arrive.
 - When a key is updated, Timeplus emits **retraction events** to cancel previous joined results and then produces **new joined rows** to reflect the latest state.
 
-This ensures that any downstream aggregate or materialized view based on the join remains **consistent and correct**.
-
-When the primary key space is finite (finite cardinality), the corresponding joined data set also remains bounded.
+Use the join's changelog output when downstream consumers need to apply both additions and removals. A destination that appends raw rows stores that change history.
 
 ### Example
 
@@ -72,17 +72,17 @@ When joined, they produce **2 × 3 = 6 joined rows**.
 Now, suppose the user inserts a new record into the right stream which updates primary key `(k1, kk5)`:
 
 ```sql
-INSERT INTO right_stream VALUES (k1, kk5, v55);
+INSERT INTO right_mu (ii, kk, kk1) VALUES (55, 'k1', 'kk5');
 ```
 
 Here’s how the **internal retraction and update process** unfolds:
-1. Timeplus looks up `(k1, kk5)` in another *assistant* hash table created for the join and finds the existing value `(k1, kk5, v5)`.
+1. Change processing looks up the previous row for primary key `(k1, kk5)`, yielding `(k1, kk5, v5)` in the diagram.
 2. The old row is **retracted** as:
     ```scss
     (k1, kk5, v5, -1)
     ```
     and emitted downstream.
-3. The right hash table replaces the old value with the new one in the assitant hash table:
+3. The state for that primary key changes to the new value:
     ```scss
     (k1, kk5, v5) → (k1, kk5, v55)
     ```
@@ -114,7 +114,7 @@ Finally, the right-side hash table updates its internal mapping:
 k1 → (kk5, v55)
 ```
 
-This process ensures downstream consumers always see a consistent and up-to-date join result, even as both sides continuously mutate and the following diagram illustrate this retract and update process. 
+The diagram shows the retraction and replacement produced by the update.
 
 ![BidirectionalJoinMutableStreamRetract](/img/bidirectional-join-mutable-stream-retract.svg)
 
@@ -237,11 +237,9 @@ Since a bidirectional join needs to buffer **all** source data from both sides t
 
 This join type is currently **experimental** and best suited for **ad-hoc analysis** or exploratory workloads in the Timeplus console, where users can quickly visualize or test streaming joins.
 
-Internally, Timeplus uses a query setting called **`join_max_buffered_bytes`** to control the maximum amount of buffered source data.  
-Once this limit is reached, the system will **abort the query** to prevent memory exhaustion.
+For in-memory hash joins, Timeplus uses **`join_max_buffered_bytes`** to control the maximum amount of buffered source data. Once this limit is reached, the system will **abort the query**.
 
-Even if the join key space is finite, the joined value combinations can still grow without bound since every new record is treated as a unique event.  
-In the future, Timeplus may enhance this join type by adding **automatic garbage collection** for stale or expired join data, enabling more stable long-running global joins.
+Even if the join key space is finite, the joined value combinations can still grow without bound since every new record is treated as a unique event. A [bidirectional range join](/bidirectional-range-join) can evict old data when matches have a known time bound.
 
 The following diagram illustrates this join behavior at a high level:
 
@@ -258,6 +256,7 @@ left_append JOIN  right_append
 ON left_append.k = right_append.kk 
 SETTINGS join_max_buffered_bytes=102400000;
 
+-- Insert from another session while the join is running.
 INSERT INTO left_append(i, k) VALUES (1, 'a');
 INSERT INTO right_append(ii, kk) VALUES (22, 'a');
 ```

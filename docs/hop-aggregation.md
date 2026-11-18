@@ -10,39 +10,33 @@ Each hop window is defined by two parameters:
 
 Because hop windows can overlap, a single event can belong to multiple windows. This is useful when you want to generate **smoother, more continuous aggregations** (e.g., moving averages or rolling counts).
 
-For example, with a 10-minute window size and a 5-minute hop interval, a new window starts every 5 minutes and spans 10 minutes of data — meaning there are always **two overlapping windows** active at any given time.
+For example, with a 10-minute window size and a 5-minute hop interval, a new window starts every 5 minutes and spans 10 minutes of data, so each timestamp belongs to **two overlapping windows**.
 
 
 ## Syntax
 
 ```sql
 SELECT <grouping_keys>, <aggr_functions>
-FROM hop(<stream_name>, [<timestamp_column>], <hop_interval>, <window_size>)
+FROM hop(<stream_name> [, <timestamp_column>], <hop_interval>, <window_size> [, <timezone>])
 [WHERE clause]
-GROUP BY [window_start | window_end], <other_grouping_keys> ...
-EMIT <emit_policy>
+GROUP BY <window_grouping_keys> [, <other_grouping_keys>]
+[EMIT <emit_policy>];
 ```
 
 ### Parameters
 
 - `<stream_name>` : the source stream the hop window applies to. **Required**
-- `<timestamp_column>` : the event timestamp column which is used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time hop window. Default is `_tp_time` if absent. **Optional**
-- `<hop-interval>` : how frequently new windows start (must be less than or equal to the window size). Supported interval units are listed below. **Required**
-  - `s` (second)
-  - `m` (miniute)
-  - `h` (hour) 
-  - `d` (day) 
-  - `w` (week) 
-- `<window_size>` : hop window interval size. Supported interval units are listed below. **Required**
-  - `s` (second)
-  - `m` (miniute)
-  - `h` (hour) 
-  - `d` (day)
-  - `w` (week)
+- `<timestamp_column>` : the event timestamp column or expression (`datetime` or `datetime64`) used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time hop window. Default is `_tp_time` if absent. **Optional**
+- `<hop_interval>` : how frequently new windows start (must be less than or equal to the window size). **Required**
+- `<window_size>` : hop window interval size. **Required**
+- `<timezone>` is an optional time zone string such as `'UTC'` that controls window alignment. It defaults to the time zone of the timestamp expression.
+- `<window_grouping_keys>` must include `window_start`, `window_end`, or both. If you select both boundary columns directly, include both in `GROUP BY`.
+
+Hop accepts the [same interval units as tumble](/tumble-aggregation#parameters). Use units that Timeplus can convert to a common scale. For example, `4s` and `1m` work together, while `1d` and `1M` cannot be combined. For sub-second interval units, the timestamp must have sufficient precision and the hop interval must divide evenly into one hour.
 
 ### Example
 
-The following query calculates the average CPU usage of each device in **10-second hop windows** that start every **4 second**.
+The following query calculates the maximum CPU usage of each device in **10-second hop windows** that start every **4 seconds**.
 
 ```sql
 CREATE STREAM device_metrics (
@@ -62,11 +56,15 @@ GROUP BY window_start, window_end, device;
 
 This allows you to track metrics like CPU usage in a rolling fashion, providing near-real-time insight into recent activity rather than discrete, non-overlapping periods.
 
+Timeplus aggregates rows into buckets sized by the greatest common divisor of the hop interval and window size. For `hop(..., 4s, 10s)`, each bucket is 2 seconds wide and each window merges the state of five buckets.
+
 ## Emit Policies
 
-Emit policies define **when** Timeplus should output results from **time-windowed** aggregations such as **tumble**, **hop**, **session** and **global-windowed** aggregation.
+Emit policies define **when** Timeplus should output results from **time-windowed** aggregations such as **tumble**, **hop**, and **session**.
 
 These policies control whether results are emitted **only after the window closes**, **after a delay** to honor late events, or **incrementally during the window**.
+
+Use a window-based policy for hopping-window results. In the current implementation, `EMIT PER EVENT` emits the internal bucket for each input row without merging buckets into hopping windows.
 
 ### `EMIT AFTER WINDOW CLOSE`
 
@@ -80,16 +78,16 @@ FROM hop(device_metrics, 4s, 10s)
 GROUP BY window_start, device;
 ```
 
-This query continuously computes the **maximum CPU usage** per device in every 10-second hop window from the stream `device_metrics` and every 4 second, it starts a new hop window.
+This query continuously computes the **maximum CPU usage** per device in every 10-second hop window from the stream `device_metrics` and starts a new hop window every 4 seconds.
 Each time a window closes (as determined by the internal watermark), Timeplus emits the results once.
 
 :::info
-A watermark is an internal timestamp that advances monotonically per stream, determining when a window can be safely closed.
+A watermark is an internal timestamp that determines when a window can be safely closed. With multiple inputs, the slowest input watermark can hold back window close. With [`PARTITION BY`](/partition-data), each partition has its own watermark.
 :::
 
 ### `EMIT AFTER WINDOW CLOSE WITH DELAY`
 
-Adds a **delay period** before emitting window results, allowing **late events** to be included.
+Subtracts the specified interval from the maximum observed event timestamp before finding the latest eligible window end. A row older than the current watermark is dropped, even if its timestamp would also fall in a newer overlapping window.
 
 **Example**:
 
@@ -100,7 +98,7 @@ GROUP BY window_start, device
 EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
-This query aggregates the **maximum CPU usage** for each device per 10-second hop window, then waits 2 additional seconds after the window closes before emitting results. This helps capture any late-arriving events that fall within the window period.
+This query aggregates the **maximum CPU usage** for each device per 10-second hop window. With `WITH DELAY 2s`, a window ending at `00:00:10` can close when event time reaches `00:00:12`.
 
 ### `EMIT TIMEOUT`
 
@@ -119,13 +117,12 @@ EMIT TIMEOUT 3s;
 In this example:
 
 - The query continuously aggregates the maximum CPU usage per device in **10-second hop windows**.
-- If **no new events** arrive for **3 seconds**, Timeplus will **force-close** the most recent windows and emit the final results.
-- Once the window is closed, the **internal watermark** (event time) advances as well.
-- Any **late events** that belong to this now-closed window will be discarded.
+- If **no new events** arrive for at least **3 seconds**, Timeplus can **force-close** pending windows and emit their final results.
+- Later events cannot revise those finalized results. Empty windows produce no result.
 
 ### `EMIT ON UPDATE`
 
-Emits **intermediate aggregation updates** whenever there are new events flowing in an open window.
+Emits **intermediate aggregation updates** for groups updated by an input batch while the window is open. An updated group can be emitted with the same aggregate value.
 This is useful for near real-time visibility into evolving metrics.
 
 **Example**:
@@ -145,7 +142,7 @@ Here, during each 10-second window, the system emits updates whenever there are 
 ### `EMIT ON UPDATE WITH BATCH`
 
 Combines **periodic emission** with **update-based** triggers.
-Timeplus checks the intermediate aggregation results at regular intervals and emits them if they have changed which can significally improve the emit efficiency and throughput compared with `EMIT ON UPDATE`. 
+Timeplus emits results for groups updated since the previous emission at the configured interval, which can improve throughput compared with `EMIT ON UPDATE`.
 
 **Example**:
 
@@ -161,7 +158,7 @@ EMIT ON UPDATE WITH BATCH 1s;
 
 ### `EMIT ON UPDATE WITH DELAY`
 
-Similar to **`EMIT ON UPDATE`**, but includes a delay to allow late events before emitting incremental updates.
+Similar to **`EMIT ON UPDATE`**, but applies a delay to the event-time watermark used for window close and late-event filtering. Intermediate updates can still be emitted before the watermark advances.
 
 **Example**:
 

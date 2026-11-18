@@ -1,21 +1,21 @@
 # Dynamic Enrichment Join
 
-Similar to [Enrichement Join](/enrichment-join), **Dynamic Enrichment Join** enriches a live data stream with reference data from a changing right-hand side dataset. It is designed for scenarios where the right-hand side data evolves over time, and each event from the left stream should always join against the latest version of that data.
+Similar to [Enrichment Join](/enrichment-join), **Dynamic Enrichment Join** enriches a live data stream with reference data from a changing right-hand side dataset. How each event from the left stream matches that data depends on the join strictness.
 
 In this join type, events from the left-hand stream trigger the join. Each incoming event probes a dynamic hash table that is continuously updated from the right-hand side dataset (which typically changes at a slower rate).
 
-Because of this behavior, only `LEFT` and `INNER` joins are supported (plus `FULL` for `LATEST JOIN`).
+Use `LEFT` or `INNER` for enrichment. The separate [`FULL LATEST JOIN`](/streaming-joins#full-latest-join) maintains state on both sides.
 
 There are several types of **Dynamic Enrichment Joins**.
 1. `LATEST JOIN` - Joins **only the latest version** of the matching key on the right-hand side.  
 2. `ASOF JOIN` - Joins the **closest match in time** on the right-hand side (useful for time-based lookups). 
-3. `ALL JOIN` - Join **all versions** of the matching keys on the right-hand side.
+3. `ALL JOIN` - Joins **all buffered rows** matching the key on the right-hand side.
 
 ## LATEST JOIN
 
 **LATEST JOIN** enriches a live data stream using the **most recent version** of each key from a **dynamic right-hand side dataset**. It’s designed for use cases where the right-hand side data changes over time, but only the **latest state** of each key matters — such as **the most recent user profile, product info**, or **configuration snapshot**.
 
-Timeplus keeps an in-memory hash table for the right-hand side, continuously updating it as new events arrive. Each event from the left stream probes this table to fetch the **latest available value** at that moment, ensuring always up-to-date joins with minimal overhead.
+Timeplus keeps a hash table for the right-hand side, continuously updating it as new events arrive. Each event from the left stream probes this table to fetch the **latest available value** at that moment.
 
 ### Syntax
 
@@ -24,7 +24,7 @@ SELECT
     *
 FROM 
     lhs_stream [LEFT | INNER] LATEST JOIN rhs_stream 
-ON lhs_stream.col1 = rhs_table.col1 AND ...;
+ON lhs_stream.col1 = rhs_stream.col1 AND ...;
 ```
 
 The right-hand side (`rhs_stream`) is typically a native **Timeplus stream** (usually [Mutable Stream](/mutable-stream) or [Versioned Key Value Stream](/versioned-stream)) or an **external streaming source** (e.g., Kafka). As new events flow into the right-hand side stream, the join maintains a **dynamic hash table** that is continuously updated — keeping **latest versions** of the join keys for lookup.
@@ -70,13 +70,13 @@ ON orders.product_id = products.id;
 - Each new event from the `orders` stream **probes** this hash table using the `product_id` as the join key.
 - If a match is found, the **joined result** is emitted downstream immediately.
 - As new updates or inserts arrive in the `products` stream, the right-hand side hash table is **incrementally updated**.
-- Subsequent `orders` events will then probe against the **latest version** of the `products` data, ensuring the join always reflects the most up-to-date information.
+- Subsequent `orders` events probe against the **latest version** of the `products` data that the join has processed. Earlier results are not revised.
 
 ## ASOF JOIN 
 
 **ASOF JOIN** enriches a live data stream with reference data based on **the closest** match in time on the right-hand side dataset. It is designed for time-aware enrichment use cases where the right-hand side dataset **(e.g., exchange rates, inventory prices, metrics**) evolves over time, and each incoming event from the left stream should use the **most recent valid version** from the right-hand side.
 
-Unlike `LATEST JOIN` (which only keeps the latest version per key) or `ALL JOIN` (which retains all versions), `ASOF JOIN` maintains a time-sorted list for each key on the right-hand side and efficiently finds the record with the **largest timestamp less than or equal to** the left event’s timestamp.
+An `ASOF JOIN` uses equality keys and one inequality. For `left.ts >= right.ts`, it selects the largest buffered right timestamp less than or equal to the left timestamp. Reversing the inequality changes the search direction.
 
 ### Syntax
 
@@ -91,7 +91,7 @@ SETTINGS keep_versions = <versions>;
 
 The right-hand side (`rhs_stream`) is typically a **Timeplus stream** (usually [Mutable Stream](/mutable-stream) or [Versioned Key Value Stream](/versioned-stream)) or **external streaming source** (e.g. Kafka).
 
-Timeplus maintains a indexed hash table with a sorted version list for the right-hand side, continuously updated as new data arrives.
+Timeplus maintains an indexed hash table with a sorted version list for the right-hand side, continuously updated as new data arrives. `keep_versions` limits the list to 3 versions per equality key by default.
 
 The following diagram illustrates this behavior:
 
@@ -170,7 +170,7 @@ INSERT INTO orders(id, currency, price, amount, _tp_time) VALUES
 
 ## ALL JOIN
 
-**ALL JOIN** enriches a live data stream by joining it with **all historical versions** of matching keys from a **dynamic right-hand side dataset**. Unlike `LATEST JOIN`, which only uses the most recent value, `ALL JOIN` keeps every version of the right-hand side data in memory, allowing the left stream to match against **multiple key versions** over time.
+**ALL JOIN** enriches a live data stream by joining it with **all matching rows** in the right-hand side state. With a keyed right stream, the state keeps the current row per primary key. A join key can match several distinct primary keys.
 
 This join type is useful for use cases such as **audit trails, change history analysis**, or **multi-version correlation**, where you need visibility into how reference data evolved — not just its current state.
 
@@ -179,18 +179,18 @@ This join type is useful for use cases such as **audit trails, change history an
 SELECT 
     *
 FROM 
-    lhs_stream [LEFT | INNER] JOIN rhs_stream 
-ON lhs_stream.col1 = rhs_table.col1 AND ...;
+    lhs_stream [LEFT | INNER] ALL JOIN rhs_stream
+ON lhs_stream.col1 = rhs_stream.col1 AND ...;
 ```
 
-The right-hand side (`rhs_stream`) can be a native **Timeplus stream** (usually [Mutable Stream](/mutable-stream) or [Versioned Key Value Stream](/versioned-stream)) or an **external streaming source** (e.g., Kafka). As new events flow into the right-hand side stream, the join maintains a **dynamic hash table** that is continuously updated — keeping **all historical versions** of the join keys for lookup.
+For a left append stream, this enrichment pattern uses a change-aware right side such as a [Mutable Stream](/mutable-stream), [Versioned Key Value Stream](/versioned-stream), or [Changelog Key Value Stream](/changelog-stream). An `ALL JOIN` between two append-only streams is [bidirectional](/bidirectional-join#bidirectional-join-without-data-mutation).
 
 The following diagram illustrates this behavior:
 
 ![DynamicEnrichmentJoinAll](/img/dynamic-enrichment-join-all.svg)
 
 :::note
-`ALL JOIN` should only be used when the number of key versions on the right-hand side is limited. If too many versions accumulate, the in-memory hash table may grow uncontrollably and lead to excessive memory usage.
+The buffered state grows with the number of retained right-side primary keys. A single left row can produce many output rows when its join key matches many of them.
 :::
 
 ### Example
@@ -220,7 +220,7 @@ CREATE MUTABLE STREAM customer_tiers (
 PRIMARY KEY (customer_id, tier);
 ```
 
-The `customer_tiers` stream records every change in a customer’s tier. Over time, the same customer ID may have multiple entries.
+The `customer_tiers` stream stores one row per `(customer_id, tier)`. Over time, the same customer ID may have multiple entries. Writing the same pair again replaces its previous value.
 
 Now, to enrich every order with **all versions** of the customer tier data:
 
@@ -237,11 +237,11 @@ ON o.customer_id = c.customer_id;
 ```
 
 **Explanation**:
-- Timeplus builds a dynamic hash table of `customer_tiers`, keeping **all versions** per `customer_id`.
-- Each incoming order probes the hash table and **joins with every version** of the customer’s tier record.
+- Timeplus builds a dynamic hash table of `customer_tiers` with one row per primary key.
+- Each incoming order joins with all rows matching its `customer_id`.
 - This means one order may produce **multiple join results** — one for each historical tier.
 - It’s ideal for analyzing **how business metrics relate to reference data changes** (e.g., how sales patterns differ across historical tier transitions).
 
 :::note
-Since `ALL JOIN` retains all key versions in memory, it’s best suited for datasets where key versioning is limited — otherwise memory usage can grow significantly.
+Use [hybrid hash join](/query-settings#default_hash_join) to spill cold state to disk when retaining many keys.
 :::

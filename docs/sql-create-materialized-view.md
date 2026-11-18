@@ -1,21 +1,24 @@
 # CREATE MATERIALIZED VIEW
-The difference between a materialized view and a regular view is that the materialized view is running in background after creation and the resulting stream is physically written to internal storage (hence it's called materialized).
+The difference between a materialized view and a regular view is that the materialized view runs in the background after it starts and writes the resulting stream to internal storage or an explicit target.
 
 To create a materialized view:
 
 ```sql
 CREATE MATERIALIZED VIEW [IF NOT EXISTS] [db.]<view_name>
+[INTO <target_stream_or_table>]
 AS <SELECT ...>
+[STORAGE_SETTINGS <storage_settings>]
+[TTL <ttl_expression>];
 ```
 
-Once the materialized view is created, Timeplus will run the query in the background continuously and incrementally emit the calculated results according to the semantics of its underlying streaming select.
+Once the materialized view starts, Timeplus runs the query in the background continuously and incrementally emits the calculated results according to the semantics of its underlying streaming select. The view starts automatically when assigned to an execution node, unless `pause_on_start=true`.
 
 Different ways to use the materialized views:
 
 1. Streaming mode: `SELECT * FROM materialized_view` Get the result for future data. This works in the same way as views.
-2. Historical mode: `SELECT * FROM table(materialized_view)` Get all past results for the materialized view.
-3. Historical + streaming mode: `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` Get all past results and as well as the future data.
-4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where _tp_time in (SELECT max(_tp_time) as m from table(materialized_view))` This immediately returns the most recent query result. If `_tp_time` is not available in the materialized view, or the latest aggregation can produce events with different `_tp_time`, you can add the `emit_version()` to the materialized view to assign a unique ID for each emit and pick up the events with largest `emit_version()`. For example:
+2. Historical mode: `SELECT * FROM table(materialized_view)` reads retained rows from a native target.
+3. Historical + streaming mode: `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` Get retained results matching the filter and continue with future output. To backfill the view's source instead, set the starting position on the defining query.
+4. To inspect the latest emitted batch, include `emit_version()` in the view and select rows with the highest version. This returns the rows in that emission. For example:
 
    ```sql
    create materialized view mv as
@@ -25,7 +28,7 @@ Different ways to use the materialized views:
    select * from table(mv) where version in (select max(version) from table(mv));
    ```
 
-   We are considering providing new syntax to simplify this.
+   For policies that emit only updated groups, the latest batch contains those groups. A keyed destination can maintain the current values of all groups across batches.
 
 ## Target Stream
 
@@ -82,4 +85,4 @@ AS SELECT ..
 SETTINGS preferred_exec_node=3
 ```
 
-In most cases, you don't need to specify this setting. Timeplus will automatically select an available node to run the materialized view. It's also recommended to set [memory_weight](#memory_weight) to have the system to automatically choose the appropriate node for load balancing. If you need to fine-tune the load balancing or resource utilization, you can specify this setting. As a result, load balancing or failover won't be available when this is set. You cannot change the value after the materialized view is created, even the node is having issue. In this case, please drop and re-create the materialized view with new node ID.
+In most cases, you don't need to specify this setting. Timeplus will automatically select an available node to run the materialized view. You can use [memory_weight](#memory_weight) for load balancing. `preferred_exec_node` lets Timeplus prefer an available, eligible node. A Raft-based view can fail over to another eligible replica if the preferred node becomes unavailable. See [Materialized View High Availability](/materialized-view-high-availability).

@@ -4,7 +4,7 @@
 
 In this join type, **events from the left-hand stream** trigger the join. Each incoming event probes a **static hash table** that is pre-built from the right-hand side dataset — as illustrated in the diagram below.
 
-Because the right-hand side data remains static, only `LEFT` and `INNER` joins are supported.
+Use `LEFT` or `INNER` for continuous enrichment. Changes to the right side do not refresh the snapshot of a running query.
 
 ![StaticEnrichmentJoinAll](/img/static-enrichment-join.svg)
 
@@ -95,11 +95,11 @@ SETTINGS
 
 **Explanation**:
 - `join_algorithm='parallel_hash'` enables **parallel hash join**. 
-- `max_threads=4` controls the number of concurrent threads.
-- Internally: 
-    - Timeplus **shuffles** the left stream `orders` into four **non-overlapping substreams** by join key.
-    - The right table (`products`) is **partitioned** into four **subtables**, each building a **separate hash table**.
-    - Each substream joins its corresponding subtable **in parallel**, significantly improving join throughput.
+- `max_threads=4` controls the requested concurrency. Use `EXPLAIN PIPELINE` to see the actual pipeline.
+- Internally:
+    - Timeplus **shuffles** the left stream `orders` by join key.
+    - The right table (`products`) is **partitioned** by the same keys, with a **separate hash table** per partition.
+    - Each substream joins its corresponding subtable **in parallel**.
 
 ## Optimize Memory Consumption
 
@@ -120,5 +120,4 @@ SETTINGS
 
 **Explanation**:
 - `default_hash_join='hybrid'` enables a **hybrid in-memory + disk-based hash table**.
-- `max_hot_keys=100000` limits the number of keys stored in memory. When this limit is reached, older keys are **spilled to disk** using an **LRU** (Least Recently Used) policy.
-- This approach balances **memory efficiency and performance** — if most lookups hit the in-memory hot keys, join performance remains excellent.
+- `max_hot_keys=100000` sets the hot-key spill threshold per hash table. When this threshold is exceeded, older keys are **spilled to disk** using an **LRU** (Least Recently Used) policy.

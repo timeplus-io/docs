@@ -4,7 +4,7 @@
 
 **Materialized View** is a core concept in Timeplus because it brings together nearly all Timeplus features into a single mechanism, enabling users to deliver real-time value from their data.
 
-A **Materialized View** is always bound to a **streaming query** and runs continuously in the background once created.  It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
+A **Materialized View** is always bound to a **streaming query** and runs continuously in the background once started. By default, it starts when an execution node is assigned. It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
 
 A **Materialized View** consists of 4 main components (illustrated in the diagram below):
 
@@ -25,7 +25,7 @@ A **Materialized View** consists of 4 main components (illustrated in the diagra
 
 ![MatView](/img/mat-view.svg)
 
-When a Materialized View checkpoints its query state, it ensures durability and fault tolerance. If the process fails mid-execution, it can **restart from the last checkpoint** without reprocessing the entire stream from beginning.
+If the process fails mid-execution, it can **restart from the last committed checkpoint** without reprocessing the entire stream from the beginning. Input processed after that checkpoint may be replayed. See [idempotent processing](/idempotent) for sink-specific duplicate handling.
 
 For details on the available checkpointing strategies, see the [Checkpoint documentation](/materialized-view-checkpoint).
 
@@ -64,7 +64,9 @@ AS
     recovery_retry_for_same_error=<retries-limit>,
     input_format_ignore_parsing_errors=[true|false],
  ...]
- [COMMENT '<comments>']
+[STORAGE_SETTINGS <storage_settings>]
+[TTL <ttl_expression>]
+[COMMENT '<comments>'];
 ```
 
 ### Example
@@ -106,7 +108,7 @@ If you want to materialize a **historical query** on a schedule, consider using 
 
 The **Materialized View checkpoint interval**, in seconds.
 - If set to `< 0`, checkpointing is disabled.
-- This setting takes precedence over the `interval` defined in `checkpoint_settings`.
+- A positive value overrides the `interval` in `checkpoint_settings`. The default, `0`, uses the checkpoint configuration or the engine-selected interval.
 
 #### `checkpoint_settings`
 
@@ -140,8 +142,7 @@ The **Materialized View checkpoint interval**, in seconds.
    - Users may disable incremental mode if needed.
 
 - **`shared_disk`**
-   - When enabled, checkpoints are written to **shared storage** (e.g., S3).
-   - This avoids replication overhead across the cluster and can improve efficiency in large deployments.
+   - Names the configured shared disk used for checkpoint files, for example an S3-backed disk. See [checkpoint replication strategies](/materialized-view-checkpoint).
 
 #### `memory_weight`
 
@@ -206,8 +207,8 @@ Supported values:
 
 Used with `default_hash_table` and `default_hash_join`.
 
-This setting defines the maximum number of keys to keep **in memory**.
-- If the number of in-memory keys exceeds this threshold, **cold keys** are spilled to disk in an **LRU (Least Recently Used)** manner.
+This setting defines the [hot-key spill threshold](/query-settings#max_hot_keys) per hybrid hash table. The default is `100000`.
+- If the number of in-memory keys exceeds this threshold, **cold keys** are spilled to disk in an **LRU (Least Recently Used)** manner. A large input batch can temporarily exceed the threshold.
 - Helps balance memory usage and performance when handling high-cardinality workloads.
 
 #### `pause_on_start`
@@ -217,7 +218,7 @@ Controls whether a Materialized View starts executing immediately after creation
 Supported values:
 
 - `false` or `0` (default): The Materialized View query starts executing as soon as it is created or restarted.
-- `true` or `1`: The Materialized View remains paused after creation or restart and must be resumed manually via `SYSTEM RESUME` command.
+- `true` or `1`: The Materialized View starts paused. Use `SYSTEM RESUME MATERIALIZED VIEW <view_name>` to resume it.
 
 #### `enable_dlq`
 
@@ -254,7 +255,7 @@ Specifies the maximum number of **consecutive event failures** that can be logge
 Specifies the recovery behavior when a Materialized View fails. Supported policies:
 
 - **strict**: Recover from the last checkpoint and continue processing. No source data is skipped.
-- **best_effort**: Recover from the last checkpoint. If the same error occurs again (e.g., parsing or conversion errors), skip the problematic ("poison") events and continue processing.
+- **best_effort**: Attempt checkpoint recovery and allow skipping source offset ranges for recognized permanent data errors.
 
 **Default:** `strict`
 
@@ -280,19 +281,13 @@ When you create a Materialized View **without an explicit target stream or table
 
 This makes the syntax simpler and convenient for quick experimentation, since you don’t need to create a target stream beforehand.
 
-However, this approach is **not recommended in production**, because:
+Consider an explicit target stream in production if you need:
 
-1. **Limited fine-tuning**
-   - The internal target stream does not allow customization of storage options such as column compression, sorting keys, skipping indexes, shards, etc.
-   - TTL tuning is possible but more difficult.
+1. **Storage customization** beyond the internal stream options. For an internal stream, `STORAGE_SETTINGS` can set options such as shard count and replication factor. Use `TTL` with a `date` or `datetime` expression, for example `TTL to_datetime(_tp_time) + 1d`.
+2. **Stream type flexibility**, for example, a [Mutable stream](/mutable-stream) as the target.
+3. **Schema evolution**, for example, adding new columns to a separately managed stream.
 
-2. **Stream type flexibility**
-   - You may want to use a different stream type (e.g., a [Mutable stream](/mutable-stream)) as the target, which is not possible in this mode.
-
-3. **Schema evolution challenges**
-   - Tasks such as adding new columns are significantly more difficult to manage.
-
-**Best practice:** Always create an explicit target stream when defining a Materialized View, especially in production environments.
+A scheduler-managed view using shared checkpoint storage requires an explicit target.
 
 ## Query Materialized View
 
@@ -307,6 +302,8 @@ the query is proxied to the target stream or table that stores the results of th
 - If the sink is a native stream (e.g., append or mutable stream) or external stream, the query behaves like a streaming query.
 - If the sink is an external table, the query behaves like a historical table query.
 
+For a native target, `SELECT * FROM table(mat_view)` reads retained materialized rows and returns. It reads the target data; it does not re-run the view's source query. To initialize the **view's computation** from source history, set `seek_to='earliest'` on the view's defining `SELECT`.
+
 ## Drop Materialized View
 
 Run the following SQL to drop a Materialized View.
@@ -314,6 +311,8 @@ Run the following SQL to drop a Materialized View.
 ```sql
 DROP VIEW [IF EXISTS] db.<view_name>;
 ```
+
+Dropping the view stops its pipeline and removes its internal target if it has one. A target stream named in `INTO` is managed separately.
 
 ## Alter Materialized View Query Settings
 
