@@ -75,7 +75,7 @@ Default value is `memory`. To optimize memory usage for supported hash joins, yo
 
 ## max_hot_keys
 
-The default is `100000`. This is the hot-key spill threshold per hybrid hash table. Use `0` for no threshold. The threshold counts keys, and a batch can temporarily exceed it. One query can build multiple tables, for example across shuffle lanes.
+The default is `100000`. This setting controls how many hot keys each hybrid hash table keeps in memory before spilling older keys to disk. Use `0` to disable this limit. A large input batch can temporarily exceed the configured number of keys. One query can build multiple tables, for example across shuffle lanes.
 
 ## aggregate_state_ttl_sec and join_state_ttl_sec
 

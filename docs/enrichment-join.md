@@ -115,10 +115,10 @@ FROM orders INNER JOIN table(products) AS products
 ON orders.product_id = products.id
 SETTINGS
     default_hash_join = 'hybrid',   -- Enable hybrid hash table
-    max_hot_keys = 100000;          -- Hot-key spill threshold
+    max_hot_keys = 100000;          -- Number of hot keys to keep in memory
 ```
 
 **Explanation**:
 - `default_hash_join='hybrid'` enables a **hybrid in-memory + disk-based hash table**.
-- `max_hot_keys=100000` sets the hot-key spill threshold per hash table. When this threshold is exceeded, older keys are **spilled to disk** using an **LRU** (Least Recently Used) policy.
+- `max_hot_keys=100000` sets the number of hot keys to keep in memory per hash table. When the number of keys in memory exceeds this setting, older keys are **spilled to disk** using an **LRU** (Least Recently Used) policy. During a large input batch, the table can temporarily hold more keys in memory.
 - This approach balances **memory efficiency and performance** — frequently accessed keys can still be looked up in memory.

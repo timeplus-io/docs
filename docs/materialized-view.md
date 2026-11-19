@@ -209,8 +209,8 @@ Supported values:
 
 Used with `default_hash_table` and `default_hash_join`.
 
-This setting defines the [hot-key spill threshold](/query-settings#max_hot_keys) per hybrid hash table. The default is `100000`.
-- If the number of in-memory keys exceeds this threshold, **cold keys** are spilled to disk in an **LRU (Least Recently Used)** manner. A large input batch can temporarily exceed the threshold.
+This setting defines the number of hot keys to keep **in memory** per hybrid hash table. The default is `100000`. See [Query Settings](/query-settings#max_hot_keys).
+- If the number of in-memory keys exceeds this setting, **cold keys** are spilled to disk in an **LRU (Least Recently Used)** manner. During a large input batch, the table can temporarily hold more keys in memory.
 - Helps balance memory usage and performance when handling high-cardinality workloads.
 
 #### `pause_on_start`

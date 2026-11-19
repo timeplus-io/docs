@@ -53,7 +53,7 @@ If the grouping keys increase continuously (for example, by including timestamps
 To handle this, Timeplus supports a **hybrid hash table** that combines in-memory and on-disk state management:
 
 - **Hot keys** (recently active) are stored in memory.
-- **Cold keys** (inactive or rarely updated) are spilled to RocksDB using an LRU-like algorithm once the hot-key threshold is exceeded. This helps control memory usage for long-running queries. A large batch can temporarily exceed the threshold.
+- **Cold keys** (inactive or rarely updated) are spilled to RocksDB using an LRU-like algorithm when the number of keys in memory exceeds `max_hot_keys`. This helps control memory usage for long-running queries. During a large input batch, the table can temporarily hold more keys in memory.
 - `aggregate_state_ttl_sec` applies to spilled entries based on when they are written to RocksDB. Expired entries are removed during compaction. Hot state in memory does not expire on this schedule.
 
 **Example**:
@@ -88,8 +88,8 @@ SETTINGS
 - This query performs a **global aggregation** that computes CPU metrics for each device in 5-minute intervals.
 - The grouping key includes `bucket_window_start`, `location`, and `device`. Each new 5-minute bucket can add grouping keys.
 - The hybrid hash table manages the increasing state:
-  - `100,000` is the hot-key threshold per substream.
-  - Older keys are spilled to disk automatically when the threshold is exceeded.
+  - `100,000` is the number of hot keys to keep in memory per substream.
+  - Older keys are spilled to disk automatically when the number of keys in memory exceeds this setting.
 - Spilled entries become eligible for compaction cleanup after 1 hour (`aggregate_state_ttl_sec=3600`). If a late event arrives after its state has been removed, it starts a new aggregate for that key.
 - `SHUFFLE BY location` improves **parallelism and memory efficiency**. See [Data Shuffle](/shuffle-data) for more details.
 
