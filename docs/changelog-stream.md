@@ -428,16 +428,16 @@ If the raw JSON string column is named `raw`, run the following SQL in the query
 ```sql
 WITH events AS (
     SELECT
-        json_extract_string(raw, 'op') AS operation,
-        json_extract_raw(raw, 'before') AS before_row,
-        json_extract_raw(raw, 'after') AS after_row,
-        from_unix_timestamp64_milli(json_extract_int(raw, 'ts_ms'), 'UTC') AS event_time
+        raw:op AS operation,
+        raw:before AS before_row,
+        raw:after AS after_row,
+        from_unix_timestamp64_milli(raw:ts_ms::int64, 'UTC') AS event_time
     FROM rawcdc_dim_products
 )
 SELECT
     tuple_element(change, 2) AS _tp_delta,
-    json_extract_string(tuple_element(change, 1), 'product_id') AS product_id,
-    to_float32(json_extract_float(tuple_element(change, 1), 'price')) AS price,
+    tuple_element(change, 1):product_id AS product_id,
+    tuple_element(change, 1):price::float32 AS price,
     event_time AS _tp_time
 FROM events
 ARRAY JOIN multi_if(
