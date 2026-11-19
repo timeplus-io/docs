@@ -8,15 +8,17 @@ Since stream processing deals with unbounded, out-of-order data, watermarks are 
 
 ## Watermarks and emit timing
 
-In [Tumble](/tumble-aggregation) and [Hop](/hop-aggregation) aggregations, a watermark of `W` means Timeplus treats event times before `W` as complete. A window can close when its end time is at or before `W`. Rows that arrive later with timestamps before `W` are dropped as late.
+In [Tumble](/tumble-aggregation) and [Hop](/hop-aggregation) aggregations, Timeplus treats the data before the watermark as complete. When the watermark reaches a window's end time, the window can close. If an event arrives with a timestamp earlier than the current watermark, Timeplus drops it as late.
 
-To calculate the watermark, Timeplus takes the largest timestamp seen in the window's time column, subtracts any [configured delay](/streaming-aggregations#emit_delay), and rounds down to a window end.
+For example, suppose you count orders in five-second windows and set [`WITH DELAY 2s`](/streaming-aggregations#emit_delay). When Timeplus sees an order timestamped `12:00:07`, it subtracts two seconds and reaches the window boundary at `12:00:05`. The window ending at that time can close. In general, Timeplus subtracts the delay from the largest timestamp it has seen so far and uses the last window end at or before that time.
 
-With `EMIT PERIODIC` or `EMIT ON UPDATE WITH BATCH`, Timeplus checks for results to emit at intervals measured in processing time. The signal carries the current processing time in a global aggregation and the current event-time watermark in a window aggregation. This lets a window emit intermediate results while it is still open. `EMIT ON UPDATE` can also emit an update using the current watermark before event time advances. See [EMIT policies](/streaming-aggregations#emit) for syntax and examples.
+If the dashboard needs a running count, `EMIT PERIODIC 1s` lets Timeplus check for a new result every second, even while the window is open. Those checks use the server's clock (processing time). The watermark still follows the order timestamps (event time). For a global count of all orders, the interval simply sets how often Timeplus checks for a result.
+
+`EMIT ON UPDATE WITH BATCH` uses the same clock to check for updated groups. `EMIT ON UPDATE` can show updates as data arrives, even when the watermark stays the same. See [EMIT policies](/streaming-aggregations#emit) for syntax and examples.
 
 ## Window state cleanup
 
-Once a Tumble window closes, Timeplus can discard its aggregate state. For Hop, overlapping windows share time buckets, so Timeplus keeps a bucket until no remaining window needs it. Global aggregation normally keeps its state across emissions so later rows can continue updating it. See [TTL of aggregation keys](/global-aggregation#ttl-of-aggregation-keys) for global state retention.
+Once a Tumble window closes, Timeplus can clear the running count it kept for that window. Hop windows overlap. For example, with a five-minute window starting every minute, successive windows share four minutes of data. Timeplus keeps the partial counts for those shared minutes until the last window that needs them closes. A global order count normally keeps its total after each output so the next order can still be added to it. See [TTL of aggregation keys](/global-aggregation#ttl-of-aggregation-keys) for global state retention.
 
 ## Try It Out
 

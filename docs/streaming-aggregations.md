@@ -147,7 +147,7 @@ You can also apply `EMIT PERIODIC` in time windows, such as tumble/hop/session.
 
 When you run a tumble window aggregation, by default Timeplus will emit results when the window is closed. So `tumble(stream,5s)` will emit results every 5 seconds, unless there is no event in the window to progress the watermark.
 
-The 5 seconds in `tumble(stream,5s)` is the window size in event time. See [Watermarks and emit timing](/understanding-watermark#watermarks-and-emit-timing) for how `EMIT PERIODIC` affects intermediate results.
+The 5 seconds in `tumble(stream,5s)` is the window size measured from the event timestamps. See [Watermarks and emit timing](/understanding-watermark#watermarks-and-emit-timing) for an example of showing a running count before the window closes.
 
 In some cases, you may want to get aggregation results even the window is not closed, so that you can get timely alerts. For example, the following SQL will run a 5-second tumble window and every 1 second, if the number of event is over 300, a row will be emitted.
 
