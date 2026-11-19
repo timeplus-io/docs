@@ -18,7 +18,9 @@ If the dashboard needs a running count, `EMIT PERIODIC 1s` lets Timeplus check f
 
 ## Window state cleanup
 
-Once a Tumble window closes, Timeplus can clear the running count it kept for that window. Hop windows overlap. For example, with a five-minute window starting every minute, successive windows share four minutes of data. Timeplus keeps the partial counts for those shared minutes until the last window that needs them closes. A global order count normally keeps its total after each output so the next order can still be added to it. See [TTL of aggregation keys](/global-aggregation#ttl-of-aggregation-keys) for global state retention.
+The watermark determines when Timeplus can clear window state. Once a Tumble window closes, Timeplus can clear the running count it kept for that window. Hop windows overlap. For example, with a five-minute window starting every minute, successive windows share four minutes of data. Timeplus keeps the partial counts for those shared minutes until the last window that needs them closes.
+
+A global order count normally keeps its total between outputs. [Aggregation-key TTL](/global-aggregation#ttl-of-aggregation-keys) applies separately to aggregation state that Timeplus moves from memory to disk. The TTL starts when Timeplus writes that state to disk, and the state can be cleaned up after the TTL expires.
 
 ## Try It Out
 
