@@ -1,15 +1,14 @@
-# Aggregations & Emit Polices
+# Aggregations & Emit Policies
 ### Global Streaming Aggregation {#global}
 
-In Timeplus, we define global aggregation as an aggregation query without using streaming windows like tumble, hop. Unlike streaming window aggregation, global streaming aggregation doesn't slice
-the unbound streaming data into windows according to timestamp, instead it processes the unbounded streaming data as one huge big global window. Due to this property, Timeplus for now can't
-recycle in-memory aggregation states / results according to timestamp for global aggregation.
+In Timeplus, we define global aggregation as an aggregation query without using streaming windows like tumble, hop. Unlike streaming window aggregation, global streaming aggregation doesn't slice the input data into windows according to timestamp. See [Global Aggregation](/global-aggregation) for state cleanup and emission options.
 
 ```sql
-SELECT <column_name1>, <column_name2>, <aggr_function>
+SELECT [<grouping_keys>,] <aggr_function>
 FROM <stream_name>
-[WHERE clause]
-EMIT PERIODIC [<n><UNIT>]
+[WHERE <condition>]
+[GROUP BY <grouping_keys>]
+[EMIT PERIODIC <interval>];
 ```
 
 `PERIODIC <n><UNIT>` tells Timeplus to emit the aggregation periodically. `UNIT` can be ms(millisecond), s(second), m(minute),h(hour),d(day).`<n>` shall be an integer greater than 0.
@@ -20,6 +19,7 @@ Examples
 SELECT device, count(*)
 FROM device_utils
 WHERE cpu_usage > 99
+GROUP BY device
 EMIT PERIODIC 5s
 ```
 
@@ -43,7 +43,7 @@ EMIT [STREAM|CHANGELOG|DELTA]
  [PERIODIC <interval> [REPEAT]]
  [ON UPDATE [WITH BATCH <interval>] ]
  [PER EVENT]
- [AFTER SESSION CLOSE [IDENTIFIED BY <col> | (<ts_col>, <start_col>, <end_col>)] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]]
+ [AFTER SESSION CLOSE [IDENTIFIED BY <col> | (<ts_col>, <start_col>, <end_col>)] WITH [ONLY] MAXSPAN <interval> AND TIMEOUT <interval>]
 ```
 
 You can only choose one of the emit policies: `PERIODIC`, `ON UPDATE`, `PER EVENT`, or `AFTER SESSION CLOSE`.
@@ -55,13 +55,15 @@ By default `EMIT STREAM` and `PERIODIC 2s` are applied. Advanced settings:
 For [time-window aggregations](/streaming-query#window-aggregation), the syntax is:
 
 ```sql
-EMIT
- [AFTER WINDOW CLOSE [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
- [PERIODIC <interval> [REPEAT] [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
- [ON UPDATE [WITH BATCH <interval>] [WITH DELAY <interval> [AND TIMEOUT <interval>]]]
+EMIT [STREAM]
+ [AFTER WINDOW CLOSE [WITH DELAY <interval>] [AND TIMEOUT <interval>]]
+ [PERIODIC <interval> [REPEAT] [WITH DELAY <interval>] [AND TIMEOUT <interval>]]
+ [ON UPDATE [WITH BATCH <interval>] [WITH DELAY <interval>] [AND TIMEOUT <interval>]]
  [PER EVENT]
 ```
 You can only choose one of the emit policies: `AFTER WINDOW CLOSE`, `PERIODIC`, `ON UPDATE`, or `PER EVENT`. If you omit any of them, the default policy is `AFTER WINDOW CLOSE`.
+
+[`session()`](/session-aggregation) supports periodic and update-based emissions. It rejects `WITH DELAY` and `PER EVENT`.
 
 Examples:
 ```sql
@@ -73,11 +75,9 @@ EMIT ON UPDATE WITH BATCH 1s WITH DELAY 1s AND TIMEOUT 5s
 
 ### EMIT .. WITH DELAY {#emit_delay}
 
-`WITH DELAY` and `AND TIMEOUT` only can be applied to time-window based aggregations.
+`WITH DELAY` applies to tumble and hop aggregations. It subtracts the specified interval from the maximum observed event timestamp before calculating the watermark.
 
-By default, the query engine will emit the results immediately when the window is closed or other conditions are met. This behavior can be customized using the `WITH DELAY` clause. It allows you to specify extra time to progress the watermark, which can be useful for handling late data.
-
-For example, if you want to wait for 1 second before emitting the results, you can use the following syntax:
+For example, require event time to progress one second beyond a window's end before the watermark can close it:
 
 ```sql
 EMIT AFTER WINDOW CLOSE WITH DELAY 1s
@@ -91,7 +91,7 @@ For time window based aggregations, when the window is closed is decided by the 
 
 Say you only get one event for the time window. Since there is no more event, the watermark cannot be moved so the window won't be closed.
 
-`EMIT .. TIMEOUT` is to force the window close, with a timeout after seeing last event.
+`EMIT AFTER WINDOW CLOSE AND TIMEOUT <interval>` can close pending windows after a wall-clock interval without input. This timeout can be used by itself or with `WITH DELAY`.
 
 Please note, if there no single event in the data stream, or in the time window, Proton won't emit result. For example, in the following SQL, you won't get 0 as the count:
 
@@ -125,7 +125,7 @@ GROUP BY device, window_end
 EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
-The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `device_utils`. Every time a window is closed, Timeplus Proton waits for another 2 seconds and then emits the aggregation results.
+The above example SQL continuously aggregates max cpu usage per device per tumble window for the stream `device_utils`. For a window ending at `00:00:05`, event time must reach `00:00:07` for the watermark to close it.
 
 ### EMIT PERIODIC {#emit_periodic}
 
@@ -137,6 +137,7 @@ Example:
 SELECT device, count(*)
 FROM device_utils
 WHERE cpu_usage > 99
+GROUP BY device
 EMIT PERIODIC 5s
 ```
 
@@ -145,6 +146,8 @@ For [Global Streaming Aggregation](#global) the default periodic emit interval i
 You can also apply `EMIT PERIODIC` in time windows, such as tumble/hop/session.
 
 When you run a tumble window aggregation, by default Timeplus will emit results when the window is closed. So `tumble(stream,5s)` will emit results every 5 seconds, unless there is no event in the window to progress the watermark.
+
+The 5 seconds in `tumble(stream,5s)` is the window size measured from the event timestamps. See [Watermarks and emit timing](/understanding-watermark#watermarks-and-emit-timing) for an example of showing a running count before the window closes.
 
 In some cases, you may want to get aggregation results even the window is not closed, so that you can get timely alerts. For example, the following SQL will run a 5-second tumble window and every 1 second, if the number of event is over 300, a row will be emitted.
 
@@ -201,7 +204,7 @@ EMIT ON UPDATE WITH DELAY 2s
 
 ### EMIT ON UPDATE WITH BATCH {#emit_on_update_with_batch}
 
-You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even the window is not closed, Timeplus will check the intermediate aggregation result at the specified interval and emit rows if the result is changed.
+You can combine `EMIT PERIODIC` and `EMIT ON UPDATE` together. In this case, even before the window is closed, Timeplus emits groups updated since the previous emission at the specified interval. The aggregate value can stay the same.
 ```sql
 SELECT
   window_start, cid, count() AS cnt
@@ -220,16 +223,16 @@ This emit policy is introduced in Timeplus Enterprise 2.8.4 as `EMIT AFTER KEY E
 
 The syntax is:
 ```sql
-EMIT AFTER SESSION CLOSE [IDENTIFIED BY <col> | (<ts_col>, <start_col>, <end_col>)] WITH [ONLY] MAXSPAN <interval> [AND TIMEOUT <interval>]
+EMIT AFTER SESSION CLOSE [IDENTIFIED BY <col> | (<ts_col>, <start_col>, <end_col>)] WITH [ONLY] MAXSPAN <interval> AND TIMEOUT <interval>
 ```
 
 Note:
-* `EMIT AFTER SESSION CLOSE` will emit results when the session of the key is closed. This EMIT policy ought to be applied to a global aggregation with a primary key as `GROUP BY`, usually using an ID for multiple tracing events.
+* `EMIT AFTER SESSION CLOSE` tracks sessions by the global aggregation's `GROUP BY` key, for example a trace ID.
 * `IDENTIFIED BY col` will calculate the span of the trace, usually you can set `IDENTIFIED BY _tp_time`.
 * `IDENTIFIED BY (ts_col, start_col, end_col)` uses boolean columns to mark the start and end of a session. [Learn more](/global-aggregation#emit-after-session-close)
 * `MAXSPAN interval` to identify whether the span of the related events over a certain interval, for example `MAXSPAN 500ms` to flag those events with same tracing ID but over 0.5 second span.
-* `ONLY`: if you add this keyword, then only those events over the `MAXSPAN` will be emitted, other events less than the `MAXSPAN` will be omitted, so that you can focus on those events over the SLA.
-* `AND TIMEOUT interval` to avoid waiting for late events for too long. After this interval (wall clock time) since the first event of the key (e.g. tracing ID), Timeplus will close the session for the key and emit results.
+* `ONLY` filters open sessions by the `MAXSPAN` threshold. See [session end handling](/global-aggregation#emit-after-session-close) for the behavior of an end event without an open session.
+* `AND TIMEOUT interval` limits elapsed wall-clock time since the session opened. Specify a value at least as large as `MAXSPAN`. With `ONLY`, expiration clears the state without emitting it.
 
 Timeplus automatically switches to `default_hash_table='hybrid'` with this emit policy to avoid putting too many data in memory. Do not override `default_hash_table` to `memory` for such queries.
 

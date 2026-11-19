@@ -150,23 +150,23 @@ Most queries work well with default settings, but advanced workloads may require
 ### Join
 
 - `max_joined_block_size_rows`: Maximum block size (in rows) for JOIN results. `0` means unlimited. **Default: 65409**
-- `join_algorithm`: Algorithm for join execution (`parallel_hash`, `hash`, `direct`, etc.). **Default: default**
+- `join_algorithm`: Algorithm for join execution (`parallel_hash`, `hash`, `direct`, etc.). **Default: `hash,direct`**
 - `join_max_buffered_bytes`: Maximum buffered bytes for stream-to-stream joins. **Default: 524288000**
 - `join_buffered_data_block_size`: Block size used when buffering data in memory; merges small blocks into larger ones for efficiency. `0` disables merging. **Default: 0**
-- `join_quiesce_threshold_ms`: Maximum wait time (ms) when one side of the join is quiesced. **Default: 1000**
+- `join_quiesce_threshold_ms`: Maximum wait time (ms) when one side of the join is quiesced. **Default: 0** (use the engine-selected threshold).
 - `join_latency_threshold`: Controls when to align and start joining left/right streams. `0` lets the system choose the value automatically. **Default: 0**
 - `default_hash_join`: Controls which hash join (`memory or hybrid`) implementation is used for streaming joins:. **Default: memory**
 
 ### Aggregation
 
-- `default_hash_table`: Controls which hash table (`memory or hybrid`) is used for streaming queries (joins, aggregations). **Default: memory** 
+- `default_hash_table`: Controls which hash table (`memory` or `hybrid`) is used for streaming aggregations and stateful table functions such as `dedup()` and `changelog()`. **Default: memory**
 - Emit strategy is also critical for tuning. See [Streaming Aggregations: Emit Strategy](/streaming-aggregations#emit) for details.
 
 ### Backfill
 
 - `enable_backfill_from_historical_store`: Enable backfill from historical data stores. **Default: true**
 - `emit_during_backfill`: Emit intermediate aggregation results while backfilling historical data. **Default: false**
-- `force_backfill_in_order`: Controls if backfilling data to be processed strictly in sequence order which requires sorting according to `_tp_sn` if it is true. **Default: false**
+- `force_backfill_in_order`: Sorts each native historical backfill by ascending `_tp_time`. **Default: false**
 
 ### Miscellaneous
 

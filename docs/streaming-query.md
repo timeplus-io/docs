@@ -17,6 +17,18 @@ The unbounded query can be converted to a bounded query by applying the function
 select * from table(my_stream)
 ```
 
+## Backfill and continue streaming
+
+A streaming query can process retained history before following live events. For example, you can initialize a count from existing data:
+
+```sql
+SELECT count()
+FROM my_stream
+SETTINGS seek_to = 'earliest';
+```
+
+For an eligible native stream, Timeplus can read from historical storage first and continue with the streaming log from the corresponding sequence position. Data retention determines how far back it can read. See [backfill settings](/query-settings#enable_backfill_from_historical_store).
+
 ## How streaming queries are triggered
 
 There are three categories of Timeplus streaming queries, based on how the data is aggregated.
@@ -25,7 +37,7 @@ There are three categories of Timeplus streaming queries, based on how the data 
 | ------------------ | ------------------------------------------------------------ | ---------------------------------------- |
 | Non-aggregation    | per event processing, e.g. tail, filter, transformation/normalization | When events arrive                       |
 | Window aggregation | group events in the same window                              | Window end and watermark                 |
-| Global aggregation | from now on till forever                                     | A fixed interval, default every 2 second |
+| Global aggregation | aggregate across all rows read by the query                  | A fixed interval, default every 2 seconds |
 
 If you see some new terms, no worries. Let's explore them more.
 
@@ -65,7 +77,7 @@ Non-aggregation is triggered per event arrival, which means every time there is 
 
 ### Window aggregation
 
-Window based aggregation is a typical analytic method in stream analysis. Each window has a fixed range with a specific start time and an end time. The window might move during analysis by a fixed step. The analysis result will be based on an aggregation function of all the events lived in that window range.
+Window based aggregation is a typical analytic method in stream analysis. Each tumble or hop window has a fixed range with a specific start time and an end time. The window might move during analysis by a fixed step. Session windows derive their boundaries from events. The analysis result will be based on an aggregation function of all the events assigned to that window.
 
 When using the window function for aggregation, the event time is used to decide whether the event is in that window. In the case the user does not specify the timestamp, the default one will be used. The user can also use any field in that event which is a datetime type as timestamp or dynamically generate a datetime field as timestamp.
 
@@ -73,6 +85,6 @@ When using the window function for aggregation, the event time is used to decide
 
 ### Global aggregation
 
-Global aggregation will start the aggregation for all incoming events since the query is submitted, and never ends.
+Global aggregation maintains state for the input the query consumes, including any rows read during backfill. The streaming query continues as new rows arrive.
 
 [Learn More](streaming-aggregations#global).

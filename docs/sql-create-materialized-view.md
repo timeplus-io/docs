@@ -1,21 +1,26 @@
 # CREATE MATERIALIZED VIEW
-The difference between a materialized view and a regular view is that the materialized view is running in background after creation and the resulting stream is physically written to internal storage (hence it's called materialized).
+The difference between a materialized view and a regular view is that the materialized view is running in background after creation and the resulting stream is physically written to storage (hence it's called materialized).
 
 To create a materialized view:
 
 ```sql
 CREATE MATERIALIZED VIEW [IF NOT EXISTS] [db.]<view_name>
+[INTO <target_stream_or_table>]
 AS <SELECT ...>
+[STORAGE_SETTINGS <storage_settings>]
+[TTL <ttl_expression>]
 ```
+
+`STORAGE_SETTINGS` can configure the view's replica placement, for example with `node_placements`. `TTL` applies to the internal target stream created when `INTO` is omitted.
 
 Once the materialized view is created, Timeplus will run the query in the background continuously and incrementally emit the calculated results according to the semantics of its underlying streaming select.
 
 Different ways to use the materialized views:
 
 1. Streaming mode: `SELECT * FROM materialized_view` Get the result for future data. This works in the same way as views.
-2. Historical mode: `SELECT * FROM table(materialized_view)` Get all past results for the materialized view.
-3. Historical + streaming mode: `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` Get all past results and as well as the future data.
-4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where _tp_time in (SELECT max(_tp_time) as m from table(materialized_view))` This immediately returns the most recent query result. If `_tp_time` is not available in the materialized view, or the latest aggregation can produce events with different `_tp_time`, you can add the `emit_version()` to the materialized view to assign a unique ID for each emit and pick up the events with largest `emit_version()`. For example:
+2. Historical mode: `SELECT * FROM table(materialized_view)` Get retained results from a native target.
+3. Historical + streaming mode: `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` Get retained results matching the filter, as well as future results.
+4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where _tp_time in (SELECT max(_tp_time) as m from table(materialized_view))` This immediately returns the rows with the most recent `_tp_time`. If `_tp_time` is not available in the materialized view, or the latest aggregation can produce events with different `_tp_time`, you can add `emit_version()` to identify the rows in each emission. For a query with a single emission sequence, pick the events with the largest version. For example:
 
    ```sql
    create materialized view mv as
@@ -25,7 +30,7 @@ Different ways to use the materialized views:
    select * from table(mv) where version in (select max(version) from table(mv));
    ```
 
-   We are considering providing new syntax to simplify this.
+   With `PARTITION BY`, compare emit versions within each partition. For policies that emit only updated groups, the latest batch contains those groups. A keyed destination can maintain the current values of all groups across batches.
 
 ## Target Stream
 
@@ -74,7 +79,7 @@ It's recommended that each node in the Timeplus Enterprise cluster shares the sa
 
 ### preferred_exec_node
 
-Starting from [Timeplus Enterprise v2.7.6](/enterprise-v2.7#2_7_6), when you create a materialized view with DDL SQL, you can add an optional `preferred_exec_node` setting to explicitly assign a node to run the materialized view. (`mv_preferred_exec_node` is a deprecated alias of this setting.)
+Starting from [Timeplus Enterprise v2.7.6](/enterprise-v2.7#2_7_6), when you create a materialized view with DDL SQL, you can add an optional `preferred_exec_node` setting to specify which eligible node Timeplus should prefer. (`mv_preferred_exec_node` is a deprecated alias of this setting.)
 
 ```sql
 CREATE MATERIALIZED VIEW my_mv
@@ -82,4 +87,4 @@ AS SELECT ..
 SETTINGS preferred_exec_node=3
 ```
 
-In most cases, you don't need to specify this setting. Timeplus will automatically select an available node to run the materialized view. It's also recommended to set [memory_weight](#memory_weight) to have the system to automatically choose the appropriate node for load balancing. If you need to fine-tune the load balancing or resource utilization, you can specify this setting. As a result, load balancing or failover won't be available when this is set. You cannot change the value after the materialized view is created, even the node is having issue. In this case, please drop and re-create the materialized view with new node ID.
+In most cases, you don't need to specify this setting. Timeplus will automatically select an available node to run the materialized view. Use [memory_weight](#memory_weight) for load balancing when `preferred_exec_node` is unset. A Raft-based view can fail over to another eligible replica if the preferred node becomes unavailable. You cannot change this setting after the materialized view is created. See [Materialized View High Availability](/materialized-view-high-availability).

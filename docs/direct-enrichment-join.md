@@ -15,6 +15,8 @@ There are several types of Direct Enrichment Joins for different use cases:
 
 Unlike other enrichment joins, the **right-hand side hash table** is not explicitly built or cached in memory. Timeplus instead performs on-demand lookups, relying on the external or local system’s indexing and access efficiency.
 
+The right-side keys must support direct lookup. Use a primary or secondary index on a local mutable stream, or the dictionary key for a dictionary. `join_algorithm='direct'` fails for unsupported query shapes or lookup keys.
+
 ## Direct Join with Remote System 
 
 You can join directly with a remote transactional system such as MySQL or PostgreSQL without local caching.
@@ -157,7 +159,7 @@ SETTINGS join_algorithm = 'direct';
 - If all required keys are found locally, the join completes **without querying** the remote MySQL database.
 - For any missing keys, Timeplus **fetches them from MySQL**, merges the results, and **updates the local Mutable Stream** with the newly fetched entries.
 - Each key stored in the Mutable Stream has a **1-hour TTL** — once expired, it becomes eligible for garbage collection.
-- This hybrid model provides an optimal balance between **speed** (through local caching) and **freshness** (via on-demand remote lookups).
+- With `update_from_source=false`, a local cache hit can continue serving the cached value after the corresponding MySQL row changes.
 
 Similarly, here’s an example using a **Hybrid Hash Table** as the cache layer for a Dictionary — combining **high performance** and **memory efficiency** in a single solution.
 

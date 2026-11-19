@@ -8,11 +8,11 @@ Timeplus supports some advanced `SETTINGS` to fine tune the streaming query proc
 
 ## seek_to
 
-`seek_to=<timestamp|earliest|latest>`. By default, if it's omitted, it's `latest`. A setting which tells Timeplus to seek old data in the streaming storage by timestamp. It can be a relative timestamp or an absolute timestamp. By default, it is `latest`, which tells Timeplus to not seek old data. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'`
+`seek_to=<timestamp|earliest|latest>` sets a streaming read's starting position. It can be a relative timestamp or an absolute timestamp. An append stream defaults to `latest` when no starting position or time predicate is given. A keyed stream can load an initial snapshot to construct its current state. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'`
 
 :::info
 
-Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..`(except for [External Stream](/external-stream)). Please use `WHERE _tp_time>='2023-01-01'` or similar. `_tp_time` is the special timestamp column in each raw stream to represent the [event time](/glossary#event_time). You can use `>`, `<`, `BETWEEN .. AND` operations to filter the data in Timeplus storage. The only exception is [External Stream](/external-stream). If you need to scan all existing data in the Kafka topic, you need to run the SQL with seek_to, e.g. `select raw from my_ext_stream settings seek_to='earliest'`
+Use `WHERE _tp_time>='2023-01-01'` or similar to filter by event time. `_tp_time` is the special timestamp column in each raw stream to represent the [event time](/glossary#event_time). You can use `>`, `<`, and `BETWEEN .. AND` to filter the data in Timeplus storage. To start at the earliest retained offset in a Kafka [external stream](/external-stream), use `seek_to='earliest'`, e.g. `select raw from my_ext_stream settings seek_to='earliest'`.
 
 :::
 
@@ -20,26 +20,27 @@ Please note, as of Jan 2023, we no longer recommend you use `SETTINGS seek_to=..
 
 `enable_backfill_from_historical_store=0|1`. By default, if it's omitted, it's `1`.
 
-- When it's 0, the query engine either loads data from streaming storage, or from historical storage.
-- When it's 1, the query engine evaluates whether it's necessary to load data from historical storage(such as the time range is outside of the streaming storage), or it'll be more efficient to get data from historical storage(for example, count/min/max is pre-computed in historical storage, faster than scanning data in streaming storage).
+- When enabled, eligible native streaming queries can backfill from historical storage at startup and fill gaps encountered later in the streaming log.
+- When disabled, the streaming read relies on the streaming store. The amount of data it can read depends on log retention.
+- Some reads require the streaming store, such as explicit sequence-number seeks, paced replay, and queries that request streaming-only virtual columns. See [Backfill and continue streaming](/streaming-query#backfill-and-continue-streaming).
 
 ## force_backfill_in_order
 
 `force_backfill_in_order=0|1`. By default, if it's omitted, it's `0`.
 
-1.  When it's 0, the data from the historical storage are turned without extra sorting. This would improve the performance.
-2.  When it's 1, the data from the historical storage are turned with extra sorting. This would decrease the performance. So turn on this flag carefully.
+1. When it's 0, no extra sorting is requested by this setting.
+2. When it's 1, historical backfill is sorted by ascending `_tp_time` on each native source shard. This can add sorting cost. For window aggregations, this order can differ from the order of the window's timestamp expression.
 
 ## emit_during_backfill
 
 `emit_during_backfill=0|1`. By default, if it's omitted, it's `0`.
 
-1.  When it's 0, the query engine won't emit intermediate aggregation results during the historical data backfill.
-2.  When it's 1, the query engine will emit intermediate aggregation results during the historical data backfill. This will ignore the `force_backfill_in_order` setting. As long as there are aggregation functions and time window functions(e.g. tumble/hop/session) in the streaming SQL, when the `emit_during_backfill` is on, `force_backfill_in_order` will be applied to 1 automatically.
+1. When it's 0, the query engine holds back normal event-time watermark emissions during historical backfill.
+2. When it's 1, the query engine can emit intermediate results according to the query's `EMIT` policy. For window aggregations such as tumble, hop, and session, Timeplus automatically requests ordered backfill.
 
 ## recovery_policy
 
-`recovery_policy=<strict|best_effort>`. By default, if it's omitted, it's `strict`. The main use case for materialized views, if new events fail to process, such as converting a string to an int32, the default behavior will make the materialized view unusable. You may monitor the Timeplus logs to act on the dirty data. However, if you set `SETTINGS recovery_policy=best_effort`, then Timeplus will attempt to recover from checkpoint and try up to 3 times, then skip dirty data and continue processing the rest of the data.
+`recovery_policy=<strict|best_effort>`. By default, if it's omitted, it's `strict`. If new events fail to process, Timeplus retries recovery without skipping them. With `SETTINGS recovery_policy=best_effort`, Timeplus can skip problematic events for recognized parsing errors when it knows the affected source offsets. See [materialized view recovery settings](/materialized-view#recovery_policy).
 
 ## replay_speed
 
@@ -68,9 +69,19 @@ Starting from [Timeplus Enterprise 2.7](/enterprise-v2.7) and Timeplus Proton 1.
 
 Default value is `memory`. To optimize memory usage for large data streams, you can set `default_hash_table='hybrid'`. This will use both memory and disk to store the hash table. Available since Timeplus Enterprise 2.6.0.
 
+Aggregations using `PARTITION BY` require the memory aggregator.
+
 ## default_hash_join
 
 Default value is `memory`. To optimize memory usage for joining large data streams, you can set `default_hash_join='hybrid'`. This will use both memory and disk to store the hash table. Available since Timeplus Enterprise 2.6.0.
+
+## max_hot_keys
+
+The default is `100000`. This setting controls how many hot keys each hybrid hash table keeps in memory before spilling older keys to disk. Use `0` to disable this limit. A large input batch can temporarily exceed the configured number of keys. One query can build multiple tables, for example across shuffle lanes.
+
+## aggregate_state_ttl_sec and join_state_ttl_sec
+
+These settings configure TTL for spilled aggregation and join state, respectively. Both default to `0` (disabled). The TTL uses the wall-clock timestamp written with the spilled entry. RocksDB removes expired entries during compaction. A later event or lookup can miss state that has already been removed.
 
 ## max_threads
 Type: uint64
@@ -89,7 +100,7 @@ Type: uint64
 
 Default: 524288000 (500MB)
 
-Maximum size of the buffer for streaming join operations. Affects memory usage and performance.
+Maximum buffered input data per in-memory stream-to-stream hash join instance. The query fails when an instance reaches this limit. Hybrid joins use spill settings instead.
 
 Example:
 
