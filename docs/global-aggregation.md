@@ -116,15 +116,14 @@ EMIT PERIODIC <n><UNIT>
 
 **Parameters**:
 - `<n>` — positive integer (interval length)
-- `<UNIT>` can be one of:
-  - `ns` (nanoseconds)
-  - `us` (microseconds)
+- Common units for `<UNIT>`:
   - `ms` (milliseconds)
   - `s` (seconds)
   - `m` (minutes)
   - `h` (hours)
   - `d` (days)
 
+`ns` and `us` are also accepted. Timeplus checks whether the interval has elapsed when it processes an input batch or a heartbeat. The actual time between emissions can be longer than the configured interval.
 
 **Example**:
 ```sql
@@ -140,7 +139,7 @@ This query emits the current results for all groups every 5 seconds if new event
 ### `EMIT PERIODIC REPEAT`
 
 For `EMIT PERIODIC`, no results are emitted if there are **no new events** since the last emit.
-With the `REPEAT` modifier, Timeplus **emits at a fixed interval**, even when no new data arrives.
+With the `REPEAT` modifier, Timeplus **repeats the last results**, even when no new data arrives.
 
 **Example**:
 ```sql
@@ -151,7 +150,7 @@ GROUP BY device
 EMIT PERIODIC 5s REPEAT
 ```
 
-If no new events appear, the last results are still emitted every 5 seconds.
+If no new events appear, a heartbeat can trigger another emission after 5 seconds have elapsed.
 
 ### `EMIT ON UPDATE`
 

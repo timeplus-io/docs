@@ -34,7 +34,7 @@ GROUP BY <window_grouping_keys> [, <other_grouping_keys>]
 - `<timezone>` is an optional time zone string such as `'UTC'` that controls window alignment. It defaults to the time zone of the timestamp expression.
 - `<window_grouping_keys>` must include `window_start`, `window_end`, or both. If you select both boundary columns directly, include both in `GROUP BY`.
 
-For sub-second interval units, use a timestamp with sufficient precision and an interval that divides evenly into one hour. For example, `50ms` works with `datetime64(3)`.
+For sub-second interval units, use a timestamp with sufficient precision and an interval that divides evenly into one hour. For example, `50ms` works with `datetime64(3)`, `1us` requires `datetime64(6)` or higher, and `1ns` requires `datetime64(9)`.
 
 ### Example
 
