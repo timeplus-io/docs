@@ -4,11 +4,11 @@
 
 **Global aggregation** refers to running an aggregation query **without using time-based windows** such as [tumble](/tumble-aggregation), [hop](/hop-aggregation), or [session](/session-aggregation).
 
-Unlike windowed aggregations that slice unbounded streams into discrete windows, **global aggregation** maintains state across the rows read by the query.
+Unlike windowed aggregations that slice unbounded streams into discrete windows, **global aggregation** treats the entire stream as **a single continuous window**.
 
 With global aggregation:
 - The query continuously updates aggregation results as new events arrive.
-- There is **no concept of window close**, so late events can update existing state.
+- There is **no concept of window close**, so late events are naturally handled without additional logic.
 - It is ideal for tracking long-running (life-time) metrics such as total counts, averages, or unique users across the data read by the query.
 
 By default, a streaming query over an append stream reads from the latest position. To include retained history, use [`seek_to='earliest'`](/query-settings#seek_to).
@@ -53,8 +53,9 @@ If the grouping keys increase continuously (for example, by including timestamps
 To handle this, Timeplus supports a **hybrid hash table** that combines in-memory and on-disk state management:
 
 - **Hot keys** (recently active) are stored in memory.
-- **Cold keys** (inactive or rarely updated) are spilled to RocksDB using an LRU-like algorithm when the number of keys in memory exceeds `max_hot_keys`. This helps control memory usage for long-running queries. During a large input batch, the table can temporarily hold more keys in memory.
-- `aggregate_state_ttl_sec` applies to spilled entries based on when they are written to RocksDB. Expired entries are removed during compaction. Hot state in memory does not expire on this schedule.
+- **Cold keys** (inactive or rarely updated) are spilled to disk using an LRU-like algorithm.
+- Spilling starts when the number of keys in memory exceeds `max_hot_keys`.
+- `aggregate_state_ttl_sec` applies to spilled entries from the time they are written to RocksDB. Expired entries are removed during compaction.
 
 **Example**:
 
@@ -88,8 +89,8 @@ SETTINGS
 - This query performs a **global aggregation** that computes CPU metrics for each device in 5-minute intervals.
 - The grouping key includes `bucket_window_start`, `location`, and `device`. Each new 5-minute bucket can add grouping keys.
 - The hybrid hash table manages the increasing state:
-  - `100,000` is the number of hot keys to keep in memory per substream.
-  - Older keys are spilled to disk automatically when the number of keys in memory exceeds this setting.
+  - `100,000` is the number of hot keys to keep in memory per substream. A large input batch can temporarily exceed this number.
+  - Inactive keys are spilled to disk automatically.
 - Spilled entries become eligible for compaction cleanup after 1 hour (`aggregate_state_ttl_sec=3600`). If a late event arrives after its state has been removed, it starts a new aggregate for that key.
 - `SHUFFLE BY location` improves **parallelism and memory efficiency**. See [Data Shuffle](/shuffle-data) for more details.
 
@@ -134,7 +135,7 @@ GROUP BY device
 EMIT PERIODIC 5s;
 ```
 
-This query emits the current results for all groups every 5 seconds if new events are received.
+This query emits updated results every 5 seconds if new events are received. Each emission includes all groups.
 
 ### `EMIT PERIODIC REPEAT`
 
@@ -206,7 +207,7 @@ EMIT AFTER SESSION CLOSE
 * `ONLY` emits open sessions that reach or exceed `MAXSPAN`. Sessions that expire by wall-clock timeout are cleared without an emission in this mode. An end event with no open session can still emit a one-row result when `include_session_end=true`.
 * `TIMEOUT <interval>` is elapsed wall-clock time since the session opened. Events arriving while the session is open do not reset it. Specify `TIMEOUT` explicitly and set it to at least `MAXSPAN`. Both intervals support `ms`, `s`, and `m`.
 
-The policy uses a hybrid hash table keyed by the `GROUP BY` columns and tracks session creation time separately for expiration. It closes sessions per key without a shared event-time watermark. For multiple input shards, use `SHUFFLE BY` on the grouping key, or set `allow_independent_shard_processing=true` if each key is already confined to one shard.
+The policy uses a hybrid hash table keyed by the `GROUP BY` columns. For multiple input shards, use `SHUFFLE BY` on the grouping key, or set `allow_independent_shard_processing=true` if each key is already confined to one shard.
 
 #### Variants of `IDENTIFIED BY`
 

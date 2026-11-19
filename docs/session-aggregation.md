@@ -72,9 +72,11 @@ Without `PARTITION BY`, the input to each aggregation processor shares session b
 
 By default, **EMIT AFTER WINDOW CLOSE** is applied.
 
-The session window will emit results automatically once it is closed. Use `EMIT AFTER WINDOW CLOSE AND TIMEOUT 20s` to close pending sessions after a period of wall-clock inactivity.
+The session window will emit results automatically once it is closed — that is, when any of the configured closing conditions are met.
+Use `EMIT AFTER WINDOW CLOSE AND TIMEOUT 20s` to close pending sessions after a period of wall-clock inactivity.
 
-**EMIT PERIODIC**, **EMIT ON UPDATE**, and **EMIT ON UPDATE WITH BATCH** are also supported to emit intermediate results before the session window is closed. Session windows do not support `WITH DELAY` or `EMIT PER EVENT`.
+**EMIT PERIODIC** and **EMIT ON UPDATE** are also supported to emit intermediate results before the session window is closed.
+Session windows also support `ON UPDATE WITH BATCH` and reject `WITH DELAY` and `PER EVENT`.
 
 ## Difference Between `EMIT AFTER SESSION CLOSE`
 

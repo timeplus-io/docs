@@ -6,7 +6,7 @@ A **tumbling window** divides an unbounded data stream into **fixed-size, non-ov
 
 Each event belongs to **exactly one** window. This is useful for periodic aggregations such as per-minute averages, hourly counts, or daily summaries.
 
-Tumbling windows do not overlap. Their boundaries are adjacent, and the watermark determines when each window closes.
+Unlike **hopping** windows, tumbling windows do not overlap. Their boundaries are adjacent, and the watermark determines when each window closes.
 This makes them simple, deterministic, and ideal for producing periodic reports or metrics.
 
 ## Syntax
@@ -27,9 +27,9 @@ GROUP BY <window_grouping_keys> [, <other_grouping_keys>]
   - `ns`, `us`, `ms` (nanosecond, microsecond, millisecond)
   - `s` (second)
   - `m` (minute)
-  - `h` (hour)
-  - `d` (day)
-  - `w` (week)
+  - `h` (hour) 
+  - `d` (day) 
+  - `w` (week) 
   - `M`, `q`, `y` (month, quarter, year)
 - `<timezone>` is an optional time zone string such as `'UTC'` that controls window alignment. It defaults to the time zone of the timestamp expression.
 - `<window_grouping_keys>` must include `window_start`, `window_end`, or both. If you select both boundary columns directly, include both in `GROUP BY`.
@@ -73,7 +73,7 @@ EMIT AFTER WINDOW CLOSE;
 
 ![TumbleWindow](/img/tumble-window.png)
 
-Each event falls into exactly one window, which includes its start and excludes its end. Once the watermark reaches the end, the query can emit the final result and release the window's state.
+Each event falls into exactly one window. A window includes its start and excludes its end.
 
 ## Emit Policies
 
@@ -97,12 +97,14 @@ This query continuously computes the **maximum CPU usage** per device in every 5
 Each time a window closes (as determined by the internal watermark), Timeplus emits the results once.
 
 :::info
-A watermark is an internal timestamp that determines when a window can be safely closed. With multiple inputs, the slowest input watermark can hold back window close. With [`PARTITION BY`](/partition-data), each partition has its own watermark.
+A watermark is an internal timestamp that advances monotonically per stream, determining when a window can be safely closed. With [`PARTITION BY`](/partition-data), each partition has its own watermark.
 :::
 
 ### `EMIT AFTER WINDOW CLOSE WITH DELAY`
 
-Subtracts the specified interval from the maximum observed event timestamp before aligning the watermark to a window boundary. Rows older than the current watermark are dropped.
+Adds a **delay period** before emitting window results, allowing **late events** to be included.
+
+The delay is subtracted from the maximum observed event timestamp when calculating the watermark. Rows older than the current watermark are dropped.
 
 **Example**:
 
@@ -138,7 +140,7 @@ In this example:
 
 ### `EMIT ON UPDATE`
 
-Emits **intermediate aggregation updates** for groups updated by an input batch while the window is open. An updated group can be emitted with the same aggregate value.
+Emits **intermediate aggregation updates** whenever there are new events flowing in an open window.
 This is useful for near real-time visibility into evolving metrics.
 
 **Example**:

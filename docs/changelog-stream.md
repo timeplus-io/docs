@@ -1,6 +1,6 @@
 # Changelog Key Value Stream
 
-When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. Data can be updated or deleted by primary key. You can use Changelog Stream in JOIN either on the left or on the right, depending on the join type.
+When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. Data can be updated or deleted. You can use Changelog Stream in JOIN either on the left or on the right, depending on the join type.
 
 `SELECT ... FROM table(stream)` reads a historical snapshot of the current values. A streaming query reads changes as they arrive. When a downstream consumer needs the change signs, select `_tp_delta` and use `EMIT CHANGELOG`.
 
@@ -67,7 +67,7 @@ After the delete is available in historical storage, run `SELECT * FROM table(di
 
 ### Update data
 
-Now if you want to change the price of iPhone14, you need to add two rows. Retract the old value first and then insert the new value:
+Now if you want to change the price of iPhone14, you need to add two rows:
 
 | _tp_delta | product_id | price |
 | --------- | ---------- | ----- |

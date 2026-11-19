@@ -283,17 +283,19 @@ When you create a Materialized View **without an explicit target stream or table
 
 This makes the syntax simpler and convenient for quick experimentation, since you don’t need to create a target stream beforehand.
 
-Consider an explicit target stream in production for:
+However, this approach is **not recommended in production**, because:
 
-1. **Storage customization**
-   - The internal target stream supports storage options such as shard count and replication factor through `STORAGE_SETTINGS`. Use `TTL` with a `date` or `datetime` expression, for example `TTL to_datetime(_tp_time) + 1d`.
-   - An explicit target lets you define the stream schema and storage layout separately.
+1. **Limited fine-tuning**
+   - The internal target stream supports options such as shard count through `STORAGE_SETTINGS`. An explicit target lets you define column compression, sorting keys, and skipping indexes separately.
+   - To configure `TTL` on the internal stream, use a `date` or `datetime` expression such as `TTL to_datetime(_tp_time) + 1d`.
 
 2. **Stream type flexibility**
    - You may want to use a different stream type (e.g., a [Mutable stream](/mutable-stream)) as the target, which is not possible in this mode.
 
 3. **Schema evolution challenges**
    - Tasks such as adding new columns are significantly more difficult to manage.
+
+**Best practice:** Always create an explicit target stream when defining a Materialized View, especially in production environments.
 
 A scheduler-managed view using shared checkpoint storage requires an explicit target.
 

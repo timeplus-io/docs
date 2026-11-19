@@ -29,7 +29,7 @@ Use `WHERE _tp_time>='2023-01-01'` or similar to filter by event time. `_tp_time
 `force_backfill_in_order=0|1`. By default, if it's omitted, it's `0`.
 
 1. When it's 0, no extra sorting is requested by this setting.
-2. When it's 1, historical backfill is sorted by ascending `_tp_time` on each native source shard. This can add sorting cost. Timeplus can also request sorting automatically for window aggregations with `emit_during_backfill=1`.
+2. When it's 1, historical backfill is sorted by ascending `_tp_time` on each native source shard. This can add sorting cost. For window aggregations, this order can differ from the order of the window's timestamp expression.
 
 ## emit_during_backfill
 

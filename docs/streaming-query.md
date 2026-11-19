@@ -19,18 +19,15 @@ select * from table(my_stream)
 
 ## Backfill and continue streaming
 
-A streaming query can process retained history before following live events. This is useful for initializing an aggregate or filling a new materialized view before it continues with live updates.
+A streaming query can process retained history before following live events. For example, you can initialize a count from existing data:
 
 ```sql
-SELECT device, count()
-FROM device_metrics
-GROUP BY device
+SELECT count()
+FROM my_stream
 SETTINGS seek_to = 'earliest';
 ```
 
-For an eligible native stream, Timeplus can read from historical storage first and continue with the streaming log from the corresponding sequence position. The query keeps running after the backfill. Data retention determines how far back it can read.
-
-For window aggregations, Timeplus normally holds back event-time watermark emissions during historical backfill. Set `emit_during_backfill=1` to enable them. This requests sorting by the source's `_tp_time` before backfilled rows reach window processing. If the query uses a different timestamp expression, its order can differ from `_tp_time`. See [backfill settings](/query-settings#enable_backfill_from_historical_store).
+For an eligible native stream, Timeplus can read from historical storage first and continue with the streaming log from the corresponding sequence position. Data retention determines how far back it can read. See [backfill settings](/query-settings#enable_backfill_from_historical_store).
 
 ## How streaming queries are triggered
 
@@ -80,7 +77,7 @@ Non-aggregation is triggered per event arrival, which means every time there is 
 
 ### Window aggregation
 
-Window based aggregation is a typical analytic method in stream analysis. Tumbling and hopping windows have fixed intervals, while session windows derive their boundaries from events. The aggregation result is based on the events assigned to each window.
+Window based aggregation is a typical analytic method in stream analysis. Each tumble or hop window has a fixed range with a specific start time and an end time. Session windows derive their boundaries from events. The analysis result will be based on an aggregation function of all the events assigned to that window.
 
 When using the window function for aggregation, the event time is used to decide whether the event is in that window. In the case the user does not specify the timestamp, the default one will be used. The user can also use any field in that event which is a datetime type as timestamp or dynamically generate a datetime field as timestamp.
 

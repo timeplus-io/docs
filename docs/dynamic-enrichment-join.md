@@ -70,7 +70,7 @@ ON orders.product_id = products.id;
 - Each new event from the `orders` stream **probes** this hash table using the `product_id` as the join key.
 - If a match is found, the **joined result** is emitted downstream immediately.
 - As new updates or inserts arrive in the `products` stream, the right-hand side hash table is **incrementally updated**.
-- Subsequent `orders` events probe against the **latest version** of the `products` data that the join has processed. Earlier results are not revised.
+- Subsequent `orders` events will then probe against the **latest version** of the `products` data that the join has processed.
 
 ## ASOF JOIN 
 

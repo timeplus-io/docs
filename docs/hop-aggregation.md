@@ -10,7 +10,7 @@ Each hop window is defined by two parameters:
 
 Because hop windows can overlap, a single event can belong to multiple windows. This is useful when you want to generate **smoother, more continuous aggregations** (e.g., moving averages or rolling counts).
 
-For example, with a 10-minute window size and a 5-minute hop interval, a new window starts every 5 minutes and spans 10 minutes of data — meaning each event timestamp belongs to **two overlapping windows**.
+For example, with a 10-minute window size and a 5-minute hop interval, a new window starts every 5 minutes and spans 10 minutes of data — meaning there are always **two overlapping windows** active at any given time.
 
 
 ## Syntax
@@ -27,12 +27,22 @@ GROUP BY <window_grouping_keys> [, <other_grouping_keys>]
 
 - `<stream_name>` : the source stream the hop window applies to. **Required**
 - `<timestamp_column>` : the event timestamp column or expression (`datetime` or `datetime64`) used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time hop window. Default is `_tp_time` if absent. **Optional**
-- `<hop_interval>` : how frequently new windows start (must be less than or equal to the window size). **Required**
-- `<window_size>` : hop window interval size. **Required**
+- `<hop_interval>` : how frequently new windows start (must be less than or equal to the window size). Supported interval units are listed below. **Required**
+  - `s` (second)
+  - `m` (minute)
+  - `h` (hour) 
+  - `d` (day) 
+  - `w` (week) 
+- `<window_size>` : hop window interval size. Supported interval units are listed below. **Required**
+  - `s` (second)
+  - `m` (minute)
+  - `h` (hour) 
+  - `d` (day)
+  - `w` (week)
 - `<timezone>` is an optional time zone string such as `'UTC'` that controls window alignment. It defaults to the time zone of the timestamp expression.
 - `<window_grouping_keys>` must include `window_start`, `window_end`, or both. If you select both boundary columns directly, include both in `GROUP BY`.
 
-Hop accepts the [same interval units as tumble](/tumble-aggregation#parameters). Use units that Timeplus can convert to a common scale. For example, `4s` and `1m` work together, while `1d` and `1M` cannot be combined. For sub-second interval units, the timestamp must have sufficient precision and the hop interval must divide evenly into one hour.
+Both intervals also support sub-second and calendar units. See the [tumble interval units](/tumble-aggregation#parameters) for the full list. Use units that Timeplus can convert to a common scale. For example, `4s` and `1m` work together, while `1d` and `1M` cannot be combined. For sub-second interval units, the timestamp must have sufficient precision and the hop interval must divide evenly into one hour.
 
 ### Example
 
@@ -82,12 +92,14 @@ This query continuously computes the **maximum CPU usage** per device in every 1
 Each time a window closes (as determined by the internal watermark), Timeplus emits the results once.
 
 :::info
-A watermark is an internal timestamp that determines when a window can be safely closed. With multiple inputs, the slowest input watermark can hold back window close. With [`PARTITION BY`](/partition-data), each partition has its own watermark.
+A watermark is an internal timestamp that advances monotonically per stream, determining when a window can be safely closed.
 :::
 
 ### `EMIT AFTER WINDOW CLOSE WITH DELAY`
 
-Subtracts the specified interval from the maximum observed event timestamp before finding the latest eligible window end. A row older than the current watermark is dropped, even if its timestamp would also fall in a newer overlapping window.
+Adds a **delay period** before emitting window results, allowing **late events** to be included.
+
+The delay is subtracted from the maximum observed event timestamp when calculating the watermark. A row older than the current watermark is dropped, even if it also falls in a newer overlapping window.
 
 **Example**:
 
@@ -123,7 +135,7 @@ In this example:
 
 ### `EMIT ON UPDATE`
 
-Emits **intermediate aggregation updates** for groups updated by an input batch while the window is open. An updated group can be emitted with the same aggregate value.
+Emits **intermediate aggregation updates** whenever there are new events flowing in an open window.
 This is useful for near real-time visibility into evolving metrics.
 
 **Example**:

@@ -63,7 +63,7 @@ EMIT [STREAM]
 ```
 You can only choose one of the emit policies: `AFTER WINDOW CLOSE`, `PERIODIC`, `ON UPDATE`, or `PER EVENT`. If you omit any of them, the default policy is `AFTER WINDOW CLOSE`.
 
-[`session()`](/session-aggregation) supports periodic and update-based emissions. It rejects `WITH DELAY` and `PER EVENT`. For [hopping-window results](/hop-aggregation#emit-policies), use a window-based policy so that Timeplus merges the internal buckets.
+[`session()`](/session-aggregation) supports periodic and update-based emissions. It rejects `WITH DELAY` and `PER EVENT`.
 
 Examples:
 ```sql

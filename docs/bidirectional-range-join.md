@@ -26,13 +26,9 @@ ON left_append_stream.key = right_append_stream.key AND date_diff_within(2m);
 -- Specify explicit timestamp columns
 ON left_append_stream.key = right_append_stream.key 
    AND date_diff_within(10s, left_append_stream.event_time, right_append_stream.event_time);
-
--- Use an asymmetric range with date_diff
-ON left_append_stream.key = right_append_stream.key
-   AND date_diff('second', left_append_stream.event_time, right_append_stream.event_time) BETWEEN 0 AND 30;
 ```
 
-For an asymmetric range, the lower bound must be less than the upper bound, and the range must include zero.
+For an asymmetric range, use a condition such as `date_diff('second', left_ts, right_ts) BETWEEN 0 AND 30` with the join keys. The lower bound must be less than the upper bound, and the range must include zero.
 
 ## Example
 
