@@ -4,7 +4,7 @@
 
 **Materialized View** is a core concept in Timeplus because it brings together nearly all Timeplus features into a single mechanism, enabling users to deliver real-time value from their data.
 
-A **Materialized View** is always bound to a **streaming query** and, by default, runs continuously in the background once created. It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
+A **Materialized View** is always bound to a **streaming query** and runs continuously in the background.  It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
 
 A **Materialized View** consists of 4 main components (illustrated in the diagram below):
 
