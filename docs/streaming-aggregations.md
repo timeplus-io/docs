@@ -20,7 +20,7 @@ SELECT device, count(*)
 FROM device_utils
 WHERE cpu_usage > 99
 GROUP BY device
-EMIT PERIODIC 5s;
+EMIT PERIODIC 5s
 ```
 
 Like in [Streaming Tail](/query-syntax#streaming-tailing), Timeplus continuously monitors new events in the stream `device_utils`, does the filtering and then continuously does **incremental** count aggregation. Whenever the specified delay interval is up, project the current aggregation result to clients.
@@ -138,7 +138,7 @@ SELECT device, count(*)
 FROM device_utils
 WHERE cpu_usage > 99
 GROUP BY device
-EMIT PERIODIC 5s;
+EMIT PERIODIC 5s
 ```
 
 For [Global Streaming Aggregation](#global) the default periodic emit interval is `2s`, i.e. 2 seconds.

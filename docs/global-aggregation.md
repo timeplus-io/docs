@@ -139,7 +139,7 @@ This query emits the current results for all groups every 5 seconds if new event
 ### `EMIT PERIODIC REPEAT`
 
 For `EMIT PERIODIC`, no results are emitted if there are **no new events** since the last emit.
-With the `REPEAT` modifier, Timeplus **repeats the last results**, even when no new data arrives.
+With the `REPEAT` modifier, Timeplus **can emit results even when no new data arrives**.
 
 **Example**:
 ```sql
@@ -169,7 +169,7 @@ Each time new events with `cpu_usage > 99` arrive, updated counts are emitted.
 ### `EMIT ON UPDATE WITH BATCH`
 
 Combines **periodic emission** with **update-based** triggers.
-Timeplus emits results for groups updated since the previous emission at the configured interval. Batching can improve throughput compared with `EMIT ON UPDATE`.
+Timeplus checks for updated groups at regular intervals and emits their results. This can improve throughput compared with `EMIT ON UPDATE`.
 
 ```sql
 SELECT device, count(*)

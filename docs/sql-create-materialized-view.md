@@ -11,16 +11,16 @@ AS <SELECT ...>
 [TTL <ttl_expression>];
 ```
 
-`STORAGE_SETTINGS` and `TTL` configure the internal target stream created when `INTO` is omitted.
+`STORAGE_SETTINGS` can configure the view's replica placement, for example with `node_placements`. `TTL` applies to the internal target stream created when `INTO` is omitted.
 
-Once the materialized view starts, Timeplus runs the query in the background continuously and incrementally emits the calculated results according to the semantics of its underlying streaming select. The view starts automatically when assigned to an execution node, unless `pause_on_start=true`.
+By default, once the materialized view is created, Timeplus will run the query in the background continuously and incrementally emit the calculated results according to the semantics of its underlying streaming select.
 
 Different ways to use the materialized views:
 
 1. Streaming mode: `SELECT * FROM materialized_view` Get the result for future data. This works in the same way as views.
-2. Historical mode: `SELECT * FROM table(materialized_view)` reads retained rows from a native target.
-3. Historical + streaming mode: `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` Get retained results matching the filter and continue with future output. To backfill the view's source instead, set the starting position on the defining query.
-4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) WHERE _tp_time IN (SELECT max(_tp_time) FROM table(materialized_view))` returns the rows with the most recent `_tp_time`. If `_tp_time` is not available in the materialized view, or one emission can produce rows with different `_tp_time` values, you can add `emit_version()` to identify the rows in each emission. For a query with a single emission sequence, select the rows with the highest version. For example:
+2. Historical mode: `SELECT * FROM table(materialized_view)` Get retained results from a native target.
+3. Historical + streaming mode: `SELECT * FROM materialized_view WHERE _tp_time>='1970-01-01'` Get retained results matching the filter, as well as future results. To backfill the view from source history, set the starting position on the defining query.
+4. Pre-aggregation mode: `SELECT * FROM table(materialized_view) where _tp_time in (SELECT max(_tp_time) as m from table(materialized_view))` This immediately returns the rows with the most recent `_tp_time`. If `_tp_time` is not available in the materialized view, or the latest aggregation can produce events with different `_tp_time`, you can add `emit_version()` to identify the rows in each emission. For a query with a single emission sequence, pick the events with the largest version. For example:
 
    ```sql
    create materialized view mv as

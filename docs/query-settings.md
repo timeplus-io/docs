@@ -12,7 +12,7 @@ Timeplus supports some advanced `SETTINGS` to fine tune the streaming query proc
 
 :::info
 
-Use `WHERE _tp_time>='2023-01-01'` or similar to filter by [event time](/glossary#event_time). You can use `>`, `<`, and `BETWEEN .. AND` to filter the data in Timeplus storage. `seek_to` controls the read position. For a Kafka [external stream](/external-stream), use `seek_to='earliest'` to start at the earliest retained offset, e.g. `select raw from my_ext_stream settings seek_to='earliest'`.
+Use `WHERE _tp_time>='2023-01-01'` or similar to filter by event time. `_tp_time` is the special timestamp column in each raw stream to represent the [event time](/glossary#event_time). You can use `>`, `<`, and `BETWEEN .. AND` to filter the data in Timeplus storage. To start at the earliest retained offset in a Kafka [external stream](/external-stream), use `seek_to='earliest'`, e.g. `select raw from my_ext_stream settings seek_to='earliest'`.
 
 :::
 
@@ -67,11 +67,11 @@ Starting from [Timeplus Enterprise 2.7](/enterprise-v2.7) and Timeplus Proton 1.
 
 ## default_hash_table
 
-Default value is `memory`. To optimize memory usage for supported streaming aggregations, you can set `default_hash_table='hybrid'`. This will use both memory and RocksDB to store the hash table. Available since Timeplus Enterprise 2.6.0. Queries using `PARTITION BY` use the memory aggregator.
+Default value is `memory`. To optimize memory usage for large data streams, you can set `default_hash_table='hybrid'`. This will use both memory and disk to store the hash table. Available since Timeplus Enterprise 2.6.0. Aggregations using `PARTITION BY` require the memory aggregator.
 
 ## default_hash_join
 
-Default value is `memory`. To optimize memory usage for supported hash joins, you can set `default_hash_join='hybrid'`. This will use both memory and RocksDB to store the hash table. Available since Timeplus Enterprise 2.6.0.
+Default value is `memory`. To optimize memory usage for joining large data streams, you can set `default_hash_join='hybrid'`. This will use both memory and disk to store the hash table. Available since Timeplus Enterprise 2.6.0.
 
 ## max_hot_keys
 

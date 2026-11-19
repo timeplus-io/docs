@@ -159,7 +159,7 @@ Most queries work well with default settings, but advanced workloads may require
 
 ### Aggregation
 
-- `default_hash_table`: Controls which hash table (`memory` or `hybrid`) is used for streaming aggregations. **Default: memory**
+- `default_hash_table`: Controls which hash table (`memory` or `hybrid`) is used for streaming aggregations and stateful table functions such as `dedup()` and `changelog()`. **Default: memory**
 - Emit strategy is also critical for tuning. See [Streaming Aggregations: Emit Strategy](/streaming-aggregations#emit) for details.
 
 ### Backfill

@@ -1,6 +1,6 @@
 # Dynamic Enrichment Join
 
-Similar to [Enrichment Join](/enrichment-join), **Dynamic Enrichment Join** enriches a live data stream with reference data from a changing right-hand side dataset. It is designed for scenarios where the right-hand side data evolves over time. Each event from the left stream probes the current join state, and the join strictness determines which rows match.
+Similar to [Enrichment Join](/enrichment-join), **Dynamic Enrichment Join** enriches a live data stream with reference data from a changing right-hand side dataset. It is designed for scenarios where the right-hand side data evolves over time.
 
 In this join type, events from the left-hand stream trigger the join. Each incoming event probes a dynamic hash table that is continuously updated from the right-hand side dataset (which typically changes at a slower rate).
 
@@ -15,7 +15,7 @@ There are several types of **Dynamic Enrichment Joins**.
 
 **LATEST JOIN** enriches a live data stream using the **most recent version** of each key from a **dynamic right-hand side dataset**. It’s designed for use cases where the right-hand side data changes over time, but only the **latest state** of each key matters — such as **the most recent user profile, product info**, or **configuration snapshot**.
 
-Timeplus keeps a hash table for the right-hand side, continuously updating it as new events arrive. Each event from the left stream probes this table to fetch the **latest available value** at that moment.
+By default, Timeplus keeps an in-memory hash table for the right-hand side, continuously updating it as new events arrive. Each event from the left stream probes this table to fetch the **latest available value** at that moment.
 
 ### Syntax
 
@@ -238,7 +238,7 @@ ON o.customer_id = c.customer_id;
 
 **Explanation**:
 - Timeplus builds a dynamic hash table of `customer_tiers` with one row per primary key.
-- Each incoming order joins with all rows matching its `customer_id`.
+- Each incoming order probes the hash table and **joins with all rows** matching its `customer_id`.
 - This means one order may produce **multiple join results** — one for each distinct tier currently stored for that customer.
 - To keep every tier transition, include a distinct value such as `effective_from` in the primary key.
 

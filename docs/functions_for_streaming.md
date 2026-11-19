@@ -59,7 +59,7 @@ Parameters:
 
 For example, if the car keeps sending data when it's moving and stops sending data when it's parked or waiting for the traffic light
 
-- `session(car_live_data, 1m) partition by cid` detects sessions independently for each car, with a one-minute event-time idle gap and a five-minute default maximum duration.
+- `session(car_live_data, 1m) partition by cid` will create session windows for each car with a one-minute event-time idle gap. A later event can close the window when the idle gap is reached. If the car keeps sending data, the default five-minute maximum duration splits the events into separate windows.
 - `session(car_live_data, 1m, [speed>50,speed<50)) partition by cid` create session windows to detect when the car is speeding. The first event with speed over 50 will be included, and the last event with speed lower than 50 will not be included in the session window.
 - `session(access_log, 5m, [action='login',action='logout']) partition by uid` starts sessions at login and ends them at logout or when a later event reaches an event-time deadline. See [Session Window Aggregation](/session-aggregation) for wall-clock timeout and boundary options.
 

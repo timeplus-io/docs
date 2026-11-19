@@ -6,7 +6,7 @@ The chosen HA model is tightly coupled with the underlying [checkpoint replicati
 
 ## Raft-Based HA
 
-The Raft-based HA model is the default option for a cluster using NativeLog checkpoints. By default, Timeplus places three replicas of the Materialized View on different nodes in the cluster. One replica is elected as the leader and handles query execution, while the other replicas act as followers. The leader continuously checkpoints the query state, and these checkpoints are replicated to the followers using the Raft consensus protocol. Followers can use replicated checkpoints during failover.
+The Raft-based HA model is the default option for a cluster using NativeLog checkpoints. When you create a Materialized View with this model, Timeplus places three replicas of it on different nodes in the cluster by default. One replica is elected as the leader and handles query execution, while the other replicas act as followers. The leader continuously checkpoints the query state, and these checkpoints are replicated to the followers using the Raft consensus protocol. Followers can use replicated checkpoints during failover.
 
 Internally, this model leverages a **NativeLog checkpoint shard**, which is replicated using Raft for fault tolerance.
 

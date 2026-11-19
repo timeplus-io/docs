@@ -168,7 +168,7 @@ SETTINGS join_algorithm = 'direct';
 - If all required keys are found locally, the join completes **without querying** the remote MySQL database.
 - For any missing keys, Timeplus **fetches them from MySQL**, merges the results, and **updates the local Mutable Stream** with the newly fetched entries.
 - Each key stored in the Mutable Stream has a **1-hour TTL** — once expired, it becomes eligible for garbage collection.
-- With `update_from_source=false`, a local cache hit can continue serving the cached value after the corresponding MySQL row changes. Cache misses fetch from MySQL.
+- With `update_from_source=false`, a local cache hit can continue serving the cached value after the corresponding MySQL row changes.
 
 Similarly, here’s an example using a **Hybrid Hash Table** as the cache layer for a Dictionary — combining **high performance** and **memory efficiency** in a single solution.
 

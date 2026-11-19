@@ -25,7 +25,7 @@ GROUP BY <window_grouping_keys> [, <other_grouping_keys>]
 - `<timestamp_column>` : (**Optional**) The `datetime` or `datetime64` column or expression used to calculate window starts / ends and timeout. Using wall clock `now()` or `now64(3)` usually doesn't make sense in session window. Default is `_tp_time` if absent.
 - `<idle_gap>` : (**Required**) Defines the event-time gap used to split sessions (e.g., 5s, 1m).
 - `<max_duration>` : (**Optional**) Maximum allowed session duration. Default is 5 times of `<idle_gap>` if absent. It must be at least as large as the idle gap and use compatible interval units.
-- `<session_boundaries>` : (**Optional**) A pair of custom boolean expressions used to define the session’s start and end boundaries. The bare pair `<start_condition>, <end_condition>` includes both boundary rows. The **inclusion or exclusion** of each boundary row depends on the bracket type:
+- `<session_boundaries>` : (**Optional**) A pair of custom boolean expressions used to define the session’s start and end boundaries. These conditions are useful for domain-specific triggers that go beyond time-based sessioning. The bare pair `<start_condition>, <end_condition>` includes both boundary rows. The **inclusion or exclusion** of each boundary row depends on the bracket type:
     1. `[<start_condition>, <end_condition>]` — Include the opening and closing rows.
     2. `[<start_condition>, <end_condition>)` — Include the opening row and exclude the closing row.
     3. `(<start_condition>, <end_condition>]` — Exclude the opening row and include the closing row.

@@ -158,7 +158,7 @@ Here, during each 5-second window, the system emits updates whenever there are n
 ### `EMIT ON UPDATE WITH BATCH`
 
 Combines **periodic emission** with **update-based** triggers.
-Timeplus emits results for groups updated since the previous emission at the configured interval, which can improve throughput compared with `EMIT ON UPDATE`.
+Timeplus checks for updated groups at regular intervals and emits their results. This can improve throughput compared with `EMIT ON UPDATE`.
 
 **Example**:
 

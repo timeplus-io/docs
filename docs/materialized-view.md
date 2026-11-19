@@ -4,7 +4,7 @@
 
 **Materialized View** is a core concept in Timeplus because it brings together nearly all Timeplus features into a single mechanism, enabling users to deliver real-time value from their data.
 
-A **Materialized View** is always bound to a **streaming query** and runs continuously in the background once started. By default, it starts when an execution node is assigned. It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
+A **Materialized View** is always bound to a **streaming query** and, by default, runs continuously in the background once created. It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
 
 A **Materialized View** consists of 4 main components (illustrated in the diagram below):
 
@@ -25,7 +25,7 @@ A **Materialized View** consists of 4 main components (illustrated in the diagra
 
 ![MatView](/img/mat-view.svg)
 
-If the process fails mid-execution, it can **restart from the last committed checkpoint** without reprocessing the entire stream from the beginning. Input processed after that checkpoint may be replayed. See [idempotent processing](/idempotent) for sink-specific duplicate handling.
+When a Materialized View checkpoints its query state, it ensures durability and fault tolerance. If the process fails mid-execution, it can **restart from the last committed checkpoint** without reprocessing the entire stream from the beginning. Input processed after that checkpoint may be replayed. See [idempotent processing](/idempotent) for sink-specific duplicate handling.
 
 For details on the available checkpointing strategies, see the [Checkpoint documentation](/materialized-view-checkpoint).
 
@@ -69,7 +69,7 @@ AS
 [COMMENT '<comments>'];
 ```
 
-`STORAGE_SETTINGS` and `TTL` configure the internal target stream. If you use `INTO`, configure that stream directly.
+`STORAGE_SETTINGS` can configure the view's replica placement, for example with `node_placements`. `TTL` configures retention for the internal target stream. If you use `INTO`, configure retention on the target stream directly.
 
 ### Example
 
@@ -292,8 +292,8 @@ Consider an explicit target stream in production for:
 2. **Stream type flexibility**
    - You may want to use a different stream type (e.g., a [Mutable stream](/mutable-stream)) as the target, which is not possible in this mode.
 
-3. **Schema evolution**
-   - Tasks such as adding new columns are significantly more difficult to manage with the internal stream.
+3. **Schema evolution challenges**
+   - Tasks such as adding new columns are significantly more difficult to manage.
 
 A scheduler-managed view using shared checkpoint storage requires an explicit target.
 
@@ -310,7 +310,7 @@ the query is proxied to the target stream or table that stores the results of th
 - If the sink is a native stream (e.g., append or mutable stream) or external stream, the query behaves like a streaming query.
 - If the sink is an external table, the query behaves like a historical table query.
 
-For a native target, `SELECT * FROM table(mat_view)` reads retained materialized rows and returns. It reads the target data; it does not re-run the view's source query. To initialize the **view's computation** from source history, set `seek_to='earliest'` on the view's defining `SELECT`.
+For a native target, `SELECT * FROM table(mat_view)` reads retained materialized rows and returns. To backfill the view from source history, set `seek_to='earliest'` on the view's defining `SELECT`.
 
 ## Drop Materialized View
 

@@ -96,7 +96,7 @@ SETTINGS
 **Explanation**:
 - `join_algorithm='parallel_hash'` enables **parallel hash join**. 
 - `max_threads=4` controls the number of concurrent threads.
-- Internally:
+- Internally: 
     - Timeplus **shuffles** the left stream `orders` into four **non-overlapping substreams** by join key.
     - The right table (`products`) is **partitioned** into four **subtables**, each building a **separate hash table**.
     - Each substream joins its corresponding subtable **in parallel**, significantly improving join throughput.
