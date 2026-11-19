@@ -6,7 +6,7 @@ A **tumbling window** divides an unbounded data stream into **fixed-size, non-ov
 
 Each event belongs to **exactly one** window. This is useful for periodic aggregations such as per-minute averages, hourly counts, or daily summaries.
 
-Unlike **hopping** windows, tumbling windows do not overlap. Their boundaries are adjacent, and the watermark determines when each window closes.
+Unlike **hopping** windows, tumbling windows do not overlap.
 This makes them simple, deterministic, and ideal for producing periodic reports or metrics.
 
 ## Syntax
@@ -135,8 +135,8 @@ In this example:
 
 - The query continuously aggregates the maximum CPU usage per device in **5-second tumble windows**.
 - If **no new events** arrive for at least **3 seconds**, Timeplus can **force-close** pending windows and emit their final results.
-- Once the windows are closed, the **internal watermark** advances as well.
-- Any **late events** that belong to those closed windows cannot revise the final results. Empty windows produce no result.
+- Once the window is closed, the **internal watermark** (event time) advances as well.
+- Any **late events** that belong to those closed windows cannot revise the final results.
 
 ### `EMIT ON UPDATE`
 

@@ -15,7 +15,7 @@ There are several types of **Dynamic Enrichment Joins**.
 
 **LATEST JOIN** enriches a live data stream using the **most recent version** of each key from a **dynamic right-hand side dataset**. It’s designed for use cases where the right-hand side data changes over time, but only the **latest state** of each key matters — such as **the most recent user profile, product info**, or **configuration snapshot**.
 
-By default, Timeplus keeps an in-memory hash table for the right-hand side, continuously updating it as new events arrive. Each event from the left stream probes this table to fetch the **latest available value** at that moment.
+Timeplus keeps an in-memory hash table for the right-hand side, continuously updating it as new events arrive. Each event from the left stream probes this table to fetch the **latest available value** at that moment.
 
 ### Syntax
 
@@ -195,9 +195,9 @@ The buffered state grows with the number of retained right-side primary keys. A 
 
 ### Example
 
-**Use Case: Customer Tier Tracking**
+**Use Case: Customer Tier History Tracking**
 
-Suppose you want to analyze how customer orders relate to **membership tiers** that a customer has held over time.
+Suppose you want to analyze how customer orders relate to **historical membership tiers** — for example, when a customer’s discount level changed over time.
 
 You have two streams:
 

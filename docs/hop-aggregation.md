@@ -88,7 +88,7 @@ FROM hop(device_metrics, 4s, 10s)
 GROUP BY window_start, device;
 ```
 
-This query continuously computes the **maximum CPU usage** per device in every 10-second hop window from the stream `device_metrics` and starts a new hop window every 4 seconds.
+This query continuously computes the **maximum CPU usage** per device in every 10-second hop window from the stream `device_metrics` and every 4 seconds, it starts a new hop window.
 Each time a window closes (as determined by the internal watermark), Timeplus emits the results once.
 
 :::info
@@ -130,8 +130,8 @@ In this example:
 
 - The query continuously aggregates the maximum CPU usage per device in **10-second hop windows**.
 - If **no new events** arrive for at least **3 seconds**, Timeplus can **force-close** pending windows and emit their final results.
-- Once the windows are closed, the **internal watermark** advances as well.
-- Any **late events** that belong to those closed windows cannot revise the final results. Empty windows produce no result.
+- Once the window is closed, the **internal watermark** (event time) advances as well.
+- Any **late events** that belong to those closed windows cannot revise the final results.
 
 ### `EMIT ON UPDATE`
 

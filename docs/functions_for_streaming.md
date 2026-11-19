@@ -185,7 +185,7 @@ For example, if you run `select emit_version(),count(*) from car_live_data` the 
 
 ### changelog
 
-`changelog()` converts a streaming input to rows with change signs. It keeps the previous row for each key so a replacement can emit a retraction followed by the new value.
+`changelog()` converts a streaming input to a changelog with the given keys.
 
 ```sql
 changelog(<append_stream>, <key_col> [, <additional_key_cols>] [, {false | <version_col>, true}])

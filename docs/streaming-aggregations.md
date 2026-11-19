@@ -182,7 +182,7 @@ GROUP BY
 EMIT ON UPDATE
 ```
 
-During the 5 second tumble window, even before the window is closed, the query can emit results when an input batch updates the group for the same `cid`.
+During the 5 second tumble window, even the window is not closed, as long as the aggregation value(`cnt`) for the same `cid` is different , the results will be emitted.
 
 ### EMIT ON UPDATE WITH DELAY {#emit_on_update_with_delay}
 

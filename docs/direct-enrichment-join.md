@@ -15,15 +15,6 @@ There are several types of Direct Enrichment Joins for different use cases:
 
 Unlike other enrichment joins, the **right-hand side hash table** is not explicitly built or cached in memory. Timeplus instead performs on-demand lookups, relying on the external or local system’s indexing and access efficiency.
 
-## Syntax
-
-```sql
-SELECT *
-FROM <left_stream> [LEFT | INNER] JOIN <lookup_source> AS r
-ON <left_key> = r.<lookup_key>
-SETTINGS join_algorithm = 'direct';
-```
-
 The right-side keys must support direct lookup. Use a primary or secondary index on a local mutable stream, or the dictionary key for a dictionary. `join_algorithm='direct'` fails for unsupported query shapes or lookup keys.
 
 ## Direct Join with Remote System 

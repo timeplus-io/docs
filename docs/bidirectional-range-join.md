@@ -13,10 +13,10 @@ FROM left_append_stream
 ON left_append_stream.key = right_append_stream.key AND date_diff_within(<time_range>[, <left_timestamp_col>, <right_timestamp_col>]);
 ```
 
-The `date_diff_within(...)` clause defines an inclusive, symmetric time range condition for joining records across streams.
+The `date_diff_within(...)` clause defines the time range condition for joining records across streams.
 - `time_range` — The maximum time difference allowed between the two sides for them to be considered a match. Only second or minute intervals are supported (e.g., `2m`, `5s`).
 - `left_timestamp_col / right_timestamp_col` — Columns in `datetime` or `datetime64` type used to compute the range difference. The columns must have matching types and precision.
-If omitted, the system uses `_tp_time` for both streams by default.
+If omitted, the system uses _tp_time for both streams by default.
 
 **Example Variants**:
 ```sql

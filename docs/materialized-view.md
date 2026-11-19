@@ -4,7 +4,7 @@
 
 **Materialized View** is a core concept in Timeplus because it brings together nearly all Timeplus features into a single mechanism, enabling users to deliver real-time value from their data.
 
-A **Materialized View** is always bound to a **streaming query** and runs continuously in the background.  It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
+A **Materialized View** is always bound to a **streaming query** and runs continuously in the background once created.  It incrementally evaluates the streaming query (with filtering, joins, and/or aggregations), persists (materializes) the query results to a target stream or an external system and optionally, checkpoints query state to durable storage for fault tolerance.
 
 A **Materialized View** consists of 4 main components (illustrated in the diagram below):
 
@@ -25,7 +25,9 @@ A **Materialized View** consists of 4 main components (illustrated in the diagra
 
 ![MatView](/img/mat-view.svg)
 
-When a Materialized View checkpoints its query state, it ensures durability and fault tolerance. If the process fails mid-execution, it can **restart from the last committed checkpoint** without reprocessing the entire stream from the beginning. Input processed after that checkpoint may be replayed. See [idempotent processing](/idempotent) for sink-specific duplicate handling.
+When a Materialized View checkpoints its query state, it ensures durability and fault tolerance. If the process fails mid-execution, it can **restart from the last checkpoint** without reprocessing the entire stream from beginning.
+
+Input processed after that checkpoint may be replayed. See [idempotent processing](/idempotent) for sink-specific duplicate handling.
 
 For details on the available checkpointing strategies, see the [Checkpoint documentation](/materialized-view-checkpoint).
 
@@ -66,7 +68,7 @@ AS
  ...]
 [STORAGE_SETTINGS <storage_settings>]
 [TTL <ttl_expression>]
-[COMMENT '<comments>'];
+ [COMMENT '<comments>']
 ```
 
 `STORAGE_SETTINGS` can configure the view's replica placement, for example with `node_placements`. `TTL` configures retention for the internal target stream. If you use `INTO`, configure retention on the target stream directly.
@@ -220,7 +222,7 @@ Controls whether a Materialized View starts executing immediately after creation
 Supported values:
 
 - `false` or `0` (default): The Materialized View query starts executing as soon as it is created or restarted.
-- `true` or `1`: The Materialized View starts paused. Use `SYSTEM RESUME MATERIALIZED VIEW <view_name>` to resume it.
+- `true` or `1`: The Materialized View remains paused after creation or restart and must be resumed manually via `SYSTEM RESUME MATERIALIZED VIEW <view_name>` command.
 
 #### `enable_dlq`
 

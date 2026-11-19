@@ -77,7 +77,7 @@ Non-aggregation is triggered per event arrival, which means every time there is 
 
 ### Window aggregation
 
-Window based aggregation is a typical analytic method in stream analysis. Each tumble or hop window has a fixed range with a specific start time and an end time. Session windows derive their boundaries from events. The analysis result will be based on an aggregation function of all the events assigned to that window.
+Window based aggregation is a typical analytic method in stream analysis. Each tumble or hop window has a fixed range with a specific start time and an end time. The window might move during analysis by a fixed step. Session windows derive their boundaries from events. The analysis result will be based on an aggregation function of all the events assigned to that window.
 
 When using the window function for aggregation, the event time is used to decide whether the event is in that window. In the case the user does not specify the timestamp, the default one will be used. The user can also use any field in that event which is a datetime type as timestamp or dynamically generate a datetime field as timestamp.
 

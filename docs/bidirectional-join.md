@@ -24,7 +24,7 @@ Supported join kinds depend on the input stream types. For example, an append-on
 
 ## Bidirectional Join with Data Mutation
 
-In this mode, **both the left and right streams** can mutate over time. Timeplus buffers data from both sides and continuously updates the join state as new events arrive. For each source primary key, only the **latest version** of the data is retained — effectively maintaining a **real-time snapshot** of the key/value tables on both sides. A join key that covers only part of the primary key can match several current rows on either side.
+In this mode, **both the left and right streams** can mutate over time. Timeplus buffers data from both sides and continuously updates the join state as new events arrive. For each source primary key, only the **latest version** of the data is retained — effectively maintaining a **real-time snapshot** of the key/value tables on both sides, similar to an OLTP system.
 
 As new updates arrive, outdated (overridden) records are **garbage collected**. When the primary key space is finite, the number of current rows in the join state is bounded.
 
@@ -223,7 +223,8 @@ Since a bidirectional join needs to buffer **all** source data from both sides t
 
 This join type is currently **experimental** and best suited for **ad-hoc analysis** or exploratory workloads in the Timeplus console, where users can quickly visualize or test streaming joins.
 
-For in-memory hash joins, Timeplus uses **`join_max_buffered_bytes`** to control the maximum amount of buffered source data. Once this limit is reached, the system will **abort the query**.
+For in-memory hash joins, Timeplus uses a query setting called **`join_max_buffered_bytes`** to control the maximum amount of buffered source data.
+Once this limit is reached, the system will **abort the query** to prevent memory exhaustion.
 
 Even if the join key space is finite, the joined value combinations can still grow without bound since every new record is treated as a unique event. A [bidirectional range join](/bidirectional-range-join) can evict old data when matches have a known time bound.
 

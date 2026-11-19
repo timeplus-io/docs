@@ -180,7 +180,7 @@ GROUP BY device
 EMIT ON UPDATE WITH BATCH 1s;
 ```
 
-This query can emit counts once per second for the devices updated since the previous emission.
+This query checks for changes every second and emits results only when updates occur.
 
 ### `EMIT AFTER SESSION CLOSE`
 
@@ -204,7 +204,7 @@ EMIT AFTER SESSION CLOSE
   * `<session_start_col>` — Boolean column indicating when a session starts. Usually it is predicates evaluated in the SELECT. (Optional)
   * `<session_end_col>` — Boolean column indicating when a session ends. Usually it is predicates evaluated in the SELECT. (Optional)
 * `MAXSPAN <interval>` is checked against the difference between the largest and smallest observed event timestamps in the session. The event that reaches or crosses the threshold can be included, so an emitted span can exceed `MAXSPAN`.
-* `ONLY` emits open sessions that reach or exceed `MAXSPAN`. Sessions that expire by wall-clock timeout are cleared without an emission in this mode. An end event with no open session can still emit a one-row result when `include_session_end=true`.
+* `ONLY` emits open sessions that reach or exceed `MAXSPAN`. Sessions that expire by wall-clock timeout are cleared without an emission in this mode.
 * `TIMEOUT <interval>` is elapsed wall-clock time since the session opened. Events arriving while the session is open do not reset it. Specify `TIMEOUT` explicitly and set it to at least `MAXSPAN`. Both intervals support `ms`, `s`, and `m`.
 
 The policy uses a hybrid hash table keyed by the `GROUP BY` columns. For multiple input shards, use `SHUFFLE BY` on the grouping key, or set `allow_independent_shard_processing=true` if each key is already confined to one shard.
@@ -483,8 +483,6 @@ Each new event triggers an immediate emission of the updated count:
 `1, 2, 3, 4, 5, …`
 
 Use this mode carefully in high-throughput environments.
-
-For multiple input shards, use `SHUFFLE BY` on the grouping key, or set `allow_independent_shard_processing=true` if each key is already confined to one shard.
 
 ### `EMIT CHANGELOG`
 

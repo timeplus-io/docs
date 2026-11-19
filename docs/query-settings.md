@@ -8,7 +8,7 @@ Timeplus supports some advanced `SETTINGS` to fine tune the streaming query proc
 
 ## seek_to
 
-`seek_to=<timestamp|earliest|latest>` sets a streaming read's starting position. It can be a relative or absolute timestamp. An append stream defaults to `latest` when no starting position or time predicate is given. A keyed stream can load an initial snapshot to construct its current state. Examples: `seek_to='2022-01-12 06:00:00.000'`, `seek_to='-2h'`, or `seek_to='earliest'`.
+`seek_to=<timestamp|earliest|latest>` sets a streaming read's starting position. It can be a relative timestamp or an absolute timestamp. An append stream defaults to `latest` when no starting position or time predicate is given. A keyed stream can load an initial snapshot to construct its current state. Example:`seek_to='2022-01-12 06:00:00.000'`, ` seek_to='-2h'`, or ` seek_to='earliest'`
 
 :::info
 
@@ -67,7 +67,9 @@ Starting from [Timeplus Enterprise 2.7](/enterprise-v2.7) and Timeplus Proton 1.
 
 ## default_hash_table
 
-Default value is `memory`. To optimize memory usage for large data streams, you can set `default_hash_table='hybrid'`. This will use both memory and disk to store the hash table. Available since Timeplus Enterprise 2.6.0. Aggregations using `PARTITION BY` require the memory aggregator.
+Default value is `memory`. To optimize memory usage for large data streams, you can set `default_hash_table='hybrid'`. This will use both memory and disk to store the hash table. Available since Timeplus Enterprise 2.6.0.
+
+Aggregations using `PARTITION BY` require the memory aggregator.
 
 ## default_hash_join
 

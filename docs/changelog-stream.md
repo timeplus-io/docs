@@ -4,7 +4,7 @@ When you create a stream with the mode `changelog_kv`, the data in the stream is
 
 `SELECT ... FROM table(stream)` reads a historical snapshot of the current values. A streaming query reads changes as they arrive. When a downstream consumer needs the change signs, select `_tp_delta` and use `EMIT CHANGELOG`.
 
-To generate retractions from an append stream with a logical key, use the [`changelog()` table function](/functions_for_streaming#changelog). This keeps keyed state in the query and exposes `_tp_delta` in its results.
+To generate retractions from an append stream with a logical key, use the [`changelog()` table function](/functions_for_streaming#changelog).
 
 Here are some examples:
 
