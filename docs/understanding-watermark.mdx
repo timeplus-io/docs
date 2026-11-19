@@ -6,6 +6,18 @@ In stream processing, a watermark is a mechanism used to track the progress of d
 
 Since stream processing deals with unbounded, out-of-order data, watermarks are essential for defining bounded windows and for discarding late or outdated data in a consistent way. Watermarks allow the system to advance event-time, trigger computations (e.g., closing a [tumbling window](/functions_for_streaming#tumble) and [emitting results](/streaming-aggregations#emit)), and maintain accuracy even when data arrives with delays.
 
+## Watermarks and emit timing
+
+In [Tumble](/tumble-aggregation) and [Hop](/hop-aggregation) aggregations, a watermark of `W` means Timeplus treats event times before `W` as complete. A window can close when its end time is at or before `W`. Rows that arrive later with timestamps before `W` are dropped as late.
+
+To calculate the watermark, Timeplus takes the largest timestamp seen in the window's time column, subtracts any [configured delay](/streaming-aggregations#emit_delay), and rounds down to a window end.
+
+With `EMIT PERIODIC` or `EMIT ON UPDATE WITH BATCH`, Timeplus checks for results to emit at intervals measured in processing time. The signal carries the current processing time in a global aggregation and the current event-time watermark in a window aggregation. This lets a window emit intermediate results while it is still open. `EMIT ON UPDATE` can also emit an update using the current watermark before event time advances. See [EMIT policies](/streaming-aggregations#emit) for syntax and examples.
+
+## Window state cleanup
+
+Once a Tumble window closes, Timeplus can discard its aggregate state. For Hop, overlapping windows share time buckets, so Timeplus keeps a bucket until no remaining window needs it. Global aggregation normally keeps its state across emissions so later rows can continue updating it. See [TTL of aggregation keys](/global-aggregation#ttl-of-aggregation-keys) for global state retention.
+
 ## Try It Out
 
 To better understand how watermarks work, use the following tool. It generates random data and simulates watermark progression for a tumbling window aggregation with a 5-second window size and a 2-second watermark delay.
