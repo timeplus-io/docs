@@ -1,5 +1,5 @@
 # CREATE MATERIALIZED VIEW
-The difference between a materialized view and a regular view is that the materialized view runs in the background after it starts and writes the resulting stream to internal storage or an explicit target.
+The difference between a materialized view and a regular view is that, by default, the materialized view runs in the background after creation and the resulting stream is physically written to internal storage (hence it's called materialized).
 
 To create a materialized view:
 
