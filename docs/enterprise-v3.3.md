@@ -24,6 +24,26 @@ Key highlights of the Timeplus 3.3 release include:
 ## Releases
 We recommend using stable releases for production deployment. Engineering builds are available for testing and evaluation purposes.
 
+### 3.3.7 {#3_3_7}
+Released on 11-20-2026. Installation options:
+* For Linux or Mac users: [Downloads](/release-downloads#3_3_7)
+* For Docker users (not recommended for production): `docker run -p 8000:8000 docker.timeplus.com/timeplus/timeplus-enterprise:3.3.7`
+* For Kubernetes users: `helm install timeplus/timeplus-enterprise --version 13.0.9`
+
+Component versions:
+* timeplusd 3.3.7
+* timeplus_appserver 3.3.1
+* timeplus_connector 3.1.0
+* timeplus cli 3.0.0
+* timeplus byoc 1.0.1-rc.2
+
+#### Changelog {#changelog_3_3_7}
+
+**Bug Fixes**
+* Bound memory usage of lazy-loaded primary-key indexes by introducing a configurable setting primary_key_cache_max_bytes.
+
+#### Known issues {#known_issue_3_3_7}
+Same as 3.3.4.
 ### 3.3.4 {#3_3_4}
 Released on 10-28-2026. Installation options:
 * For Linux or Mac users: [Downloads](/release-downloads#3_3_4)
