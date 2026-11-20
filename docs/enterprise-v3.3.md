@@ -40,7 +40,7 @@ Component versions:
 #### Changelog {#changelog_3_3_7}
 
 **Bug Fixes**
-* Bound memory usage of lazy-loaded primary-key indexes
+* Bound memory usage of lazy-loaded primary-key indexes by introducing a configurable setting primary_key_cache_max_bytes.
 
 #### Known issues {#known_issue_3_3_7}
 Same as 3.3.4.
