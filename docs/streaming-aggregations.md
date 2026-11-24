@@ -11,7 +11,7 @@ FROM <stream_name>
 [EMIT PERIODIC <interval>];
 ```
 
-`PERIODIC <n><UNIT>` tells Timeplus to emit the aggregation periodically. `UNIT` can be ms(millisecond), s(second), m(minute),h(hour),d(day).`<n>` shall be an integer greater than 0.
+`PERIODIC <interval>` tells Timeplus to emit the aggregation periodically. `<interval>` is a positive integer followed by a unit such as `ms` (milliseconds), `s` (seconds), `m` (minutes), `h` (hours), or `d` (days).
 
 Examples
 

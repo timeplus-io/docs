@@ -113,7 +113,7 @@ Bidirectional join needs to buffer all data for the left stream and right stream
 
 This may look like the most easy-to-understand scenario. You can try this type of join if you have 2 streams with incoming new data.
 
-However, this is designed to be exploration purpose only, not recommended to for production use. Because both sides of the data streams are unbounded, it will consume more and more resources in the system. For in-memory hash joins, `join_max_buffered_bytes` controls the maximum source data it can buffer. Once the query reaches the limit, the streaming query will be aborted.
+However, this is designed for exploration only and is not recommended for production use. Because both sides of the data streams are unbounded, it will consume more and more resources in the system. For in-memory hash joins, `join_max_buffered_bytes` controls the maximum source data it can buffer. Once the query reaches the limit, the streaming query will be aborted.
 
 Example:
 

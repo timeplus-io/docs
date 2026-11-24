@@ -13,8 +13,8 @@ Use [`PARTITION BY`](/partition-data) for independent sessions per key. `GROUP B
 ```sql
 SELECT <grouping_keys>, <aggregate_functions>
 FROM session(<stream_name> [, <timestamp_column>], <idle_gap> [, <max_duration>] [, <session_boundaries>])
-[PARTITION BY <session_keys>]
 [WHERE <conditions>]
+[PARTITION BY <session_keys>]
 GROUP BY <window_grouping_keys> [, <other_grouping_keys>]
 [EMIT <emit_policy>];
 ```
