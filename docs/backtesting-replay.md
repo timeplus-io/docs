@@ -42,8 +42,12 @@ SETTINGS replay_speed = 1, replay_time_column = '_tp_time'
 | Setting | Description |
 | ------- | ----------- |
 | [replay_speed](/query-settings#replay_speed) | `1` replays at the original speed, `10` is ten times faster, a value between 0 and 1 is slower. `0` (default) replays as fast as possible. |
-| [replay_time_column](/query-settings#replay_time_column) | The time column that defines the gaps between events. The default is `_tp_append_time`, the time when the event was appended to the stream. If you loaded the historical data in one batch, set it to `_tp_time` or to your own time column. |
-| [replay_start_time](/query-settings#replay_start_time) | Start time of the replay. |
-| [replay_end_time](/query-settings#replay_end_time) | End time of the replay. The query ends when all data is replayed. |
+| [replay_time_column](/query-settings#replay_time_column) | The time column that defines the gaps between events. Set it explicitly to `_tp_time` or to your own `datetime` or `datetime64` column. The built-in default is `_tp_append_time`, but on Timeplus Enterprise 3.4.1 a replay that relies on this default fails with ``Column `_tp_append_time` not found``. |
+| [replay_start_time](/query-settings#replay_start_time) | Start time of the replay, inclusive. Applies only when `replay_speed` is greater than 0. |
+| [replay_end_time](/query-settings#replay_end_time) | End time of the replay, exclusive: an event at exactly this time is not returned. Applies only when `replay_speed` is greater than 0. The query ends when all data is replayed. |
+
+:::warning
+`replay_start_time` and `replay_end_time` are ignored without an error when `replay_speed` is `0` (the default). To replay a time range as fast as possible, filter on the time column in the `WHERE` clause instead.
+:::
 
 You can replay both normal streams and Kafka external streams.

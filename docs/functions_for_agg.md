@@ -198,7 +198,8 @@ This function also takes an optional third parameter to specify an end time for 
 `sequence_match(pattern)(time, cond1, cond2, ...)` checks whether a chain of events matching the pattern exists in the group. Returns `1` if the pattern is matched, otherwise `0`. You can use it in both streaming queries and historical queries.
 
 * `pattern` is a string. `(?N)` matches an event for which the N-th condition is true, `.*` matches any number of events in between, and `(?t operator value)` sets a time constraint in seconds between two events, such as `(?1)(?t<=60)(?2)`.
-* `time` must be `date` or `datetime`. The default event time `_tp_time` is `datetime64`, so convert it with `to_datetime(_tp_time)`. Events within the same second are not ordered.
+* `time` should be `datetime`. The default event time `_tp_time` is `datetime64`, so convert it with `to_datetime(_tp_time)`. Events within the same second are not ordered. `date` is also accepted, but it truncates to the day, so the `(?t ...)` time constraints stop working.
+* The time column must contain the event time. If `_tp_time` is not set from your data, it defaults to the ingest time (`now64()`), events loaded together get almost the same timestamp, and the time constraints match with no error. In that case pass your own event time column, or set `_tp_time` from it as described in [Backtesting and Replay](/backtesting-replay).
 * Up to 32 conditions are supported.
 
 For example, to check whether a large trade is followed by a small one in each 2-minute window:

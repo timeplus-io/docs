@@ -142,3 +142,8 @@ Result:
 | 2026-11-17 10:00:00.000 | BTC        | 1152000      | 3    | 1        |
 
 The tuple puts `traded_value` first, so `array_sort` orders by it in ascending order. Use `array_reverse_sort` to rank from the largest value.
+
+Two differences from the window functions:
+
+* `rank` here is a row-number-style position. Equal values do not share a rank as they do with `rank()` or `dense_rank()`. Ties are ordered by the second tuple element, `product_id` in this example.
+* `pct_rank` is `rank / n`, the share of rows in the window at or before this row in the sort order. The last row is `1` and the first row is `1/n`. This is not the `(rank - 1) / (n - 1)` formula of the standard `percent_rank()`.
