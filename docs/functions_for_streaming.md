@@ -59,9 +59,9 @@ Parameters:
 
 For example, if the car keeps sending data when it's moving and stops sending data when it's parked or waiting for the traffic light
 
-- `session(car_live_data, 1m) partition by cid` will create session windows for each car with 1 minute idle time. Meaning if the car is not moved within one minute, the window will be closed and a new session window will be created for future events. If the car keeps moving for more than 5 minutes, different windows will be created (every 5 minutes), so that as analysts, you can get near real-time results, without waiting too long for the car to be stopped.
+- `session(car_live_data, 1m) partition by cid` will create session windows for each car with a one-minute event-time idle gap. A later event can close the window when the idle gap is reached. If the car keeps sending data, the default five-minute maximum duration splits the events into separate windows.
 - `session(car_live_data, 1m, [speed>50,speed<50)) partition by cid` create session windows to detect when the car is speeding. The first event with speed over 50 will be included, and the last event with speed lower than 50 will not be included in the session window.
-- `session(access_log, 5m, [action='login',action='logout']) partition by uid` create session windows when the user logins the system and logout. If there is no activity within 5 minutes, the window will be closed automatically.
+- `session(access_log, 5m, [action='login',action='logout']) partition by uid` starts sessions at login and ends them at logout or when a later event reaches an event-time deadline. See [Session Window Aggregation](/session-aggregation) for wall-clock timeout and boundary options.
 
 ✅ streaming query
 
@@ -185,11 +185,16 @@ For example, if you run `select emit_version(),count(*) from car_live_data` the 
 
 ### changelog
 
-`changelog(stream[, [key_col1[,key_col2,[..]],version_column], drop_late_rows])` to convert a stream (no matter append-only stream or versioned stream) to a changelog stream with given primary keys.
+`changelog()` converts a streaming input to a changelog with the given keys.
+
+```sql
+changelog(<append_stream>, <key_col> [, <additional_key_cols>] [, {false | <version_col>, true}])
+changelog(<mutable_or_versioned_stream> [, <drop_late_rows>])
+```
 
 - If the source stream is a regular stream, i.e. append-only stream, you can choose one or more columns as the primary key columns. `changelog(append_stream, key_col1)` For example, the [car_live_data](/usecases#car_live_data) stream contains `cid` as car id, `speed_kmh` as the recently reported speed. Run the following SQL to create a changelog stream for each car to track the speed change `select * from changelog(car_live_data,cid)` A new column `_tp_delta` is included in the streaming query result. `-1` indicates that the row is redacted(removed). \_tp_delta = 1 with the new value.
-- If the source stream is a [Versioned Stream](/versioned-stream), since the primary key(s) and version columns are specified in the versioned stream, the `changelog` function can be as simple as `changelog(versioned_kv)`
-- By default, `drop_late_rows` is false. But if you do want to drop late events for the same primary key, then you need to set drop_late_rows as true, and specify the version_column. The bigger the version_column value is, the more recent version it implies. In most case, you can set the event time(\_tp_time) as the version_column. An example to drop the late event for car_live_data:
+- For a [Versioned Stream](/versioned-stream) or a [Mutable Stream](/mutable-stream), the function uses the source's primary key and version information. Query a [Changelog Key Value Stream](/changelog-stream) directly to consume its stored changes.
+- By default, `drop_late_rows` is false. To drop late events for the same primary key, set `drop_late_rows` to `true`. For an append stream, also specify the version column. The bigger the version column value is, the more recent version it implies. In most cases, you can set the event time (\_tp_time) as the version column. An example to drop the late event for car_live_data:
 
 ```sql
 select _tp_time,cid,speed_kmh, _tp_delta

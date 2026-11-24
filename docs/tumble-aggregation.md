@@ -6,29 +6,35 @@ A **tumbling window** divides an unbounded data stream into **fixed-size, non-ov
 
 Each event belongs to **exactly one** window. This is useful for periodic aggregations such as per-minute averages, hourly counts, or daily summaries.
 
-Unlike **hopping** or **session** windows, tumbling windows do not overlap — once a window closes, a new one immediately starts.  
+Unlike **hopping** windows, tumbling windows do not overlap.
 This makes them simple, deterministic, and ideal for producing periodic reports or metrics.
 
 ## Syntax
 
 ```sql
 SELECT <grouping_keys>, <aggr_functions>
-FROM tumble(<stream_name>, [<timestamp_column>], <window_size>)
+FROM tumble(<stream_name> [, <timestamp_column>], <window_size> [, <timezone>])
 [WHERE clause]
-GROUP BY [window_start | window_end], <other_grouping_keys> ...
-EMIT <emit_policy>
+GROUP BY <window_grouping_keys> [, <other_grouping_keys>]
+[EMIT <emit_policy>];
 ```
 
 ### Parameters
 
 - `<stream_name>` : the source stream the tumble window applies to. **Required**
-- `<timestamp_column>` : the event timestamp column which is used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time tumble window. Default is `_tp_time` if absent. **Optional**
+- `<timestamp_column>` : the event timestamp column or expression (`datetime` or `datetime64`) used to calculate window starts / ends and internal watermark. You can use `now()` or `now64(3)` to enable processing time tumble window. Default is `_tp_time` if absent. **Optional**
 - `<window_size>` : tumble window interval size. Supported interval units are listed below. **Required**
+  - `ns`, `us`, `ms` (nanosecond, microsecond, millisecond)
   - `s` (second)
-  - `m` (miniute)
+  - `m` (minute)
   - `h` (hour) 
   - `d` (day) 
   - `w` (week) 
+  - `M`, `q`, `y` (month, quarter, year)
+- `<timezone>` is an optional time zone string such as `'UTC'` that controls window alignment. It defaults to the time zone of the timestamp expression.
+- `<window_grouping_keys>` must include `window_start`, `window_end`, or both. If you select both boundary columns directly, include both in `GROUP BY`.
+
+For sub-second interval units, use a timestamp with sufficient precision and an interval that divides evenly into one hour. For example, `50ms` works with `datetime64(3)`, `1us` requires `datetime64(6)` or higher, and `1ns` requires `datetime64(9)`.
 
 ### Example
 
@@ -47,6 +53,7 @@ SELECT
 FROM tumble(device_metrics, event_time, 5s)
 GROUP BY
     window_start,
+    window_end,
     device
 EMIT AFTER WINDOW CLOSE;
 ```
@@ -66,11 +73,11 @@ EMIT AFTER WINDOW CLOSE;
 
 ![TumbleWindow](/img/tumble-window.png)
 
-Each event falls into exactly one window, ensuring deterministic aggregation and predictable output intervals.
+Each event falls into exactly one window. A window includes its start and excludes its end.
 
 ## Emit Policies
 
-Emit policies define **when** Timeplus should output results from **time-windowed** aggregations such as **tumble**, **hop**, **session** and **global-windowed** aggregation.
+Emit policies define **when** Timeplus should output results from **time-windowed** aggregations such as **tumble**, **hop**, and **session**.
 
 These policies control whether results are emitted **only after the window closes**, **after a delay** to honor late events, or **incrementally during the window**.
 
@@ -90,12 +97,14 @@ This query continuously computes the **maximum CPU usage** per device in every 5
 Each time a window closes (as determined by the internal watermark), Timeplus emits the results once.
 
 :::info
-A watermark is an internal timestamp that advances monotonically per stream, determining when a window can be safely closed.
+A watermark is an internal timestamp that advances monotonically per stream, determining when a window can be safely closed. With [`PARTITION BY`](/partition-data), each partition has its own watermark.
 :::
 
 ### `EMIT AFTER WINDOW CLOSE WITH DELAY`
 
 Adds a **delay period** before emitting window results, allowing **late events** to be included.
+
+The delay is subtracted from the maximum observed event timestamp when calculating the watermark. Rows older than the current watermark are dropped.
 
 **Example**:
 
@@ -106,7 +115,7 @@ GROUP BY window_start, device
 EMIT AFTER WINDOW CLOSE WITH DELAY 2s;
 ```
 
-This query aggregates the **maximum CPU usage** for each device per 5-second tumble window, then waits 2 additional seconds after the window closes before emitting results. This helps capture any late-arriving events that fall within the window period.
+This query aggregates the **maximum CPU usage** for each device per 5-second tumble window. With `WITH DELAY 2s`, a window ending at `00:00:05` can close when event time reaches `00:00:07`.
 
 ### `EMIT TIMEOUT`
 
@@ -125,9 +134,9 @@ EMIT TIMEOUT 3s;
 In this example:
 
 - The query continuously aggregates the maximum CPU usage per device in **5-second tumble windows**.
-- If **no new events** arrive for **3 seconds**, Timeplus will **force-close** the most recent window and emit the final results.
+- If **no new events** arrive for at least **3 seconds**, Timeplus can **force-close** pending windows and emit their final results.
 - Once the window is closed, the **internal watermark** (event time) advances as well.
-- Any **late events** that belong to this now-closed window will be discarded.
+- Any **late events** that belong to those closed windows cannot revise the final results.
 
 ### `EMIT ON UPDATE`
 
@@ -151,7 +160,7 @@ Here, during each 5-second window, the system emits updates whenever there are n
 ### `EMIT ON UPDATE WITH BATCH`
 
 Combines **periodic emission** with **update-based** triggers.
-Timeplus checks the intermediate aggregation results at regular intervals and emits them if they have changed which can significally improve the emit efficiency and throughput compared with `EMIT ON UPDATE`. 
+Timeplus checks for updated groups at regular intervals and emits their results. This can improve throughput compared with `EMIT ON UPDATE`.
 
 **Example**:
 
@@ -167,7 +176,7 @@ EMIT ON UPDATE WITH BATCH 1s;
 
 ### `EMIT ON UPDATE WITH DELAY`
 
-Similar to **`EMIT ON UPDATE`**, but includes a delay to allow late events before emitting incremental updates.
+Similar to **`EMIT ON UPDATE`**, but applies a delay to the event-time watermark used for window close and late-event filtering. Intermediate updates can still be emitted before the watermark advances.
 
 **Example**:
 

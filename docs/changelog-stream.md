@@ -1,6 +1,10 @@
 # Changelog Key Value Stream
 
-When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. When you query the stream directly, only the latest version for the same primary key(s) will be shown. Data can be updated or deleted. You can use Changelog Stream in JOIN either on the left or on the right. Timeplus will automatically choose the latest version.
+When you create a stream with the mode `changelog_kv`, the data in the stream is no longer append-only. Data can be updated or deleted. You can use Changelog Stream in JOIN either on the left or on the right, depending on the join type.
+
+`SELECT ... FROM table(stream)` reads a historical snapshot of the current values. A streaming query reads changes as they arrive. When a downstream consumer needs the change signs, select `_tp_delta` and use `EMIT CHANGELOG`.
+
+To generate retractions from an append stream with a logical key, use the [`changelog()` table function](/functions_for_streaming#changelog).
 
 Here are some examples:
 
@@ -8,7 +12,7 @@ Here are some examples:
 
 In this example, you create a stream `dim_products` in `changelog_kv` mode with the following columns:
 
-| Column Name | Date Type           | Description                                                  |
+| Column Name | Data Type           | Description                                                  |
 | ----------- | ------------------- | ------------------------------------------------------------ |
 | _tp_time    | datetime64(3,'UTC') | this is automatically created for all streams in Timeplus, with the event time at millisecond precision and UTC timezone |
 | _tp_delta   | int8                | a special column, 1 means new data, -1 means deleted data    |
@@ -20,6 +24,17 @@ In this example, you create a stream `dim_products` in `changelog_kv` mode with 
 The rest of this page assumes you are using Timeplus Console. If you are using Proton, you can create the stream with DDL.
 
 :::
+
+```sql
+CREATE STREAM dim_products (
+    product_id string,
+    price float32
+)
+PRIMARY KEY product_id
+SETTINGS mode = 'changelog_kv';
+```
+
+Timeplus adds `_tp_delta` with a default of `1`.
 
 ## Query Single Stream
 
@@ -44,7 +59,7 @@ Somehow, you don't want to list iPhone14_Plus any more. All you need is to add a
 | --------- | ------------- | ----- |
 | -1        | iPhone14_Plus | 899   |
 
-Then cancel the query and run it again, you will only get 1 row, not 3 rows. The reason for that is the 2nd row and 3rd row are with the same primary id but with opposite _tp_delta, so Timeplus merges them. This process is called "compaction".
+After the delete is available in historical storage, run `SELECT * FROM table(dim_products)` to see the one remaining row. The two rows for iPhone14_Plus have the same primary key and opposite `_tp_delta` values, so they cancel each other in the snapshot.
 
 | _tp_delta | product_id | price |
 | --------- | ---------- | ----- |
@@ -59,13 +74,13 @@ Now if you want to change the price of iPhone14, you need to add two rows:
 | -1        | iPhone14   | 799   |
 | 1         | iPhone14   | 800   |
 
-Cancel the query `SELECT * FROM dim_products` and run again, you will get only 1 row in the product list:
+Run `SELECT * FROM table(dim_products)` and you will get only 1 row in the product list:
 
 | _tp_delta | product_id | price |
 | --------- | ---------- | ----- |
 | 1         | iPhone14   | 800   |
 
-As you can imagine, you can keep adding new rows. If _tp_delta is 1 and the primary key is new, then you will get a new row in the query result. If _tp_delta is -1 and the primary key exists already, then the previous row is deleted. You can update the value by adding a new row with the primary key.
+As you can imagine, you can keep adding new rows. If _tp_delta is 1 and the primary key is new, then you will get a new row in the query result. If _tp_delta is -1 and the primary key exists already, then the previous row is deleted. Adding another row with `_tp_delta=1` for the same primary key leaves both values in the historical result unless you retract the previous row.
 
 :::info
 
@@ -147,7 +162,7 @@ It shows that the latest price of iPhone14 is applied to the JOIN of new event.
 
 You can also use Changelog Stream on the left side of the JOIN.
 
-Let's create a new stream `order2` in Changelog Stream mode:
+Let's create a new stream `orders2` in Changelog Stream mode:
 
 | _tp_time | _tp_delta | order_id | product_id | quantity |
 | -------- | --------- | -------- | ---------- | -------- |
@@ -159,7 +174,7 @@ SELECT orders2._tp_time, order_id,product_id,quantity, price*quantity AS amount
 FROM orders2 JOIN dim_products USING(product_id)
 ```
 
-Timeplus will use the latest version of order records to join with the lookup table.
+Both inputs are keyed streams here. Changes on either side can update the joined state. To consume the additions and retractions explicitly, include `_tp_delta` in the projection and add `EMIT CHANGELOG`.
 
 What's more useful is that if you run aggregations such as:
 
@@ -408,22 +423,34 @@ You can follow this [guide](/kafka-source) to add 2 external streams to load dat
 * Data source name `s1` to load data from topic `doc.public.dim_products` and put in a new stream `rawcdc_dim_products`
 * Data source name `s2` to load data from topic `doc.public.orders` and put in a new stream `rawcdc_orders`
 
-Then run the following SQL in query page:
+If the raw JSON string column is named `raw`, run the following SQL in the query page. It uses the top-level fields shown above because the connector configuration disables the schema envelope.
 
 ```sql
-select 1::int8 as _tp_delta, after:product_id as product_id, after:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op in ('c','r')
-union
-select -1::int8 as _tp_delta, before:product_id as product_id, before:price::float as price, cast(ts_ms::string,'datetime64(3, \'UTC\')') as _tp_time from rawcdc_dim_products where op='d'
-union
-select _tp_delta, val:product_id as product_id, val:price::float as price, ts_ms as _tp_time from (
-    select ts_ms, array_join(changes) as change, change.1 as val, change.2 as _tp_delta
-    from (
-        select cast(ts_ms::string,'datetime64(3, \'UTC\')') as ts_ms, raw:payload.before as before, raw:payload.after as after, [(before, -1::int8), (after, 1::int8)] as changes from rawcdc_dim_products where raw:payload.op = 'u')
+WITH events AS (
+    SELECT
+        raw:op AS operation,
+        raw:before AS before_row,
+        raw:after AS after_row,
+        from_unix_timestamp64_milli(raw:ts_ms::int64, 'UTC') AS event_time
+    FROM rawcdc_dim_products
+)
+SELECT
+    tuple_element(change, 2) AS _tp_delta,
+    tuple_element(change, 1):product_id AS product_id,
+    tuple_element(change, 1):price::float32 AS price,
+    event_time AS _tp_time
+FROM events
+ARRAY JOIN multi_if(
+    operation = 'u', [(before_row, -1::int8), (after_row, 1::int8)],
+    operation = 'd', [(before_row, -1::int8)],
+    [(after_row, 1::int8)]
+) AS change
+WHERE operation IN ('c', 'r', 'd', 'u');
 ```
 
-This SQL query may look a bit overwhelming. At the top level, there are 3 subqueries to `union` the result:
-* one subquery is to check if the op is either `c` or `r`. It will insert a new row to the changelog stream with _tp_detla=1
-* one subquery is to check if the op is `d`. It will delete the row in the changelog stream with _tp_detla=-1
-* the last subquery is to check if the op is `u`. It will send a row with _tp_detla=-1 first, followed by a _tp_delta=1. Since union operation in SQL won't guarantee the order of emit, so we created an array for [-1,1] and use `array_join` to turn 1 row to 2 rows, with expected order.
+The query handles each operation as follows:
+* If `op` is `c` or `r`, it emits the after image with `_tp_delta=1`.
+* If `op` is `d`, it emits the before image with `_tp_delta=-1`.
+* If `op` is `u`, it creates an array with the before image first (`-1`) and the after image second (`1`). `ARRAY JOIN` expands both entries from the same source event.
 
 Click the **Send as Sink** button and choose Timeplus type, to send the results to an existing stream `dim_products` .

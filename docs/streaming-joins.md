@@ -113,7 +113,7 @@ Bidirectional join needs to buffer all data for the left stream and right stream
 
 This may look like the most easy-to-understand scenario. You can try this type of join if you have 2 streams with incoming new data.
 
-However, this is designed to be exploration purpose only, not recommended to for production use. Because both sides of the data streams are unbounded, it will consume more and more resources in the system. Internally there is a setting (`join_max_buffered_bytes`) to control the maximum source data it can buffer. Once the query reaches the limit, the streaming query will be aborted.
+However, this is designed for exploration only and is not recommended for production use. Because both sides of the data streams are unbounded, it will consume more and more resources in the system. For in-memory hash joins, `join_max_buffered_bytes` controls the maximum source data it can buffer. Once the query reaches the limit, the streaming query will be aborted.
 
 Example:
 
@@ -229,7 +229,7 @@ INSERT INTO versioned_kv(j, k, kk) VALUES (1, 'a', 'aa'), (2, 'a', 'bb');
 INSERT INTO append(i, k) VALUES (11, 'a');
 ```
 
-Timeplus won't buffer the left stream at all, and keep all versions for the join key for the right stream.
+Timeplus won't buffer the left stream at all. On the right, it keeps current rows by primary key, so one join key can match multiple distinct primary keys.
 
 #### Direct JOIN
 Direct join is used when the right side is from an external source (ClickHouse for example). It does not require loading all the content into memory; but just the required data to complete the join.

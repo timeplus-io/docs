@@ -4,7 +4,7 @@
 
 In this join type, **events from the left-hand stream** trigger the join. Each incoming event probes a **static hash table** that is pre-built from the right-hand side dataset — as illustrated in the diagram below.
 
-Because the right-hand side data remains static, only `LEFT` and `INNER` joins are supported.
+Use `LEFT` or `INNER` for continuous enrichment.
 
 ![StaticEnrichmentJoinAll](/img/static-enrichment-join.svg)
 
@@ -115,10 +115,10 @@ FROM orders INNER JOIN table(products) AS products
 ON orders.product_id = products.id
 SETTINGS
     default_hash_join = 'hybrid',   -- Enable hybrid hash table
-    max_hot_keys = 100000;          -- Maximum number of hot keys in memory
+    max_hot_keys = 100000;          -- Number of hot keys to keep in memory
 ```
 
 **Explanation**:
 - `default_hash_join='hybrid'` enables a **hybrid in-memory + disk-based hash table**.
-- `max_hot_keys=100000` limits the number of keys stored in memory. When this limit is reached, older keys are **spilled to disk** using an **LRU** (Least Recently Used) policy.
+- `max_hot_keys=100000` sets the number of hot keys to keep in memory per hash table. When the number of keys in memory exceeds this setting, older keys are **spilled to disk** using an **LRU** (Least Recently Used) policy. During a large input batch, the table can temporarily hold more keys in memory.
 - This approach balances **memory efficiency and performance** — if most lookups hit the in-memory hot keys, join performance remains excellent.

@@ -6,7 +6,7 @@ The chosen HA model is tightly coupled with the underlying [checkpoint replicati
 
 ## Raft-Based HA
 
-The Raft-based HA model is the default option. When you create a Materialized View with this model, Timeplus places three replicas of it on different nodes in the cluster. One replica is elected as the leader and handles the query execution, while the other two act as followers. The leader continuously checkpoints the query state, and these checkpoints are replicated to the followers using the Raft consensus protocol. This ensures that the followers have identical state information, which is crucial for a fast and reliable failover.
+The Raft-based HA model is the default option. When you create a Materialized View with this model, Timeplus places three replicas of it on different nodes in the cluster by default. One replica is elected as the leader and handles query execution, while the other replicas act as followers. The leader continuously checkpoints the query state, and these checkpoints are replicated to the followers using the Raft consensus protocol. Followers can use replicated checkpoints during failover.
 
 Internally, this model leverages a **NativeLog checkpoint shard**, which is replicated using Raft for fault tolerance.
 
@@ -15,8 +15,8 @@ Internally, this model leverages a **NativeLog checkpoint shard**, which is repl
 ### Initial Leader Election
 
 When a Materialized View with this model is created, the following things happen:
-1. The placement strategy picks three nodes in the cluster.  
-2. A **NativeLog shard** is provisioned across these three nodes, forming a Raft group.  
+1. The placement strategy picks nodes in the cluster according to the replication factor.
+2. A **NativeLog shard** is provisioned across these nodes, forming a Raft group.
 3. One shard replica is elected as the **leader** and  the remaining replicas as followers.  
 4. The leader builds the processing pipeline DAG, executes the query, and writes results.  
 5. The leader periodically checkpoints query state to NativeLog, which replicates to followers. Followers maintain identical state for failover readiness.  
@@ -59,7 +59,7 @@ Fault tolerance are two layers in this model.
 3. The scheduler reschedules all Materialized Views from the failed node to healthy ones.
 4. Rescheduled views recover state from shared storage and resume execution.
 
-This model integrates well with **Kubernetes HPA** and **AWS Auto Scaling Groups** since the Materialized Views don't own any state themselves, supporting highly elastic workloads running on Timeplus **Compute** Nodes.
+This model supports elastic workloads running on Timeplus **Compute** Nodes, including deployments that use **Kubernetes HPA** or **AWS Auto Scaling Groups**. The executing node maintains the live query state, and shared storage holds the durable checkpoint so another eligible compute node can restore the view.
 
 ## Choosing the Right HA Model
 

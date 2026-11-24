@@ -9,16 +9,18 @@ Unlike windowed aggregations that slice unbounded streams into discrete windows,
 With global aggregation:
 - The query continuously updates aggregation results as new events arrive.
 - There is **no concept of window close**, so late events are naturally handled without additional logic.
-- It is ideal for tracking long-running (life-time) metrics such as total counts, averages, or unique users across an entire stream against all historical data.
+- It is ideal for tracking long-running (life-time) metrics such as total counts, averages, or unique users across the data read by the query.
+
+By default, a streaming query over an append stream reads from the latest position. To include retained history, use [`seek_to='earliest'`](/query-settings#seek_to).
 
 ## Syntax
 
 ```sql
-SELECT <grouping_keys>, <aggr_functions>
+SELECT [<grouping_keys>,] <aggr_functions>
 FROM <stream_name>
 [WHERE <condition>]
-GROUP BY <col1>, <col2>, ...
-EMIT <emit_policies>;
+[GROUP BY <grouping_keys>]
+[EMIT <emit_policy>];
 ```
 
 **Example**:
@@ -41,7 +43,7 @@ EMIT PERIODIC 5s
 - The query monitors new events from the stream `device_metrics`.
 - It filters rows where `cpu_usage > 99`.
 - An **incremental count** is maintained per device.
-- Every **5 seconds**, the latest count per device is emitted to clients.
+- Every **5 seconds**, the latest count per device is emitted to clients if new matching events have been processed since the previous emission.
 
 ## TTL of Aggregation Keys
 
@@ -52,14 +54,13 @@ To handle this, Timeplus supports a **hybrid hash table** that combines in-memor
 
 - **Hot keys** (recently active) are stored in memory.
 - **Cold keys** (inactive or rarely updated) are spilled to disk using an LRU-like algorithm.
-- Combined with **TTL-based cleanup**, this approach has these benifits:
-  - Support for very late events.
-  - Controlled memory usage for long-running queries.
+- Spilling starts when the number of keys in memory exceeds `max_hot_keys`.
+- `aggregate_state_ttl_sec` applies to spilled entries from the time they are written to RocksDB. Expired entries are removed during compaction.
 
 **Example**:
 
 ```sql
-CREATE STREAM device_metrics(
+CREATE STREAM device_metrics_by_location(
     location string,
     device string,
     cpu float32
@@ -72,7 +73,7 @@ SELECT
     min(cpu),
     max(cpu),
     avg(cpu)
-FROM device_metrics
+FROM device_metrics_by_location
 SHUFFLE BY location
 GROUP BY bucket_window_start, location, device
 EMIT ON UPDATE WITH BATCH 1s
@@ -86,11 +87,11 @@ SETTINGS
 **Explanation**:
 
 - This query performs a **global aggregation** that computes CPU metrics for each device in 5-minute intervals.
-- The grouping key includes `bucket_window_start`, `location`, and `device`. The grouping key cardinality is monotoincally increasing as time goes.
-- The hybrid hash table manages the monotoincally increasing state efficiently:
-  - Up to `100,000` hot keys per substream remain in memory.
+- The grouping key includes `bucket_window_start`, `location`, and `device`. Each new 5-minute bucket can add grouping keys.
+- The hybrid hash table manages the increasing state:
+  - `100,000` is the number of hot keys to keep in memory per substream. A large input batch can temporarily exceed this number.
   - Inactive keys are spilled to disk automatically.
-- Aggregation states are cleaned up after 1 hour (aggregate_state_ttl_sec=3600) if they are inactive. This effectively honors 1 hour late events.
+- Spilled entries become eligible for compaction cleanup after 1 hour (`aggregate_state_ttl_sec=3600`). If a late event arrives after its state has been removed, it starts a new aggregate for that key.
 - `SHUFFLE BY location` improves **parallelism and memory efficiency**. See [Data Shuffle](/shuffle-data) for more details.
 
 **Internal Pipeline**:
@@ -116,13 +117,14 @@ EMIT PERIODIC <n><UNIT>
 
 **Parameters**:
 - `<n>` — positive integer (interval length)
-- `<UNIT>` can be one of:
+- Common units for `<UNIT>`:
   - `ms` (milliseconds)
   - `s` (seconds)
   - `m` (minutes)
   - `h` (hours)
   - `d` (days)
 
+`ns` and `us` are also accepted. Timeplus checks whether the interval has elapsed when it processes an input batch or a heartbeat. The actual time between emissions can be longer than the configured interval.
 
 **Example**:
 ```sql
@@ -133,12 +135,12 @@ GROUP BY device
 EMIT PERIODIC 5s;
 ```
 
-This query emits updated results every 5 seconds if new events are received.
+This query emits updated results every 5 seconds if new events are received. Each emission includes all groups.
 
 ### `EMIT PERIODIC REPEAT`
 
 For `EMIT PERIODIC`, no results are emitted if there are **no new events** since the last emit.
-With the `REPEAT` modifier, Timeplus **emits at a fixed interval**, even when no new data arrives.
+With the `REPEAT` modifier, Timeplus **can emit results even when no new data arrives**.
 
 **Example**:
 ```sql
@@ -149,11 +151,11 @@ GROUP BY device
 EMIT PERIODIC 5s REPEAT
 ```
 
-If no new events appear, the last results are still emitted every 5 seconds.
+If no new events appear, a heartbeat can trigger another emission after 5 seconds have elapsed.
 
 ### `EMIT ON UPDATE`
 
-Emits intermediate results **immediately** when new events change any aggregation value. This is useful for near real-time visibility into evolving metrics.
+Emits intermediate results when an input batch updates a grouping key, even if its aggregate value stays the same. This is useful for near real-time visibility into evolving metrics.
 
 ```sql
 SELECT device, count(*)
@@ -168,7 +170,7 @@ Each time new events with `cpu_usage > 99` arrive, updated counts are emitted.
 ### `EMIT ON UPDATE WITH BATCH`
 
 Combines **periodic emission** with **update-based** triggers.
-Timeplus checks the intermediate aggregation results at regular intervals and emits them if they have changed which can significally improve the emit efficiency and throughput compared with `EMIT ON UPDATE`.
+Timeplus checks for updated groups at regular intervals and emits their results. This can improve throughput compared with `EMIT ON UPDATE`.
 
 ```sql
 SELECT device, count(*)
@@ -190,20 +192,22 @@ This policy emits aggregation results once a session is considered **closed** or
 
 ```sql
 EMIT AFTER SESSION CLOSE
-  [IDENTIFIED BY (<ts_col>[, <session_start_col>, <session_end_col>])]
+  [IDENTIFIED BY {<ts_col> | (<ts_col>, <session_start_col_or_true>, <session_end_col_or_false>)}]
   WITH [ONLY] MAXSPAN <interval>
-  [AND TIMEOUT <interval>]
+  AND TIMEOUT <interval>
 ```
 
 **Parameters**:
 * `EMIT AFTER SESSION CLOSE`. Enables per-session lifetime tracking and emits results when a session ends.
-* `IDENTIFIED BY (<ts_col>[, <session_start_col>, <session_end_col>])`. Defines how session boundaries are identified.
+* `IDENTIFIED BY` selects the timestamp by itself or with a pair of start and end indicators.
   * `<ts_col>` — Timestamp column used to calculate session span duration. Default: _tp_time.
   * `<session_start_col>` — Boolean column indicating when a session starts. Usually it is predicates evaluated in the SELECT. (Optional)
   * `<session_end_col>` — Boolean column indicating when a session ends. Usually it is predicates evaluated in the SELECT. (Optional)
-* `MAXSPAN <interval>`. The maximum duration allowed for a session before it is emitted, regardless of new activity.
-* `ONLY`. When specified, results are emitted only if the session’s duration exceeds `MAXSPAN`.
-* `TIMEOUT <interval>`. Defines the maximum wall-clock duration a session can remain open. If a session stays active longer than this interval, it is automatically emitted to prevent indefinite waiting.
+* `MAXSPAN <interval>` is checked against the difference between the largest and smallest observed event timestamps in the session. The event that reaches or crosses the threshold can be included, so an emitted span can exceed `MAXSPAN`.
+* `ONLY` emits open sessions that reach or exceed `MAXSPAN`. Sessions that expire by wall-clock timeout are cleared without an emission in this mode.
+* `TIMEOUT <interval>` is elapsed wall-clock time since the session opened. Events arriving while the session is open do not reset it. Specify `TIMEOUT` explicitly and set it to at least `MAXSPAN`. Both intervals support `ms`, `s`, and `m`.
+
+The policy uses a hybrid hash table keyed by the `GROUP BY` columns. For multiple input shards, use `SHUFFLE BY` on the grouping key, or set `allow_independent_shard_processing=true` if each key is already confined to one shard.
 
 #### Variants of `IDENTIFIED BY`
 
@@ -219,7 +223,7 @@ Different configurations of `IDENTIFIED BY` allow flexible session control depen
 
     Both start and end conditions are explicitly defined.
     * A session opens when `session_start_col = true`.
-    * Events before an open session are ignored.
+    * Rows that match neither predicate are ignored until the session opens. With `include_session_end=true`, an end event without an open session can emit a one-row result.
     * The session closes when `session_end_col = true`, or when `MAXSPAN` or `TIMEOUT` is reached.
 
 3. `IDENTIFIED BY (ts_col, session_start_col, false)`.
@@ -241,7 +245,7 @@ Timeplus provides several query settings to fine-tune session behavior:
 
 1. `merge_open_sessions` — (Default: `false`).
 
-    Controls whether multiple overlapping or consecutive sessions for the same key should be merged into a single extended session. When set to `true`, if a new session starts before the previous one closes, Timeplus merges them into one continuous session.
+    If a start event arrives while the key already has an open session, the default closes the existing session and starts a new one. With `merge_open_sessions=true`, the new start event is added to the open session.
 
 2. `include_session_end` — (Default: `true`)
 
@@ -503,7 +507,7 @@ EMIT CHANGELOG;
 
 ```sql
 insert into device_metrics(device, cpu_usage) values ('dev1', 57.8);
-select sleep(1) FORMAT Null;
+select sleep(3) FORMAT Null;
 insert into device_metrics(device, cpu_usage) values ('dev1', 50.9);
 ```
 
@@ -530,7 +534,8 @@ This ensures that downstream consumers (such as materialized views or connectors
 **Notes**
 - `_tp_delta = 1` → **insert / new result**
 - `_tp_delta = -1` → **delete / cancel previous result**
-- Changelog semantics apply to both **aggregations** and **joins**, ensuring correctness when intermediate results evolve.
+- The example uses the default two-second periodic trigger. Wait for the first result before the second insert to see the retraction and replacement as shown.
+- For aggregations, `EMIT CHANGELOG` is supported for global aggregation. Select `_tp_delta` explicitly. This output mode cannot be combined with `PER EVENT` or `AFTER SESSION CLOSE`.
 
 ### `EMIT DELTA`
 
