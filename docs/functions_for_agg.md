@@ -193,6 +193,37 @@ Optionally, you can add a third parameter to specify an end time for your analys
 
 This function also takes an optional third parameter to specify an end time for your analysis period.
 
+### sequence_match
+
+`sequence_match(pattern)(time, cond1, cond2, ...)` checks whether a chain of events matching the pattern exists in the group. Returns `1` if the pattern is matched, otherwise `0`. You can use it in both streaming queries and historical queries.
+
+* `pattern` is a string. `(?N)` matches an event for which the N-th condition is true, `.*` matches any number of events in between, and `(?t operator value)` sets a time constraint in seconds between two events, such as `(?1)(?t<=60)(?2)`.
+* `time` should be `datetime`. The default event time `_tp_time` is `datetime64`, so convert it with `to_datetime(_tp_time)`. Events within the same second are not ordered. `date` is also accepted, but it truncates to the day, so the `(?t ...)` time constraints stop working.
+* The time column must contain the event time. If `_tp_time` is not set from your data, it defaults to the ingest time (`now64()`), events loaded together get almost the same timestamp, and the time constraints match with no error. In that case pass your own event time column, or set `_tp_time` from it as described in [Backtesting and Replay](/backtesting-replay).
+* Up to 32 conditions are supported.
+
+For example, to check whether a large trade is followed by a small one in each 2-minute window:
+
+```sql
+SELECT window_start, product_id,
+       sequence_match('(?1).*(?2)')(to_datetime(_tp_time), last_size > 50, last_size < 20) AS matched
+FROM tumble(trades, 2m)
+GROUP BY window_start, product_id
+```
+
+In a global aggregation (without a time window) the events for each key are kept in the query state, so prefer a time window for unbounded streams.
+
+### sequence_count
+
+`sequence_count(pattern)(time, cond1, cond2, ...)` counts the number of non-overlapping event chains that match the pattern. The arguments are the same as [sequence_match](#sequence_match).
+
+```sql
+SELECT product_id,
+       sequence_count('(?1).*(?2)')(to_datetime(_tp_time), last_size > 50, last_size < 20) AS cnt
+FROM table(trades)
+GROUP BY product_id
+```
+
 ### histogram
 `histogram(column, bin_count)` to calculate the histogram of the column. The bin count should be a positive integer.
 

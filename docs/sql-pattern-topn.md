@@ -106,3 +106,44 @@ This query can get the fastest 3 cars in each model
 ```sql
 select max_k(speed_kmh,3,cid,_tp_time,model) over(partition by model) from car_live_data
 ```
+
+## Rank and Percentile Rank in Each Window {#rank}
+
+Window functions such as `rank()`, `dense_rank()` and `row_number()` with an `OVER (PARTITION BY .. ORDER BY ..)` clause are available in historical queries:
+
+```sql
+select product_id, traded_value,
+       rank() over (partition by window_start order by traded_value) as rank
+from table(trades_1m)
+```
+
+They are not supported in streaming queries yet. If you only need the first few rows, use `max_k` or `min_k` as shown above. If you need the rank of every row in each time window, collect the rows of the window into an array, sort it, and expand it again:
+
+```sql
+with agg as (
+  select window_start, product_id, sum(price * last_size) as traded_value
+  from tumble(trades, 1m)
+  group by window_start, product_id
+), w as (
+  select window_start as ws, array_sort(group_array((traded_value, product_id))) as arr
+  from agg
+  group by window_start
+)
+select ws, t.2 as product_id, t.1 as traded_value, rank, rank / length(arr) as pct_rank
+from w array join arr as t, array_enumerate(arr) as rank
+```
+
+Result:
+
+| ws                      | product_id | traded_value | rank | pct_rank |
+| ----------------------- | ---------- | ------------ | ---- | -------- |
+| 2026-11-17 10:00:00.000 | DAI        | 39.5         | 1    | 0.333    |
+| 2026-11-17 10:00:00.000 | ETC        | 9260         | 2    | 0.667    |
+| 2026-11-17 10:00:00.000 | BTC        | 1152000      | 3    | 1        |
+
+The tuple puts `traded_value` first, so `array_sort` orders by it in ascending order. Use `array_reverse_sort` to rank from the largest value.
+
+Two differences from the window functions:
+
+* `rank` here is a row-number-style position. Equal values do not share a rank as they do with `rank()` or `dense_rank()`. Ties are ordered by the second tuple element, `product_id` in this example.
+* `pct_rank` is `rank / n`, the share of rows in the window at or before this row in the sort order. The last row is `1` and the first row is `1/n`. This is not the `(rank - 1) / (n - 1)` formula of the standard `percent_rank()`.

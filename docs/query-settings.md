@@ -57,13 +57,13 @@ Starting from [Timeplus Enterprise 2.7](/enterprise-v2.7) and Timeplus Proton 1.
 
 ## replay_time_column
 
-`replay_time_column=columnName` Specify the replay time column, default column is `_tp_append_time`.
+`replay_time_column=columnName` Specify the replay time column, default column is `_tp_append_time`. On Timeplus Enterprise 3.4.1, a replay that relies on this default fails with ``Column `_tp_append_time` not found``, so set the column explicitly, for example `replay_time_column='_tp_time'`.
 
 ## replay_start_time
-`replay_start_time` is the start time for replaying historical data. It's a timestamp string. For example, `replay_start_time='2025-01-01 00:00:00.000'`. This should be equal or greater than `WHERE _tp_time > ..` time rewind condition.
+`replay_start_time` is the start time for replaying historical data, inclusive. It's a timestamp string. For example, `replay_start_time='2025-01-01 00:00:00.000'`. This should be equal or greater than `WHERE _tp_time > ..` time rewind condition. It only applies when `replay_speed` is greater than 0; otherwise it is ignored without an error.
 
 ## replay_end_time
-`replay_end_time` is the end time for replaying historical data. It's a timestamp string. For example, `replay_end_time='2025-01-02 00:00:00.000'`. When all data is replayed, the query will end.
+`replay_end_time` is the end time for replaying historical data, exclusive. It's a timestamp string. For example, `replay_end_time='2025-01-02 00:00:00.000'`. When all data is replayed, the query will end. It only applies when `replay_speed` is greater than 0; otherwise it is ignored without an error.
 
 ## default_hash_table
 
