@@ -142,7 +142,7 @@ To read Avro-encoded or Protobuf-encoded Kafka messages, please refer to [Avro S
 
 Kafka topics may contain messages encoded with different Avro or Protobuf schemas (multiple schema IDs) via Confluent Schema Registry's `RecordNameStrategy` or `TopicRecordNameStrategy`. The `consume_schema_strategy` setting controls how these messages are processed.
 
-**`single` mode (default for `RecordNameStrategy`, `TopicRecordNameStrategy` and custom strategies):** Only consume messages matching a specific schema. Non-matching messages are silently skipped. For `TopicNameStrategy` (or when `subject_name_strategy` is not set) the default is `all`. The default depends on the release, see [availability by release](/kafka-source#consume_schema_strategy_versions).
+**`single` mode (default for `RecordNameStrategy`, `TopicRecordNameStrategy` and custom strategies):** Only consume messages matching a specific schema. Non-matching messages are silently skipped. A message matches by the schema ID in its header, see [Schema IDs and registry changes](/kafka-schema-registry#schema_ids). For `TopicNameStrategy` (or when `subject_name_strategy` is not set) the default is `all`. The default depends on the release, see [availability by release](/kafka-source#consume_schema_strategy_versions).
 
 ```sql
 CREATE EXTERNAL STREAM user_events (
@@ -293,3 +293,9 @@ SELECT raw FROM ext_stream SETTINGS seek_to='2025-01-01T00:00:00.000'
 Timeplus will use Kafka API to convert the timestamp to the corresponding offsets for each partition internally.
 
 :::
+
+#### No consumer group, no committed offsets {#no_consumer_group}
+
+Timeplus does not use Kafka consumer groups for Kafka external streams. A query or materialized view that reads a Kafka external stream does not register a consumer group and does not commit offsets to Kafka. As a result, Kafka tools that list consumer groups (for example `rpk group list`) show no group for it, and there is no consumer lag to monitor on the broker side.
+
+Where a query starts reading is decided by the query itself: by default only new messages are read, and [`seek_to`](#rewind-via-seek_to) selects the earliest offset, specific offsets or a timestamp. A materialized view continues from its own checkpoint after a restart, see [Recovery After a Node Restart or Crash](/materialized-view#recovery_after_restart). The consumer-group and offset-commit properties of the Kafka client (`group.id`, `enable.auto.commit` and similar) cannot be set through `properties`, see [Properties for Kafka client](/kafka-source#advanced_settings).

@@ -145,6 +145,16 @@ The `format_schema` setting contains two parts: the registered schema name (in t
 
 If columns definition is totally ignored in creating external stream with data_format Protobuf or Avro, the columns name and type will be auto inferenced from format schema and added to the stream.
 
+Column inference does not create `nullable` columns. A proto3 `optional` field therefore becomes a plain column such as `string` or `int32`, and a field that is missing from a message is read as the default value of that type (`''`, `0`). To tell a missing `optional` field from one that was sent with its default value, declare the column explicitly as `nullable(...)`: a missing field is then read as `NULL`, while a field that was sent with the default value is read as that value. For example:
+
+```sql
+CREATE EXTERNAL STREAM ext_events (
+    dev string,
+    y nullable(string), -- optional string y = 3;
+    w nullable(int32)   -- optional int32 w = 5;
+) SETTINGS type='kafka', .., data_format='ProtobufSingle', ..;
+```
+
 For example, `query`, `page_number` and `results_per_page` columns will be auto-created in below SQL.
 
 ```sql

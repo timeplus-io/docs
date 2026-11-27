@@ -155,7 +155,7 @@ URL of the [Kafka Schema Registry](/kafka-schema-registry), including the protoc
 
 #### kafka_schema_registry_credentials
 
-Credentials for the registry, in `username:password` format.
+Credentials for the registry, in `username:password` format. Put them in this setting, not in the URL: credentials written into `kafka_schema_registry_url` (`https://user:password@host`) are not used. See [Kafka Schema Registry](/kafka-schema-registry#read).
 
 #### ssl_ca_cert_file / ssl_ca_pem
 
