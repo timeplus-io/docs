@@ -31,19 +31,19 @@
     "@algolia/autocomplete-shared" "1.19.2"
 
 "@algolia/autocomplete-core@^1.19.2":
-  version "1.19.12"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.19.12.tgz#2ab622109cfe1e6e93e9b1ae8365520ccf2d4d26"
-  integrity sha512-nJU03L3Q0LlfnFsQTE1YppSrNcbP0lBg29mCaGCeYPog841HP9WWk5KtrTvNH2LPX6p5eELPFetSeSO8I1MFPg==
+  version "1.19.13"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.19.13.tgz#196f3de03ae0d95f95508addc9810636daa12cf8"
+  integrity sha512-+ffTzm54Is9KuPEZd1R2FRwwpN6UBKjnBnhlCq0MV7ihjXVQ68q5WLR+LUSWC6Xa9wxr7OCo9FolzCMLD+Cv9w==
   dependencies:
-    "@algolia/autocomplete-plugin-algolia-insights" "1.19.12"
-    "@algolia/autocomplete-shared" "1.19.12"
+    "@algolia/autocomplete-plugin-algolia-insights" "1.19.13"
+    "@algolia/autocomplete-shared" "1.19.13"
 
-"@algolia/autocomplete-plugin-algolia-insights@1.19.12":
-  version "1.19.12"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.19.12.tgz#4e0c65363dda471223401229ee608da0958bc65b"
-  integrity sha512-L3Fvu4Ajb7c9X1DMTHFFD8d1uK898b9bg9ENrjLpkSP8BAzO4vS5/MIsU0ks0FqpOihZ4VDAVYRaU6bhm/CljQ==
+"@algolia/autocomplete-plugin-algolia-insights@1.19.13":
+  version "1.19.13"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-algolia-insights/-/autocomplete-plugin-algolia-insights-1.19.13.tgz#82eba6a5864c4ff96eae737c4793183cdfc411d0"
+  integrity sha512-4mWWJf73QfJyz5tE7OlfpvQYGjGPaM3UnEoJfoXCnjDkJIhIQDTVQ0GzXpA1MhURKD7m2RwvTI+c/OaK18QEYA==
   dependencies:
-    "@algolia/autocomplete-shared" "1.19.12"
+    "@algolia/autocomplete-shared" "1.19.13"
 
 "@algolia/autocomplete-plugin-algolia-insights@1.19.2":
   version "1.19.2"
@@ -52,10 +52,10 @@
   dependencies:
     "@algolia/autocomplete-shared" "1.19.2"
 
-"@algolia/autocomplete-shared@1.19.12":
-  version "1.19.12"
-  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.19.12.tgz#052dd39a96dfed2b97804a8f3ecc481843799017"
-  integrity sha512-goe55oftoEduuOHhTg4viHr58/ZsZvYEtfxkKFy6LdJxZ7+jOdVwp2bZz7qjip9CdFqkIB+34d4esftcaErCzA==
+"@algolia/autocomplete-shared@1.19.13":
+  version "1.19.13"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.19.13.tgz#d65a25a2343ff5294751bedfe7794bdbc3757348"
+  integrity sha512-jF0MIh44PNP6r0GVplhM/tQCZuGIFTND+cTBuxXJ1fhdTIT1PGejSZiaw0Qse7+zE2aLWRixupC/xaHKmS2eqA==
 
 "@algolia/autocomplete-shared@1.19.2":
   version "1.19.2"
