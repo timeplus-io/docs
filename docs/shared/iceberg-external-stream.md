@@ -28,6 +28,11 @@ Data compaction is **not yet supported** in the current Timeplus Iceberg integra
 
 You can create an **Iceberg database** in Timeplus using the `CREATE DATABASE` statement with the `type='iceberg'` setting.
 
+### Prerequisites
+
+- The database name must match an existing **namespace** in the catalog. Timeplus does not create the namespace; otherwise `CREATE DATABASE` fails with `Namespace <database_name> does not exist in the catalog`.
+- The user running `CREATE DATABASE` needs `access_management: 1` and must not be restricted by `allow_databases`. The `users.yaml` shipped with Timeplus Proton pins the `default` user to `allow_databases: [default]`, so every `CREATE DATABASE` fails with a misleading `ACCESS_DENIED` until that block is removed from `users.yaml` itself (a `users.d` override does not merge this key).
+
 ### Syntax
 
 ```sql
@@ -103,7 +108,47 @@ SETTINGS
 - `rest_catalog_sigv4_enabled=true` enables secure communication with AWS using SigV4 signing.
 - To **create new Iceberg tables** directly from Timeplus, you can also set: `storage_credential='https://s3tables.us-west-2.amazonaws.com/bucket-name';`
 
-### Example: AWS S3 Table REST Catalog
+### Example: Amazon S3 Tables REST Catalog
+
+Instead of going through Glue, you can connect to the [Amazon S3 Tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables.html) Iceberg REST endpoint directly.
+
+```sql
+CREATE DATABASE lake
+SETTINGS
+    type='iceberg',
+    catalog_type='rest',
+    catalog_uri='https://s3tables.us-west-2.amazonaws.com/iceberg',
+    warehouse='arn:aws:s3tables:us-west-2:123456789012:bucket/my-table-bucket',
+    rest_catalog_sigv4_enabled=true,
+    rest_catalog_signing_region='us-west-2',
+    rest_catalog_signing_name='s3tables';
+```
+
+**Explanation**:
+- `catalog_uri` is the regional S3 Tables Iceberg REST endpoint, `https://s3tables.<region>.amazonaws.com/iceberg`.
+- `warehouse` is the ARN of the S3 table bucket. The database name (`lake`) must be an existing namespace in that table bucket.
+- `rest_catalog_signing_name='s3tables'` signs catalog requests for the S3 Tables service.
+- Credentials are read from the environment: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and, for temporary credentials, `AWS_SESSION_TOKEN`.
+
+:::warning Known issues
+Writing to S3 Tables does not work yet on Timeplus Proton 3.0.29; the fixes are tracked in [timeplus-io/proton#1221](https://github.com/timeplus-io/proton/issues/1221):
+- S3 Tables rejects the `Keep-Alive` header Timeplus sends on data file uploads.
+- The catalog commit request sends the `Host` header twice, which S3 Tables rejects with HTTP 400.
+- Committed metadata paths contain `//`.
+- Parquet files are written without Iceberg field IDs, so PyIceberg refuses the table and DuckDB reads every column as NULL.
+
+Until the last fix ships, tables written by Timeplus can be made readable by setting the table property `schema.name-mapping.default` to a JSON list that maps each column name to its Iceberg field ID, for example with PyIceberg:
+
+```python
+import json
+
+table = catalog.load_table("lake.my_table")  # a pyiceberg catalog for the same table bucket
+mapping = [{"field-id": f.field_id, "names": [f.name]} for f in table.schema().fields]
+table.transaction().set_properties({"schema.name-mapping.default": json.dumps(mapping)}).commit_transaction()
+```
+:::
+
+### Example: Apache Gravitino REST Catalog
 
 ```sql
 CREATE DATABASE demo
